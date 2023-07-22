@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import Hero from "./hero";
+import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
