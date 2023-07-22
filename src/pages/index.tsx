@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Hero from "./hero";
 import Footer from "./footer";
-
+import Navbar from "~/components/Navbar";
 
 const Home: NextPage = () => {
   return (
@@ -14,6 +14,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+        <Navbar />
         <Hero />
         <Footer/>
       </main>
