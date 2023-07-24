@@ -1,6 +1,4 @@
-import { type NextPage } from "next";
-
-const Hero:NextPage = () => {
+const Hero: React.FC = () => {
   return (
     <div className="hero min-h-screen" style={{backgroundImage: "url(https://img.freepik.com/premium-photo/abstract-rainbow-colorful-bright-feather-closeup-up-macro-view-background-plumage-texture-with-dew-drops_753134-644.jpg)"}}>
       <div className="hero-overlay bg-opacity-80"></div>

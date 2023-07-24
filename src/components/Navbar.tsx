@@ -1,6 +1,4 @@
-import { NextPage } from "next";
-
-const Navbar: NextPage = () => {
+const Navbar: React.FC = () => {
     return (
         <div className="navbar bg-base-100 sticky top-0 z-30">
             <div className="navbar-start">
