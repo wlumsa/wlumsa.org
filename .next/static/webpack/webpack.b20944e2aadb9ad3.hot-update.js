@@ -11,11 +11,7 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
-<<<<<<<< HEAD:.next/static/webpack/webpack.21742f9fd8fed711.hot-update.js
-/******/ 	__webpack_require__.h = function() { return "e06e497c80b2d6c1"; }
-========
-/******/ 	__webpack_require__.h = function() { return "ceff4e6fbef9a15e"; }
->>>>>>>> prayer-times:.next/static/webpack/webpack.1aa4b026179ab36c.hot-update.js
+/******/ 	__webpack_require__.h = function() { return "1aa4b026179ab36c"; }
 /******/ }();
 /******/ 
 /******/ }
