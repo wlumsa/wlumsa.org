@@ -1,6 +1,60 @@
+import { useEffect, useState } from "react";
 
+interface TimingsData {
+  data: {
+    timings: {
+      Fajr: string;
+      Sunrise: string;
+      Dhuhr: string;
+      Asr: string;
+      Maghrib: string;
+      Isha: string;
+    };
+  };
+}
+
+const fetchTimings = async (): Promise<TimingsData> => {
+    const city = "Waterloo";
+    const country = "Canada";
+    const state = "Ontario";
+    const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&state=${state}`);
+    if (!response.ok) {
+      console.error("Failed to fetch prayer time data from the API.");
+    }
+    return response.json() as Promise<TimingsData>;
+  };
 
 const PrayerTimes: React.FC = () => {
+    const [timings, setTimings] = useState<TimingsData>({ data: { timings: {
+        Fajr: "",
+        Sunrise: "",
+        Dhuhr: "",
+        Asr: "",
+        Maghrib: "",
+        Isha: "",
+      } } });
+
+    useEffect(() => {
+    const fetchData = async () => {
+            try {
+                const data = await fetchTimings();
+                setTimings(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const timingEntriesToShow: (keyof TimingsData["data"]["timings"])[] = [
+        "Fajr",
+        "Sunrise",
+        "Dhuhr",
+        "Asr",
+        "Maghrib",
+        "Isha",
+      ];    
+
     return (
         <div className="flex w-full py-8 px-4 bg-base-100">
             <div className="grid flex-grow card bg-base-100 rounded-box place-items-center">
@@ -14,30 +68,12 @@ const PrayerTimes: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody className="text-neutral-content">
-                        <tr>
-                            <th>Fajr</th>
-                            <td>XX:XX</td>
-                        </tr>
-                        <tr>
-                            <th>Sunrise</th>
-                            <td>XX:XX</td>
-                        </tr>
-                        <tr>
-                            <th>Dhuhr</th>
-                            <td>XX:XX</td>
-                        </tr>
-                        <tr>
-                            <th>Asr</th>
-                            <td>XX:XX</td>
-                        </tr>
-                        <tr>
-                            <th>Maghrib</th>
-                            <td>XX:XX</td>
-                        </tr>
-                        <tr>
-                            <th>Isha</th>
-                            <td>XX:XX</td>
-                        </tr>
+                        {timingEntriesToShow.map((key) => (
+                            <tr key={key}>
+                                <td>{key}</td>
+                                <td>{timings.data.timings[key]}</td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </div>
@@ -57,11 +93,11 @@ const PrayerTimes: React.FC = () => {
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>1:45pm</td>
+                                    <td>13:45</td>
                                     <td>MLU 103</td>
                                 </tr>
                                 <tr>
-                                    <td>2:30pm</td>
+                                    <td>14:30</td>
                                     <td>MLU 103</td>
                                 </tr>
                                 </tbody>
