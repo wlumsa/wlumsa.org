@@ -131,11 +131,7 @@
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	!function() {
-<<<<<<< HEAD
-/******/ 		__webpack_require__.h = function() { return "e06e497c80b2d6c1"; }
-=======
-/******/ 		__webpack_require__.h = function() { return "f6c7fa766986a76f"; }
->>>>>>> prayer-times
+/******/ 		__webpack_require__.h = function() { return "087891b399a80f34"; }
 /******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/global */

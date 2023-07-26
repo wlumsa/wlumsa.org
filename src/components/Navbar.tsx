@@ -1,6 +1,6 @@
 const Navbar: React.FC = () => {
     return (
-        <div className="navbar bg-base-100 sticky top-0 z-30">
+        <div className="navbar bg-base-100 fixed top-0 z-30 rounded-b-3xl">
             {/* Mobile */}
             <div className="navbar-start">
                 <div className="dropdown">
@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
                         <li><a>Item 3</a></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                <a className="btn btn-ghost normal-case text-xl">WLU MSA</a>
             </div>
             {/* Desktop */}
             <div className="navbar-center hidden lg:flex">
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                <a className="btn btn-ghost text-accent">Donate</a>
             </div>
         </div>
     );

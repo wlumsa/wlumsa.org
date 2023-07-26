@@ -67,11 +67,11 @@ const PrayerTimes: React.FC = () => {
                                 <th>Time</th>
                             </tr>
                         </thead>
-                        <tbody className="text-neutral-content">
+                        <tbody>
                         {timingEntriesToShow.map((key) => (
                             <tr key={key}>
-                                <td>{key}</td>
-                                <td>{timings.data.timings[key]}</td>
+                                <td className="text-neutral-content">{key}</td>
+                                <td className="text-neutral-content">{timings.data.timings[key]}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -79,7 +79,7 @@ const PrayerTimes: React.FC = () => {
                 </div>
             </div>
             <div className="divider divider-horizontal"></div>
-            <div className="grid flex-grow card bg-base-100 rounded-box place-items-center">
+            <div className="grid flex-grow card pl-2 pr-4 file:bg-base-100 rounded-box place-items-center">
                 <div className="flex flex-col  w-full">
                     <div className="grid card bg-base-100 rounded-box place-items-center">
                         <h3 className="text-2xl text-center pb-2 font-bold text-accent">Jummah Info</h3>
