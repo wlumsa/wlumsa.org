@@ -57,7 +57,7 @@ const PrayerTimes: React.FC = () => {
 
     return (
         <div className="flex w-full py-8 px-4 bg-base-100">
-            <div className="grid flex-grow card bg-base-100 rounded-box place-items-center">
+            <div className="grid flex-grow card bg-base-100 rounded-box place-items-center mb-auto">
                 <div className="overflow-x-auto">
                     <h3 className="text-2xl text-center pb-2 font-bold text-accent">Prayer Times</h3>
                     <table className="table">

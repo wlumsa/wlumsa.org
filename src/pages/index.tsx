@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CtaForm from "../components/CtaForm";
 import PrayerTimes from "../components/PrayerTimes";
+import News from "../components/News";
 
 const Home: NextPage = () => {
   return (
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center">
         <Navbar />
         <Hero />
+        <News />
         <PrayerTimes />
         <CtaForm />
         <Footer/>
