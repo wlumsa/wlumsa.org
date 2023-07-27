@@ -22,7 +22,22 @@ const fetchTimings = async (): Promise<TimingsData> => {
       console.error("Failed to fetch prayer time data from the API.");
     }
     return response.json() as Promise<TimingsData>;
-  };
+};
+
+const convertTo12HourFormat = (timeString: string | undefined): string => {
+    if (!timeString)
+        return "N/A";
+    const [hours, minutes] = timeString.split(":");
+    let period = "AM";
+    if (!hours || !minutes)
+        return "N/A";
+    let hoursInNumber = parseInt(hours, 10);
+    if (hoursInNumber > 12) {
+      hoursInNumber -= 12;
+      period = "PM";
+    }
+    return `${hoursInNumber}:${minutes} ${period}`;
+};
 
 const PrayerTimes: React.FC = () => {
     const [timings, setTimings] = useState<TimingsData>({ data: { timings: {
@@ -32,7 +47,16 @@ const PrayerTimes: React.FC = () => {
         Asr: "",
         Maghrib: "",
         Isha: "",
-      } } });
+    } } });
+
+    const timingEntriesToShow: (keyof TimingsData["data"]["timings"])[] = [
+        "Fajr",
+        "Sunrise",
+        "Dhuhr",
+        "Asr",
+        "Maghrib",
+        "Isha",
+    ]; 
 
     useEffect(() => {
     const fetchData = async () => {
@@ -44,22 +68,13 @@ const PrayerTimes: React.FC = () => {
             }
         };
         fetchData();
-    }, []);
-
-    const timingEntriesToShow: (keyof TimingsData["data"]["timings"])[] = [
-        "Fajr",
-        "Sunrise",
-        "Dhuhr",
-        "Asr",
-        "Maghrib",
-        "Isha",
-      ];    
+    }, []);   
 
     return (
-        <div className="flex w-full py-8 px-4 bg-base-100">
+        <div className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
             <div className="grid flex-grow card bg-base-100 rounded-box place-items-center mb-auto">
                 <div className="overflow-x-auto">
-                    <h3 className="text-2xl text-center pb-2 font-bold text-accent">Prayer Times</h3>
+                    <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-accent">Prayer Times</h3>
                     <table className="table">
                         <thead>
                             <tr>
@@ -71,7 +86,9 @@ const PrayerTimes: React.FC = () => {
                         {timingEntriesToShow.map((key) => (
                             <tr key={key}>
                                 <td className="text-neutral-content">{key}</td>
-                                <td className="text-neutral-content">{timings.data.timings[key]}</td>
+                                <td className="text-neutral-content">
+                                    {convertTo12HourFormat(timings.data.timings[key])}
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -79,10 +96,10 @@ const PrayerTimes: React.FC = () => {
                 </div>
             </div>
             <div className="divider divider-horizontal"></div>
-            <div className="grid flex-grow card pl-2 pr-4 file:bg-base-100 rounded-box place-items-center">
+            <div className="grid flex-grow card file:bg-base-100 rounded-box place-items-center">
                 <div className="flex flex-col  w-full">
                     <div className="grid card bg-base-100 rounded-box place-items-center">
-                        <h3 className="text-2xl text-center pb-2 font-bold text-accent">Jummah Info</h3>
+                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-accent">Jummah Info</h3>
                         <div className="overflow-x-auto">
                             <table className="table">
                                 <thead>
@@ -93,11 +110,11 @@ const PrayerTimes: React.FC = () => {
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>13:45</td>
+                                    <td>1:45 PM</td>
                                     <td>MLU 103</td>
                                 </tr>
                                 <tr>
-                                    <td>14:30</td>
+                                    <td>2:30 PM</td>
                                     <td>MLU 103</td>
                                 </tr>
                                 </tbody>
@@ -106,7 +123,7 @@ const PrayerTimes: React.FC = () => {
                         </div> 
                     <div className="divider"></div> 
                     <div className="grid card bg-base-100 rounded-box place-items-center">
-                        <h3 className="text-2xl text-center pb-2 font-bold text-accent">Prayer Rooms</h3>
+                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-accent">Prayer Rooms</h3>
                         <div className="stats stats-vertical lg:stats-horizontal shadow">
                         <div className="stat">
                             <div className="stat-title">Frank C. Peters</div>
