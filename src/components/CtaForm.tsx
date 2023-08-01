@@ -1,7 +1,7 @@
 const CtaForm: React.FC = () => {
     return (
         <div className="flex items-center justify-center w-full py-2 bg-base-10">
-            <div className="w-4/5 md:max-w-xl">
+            <div className="max-w-xl px-2">
                 <div className="card-body">
                     <h3 className="card-title text-3xl lg:text-4xl text-accent">Become a member!</h3>
                     <p className="lg:text-lg text-neutral-content">You'll receive all the latest news and information.</p>
