@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import CtaForm from "../components/CtaForm";
 import PrayerTimes from "../components/PrayerTimes";
 import News from "../components/News";
+import Events from "../components/Events";
 
 const Home: NextPage = () => {
   return (
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
         <Hero />
         <News />
         <PrayerTimes />
+        <Events />
         <CtaForm />
         <Footer/>
       </main>
