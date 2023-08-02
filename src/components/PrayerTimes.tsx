@@ -74,7 +74,7 @@ const PrayerTimes: React.FC = () => {
         <div className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
             <div className="grid flex-grow card rounded-box place-items-center mb-auto">
                 <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Times</h3>
-                <div className="overflow-x-auto shadow">                    
+                <div className="overflow-x-auto shadow mb-4">                    
                     <table className="table">
                         <thead>
                             <tr>
@@ -100,7 +100,7 @@ const PrayerTimes: React.FC = () => {
                 <div className="flex flex-col w-full">
                     <div className="grid card bg-base-100 rounded-box place-items-center">
                         <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Jummah Info</h3>
-                        <div className="overflow-x-auto shadow">
+                        <div className="overflow-x-auto shadow mb-2">
                             <table className="table">
                                 <thead>
                                 <tr>
