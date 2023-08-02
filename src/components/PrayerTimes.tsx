@@ -72,9 +72,9 @@ const PrayerTimes: React.FC = () => {
 
     return (
         <div className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
-            <div className="grid flex-grow card bg-base-100 rounded-box place-items-center mb-auto">
-                <div className="overflow-x-auto">
-                    <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-accent">Prayer Times</h3>
+            <div className="grid flex-grow card rounded-box place-items-center mb-auto">
+                <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Times</h3>
+                <div className="overflow-x-auto shadow">                    
                     <table className="table">
                         <thead>
                             <tr>
@@ -85,8 +85,8 @@ const PrayerTimes: React.FC = () => {
                         <tbody>
                         {timingEntriesToShow.map((key) => (
                             <tr key={key}>
-                                <td className="text-neutral-content">{key}</td>
-                                <td className="text-neutral-content">
+                                <td>{key}</td>
+                                <td>
                                     {convertTo12HourFormat(timings.data.timings[key])}
                                 </td>
                             </tr>
@@ -96,11 +96,11 @@ const PrayerTimes: React.FC = () => {
                 </div>
             </div>
             <div className="divider divider-horizontal"></div>
-            <div className="grid flex-grow card file:bg-base-100 rounded-box place-items-center">
-                <div className="flex flex-col  w-full">
+            <div className="grid flex-grow card rounded-box place-items-center">
+                <div className="flex flex-col w-full">
                     <div className="grid card bg-base-100 rounded-box place-items-center">
-                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-accent">Jummah Info</h3>
-                        <div className="overflow-x-auto">
+                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Jummah Info</h3>
+                        <div className="overflow-x-auto shadow">
                             <table className="table">
                                 <thead>
                                 <tr>
@@ -123,7 +123,7 @@ const PrayerTimes: React.FC = () => {
                         </div> 
                     <div className="divider"></div> 
                     <div className="grid card bg-base-100 rounded-box place-items-center">
-                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-accent">Prayer Rooms</h3>
+                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Rooms</h3>
                         <div className="stats stats-vertical lg:stats-horizontal shadow">
                         <div className="stat">
                             <div className="stat-title">Frank C. Peters</div>
