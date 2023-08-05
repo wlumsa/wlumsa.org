@@ -17,13 +17,7 @@ import "@fontsource/ibm-plex-mono";
 // TODO: Replace with your config
 const firebaseConfig = {
      
- apiKey: "AIzaSyC16VkO-4nVUb3zJn_2aRQJ6cvcRaTpss8",
- authDomain: "wlumsa-website.firebaseapp.com",
- projectId: "wlumsa-website",
- storageBucket: "wlumsa-website.appspot.com",
- messagingSenderId: "944153540828",
- appId: "1:944153540828:web:b91534fdef27bf25135c19",
- measurementId: "G-QES7TDG581"
+
 };
 
 const locales = {
