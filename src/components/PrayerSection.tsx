@@ -1,0 +1,30 @@
+import JummahInfo from "./JummahInfo";
+import PrayerRooms from "./PrayerRooms";
+import PrayerTimes from "./PrayerTimes";
+
+const PrayerSection: React.FC = () => {  
+    return (
+        <div className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
+            <div className="grid flex-grow card rounded-box place-items-center mb-auto">
+                <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Times</h3>
+                <PrayerTimes />
+            </div>
+            <div className="divider divider-horizontal"></div>
+            <div className="grid flex-grow card rounded-box place-items-center">
+                <div className="flex flex-col w-full">
+                    <div className="grid card bg-base-100 rounded-box place-items-center">
+                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Jummah Info</h3>
+                        <JummahInfo />
+                        </div> 
+                    <div className="divider"></div> 
+                    <div className="grid card bg-base-100 rounded-box place-items-center">
+                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Rooms</h3>
+                        <PrayerRooms />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default PrayerSection;

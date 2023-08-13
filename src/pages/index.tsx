@@ -4,7 +4,7 @@ import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CtaForm from "../components/CtaForm";
-import PrayerTimes from "../components/PrayerTimes";
+import PrayerSection from "../components/PrayerSection";
 import News from "../components/News";
 import Events from "../components/Events";
 
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
             <Navbar />
             <Hero />
             <News />
-            <PrayerTimes />
+            <PrayerSection />
             <Events />
             <CtaForm />
             <Footer/>

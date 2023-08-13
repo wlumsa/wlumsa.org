@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface TimingsData {
   data: {
@@ -68,77 +68,28 @@ const PrayerTimes: React.FC = () => {
             }
         };
         fetchData();
-    }, []);   
-
+    }, []); 
+    
     return (
-        <div className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
-            <div className="grid flex-grow card rounded-box place-items-center mb-auto">
-                <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Times</h3>
-                <div className="overflow-x-auto shadow mb-4">                    
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {timingEntriesToShow.map((key) => (
-                            <tr key={key}>
-                                <td>{key}</td>
-                                <td>
-                                    {convertTo12HourFormat(timings.data.timings[key])}
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div className="divider divider-horizontal"></div>
-            <div className="grid flex-grow card rounded-box place-items-center">
-                <div className="flex flex-col w-full">
-                    <div className="grid card bg-base-100 rounded-box place-items-center">
-                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Jummah Info</h3>
-                        <div className="overflow-x-auto shadow mb-2">
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Room</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1:45 PM</td>
-                                    <td>MLU 103</td>
-                                </tr>
-                                <tr>
-                                    <td>2:30 PM</td>
-                                    <td>MLU 103</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div> 
-                    <div className="divider"></div> 
-                    <div className="grid card bg-base-100 rounded-box place-items-center">
-                        <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Rooms</h3>
-                        <div className="stats stats-vertical lg:stats-horizontal shadow">
-                        <div className="stat">
-                            <div className="stat-title">Frank C. Peters</div>
-                            <div className="stat-value">110</div>
-                            <div className="stat-desc">Wudhu Station</div>
-                        </div>
-                        <div className="stat">
-                            <div className="stat-title">Bricker Academic</div>
-                            <div className="stat-value">103</div>
-                            <div className="stat-desc">Washrooms Nearby</div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="overflow-x-auto shadow mb-4">                    
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {timingEntriesToShow.map((key) => (
+                    <tr key={key}>
+                        <td>{key}</td>
+                        <td>
+                            {convertTo12HourFormat(timings.data.timings[key])}
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
         </div>
     );
 }
