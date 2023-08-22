@@ -15,33 +15,8 @@ import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
 
 // TODO: Replace with your config
-const firebaseConfig = {
-     
+import { firebaseConfig } from "../../firebase";
 
-};
-
-const locales = {
-    "en-US": "English (United States)",
-    "es-ES": "Spanish (Spain)",
-    "de-DE": "German"
-};
-
-type Product = {
-    name: string;
-    price: number;
-    status: string;
-    published: boolean;
-    related_products: EntityReference[];
-    main_image: string;
-    tags: string[];
-    description: string;    
-    categories: string[];
-    publisher: {
-        name: string;
-        external_id: string;
-    },
-    expires_on: Date
-}
 type PrayerRooms = {
     building:string;
     room_number:number;
@@ -82,8 +57,6 @@ type Forms = {
     link:string;
     name: string;
 }
-
-
 
 const FormsCollection = buildCollection<Forms>({
     path: "Forms",

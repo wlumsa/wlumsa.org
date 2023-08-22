@@ -1,4 +1,21 @@
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
+import db, { storage } from "../firebase";
+
 const Navbar: React.FC = () => {
+    const [logoUrl, setLogoUrl] = useState('');
+
+    useEffect(() => {
+        const fetchLogoUrl = async () => {
+            const logoRef = ref(storage, 'gs://wlumsa-website-f73df.appspot.com/logo.png');
+            const url = await getDownloadURL(logoRef);
+            setLogoUrl(url);
+        }
+
+        fetchLogoUrl();
+    }, []);
+
     return (
         <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl">
             {/* Mobile */}
@@ -13,7 +30,9 @@ const Navbar: React.FC = () => {
                         <li><a>Item 3</a></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl text-base-100">WLU MSA</a>
+                <a className="btn btn-ghost normal-case text-xl text-base-100">
+                    <img src={logoUrl} alt="WLU MSA Logo" className="h-8 w-8" />
+                </a>
             </div>
             {/* Desktop */}
             <div className="navbar-center hidden lg:flex">
