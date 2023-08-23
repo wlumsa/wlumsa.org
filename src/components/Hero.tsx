@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import db from "../firebase";
+import db, { storage } from "../firebase";
 import Link from "next/link";
+import { ref, getDownloadURL } from "firebase/storage";
 
 interface SocialLink {
   name: string;
@@ -11,6 +12,8 @@ interface SocialLink {
 
 const Hero: React.FC = () => {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]); // Specify the type here
+  const [heroUrl, setHeroUrl] = useState('');
+
 
   useEffect(() => {
     const fetchSocialLinks = async () => {
@@ -20,13 +23,17 @@ const Hero: React.FC = () => {
       const socialLinksData = querySnapshot.docs.map(doc => doc.data() as SocialLink); // Use type assertion
       setSocialLinks(socialLinksData);
     };
-
+    const fetchHeroUrl = async () => {
+      const heroRef = ref(storage, 'gs://wlumsa-website-f73df.appspot.com/hero.jpg');
+      const url = await getDownloadURL(heroRef);
+      setHeroUrl(url);
+  }
+    fetchHeroUrl();
     fetchSocialLinks();
   }, []);
 
   return (
-    <div className="hero min-h-screen" style={{backgroundImage: 'url(https://dsai.ca/wp-content/uploads/WLU-Hero.jpg)'}
-                                           }>
+    <div className="hero min-h-screen" style={{backgroundImage: `url(${heroUrl})`}}>
         <div className="hero-overlay bg-opacity-50 bg-neutral" />
         <div className="hero-content text-center">
           <div className="max-w-md">
