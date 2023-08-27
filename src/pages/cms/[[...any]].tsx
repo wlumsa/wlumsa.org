@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
-const CMS = dynamic(async () => await import('./CMS'), {
+
+const CMS = dynamic(async () => await import('../../components/CMS'), {
  ssr: false,
 })
 export default function Home() {
