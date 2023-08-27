@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
               {socialLinks.map((social, index) => (
                 <button key={index} className="btn btn-ghost text-base-100 border-0 hover:bg-transparent">
                   <Link href={social.link} target='_blank' rel='noopener noreferrer'>
-                    <img className="w-8 h-8" src={social.icon} alt={social.name}/>
+                    <img className="w-8 h-8" src={social.icon}  alt={social.name}/>
                   </Link>  
                 </button>
               ))}
