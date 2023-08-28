@@ -1,16 +1,19 @@
+
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-export const firebaseConfig = {
-    apiKey: "AIzaSyCc8svDI8fWLGiCRFtp30wriwO5v_9T1jA",
-    authDomain: "wlumsa-website-f73df.firebaseapp.com",
-    projectId: "wlumsa-website-f73df",
-    storageBucket: "wlumsa-website-f73df.appspot.com",
-    messagingSenderId: "277258390440",
-    appId: "1:277258390440:web:323d7d684891ff7bd6eb9d",
-    measurementId: "G-47ZQGSCJM6"
-  };
+ export const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+};
+
+
 
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);

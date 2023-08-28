@@ -246,8 +246,8 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
     }
 });
 const SocialsCollection = buildCollection<Socials>({
-    path: "Other",
-    name: "Other",
+    path: "Socials",
+    name: "Socials",
    
     permissions: ({ authController }) => ({
         edit: true,
