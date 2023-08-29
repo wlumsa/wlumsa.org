@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
 
     return (
         <>
-            <footer className="footer p-10 bg-base-100 text-base-content">
+            <footer id="member" className="footer p-10 bg-base-100 text-base-content">
                 <div>
                     <span className="footer-title">Resources</span> 
                     {resources.map((item, index) => (

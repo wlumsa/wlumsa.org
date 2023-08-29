@@ -38,7 +38,7 @@ const Hero: React.FC = () => {
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="mb-5 text-6xl font-bold text-secondary">Salam!</h1>
-            <p className="mb-5 text-base-100">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+            <p className="mb-5 text-base-100">Assalamu alaikum warahmatullahi wabarakatuh! The goal and purpose of the MSA is to both create a space where Muslim students can come together and strengthen their communal ties based upon their faith, and to build a space where Muslim and non-Muslims can come together and learn from one another, and appreciate one another as human beings.</p>
             <div className="join">
               {socialLinks.map((social, index) => (
                 <button key={index} className="btn btn-ghost text-base-100 border-0 hover:bg-transparent">

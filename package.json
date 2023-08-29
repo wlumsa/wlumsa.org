@@ -23,6 +23,7 @@
     "react-dom": "18.2.0",
     "react-router": "^6.14.2",
     "react-router-dom": "^6.14.2",
+    "react-social-media-embed": "^2.3.5",
     "zod": "^3.21.4"
   },
   "devDependencies": {

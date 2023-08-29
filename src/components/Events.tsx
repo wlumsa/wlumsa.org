@@ -1,7 +1,7 @@
 const Events: React.FC = () => {
     return (
         <>
-            <div className="hero h-fit bg-base-100">
+            <div id = "events" className="hero h-fit bg-base-100">
                 <div className="hero-content flex-col lg:flex-row lg:gap-32">
                     <img src="https://northdallasgazette.com/wp-content/uploads/2019/09/WhatsApp-Image-2019-09-15-at-9.08.28-PM-1024x641.jpeg" className="max-w-xs sm:max-w-sm rounded-lg shadow-2xl" />
                     <div className="px-8 max-w-md lg:max-w-xl">

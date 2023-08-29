@@ -4,7 +4,7 @@ import PrayerTimes from "./PrayerTimes";
 
 const PrayerSection: React.FC = () => {  
     return (
-        <div className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
+        <div id="prayer_info" className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
             <div className="grid flex-grow card rounded-box place-items-center mb-auto">
                 <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary">Prayer Times</h3>
                 <PrayerTimes />
