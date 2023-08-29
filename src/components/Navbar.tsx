@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
 
     useEffect(() => {
         const fetchLogoUrl = async () => {
-            const logoRef = ref(storage, 'gs://wlumsa-7effb.appspot.com/images/hero.jpg');
+            const logoRef = ref(storage, 'gs://wlumsa-7effb.appspot.com/images/logo.jpg');
             const url = await getDownloadURL(logoRef);
             setLogoUrl(url);
         }
