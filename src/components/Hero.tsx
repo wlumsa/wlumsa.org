@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
       setSocialLinks(socialLinksData);
     };
     const fetchHeroUrl = async () => {
-      const heroRef = ref(storage, 'gs://wlumsa-website-f73df.appspot.com/hero.jpg');
+      const heroRef = ref(storage, 'gs://wlumsa-7effb.appspot.com/images/hero.jpg');
       const url = await getDownloadURL(heroRef);
       setHeroUrl(url);
   }
