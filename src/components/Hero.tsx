@@ -10,28 +10,38 @@ interface SocialLink {
   icon: string;
 }
 
-const Hero: React.FC = () => {
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]); // Specify the type here
-  const [heroUrl, setHeroUrl] = useState('');
 
+const Hero: React.FC = () => {
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const [heroUrl, setHeroUrl] = useState('');
 
   useEffect(() => {
     const fetchSocialLinks = async () => {
       const socialsCollectionRef = collection(db, "Socials");
       const querySnapshot = await getDocs(socialsCollectionRef);
       
-      const socialLinksData = querySnapshot.docs.map(doc => doc.data() as SocialLink); // Use type assertion
+      const socialLinksData = await Promise.all(querySnapshot.docs.map(async (doc) => {
+        const socialData = doc.data() as SocialLink;
+        const iconURL = await getDownloadURL(ref(storage, socialData.icon)); // Assuming socialData.icon is the path to the icon in Firebase Storage
+        return {...socialData, icon: iconURL };
+      }));
+      console.log(socialLinksData)
       setSocialLinks(socialLinksData);
     };
+
     const fetchHeroUrl = async () => {
-      const heroRef = ref(storage, 'gs://wlumsa-7effb.appspot.com/images/hero.jpg');
+      const heroRef = ref(storage, 'images/hero.jpg'); // Adjust the path based on your Firebase Storage structure
       const url = await getDownloadURL(heroRef);
       setHeroUrl(url);
-  }
+    }
+
     fetchHeroUrl();
     fetchSocialLinks();
   }, []);
 
+
+
+  
   return (
     <div className="hero min-h-screen" style={{backgroundImage: `url(${heroUrl})`}}>
         <div className="hero-overlay bg-opacity-50 bg-neutral" />
@@ -43,7 +53,7 @@ const Hero: React.FC = () => {
               {socialLinks.map((social, index) => (
                 <button key={index} className="btn btn-ghost text-base-100 border-0 hover:bg-transparent">
                   <Link href={social.link} target='_blank' rel='noopener noreferrer'>
-                    <img className="w-8 h-8" src={social.icon}  alt={social.name}/>
+                    <img className=" w-8 h-8 " src={social.icon}  alt={social.name}/>
                   </Link>  
                 </button>
               ))}
