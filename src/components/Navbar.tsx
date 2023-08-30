@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-52 text-base-100">
                         <li><a href="#news">News</a></li>
                         <li><a href="#prayer_info">Prayer Info</a></li>
-                        <li><a href="#events">Events</a></li>
+                        <li><a href="#events">Weekly Events</a></li>
                         <li><a href="#member">Member Signup</a></li>
                     </ul>
                 </div>
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
                 <ul className="menu menu-horizontal px-1 text-base-100">
                         <li><a href="#news">News</a></li>
                         <li><a href="#prayer_info">Prayer Info</a></li>
-                        <li><a href="#events">Events</a></li>
+                        <li><a href="#events">Weekly Events</a></li>
                         <li><a href="#member">Member Signup</a></li>
                 </ul>
             </div>

@@ -4,7 +4,7 @@ import db from "../firebase";
 
 interface PrayerRoomItem {
   building: string;
-  roomNumber: string;
+  roomNumber: number;
   description: string;
 }
 
@@ -17,6 +17,7 @@ const PrayerRooms: React.FC = () => {
       const querySnapshot = await getDocs(prayerRoomsCollectionRef);
       
       const prayerRoomsData = querySnapshot.docs.map(doc => doc.data() as PrayerRoomItem);
+      console.log(prayerRoomsData)
       setPrayerRooms(prayerRoomsData);
     };
 

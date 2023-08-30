@@ -1,28 +1,71 @@
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import db, { storage } from "../firebase";
+import Link from "next/link";
+import { ref, getDownloadURL } from "firebase/storage";
+
+
+interface Events {
+  day:string;
+  desc:string;
+  img: string;
+  name:string;
+  room:string;
+  time:string;
+}
+
+
 const Events: React.FC = () => {
+  const [Events, setEvents] = useState<Events[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const eventsCollectionRef = collection(db, "WeeklyEvents");
+      const querySnapshot = await getDocs(eventsCollectionRef);
+      
+      const EventsData = await Promise.all(querySnapshot.docs.map(async (doc) => {
+        const eventData = doc.data() as Events;
+        const imgURL = await getDownloadURL(ref(storage, eventData.img)); // Assuming eventData.icon is the path to the icon in Firebase Storage
+        return {...eventData, img: imgURL };
+      }));
+      console.log(EventsData)
+      setEvents(EventsData);
+    };
+    fetchEvents();
+  }, []);
+
+  
     return (
-        <>
-            <div id = "events" className="hero h-fit bg-base-100">
-                <div className="hero-content flex-col lg:flex-row lg:gap-32">
-                    <img src="https://northdallasgazette.com/wp-content/uploads/2019/09/WhatsApp-Image-2019-09-15-at-9.08.28-PM-1024x641.jpeg" className="max-w-xs sm:max-w-sm rounded-lg shadow-2xl" />
-                    <div className="px-8 max-w-md lg:max-w-xl">
-                        <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0">Halaqas</h3>
-                        <p className="py-6 text-neutral">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                        <p className="font-bold text-neutral">Wednesdays  @ 5:30 PM - 6:00 PM in P110.</p>
-                    </div>
-                </div>
-            </div>
+        <div id="events">
+          
+            
+          {Events.map((event, index) => (
             <div className="hero h-fit bg-base-100">
-                <div className="hero-content flex-col lg:flex-row-reverse lg:gap-32">
-                    <img src="https://iqna.ir/files/en/news/2018/5/10/28671_904.jpg" className="max-w-xs sm:max-w-sm rounded-lg shadow-2xl" />
+            <div className={`hero-content flex-col ${index%2===0 ? 'lg:flex-row':'lg:flex-row-reverse'} lg:gap-32`}>
+            
+                    <img src={event.img} alt = "image" className="max-w-xs sm:max-w-sm rounded-lg shadow-2xl" />
                     <div className="px-8 max-w-md lg:max-w-xl">
-                        <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0">Quran Circles</h3>
-                        <p className="py-6 text-neutral">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                        <p className="font-bold text-neutral">Tuesdays  @ 4:00 PM - 4:30 PM in P110.</p>
+                        <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0">{event.name}</h3>
+                        <p className="py-6 text-neutral">{event.desc}</p>
+                        <p className="font-bold text-neutral">{event.day} @ {event.time} in {event.room}</p>
                     </div>
                 </div>
+                </div>
+              ))}
+              
             </div>
-        </>
+            
+      
     );
 }
 
 export default Events;
+/*
+{Events.map((social, index) => (
+                <button key={index} className="btn btn-ghost text-base-100 border-0 hover:bg-transparent">
+                  <Link href={social.link} target='_blank' rel='noopener noreferrer'>
+                    <img className=" w-8 h-8 " src={social.icon}  alt={social.name}/>
+                  </Link>  
+                </button>
+              ))}
+              */

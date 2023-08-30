@@ -14,11 +14,16 @@ interface SocialLink {
     icon: string;
 }
 
+interface  Other  {
+    name:string;
+    link:string;
+}
 const Footer: React.FC = () => {
     const [resources, setResources] = useState<FooterItem[]>([]);
     const [forms, setForms] = useState<FooterItem[]>([]);
     const [localMosques, setLocalMosques] = useState<FooterItem[]>([]);
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+    const [otherLinks,setOtherLinks] = useState<Other[]>([]);
     const [logoUrl, setLogoUrl] = useState('');
 
     useEffect(() => {
@@ -34,11 +39,24 @@ const Footer: React.FC = () => {
             const url = await getDownloadURL(logoRef);
             setLogoUrl(url);
         }
+        const fetchSocialLinks = async () => {
+            const socialsCollectionRef = collection(db, "Socials");
+            const querySnapshot = await getDocs(socialsCollectionRef);
+            
+            const socialLinksData = await Promise.all(querySnapshot.docs.map(async (doc) => {
+              const socialData = doc.data() as SocialLink;
+              const iconURL = await getDownloadURL(ref(storage, socialData.icon)); // Assuming socialData.icon is the path to the icon in Firebase Storage
+              return {...socialData, icon: iconURL };
+            }));
+            console.log(socialLinksData)
+            setSocialLinks(socialLinksData);
+          };
     
         fetchFooterItems("Resources", setResources);
         fetchFooterItems("Forms", setForms);
-        fetchFooterItems("LocalMosques", setLocalMosques);
-        fetchFooterItems("Socials", setSocialLinks);
+        fetchFooterItems("Mosques", setLocalMosques);
+        fetchFooterItems("Other",setOtherLinks)
+        fetchSocialLinks();
         fetchLogoUrl();
     }, []);
     
@@ -61,6 +79,12 @@ const Footer: React.FC = () => {
                 <div>
                     <span className="footer-title">Local Mosques</span> 
                     {localMosques.map((item, index) => (
+                        <a key={index} href={item.link} className="link link-hover" target="_blank" rel="noopener noreferrer">{item.name}</a>
+                    ))}
+                </div>
+                <div>
+                    <span className="footer-title">Other</span> 
+                    {otherLinks.map((item, index) => (
                         <a key={index} href={item.link} className="link link-hover" target="_blank" rel="noopener noreferrer">{item.name}</a>
                     ))}
                 </div>
