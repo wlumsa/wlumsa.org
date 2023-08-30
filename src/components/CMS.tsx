@@ -22,6 +22,9 @@ type PrayerRooms = {
     room_number:number;
     description: string;
 }
+type InstagramPost = {
+    link:string;
+}
 type JummahInfo = {
     room: string;
     time: string;
@@ -57,6 +60,7 @@ type Forms = {
     link:string;
     name: string;
 }
+
 
 const FormsCollection = buildCollection<Forms>({
     path: "Forms",
@@ -173,6 +177,32 @@ const OtherCollection = buildCollection<Other>({
             dataType: "string"
         },
         
+        
+    }
+});
+
+const InstagramCollection = buildCollection<InstagramPost>({
+    path: "Posts",
+    name: "Instagram Posts",
+    singularName:"Instagram Post",
+    
+    
+    permissions: ({ authController }) => ({
+        edit: true,
+        create: true,
+        // we have created the roles object in the navigation builder
+        delete: true,
+    }),
+    properties: {
+        link: {
+            name: "Link",
+            validation: {
+                required: true,
+                requiredMessage: "You must set a link",
+            },
+            description: "Link to Instagram Post",
+            dataType: "string"
+        },    
     }
 });
 
@@ -400,7 +430,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[FormsCollection,JummahCollection,MosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
+        collections={[InstagramCollection,FormsCollection,JummahCollection,MosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
         firebaseConfig={firebaseConfig}
     />;
 }

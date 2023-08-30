@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn btn-ghost text-secondary">Donate</a>
+                <a href = "https://docs.google.com/document/d/1OOn5P8qV7D8u0Gv59DLhAq8jBkMRxLkSQPPwuc3IMN0/edit?usp=sharing"className="btn btn-ghost text-secondary">Donate</a>
             </div>
         </div>
     );
