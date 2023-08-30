@@ -29,23 +29,27 @@ const CtaForm: React.FC = () => {
                     <div className="flex flex-col gap-2 py-2">
                         <input 
                             type="text" 
+                            required
                             placeholder="First Name" 
                             className="input input-bordered w-full text-neutral focus:border-secondary"
                             onChange={(e)=>setFirstName(e.target.value) } value = {firstName} />   
                         <input 
                             type="text" 
+                            required
                             placeholder="Last Name" 
                             className="input input-bordered w-full text-neutral focus:border-secondary" 
                             onChange={(e)=>setLastName(e.target.value) } value = {lastName}
                             />
                         <input 
                             type="email" 
+                            required
                             placeholder="MyLaurier Email" 
                             className="input input-bordered w-full text-neutral focus:border-secondary" 
                             onChange={(e)=>setEmail(e.target.value) } value = {email}
                             />
                         <input 
                             type="number" 
+                            required
                             placeholder="Student ID" 
                             className="input input-bordered w-full text-neutral focus:border-secondary"
                             onChange={(e)=>setStudentId(e.target.value.toString()) } value = {studentId} />

@@ -1,4 +1,6 @@
 "use client";
+import msalogo from "public/logo.png"
+const allowedEmails = ["wlumsa.admin@gmail.com"]
 
 import React, { useCallback } from "react";
 
@@ -67,12 +69,19 @@ const FormsCollection = buildCollection<Forms>({
     path: "Forms",
     name: "Forms",
     singularName: "Form",
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ 
+        user,
+        authController,
+         }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         name: {
             name: "Form Title",
@@ -96,12 +105,16 @@ const FormsCollection = buildCollection<Forms>({
 const JummahCollection = buildCollection<JummahInfo>({
     path: "Jummah",
     name: "Jummah",
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         room: {
             name: "Room",
@@ -126,12 +139,16 @@ const MosquesCollection = buildCollection<Mosques>({
     path: "Mosques",
     name: "Mosques",
     singularName:"Mosque",
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         name: {
             name: "Mosque Name",
@@ -155,12 +172,16 @@ const OtherCollection = buildCollection<Other>({
     path: "Other",
     name: "Other",
    
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         name: {
             name: "Title",
@@ -189,12 +210,16 @@ const InstagramCollection = buildCollection<InstagramPost>({
     initialSort:["date","desc"],
     
     
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: true,
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         link: {
             name: "Link",
@@ -218,12 +243,16 @@ const ResourcesCollection = buildCollection<Resources>({
     name: "Resources",
     singularName:"Resource",
    
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         name: {
             name: "Title",
@@ -247,12 +276,16 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
     path: "PrayerRooms",
     name: "Prayer rooms",
     singularName:"Prayer room",
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         building: {
             name: "Building Name",
@@ -286,12 +319,16 @@ const SocialsCollection = buildCollection<Socials>({
     path: "Socials",
     name: "Socials",
    
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         name: {
             name: "Title",
@@ -336,12 +373,16 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
     name: "Events",
     singularName:"Event",
    
-    permissions: ({ authController }) => ({
-        edit: true,
-        create: true,
-        // we have created the roles object in the navigation builder
-        delete: false
-    }),
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
     properties: {
         name: {
             name: "Title",
@@ -420,17 +461,15 @@ export default function CMS() {
                                                                                 authController
                                                                             }) => {
 
-        if (user?.email?.includes("flanders")) {
-            throw Error("Stupid Flanders!");
+        if (user?.email && allowedEmails.includes(user?.email)) {
+            const sampleUserData = await Promise.resolve({
+                roles: ["admin"]
+            });
+            authController.setExtra(sampleUserData);
+            return true;
+        }else{
+            throw Error ("Access Denied, Contact Admin")
         }
-
-        console.log("Allowing access to", user?.email);
-        // This is an example of retrieving async data related to the user
-        // and storing it in the controller's extra field.
-        const sampleUserRoles = await Promise.resolve(["admin"]);
-        authController.setExtra(sampleUserRoles);
-
-        return true;
     }, []);
 
     return <FirebaseCMSApp
@@ -439,5 +478,6 @@ export default function CMS() {
         authentication={myAuthenticator}
         collections={[InstagramCollection,FormsCollection,JummahCollection,MosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
         firebaseConfig={firebaseConfig}
+        logo={msalogo.src}
     />;
 }
