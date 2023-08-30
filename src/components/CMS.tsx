@@ -19,11 +19,12 @@ import { firebaseConfig } from "../firebase";
 
 type PrayerRooms = {
     building:string;
-    room_number:number;
+    roomNumber:number;
     description: string;
 }
 type InstagramPost = {
     link:string;
+    date: Date;
 }
 type JummahInfo = {
     room: string;
@@ -185,6 +186,7 @@ const InstagramCollection = buildCollection<InstagramPost>({
     path: "Posts",
     name: "Instagram Posts",
     singularName:"Instagram Post",
+    initialSort:["date","desc"],
     
     
     permissions: ({ authController }) => ({
@@ -203,6 +205,11 @@ const InstagramCollection = buildCollection<InstagramPost>({
             description: "Link to Instagram Post",
             dataType: "string"
         },    
+        date: buildProperty({
+            dataType: "date",
+            name: "Created at",
+            autoValue: "on_create"
+            }),
     }
 });
 
@@ -261,7 +268,7 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
             description: "Description of room amenities i.e Washrooms Nearby",
             dataType: "string"
         },
-        room_number:{
+        roomNumber:{
             name:"Room Number",
             validation:{
                 required: true,
