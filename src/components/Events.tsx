@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import db, { storage } from "../firebase";
 import Link from "next/link";
 import { ref, getDownloadURL } from "firebase/storage";
-
+import {Suspense} from "react"
 
 interface Events {
   day:string;
@@ -28,7 +28,6 @@ const Events: React.FC = () => {
         const imgURL = await getDownloadURL(ref(storage, eventData.img)); // Assuming eventData.icon is the path to the icon in Firebase Storage
         return {...eventData, img: imgURL };
       }));
-      console.log(EventsData)
       setEvents(EventsData);
     };
     fetchEvents();
@@ -38,11 +37,11 @@ const Events: React.FC = () => {
     return (
         <div id="events">
           
-            
+          <Suspense fallback = {<p>Loading...</p>}>
           {Events.map((event, index) => (
             <div className="hero h-fit bg-base-100">
             <div className={`hero-content flex-col ${index%2===0 ? 'lg:flex-row':'lg:flex-row-reverse'} lg:gap-32`}>
-            
+                  
                     <img src={event.img} alt = "image" className="max-w-xs sm:max-w-sm rounded-lg shadow-2xl" />
                     <div className="px-8 max-w-md lg:max-w-xl">
                         <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0">{event.name}</h3>
@@ -52,7 +51,7 @@ const Events: React.FC = () => {
                 </div>
                 </div>
               ))}
-              
+            </Suspense>
             </div>
             
       

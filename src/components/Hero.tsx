@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
         const iconURL = await getDownloadURL(ref(storage, socialData.icon)); // Assuming socialData.icon is the path to the icon in Firebase Storage
         return {...socialData, icon: iconURL };
       }));
-      console.log(socialLinksData)
+    
       setSocialLinks(socialLinksData);
     };
 
