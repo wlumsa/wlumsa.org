@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import db, { storage } from "../firebase";
-
+import logo from "public/logo.png"
 interface FooterItem {
   name: string;
   link: string;
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
     const [localMosques, setLocalMosques] = useState<FooterItem[]>([]);
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
     const [otherLinks,setOtherLinks] = useState<Other[]>([]);
-    const [logoUrl, setLogoUrl] = useState('');
+    
 
     useEffect(() => {
         const fetchFooterItems = async (collectionName: string, setState: Function) => {
@@ -34,11 +34,7 @@ const Footer: React.FC = () => {
             const itemsData = querySnapshot.docs.map(doc => doc.data() as FooterItem | SocialLink);
             setState(itemsData);
         };
-        const fetchLogoUrl = async () => {
-            const logoRef = ref(storage, 'gs://wlumsa-7effb.appspot.com/images/logo.png');
-            const url = await getDownloadURL(logoRef);
-            setLogoUrl(url);
-        }
+       
         const fetchSocialLinks = async () => {
             const socialsCollectionRef = collection(db, "Socials");
             const querySnapshot = await getDocs(socialsCollectionRef);
@@ -57,7 +53,6 @@ const Footer: React.FC = () => {
         fetchFooterItems("Mosques", setLocalMosques);
         fetchFooterItems("Other",setOtherLinks)
         fetchSocialLinks();
-        fetchLogoUrl();
     }, []);
     
 
@@ -92,7 +87,7 @@ const Footer: React.FC = () => {
             
             <footer className="footer px-10 py-4 bg-base-100 text-base-content border-0">
                 <div className="items-center grid-flow-col">
-                    <img src={logoUrl} alt="WLU MSA Logo" className="h-6 w-6 mr-2" />
+                    <img src={logo.src} alt="WLU MSA Logo" className="h-6 w-6 mr-2" />
                     <p>Wilfrid Laurier University <br/>Muslim Students' Association</p>
                 </div> 
                 <div className="md:place-self-center md:justify-self-end">

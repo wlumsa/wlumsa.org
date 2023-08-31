@@ -63,7 +63,59 @@ type Forms = {
     link:string;
     name: string;
 }
+type Member = {
+    FirstName:string;
+    LastName:string;
+    StudentId:number;
+    Email:string;
+}
 
+const MemberCollection = buildCollection<Member>({
+    path: "Members",
+    name: "Members",
+    singularName: "Member",
+    permissions: ({ 
+        user,
+        authController,
+         }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
+    properties: {
+        FirstName: {
+            name: "First Name",
+            validation: { required: true },
+            dataType: "string",
+            description: "First name of person",
+        },
+        LastName: {
+            name: "Last Name",
+            validation: {
+                required: true,
+            },
+            description: "Last name of person",
+            dataType: "string"
+        },
+        StudentId:{
+            name:"Student Id",
+            validation:{required:true},
+            description:"Student id of person",
+            dataType:"number"
+        },
+        Email:{
+            name:"Email",
+            validation:{required:true},
+            description:"Email address of person",
+            dataType:"string"
+        }
+    }
+});
 
 const FormsCollection = buildCollection<Forms>({
     path: "Forms",
@@ -315,6 +367,7 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
         
     }
 });
+
 const SocialsCollection = buildCollection<Socials>({
     path: "Socials",
     name: "Socials",
@@ -476,7 +529,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[InstagramCollection,FormsCollection,JummahCollection,MosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
+        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,MosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;

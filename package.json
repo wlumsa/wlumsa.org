@@ -6,7 +6,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "email": "email dev"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -15,6 +16,8 @@
     "@mui/lab": "^5.0.0-alpha.138",
     "@mui/material": "^5.14.3",
     "@mui/x-date-pickers": "^5.0.0-beta.1",
+    "@react-email/button": "0.0.10",
+    "@react-email/html": "0.0.4",
     "@t3-oss/env-nextjs": "^0.2.1",
     "axios": "^1.5.0",
     "daisyui": "^2.51.6",
@@ -22,6 +25,7 @@
     "next": "^13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-email": "1.9.4",
     "react-router": "^6.14.2",
     "react-router-dom": "^6.14.2",
     "react-social-media-embed": "^2.3.5",

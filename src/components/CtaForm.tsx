@@ -1,11 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { collection, addDoc } from "firebase/firestore"; 
+import db from "../firebase"
+
+
 const CtaForm: React.FC = () => {
     const [firstName,setFirstName] = useState('');
     const [lastName,setLastName] = useState('');
     const [email,setEmail] = useState('');
     const [studentId,setStudentId] = useState('')
-    const handleSubmit=(e:any)=>{
+    const handleSubmit= async(e:any)=>{
         e.preventDefault();
         const data = {
             FirstName:firstName,
@@ -13,13 +17,19 @@ const CtaForm: React.FC = () => {
             Email:email,
             StudentId:studentId
         }
-        axios.post('https://sheet.best/api/sheets/5502fc5d-8381-4c20-b0f3-73ec81f8e376',data).then((response)=>{
-        console.log(response);
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setStudentId('');
-    })}
+        try {
+            const docRef = await addDoc(collection(db, "users"), {data}).then((response)=>{
+                console.log(response);
+                setFirstName('');
+                setLastName('');
+                setEmail('');
+                setStudentId('');
+            });
+            console.log("Document written", docRef);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }    
+    }
     return (
         <div className="flex items-center justify-center w-full py-2 bg-base-100">
             <div className="max-w-xl px-2">

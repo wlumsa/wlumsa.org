@@ -7,15 +7,22 @@
 body {
   font-family: "Lato", sans-serif;
 }
-#__next {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-width: 100vh;
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-@media screen and (max-width: 320px) {
-  #__next {
-    display: flex
-  }
+/* Track */
+::-webkit-scrollbar-track {
+  background: #2e046d;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #e7ac3b;
 }

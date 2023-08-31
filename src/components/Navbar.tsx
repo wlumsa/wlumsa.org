@@ -1,19 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { ref, getDownloadURL } from "firebase/storage";
-import db, { storage } from "../firebase";
-
+import logo from "public/logo.png"
 const Navbar: React.FC = () => {
-    const [logoUrl, setLogoUrl] = useState('');
-
-    useEffect(() => {
-        const fetchLogoUrl = async () => {
-            const logoRef = ref(storage, 'gs://wlumsa-7effb.appspot.com/images/logo.png');
-            const url = await getDownloadURL(logoRef);
-            setLogoUrl(url);
-        }
-
-        fetchLogoUrl();
-    }, []);
+   
 
     return (
         <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl">
@@ -31,7 +18,7 @@ const Navbar: React.FC = () => {
                     </ul>
                 </div>
                 <a className="btn btn-ghost normal-case text-xl text-base-100">
-                    <img src={logoUrl} alt="WLU MSA Logo" className="h-8 w-8" />
+                    <img src={logo.src} alt="WLU MSA Logo" className="h-8 w-8" />
                 </a>
             </div>
             {/* Desktop */}
