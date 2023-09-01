@@ -2,8 +2,6 @@ import { NextPage } from "next";
 import React from 'react'
 import Execs from "~/components/Execs";
 import Navbar from "~/components/Navbar";
-
-
 const About: NextPage = () => {
   return (
     <div>
@@ -17,7 +15,7 @@ const About: NextPage = () => {
                 </div>
             </div>
         </div>
-        <Execs/>
+        
     </div>
   )
 }

@@ -1,6 +1,6 @@
 "use client";
 import msalogo from "public/logo.png"
-const allowedEmails = ["wlumsa.admin@gmail.com"]
+const allowedEmails = ["wlumsa.admin@gmail.com","siddiquifurqan5@gmail.com","syedahmedd.02@gmail.com"]
 
 import React, { useCallback } from "react";
 
@@ -514,7 +514,7 @@ export default function CMS() {
                                                                                 authController
                                                                             }) => {
 
-        if (user?.email && allowedEmails.includes(user?.email)) {
+        if (user?.email && allowedEmails.includes(user?.email.toLowerCase())) {
             const sampleUserData = await Promise.resolve({
                 roles: ["admin"]
             });
