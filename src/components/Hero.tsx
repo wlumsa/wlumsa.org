@@ -42,12 +42,12 @@ const Hero: React.FC = () => {
         <div className="hero-overlay bg-opacity-50 bg-neutral" />
         <div className="hero-content text-center">
           <div className="max-w-md">
-            <h1 className="mb-5 text-6xl font-bold text-secondary">Salam!</h1>
+            <h1 className="mb-5 text-6xl font-bold text-secondary hover:scale-105 duration-200">Salam!</h1>
             <p className="mb-5 text-base-100">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</p>
             <div className="flex flex-row gap-4 items-center justify-center">
               {socialLinks.map((social, index) => (
-                <a href={social.link} target='_blank' rel='noopener noreferrer'>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="w-8 h-8 stroke-neutral fill-secondary hover:fill-secondary-focus">
+                <a href={social.link} target='_blank' rel='noopener noreferrer' className="hover:scale-105 duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="w-8 h-8 stroke-neutral fill-base-100 hover:fill-base-200">
                     <path d={social.icon}></path>
                   </svg>
                 </a> 

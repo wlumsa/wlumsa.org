@@ -34,7 +34,7 @@ const CtaForm: React.FC = () => {
         <div className="flex items-center justify-center w-full py-2 bg-base-100">
             <div className="max-w-xl px-2">
                 <form className="card-body" onSubmit={handleSubmit}>
-                    <h3 className="card-title text-3xl lg:text-4xl text-primary">Become a member!</h3>
+                    <h3 className="card-title text-3xl lg:text-4xl text-primary hover:scale-105 duration-200">Become a member!</h3>
                     <p className="lg:text-lg text-neutral">You'll receive all the latest news and information.</p>
                     <div className="flex flex-col gap-2 py-2">
                         <input 
@@ -65,7 +65,7 @@ const CtaForm: React.FC = () => {
                             onChange={(e)=>setStudentId(e.target.value.toString()) } value = {studentId} />
                     </div>
                     <div className="card-actions justify-end">
-                        <button type="submit" className="btn text-secondary bg-primary hover:bg-secondary hover:text-primary border-0 shadow duration-200">Submit ➜</button>
+                        <button type="submit" className="btn text-secondary bg-primary hover:bg-secondary hover:text-primary border-0 shadow hover:scale-105 duration-200">Submit ➜</button>
                     </div>
                 </form>
             </div>
