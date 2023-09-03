@@ -18,7 +18,7 @@ const CtaForm: React.FC = () => {
             StudentId:studentId
         }
         try {
-            const docRef = await addDoc(collection(db, "users"), {data}).then((response)=>{
+            const docRef = await addDoc(collection(db, "Members"), {data}).then((response)=>{
                 console.log(response);
                 setFirstName('');
                 setLastName('');
