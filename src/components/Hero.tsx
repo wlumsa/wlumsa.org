@@ -43,12 +43,12 @@ const Hero: React.FC = () => {
 
   
   return (
-    <div className="hero min-h-screen" style={{backgroundImage: `url(${heroUrl})`}}>
+    <div id="hero" className="hero min-h-screen" style={{backgroundImage: `url(${heroUrl})`}}>
         <div className="hero-overlay bg-opacity-50 bg-neutral" />
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="mb-5 text-6xl font-bold text-secondary">Salam!</h1>
-            <p className="mb-5 text-base-100">Assalamu alaikum warahmatullahi wabarakatuh! The goal and purpose of the MSA is to both create a space where Muslim students can come together and strengthen their communal ties based upon their faith, and to build a space where Muslim and non-Muslims can come together and learn from one another, and appreciate one another as human beings.</p>
+            <p className="mb-5 text-base-100">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</p>
             <div className="join">
               {socialLinks.map((social, index) => (
                 <button key={index} className="btn btn-ghost text-base-100 border-0 hover:bg-transparent">
