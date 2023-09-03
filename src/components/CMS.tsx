@@ -41,7 +41,7 @@ type WeeklyEvents = {
     room:string;
     time:string;
 }
-type Mosques = {
+type LocalMosques = {
     name:string;
     link:string;
 }
@@ -187,9 +187,9 @@ const JummahCollection = buildCollection<JummahInfo>({
     }
 });
 
-const MosquesCollection = buildCollection<Mosques>({
-    path: "Mosques",
-    name: "Mosques",
+const LocalMosquesCollection = buildCollection<LocalMosques>({
+    path: "LocalMosques",
+    name: "LocalMosques",
     singularName:"Mosque",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
@@ -529,7 +529,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,MosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
+        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;

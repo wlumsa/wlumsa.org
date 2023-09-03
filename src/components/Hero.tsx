@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db, { storage } from "../firebase";
-import Link from "next/link";
 import { ref, getDownloadURL } from "firebase/storage";
 
 interface SocialLink {
@@ -20,17 +19,16 @@ const Hero: React.FC = () => {
       const socialsCollectionRef = collection(db, "Socials");
       const querySnapshot = await getDocs(socialsCollectionRef);
       
-      const socialLinksData = await Promise.all(querySnapshot.docs.map(async (doc) => {
+      const socialLinksData = querySnapshot.docs.map(doc => {
         const socialData = doc.data() as SocialLink;
-        const iconURL = await getDownloadURL(ref(storage, socialData.icon)); // Assuming socialData.icon is the path to the icon in Firebase Storage
-        return {...socialData, icon: iconURL };
-      }));
+        return socialData;
+      });
     
       setSocialLinks(socialLinksData);
     };
 
     const fetchHeroUrl = async () => {
-      const heroRef = ref(storage, 'images/hero.jpg'); // Adjust the path based on your Firebase Storage structure
+      const heroRef = ref(storage, 'images/hero.jpg');
       const url = await getDownloadURL(heroRef);
       setHeroUrl(url);
     }
@@ -39,9 +37,6 @@ const Hero: React.FC = () => {
     fetchSocialLinks();
   }, []);
 
-
-
-  
   return (
     <div id="hero" className="hero min-h-screen" style={{backgroundImage: `url(${heroUrl})`}}>
         <div className="hero-overlay bg-opacity-50 bg-neutral" />
@@ -49,13 +44,13 @@ const Hero: React.FC = () => {
           <div className="max-w-md">
             <h1 className="mb-5 text-6xl font-bold text-secondary">Salam!</h1>
             <p className="mb-5 text-base-100">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</p>
-            <div className="join">
+            <div className="flex flex-row gap-4 items-center justify-center">
               {socialLinks.map((social, index) => (
-                <button key={index} className="btn btn-ghost text-base-100 border-0 hover:bg-transparent">
-                  <Link href={social.link} target='_blank' rel='noopener noreferrer'>
-                    <img className=" w-8 h-8 " src={social.icon}  alt={social.name}/>
-                  </Link>  
-                </button>
+                <a href={social.link} target='_blank' rel='noopener noreferrer'>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="w-8 h-8 stroke-neutral fill-secondary hover:fill-secondary-focus">
+                    <path d={social.icon}></path>
+                  </svg>
+                </a> 
               ))}
             </div>
           </div>
