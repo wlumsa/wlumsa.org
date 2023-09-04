@@ -39,18 +39,17 @@ const Footer: React.FC = () => {
             const socialsCollectionRef = collection(db, "Socials");
             const querySnapshot = await getDocs(socialsCollectionRef);
             
-            const socialLinksData = await Promise.all(querySnapshot.docs.map(async (doc) => {
+            const socialLinksData = querySnapshot.docs.map(doc => {
               const socialData = doc.data() as SocialLink;
-              const iconURL = await getDownloadURL(ref(storage, socialData.icon)); // Assuming socialData.icon is the path to the icon in Firebase Storage
-              return {...socialData, icon: iconURL };
-            }));
-            console.log(socialLinksData)
+              return socialData;
+            });
+          
             setSocialLinks(socialLinksData);
           };
     
         fetchFooterItems("Resources", setResources);
         fetchFooterItems("Forms", setForms);
-        fetchFooterItems("Mosques", setLocalMosques);
+        fetchFooterItems("LocalMosques", setLocalMosques);
         fetchFooterItems("Other",setOtherLinks)
         fetchSocialLinks();
     }, []);
@@ -77,12 +76,6 @@ const Footer: React.FC = () => {
                         <a key={index} href={item.link} className="link link-hover" target="_blank" rel="noopener noreferrer">{item.name}</a>
                     ))}
                 </div>
-                <div>
-                    <span className="footer-title">Other</span> 
-                    {otherLinks.map((item, index) => (
-                        <a key={index} href={item.link} className="link link-hover" target="_blank" rel="noopener noreferrer">{item.name}</a>
-                    ))}
-                </div>
             </footer>
             
             <footer className="footer px-10 py-4 bg-base-100 text-base-content border-0">
@@ -91,13 +84,13 @@ const Footer: React.FC = () => {
                     <p>Wilfrid Laurier University <br/>Muslim Students' Association</p>
                 </div> 
                 <div className="md:place-self-center md:justify-self-end">
-                    <div className="grid grid-flow-col gap-4">
+                    <div className="flex flex-row gap-4 items-center justify-center">
                         {socialLinks.map((social, index) => (
-                            <a key={index} href={social.link} target='_blank' rel='noopener noreferrer'>
-                                <svg className="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                    <image xlinkHref={social.icon} width="24" height="24" />
+                            <a href={social.link} target='_blank' rel='noopener noreferrer'>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="w-6 h-6 fill-neutral hover:fill-neutral-focus">
+                                    <path d={social.icon}></path>
                                 </svg>
-                            </a>
+                            </a> 
                         ))}
                     </div>
                 </div>
