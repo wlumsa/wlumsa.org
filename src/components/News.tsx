@@ -32,7 +32,7 @@ const News: React.FC = () => {
             <div className='flex flex-col justify-center items-center px-8'>
                 <div className='flex flex-col items-start justify-center'>
                     <h3 className="text-3xl text-center pb-4 font-bold text-primary hover:scale-105 duration-200">Latest News</h3>
-                    <div className="carousel rounded-box py-2 bg-primary overflow-x-auto max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+                    <div className="carousel rounded-box py-2 bg-primary overflow-x-auto max-w-[22rem] sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
                             {instagramPosts.map((post,index)=>(
                                 <div id = {`item${(index+1).toString()}`} className="carousel-item relative px-2 ">
                                     <InstagramEmbed url = {post.link} height={425}/>

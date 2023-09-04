@@ -39,10 +39,10 @@ const Events: React.FC = () => {
           
           <Suspense fallback = {<p>Loading...</p>}>
           {Events.map((event, index) => (
-            <div className="hero h-fit bg-base-100 px-6">
+            <div className="hero w-screen h-fit bg-base-100 px-4">
             <div className={`hero-content flex-col  ${index%2===0 ? 'lg:flex-row':'lg:flex-row-reverse'} lg:gap-32`}>
                   
-                    <img src={event.img} alt = "image" className="max-w-sm sm:max-w-md rounded-lg shadow-2xl" />
+                    <img src={event.img} alt = "image" className="max-w-xs sm:max-w-sm md:max-w-md rounded-lg shadow-2xl" />
                     <div className="px-8 max-w-md lg:max-w-xl">
                         <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200">{event.name}</h3>
                         <p className="py-6 text-neutral text-justify">{event.desc}</p>
