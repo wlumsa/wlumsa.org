@@ -7,22 +7,3 @@
 body {
   font-family: "Lato", sans-serif;
 }
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #2e046d;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #ffffff;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #e7ac3b;
-}

@@ -15,6 +15,7 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components';
+
 import * as React from 'react';
 
 interface VercelInviteUserEmailProps {
@@ -42,7 +43,7 @@ export const VercelInviteUserEmail = ({
   invitedByEmail = 'bukinoshita@example.com',
   teamName = 'My Project',
   teamImage = "",
-  inviteLink = 'https://vercel.com/teams/invite/foo',
+  inviteLink = 'https://linktr.ee/wlumsa',
   inviteFromIp = '204.13.186.218',
   inviteFromLocation = 'São Paulo, Brazil',
 }: VercelInviteUserEmailProps) => {
@@ -80,29 +81,23 @@ export const VercelInviteUserEmail = ({
                 src={"https://firebasestorage.googleapis.com/v0/b/wlumsa-web.appspot.com/o/images%2Flogo.png?alt=media&token=ee047587-ca7b-4964-8549-bacb6cb09f85"}
                 width="40"
                 height="40"
-                alt="Vercel"
+                alt="Image"
                 className="my-0 mx-auto"
               />
                <Heading className='text-center text-secondary'>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
-              
             </Section>
-            
-            <Text className="text-black text-[14px] leading-[24px]">
-              Salam {`${firstName} ${lastName},`}</Text>
-            <Text className="text-black text-[14px] leading-[24px]">
-              Hope you're in the best of Health and Iman, here is what the MSA has planned for you this upcomming week
+
+            <Text className="text-black">
+              <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
+              <p className='text-[12px]'>Hope you're in the best of Health and Iman, here is what the MSA has planned for you this upcomming week</p>
             </Text>
-            <Section>
-              <Row className='w-full '>
-                <Column className='w-[220px]' > 
-                  <Img width ="200" height= "200" className='rounded-lg' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1146907157242060861/IMG-20230831-WA0002.jpg'/>
-                </Column>
-                <Column className='w-[220px] h-full bg-slate-700 flex flex-col justify-start '>
-                  <Text className='h-full'><h1 className='text-[15px] my-0'>Make your own sundae</h1></Text>
-                
-                </Column>
-              </Row>
-            </Section>
+            
+          <Section>
+            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604894089619570689/1147611469966495756/image.png'/>
+            <Text>
+                  <h1 className='text-[14px] my-0'>📣O-Week!</h1>
+                  <p className='text-[12px]'>Join us throughout the week for fun events and meet fellow Muslims at Laurier, click the button below to register for any of the events</p>
+            </Text>
             <Section className="text-center mt-[32px] mb-[32px]">
               <Button
                 pX={20}
@@ -110,11 +105,10 @@ export const VercelInviteUserEmail = ({
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
                 href={inviteLink}
               >
-                Join the team
+                Register
               </Button>
-            </Section>
-            <Text className="text-black text-[14px] leading-[24px]">
-              or copy and paste this URL into your browser:{' '}
+              <Text className="text-black text-[14px] leading-[24px]">
+              or copy and paste this URL into your browser:
               <Link
                 href={inviteLink}
                 className="text-blue-600 no-underline"
@@ -122,15 +116,15 @@ export const VercelInviteUserEmail = ({
                 {inviteLink}
               </Link>
             </Text>
-            <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
+            </Section>
+          </Section>           
+            
+            <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
             <Text className="text-[#666666] text-[12px] leading-[24px]">
-              This invitation was intended for{' '}
-              <span className="text-black">{firstName} </span>.This invite was sent from{' '}
-              <span className="text-black">{inviteFromIp}</span> located in{' '}
-              <span className="text-black">{inviteFromLocation}</span>. If you were not
-              expecting this invitation, you can ignore this email. If you are
-              concerned about your account's safety, please reply to this email to
-              get in touch with us.
+              This invitation was intended for
+                <span className="text-black">{firstName} </span>. 
+              This is an automated email, please do not reply. If you would like unsubscribe from this newsletter you can do so 
+                <Link href='https://www.wlumsa.org/unsubscribe'>here</Link>
             </Text>
           </Container>
         </Body>

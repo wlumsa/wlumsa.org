@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   return (
     <>
         <Head>
-            <title>Wlu MSA</title>
+            <title>WLU MSA</title>
             <meta name="description" />
             <link rel="icon" href="/logo.png" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />

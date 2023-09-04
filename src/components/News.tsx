@@ -28,19 +28,23 @@ const News: React.FC = () => {
     }, []);
     const queryLength = instagramPosts.length
     return (
-        <div id="news" className="flex flex-col px-0 py-10 justify-center items-start max-w-6xl bg-base-100">
-            <h3 className="text-3xl text-center py-3 pb-4 font-bold text-primary">Latest News</h3>
-            <div className="carousel rounded-box py-3 bg-primary w-screen  lg:max-w-6xl">
-                    {instagramPosts.map((post,index)=>(
-                        <div id = {`item${(index+1).toString()}`} className="carousel-item relative px-2 ">
-                            <InstagramEmbed url = {post.link} height={425}/>
-                        </div>
+        <div id="news" className="py-10 w-full bg-base-100">
+            <div className='flex flex-col justify-center items-center px-8'>
+                <div className='flex flex-col items-start justify-center'>
+                    <h3 className="text-3xl text-center pb-4 font-bold text-primary hover:scale-105 duration-200">Latest News</h3>
+                    <div className="carousel rounded-box py-2 bg-primary overflow-x-auto max-w-[22rem] sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+                            {instagramPosts.map((post,index)=>(
+                                <div id = {`item${(index+1).toString()}`} className="carousel-item relative px-2 ">
+                                    <InstagramEmbed url = {post.link} height={425}/>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+                <div className='flex justify-center w-full pt-4 gap-2'>
+                    {Array.from({ length: queryLength }, (_, index) => (
+                        <a href= {`#item${index+1}`} className='btn btn-xs bg-base-100 border-primary text-primary hover:bg-base-200 hover:scale-105 duration-200'>{index+1}</a>
                     ))}
-            </div>
-            <div className='flex justify-center w-full py-2 gap-2'>
-                {Array.from({ length: queryLength }, (_, index) => (
-                    <a href= {`#item${index+1}`} className='btn btn-xs'>{index+1}</a>
-                ))}
+                </div>
             </div>
          </div>
     );
