@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const data = await resend.emails.send({
       from: 'admin@wlumsa.org',
-      to: ['syedahmed.02@gmail.com'],
+      to: ['ahme2085@mylaurier.ca'],
       subject: 'Hello world',
     
       react: VercelInviteUserEmail({ firstName: 'John' }),
