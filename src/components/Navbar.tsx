@@ -25,14 +25,17 @@ const Navbar: React.FC = () => {
             {/* Desktop */}
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 text-base-100">
-                        <li><a href="#news">News</a></li>
-                        <li><a href="#prayer_info">Prayer Info</a></li>
-                        <li><a href="#events">Weekly Events</a></li>
-                        <li><a href="#member">Member Signup</a></li>
+                        <li><a className="hover:scale-105 duration-200" href="#news">News</a></li>
+                        <li><a className="hover:scale-105 duration-200" href="#prayer_info">Prayer Info</a></li>
+                        <li><a className="hover:scale-105 duration-200" href="#events">Weekly Events</a></li>
+                        <li><a className="hover:scale-105 duration-200" href="#member">Member Signup</a></li>
                 </ul>
             </div>
             <div className="navbar-end">
-                <a href = "https://docs.google.com/document/d/1OOn5P8qV7D8u0Gv59DLhAq8jBkMRxLkSQPPwuc3IMN0/edit?usp=sharing"className="btn btn-ghost text-secondary">Donate</a>
+                <a href="https://docs.google.com/document/d/1OOn5P8qV7D8u0Gv59DLhAq8jBkMRxLkSQPPwuc3IMN0/edit?usp=sharing"
+                   className="btn btn-ghost text-secondary hover:scale-105 duration-200">
+                    Donate
+                </a>
             </div>
         </div>
     );

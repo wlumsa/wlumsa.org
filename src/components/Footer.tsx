@@ -86,9 +86,9 @@ const Footer: React.FC = () => {
                 <div className="md:place-self-center md:justify-self-end">
                     <div className="flex flex-row gap-4 items-center justify-center">
                         {socialLinks.map((social, index) => (
-                            <a key={index} href={social.link} target='_blank' rel='noopener noreferrer'>
-                                <svg className="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                    <image xlinkHref={social.icon} width="24" height="24" />
+                            <a href={social.link} target='_blank' rel='noopener noreferrer' className="hover:scale-105 duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="w-6 h-6 fill-neutral hover:fill-neutral-focus">
+                                    <path d={social.icon}></path>
                                 </svg>
                             </a> 
                         ))}
