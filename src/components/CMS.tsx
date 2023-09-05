@@ -58,6 +58,7 @@ type Socials = {
     icon:string;
     link:string;
     name:string;
+    date:Date;
 }
 type Forms = {
     link:string;
@@ -398,6 +399,11 @@ const SocialsCollection = buildCollection<Socials>({
             description: "Link to Social",
             dataType: "string"
         },
+        date: buildProperty({
+            dataType: "date",
+            name: "Created at",
+            autoValue: "on_create"
+        }),
         icon: buildProperty({
             dataType: "string",
             name: "Icon",
@@ -411,11 +417,14 @@ const SocialsCollection = buildCollection<Socials>({
                 fileName: (context) => {
                     return context.file.name;
                 }
+            
+            
             },
             validation:{
                 required:true,
                 requiredMessage:"You must set an icon"
-            }
+            },
+            
         }),
         
     }

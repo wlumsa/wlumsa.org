@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import db, { storage } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 
@@ -17,7 +17,8 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const fetchSocialLinks = async () => {
       const socialsCollectionRef = collection(db, "Socials");
-      const querySnapshot = await getDocs(socialsCollectionRef);
+      const socialQuery = query(socialsCollectionRef,orderBy("date","asc"))
+      const querySnapshot = await getDocs(socialQuery);
       
       const socialLinksData = querySnapshot.docs.map(doc => {
         const socialData = doc.data() as SocialLink;

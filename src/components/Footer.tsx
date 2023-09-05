@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs,query,orderBy } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 import db, { storage } from "../firebase";
 import logo from "public/logo.png"
@@ -31,13 +31,15 @@ const Footer: React.FC = () => {
             const collectionRef = collection(db, collectionName);
             const querySnapshot = await getDocs(collectionRef);
             
+            
             const itemsData = querySnapshot.docs.map(doc => doc.data() as FooterItem | SocialLink);
             setState(itemsData);
         };
        
         const fetchSocialLinks = async () => {
             const socialsCollectionRef = collection(db, "Socials");
-            const querySnapshot = await getDocs(socialsCollectionRef);
+            const socialQuery = query(socialsCollectionRef,orderBy("date","asc"))
+            const querySnapshot = await getDocs(socialQuery);
             
             const socialLinksData = querySnapshot.docs.map(doc => {
               const socialData = doc.data() as SocialLink;
