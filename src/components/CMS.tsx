@@ -67,7 +67,7 @@ type Forms = {
 type Member = {
     FirstName:string;
     LastName:string;
-    StudentId:number;
+    StudentId:string;
     Email:string;
 }
 
@@ -107,7 +107,7 @@ const MemberCollection = buildCollection<Member>({
             name:"Student Id",
             validation:{required:true},
             description:"Student id of person",
-            dataType:"number"
+            dataType:"string"
         },
         Email:{
             name:"Email",

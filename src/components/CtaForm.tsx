@@ -11,14 +11,14 @@ const CtaForm: React.FC = () => {
     const [studentId,setStudentId] = useState('')
     const handleSubmit= async(e:any)=>{
         e.preventDefault();
-        const data = {
-            FirstName:firstName,
-            LastName:lastName,
-            Email:email,
-            StudentId:studentId
-        }
+        
         try {
-            const docRef = await addDoc(collection(db, "Members"), {data}).then((response)=>{
+            const docRef = await addDoc(collection(db, "Members"), 
+            {   FirstName:firstName,
+                LastName:lastName,
+                Email:email,
+                StudentId:studentId}
+            ).then((response)=>{
                 console.log(response);
                 setFirstName('');
                 setLastName('');
@@ -58,7 +58,7 @@ const CtaForm: React.FC = () => {
                             onChange={(e)=>setEmail(e.target.value) } value = {email}
                             />
                         <input 
-                            type="number" 
+                            type="string" 
                             required
                             placeholder="Student ID" 
                             className="input input-bordered w-full text-neutral focus:border-secondary"

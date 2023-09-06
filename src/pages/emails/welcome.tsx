@@ -16,43 +16,29 @@ import {
   Text,
 } from '@react-email/components';
 
-import * as React from 'react';
 
-interface VercelInviteUserEmailProps {
-  firstName?: string;
-  lastName?: string;
-  userImage?: string;
-  invitedByUsername?: string;
-  invitedByEmail?: string;
-  teamName?: string;
-  teamImage?: string;
-  inviteLink?: string;
-  inviteFromIp?: string;
-  inviteFromLocation?: string;
+import React, { useEffect, useState } from "react";
+
+interface MemberInfo{
+  firstName:string,
+  lastName:string,
 }
-
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : '';
+const Email = ({
+  firstName = 'first_name',
+  lastName = 'last_name',
+  
 
-export const VercelInviteUserEmail = ({
-  firstName = 'Syed',
-  lastName = "Ahmed",
-  userImage = `${baseUrl}/static/vercel-user.png`,
-  invitedByUsername = 'bukinoshita',
-  invitedByEmail = 'bukinoshita@example.com',
-  teamName = 'My Project',
-  teamImage = "",
-  inviteLink = 'https://linktr.ee/wlumsa',
-  inviteFromIp = '204.13.186.218',
-  inviteFromLocation = 'São Paulo, Brazil',
-}: VercelInviteUserEmailProps) => {
-  const previewText = `Join ${invitedByUsername} on Vercel`;
+}:MemberInfo) => {
+    
+  const previewText = `Week at a Glance`;
 
   return (
     
     <Html>
-      <Head />
+      <Head><title>Week at a glance</title></Head>
       <Preview>{previewText}</Preview>
       <Tailwind
       config={{
@@ -98,33 +84,45 @@ export const VercelInviteUserEmail = ({
                   <h1 className='text-[14px] my-0'>📣O-Week!</h1>
                   <p className='text-[12px]'>Join us throughout the week for fun events and meet fellow Muslims at Laurier, click the button below to register for any of the events</p>
             </Text>
-            <Section className="text-center mt-[32px] mb-[32px]">
+          </Section>  
+
+          <Section>
+            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1148774167022411786/image.png'/>
+            <Text>
+                  <h1 className='text-[14px] my-0'>Become a Mentee</h1>
+                  <p className='text-[12px]'>Attention first years, we have a great program for you where you can receive help and get the chance to network with an upper year student! Apply by clicking the link below to before Sept 14, we hope to see your success Inshallah.</p>
+            </Text>
+          </Section>          
+            
+
+          <Section className="text-center mt-[32px] mb-[32px]">
               <Button
                 pX={20}
                 pY={12}
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
-                href={inviteLink}
+                href='https://linktr.ee/wlumsa'
               >
                 Register
               </Button>
               <Text className="text-black text-[14px] leading-[24px]">
               or copy and paste this URL into your browser:
               <Link
-                href={inviteLink}
+                href='https://linktr.ee/wlumsa'
                 className="text-blue-600 no-underline"
               >
-                {inviteLink}
+                'https://linktr.ee/wlumsa'
               </Link>
             </Text>
             </Section>
-          </Section>           
-            
+
+
+
             <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
             <Text className="text-[#666666] text-[12px] leading-[24px]">
               This invitation was intended for
-                <span className="text-black">{firstName} </span>. 
+                <span className="text-black"> {firstName} </span>. 
               This is an automated email, please do not reply. If you would like unsubscribe from this newsletter you can do so 
-                <Link href='https://www.wlumsa.org/unsubscribe'>here</Link>
+                <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
             </Text>
           </Container>
         </Body>
@@ -134,4 +132,4 @@ export const VercelInviteUserEmail = ({
   );
 };
 
-export default VercelInviteUserEmail;
+export default Email;
