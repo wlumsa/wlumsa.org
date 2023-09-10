@@ -75,25 +75,40 @@ const Email = ({
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Hope you're in the best of Health and Iman, here is what the MSA has planned for you this upcomming week</p>
+              <p className='text-[12px]'>Hope you had a wonderful O-week, heres what the MSA has planned for you this coming week Inshallah</p>
             </Text>
             
           <Section>
-            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604894089619570689/1147611469966495756/image.png'/>
+            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150565379006025839/image.png'/>
             <Text>
-                  <h1 className='text-[14px] my-0'>📣O-Week!</h1>
-                  <p className='text-[12px]'>Join us throughout the week for fun events and meet fellow Muslims at Laurier, click the button below to register for any of the events</p>
+                  <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Dawah Boothing, and Halaqa Series📖</h1>
+                  <p className='text-[12px]'>Inshallah, just like in the past we will be returning to weekly Quran circles for brothers on Mondays, Dawah boothing on Tuesday, and Halaqs on Wednesday. All are encouraged to participate we hope to see you there {firstName} {lastName}</p>
             </Text>
           </Section>  
 
           <Section>
-            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1148774167022411786/image.png'/>
+            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150567684942073927/image.png'/>
             <Text>
-                  <h1 className='text-[14px] my-0'>Become a Mentee</h1>
-                  <p className='text-[12px]'>Attention first years, we have a great program for you where you can receive help and get the chance to network with an upper year student! Apply by clicking the link below to before Sept 14, we hope to see your success Inshallah.</p>
+                  <h1 className='text-[14px] my-0'>📢Attention Brothers, Khateeb training📢</h1>
+                  <p className='text-[12px]'>Are you a brother and wanted to lead a khutbah on campus? Inshallah we will be hosting a Khateeb training on Tuesday.</p>
             </Text>
           </Section>          
             
+          <Section>
+            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150569409027510352/image.png'/>
+            <Text>
+                  <h1 className='text-[14px] my-0'>⚖️ Know your rights ⚖️</h1>
+                  <p className='text-[12px]'>Ever wondered what you're entitled to as a Muslim living in Canada, join us and NCCM on Wednesday to learn all about rights as a Muslim living in Canada bi iznillah ta'ala </p>
+            </Text>
+          </Section>
+          <Section>
+            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150575351513235549/image.png'/>
+            <Text>
+                  <h1 className='text-[14px] my-0'>🌎 International Muslim Students Meet & Greet 🌎</h1>
+                  <p className='text-[12px]'>New to Canada? Join us for an unforgettable Muslim students meet and greet! Foster connections, celeberate diversity and create lasting memories in a welcoming environment! </p>
+            </Text>
+          </Section>
+
 
           <Section className="text-center mt-[32px] mb-[32px]">
               <Button
@@ -110,7 +125,7 @@ const Email = ({
                 href='https://linktr.ee/wlumsa'
                 className="text-blue-600 no-underline"
               >
-                'https://linktr.ee/wlumsa'
+                https://linktr.ee/wlumsa
               </Link>
             </Text>
             </Section>

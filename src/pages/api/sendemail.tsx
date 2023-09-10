@@ -19,26 +19,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const membersRef = collection(db, 'Members');
     const querySnapshot = await getDocs(membersRef);
 
-    // Define emailList with an explicit type
-    const emailList: EmailListItem[] = [];
-
-    querySnapshot.forEach((doc) => {
+    // Use the map method to create the emailList array
+    const emailList: EmailListItem[] = querySnapshot.docs.map((doc) => {
       const memberData = doc.data();
-      emailList.push({
-        email: memberData.email,
-        firstName: memberData.firstName,
-        lastName: memberData.lastName,
-      });
+      return {
+        email: memberData.Email, // Use correct field name "Email"
+        firstName: memberData.FirstName, // Use correct field name "FirstName"
+        lastName: memberData.LastName, // Use correct field name "LastName"
+      };
     });
+
+    console.log('Email List:', emailList);
 
     // Loop through the emailList and send emails using resend
     for (const member of emailList) {
-      await resend.emails.send({
+      const data = await resend.emails.send({
         from: 'admin@wlumsa.org',
         to: [member.email],
-        subject: 'Hello, ' + member.firstName + ' ' + member.lastName,
+        subject: 'MSA week at a glance',
         react: Email({ firstName: member.firstName, lastName: member.lastName }),
       });
+      // You can handle the email response data here if needed.
+      console.log('Email sent:', data);
     }
 
     res.status(200).json({ message: 'Emails sent successfully' });
