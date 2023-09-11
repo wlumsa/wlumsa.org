@@ -1,4 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+// pages/sendEmail.tsx
+
+import React from 'react';
 import Email from '../emails/welcome';
 import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
@@ -13,45 +15,49 @@ interface EmailListItem {
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== 'POST') {
-    // Return a 405 Method Not Allowed response for non-POST requests
-    res.status(405).end();
-    return;
-  }
+const SendEmail: React.FC = () => {
+  const sendEmails = async () => {
+    try {
+      // Fetch member data from the Firestore "Members" collection
+      const membersRef = collection(db, 'Members');
+      const querySnapshot = await getDocs(membersRef);
 
-  try {
-    // Fetch member data from the Firestore "Members" collection
-    const membersRef = collection(db, 'Members');
-    const querySnapshot = await getDocs(membersRef);
-
-    // Use the map method to create the emailList array
-    const emailList: EmailListItem[] = querySnapshot.docs.map((doc) => {
-      const memberData = doc.data();
-      return {
-        email: memberData.Email, // Use correct field name "Email"
-        firstName: memberData.FirstName, // Use correct field name "FirstName"
-        lastName: memberData.LastName, // Use correct field name "LastName"
-      };
-    });
-
-    console.log('Email List:', emailList);
-
-    // Loop through the emailList and send emails using resend
-    for (const member of emailList) {
-      const data = await resend.emails.send({
-        from: 'admin@wlumsa.org',
-        to: [member.email],
-        subject: 'MSA week at a glance',
-        react: Email({ firstName: member.firstName, lastName: member.lastName }),
+      // Use the map method to create the emailList array
+      const emailList: EmailListItem[] = querySnapshot.docs.map((doc) => {
+        const memberData = doc.data();
+        return {
+          email: memberData.Email, // Use correct field name "Email"
+          firstName: memberData.FirstName, // Use correct field name "FirstName"
+          lastName: memberData.LastName, // Use correct field name "LastName"
+        };
       });
-      // You can handle the email response data here if needed.
-      console.log('Email sent:', data);
-    }
 
-    res.status(200).json({ message: 'Emails sent successfully' });
-  } catch (error) {
-    console.error('Error sending emails:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+      console.log('Email List:', emailList);
+
+      // Loop through the emailList and send emails using resend
+      for (const member of emailList) {
+        const data = await resend.emails.send({
+          from: 'admin@wlumsa.org',
+          to: [member.email],
+          subject: 'MSA week at a glance',
+          react: Email({ firstName: member.firstName, lastName: member.lastName }),
+        });
+        // You can handle the email response data here if needed.
+        console.log('Email sent:', data);
+      }
+
+      console.log('Emails sent successfully');
+    } catch (error) {
+      console.error('Error sending emails:', error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Send Emails Page</h1>
+      <button onClick={sendEmails}>Send Emails</button>
+    </div>
+  );
 };
+
+export default SendEmail;
