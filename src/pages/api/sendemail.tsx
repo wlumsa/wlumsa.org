@@ -14,6 +14,12 @@ interface EmailListItem {
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method !== 'POST') {
+    // Return a 405 Method Not Allowed response for non-POST requests
+    res.status(405).end();
+    return;
+  }
+
   try {
     // Fetch member data from the Firestore "Members" collection
     const membersRef = collection(db, 'Members');
