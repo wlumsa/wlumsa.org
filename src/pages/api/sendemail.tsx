@@ -48,4 +48,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.error('Error sending emails:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+  return (
+    <div>
+      emails sent
+    </div>
+  )
 };
