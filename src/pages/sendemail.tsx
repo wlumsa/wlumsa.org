@@ -1,4 +1,3 @@
-// pages/sendEmail.tsx
 
 import React, { useState, useEffect } from 'react';
 import Email from './emails/welcome';
@@ -13,7 +12,7 @@ interface EmailListItem {
   lastName: string;
 }
 
-const resend = new Resend("re_8PrH7zRa_5LvApiWmyD2Fe5HMJy2xS1FF");
+const resend = new Resend("re_8eU8sooD_LqabRwXcFEzRbjnh233ETvkxp");
 
 const SendEmailPage: React.FC = () => {
   const [emailStatus, setEmailStatus] = useState<string | null>(null);
@@ -24,31 +23,39 @@ const SendEmailPage: React.FC = () => {
         // Fetch member data from the Firestore "Members" collection
         const membersRef = collection(db, 'Members');
         const querySnapshot = await getDocs(membersRef);
-
+      
+        // Define emailList with an explicit type
         const emailList: EmailListItem[] = [];
-
+    
         querySnapshot.forEach((doc) => {
-          const memberData = doc.data();
-          emailList.push({
-            email: memberData.email,
-            firstName: memberData.firstName,
-            lastName: memberData.lastName,
-          });
-        });
+  const memberData = doc.data();
+  console.log(memberData);
+  emailList.push({
+    email: memberData.Email, // Use correct field name "Email"
+    firstName: memberData.FirstName, // Use correct field name "FirstName"
+    lastName: memberData.LastName, // Use correct field name "LastName"
+  });
+});
 
-        
 
+
+
+
+
+
+        console.log(emailList)
+    
         // Loop through the emailList and send emails using resend
         for (const member of emailList) {
           await resend.emails.send({
             from: 'admin@wlumsa.org',
             to: [member.email],
-            subject: 'Salam, ' + member.firstName + ' ' + member.lastName,
+            subject: 'Hello, ' + member.firstName + ' ' + member.lastName,
             react: Email({ firstName: member.firstName, lastName: member.lastName }),
           });
         }
-
-        setEmailStatus('Emails sent successfully');
+    
+        setEmailStatus("Send successfully")
       } catch (error) {
         console.error('Error sending emails:', error);
         setEmailStatus('Internal server error');
