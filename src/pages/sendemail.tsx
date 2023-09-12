@@ -4,7 +4,7 @@ import Email from './emails/welcome';
 import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
 import db from '../firebase';
-
+const resend = new Resend("re_8eU8sooD_LqabRwXcFEzRbjnh233ETvkxp");
 // Define an interface for the email list
 interface EmailListItem {
   email: string;
@@ -12,7 +12,7 @@ interface EmailListItem {
   lastName: string;
 }
 
-const resend = new Resend("re_8eU8sooD_LqabRwXcFEzRbjnh233ETvkxp");
+
 
 const SendEmailPage: React.FC = () => {
   const [emailStatus, setEmailStatus] = useState<string | null>(null);
@@ -36,21 +36,14 @@ const SendEmailPage: React.FC = () => {
     lastName: memberData.LastName, // Use correct field name "LastName"
   });
 });
-
-
-
-
-
-
-
-        console.log(emailList)
-    
+        console.log(emailList) 
         // Loop through the emailList and send emails using resend
+        
         for (const member of emailList) {
-          await resend.emails.send({
+         const data = await resend.emails.send({
             from: 'admin@wlumsa.org',
             to: [member.email],
-            subject: 'Hello, ' + member.firstName + ' ' + member.lastName,
+            subject: 'Salam, ' + member.firstName + ' ' + member.lastName,
             react: Email({ firstName: member.firstName, lastName: member.lastName }),
           });
         }
