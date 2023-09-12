@@ -1,10 +1,10 @@
 // pages/sendEmail.tsx
 
 import React, { useState, useEffect } from 'react';
-import Email from '../emails/welcome';
+import Email from './emails/welcome';
 import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
-import db from '../../firebase';
+import db from '../firebase';
 
 // Define an interface for the email list
 interface EmailListItem {
