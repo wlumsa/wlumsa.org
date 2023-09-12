@@ -4,7 +4,7 @@ import Email from '../emails/welcome';
 import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
 import db from '../../firebase';
-const resend = new Resend("re_8eU8sooD_LqabRwXcFEzRbjnh233ETvkxp");
+const resend = new Resend("");
 // Define an interface for the email list
 interface EmailListItem {
   email: string;
@@ -44,6 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         subject: 'Salam, ' + member.firstName + ' ' + member.lastName,
         react: Email({ firstName: member.firstName, lastName: member.lastName }),
       });
+      console.log(data)
     }
 
       res.status(200).json({ message: 'Emails sent successfully' });
