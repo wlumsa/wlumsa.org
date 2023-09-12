@@ -13,6 +13,8 @@ interface EmailListItem {
   lastName: string;
 }
 
+const resend = new Resend("re_8PrH7zRa_5LvApiWmyD2Fe5HMJy2xS1FF");
+
 const SendEmailPage: React.FC = () => {
   const [emailStatus, setEmailStatus] = useState<string | null>(null);
 
@@ -34,7 +36,7 @@ const SendEmailPage: React.FC = () => {
           });
         });
 
-        const resend = new Resend(process.env.RESEND_API_KEY);
+        
 
         // Loop through the emailList and send emails using resend
         for (const member of emailList) {
