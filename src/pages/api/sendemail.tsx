@@ -1,6 +1,6 @@
 // pages/sendEmail.tsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Email from '../emails/welcome';
 import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
@@ -13,51 +13,56 @@ interface EmailListItem {
   lastName: string;
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const SendEmailPage: React.FC = () => {
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
 
-const SendEmail: React.FC = () => {
-  const sendEmails = async () => {
-    try {
-      // Fetch member data from the Firestore "Members" collection
-      const membersRef = collection(db, 'Members');
-      const querySnapshot = await getDocs(membersRef);
+  useEffect(() => {
+    const sendEmails = async () => {
+      try {
+        // Fetch member data from the Firestore "Members" collection
+        const membersRef = collection(db, 'Members');
+        const querySnapshot = await getDocs(membersRef);
 
-      // Use the map method to create the emailList array
-      const emailList: EmailListItem[] = querySnapshot.docs.map((doc) => {
-        const memberData = doc.data();
-        return {
-          email: memberData.Email, // Use correct field name "Email"
-          firstName: memberData.FirstName, // Use correct field name "FirstName"
-          lastName: memberData.LastName, // Use correct field name "LastName"
-        };
-      });
+        const emailList: EmailListItem[] = [];
 
-      console.log('Email List:', emailList);
-
-      // Loop through the emailList and send emails using resend
-      for (const member of emailList) {
-        const data = await resend.emails.send({
-          from: 'admin@wlumsa.org',
-          to: [member.email],
-          subject: 'MSA week at a glance',
-          react: Email({ firstName: member.firstName, lastName: member.lastName }),
+        querySnapshot.forEach((doc) => {
+          const memberData = doc.data();
+          emailList.push({
+            email: memberData.email,
+            firstName: memberData.firstName,
+            lastName: memberData.lastName,
+          });
         });
-        // You can handle the email response data here if needed.
-        console.log('Email sent:', data);
-      }
 
-      console.log('Emails sent successfully');
-    } catch (error) {
-      console.error('Error sending emails:', error);
-    }
-  };
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
+        // Loop through the emailList and send emails using resend
+        for (const member of emailList) {
+          await resend.emails.send({
+            from: 'admin@wlumsa.org',
+            to: [member.email],
+            subject: 'Salam, ' + member.firstName + ' ' + member.lastName,
+            react: Email({ firstName: member.firstName, lastName: member.lastName }),
+          });
+        }
+
+        setEmailStatus('Emails sent successfully');
+      } catch (error) {
+        console.error('Error sending emails:', error);
+        setEmailStatus('Internal server error');
+      }
+    };
+
+    // Trigger the sendEmails function when the page loads
+    sendEmails();
+  }, []);
 
   return (
     <div>
       <h1>Send Emails Page</h1>
-      <button onClick={sendEmails}>Send Emails</button>
+      <p>{emailStatus}</p>
     </div>
   );
 };
 
-export default SendEmail;
+export default SendEmailPage;
