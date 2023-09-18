@@ -39,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     
     for (const member of emailList) {
      const data = await resend.emails.send({
-        from: 'admin@wlumsa.org',
+        from: 'WLU MSA <admin@wlumsa.org>',
         to: [member.email],
         subject: 'Salam, ' + member.firstName + ' ' + member.lastName,
         react: Email({ firstName: member.firstName, lastName: member.lastName }),

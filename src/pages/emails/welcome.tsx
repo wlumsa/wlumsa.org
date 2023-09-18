@@ -75,41 +75,25 @@ const Email = ({
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Hope you had a wonderful O-week, heres what the MSA has planned for you this coming week Inshallah</p>
+              <p className='text-[12px]'>Hope you had a wonderful first week, this is what we have planned for you this upcomming week</p>
             </Text>
             
           <Section>
-            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150565379006025839/image.png'/>
+            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1153252795684757504/image.png'/>
             <Text>
-                  <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Dawah Boothing, and Halaqa Series📖</h1>
-                  <p className='text-[12px]'>Inshallah, just like in the past we will be returning to weekly Quran circles for brothers on Mondays, Dawah boothing on Tuesday, and Halaqs on Wednesday. All are encouraged to participate we hope to see you there {firstName} {lastName}</p>
+                  <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Dawah Boothing, and Sisters Prophetic Series 📖</h1>
+                  <p className='text-[12px]'>This week Inshallah we will be continuing with the usual Quran Circles this Monday and Dawah Boothing this Tuesdays, however Halaq for this week is CANCELED. This week we are also introducing a new events for sisters only where we will be going through the lives of previous prophets Inshallah</p>
             </Text>
           </Section>  
 
           <Section>
-            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150567684942073927/image.png'/>
+            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1153256213979611177/image.png'/>
             <Text>
-                  <h1 className='text-[14px] my-0'>📢Attention Brothers, Khateeb training📢</h1>
-                  <p className='text-[12px]'>Are you a brother and wanted to lead a khutbah on campus? Inshallah we will be hosting a Khateeb training on Tuesday.</p>
+                  <h1 className='text-[14px] my-0'>❗MSA Kickoff event ❗</h1>
+                  <p className='text-[12px]'>On behalf of the MSA I would like to extend my invitation for you to join us this Wednesday in the Turret for our MSA Kickoff Event. This is one of the biggest events of the semester. Come hang out, learn about the MSA, meet Muslims and of cource free food! What are you waiting for register now using the button below. Can't wait to meet you {firstName} {lastName}!</p>
             </Text>
           </Section>          
             
-          <Section>
-            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150569409027510352/image.png'/>
-            <Text>
-                  <h1 className='text-[14px] my-0'>⚖️ Know your rights ⚖️</h1>
-                  <p className='text-[12px]'>Ever wondered what you're entitled to as a Muslim living in Canada, join us and NCCM on Wednesday to learn all about rights as a Muslim living in Canada bi iznillah ta'ala </p>
-            </Text>
-          </Section>
-          <Section>
-            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1150575351513235549/image.png'/>
-            <Text>
-                  <h1 className='text-[14px] my-0'>🌎 International Muslim Students Meet & Greet 🌎</h1>
-                  <p className='text-[12px]'>New to Canada? Join us for an unforgettable Muslim students meet and greet! Foster connections, celeberate diversity and create lasting memories in a welcoming environment! </p>
-            </Text>
-          </Section>
-
-
           <Section className="text-center mt-[32px] mb-[32px]">
               <Button
                 pX={20}
