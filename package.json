@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "postbuild": "next-sitemap",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
@@ -24,6 +25,7 @@
     "daisyui": "^2.51.6",
     "firecms": "^2.0.0",
     "next": "^13.4.19",
+    "next-sitemap": "^4.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-email": "1.9.4",
