@@ -75,26 +75,43 @@ const Email = ({
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Hope you had a wonderful first week, this is what we have planned for you this upcomming week</p>
+              <p className='text-[12px]'>Hope you are in the best of Health and Iman, this is what the MSA has planned for the following week</p>
             </Text>
             
           <Section>
-            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1153252795684757504/image.png'/>
+            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1155702304499056770/image.png'/>
             <Text>
-                  <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Dawah Boothing, and Sisters Prophetic Series 📖</h1>
-                  <p className='text-[12px]'>This week Inshallah we will be continuing with the usual Quran Circles this Monday and Dawah Boothing this Tuesdays, however Halaq for this week is CANCELED. This week we are also introducing a new events for sisters only where we will be going through the lives of previous prophets Inshallah</p>
+                  <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Dawah Boothing,Halaqah and Sisters Prophetic Series 📖</h1>
+                  <p className='text-[12px]'>As usual all the weekly events will be contiuing this week, please not that Jummah timings have changed to 1:30 PM and 2:30 PM both in the Turret </p>
             </Text>
           </Section>  
 
           <Section>
-            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1153256213979611177/image.png'/>
+            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1155704109006061579/image.png'/>
             <Text>
-                  <h1 className='text-[14px] my-0'>❗MSA Kickoff event ❗</h1>
-                  <p className='text-[12px]'>On behalf of the MSA I would like to extend my invitation for you to join us this Wednesday in the Turret for our MSA Kickoff Event. This is one of the biggest events of the semester. Come hang out, learn about the MSA, meet Muslims and of cource free food! What are you waiting for register now using the button below. Can't wait to meet you {firstName} {lastName}!</p>
+                  <h1 className='text-[14px] my-0'>❗Guest Speaker - Sheikh Usman Qamar❗</h1>
+                  <p className='text-[12px]'>The team is honoured to announce that our first guest speaker event will be happening this Tuesday from 5:30 PM - 6:30 PM by Sheikh Usman Qamar, the topic being Embracing the Muslim Identity. Come out and beneift {firstName} {lastName} Inshallah!</p>
             </Text>
           </Section>          
-            
-          <Section className="text-center mt-[32px] mb-[32px]">
+            <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
+            <Text className="text-[#666666] text-[12px] leading-[24px]">
+              This newsletter was intended for
+                <span className="text-black"> {firstName} </span>. 
+              This is an automated email, please do not reply. If you would like unsubscribe from this newsletter you can do so 
+                <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
+            </Text>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+    
+  );
+};
+
+export default Email;
+
+
+/* <Section className="text-center mt-[32px] mb-[32px]">
               <Button
                 pX={20}
                 pY={12}
@@ -112,23 +129,4 @@ const Email = ({
                 https://linktr.ee/wlumsa
               </Link>
             </Text>
-            </Section>
-
-
-
-            <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
-            <Text className="text-[#666666] text-[12px] leading-[24px]">
-              This invitation was intended for
-                <span className="text-black"> {firstName} </span>. 
-              This is an automated email, please do not reply. If you would like unsubscribe from this newsletter you can do so 
-                <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
-            </Text>
-          </Container>
-        </Body>
-      </Tailwind>
-    </Html>
-    
-  );
-};
-
-export default Email;
+            </Section>*/

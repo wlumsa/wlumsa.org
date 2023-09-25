@@ -4,7 +4,7 @@ const Navbar: React.FC = () => {
    
 
     return (
-        <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl">
+        <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl sm:w-full">
             {/* Mobile */}
             <div className="navbar-start">
                 <div className="dropdown">
