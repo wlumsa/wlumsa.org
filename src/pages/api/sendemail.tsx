@@ -15,6 +15,8 @@ interface EmailListItem {
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+// ... [rest of the imports and setup]
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Fetch member data from the Firestore "Members" collection
@@ -34,22 +36,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
     console.log(emailList);
 
-    // Extract all emails for BCC
-    const bccEmails = emailList.map(member => member.email);
+    // Respond immediately to avoid timeout
+    res.status(200).json({ message: 'Email sending initiated' });
 
-    // Send the email to the entire list using BCC
-    const data = await resend.emails.send({
-      from: 'WLU MSA <admin@wlumsa.org>',
-      to:'ahme2085@mylaurier.ca',
-      bcc: bccEmails, // Use the entire list for BCC
-      subject: 'Salam to all members',
-      react: Email({ firstName: 'Member', lastName: '' }), // Generic greeting
+    // Send emails in the background with rate limiting
+    emailList.forEach((member, index) => {
+      setTimeout(async () => {
+        const data = await resend.emails.send({
+          from: 'WLU MSA <admin@wlumsa.org>',
+          to: [member.email],
+          subject: '🤫 Can You Guess What We\'ve Planned for You?',
+          react: Email({ firstName: member.firstName, lastName: member.lastName }),
+        });
+        console.log(data);
+      }, index * 1000); // 1 second delay between each email
     });
-    console.log(data);
 
-    res.status(200).json({ message: 'Emails sent successfully' });
   } catch (error) {
-    console.error('Error sending emails:', error);
+    console.error('Error initiating email send:', error);
     // Send an error response
     res.status(500).json({ error: 'Internal server error' });
   }

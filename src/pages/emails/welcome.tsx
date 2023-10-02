@@ -33,7 +33,7 @@ const Email = ({
 
 }:MemberInfo) => {
     
-  const previewText = `🤫 Can You Guess What We've Planned for You?`;
+  const previewText = 'Salam';
 
   return (
     
