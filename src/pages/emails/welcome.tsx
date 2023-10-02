@@ -79,7 +79,7 @@ const Email = ({
 
             {/* Brothers Quran Circles, Halaqah, Sisters Prophetic Stories */}
             <Section>
-              <Img height={400} width={400} className='rounded-lg mx-auto' src='path_to_image_1.jpg' />
+              <Img height={400} width={400} className='rounded-lg mx-auto' src='https://cdn.discordapp.com/attachments/604522648763891733/1158239111690326026/image.png?ex=651c2e7b&is=651adcfb&hm=19380182f592eec463214f6ea8dca090f217d87a98755a5c7057e3d63de75e50&' />
               <Text>
                 <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Halaqah, and Sisters Prophetic Stories📖</h1>
                 <p className='text-[12px]'>Join us for our weekly events. Dive into the Quran, engage in enlightening discussions, and immerse in the Prophetic stories. Please note that Dawah boothing is <strong>canceled</strong> this week.</p>
@@ -97,7 +97,7 @@ const Email = ({
 
             {/* Salat ul Jummah at the Turret */}
             <Section>
-              <Img height={400} width={400} className='rounded-lg mx-auto' src='path_to_image_3.jpg' />
+              <Img height={400} width={400} className='rounded-lg mx-auto' src='https://cdn.discordapp.com/attachments/604522648763891733/1158239530013442058/image.png?ex=651c2edf&is=651add5f&hm=4dc1c5ef07c2cbc71efc8c756e632f15e58d71ae167c9a83b617dc128c1014d5&' />
               <Text>
                 <h1 className='text-[14px] my-0'>🕌Salat ul Jummah at the Turret🕌</h1>
                 <p className='text-[12px]'>Join us for the Friday prayer at the Turret. We have two timings: 1:30 PM and 2:25 PM. Let's come together for Jummah!</p>
