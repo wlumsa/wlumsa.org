@@ -4,7 +4,7 @@ import Email from '../emails/welcome';
 import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
 import db from '../../firebase';
-const resend = new Resend("re_G9sQG6zL_Mxco11UgNuYEBL6dLFTuUknb");
+const resend = new Resend("re_Fj16zkCY_8gBC1ZBbm8Ewwo7vPfSQyQJY");
 // Define an interface for the email list
 interface EmailListItem {
   email: string;

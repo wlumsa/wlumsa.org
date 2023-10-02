@@ -33,14 +33,14 @@ const Email = ({
 
 }:MemberInfo) => {
     
-  const previewText = `Week at a Glance`;
+  const previewText = `🤫 Can You Guess What We've Planned for You?`;
 
   return (
     
     <Html>
-      <Head><title>Week at a glance</title></Head>
-      <Preview>{previewText}</Preview>
-      <Tailwind
+    <Head><title>Week at a glance</title></Head>
+    <Preview>{previewText}</Preview>
+    <Tailwind
       config={{
         theme: {
           extend: {
@@ -58,47 +58,58 @@ const Email = ({
           },
         },
       }}
-     
->
-        <Body className="bg-base-100 my-auto mx-auto font-sans">
-          <Container className="border border-solid border-primary  rounded-lg my-[40px] mx-auto p-[20px] w-[465px]">
-            <Section className="h-[150px] bg-primary  rounded-lg">
-              <Img
-                src={"https://firebasestorage.googleapis.com/v0/b/wlumsa-web.appspot.com/o/images%2Flogo.png?alt=media&token=ee047587-ca7b-4964-8549-bacb6cb09f85"}
-                width="40"
-                height="40"
-                alt="Image"
-                className="my-0 mx-auto"
-              />
-               <Heading className='text-center text-secondary'>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
+    >
+      <Body className="bg-base-100 my-auto mx-auto font-sans">
+        <Container className="border border-solid border-primary  rounded-lg my-[40px] mx-auto p-[20px] w-[465px]">
+          <Section className="h-[150px] bg-primary  rounded-lg">
+            <Img
+              src={"https://firebasestorage.googleapis.com/v0/b/wlumsa-web.appspot.com/o/images%2Flogo.png?alt=media&token=ee047587-ca7b-4964-8549-bacb6cb09f85"}
+              width="40"
+              height="40"
+              alt="Image"
+              className="my-0 mx-auto"
+            />
+            <Heading className='text-center text-secondary'>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
+          </Section>
+
+          <Text className="text-black">
+              <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
+              <p className='text-[12px]'>Hope you are in the best of Health and Iman. Here's what the MSA has planned for the upcoming week:</p>
+            </Text>
+
+            {/* Brothers Quran Circles, Halaqah, Sisters Prophetic Stories */}
+            <Section>
+              <Img height={400} width={400} className='rounded-lg mx-auto' src='path_to_image_1.jpg' />
+              <Text>
+                <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Halaqah, and Sisters Prophetic Stories📖</h1>
+                <p className='text-[12px]'>Join us for our weekly events. Dive into the Quran, engage in enlightening discussions, and immerse in the Prophetic stories. Please note that Dawah boothing is <strong>canceled</strong> this week.</p>
+              </Text>
             </Section>
 
-            <Text className="text-black">
-              <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Hope you are in the best of Health and Iman, this is what the MSA has planned for the following week</p>
-            </Text>
-            
-          <Section>
-            <Img  height={400} width={400} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1155702304499056770/image.png'/>
-            <Text>
-                  <h1 className='text-[14px] my-0'>📖Brothers Quran Circle, Dawah Boothing,Halaqah and Sisters Prophetic Series 📖</h1>
-                  <p className='text-[12px]'>As usual all the weekly events will be contiuing this week, please not that Jummah timings have changed to 1:30 PM and 2:30 PM both in the Turret </p>
-            </Text>
-          </Section>  
+            {/* Study Session */}
+            <Section>
+              <Img height={400} width={400} className='rounded-lg mx-auto' src='https://cdn.discordapp.com/attachments/604522648763891733/1158239379853152267/image.png?ex=651b85fb&is=651a347b&hm=d7496c9e9ac127b863117030ec9da1913b7b398ff81d43203a9b609df2a552bf&' />
+              <Text>
+                <h1 className='text-[14px] my-0'>📚Study Session📚</h1>
+                <p className='text-[12px]'>Need a break from your room? Come study with us and get some work done!</p>
+              </Text>
+            </Section>
 
-          <Section>
-            <Img  height={300} width={300} className='rounded-lg mx-auto' src = 'https://cdn.discordapp.com/attachments/604522648763891733/1155704109006061579/image.png'/>
-            <Text>
-                  <h1 className='text-[14px] my-0'>❗Guest Speaker - Sheikh Usman Qamar❗</h1>
-                  <p className='text-[12px]'>The team is honoured to announce that our first guest speaker event will be happening this Tuesday from 5:30 PM - 6:30 PM by Sheikh Usman Qamar, the topic being Embracing the Muslim Identity. Come out and beneift {firstName} {lastName} Inshallah!</p>
-            </Text>
-          </Section>          
+            {/* Salat ul Jummah at the Turret */}
+            <Section>
+              <Img height={400} width={400} className='rounded-lg mx-auto' src='path_to_image_3.jpg' />
+              <Text>
+                <h1 className='text-[14px] my-0'>🕌Salat ul Jummah at the Turret🕌</h1>
+                <p className='text-[12px]'>Join us for the Friday prayer at the Turret. We have two timings: 1:30 PM and 2:25 PM. Let's come together for Jummah!</p>
+              </Text>
+            </Section>
+
             <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
             <Text className="text-[#666666] text-[12px] leading-[24px]">
               This newsletter was intended for
-                <span className="text-black"> {firstName} </span>. 
-              This is an automated email, please do not reply. If you would like unsubscribe from this newsletter you can do so 
-                <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
+              <span className="text-black"> {firstName} </span>.
+              This is an automated email, please do not reply. If you would like to unsubscribe from this newsletter, you can do so
+              <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
             </Text>
           </Container>
         </Body>
@@ -111,22 +122,3 @@ const Email = ({
 export default Email;
 
 
-/* <Section className="text-center mt-[32px] mb-[32px]">
-              <Button
-                pX={20}
-                pY={12}
-                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
-                href='https://linktr.ee/wlumsa'
-              >
-                Register
-              </Button>
-              <Text className="text-black text-[14px] leading-[24px]">
-              or copy and paste this URL into your browser:
-              <Link
-                href='https://linktr.ee/wlumsa'
-                className="text-blue-600 no-underline"
-              >
-                https://linktr.ee/wlumsa
-              </Link>
-            </Text>
-            </Section>*/

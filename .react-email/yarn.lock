@@ -4963,10 +4963,10 @@ react-dropzone@^14.2.3:
     file-selector "^0.6.0"
     prop-types "^15.8.1"
 
-react-email@1.9.3:
-  version "1.9.3"
-  resolved "https://registry.npmjs.org/react-email/-/react-email-1.9.3.tgz"
-  integrity sha512-pD+uVG6GoJR03Kzkk5KHPlc/TtUZ/UYs/hfakeRP6Ma/Oja0fOw4gjYGXQo0zwwqEM5OdLQOdS3qBCJyRYrqVw==
+react-email@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.npmjs.org/react-email/-/react-email-1.9.4.tgz"
+  integrity sha512-DNUQb7xzAlMga2ZppG57bnWhJnqOEcTYzxNvLA4IVCiYJkgPNVukFMOZVG2OuQ0W8ddiF6bLZBKDZHnnIenbpw==
   dependencies:
     "@commander-js/extra-typings" "9.4.1"
     "@manypkg/find-root" "2.1.0"
@@ -4985,10 +4985,10 @@ react-email@1.9.3:
     shelljs "0.8.5"
     tree-node-cli "1.6.0"
 
-react-email@1.9.4:
-  version "1.9.4"
-  resolved "https://registry.npmjs.org/react-email/-/react-email-1.9.4.tgz"
-  integrity sha512-DNUQb7xzAlMga2ZppG57bnWhJnqOEcTYzxNvLA4IVCiYJkgPNVukFMOZVG2OuQ0W8ddiF6bLZBKDZHnnIenbpw==
+react-email@1.9.3:
+  version "1.9.3"
+  resolved "https://registry.npmjs.org/react-email/-/react-email-1.9.3.tgz"
+  integrity sha512-pD+uVG6GoJR03Kzkk5KHPlc/TtUZ/UYs/hfakeRP6Ma/Oja0fOw4gjYGXQo0zwwqEM5OdLQOdS3qBCJyRYrqVw==
   dependencies:
     "@commander-js/extra-typings" "9.4.1"
     "@manypkg/find-root" "2.1.0"
