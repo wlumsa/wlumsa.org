@@ -4,7 +4,7 @@ import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
 import db from '../../firebase';
 
-const resend = new Resend("re_Fj16zkCY_8gBC1ZBbm8Ewwo7vPfSQyQJY");
+const resend = new Resend("");
 
 // Define an interface for the email list
 interface EmailListItem {
@@ -49,6 +49,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           react: Email({ firstName: member.firstName, lastName: member.lastName }),
         });
         console.log(data);
+
+        
       }, index * 1000); // 1 second delay between each email
     });
 

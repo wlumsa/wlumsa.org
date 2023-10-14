@@ -1,6 +1,6 @@
 "use client";
 import msalogo from "public/logo.png"
-const allowedEmails = ["wlumsa.admin@gmail.com","siddiquifurqan5@gmail.com","syedahmedd.02@gmail.com"]
+const allowedEmails = ["wlumsa.admin@gmail.com","siddiquifurqan5@gmail.com","syedahmedd.02@gmail.com","usamamohiudin@gmail.com"]
 
 import React, { useCallback } from "react";
 
