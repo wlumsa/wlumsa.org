@@ -36,8 +36,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
     console.log(emailList);
 
-    // Respond immediately to avoid timeout
-    res.status(200).json({ message: 'Email sending initiated' });
+  
+    
 
     // Send emails in the background with rate limiting
     emailList.forEach((member, index) => {
@@ -53,6 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         
       }, index * 1000); // 1 second delay between each email
     });
+    res.status(200).json({ message: 'Email sending finished' });
 
   } catch (error) {
     console.error('Error initiating email send:', error);
