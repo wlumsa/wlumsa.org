@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import CtaForm from "../components/CtaForm";
 import PrayerSection from "../components/PrayerSection";
 import News from "../components/News";
-import Events from "../components/Events";
+import Events from "../components/WeeklyEvents";
 
 const Home: NextPage = () => {
   return (

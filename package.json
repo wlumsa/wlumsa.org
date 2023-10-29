@@ -24,6 +24,8 @@
     "axios": "^1.5.0",
     "daisyui": "^2.51.6",
     "firecms": "^2.0.0",
+    "google-auth-library": "^9.2.0",
+    "googleapis": "^128.0.0",
     "next": "^13.4.19",
     "next-sitemap": "^4.2.3",
     "react": "18.2.0",
