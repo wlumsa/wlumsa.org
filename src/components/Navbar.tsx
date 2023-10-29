@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-52 text-base-100">
                         <li><Link href="/#news" className="hover:scale-105 duration-200">News</Link></li>
                         <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
-                        <li><Link href="/#events" className="hover:scale-105 duration-200">Weekly Events</Link></li>
+                        <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
                         <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
                     </ul>
                 </div>
@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
                 <ul className="menu menu-horizontal px-1 text-base-100">
                     <li><Link href="/#news" className="hover:scale-105 duration-200">News</Link></li>
                     <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
-                    <li><Link href="/#events" className="hover:scale-105 duration-200">Weekly Events</Link></li>
+                    <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
                     <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
                 </ul>
             </div>
