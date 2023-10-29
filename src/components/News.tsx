@@ -44,7 +44,7 @@ const News: React.FC = () => {
                     {Array.from({ length: queryLength }, (_, index) => (
                         <a href= {`#item${index+1}`} className='btn btn-xs bg-base-100 border-primary text-primary hover:bg-base-200 hover:scale-105 duration-200'>{index+1}</a>
                     ))}
-                </div>
+                </div> 
             </div>
          </div>
     );
