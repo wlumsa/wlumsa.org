@@ -25,7 +25,7 @@ const Events = () => {
           </a>
         </div>
       </div>
-      <Footer/>
+     
     </div>
   );
 };

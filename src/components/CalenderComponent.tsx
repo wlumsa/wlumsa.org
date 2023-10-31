@@ -1,98 +1,98 @@
-import { useEffect, useState } from 'react';
-import FullCalendar from '@fullcalendar/react';
+import { useEffect, useState, useRef } from 'react';
+
+import FullCalendar, { CalendarApi } from '@fullcalendar/react';
+
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { EventContentArg } from '@fullcalendar/common';
 import '@fullcalendar/common/main.css';
+import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
 type Event = {
   id: string;
   title: string;
   start: string;
+  end?: string;
+  recurring?: boolean;
 };
 
 type FetchedEvent = {
   id: string;
   summary: string;
   start: { dateTime: string };
+  recurring?: boolean;
 };
 
 const CalendarComponent = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+
+  const calendarRef = useRef<CalendarApi | null>(null);; // Reference for the FullCalendar component
+ 
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      const res = await fetch('/api/calendar');
-      const data: FetchedEvent[] = await res.json();
-      const formattedEvents = data.map((event: FetchedEvent) => ({
-        id: event.id,
-        title: event.summary,
-        start: event.start.dateTime,
-      }));
-      setEvents(formattedEvents);
-      const nextWeekEvents = getNextWeekEvents(formattedEvents);
-      setUpcomingEvents(nextWeekEvents);
+    const handleResize = () => {
+      if (calendarRef.current) {
+        const calendarApi = calendarRef.current.getApi();
+        if (window.innerWidth <= 480) {
+          calendarApi.changeView("dayGridDay");
+        } else if (window.innerWidth <= 768) {
+          calendarApi.changeView("dayGridWeek");
+        } else {
+          calendarApi.changeView("dayGridMonth");
+        }
+      }
     };
-    fetchEvents();
-  }, []);
 
-  const getNextWeekEvents = (allEvents: Event[]) => {
-    const now = new Date();
-    const nextWeek = new Date(now);
-    nextWeek.setDate(nextWeek.getDate() + 7);
-    return allEvents.filter(event => {
-      const eventDate = new Date(event.start);
-      return eventDate > now && eventDate < nextWeek;
-    });
-  };
+    // Set the initial view based on window width
+    handleResize();
+
+    // Attach the event listener
+    window.addEventListener("resize", handleResize);
+
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="container mx-auto text-xs p-10">
-      <div className="hidden sm:block"> {/* Calendar is hidden on small screens */}
-      <h3 className="text-xl font-bold">Upcoming Events</h3>
-      <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          headerToolbar={{
-            left: 'title',
-            right: 'today,prev,next'
-          }}
-          
-          eventContent={renderEventContent}
-          height='auto'
+      <div>
+        <h3 className="text-xl font-bold">Upcoming Events</h3>
+        <FullCalendar
+            ref={calendarRef} // Set the reference here
+            plugins={[dayGridPlugin, googleCalendarPlugin]}
+            initialView="dayGridMonth"
+            googleCalendarApiKey= "AIzaSyAD66ZFXJgMoKiZTkZUOCG9pFS459R40SI"
+            events={{ googleCalendarId: "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com" }}
+            eventContent = {renderEventContent}
         />
-
-      </div>
-      {/* mobile */}
-      <div className="block sm:hidden bg-primary text-secondary p-2 rounded-lg">
-        <h3 className="text-xl font-bold">Upcoming Events:</h3>
-        {upcomingEvents.map(event => (
-          <div key={event.id} className="p-2 ">
-            <strong>{event.title}</strong> - {new Date(event.start).toLocaleDateString()}
-          </div>
-        ))}
       </div>
     </div>
   );
 };
 
 const renderEventContent = (eventInfo: EventContentArg) => {
-  const startTime = new Date(eventInfo.event.startStr).toLocaleTimeString([], {
+  const now = new Date();
+  const eventDate = new Date(eventInfo.event.startStr);
+  const isPastEvent = eventDate < now;
+
+  const bgColorClass = isPastEvent ? 'bg-red-500' : 'bg-green-500';
+  const textColorClass = 'text-white';
+
+  const startTime = eventDate.toLocaleTimeString([], {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
   });
-  const formattedTitle = eventInfo.event.title.replace(/\|/g, '<br />'); // Replace all occurrences of '|' with a newline
-  
+
+  const formattedTitle = eventInfo.event.title.split('|').join('<br />');
+
   return (
-    <div className="p-1 overflow-hidden">
+    <div className={`p-1 overflow-hidden ${bgColorClass} ${textColorClass}`}>
       <div><b>{startTime}</b></div>
-      <div dangerouslySetInnerHTML={{ __html: formattedTitle }}></div> 
+      <div dangerouslySetInnerHTML={{ __html: formattedTitle }}></div>
     </div>
   );
 };
-
-
 
 export default CalendarComponent;
