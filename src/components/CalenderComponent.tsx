@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 
-import FullCalendar, { CalendarApi } from '@fullcalendar/react';
+import FullCalendar from '@fullcalendar/react';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { EventContentArg } from '@fullcalendar/common';
@@ -23,23 +23,21 @@ type FetchedEvent = {
 };
 
 const CalendarComponent = () => {
-
-  const calendarRef = useRef<CalendarApi | null>(null);; // Reference for the FullCalendar component
- 
+  const [events, setEvents] = useState<Event[]>([]);
+  const calendarRef = useRef<any>(null);
 
   useEffect(() => {
     const handleResize = () => {
       if (calendarRef.current) {
-        const calendarApi = calendarRef.current.getApi();
         if (window.innerWidth <= 480) {
-          calendarApi.changeView("dayGridDay");
-        } else if (window.innerWidth <= 768) {
-          calendarApi.changeView("dayGridWeek");
+          calendarRef.current.getApi().changeView("dayGridDay");
         } else {
-          calendarApi.changeView("dayGridMonth");
+          calendarRef.current.getApi().changeView("dayGridMonth");
         }
       }
     };
+    
+    
 
     // Set the initial view based on window width
     handleResize();
@@ -47,12 +45,25 @@ const CalendarComponent = () => {
     // Attach the event listener
     window.addEventListener("resize", handleResize);
 
+    const fetchEvents = async () => {
+      const res = await fetch('/api/calendar');
+      const data: FetchedEvent[] = await res.json();
+      
+      const formattedEvents: Event[] = data.map((event: FetchedEvent) => ({
+        id: event.id,
+        title: event.summary,
+        start: event.start.dateTime,
+      }));
+
+      setEvents(formattedEvents);
+    };
+    fetchEvents();
 
     // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [])
 
   return (
     <div className="container mx-auto text-xs p-10">
@@ -68,6 +79,7 @@ const CalendarComponent = () => {
         />
       </div>
     </div>
+
   );
 };
 
