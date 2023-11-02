@@ -1,6 +1,6 @@
 "use client";
 import msalogo from "public/logo.png"
-const allowedEmails = ["wlumsa.admin@gmail.com","siddiquifurqan5@gmail.com","syedahmedd.02@gmail.com","usamamohiudin@gmail.com"]
+const allowedEmails = ["wlumsa.admin@gmail.com","siddiquifurqan5@gmail.com","syedahmedd.02@gmail.com","usamamohiudin@gmail.com","waleedasif370@gmail.com","bassamkh17@gmail.com"]
 
 import React, { useCallback } from "react";
 
@@ -69,6 +69,15 @@ type Member = {
     LastName:string;
     StudentId:string;
     Email:string;
+}
+
+type IqamahTimes = {
+    Fajr: string;
+    Sunrise:string;
+    Dhuhr: string;
+    Asr: string;
+    Maghrib: string;
+    Isha: string;
 }
 
 const MemberCollection = buildCollection<Member>({
@@ -187,7 +196,59 @@ const JummahCollection = buildCollection<JummahInfo>({
         
     }
 });
-
+const IqamahCollection = buildCollection<IqamahTimes>({
+    path: "IqamahTimings",
+    name: "Iqamah Timings",
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
+    properties: {
+        Fajr: {
+            name: "Fajr",
+            validation: { required: true },
+            dataType: "string",
+            description: "Fajr Iqamah Timing",
+        },
+        Sunrise: {
+            name: "Sunrise ",
+            validation: { required: true },
+            dataType: "string",
+            description: "leave as N/A bro",
+        },
+        Dhuhr: {
+            name: "Dhuhr ",
+            validation: { required: true },
+            dataType: "string",
+            description: "Dhuhr Iqamah Timing",
+        },
+        Asr: {
+            name: "Asr ",
+            validation: { required: true },
+            dataType: "string",
+            description: "Asr Iqamah Timing",
+        },
+        Maghrib: {
+            name: "Maghrib",
+            validation: { required: true },
+            dataType: "string",
+            description: "Maghrib Iqamah Timing",
+        },
+        Isha: {
+            name: "Isha",
+            validation: { required: true },
+            dataType: "string",
+            description: "Isha Iqamah Timing",
+        },
+        
+    }
+});
 const LocalMosquesCollection = buildCollection<LocalMosques>({
     path: "LocalMosques",
     name: "LocalMosques",
@@ -538,7 +599,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection]}
+        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,IqamahCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;

@@ -100,9 +100,9 @@ const renderEventContent = (eventInfo: EventContentArg) => {
   const formattedTitle = eventInfo.event.title.split('|').join('<br />');
 
   return (
-    <div className={`p-1 overflow-hidden ${bgColorClass} ${textColorClass}`}>
-      <div><b>{startTime}</b></div>
-      <div dangerouslySetInnerHTML={{ __html: formattedTitle }}></div>
+    <div className={`p-1 ${bgColorClass} ${textColorClass}`}>
+      <div className="text-sm"><b>{startTime}</b></div> {/* Adjusted text size */}
+      <div className="text-xs" dangerouslySetInnerHTML={{ __html: formattedTitle }}></div> {/* Adjusted text size */}
     </div>
   );
 };

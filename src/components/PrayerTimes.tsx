@@ -17,7 +17,7 @@ const fetchTimings = async (): Promise<TimingsData> => {
     const city = "Waterloo";
     const country = "Canada";
     const state = "Ontario";
-    const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&state=${state}`);
+    const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&state=${state}&school=1`);
     if (!response.ok) {
       console.error("Failed to fetch prayer time data from the API.");
     }
