@@ -27,15 +27,25 @@ interface Timings {
   }
   
   const fetchTimings = async (): Promise<TimingsData[]> => {
-    const currentDate = new Date(); 
-    const year = currentDate.getFullYear(); 
-    const month = currentDate.getMonth() + 1
-    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2/school=1`);
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // January is 0!
+    const date = currentDate.getDate();
+  
+    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2`);
     if (!response.ok) {
-      throw new Error("Failed to fetch prayer .dme data from the API.");
+      throw new Error("Failed to fetch prayer time data from the API.");
     }
     const jsonResponse = await response.json();
-    return jsonResponse.data; 
+    const timingsData: TimingsData[] = jsonResponse.data;
+
+    const todayIndex = timingsData.findIndex(timing => {
+      const timingDate = new Date(timing.date.readable);
+      return timingDate.getDate() === date && timingDate.getMonth() + 1 === month && timingDate.getFullYear() === year;
+    });
+  
+   
+    return todayIndex >= 0 ? timingsData.slice(todayIndex, todayIndex + 7) : [];
   };
   
 
@@ -48,13 +58,14 @@ interface Timings {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const fullData = await fetchTimings();
-          
-          setTimingsData(fullData.slice(0, 7));
+          const nextWeekData = await fetchTimings();
+          setTimingsData(nextWeekData);
         } catch (error) {
           console.error(error);
         }
       };
+    
+     
   
       const fetchJummahInfo = async () => {
         const jummahCollectionRef = collection(db, "Jummah");
