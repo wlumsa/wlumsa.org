@@ -4,7 +4,7 @@ import { Resend } from 'resend';
 import { collection, getDocs } from 'firebase/firestore';
 import db from '../../firebase';
 
-const resend = new Resend("");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Define an interface for the email list
 interface EmailListItem {
