@@ -38,7 +38,7 @@ const CtaForm: React.FC = () => {
     return (
         <div>
         <section className="my-8">
-            <h2 className="text-2xl font-bold text-neutral mb-4">Title</h2>
+            
             <div className="flex items-center justify-center w-full py-2 bg-base-100">
                 <div className="w-[30rem] px-2">
                     <form className="card-body" onSubmit={handleSubmit}>

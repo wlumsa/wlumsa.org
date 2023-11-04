@@ -32,7 +32,7 @@ interface Timings {
     const month = currentDate.getMonth() + 1; // January is 0!
     const date = currentDate.getDate();
   
-    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2`);
+    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2&school=1`);
     if (!response.ok) {
       throw new Error("Failed to fetch prayer time data from the API.");
     }
@@ -87,39 +87,37 @@ interface Timings {
       fetchIqamahTimes();
     }, []);
 
-  const convertTo12HourFormat = (timeString?: string): string => {
-   
-    if (!timeString) {
-        return "N/A";
-    }
-
- 
-    const [time] = timeString.split(' '); 
-    const [hours, minutes] = time?.split(":") ?? ["", ""];
-
-    if (!hours || !minutes) {
-        return "N/A";
-    }
-
-    let hoursInNumber = parseInt(hours, 10);
-    let period = "AM";
-
-    if (hoursInNumber >= 12) {
-        period = "PM";
-        if (hoursInNumber > 12) {
-            hoursInNumber -= 12;
-        }
-    }
-
-    if (hoursInNumber === 0) {
-        hoursInNumber = 12; 
-    }
-
- 
-    const formattedHours = hoursInNumber.toString().padStart(2, '0');
-
-    return `${formattedHours}:${minutes} ${period}`;
-};
+    const convertTo12HourFormat = (timeString?: string): string => {
+      if (!timeString) {
+          return "N/A";
+      }
+  
+      const [time] = timeString.split(' '); 
+      let [hours, minutes] = time?.split(":") ?? ["", ""];
+  
+      if (!hours || !minutes) {
+          return "N/A";
+      }
+  
+      let hoursInNumber = parseInt(hours, 10);
+      let period = "AM";
+  
+      if (hoursInNumber >= 12) {
+          period = "PM";
+          if (hoursInNumber > 12) {
+              hoursInNumber -= 12;
+          }
+      }
+  
+      if (hoursInNumber === 0) {
+          hoursInNumber = 12; 
+      }
+  
+      // Convert hours back to string without leading 0 if it's less than 10
+      const formattedHours = hoursInNumber.toString();
+  
+      return `${formattedHours}:${minutes} ${period}`;
+  };
   
 
   const prayerNames: (keyof Timings)[] = [
