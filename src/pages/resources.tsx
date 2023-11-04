@@ -1,36 +1,69 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+
 import CtaForm from '~/components/CtaForm';
+
+import Navbar from '~/components/Navbar';
+
+import { collection, getDocs,query,orderBy } from "firebase/firestore";
+
+import db from "../firebase";
+import Footer from '~/components/Footer';
+
+
+interface SocialLink {
+    name: string;
+    link: string;
+    icon: string;
+}
 
 const ResourcesPage: React.FC = () => {
     // Define state hooks for each form field
     
+   
 
     return (
-        <div className="container mx-auto px-4">
-            <main>
+        <div className="container mx-auto ">
+            <Navbar/>
+            <div className='flex flex-col mt-20'>
+        
                 {/* ... other sections ... */}
-                <section className="my-8">
+
+                
+                <div className="grid grid-flow-col">
+                    <div>
+                        
+                        <div className="flex flex-col gap-[3.85rem] ml-10 py-2 justify-center my-8 bg-neutral">
+                           
+                        </div>
+                    </div>
                     <CtaForm/>
-                </section>
+                </div>
                 
 
                 <section className="p-4">
                     <h2 className="text-2xl font-bold mb-4">Resources</h2>
                     <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
                         <div className="collapse-title text-xl font-medium">
-                            Focus me to see content
+                            Campus Resources
                         </div>
                         <div className="collapse-content"> 
-                            <p>tabindex="0" attribute is necessary to make the div focusable</p>
+                            <p>Tadsdwadsa</p>
                         </div>
                     </div>
                     <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
                         <div className="collapse-title text-xl font-medium">
-                            Focus me to see content
+                            Religious  Resources
                         </div>
                         <div className="collapse-content"> 
-                            <p>tabindex="0" attribute is necessary to make the div focusable</p>
+                            <p>adssadwae</p>
+                        </div>
+                    </div>
+                    <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
+                        <div className="collapse-title text-xl font-medium">
+                            Other
+                        </div>
+                        <div className="collapse-content"> 
+                            <p>asdsadable</p>
                         </div>
                     </div>
                 </section>
@@ -45,8 +78,8 @@ const ResourcesPage: React.FC = () => {
                 
                 {/* ... Additional Links ... */}
                 {/* ... */}
-            </main>
-            
+            </div>
+            <Footer/>
             {/* ... Footer ... */}
             {/* ... */}
         </div>
