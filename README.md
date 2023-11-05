@@ -1,28 +1,50 @@
-# Create T3 App
+# WLU Muslim Student's Association Website
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
-
-## What's next? How do I make an app with this?
-
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+This project is the official page for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University
 
 ## Learn More
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Discover more about the WLU MSA, our values, and our mission on our [official website](https://www.wlumsa.org/about).
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Tech Stack
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- [NextJs](https://nextjs.org/docs)
+- [Typescript](https://www.typescriptlang.org/docs/handbook/)
+- [Tailwind CSS](https://tailwindcss.com/docs/installation)
+- [Resend](https://resend.com/docs/introduction)
+- [Firebase](https://firebase.google.com/docs)
+- [Firecms](https://firecms.co/)
 
-## How do I deploy this?
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Deployment
+This project is currently being hosted by Vercel. However one can run it locally. Please note you will need your own API keys for the services used
+
+1. Clone this repository to your local machine
+ `git clone <repository-url>`
+
+2. Install the required dependencies.
+ `npm install`
+
+3. Start the development Server
+ `npm start`
+
+The website should now be accessible at `http://localhost:3000` in your web browser
+
+
+## Authors and Acknowledgements
+ 
+### Contributors 
+
+- [Muhammad Saad](https://github.com/mxsaad)  
+- [Saif Al-Din Ali](https://github.com/saifaldin14)
+- [Maham Farooq](https://github.com/CoderMF)
+- [Usama Mohiuddin](https://github.com/UsamaMo)
+- [Waleed](https://github.com/WaleedAAA)
+- [Razan](https://github.com/rzlm)
+- [Muneeb](https://github.com/Muneeb231)
+
+### Special Thanks
+Thanks to the executive team of the Laurier Muslim Students Association in the 2023/2024 school for facilitating the project and giving feedback.
+
+## Contact information
+If you would like to reach out to us feel free to contact us using the form on this [page](https://www.wlumsa.org/resources)
