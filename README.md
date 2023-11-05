@@ -1,6 +1,6 @@
 # WLU Muslim Student's Association Website
 
-This project is the official page for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University
+This project is the official page for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University by the permission of Allah
 
 ## Learn More
 
@@ -42,6 +42,7 @@ The website should now be accessible at `http://localhost:3000` in your web brow
 - [Waleed](https://github.com/WaleedAAA)
 - [Razan](https://github.com/rzlm)
 - [Muneeb](https://github.com/Muneeb231)
+- [Syed](https://github.com/Syed-Ahmed02)
 
 ### Special Thanks
 Thanks to the executive team of the Laurier Muslim Students Association in the 2023/2024 school for facilitating the project and giving feedback.
