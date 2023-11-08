@@ -37,10 +37,10 @@ const CtaForm: React.FC = () => {
     // Return the form JSX
     return (
         <div>
-        <section className="my-8">
+        
             
-            <div className="flex items-center justify-end px-10 w-full py-2 bg-base-100">
-                <div className="w-[30rem] px-2 bg-primary rounded-xl">
+            <div className="flex items-center">
+                <div className="w-full md:w-[30rem] px-2 bg-primary rounded-xl">
                     <form className="card-body" onSubmit={handleSubmit}>
     
                         <div className="flex flex-col gap-2 py-2">
@@ -94,7 +94,7 @@ const CtaForm: React.FC = () => {
                     </form>
                 </div>
             </div>
-        </section>
+        
     </div>
     );
 }
