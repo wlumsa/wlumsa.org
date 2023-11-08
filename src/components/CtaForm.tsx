@@ -37,13 +37,12 @@ const CtaForm: React.FC = () => {
     // Return the form JSX
     return (
         <div>
-        <section className="my-8">
-            <h2 className="text-2xl font-bold text-neutral mb-4">Title</h2>
-            <div className="flex items-center justify-center w-full py-2 bg-base-100">
-                <div className="w-[30rem] px-2">
+        
+            
+            <div className="flex items-center">
+                <div className="w-full md:w-[30rem] px-2 bg-primary rounded-xl">
                     <form className="card-body" onSubmit={handleSubmit}>
-                        <h3 className="card-title text-3xl lg:text-4xl text-primary hover:scale-105 duration-200 ">Reach out to us!</h3>
-                        <p className="lg:text-lg text-neutral">Send us a message</p>
+    
                         <div className="flex flex-col gap-2 py-2">
                             <input 
                                 type="text" 
@@ -90,12 +89,12 @@ const CtaForm: React.FC = () => {
                             </textarea>
                         </div>
                         <div className="card-actions justify-end">
-                            <button type="submit" className="btn text-secondary bg-primary hover:bg-secondary hover:text-primary border-0 shadow hover:scale-105 duration-200">Submit ➜</button>
+                            <button type="submit" className="btn text-primary bg-secondary hover:text-base-100 border-0 shadow hover:scale-105 duration-200">Submit ➜</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </section>
+        
     </div>
     );
 }

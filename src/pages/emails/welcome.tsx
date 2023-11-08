@@ -22,7 +22,7 @@ interface MemberInfo {
 
 const Email = ({ firstName, lastName }: MemberInfo) => {
 
-  const previewText = `🚀 Exclusive Events for OCT 23 - OCT 27!`;
+  const previewText = `🌟 Upcoming MSA Events for Nov 06 - Nov 10!`;
 
   return (
     <Html>
@@ -46,43 +46,40 @@ const Email = ({ firstName, lastName }: MemberInfo) => {
         <Body className="bg-base-100 my-auto mx-auto font-sans">
           <Container className="border border-solid border-primary  rounded-lg my-[40px] mx-auto p-[20px] w-[465px]">
             <Section className="h-[150px] bg-primary  rounded-lg">
-            <Heading className='text-center text-secondary'>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
+              <Heading className='text-center text-secondary'>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
             </Section>
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Here's what the MSA has planned for Oct 30 - Nov 03:</p>
+              <p className='text-[12px]'>I hope you are doing well inshallah, remember to update your clocks because the time has changed this week. You can find prayer timings on our instagram page or <a target = '_blank' href='https://www.wlumsa.org/prayertimings' >here</a> This is what the MSA has planned for Nov 06 - Nov 10.</p>
             </Text>
 
             {/* Event Details */}
             <Section>
               <Text>
-                <h1 className='text-[14px] my-0'>October 30, Monday:</h1>
+                <h1 className='text-[14px] my-0'>November 06, Monday:</h1>
                 <p className='text-[12px]'>📖 Brothers Quran Circles | P101 | 4:30-5 PM</p>
 
-                <h1 className='text-[14px] my-0'>October 31, Tuesday:</h1>
+                <h1 className='text-[14px] my-0'>November 07, Tuesday:</h1>
                 <p className='text-[12px]'>🕌 Dawah Boothing | Concourse | 1-4 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 01, Wednesday:</h1>
+                <h1 className='text-[14px] my-0'>November 08, Wednesday:</h1>
                 <p className='text-[12px]'>📖 Halaqa Series | P101 | 4-4:30 PM</p>
-                <p className='text-[12px]'>🎮 TCF Collab Jeopardy Night | 2C17 | 5:30-7:30 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 02, Thursday:</h1>
+                <h1 className='text-[14px] my-0'>November 09, Thursday:</h1>
                 <p className='text-[12px]'>📖 Sisters Prophetic Stories | P118 | 3-4:00 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 03, Friday:</h1>
-                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:30 PM</p>
-                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 2:25 PM</p>
+                <h1 className='text-[14px] my-0'>November 10, Friday:</h1>
+                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM and 2:00 PM</p>
               </Text>
-            </Section>  
+            </Section>
 
             <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
             <Text className="text-[#666666] text-[12px] leading-[24px]">
               This is an automated email, please do not reply. If you would like to unsubscribe from this newsletter, you can do so
-              <Link href='https://www.wlumsa.org/unsubscribe'> here </Link>
-              PS: Sorry for the late email 
+              <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
             </Text>
-            <Button href="https://www.wlumsa.org/events" className="bg-primary text-white  mt-4">Check Out All Events</Button>
+            <Button href="https://www.wlumsa.org/events" className="bg-primary text-white p-2  mt-4">Check Out All Events</Button>
           </Container>
         </Body>
       </Tailwind>

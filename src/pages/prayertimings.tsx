@@ -3,6 +3,9 @@ import Navbar from "~/components/Navbar";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
 import Footer from "~/components/Footer";
+import { NextPage } from "next";
+import { GetServerSideProps } from "next";
+import { GetServerSidePropsContext } from "next";
 interface Timings {
     Fajr: string;
     Sunrise: string;
@@ -32,7 +35,7 @@ interface Timings {
     const month = currentDate.getMonth() + 1; // January is 0!
     const date = currentDate.getDate();
   
-    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2`);
+    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2&school=1`);
     if (!response.ok) {
       throw new Error("Failed to fetch prayer time data from the API.");
     }
@@ -47,23 +50,28 @@ interface Timings {
    
     return todayIndex >= 0 ? timingsData.slice(todayIndex, todayIndex + 7) : [];
   };
+  export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+    try {
+      const prayerTimes = await fetchTimings();
+      return {
+        props: { prayerTimes },
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        props: { prayerTimes: null, error: 'Failed to fetch data' },
+      };
+    }
+  };
+
+
+  const PrayerTimes: NextPage<{ prayerTimes: TimingsData[]; error?: string }> = ({ prayerTimes, error }) => {
   
-
-
-  const PrayerTimes: React.FC = () => {
-    const [timingsData, setTimingsData] = useState<TimingsData[]>([]);
     const [jummahInfo, setJummahInfo] = useState<JummahItem[]>([]);
     const [iqamahTimes, setIqamahTimes] = useState<Timings | null>(null);
   
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const nextWeekData = await fetchTimings();
-          setTimingsData(nextWeekData);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+      
     
      
   
@@ -82,44 +90,42 @@ interface Timings {
         setIqamahTimes(iqamahTimesData || null);
       };
   
-      fetchData();
+     
       fetchJummahInfo();
       fetchIqamahTimes();
     }, []);
 
-  const convertTo12HourFormat = (timeString?: string): string => {
-   
-    if (!timeString) {
-        return "N/A";
-    }
-
- 
-    const [time] = timeString.split(' '); 
-    const [hours, minutes] = time?.split(":") ?? ["", ""];
-
-    if (!hours || !minutes) {
-        return "N/A";
-    }
-
-    let hoursInNumber = parseInt(hours, 10);
-    let period = "AM";
-
-    if (hoursInNumber >= 12) {
-        period = "PM";
-        if (hoursInNumber > 12) {
-            hoursInNumber -= 12;
-        }
-    }
-
-    if (hoursInNumber === 0) {
-        hoursInNumber = 12; 
-    }
-
- 
-    const formattedHours = hoursInNumber.toString().padStart(2, '0');
-
-    return `${formattedHours}:${minutes} ${period}`;
-};
+    const convertTo12HourFormat = (timeString?: string): string => {
+      if (!timeString) {
+          return "N/A";
+      }
+  
+      const [time] = timeString.split(' '); 
+      let [hours, minutes] = time?.split(":") ?? ["", ""];
+  
+      if (!hours || !minutes) {
+          return "N/A";
+      }
+  
+      let hoursInNumber = parseInt(hours, 10);
+      let period = "AM";
+  
+      if (hoursInNumber >= 12) {
+          period = "PM";
+          if (hoursInNumber > 12) {
+              hoursInNumber -= 12;
+          }
+      }
+  
+      if (hoursInNumber === 0) {
+          hoursInNumber = 12; 
+      }
+  
+      // Convert hours back to string without leading 0 if it's less than 10
+      const formattedHours = hoursInNumber.toString();
+  
+      return `${formattedHours}:${minutes} ${period}`;
+  };
   
 
   const prayerNames: (keyof Timings)[] = [
@@ -137,7 +143,7 @@ interface Timings {
 
   const transposedData = prayerNames.map((prayerName) => ({
     prayerName,
-    timings: timingsData.map((dayTimings) => {
+    timings: prayerTimes.map((dayTimings) => {
       const date = new Date(dayTimings.date.readable);
       const isFriday = date.getDay() === 5;
       let iqamahTimeText = "Loading..."; 
@@ -174,7 +180,7 @@ interface Timings {
                 <th className="px-4 py-2 font-bold text-left text-xs uppercase border border-black">
                   Prayer Time
                 </th>
-                {timingsData.map((dayTimings) => (
+                {prayerTimes.map((dayTimings) => (
                   <th
                     key={dayTimings.date.readable}
                     className="px-4 py-2 font-bold text-left text-xs uppercase border border-black"
