@@ -3,6 +3,9 @@ import Navbar from "~/components/Navbar";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
 import Footer from "~/components/Footer";
+import { NextPage } from "next";
+import { GetServerSideProps } from "next";
+import { GetServerSidePropsContext } from "next";
 interface Timings {
     Fajr: string;
     Sunrise: string;
@@ -47,23 +50,28 @@ interface Timings {
    
     return todayIndex >= 0 ? timingsData.slice(todayIndex, todayIndex + 7) : [];
   };
+  export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+    try {
+      const prayerTimes = await fetchTimings();
+      return {
+        props: { prayerTimes },
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        props: { prayerTimes: null, error: 'Failed to fetch data' },
+      };
+    }
+  };
+
+
+  const PrayerTimes: NextPage<{ prayerTimes: TimingsData[]; error?: string }> = ({ prayerTimes, error }) => {
   
-
-
-  const PrayerTimes: React.FC = () => {
-    const [timingsData, setTimingsData] = useState<TimingsData[]>([]);
     const [jummahInfo, setJummahInfo] = useState<JummahItem[]>([]);
     const [iqamahTimes, setIqamahTimes] = useState<Timings | null>(null);
   
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const nextWeekData = await fetchTimings();
-          setTimingsData(nextWeekData);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+      
     
      
   
@@ -82,7 +90,7 @@ interface Timings {
         setIqamahTimes(iqamahTimesData || null);
       };
   
-      fetchData();
+     
       fetchJummahInfo();
       fetchIqamahTimes();
     }, []);
@@ -135,7 +143,7 @@ interface Timings {
 
   const transposedData = prayerNames.map((prayerName) => ({
     prayerName,
-    timings: timingsData.map((dayTimings) => {
+    timings: prayerTimes.map((dayTimings) => {
       const date = new Date(dayTimings.date.readable);
       const isFriday = date.getDay() === 5;
       let iqamahTimeText = "Loading..."; 
@@ -172,7 +180,7 @@ interface Timings {
                 <th className="px-4 py-2 font-bold text-left text-xs uppercase border border-black">
                   Prayer Time
                 </th>
-                {timingsData.map((dayTimings) => (
+                {prayerTimes.map((dayTimings) => (
                   <th
                     key={dayTimings.date.readable}
                     className="px-4 py-2 font-bold text-left text-xs uppercase border border-black"
