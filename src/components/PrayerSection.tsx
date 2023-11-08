@@ -3,13 +3,24 @@ import Link from 'next/link';
 import JummahInfo from "./JummahInfo";
 import PrayerRooms from "./PrayerRooms";
 import PrayerTimes from "./PrayerTimes";
-
-const PrayerSection: React.FC = () => {  
+interface PrayerTimesProps {
+    Fajr: string;
+    Sunrise: string;
+    Dhuhr: string;
+    Asr: string;
+    Maghrib: string;
+    Isha: string;
+  }
+  
+  interface PrayerSectionProps {
+    prayerTimes: PrayerTimesProps;
+  }
+const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerTimes }) => {
     return (
         <div id="prayer_info" className="flex w-full py-8 px-6 bg-base-100 text-sm md:text-base lg:text-lg">
             <div className="grid flex-grow card rounded-box place-items-center mb-auto">
                 <h3 className="text-xl md:text-2xl lg:text-3xl text-center pb-2 font-bold text-primary hover:scale-105 duration-200">Prayer Times</h3>
-                <PrayerTimes />
+                <PrayerTimes timings={prayerTimes} />
                 <Link href="/prayertimings" className="btn btn-primary mt-4 text-secondary hover:bg-secondary hover:text-primary border-0 shadow hover:scale-105 duration-200">View Prayer Timings</Link>
                 
             </div>
