@@ -82,7 +82,7 @@ const ResourcesPage:NextPage = () => {
              {/* Section for small screens */}
              <div className="md:hidden flex flex-col items-center px-4 ">
                 <h3 className="text-3xl mt-20 font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200">Contact Us!</h3>
-                <p className="lg:text-lg text-center text-neutral mb-10">Fill out the form or shoot us a message on one of our social media accounts!</p>
+                <p className="lg:text-lg text-center text-neutral mb-10">Fill out the form or send us a message on one of our social media accounts!</p>
                 <CtaForm />
                 <div className="w-full my-6">
                     <iframe
@@ -99,7 +99,7 @@ const ResourcesPage:NextPage = () => {
             {/* Resources */}
             <div className="m-10 mx-20">
                 
-                <h2 className="text-3xl  font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200">Resources Avaliable</h2>
+                <h2 className="text-3xl  font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200 mb-10">Resources Avaliable</h2>
                     <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
                         <div className="collapse-title text-xl font-medium">
                             Campus Resources
