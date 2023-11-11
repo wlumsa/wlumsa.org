@@ -19,8 +19,24 @@ interface SocialLink {
     icon: string;
 }
 
+interface CampusResource{
+    title:string,
+    link:string;
+}
+interface ReligiousResource{
+    title:string,
+    link:string;
+}
+interface OtherResource{
+    title:string,
+    link:string;
+}
 const ResourcesPage:NextPage = () => {
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+    const [campusResources, setCampusResources] = useState<CampusResource[]>([]);
+    const [religiousResources, setReligiousResources] = useState<ReligiousResource[]>([]);
+    const [otherResources, setOtherResources] = useState<OtherResource[]>([]);
+   
    
     useEffect(() => {
     
@@ -37,7 +53,24 @@ const ResourcesPage:NextPage = () => {
           
             setSocialLinks(socialLinksData);
           };
+          const fetchResources = async () => {
+            // Fetch Campus Resources
+            const campusResourcesRef = collection(db, "CampusResources");
+            const campusResourcesSnapshot = await getDocs(campusResourcesRef);
+            const campusResourcesData = campusResourcesSnapshot.docs.map(doc => doc.data() as CampusResource);
+            setCampusResources(campusResourcesData);
+
+            const otherResourcesRef = collection(db, "OtherResources");
+            const otherResourcesSnapshot = await getDocs(otherResourcesRef);
+            const otherResourcesData = otherResourcesSnapshot.docs.map(doc => doc.data() as OtherResource);
+            setOtherResources(otherResourcesData);
+            const religiousResourcesRef = collection(db, "ReligiousResources");
+            const religiousResourcesSnapshot = await getDocs(religiousResourcesRef);
+            const religiousResourcesData = religiousResourcesSnapshot.docs.map(doc => doc.data() as ReligiousResource);
+            setReligiousResources(religiousResourcesData);
+        };
         fetchSocialLinks();
+        fetchResources();
     }, []);
 
     return (
@@ -97,21 +130,17 @@ const ResourcesPage:NextPage = () => {
            
 
             {/* Resources */}
-            <div className="m-10 mx-20">
+            <div className="m-10">
                 
-                <h2 className="text-3xl  font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200 mb-10">Resources Avaliable</h2>
+                <h2 className="text-3xl  font-bold text-primary pt-4 lg:pt-0  mb-10">Resources Avaliable</h2>
                     <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
                         <div className="collapse-title text-xl font-medium">
                             Campus Resources
                         </div>
                         <div className="collapse-content"> 
-                            <ul>
-                                <li>Item 1</li>
-                                <li>Item 2</li>
-                                <li>Item 3</li>
-                                <li>Item 4</li>
-                                <li>Item 5</li>
-                            </ul>
+                        {campusResources.map((resource, index) => (
+                            <li key={index}><a href={resource.link} target="_blank">{resource.title}</a></li>
+                        ))}
                          </div>
                     </div>
                     <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
@@ -119,27 +148,24 @@ const ResourcesPage:NextPage = () => {
                             Religious  Resources
                         </div>
                         <div className="collapse-content"> 
-                        <ul>
-                                <li>Item 1</li>
-                                <li>Item 2</li>
-                                <li>Item 3</li>
-                                <li>Item 4</li>
-                                <li>Item 5</li>
-                            </ul>
+                        
+                        {religiousResources.map((resource, index) => (
+                            <li key={index}><a href={resource.link} target="_blank">{resource.title}</a></li>
+                        ))}
+                            
                         </div>
                     </div>
                     <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
+                        
                         <div className="collapse-title text-xl font-medium">
                             Other
                         </div>
                         <div className="collapse-content"> 
-                        <ul>
-                                <li>Item 1</li>
-                                <li>Item 2</li>
-                                <li>Item 3</li>
-                                <li>Item 4</li>
-                                <li>Item 5</li>
-                            </ul>
+                        
+                            {otherResources.map((resource, index) => (
+                                <li key={index}><a href={resource.link} target="_blank">{resource.title}</a></li>
+                            ))}
+                            
                         </div>
                     </div>
                 </div>                             

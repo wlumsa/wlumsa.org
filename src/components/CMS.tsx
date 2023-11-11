@@ -85,29 +85,23 @@ type ServicesOffered = {
     description: string;
     link:string;
 }
-// Main type for ResourcesSection
 
 
-// Define types for each sub-collection
 type CampusResource = {
     title: string;
-    description: string;
     link: string;
-    // Add other relevant properties
+ 
 }
 
 type ReligiousResource = {
     title: string;
-    description: string;
     link: string;
-    // Add other relevant properties
+  
 }
 
 type OtherResource = {
     title: string;
-    description: string;
     link: string;
-    // Add other relevant properties
 }
 
 const MemberCollection = buildCollection<Member>({
@@ -517,7 +511,6 @@ const SocialsCollection = buildCollection<Socials>({
         return({ 
             edit: isAdmin,
             create: isAdmin,
-            // we have created the roles object in the navigation builder
             delete: isAdmin
         })
         
@@ -579,7 +572,6 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
         return({ 
             edit: isAdmin,
             create: isAdmin,
-            // we have created the roles object in the navigation builder
             delete: isAdmin
         })
         
@@ -663,15 +655,29 @@ const CampusResourcesCollection = buildCollection<CampusResource>({
         return({ 
             edit: isAdmin,
             create: isAdmin,
-            // we have created the roles object in the navigation builder
             delete: isAdmin
         })
     },
     properties: {
-        title: buildProperty({ dataType: "string", title: "Title", validation: { required: true } }),
-        description: buildProperty({ dataType: "string", title: "Description" }),
-        link: buildProperty({ dataType: "string", title: "Link" })
-        // Define other properties
+        title: buildProperty({ 
+            name:"Title of Resource",
+            validation:{
+                required:true,
+                requiredMessage:"You must set the Title"
+            },
+            description:"Title of resource",
+            dataType:"string"
+        }),
+       
+        link: buildProperty({ 
+            name:"Link to resource",
+            validation:{
+                required:true,
+                requiredMessage:"You must set a link to the resource"
+            },
+            description:"Link to resource",
+            dataType:"string"
+        }),
     }
 });
 
@@ -686,16 +692,30 @@ const ReligiousResourcesCollection = buildCollection<ReligiousResource>({
         return({ 
             edit: isAdmin,
             create: isAdmin,
-            // we have created the roles object in the navigation builder
             delete: isAdmin
         })
         
     },
     properties: {
-        title: buildProperty({ dataType: "string", title: "Title", validation: { required: true } }),
-        description: buildProperty({ dataType: "string", title: "Description" }),
-        link: buildProperty({ dataType: "string", title: "Link" })
-        // Define other properties
+        title: buildProperty({ 
+            name:"Title of Resource",
+            validation:{
+                required:true,
+                requiredMessage:"You must set the Title"
+            },
+            description:"Title of resource",
+            dataType:"string"
+        }),
+       
+        link: buildProperty({ 
+            name:"Link to resource",
+            validation:{
+                required:true,
+                requiredMessage:"You must set a link to the resource"
+            },
+            description:"Link to resource",
+            dataType:"string"
+        }),
     }
 });
 const OtherResourcesCollection = buildCollection<OtherResource>({
@@ -707,15 +727,29 @@ const OtherResourcesCollection = buildCollection<OtherResource>({
         return({ 
             edit: isAdmin,
             create: isAdmin,
-            // we have created the roles object in the navigation builder
             delete: isAdmin
         })
     },
     properties: {
-        title: buildProperty({ dataType: "string", title: "Title", validation: { required: true } }),
-        description: buildProperty({ dataType: "string", title: "Description" }),
-        link: buildProperty({ dataType: "string", title: "Link" })
-    
+        title: buildProperty({ 
+            name:"Title of Resource",
+            validation:{
+                required:true,
+                requiredMessage:"You must set the Title"
+            },
+            description:"Title of resource",
+            dataType:"string"
+        }),
+       
+        link: buildProperty({ 
+            name:"Link to resource",
+            validation:{
+                required:true,
+                requiredMessage:"You must set a link to the resource"
+            },
+            description:"Link to resource",
+            dataType:"string"
+        }),
     }
 });
 

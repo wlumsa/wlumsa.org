@@ -174,32 +174,32 @@ interface Timings {
           <span className="text-black font-bold">Black</span> = Adhan Times  
         </p>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white text-black rounded-lg shadow-lg">
-            <thead className="bg-primary text-white">
-              <tr>
-                <th className="px-4 py-2 font-bold text-left text-xs uppercase border border-black">
-                  Prayer Time
-                </th>
-                {prayerTimes.map((dayTimings) => (
-                  <th
-                    key={dayTimings.date.readable}
-                    className="px-4 py-2 font-bold text-left text-xs uppercase border border-black"
-                  >
-                    {dayTimings.date.readable}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="bg-base-200">
-              {transposedData.map((prayerData) => (
-                <tr key={prayerData.prayerName}>
-                  <td className="px-4 py-2 font-bold text-left text-xs uppercase border border-black">
-                    {prayerData.prayerName}
-                  </td>
-                  {prayerData.timings.map((timing) => (
-                    <td key={timing.date} className={`px-4 py-2 whitespace-nowrap border ${
-                      timing === prayerData.timings[0] ? "border-l border-black" : "border-black"
-                    } ${prayerData === transposedData[0] ? "border-t" : ""}`}>
+        <table className="min-w-full bg-white text-black rounded-lg shadow-lg">
+  <thead className="bg-primary text-white">
+    <tr>
+      <th className="px-4 py-2 font-bold text-left text-xs uppercase border border-gray-400">
+        Prayer Time
+      </th>
+      {prayerTimes.map((dayTimings) => (
+        <th
+          key={dayTimings.date.readable}
+          className="px-4 py-2 font-bold text-left text-xs uppercase border border-gray-400"
+        >
+          {dayTimings.date.readable}
+        </th>
+      ))}
+    </tr>
+  </thead>
+  <tbody className="bg-base-200">
+    {transposedData.map((prayerData) => (
+      <tr key={prayerData.prayerName}>
+        <td className="px-4 py-2 font-bold text-left text-xs uppercase border border-gray-400">
+          {prayerData.prayerName}
+        </td>
+        {prayerData.timings.map((timing) => (
+          <td key={timing.date} className={`px-4 py-2 whitespace-nowrap border border-gray-400 ${
+            timing === prayerData.timings[0] ? "border-l border-gray-400" : "border-gray-400"
+          } ${prayerData === transposedData[0] ? "border-t" : ""}`}>
                 
                       <div className="text-black">{convertTo12HourFormat(timing.time)}</div>
                       {/* Check for Dhuhr on Friday for Jummah times */}

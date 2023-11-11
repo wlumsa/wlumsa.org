@@ -53,23 +53,3 @@ const Execs: React.FC = () => {
 
 export default Execs;
 
-/*
- const [Events, setEvents] = useState<Events[]>([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const eventsCollectionRef = collection(db, "WeeklyEvents");
-      const querySnapshot = await getDocs(eventsCollectionRef);
-      
-      const EventsData = await Promise.all(querySnapshot.docs.map(async (doc) => {
-        const eventData = doc.data() as Events;
-        const imgURL = await getDownloadURL(ref(storage, eventData.img)); // Assuming eventData.icon is the path to the icon in Firebase Storage
-        return {...eventData, img: imgURL };
-      }));
-      console.log(EventsData)
-      setEvents(EventsData);
-    };
-    fetchEvents();
-  }, []);
-
-*/

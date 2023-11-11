@@ -8,7 +8,18 @@ const CtaForm: React.FC = () => {
     const [studentId, setStudentId] = useState('');
     const [summary, setSummary] = useState('');
     const [category, setCategory] = useState('Contact');
+    const [categoryDescription, setCategoryDescription] = useState('Description for Contact');
 
+    const categoryDescriptions = {
+        Contact: 'Description for Contact',
+        Support: 'Description for Support',
+        General: 'Description for General',
+    };
+
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(e.target.value);
+        setCategoryDescription(categoryDescriptions[e.target.value as keyof typeof categoryDescriptions]);
+    };
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = {
@@ -44,6 +55,16 @@ const CtaForm: React.FC = () => {
                     <form className="card-body" onSubmit={handleSubmit}>
     
                         <div className="flex flex-col gap-2 py-2">
+                        <select
+                            required
+                            className="select select-bordered w-full text-neutral focus:border-secondary"
+                            onChange={handleCategoryChange} value={category}>
+                            <option value="General" title="General inquiries form">General Inquries</option>
+                            <option value="Contact" title="Form to contact the MSA">Contact Us</option>    
+                            <option value="Support" title="Form to get support from the MSA">Confidential Support Form</option>
+                            <option value="Support" title="Form to get support from the MSA">Fiqh Q&A</option>
+                            
+                        </select>
                             <input 
                                 type="text" 
                                 required
@@ -72,14 +93,7 @@ const CtaForm: React.FC = () => {
                                 className="input input-bordered w-full text-neutral focus:border-secondary"
                                 onChange={(e)=>setStudentId(e.target.value.toString()) } value = {studentId} 
                             />
-                            <select
-                                required
-                                className="select select-bordered w-full text-neutral focus:border-secondary"
-                                onChange={(e) => setCategory(e.target.value)} value={category}>
-                                <option value="Contact">Contact</option>    
-                                <option value="Service">Support</option>
-                                <option value="Request">General</option>
-                            </select>
+                           
                             <textarea
                                 required
                                 placeholder="Message"
