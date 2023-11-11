@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
                         <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
                     </ul>
                 </div>
-                <Link href="#hero" className="btn btn-ghost normal-case text-xl text-base-100">
+                <Link href="/" className="btn btn-ghost normal-case text-xl text-base-100">
                     <img src={logo.src} alt="WLU MSA Logo" className="h-8 w-8 hover:scale-105 duration-200" />
                 </Link>
             </div>
