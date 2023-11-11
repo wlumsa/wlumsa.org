@@ -2,7 +2,7 @@ import React from 'react'
 
 const prayerspaces = () => {
   return (
-    <div>Monkyes</div>
+    <div>I like Usama Bhai</div>
   )
 }
 
