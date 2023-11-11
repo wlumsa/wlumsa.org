@@ -1,5 +1,6 @@
 "use client";
 import msalogo from "public/logo.png"
+
 const allowedEmails = ["wlumsa.admin@gmail.com","siddiquifurqan5@gmail.com","syedahmedd.02@gmail.com","usamamohiudin@gmail.com","waleedasif370@gmail.com","bassamkh17@gmail.com"]
 
 import React, { useCallback } from "react";
@@ -16,7 +17,6 @@ import {
 import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
 
-// TODO: Replace with your config
 import { firebaseConfig } from "../firebase";
 
 type PrayerRooms = {
@@ -85,6 +85,30 @@ type ServicesOffered = {
     description: string;
     link:string;
 }
+// Main type for ResourcesSection
+
+
+// Define types for each sub-collection
+type CampusResource = {
+    title: string;
+    description: string;
+    link: string;
+    // Add other relevant properties
+}
+
+type ReligiousResource = {
+    title: string;
+    description: string;
+    link: string;
+    // Add other relevant properties
+}
+
+type OtherResource = {
+    title: string;
+    description: string;
+    link: string;
+    // Add other relevant properties
+}
 
 const MemberCollection = buildCollection<Member>({
     path: "Members",
@@ -133,10 +157,14 @@ const MemberCollection = buildCollection<Member>({
     }
 });
 
+
+
+
 const FormsCollection = buildCollection<Forms>({
     path: "Forms",
     name: "Forms",
     singularName: "Form",
+    group:"Footer",
     permissions: ({ 
         user,
         authController,
@@ -173,6 +201,7 @@ const FormsCollection = buildCollection<Forms>({
 const JummahCollection = buildCollection<JummahInfo>({
     path: "Jummah",
     name: "Jummah",
+    group:"Home Page",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -245,6 +274,7 @@ const ServicesOfferedCollection = buildCollection<ServicesOffered>({
 const IqamahCollection = buildCollection<IqamahTimes>({
     path: "IqamahTimings",
     name: "Iqamah Timings",
+    group:"Prayer Timings Page",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -299,6 +329,7 @@ const LocalMosquesCollection = buildCollection<LocalMosques>({
     path: "LocalMosques",
     name: "LocalMosques",
     singularName:"Mosque",
+    group:"Footer",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -331,7 +362,7 @@ const LocalMosquesCollection = buildCollection<LocalMosques>({
 const OtherCollection = buildCollection<Other>({
     path: "Other",
     name: "Other",
-   
+    group:"Footer",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -368,7 +399,7 @@ const InstagramCollection = buildCollection<InstagramPost>({
     name: "Instagram Posts",
     singularName:"Instagram Post",
     initialSort:["date","desc"],
-    
+    group:"Home Page",
     
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
@@ -402,7 +433,7 @@ const ResourcesCollection = buildCollection<Resources>({
     path: "Resources",
     name: "Resources",
     singularName:"Resource",
-   
+    group:"Footer",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -436,6 +467,7 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
     path: "PrayerRooms",
     name: "Prayer rooms",
     singularName:"Prayer room",
+    group:"Home Page",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -479,7 +511,7 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
 const SocialsCollection = buildCollection<Socials>({
     path: "Socials",
     name: "Socials",
-   
+    group:"Footer",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -541,7 +573,7 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
     path: "WeeklyEvents",
     name: "Events",
     singularName:"Event",
-   
+    group:"Home Page",
     permissions: ({ authController }) => {
         const isAdmin = authController.extra?.roles.includes("admin");
         return({ 
@@ -622,6 +654,72 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
 });
 
 
+const CampusResourcesCollection = buildCollection<CampusResource>({
+    path: "CampusResources",
+    name: "Campus Resources",
+    group:"Resources Page",
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+    },
+    properties: {
+        title: buildProperty({ dataType: "string", title: "Title", validation: { required: true } }),
+        description: buildProperty({ dataType: "string", title: "Description" }),
+        link: buildProperty({ dataType: "string", title: "Link" })
+        // Define other properties
+    }
+});
+
+
+
+const ReligiousResourcesCollection = buildCollection<ReligiousResource>({
+    path: "ReligiousResources",
+    name: "Religious Resources",
+    group:"Resources Page",
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
+    properties: {
+        title: buildProperty({ dataType: "string", title: "Title", validation: { required: true } }),
+        description: buildProperty({ dataType: "string", title: "Description" }),
+        link: buildProperty({ dataType: "string", title: "Link" })
+        // Define other properties
+    }
+});
+const OtherResourcesCollection = buildCollection<OtherResource>({
+    path: "OtherResources",
+    name: "Other Resources",
+    group:"Resources Page",
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+    },
+    properties: {
+        title: buildProperty({ dataType: "string", title: "Title", validation: { required: true } }),
+        description: buildProperty({ dataType: "string", title: "Description" }),
+        link: buildProperty({ dataType: "string", title: "Link" })
+    
+    }
+});
+
+
 
 export default function CMS() {
 
@@ -641,11 +739,13 @@ export default function CMS() {
         }
     }, []);
 
+    
+
     return <FirebaseCMSApp
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,IqamahCollection,ServicesOfferedCollection]}
+        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,IqamahCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;
