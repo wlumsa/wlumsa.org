@@ -35,14 +35,15 @@ The website should now be accessible at `http://localhost:3000` in your web brow
  
 ### Contributors 
 
-- [Muhammad Saad](https://github.com/mxsaad)  
+- [Syed Ahmed](https://github.com/Syed-Ahmed02)
+- [Muhammad Saad](https://github.com/mxsaad)
 - [Saif Al-Din Ali](https://github.com/saifaldin14)
 - [Maham Farooq](https://github.com/CoderMF)
+- [Waleed Asif](https://github.com/WaleedAAA)
 - [Usama Mohiuddin](https://github.com/UsamaMo)
-- [Waleed](https://github.com/WaleedAAA)
 - [Razan](https://github.com/rzlm)
 - [Muneeb](https://github.com/Muneeb231)
-- [Syed](https://github.com/Syed-Ahmed02)
+
 
 ### Special Thanks
 Thanks to the executive team of the Laurier Muslim Students Association in the 2023/2024 school for facilitating the project and giving feedback.
