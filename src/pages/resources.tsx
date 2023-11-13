@@ -131,43 +131,34 @@ const ResourcesPage:NextPage = () => {
 
             {/* Resources */}
             <div className="m-10">
-                
-                <h2 className="text-3xl  font-bold text-primary pt-4 lg:pt-0  mb-10">Resources Avaliable</h2>
-                    <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
-                        <div className="collapse-title text-xl font-medium">
-                            Campus Resources
-                        </div>
-                        <div className="collapse-content"> 
-                        {campusResources.map((resource, index) => (
-                            <li key={index}><a href={resource.link} target="_blank">{resource.title}</a></li>
-                        ))}
-                         </div>
-                    </div>
-                    <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
-                        <div className="collapse-title text-xl font-medium">
-                            Religious  Resources
-                        </div>
-                        <div className="collapse-content"> 
-                        
-                        {religiousResources.map((resource, index) => (
-                            <li key={index}><a href={resource.link} target="_blank">{resource.title}</a></li>
-                        ))}
-                            
-                        </div>
-                    </div>
-                    <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-200">
-                        
-                        <div className="collapse-title text-xl font-medium">
-                            Other
-                        </div>
-                        <div className="collapse-content"> 
-                        
-                            {otherResources.map((resource, index) => (
-                                <li key={index}><a href={resource.link} target="_blank">{resource.title}</a></li>
-                            ))}
-                            
-                        </div>
-                    </div>
+                <h2 className="text-3xl font-bold text-primary pt-4 lg:pt-0 mb-10 ">Resources Available</h2>
+
+                <details className="mb-4  border border-base-300 bg-base-200">
+                    <summary className="text-xl font-medium cursor-pointer">Campus Resources</summary>
+                    <ul className='p-2'>
+                    {campusResources.map((resource, index) => (
+                        <li key={index}><a href={resource.link} target="_blank" rel="noopener noreferrer">- {resource.title}</a></li>
+                    ))}
+                    </ul>
+                </details>
+
+                <details className="mb-4 border border-base-300 bg-base-200">
+                    <summary className="text-xl font-medium cursor-pointer">Religious Resources</summary>
+                    <ul className='p-2'>
+                    {religiousResources.map((resource, index) => (
+                        <li key={index}><a href={resource.link} target="_blank" rel="noopener noreferrer">- {resource.title}</a></li>
+                    ))}
+                    </ul>
+                </details>
+
+                <details className="mb-4 border border-base-300 bg-base-200 ">
+                    <summary className="text-xl font-medium cursor-pointer">Other</summary>
+                    <ul className='p-2'>
+                    {otherResources.map((resource, index) => (
+                        <li key={index}><a href={resource.link} target="_blank" rel="noopener noreferrer">- {resource.title}</a></li>
+                    ))}
+                    </ul>
+                </details>
                 </div>                             
             <Footer/>
            
