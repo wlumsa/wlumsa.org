@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Send the email using Resend
       const response = await resend.emails.send({
         from: `${category} Email <admin@wlumsa.org>`,
-        to: ['wlumsa.admin@gmail.com'],
+        to: ['msa@wlu.ca'],
         subject: subject,
         text: textContent,
         headers: {
