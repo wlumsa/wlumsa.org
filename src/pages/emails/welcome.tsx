@@ -51,25 +51,25 @@ const Email = ({ firstName, lastName }: MemberInfo) => {
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>I hope you are doing well inshallah, remember to update your clocks because the time has changed this week. You can find prayer timings on our instagram page or <a target = '_blank' href='https://www.wlumsa.org/prayertimings' >here</a> This is what the MSA has planned for Nov 06 - Nov 10.</p>
+              <p className='text-[12px]'>I hope you are in the best of health and Iman. Here's what the MSA has planned for Nov 13 - Nov 17:</p>
             </Text>
 
             {/* Event Details */}
             <Section>
               <Text>
-                <h1 className='text-[14px] my-0'>November 06, Monday:</h1>
+                <h1 className='text-[14px] my-0'>November 13, Monday:</h1>
                 <p className='text-[12px]'>📖 Brothers Quran Circles | P101 | 4:30-5 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 07, Tuesday:</h1>
+                <h1 className='text-[14px] my-0'>November 14, Tuesday:</h1>
                 <p className='text-[12px]'>🕌 Dawah Boothing | Concourse | 1-4 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 08, Wednesday:</h1>
+                <h1 className='text-[14px] my-0'>November 15, Wednesday:</h1>
                 <p className='text-[12px]'>📖 Halaqa Series | P101 | 4-4:30 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 09, Thursday:</h1>
+                <h1 className='text-[14px] my-0'>November 16, Thursday:</h1>
                 <p className='text-[12px]'>📖 Sisters Prophetic Stories | P118 | 3-4:00 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 10, Friday:</h1>
+                <h1 className='text-[14px] my-0'>November 17, Friday:</h1>
                 <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM and 2:00 PM</p>
               </Text>
             </Section>

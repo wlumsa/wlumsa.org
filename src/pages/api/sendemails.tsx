@@ -45,7 +45,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const data = await resend.emails.send({
           from: 'WLU MSA <admin@wlumsa.org>',
           to: [member.email],
-          subject: '🤫 Can You Guess What We\'ve Planned for You?',
+          subject: 'MSA\'s Week at a Glance',
           react: Email({ firstName: member.firstName, lastName: member.lastName }),
         });
         console.log(data);

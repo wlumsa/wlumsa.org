@@ -50,21 +50,24 @@ const About: React.FC = () => {
                     <div className="flex-1 mt-8 lg:mt-10 mb-40">
                         <h2 className="text-4xl font-bold text-primary mb-4 ">Services Offered</h2>
                         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 mb-10 ">
-                            {servicesInfo.map((service, index) => (
-                                <div className="card card-compact w-96 bg-base-100 shadow-xl">
-                                    <div key={index} className=" card-body">
-                                        <h3 className="text-2xl font-semibold text-secondary mb-2 card-title">{service.title}</h3>
-                                        <p className="text-neutral">{service.description}</p>
-                                        {/* Optionally, you can add a link if it's relevant */}
+                        {servicesInfo.map((service, index) => (
+                            <div className="card card-compact w-96 bg-base-100 shadow-xl" key={index}>
+                                <div className="card-body">
+                                    <h3 className="text-2xl font-semibold text-secondary mb-2 card-title">{service.title}</h3>
+                                    <p className="text-neutral">{service.description}</p>
+                                    {/* Conditionally render the button if service.link is not empty */}
+                                    {service.link && (
                                         <div className="card-actions justify-end">
-                                        <button className="btn btn-primary mt-4 text-secondary hover:bg-secondary hover:text-primary border-0 shadow hover:scale-105 duration-200">
-                                            {service.link && <a href={service.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-secondary"></a>}
-                                            Learn more   
-                                        </button>
+                                            <a href={service.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-secondary">
+                                                <button className="btn btn-primary mt-4 text-secondary hover:bg-secondary hover:text-primary border-0 shadow hover:scale-105 duration-200">
+                                                    Learn more   
+                                                </button>
+                                            </a>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
-                            ))}
+                            </div>
+                        ))}
                         </div>
                     </div>
 
