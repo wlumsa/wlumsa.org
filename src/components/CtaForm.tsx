@@ -62,7 +62,7 @@ const CtaForm: React.FC = () => {
                             <option value="General" title="General inquiries form">General Inquries</option>
                             <option value="Contact" title="Form to contact the MSA">Contact Us</option>    
                             <option value="Support" title="Form to get support from the MSA">Confidential Support Form</option>
-                            <option value="Support" title="Form to get support from the MSA">Fiqh Q&A</option>
+                            <option value="Fiqh" title="Form to get Fiqh questioned answered from the MSA">Fiqh Q&A</option>
                             
                         </select>
                             <input 
