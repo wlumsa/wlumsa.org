@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-52 text-base-100">
                         <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
                         <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
-                        <li><Link href="/about" className="hover:scale-105 duration-200">About us!</Link></li>
+                        <li><Link href="/about" className="hover:scale-105 duration-200">About us</Link></li>
                         <li><Link href="/resources" className="hover:scale-105 duration-200">Resources</Link></li>
                         <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
                     </ul>
@@ -25,9 +25,9 @@ const Navbar: React.FC = () => {
             {/* Desktop */}
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 text-base-100">
-                <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
+                    <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
                         <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
-                        <li><Link href="/about" className="hover:scale-105 duration-200">About us!</Link></li>
+                        <li><Link href="/about" className="hover:scale-105 duration-200">About us</Link></li>
                         <li><Link href="/resources" className="hover:scale-105 duration-200">Resources</Link></li>
                         <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
                 </ul>

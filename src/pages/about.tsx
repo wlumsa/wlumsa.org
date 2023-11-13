@@ -70,30 +70,6 @@ const About: React.FC = () => {
                         ))}
                         </div>
                     </div>
-
-
-                    {/* <div>
-                        <table className="table mt-20 mb-10">
-                            <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Link</th>
-                                
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {servicesInfo.map((item, index) => (
-                                <tr key={index}>
-                                <td>{item.title}</td>
-                                <td>{item.description}</td>
-                                <td>{item.link}</td>
-                                </tr>
-                            ))}
-                            </tbody>
-                    </table>                      
-                    </div>   */}
-
                 </div>
 
                 
