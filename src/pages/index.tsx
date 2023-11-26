@@ -24,25 +24,25 @@ interface PrayerTimesProps {
 interface IndexPageProps {
   prayerTimes: PrayerTimesProps;
 }
-export const getServerSideProps: GetServerSideProps = async () => {
-  const city = "Waterloo";
-  const country = "Canada";
-  const state = "Ontario";
-  const response = await fetch(
-    `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&state=${state}&school=1`
-  );
-  const data = await response.json();
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const city = "Waterloo";
+//   const country = "Canada";
+//   const state = "Ontario";
+//   const response = await fetch(
+//     `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&state=${state}&school=1`
+//   );
+//   const data = await response.json();
 
-  if (!response.ok) {
-    return { props: { timings: null } }; // Handle the error appropriately
-  }
+//   if (!response.ok) {
+//     return { props: { timings: null } }; // Handle the error appropriately
+//   }
 
-  return {
-    props: {
-      prayerTimes: data.data.timings || null,
-    },
-  };
-};
+//   return {
+//     props: {
+//       prayerTimes: data.data.timings || null,
+//     },
+//   };
+// };
 const Home: NextPage<IndexPageProps> = ({ prayerTimes }) => {
   return (
     <>

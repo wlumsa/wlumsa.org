@@ -40,7 +40,7 @@ const About: React.FC = () => {
                           <img src="/logo.png" className="max-w-[300px] rounded-lg shadow-2xl mb-4 lg:mb-0" />
                           <div>
                               <h1 className="text-5xl font-bold text-primary">About us</h1>
-                              <p className="py-6 text-lg">The <strong>Laurier Muslim Student Association (MSA)</strong> is a student-run organization at Laurier which was founded in 2010. Its primary purpose is to provide a platform for Muslim students to come together, practice their faith, engage in community service, and promote understanding and awareness of Islam on campus.</p>
+                              <p className="py-6 text-lg">The <strong>HAHA Muslim Student Association (MSA)</strong> is a student-run organization at Laurier which was founded in 2010. Its primary purpose is to provide a platform for Muslim students to come together, practice their faith, engage in community service, and promote understanding and awareness of Islam on campus.</p>
                           </div>
                       </div>
                   </div>
@@ -57,10 +57,11 @@ const About: React.FC = () => {
                                         <p className="text-neutral">{service.description}</p>
                                         {/* Optionally, you can add a link if it's relevant */}
                                         <div className="card-actions justify-end">
+                                        <a href={service.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-secondary">
                                         <button className="btn btn-primary mt-4 text-secondary hover:bg-secondary hover:text-primary border-0 shadow hover:scale-105 duration-200">
-                                            {service.link && <a href={service.link} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-secondary"></a>}
                                             Learn more   
                                         </button>
+                                        </a>
                                         </div>
                                     </div>
                                 </div>

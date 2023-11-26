@@ -15,6 +15,7 @@ const Navbar: React.FC = () => {
                         <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
                         <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
                         <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
+                        <li><Link href="/about" className="hover:scale-105 duration-200">About Us</Link></li>
                     </ul>
                 </div>
                 <Link href="/" className="btn btn-ghost normal-case text-xl text-base-100">
@@ -28,6 +29,7 @@ const Navbar: React.FC = () => {
                     <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
                     <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
                     <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
+                    <li><Link href="/about" className="hover:scale-105 duration-200">About Us</Link></li>
                 </ul>
             </div>
             <div className="navbar-end">
