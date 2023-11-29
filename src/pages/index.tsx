@@ -7,43 +7,8 @@ import MemberSignup from "../components/MemberSignup";
 import PrayerSection from "../components/PrayerSection";
 import News from "../components/News";
 import Events from "../components/WeeklyEvents";
-import React from 'react';
-import { GetServerSideProps } from 'next';
 
-
-// Define the props structure for prayer times
-interface PrayerTimesProps {
-  Fajr: string;
-  Sunrise: string;
-  Dhuhr: string;
-  Asr: string;
-  Maghrib: string;
-  Isha: string;
-}
-
-interface IndexPageProps {
-  prayerTimes: PrayerTimesProps;
-}
-export const getServerSideProps: GetServerSideProps = async () => {
-  const city = "Waterloo";
-  const country = "Canada";
-  const state = "Ontario";
-  const response = await fetch(
-    `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&state=${state}&school=1`
-  );
-  const data = await response.json();
-
-  if (!response.ok) {
-    return { props: { timings: null } }; // Handle the error appropriately
-  }
-
-  return {
-    props: {
-      prayerTimes: data.data.timings || null,
-    },
-  };
-};
-const Home: NextPage<IndexPageProps> = ({ prayerTimes }) => {
+const Home: NextPage = () => {
   return (
     <>
         <Head>
@@ -57,7 +22,7 @@ const Home: NextPage<IndexPageProps> = ({ prayerTimes }) => {
             <Navbar />
             <Hero />
             <News />
-            <PrayerSection prayerTimes={prayerTimes} />
+            <PrayerSection />
             <Events />
             <MemberSignup/>
             <Footer/>

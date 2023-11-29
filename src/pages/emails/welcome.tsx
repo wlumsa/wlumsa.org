@@ -51,26 +51,28 @@ const Email = ({ firstName, lastName }: MemberInfo) => {
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>I hope you are in the best of health and Iman. Here's what the MSA has planned for Nov 13 - Nov 17:</p>
+              <p className='text-[12px]'>Like always, hope you are doing well and started preparing for exams, heres what the MSA has planned this week.</p>
             </Text>
 
             {/* Event Details */}
             <Section>
               <Text>
-                <h1 className='text-[14px] my-0'>November 13, Monday:</h1>
+                <h1 className='text-[14px] my-0'>November 27, Monday:</h1>
                 <p className='text-[12px]'>📖 Brothers Quran Circles | P101 | 4:30-5 PM</p>
+                
+                <h1 className='text-[14px] my-0'>November 28, Tuesday:</h1>
+                <p className='text-[12px]'>🕌 Dawah Boothing | Concourse I | 1-4 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 14, Tuesday:</h1>
-                <p className='text-[12px]'>🕌 Dawah Boothing | Concourse | 1-4 PM</p>
+                <h1 className='text-[14px] my-0'>November 29, Wednesday:</h1>
+                <p className='text-[12px]'>📖 Halaqa Series | P101 | 4 - 4:30 PM</p>
+                <p className='text-[12px]'>🎨 Sisters Tote Bag Paint Social | BA110 | 4:45 - 6:30 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 15, Wednesday:</h1>
-                <p className='text-[12px]'>📖 Halaqa Series | P101 | 4-4:30 PM</p>
+                <h1 className='text-[14px] my-0'>November 30, Thursday:</h1>
+                <p className='text-[12px]'>📖 Sisters Prophetic Stories | P118 | 3 - 4:00 PM</p>
+                <p className='text-[12px]'>⛸️ Skating Night | AMCC | 2:30 - 4:30 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 16, Thursday:</h1>
-                <p className='text-[12px]'>📖 Sisters Prophetic Stories | P118 | 3-4:00 PM</p>
-
-                <h1 className='text-[14px] my-0'>November 17, Friday:</h1>
-                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM and 2:00 PM</p>
+                <h1 className='text-[14px] my-0'>December 1, Friday:</h1>
+                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM & 2:00 PM</p>
               </Text>
             </Section>
 
