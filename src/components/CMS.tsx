@@ -32,6 +32,15 @@ type JummahInfo = {
     room: string;
     time: string;
 }
+type AdhanTimes = {
+    date: Date; 
+    Fajr: string;
+    Sunrise: string;
+    Dhuhr: string;
+    Asr: string;
+    Maghrib: string;
+    Isha: string;
+}
 
 type WeeklyEvents = {
     day:string;
@@ -319,6 +328,65 @@ const IqamahCollection = buildCollection<IqamahTimes>({
         
     }
 });
+
+const AdhanCollection = buildCollection<AdhanTimes>({
+    path: "AdhanTimings",
+    name: "Adhan Timings",
+    group:"Prayer Timings Page",
+    permissions: ({ authController }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            delete: isAdmin
+        });
+    },
+    properties: {
+        date: {
+            name: "Date",
+            validation: { required: true },
+            dataType: "date",
+            description: "Date for the Adhan timings",
+        },
+        Fajr: {
+            name: "Fajr",
+            validation: { required: true },
+            dataType: "string",
+            description: "Fajr Adhan Timing",
+        },
+        Sunrise: {
+            name: "Sunrise",
+            validation: { required: true },
+            dataType: "string",
+            description: "Sunrise Adhan Timing",
+        },
+        Dhuhr: {
+            name: "Dhuhr",
+            validation: { required: true },
+            dataType: "string",
+            description: "Dhuhr Adhan Timing",
+        },
+        Asr: {
+            name: "Asr",
+            validation: { required: true },
+            dataType: "string",
+            description: "Asr Adhan Timing",
+        },
+        Maghrib: {
+            name: "Maghrib",
+            validation: { required: true },
+            dataType: "string",
+            description: "Maghrib Adhan Timing",
+        },
+        Isha: {
+            name: "Isha",
+            validation: { required: true },
+            dataType: "string",
+            description: "Isha Adhan Timing",
+        },
+    }
+});
+
 const LocalMosquesCollection = buildCollection<LocalMosques>({
     path: "LocalMosques",
     name: "LocalMosques",
@@ -779,7 +847,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,IqamahCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
+        collections={[AdhanCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,IqamahCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;

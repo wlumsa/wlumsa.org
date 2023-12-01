@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "~/components/Navbar";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import db from "../firebase";
 import Footer from "~/components/Footer";
 interface Timings {
@@ -15,37 +15,23 @@ interface Timings {
   
   interface TimingsData {
     timings: Timings;
-    date: {
-      readable: string;
-     
-    };
- 
+    date: string;
   }
+  
   interface JummahItem {
     time: string;
     room: string;
   }
   
   const fetchTimings = async (): Promise<TimingsData[]> => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // January is 0!
-    const date = currentDate.getDate();
-  
-    const response = await fetch(`https://api.aladhan.com/v1/calendarByCity/${year}/${month}?city=Waterloo&country=Canada&method=2&school=1`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch prayer time data from the API.");
-    }
-    const jsonResponse = await response.json();
-    const timingsData: TimingsData[] = jsonResponse.data;
-
-    const todayIndex = timingsData.findIndex(timing => {
-      const timingDate = new Date(timing.date.readable);
-      return timingDate.getDate() === date && timingDate.getMonth() + 1 === month && timingDate.getFullYear() === year;
-    });
-  
-   
-    return todayIndex >= 0 ? timingsData.slice(todayIndex, todayIndex + 7) : [];
+    const adhanCollectionRef = collection(db, "AdhanTimings");
+    const q = query(adhanCollectionRef, orderBy("date", "asc")); // Order by date
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map(doc => ({
+      timings: doc.data() as Timings,
+      date: doc.id  // Assuming the date is the document ID
+    }));
   };
   
 
@@ -132,11 +118,15 @@ interface Timings {
   const getAllJummahTimesAndRooms = (): string[] => {
     return jummahInfo.map(jummah => `${jummah.time} in ${jummah.room}`);
   };
+  const formatDate = (dateString: string): string => {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   const transposedData = prayerNames.map((prayerName) => ({
     prayerName,
     timings: timingsData.map((dayTimings) => {
-      const date = new Date(dayTimings.date.readable);
+      const date = new Date(dayTimings.date);
       const isFriday = date.getDay() === 5;
       let iqamahTimeText = "Loading..."; 
       
@@ -148,7 +138,7 @@ interface Timings {
       }
 
       return {
-        date: dayTimings.date.readable,
+        date: dayTimings.date,
         time: dayTimings.timings[prayerName],
         iqamahTime: iqamahTimeText,
       };
@@ -174,11 +164,11 @@ interface Timings {
                 </th>
                 {timingsData.map((dayTimings) => (
                   <th
-                    key={dayTimings.date.readable}
-                    className="px-4 py-2 font-bold text-left text-xs uppercase border border-black"
-                  >
-                    {dayTimings.date.readable}
-                  </th>
+                  key={dayTimings.date}
+                  className="px-4 py-2 font-bold text-left text-xs uppercase border border-black"
+                >
+                  {formatDate(dayTimings.date)}
+                </th>
                 ))}
               </tr>
             </thead>
