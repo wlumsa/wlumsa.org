@@ -30,7 +30,7 @@ const CalendarComponent = () => {
     const handleResize = () => {
       if (calendarRef.current) {
         if (window.innerWidth <= 480) {
-          calendarRef.current.getApi().changeView("dayGridDay");
+          calendarRef.current.getApi().changeView("dayGridWeek");
         } else {
           calendarRef.current.getApi().changeView("dayGridMonth");
         }
