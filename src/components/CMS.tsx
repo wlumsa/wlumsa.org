@@ -98,6 +98,73 @@ type OtherResource = {
     title: string;
     link: string;
 }
+type Product = {
+    name: string;
+    price: number;
+    description: string;
+    image: string[];
+    quantity: number;
+    tags: string[];
+}
+
+const ProductsCollection = buildCollection<Product>({
+    name: "Products",
+    singularName: "Product",
+    path: "products",
+    properties: {
+        name: buildProperty({
+            dataType: "string",
+            name: "Name",
+            description: "The name of the product.",
+            validation: { required: true },
+        }),
+        price: buildProperty({
+            dataType: "number",
+            name: "Price",
+            description: "The price of the product in your preferred currency.",
+            validation: { required: true, min: 0 },
+        }),
+        description: buildProperty({
+            dataType: "string",
+            name: "Description",
+            description: "A detailed description of the product.",
+            validation: { required: true },
+        }),
+        image: buildProperty({
+            dataType: "array",
+            name: "Images",
+            of: {
+                dataType: "string",
+                storage: {
+                    storagePath: "images",
+                    acceptedFiles: ["image/*"],
+                    maxSize: 1920 * 1080,
+                    metadata: {
+                        cacheControl: "max-age=1000000"
+                    }
+                }
+            },
+            description: "This fields allows uploading multiple images at once"
+        }),
+        quantity: buildProperty({
+            name: "Quantity",
+            dataType: "number",
+            description: "The available quantity in stock. Cannot be less than 0.",
+            validation: { required: true, min: 0 },
+        }),
+        tags: buildProperty({
+            dataType: "array",
+            name: "Tags",
+            description: "Tags for categorizing the product. Can include multiple tags.",
+            of: {
+                dataType: "string",
+            },
+        }),
+    },
+    
+});
+
+
 
 
 const PrayerTimingsCollection = buildCollection({
@@ -846,7 +913,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[PrayerTimingsCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
+        collections={[ProductsCollection,PrayerTimingsCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;

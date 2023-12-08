@@ -17,7 +17,7 @@ const PrayerRooms: React.FC = () => {
       const querySnapshot = await getDocs(prayerRoomsCollectionRef);
       
       const prayerRoomsData = querySnapshot.docs.map(doc => doc.data() as PrayerRoomItem);
-      console.log(prayerRoomsData)
+      
       setPrayerRooms(prayerRoomsData);
     };
 
