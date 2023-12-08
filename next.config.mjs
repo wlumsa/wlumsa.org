@@ -20,6 +20,7 @@ const config = {
     defaultLocale: "en",
   },
   images: {
+    
     remotePatterns: [
       {
         protocol: 'https',

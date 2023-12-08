@@ -40,18 +40,26 @@ const Events: React.FC = () => {
           
           <Suspense fallback = {<p>Loading...</p>}>
           {Events.map((event, index) => (
-            <div className="hero  h-fit bg-base-100 px-4">
-            <div className={`hero-content flex-col  ${index%2===0 ? 'lg:flex-row':'lg:flex-row-reverse'} lg:gap-32`}>
-                  
-                    <Image src={event.img} alt = "image" className="rounded-lg shadow-2xl" width={400} height={400} />
-                    <div className="px-8 max-w-md lg:max-w-xl">
-                        <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200">{event.name}</h3>
-                        <p className="py-6 text-neutral ">{event.desc}</p>
-                        <p className="font-bold text-neutral">{event.day} @ {event.time} in {event.room}</p>
-                    </div>
+            <div className="hero h-fit bg-base-100 px-4">
+              <div className={`hero-content flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} lg:gap-32`}>
+                <div className="relative w-full h-80 lg:w-[500px]"> {/* Adjust width and height as needed */}
+                  <Image 
+                    src={event.img} 
+                    alt="Event Image" 
+                    layout="fill" 
+                    objectFit="cover" 
+                    className="rounded-lg shadow-2xl"
+                  />
                 </div>
+                <div className="px-8 max-w-md lg:max-w-xl">
+                  <h3 className="text-3xl text-center font-bold text-primary pt-4 lg:pt-0 hover:scale-105 duration-200">{event.name}</h3>
+                  <p className="py-6 text-neutral ">{event.desc}</p>
+                  <p className="font-bold text-neutral">{event.day} @ {event.time} in {event.room}</p>
                 </div>
-              ))}
+              </div>
+            </div>
+          ))}
+
             </Suspense>
             </div>
             
