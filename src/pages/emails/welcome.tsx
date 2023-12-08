@@ -22,7 +22,7 @@ interface MemberInfo {
 
 const Email = ({ firstName, lastName }: MemberInfo) => {
 
-  const previewText = `🌟 Upcoming MSA Events for Nov 06 - Nov 10!`;
+  const previewText = ``;
 
   return (
     <Html>
@@ -51,28 +51,27 @@ const Email = ({ firstName, lastName }: MemberInfo) => {
 
             <Text className="text-black">
               <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Like always, hope you are doing well and started preparing for exams, heres what the MSA has planned this week.</p>
+              <p className='text-[12px]'>We're finally at that time of the year, just a few more weeks till winter break inshallah. Our weekly events are resuming next semseter, and this week we only have one Jummah inshallah.</p>
             </Text>
 
             {/* Event Details */}
             <Section>
-              <Text>
-                <h1 className='text-[14px] my-0'>November 27, Monday:</h1>
-                <p className='text-[12px]'>📖 Brothers Quran Circles | P101 | 4:30-5 PM</p>
-                
-                <h1 className='text-[14px] my-0'>November 28, Tuesday:</h1>
-                <p className='text-[12px]'>🕌 Dawah Boothing | Concourse I | 1-4 PM</p>
+            <Text>
+                <h1 className='text-[14px] my-0'>December 04, Monday:</h1>
+                <p className='text-[12px]'>❌ No Quran Circle Today (Resuming Next Semester!)</p>
 
-                <h1 className='text-[14px] my-0'>November 29, Wednesday:</h1>
-                <p className='text-[12px]'>📖 Halaqa Series | P101 | 4 - 4:30 PM</p>
-                <p className='text-[12px]'>🎨 Sisters Tote Bag Paint Social | BA110 | 4:45 - 6:30 PM</p>
+                <h1 className='text-[14px] my-0'>December 05, Tuesday:</h1>
+                <p className='text-[12px]'>❌ No Dawah Boothing Today (Resuming Next Semester!)</p>
+                <p className='text-[12px]'>📚 Study Session | P118 | 1 - 3 PM</p>
 
-                <h1 className='text-[14px] my-0'>November 30, Thursday:</h1>
-                <p className='text-[12px]'>📖 Sisters Prophetic Stories | P118 | 3 - 4:00 PM</p>
-                <p className='text-[12px]'>⛸️ Skating Night | AMCC | 2:30 - 4:30 PM</p>
+                <h1 className='text-[14px] my-0'>December 06, Wednesday:</h1>
+                <p className='text-[12px]'>❌ No Halaqa Today (Resuming Next Semester!)</p>
 
-                <h1 className='text-[14px] my-0'>December 1, Friday:</h1>
-                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM & 2:00 PM</p>
+                <h1 className='text-[14px] my-0'>December 07, Thursday:</h1>
+                <p className='text-[12px]'>❌ No Prophetic Stories Today (Resuming Next Semester!)</p>
+
+                <h1 className='text-[14px] my-0'>December 08, Friday:</h1>
+                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM</p>
               </Text>
             </Section>
 

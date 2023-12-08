@@ -11,7 +11,8 @@ import {
     buildCollection,
     buildProperty,
     EntityReference,
-    FirebaseCMSApp
+    FirebaseCMSApp,
+    
 } from "firecms";
 
 import "typeface-rubik";
@@ -32,15 +33,7 @@ type JummahInfo = {
     room: string;
     time: string;
 }
-type AdhanTimes = {
-    date: Date; 
-    Fajr: string;
-    Sunrise: string;
-    Dhuhr: string;
-    Asr: string;
-    Maghrib: string;
-    Isha: string;
-}
+
 
 type WeeklyEvents = {
     day:string;
@@ -80,14 +73,7 @@ type Member = {
     Email:string;
 }
 
-type IqamahTimes = {
-    Fajr: string;
-    Sunrise:string;
-    Dhuhr: string;
-    Asr: string;
-    Maghrib: string;
-    Isha: string;
-}
+
 
 type ServicesOffered = {
     title:string;
@@ -112,6 +98,129 @@ type OtherResource = {
     title: string;
     link: string;
 }
+
+
+const PrayerTimingsCollection = buildCollection({
+    path: "PrayerTimings",
+    name: "Prayer Timings",
+    singularName: "Month",
+    group:"Prayer Timings Page",
+    permissions: ({ 
+        user,
+        authController,
+         }) => {
+        const isAdmin = authController.extra?.roles.includes("admin");
+        return({ 
+            edit: isAdmin,
+            create: isAdmin,
+            // we have created the roles object in the navigation builder
+            delete: isAdmin
+        })
+        
+    },
+    properties: {}, // This is kept empty because the month name is the document ID
+    subcollections: [
+        buildCollection({
+            path: "Days",
+            name: "Days",
+            singularName: "Day",
+            permissions: ({ 
+                user,
+                authController,
+                 }) => {
+                const isAdmin = authController.extra?.roles.includes("admin");
+                return({ 
+                    edit: isAdmin,
+                    create: isAdmin,
+                    // we have created the roles object in the navigation builder
+                    delete: isAdmin
+                })
+                
+            },
+            properties: {
+                Day: buildProperty({
+                    dataType: "number",
+                    title: "Day",
+                    validation: { required: true },
+                    description: "Day"
+                }),
+                Fajr: buildProperty({
+                    dataType: "string",
+                    title: "Fajr",
+                    validation: { required: true },
+                    description: "Fajr prayer timing"
+                }),
+                
+                FajrIqamah: buildProperty({
+                    dataType: "string",
+                    title: "Isha",
+                    validation: { required: true },
+                    description: "Fajr Iqamah timing"
+                }),
+                Sunrise: buildProperty({
+                    dataType: "string",
+                    title: "Sunrise",
+                    validation: { required: true },
+                    description: "Sunrise timing"
+                }),
+                Dhuhr: buildProperty({
+                    dataType: "string",
+                    title: "Dhuhr",
+                    validation: { required: true },
+                    description: "Dhuhr prayer timing"
+                }),
+                DhuhrIqamah: buildProperty({
+                    dataType: "string",
+                    title: "Dhuhr Iqamah",
+                    validation: { required: true },
+                    description: "Dhuhr Iqamah timing"
+                }),
+                Asr: buildProperty({
+                    dataType: "string",
+                    title: "Asr",
+                    validation: { required: true },
+                    description: "Asr prayer timing"
+                }),
+                AsrIqamah: buildProperty({
+                    dataType: "string",
+                    title: "Asr Iqamah",
+                    validation: { required: true },
+                    description: "Asr Iqamah timing"
+                }),
+                Maghrib: buildProperty({
+                    dataType: "string",
+                    title: "Maghrib",
+                    validation: { required: true },
+                    description: "Maghrib prayer timing"
+                }),
+                MaghribIqamah: buildProperty({
+                    dataType: "string",
+                    title: "Fajr",
+                    validation: { required: true },
+                    description: "Fajr Iqamah timing"
+                }),
+                Isha: buildProperty({
+                    dataType: "string",
+                    title: "Isha",
+                    validation: { required: true },
+                    description: "Isha prayer timing"
+                }),
+                IshaIqamah: buildProperty({
+                    dataType: "string",
+                    title: "Isha Iqamah",
+                    validation: { required: true },
+                    description: "Isha Iqamah timing"
+                }),
+                // ... other prayer times
+            },customId:true,
+            
+        }),
+    ],
+    customId:true,
+});
+
+
+
 
 const MemberCollection = buildCollection<Member>({
     path: "Members",
@@ -159,6 +268,7 @@ const MemberCollection = buildCollection<Member>({
         }
     }
 });
+
 
 
 
@@ -274,118 +384,7 @@ const ServicesOfferedCollection = buildCollection<ServicesOffered>({
         
     }
 });
-const IqamahCollection = buildCollection<IqamahTimes>({
-    path: "IqamahTimings",
-    name: "Iqamah Timings",
-    group:"Prayer Timings Page",
-    permissions: ({ authController }) => {
-        const isAdmin = authController.extra?.roles.includes("admin");
-        return({ 
-            edit: isAdmin,
-            create: isAdmin,
-            // we have created the roles object in the navigation builder
-            delete: isAdmin
-        })
-        
-    },
-    properties: {
-        Fajr: {
-            name: "Fajr",
-            validation: { required: true },
-            dataType: "string",
-            description: "Fajr Iqamah Timing",
-        },
-        Sunrise: {
-            name: "Sunrise ",
-            validation: { required: true },
-            dataType: "string",
-            description: "leave as N/A bro",
-        },
-        Dhuhr: {
-            name: "Dhuhr ",
-            validation: { required: true },
-            dataType: "string",
-            description: "Dhuhr Iqamah Timing",
-        },
-        Asr: {
-            name: "Asr ",
-            validation: { required: true },
-            dataType: "string",
-            description: "Asr Iqamah Timing",
-        },
-        Maghrib: {
-            name: "Maghrib",
-            validation: { required: true },
-            dataType: "string",
-            description: "Maghrib Iqamah Timing",
-        },
-        Isha: {
-            name: "Isha",
-            validation: { required: true },
-            dataType: "string",
-            description: "Isha Iqamah Timing",
-        },
-        
-    }
-});
 
-const AdhanCollection = buildCollection<AdhanTimes>({
-    path: "AdhanTimings",
-    name: "Adhan Timings",
-    group:"Prayer Timings Page",
-    permissions: ({ authController }) => {
-        const isAdmin = authController.extra?.roles.includes("admin");
-        return({ 
-            edit: isAdmin,
-            create: isAdmin,
-            delete: isAdmin
-        });
-    },
-    properties: {
-        date: {
-            name: "Date",
-            validation: { required: true },
-            dataType: "date",
-            description: "Date for the Adhan timings",
-        },
-        Fajr: {
-            name: "Fajr",
-            validation: { required: true },
-            dataType: "string",
-            description: "Fajr Adhan Timing",
-        },
-        Sunrise: {
-            name: "Sunrise",
-            validation: { required: true },
-            dataType: "string",
-            description: "Sunrise Adhan Timing",
-        },
-        Dhuhr: {
-            name: "Dhuhr",
-            validation: { required: true },
-            dataType: "string",
-            description: "Dhuhr Adhan Timing",
-        },
-        Asr: {
-            name: "Asr",
-            validation: { required: true },
-            dataType: "string",
-            description: "Asr Adhan Timing",
-        },
-        Maghrib: {
-            name: "Maghrib",
-            validation: { required: true },
-            dataType: "string",
-            description: "Maghrib Adhan Timing",
-        },
-        Isha: {
-            name: "Isha",
-            validation: { required: true },
-            dataType: "string",
-            description: "Isha Adhan Timing",
-        },
-    }
-});
 
 const LocalMosquesCollection = buildCollection<LocalMosques>({
     path: "LocalMosques",
@@ -847,7 +846,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[AdhanCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,IqamahCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
+        collections={[PrayerTimingsCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;
