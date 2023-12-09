@@ -102,15 +102,18 @@ type Product = {
     name: string;
     price: number;
     description: string;
-    image: string[];
-    quantity: number;
+    image: string;
+    hasSizes: boolean;
+    quantity: number; // For products without sizes
+    sizes?: { [size: string]: number }; // For products with sizes
     tags: string[];
 }
 
 const ProductsCollection = buildCollection<Product>({
     name: "Products",
     singularName: "Product",
-    path: "products",
+    path: "Products",
+    group:"Products page",
     properties: {
         name: buildProperty({
             dataType: "string",
@@ -131,26 +134,17 @@ const ProductsCollection = buildCollection<Product>({
             validation: { required: true },
         }),
         image: buildProperty({
-            dataType: "array",
-            name: "Images",
-            of: {
-                dataType: "string",
-                storage: {
-                    storagePath: "images",
-                    acceptedFiles: ["image/*"],
-                    maxSize: 1920 * 1080,
-                    metadata: {
-                        cacheControl: "max-age=1000000"
-                    }
-                }
+            dataType: "string",
+            title: "Image",
+            description: "Upload an image for the product.",
+            storage: {
+                storagePath: "images/products",
+                acceptedFiles: ["image/png", "image/jpg", "image/jpeg"],
+                maxSize: 1920 * 1080,
+                metadata: {
+                    cacheControl: "max-age=1000000"
+                },
             },
-            description: "This fields allows uploading multiple images at once"
-        }),
-        quantity: buildProperty({
-            name: "Quantity",
-            dataType: "number",
-            description: "The available quantity in stock. Cannot be less than 0.",
-            validation: { required: true, min: 0 },
         }),
         tags: buildProperty({
             dataType: "array",
@@ -160,6 +154,46 @@ const ProductsCollection = buildCollection<Product>({
                 dataType: "string",
             },
         }),
+       
+        
+        
+        hasSizes: buildProperty({
+            dataType: "boolean",
+            name: "Has Sizes",
+            description: "Does this product come in different sizes?",
+        }),
+
+        quantity: buildProperty(({ values }) => ({
+            dataType: "number",
+            name: "Quantity",
+            description: "Total quantity available for this product.",
+            disabled: values.hasSizes && {
+                clearOnDisabled: true,
+                disabledMessage: "Quantity is not applicable for products with sizes."
+            },
+            validation: { required: !values.hasSizes, min: 0 },
+        })),
+        
+        sizes: buildProperty(({ values }) => ({
+            dataType: "map",
+            name: "Sizes",
+            description: "Quantities for each size.",
+            properties: {
+                S: { dataType: "number", name: "Small", validation: { required:false, min: 0 }},
+                M: { dataType: "number", name: "Medium", validation: { required:false, min: 0}},
+                L: { dataType: "number", name: "Large", validation: { required:false, min: 0 }},
+            },
+            disabled: !values.hasSizes && {
+                clearOnDisabled: true,
+                disabledMessage: "Sizes are only available if 'Has Sizes' is selected.",
+                hidden:true,
+            },
+            
+            validation: values.hasSizes ? { required: true } : undefined,
+           
+        }))
+        
+        
     },
     
 });

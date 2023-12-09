@@ -1,0 +1,64 @@
+import React, { useEffect, useState } from 'react';
+import { collection, getDocs } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import Link from 'next/link';
+import db from '~/firebase';
+import Navbar from '~/components/Navbar';
+import Footer from '~/components/Footer';
+import Products from '~/components/ProductCard';
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  hasSizes: boolean;
+  quantity: number;
+  sizes: { S: number; M: number; L: number; };
+  tags: string[];
+}
+
+const ProductsPage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [imageUrl, setImageUrl] = useState('');
+  useEffect(() => {
+    const fetchAndSetProducts = async () => {
+      const productsCollectionRef = collection(db, "Products");
+      const querySnapshot = await getDocs(productsCollectionRef);
+      
+      const productsData = querySnapshot.docs.map(doc => {
+        const data = doc.data() as Product;
+        return { ...data, id: doc.id };
+      });
+      setProducts(productsData);
+    };
+    
+    fetchAndSetProducts();
+  }, []);
+
+  return (
+    <div>
+      <Navbar/>
+      <div className="mt-28 mb-28 px-4 md:px-10">
+        <h2 className="text-4xl font-bold text-primary mb-4">Merchandise</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(384px, 1fr))', gap: '1rem' }}>
+          {products.map(product => (
+            
+            <Products
+            productId={product.id}
+            name={product.name}
+            description={product.description}
+            image={product.image}
+            tags={product.tags}
+          />
+            
+          ))}
+        </div>
+      </div>
+      <Footer/>
+    </div>
+  );
+};
+
+export default ProductsPage;
+
