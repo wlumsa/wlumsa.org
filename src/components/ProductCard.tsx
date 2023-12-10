@@ -34,9 +34,9 @@ const Products = ({ productId, name, description, image, tags }: Product) => {
   }, [image]); // Re-run the effect if 'image' prop changes
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl p-2">
-      <figure><img src={imageUrl} alt={name} className='max-h-56 w-full' /></figure>
-      <div className="card-body">
+    <div className="card w-72 bg-base-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+      <figure><img src={imageUrl} alt={name} className='h-80 w-72 object-cover rounded-t-xl' /></figure>
+      <div className="card-body px-4 py-3 w-72">
         <h2 className="card-title">
           {name}
           {/* Check if tags is truthy, then map, ensuring each tag is a string and not just whitespace */}
