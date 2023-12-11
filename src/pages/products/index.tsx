@@ -43,7 +43,7 @@ const ProductsPage = () => {
         
         <section className="w-fit mx-auto ">
           <h2 className="text-4xl font-bold text-primary">Merchandise</h2>
-          <div className='grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5'>
+          <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5'>
           {products.map(product => (
             
             <Products
