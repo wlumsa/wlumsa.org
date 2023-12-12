@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import db from '~/firebase';
-import Navbar from '~/components/Navbar';
-import Footer from '~/components/Footer';
+import { useCart } from 'contexts/cartContext';
+
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 interface Product {
@@ -27,7 +27,24 @@ export default function ProductPage() {
   const [quantityS, setQuantityS] = useState(0);
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
-
+  const { addToCart } = useCart();
+  const handleAddToCart = () => {
+    if (product) {
+      if (product.hasSizes) {
+        if (quantityS > 0) {
+          addToCart({ product, size: 'S', quantity: quantityS });
+        }
+        if (quantityM > 0) {
+          addToCart({ product, size: 'M', quantity: quantityM });
+        }
+        if (quantityL > 0) {
+          addToCart({ product, size: 'L', quantity: quantityL });
+        }
+      } else {
+        addToCart({ product, quantity });
+      }
+    }
+  };
   useEffect(() => {
     const fetchProduct = async () => {
       if (typeof id === 'string') {
@@ -111,7 +128,7 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
 
   return (
     <div className='py-10'>
-      <Navbar/>
+     
       {product ? (
         <div className="bg-base-100 mt-20 mb-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -140,8 +157,8 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
                   <p className="text-neutral text-lg mt-2">{product.description}</p>
                 </div>
                 <div className="flex flex-col md:flex-row gap-2 -mx-2 mb-4 py-10">
-                    <div className="w-full px-2 ">
-                        <button className="w-full bg-primary text-secondary py-2 px-4 rounded-full font-bold hover:bg-gray-800 ">Add to Cart</button>
+                  <div className="w-full px-2 ">
+                    <button onClick={handleAddToCart} className="w-full bg-primary text-secondary py-2 px-4 rounded-full font-bold hover:bg-gray-800 ">Add to Cart</button>
                     </div>
                     <div className="w-full px-2">
                         <button className="w-full bg-secondary text-primary  py-2 px-4 rounded-full font-bold hover:bg-gray-300 ">Buy Now</button>
@@ -154,7 +171,7 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
       ) : (
         <div>Error loading product</div>
       )}
-      <Footer/>
+      
     </div>
   );
 }
