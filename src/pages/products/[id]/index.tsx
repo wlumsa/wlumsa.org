@@ -2,10 +2,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import db from '~/firebase';
+
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '~/redux/shopperSlice';
 import Navbar from '~/components/Navbar';
 import Footer from '~/components/Footer';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-
+import toast, { Toaster } from 'react-hot-toast';
 interface Product {
   id: string;
   name: string;
@@ -27,7 +30,7 @@ export default function ProductPage() {
   const [quantityS, setQuantityS] = useState(0);
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
-
+  const [isProductAdded, setIsProductAdded] = useState(false);
   useEffect(() => {
     const fetchProduct = async () => {
       if (typeof id === 'string') {
@@ -108,10 +111,10 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
     }
   };
   
-
+  const dispatch = useDispatch()
   return (
     <div className='py-10'>
-      <Navbar/>
+     <Navbar/>
       {product ? (
         <div className="bg-base-100 mt-20 mb-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -141,15 +144,50 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
                 </div>
                 <div className="flex flex-col md:flex-row gap-2 -mx-2 mb-4 py-10">
                     <div className="w-full px-2 ">
-                        <button className="w-full bg-primary text-secondary py-2 px-4 rounded-full font-bold hover:bg-gray-800 ">Add to Cart</button>
+                      <button onClick={() => {
+                        if ((product.hasSizes && quantityS === 0 && quantityM === 0 && quantityL === 0) || (!product.hasSizes && quantity === 0)) {
+                          alert('Please select a quantity before adding to cart.');
+                        } else {
+                          dispatch(addToCart({
+                            product: {
+                              id: product.id,
+                              name: product.name,
+                              price: product.price,
+                              description: product.description,
+                              image: imageUrl,
+                              hasSizes: product.hasSizes,
+                              quantity: product.quantity,
+                              sizes: product.sizes,
+                              tags: product.tags
+                            },
+                            quantities: product.hasSizes ? { S: quantityS, M: quantityM, L: quantityL } : { overall: quantity }
+                          })
+                          
+                          ) && toast.success('Added to Cart')
+          
+                        }
+                      }} className="bg-primary text-secondary py-2 px-4 rounded-lg mt-4 w-full ">Add to Cart</button>
+                      
                     </div>
                     <div className="w-full px-2">
-                        <button className="w-full bg-secondary text-primary  py-2 px-4 rounded-full font-bold hover:bg-gray-300 ">Buy Now</button>
+                        <button className="bg-secondary text-primary py-2 px-4 rounded-lg mt-4 w-full  ">Buy Now</button>
                     </div>
                   </div>
               </div>
             </div>
           </div>
+          <Toaster
+            reverseOrder = {false}
+            position='top-center'
+            toastOptions={{
+              style:{
+                borderRadius:"8px",
+                background:"#333",
+                color:"white"
+              }
+            }}
+          
+          />
         </div>
       ) : (
         <div>Error loading product</div>
