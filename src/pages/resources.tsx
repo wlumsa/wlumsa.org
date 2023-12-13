@@ -4,9 +4,7 @@ import { useState, useEffect} from 'react';
 
 import CtaForm from '~/components/CtaForm';
 
-import Navbar from '~/components/Navbar';
 
-import Footer from '~/components/Footer';
 
 import { collection, getDocs,query,orderBy } from "firebase/firestore";
 
@@ -75,7 +73,7 @@ const ResourcesPage:NextPage = () => {
 
     return (
         <div className="">
-            <Navbar/>
+            
             {/*Desktop*/}
             
             <div className='hidden md:flex md:flex-col mt-20  items-center'>
@@ -160,7 +158,7 @@ const ResourcesPage:NextPage = () => {
                     </ul>
                 </details>
                 </div>                             
-            <Footer/>
+            
            
         </div>
 

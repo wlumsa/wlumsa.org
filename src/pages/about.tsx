@@ -3,8 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {collection, getDocs} from "firebase/firestore";
 import db from "../firebase";
 import Execs from "~/components/Execs";
-import Navbar from "~/components/Navbar";
-import Footer from "~/components/Footer";
+
 
 interface ServiceItem {
     title: string;
@@ -29,7 +28,7 @@ const About: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
+            
 
             <div className="min-h-screen  px-10">
                 <div className="flex flex-col items-start lg:space-x-0 lg:space-y-10">

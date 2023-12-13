@@ -3,8 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import Link from 'next/link';
 import db from '~/firebase';
-import Navbar from '~/components/Navbar';
-import Footer from '~/components/Footer';
+
 import Products from '~/components/ProductCard';
 interface Product {
   id: string;
@@ -38,12 +37,12 @@ const ProductsPage = () => {
 
   return (
     <div>
-      <Navbar/>
+    
       <div className="mt-28 mb-28 px-4 md:px-10">
         
         <section className="w-fit mx-auto ">
           <h2 className="text-4xl font-bold text-primary">Merchandise</h2>
-          <div className='grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5'>
           {products.map(product => (
             
             <Products
@@ -59,7 +58,7 @@ const ProductsPage = () => {
         </section>
         
       </div>
-      <Footer/>
+    
     </div>
   );
 };

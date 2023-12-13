@@ -192,7 +192,7 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
       ) : (
         <div>Error loading product</div>
       )}
-      <Footer/>
+      
     </div>
   );
 }
