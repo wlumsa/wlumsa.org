@@ -5,6 +5,8 @@ import Link from 'next/link';
 import db from '~/firebase';
 
 import Products from '~/components/ProductCard';
+import Navbar from '~/components/Navbar';
+import Footer from '~/components/Footer';
 interface Product {
   id: string;
   name: string;
@@ -37,7 +39,7 @@ const ProductsPage = () => {
 
   return (
     <div>
-    
+      <Navbar/>
       <div className="mt-28 mb-28 px-4 md:px-10">
         
         <section className="w-fit mx-auto ">
@@ -58,7 +60,7 @@ const ProductsPage = () => {
         </section>
         
       </div>
-    
+      <Footer/>
     </div>
   );
 };
