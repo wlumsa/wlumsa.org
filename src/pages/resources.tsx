@@ -10,6 +10,8 @@ import { collection, getDocs,query,orderBy } from "firebase/firestore";
 
 import db from "../firebase";
 import { NextPage } from 'next';
+import Navbar from '~/components/Navbar';
+import Footer from '~/components/Footer';
 
 interface SocialLink {
     name: string;
@@ -73,7 +75,7 @@ const ResourcesPage:NextPage = () => {
 
     return (
         <div className="">
-            
+            <Navbar/>
             {/*Desktop*/}
             
             <div className='hidden md:flex md:flex-col mt-20  items-center'>
@@ -159,7 +161,7 @@ const ResourcesPage:NextPage = () => {
                 </details>
                 </div>                             
             
-           
+           <Footer/>
         </div>
 
     );

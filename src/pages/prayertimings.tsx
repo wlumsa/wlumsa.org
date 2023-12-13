@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import db from "../firebase";
+import Navbar from "~/components/Navbar";
+import Footer from "~/components/Footer";
 
 
 interface Timings {
@@ -104,7 +106,7 @@ const PrayerTimes: React.FC = () => {
 
   return (
     <div className="pt-16 flex flex-col items-center">
-      
+      <Navbar/>
       <div className="container mx-auto p-8">
         <h1 className="text-3xl font-bold mb-4">Prayer Times</h1>
         <div className="overflow-x-auto">
@@ -150,7 +152,7 @@ const PrayerTimes: React.FC = () => {
         </div>
         <p>Waterloo Masjid timings with Hanafi Asr calculation method</p>
       </div>
-     
+     <Footer/>
     </div>
   );
 };
