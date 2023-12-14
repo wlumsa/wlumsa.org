@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import Footer from '~/components/Footer';
 import Navbar from '~/components/Navbar';
 import { deleteItem } from '~/redux/shopperSlice';
+import db from '~/firebase';
+import { collection, getDocs } from "firebase/firestore"; //
+import { useRouter } from 'next/router';
+import CtaForm from '~/components/CtaForm';
 interface Product {
   id: string;
   name: string;
@@ -16,6 +20,12 @@ interface Product {
   sizes: { S?: number; M?: number; L?: number };
   tags: string[];
 }
+interface DiscountCodes {
+  appliedToAll:boolean;
+  id:string;
+  discountAmount:number;
+  code:string;
+}
 
 interface CartItem {
   product: Product;
@@ -26,7 +36,16 @@ const Cart = () => {
   const cartItems: CartItem[] = useSelector((state: any) => state.shopper.cart);
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState("");
+  const [coupon, setCoupon] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [total, setTotal] = useState("");
+  const [discountCodes, setDiscountCodes] = useState<DiscountCodes[]>([]);
+  const router = useRouter();
+  const handleCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCoupon(event.target.value);
+  };
 
+  
   useEffect(() => {
     let price = 0;
     cartItems.forEach((item: CartItem) => {
@@ -38,12 +57,57 @@ const Cart = () => {
         price += (item.quantities.overall || 0) * item.product.price;
       }
     });
+    const fetchDiscountCodes = async () => {
+      const discountCodesCollection = collection(db, "DiscountCodes");
+      const querySnapshot = await getDocs(discountCodesCollection);
+      
+      const discountCodeData = querySnapshot.docs.map(doc => doc.data() as DiscountCodes);
+      console.log(discountCodeData)
+      setDiscountCodes(discountCodeData);
+    };
+    fetchDiscountCodes();
+    
     setSubtotal(price.toFixed(2));
-  }, [cartItems]);
-
+    const total = price - discount; // Corrected calculation
+    setTotal(total.toFixed(2));
+  }, [cartItems, discount]);
+  const applyCoupon = () => {
+    let discount = 0;
+    const discountCode = discountCodes.find(code => code.code === coupon);
+    if (discountCode) {
+      if (discountCode.appliedToAll) {
+        // Apply discount to all products
+        cartItems.forEach((item: CartItem) => {
+          if (item.product.hasSizes) {
+            discount += (item.quantities.S || 0) * item.product.price * discountCode.discountAmount;
+            discount += (item.quantities.M || 0) * item.product.price * discountCode.discountAmount;
+            discount += (item.quantities.L || 0) * item.product.price * discountCode.discountAmount;
+          } else {
+            discount += (item.quantities.overall || 0) * item.product.price * discountCode.discountAmount;
+          }
+        });
+      } else {
+        // Apply discount to specific product
+        cartItems.forEach((item: CartItem) => {
+          if (item.product.id === discountCode.id) {
+            if (item.product.hasSizes) {
+              discount += (item.quantities.S || 0) * item.product.price * discountCode.discountAmount;
+              discount += (item.quantities.M || 0) * item.product.price * discountCode.discountAmount;
+              discount += (item.quantities.L || 0) * item.product.price * discountCode.discountAmount;
+            } else {
+              discount += (item.quantities.overall || 0) * item.product.price * discountCode.discountAmount;
+            }
+          }
+        });
+      }
+    }
+    console.log('Total discount:', discount); // Debugging line
+    setDiscount(discount);
+  };
   const handleRemove = (productId: string, size?: keyof Product['sizes']) => {
     dispatch(deleteItem({ productId, size: size as keyof Product['sizes'] }));
   }
+ 
 
   return (
     <div>
@@ -98,17 +162,56 @@ const Cart = () => {
                 </div>
             </div>
             <div className="md:w-1/4">
-                <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-lg font-semibold mb-4">Summary</h2>
-                
+                <div className="flex justify-between mb-2">
+                  <input
+                    type="text"
+                    value={coupon}
+                    onChange={handleCouponChange}
+                    placeholder="Enter coupon code"
+                    className='bg-base-100 text-neutral'
+                  />
+                  <button onClick={applyCoupon}>Apply Coupon</button>
+                </div>
                 <hr className="my-2" />
                 <div className="flex justify-between mb-2">
-                    <span className="font-semibold">Total</span>
-                    <span className="font-semibold">${subtotal}</span>
+                  <span className="font-semibold">Subtotal</span>
+                  <span className="font-semibold">${subtotal}</span>
                 </div>
-                <button className="bg-primary text-secondary py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
+                <div className="flex justify-between mb-2">
+                  <span className="font-semibold">Discount</span>
+                  <span className="font-semibold">-${(Number(subtotal) - Number(total)).toFixed(2)}</span>
                 </div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-semibold">Total</span>
+                  <span className="font-semibold">${total}</span>
+                </div>
+                
+                <button 
+                  className="bg-primary text-secondary py-2 px-4 rounded-lg mt-4 w-full" 
+                  onClick={() => {
+                    const modal = document.getElementById('my_modal_1');
+                    if (modal instanceof HTMLDialogElement) {
+                      modal.showModal();
+                    }
+                  }}
+                >
+                  Checkout
+                </button>
+                <dialog id="my_modal_1" className="modal">
+                  <div className="modal-box">
+                    <CtaForm/>
+                    <div className="modal-action">
+                      <form method="dialog">
+                        <button className="btn">Close</button>
+                      </form>
+                    </div>
+                  </div>
+                </dialog>
+              </div>
             </div>
+           
             </div>
         </div>
         </div>
