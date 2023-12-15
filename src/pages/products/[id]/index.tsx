@@ -132,6 +132,15 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
       });
     }
   }
+  let totalPrice = 0;
+  if (product) {
+    if (product.hasSizes) {
+      totalPrice += product.price * (quantityS + quantityM + quantityL);
+    } else {
+      totalPrice += product.price * quantity;
+    }
+  }
+
 
   
   const dispatch = useDispatch()
@@ -228,7 +237,7 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
                                 }];
                               }
                             }).filter(item => item.quantity > 0)}
-                            totalPrice={product ? product.price.toString() : '0'}
+                            totalPrice={totalPrice.toString()}
                           />
                           </div>
                         </dialog>
@@ -259,30 +268,3 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
   );
 }
 
-
-/*
-
- <BuyForm 
-                            products={cartItems.flatMap(item => {
-                              if (item.product.hasSizes) {
-                                return Object.entries(item.quantities).map(([size, quantity]) => ({
-                                  id: item.product.id,
-                                  name: item.product.name,
-                                  quantity: quantity || 0,
-                                  size: size,
-                                  hasSizes: item.product.hasSizes
-                                }));
-                              } else {
-                                return [{
-                                  id: item.product.id,
-                                  name: item.product.name,
-                                  quantity: item.quantities.overall || 0,
-                                  size: 'N/A', // Or whatever you use to signify no size
-                                  hasSizes: item.product.hasSizes
-                                }];
-                              }
-                            }).filter(item => item.quantity > 0)}
-                            totalPrice={product ? product.price.toString() : '0'}
-                          />
-
-                          */
