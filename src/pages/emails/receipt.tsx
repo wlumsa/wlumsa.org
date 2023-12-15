@@ -1,1 +1,0 @@
-//Receipt format look at react Email apple receipt 
