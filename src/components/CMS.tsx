@@ -320,6 +320,84 @@ const PrayerTimingsCollection = buildCollection({
     customId:true,
 });
 
+const ordersCollection = buildCollection({
+    name: "Orders",
+    path: "Orders",
+    group:"Products page",
+    properties: {
+      Name: buildProperty({
+        dataType: "string",
+        title: "Name",
+        validation: { required: true },
+      }),
+      delivered: buildProperty({
+        dataType: "boolean",
+        title: "Delivered",
+      }),
+      email: buildProperty({
+        dataType: "string",
+        title: "Email",
+        validation: { required: true, email: true },
+      }),
+      image: buildProperty({
+        dataType: "string",
+        title: "Image URL",
+        config: {
+          storageMeta: {
+            mediaType: "image",
+            storagePath: "path/to/images",
+            acceptedFiles: ["image/*"],
+          },
+        },
+      }),
+      password: buildProperty({
+        dataType: "string",
+        title: "Password",
+        // Ensure to hash and properly secure passwords in a real application
+      }),
+      phoneNumber: buildProperty({
+        dataType: "string",
+        title: "Phone Number",
+      }),
+      pickuptime: buildProperty({
+        dataType: "string",
+        title: "Pick-up Time",
+      }),
+      price: buildProperty({
+        dataType: "string",
+        title: "Price",
+      }),
+      products: buildProperty({
+        dataType: "array",
+        title: "Products",
+        of: {
+          dataType: "map",
+          properties: {
+            hasSizes: {
+              dataType: "boolean",
+              title: "Has Sizes",
+            },
+            id: {
+              dataType: "string",
+              title: "Product ID",
+            },
+            name: {
+              dataType: "string",
+              title: "Product Name",
+            },
+            quantity: {
+              dataType: "number",
+              title: "Quantity",
+            },
+            size: {
+              dataType: "string",
+              title: "Size",
+            },
+          },
+        },
+      }),
+    },
+  });
 
 
 
@@ -947,7 +1025,7 @@ export default function CMS() {
         name={"Muslim Students Association "}
         basePath={"/cms"}
         authentication={myAuthenticator}
-        collections={[ProductsCollection,PrayerTimingsCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
+        collections={[ordersCollection,ProductsCollection,PrayerTimingsCollection,InstagramCollection,MemberCollection,FormsCollection,JummahCollection,LocalMosquesCollection,OtherCollection,PrayerRoomsCollection,ResourcesCollection,SocialsCollection,WeeklyEventsCollection,ServicesOfferedCollection,ReligiousResourcesCollection,OtherResourcesCollection,CampusResourcesCollection]}
         firebaseConfig={firebaseConfig}
         logo={msalogo.src}
     />;

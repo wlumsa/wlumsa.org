@@ -9,6 +9,7 @@ import db from '~/firebase';
 import { collection, getDocs } from "firebase/firestore"; //
 import { useRouter } from 'next/router';
 import CtaForm from '~/components/CtaForm';
+import BuyForm from '~/components/BuyForm';
 interface Product {
   id: string;
   name: string;
@@ -181,7 +182,7 @@ const Cart = () => {
                 </div>
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold">Discount</span>
-                  <span className="font-semibold">-${(Number(subtotal) - Number(total)).toFixed(2)}</span>
+                  <span className="font-semibold">${(Number(subtotal) - Number(total)).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold">Total</span>
@@ -201,12 +202,35 @@ const Cart = () => {
                 </button>
                 <dialog id="my_modal_1" className="modal">
                   <div className="modal-box">
-                    <CtaForm/>
                     <div className="modal-action">
                       <form method="dialog">
-                        <button className="btn">Close</button>
+                        <button className="px-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </button>
                       </form>
                     </div>
+                    <BuyForm 
+                        products={cartItems.flatMap(item => {
+                            if (item.product.hasSizes) {
+                                return Object.entries(item.quantities).map(([size, quantity]) => ({
+                                    id: item.product.id,
+                                    name: item.product.name,
+                                    quantity: quantity || 0,
+                                    size: size,
+                                    hasSizes: item.product.hasSizes
+                                }));
+                            } else {
+                                return [{
+                                    id: item.product.id,
+                                    name: item.product.name,
+                                    quantity: item.quantities.overall || 0,
+                                    size: 'N/A', // Or whatever you use to signify no size
+                                    hasSizes: item.product.hasSizes
+                                }];
+                            }
+                        }).filter(item => item.quantity > 0)}
+                        totalPrice={total}
+                    />
                   </div>
                 </dialog>
               </div>

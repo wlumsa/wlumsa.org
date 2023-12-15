@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import db from '~/firebase';
-
+import BuyForm from '~/components/BuyForm';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '~/redux/shopperSlice';
@@ -30,7 +30,7 @@ export default function ProductPage() {
   const [quantityS, setQuantityS] = useState(0);
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
-  const [isProductAdded, setIsProductAdded] = useState(false);
+ 
   useEffect(() => {
     const fetchProduct = async () => {
       if (typeof id === 'string') {
@@ -59,23 +59,31 @@ export default function ProductPage() {
   }, [id]);
 
   const handleSizeQuantityChange = (size: 'S' | 'M' | 'L', newQuantity: number) => {
-    const limitedQuantity = Math.max(0, Math.min(newQuantity, 1)); // Limit quantity between 0 and 1
-    switch (size) {
-      case 'S':
-        setQuantityS(limitedQuantity);
-        break;
-      case 'M':
-        setQuantityM(limitedQuantity);
-        break;
-      case 'L':
-        setQuantityL(limitedQuantity);
-        break;
-      default:
-        break;
+    if (product) {
+      const availableQuantity = product.sizes[size];
+      const limitedQuantity = Math.max(0, Math.min(newQuantity, 1));
+      //const limitedQuantity = Math.max(0, Math.min(newQuantity, availableQuantity)); // uncomment this line to let limit be the product quantity
+      switch (size) {
+        case 'S':
+          setQuantityS(limitedQuantity);
+          break;
+        case 'M':
+          setQuantityM(limitedQuantity);
+          break;
+        case 'L':
+          setQuantityL(limitedQuantity);
+          break;
+        default:
+          break;
+      }
     }
-  };
+  };;
   const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(Math.max(0, Math.min(newQuantity, 1))); // Limit quantity between 0 and 1
+    if (product) {
+      const availableQuantity = product.quantity;
+      //setQuantity(Math.max(0, Math.min(newQuantity, availableQuantity))); uncomment this line to let limit be the product quantity
+      setQuantity(Math.max(0, Math.min(newQuantity, 1)));
+    }
   };
 
   type SizeKey = 'S' | 'M' | 'L';
@@ -110,6 +118,21 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
       return <div className="text-red-500 text-lg mt-2">Out of Stock</div>;
     }
   };
+  let cartItems = [];
+  if (product) {
+    if (product.hasSizes) {
+      cartItems.push({
+        product: product,
+        quantities: { S: quantityS, M: quantityM, L: quantityL }
+      });
+    } else {
+      cartItems.push({
+        product: product,
+        quantities: { overall: quantity }
+      });
+    }
+  }
+
   
   const dispatch = useDispatch()
   return (
@@ -170,12 +193,51 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
                       
                     </div>
                     <div className="w-full px-2">
-                        <button className="bg-secondary text-primary py-2 px-4 rounded-lg mt-4 w-full  ">Buy Now</button>
+                        <button className="bg-secondary text-primary py-2 px-4 rounded-lg mt-4 w-full  "onClick={() => {
+                          const modal = document.getElementById('my_modal_1');
+                          if (modal instanceof HTMLDialogElement) {
+                            modal.showModal();
+                          }
+                        }}>Buy Now</button>
+                        <dialog id="my_modal_1" className="modal">
+                          <div className="modal-box">
+                            <div className="modal-action">
+                              <form method="dialog">
+                                <button className="px-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round"  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </button>
+                              </form>
+                            </div>
+                            <BuyForm 
+                            products={cartItems.flatMap(item => {
+                              if (item.product.hasSizes) {
+                                return Object.entries(item.quantities).map(([size, quantity]) => ({
+                                  id: item.product.id,
+                                  name: item.product.name,
+                                  quantity: quantity || 0,
+                                  size: size,
+                                  hasSizes: item.product.hasSizes
+                                }));
+                              } else {
+                                return [{
+                                  id: item.product.id,
+                                  name: item.product.name,
+                                  quantity: item.quantities.overall || 0,
+                                  size: 'N/A', // Or whatever you use to signify no size
+                                  hasSizes: item.product.hasSizes
+                                }];
+                              }
+                            }).filter(item => item.quantity > 0)}
+                            totalPrice={product ? product.price.toString() : '0'}
+                          />
+                          </div>
+                        </dialog>
                     </div>
                   </div>
               </div>
             </div>
           </div>
+          <Footer/>
           <Toaster
             reverseOrder = {false}
             position='top-center'
@@ -196,3 +258,31 @@ const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': '
     </div>
   );
 }
+
+
+/*
+
+ <BuyForm 
+                            products={cartItems.flatMap(item => {
+                              if (item.product.hasSizes) {
+                                return Object.entries(item.quantities).map(([size, quantity]) => ({
+                                  id: item.product.id,
+                                  name: item.product.name,
+                                  quantity: quantity || 0,
+                                  size: size,
+                                  hasSizes: item.product.hasSizes
+                                }));
+                              } else {
+                                return [{
+                                  id: item.product.id,
+                                  name: item.product.name,
+                                  quantity: item.quantities.overall || 0,
+                                  size: 'N/A', // Or whatever you use to signify no size
+                                  hasSizes: item.product.hasSizes
+                                }];
+                              }
+                            }).filter(item => item.quantity > 0)}
+                            totalPrice={product ? product.price.toString() : '0'}
+                          />
+
+                          */

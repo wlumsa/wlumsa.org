@@ -8,15 +8,13 @@ interface Product {
     image: string;
     hasSizes: boolean;
     quantity: number;
-    selectedQuantity?: number; // Add this field
+    selectedQuantity?: number;
     sizes: { S: number; M: number; L: number; };
     tags: string[];
 }
 
-
 interface ShopperState {
     cart: { product: Product, quantities: { S?: number, M?: number, L?: number, overall?: number } }[];
-   
     userInfo: null;
 }
 
@@ -24,6 +22,7 @@ const initialState: ShopperState = {
     cart: [],
     userInfo: null,
 }
+
 export const shopperSlice = createSlice({
     name: "shopper",
     initialState,
@@ -33,7 +32,6 @@ export const shopperSlice = createSlice({
             const existingProductIndex = state.cart.findIndex(cartItem => cartItem.product.id === product.id);
 
             if (existingProductIndex !== -1) {
-                // If the product already exists in the cart, only update the quantities if they have changed
                 const existingProduct = state.cart[existingProductIndex];
                 if (existingProduct && existingProduct.quantities) {
                     if (quantities.S !== undefined && quantities.S !== existingProduct.quantities.S) existingProduct.quantities.S = quantities.S;
@@ -42,7 +40,6 @@ export const shopperSlice = createSlice({
                     if (quantities.overall !== undefined && quantities.overall !== existingProduct.quantities.overall) existingProduct.quantities.overall = quantities.overall;
                 }
             } else {
-                
                 state.cart.push({ product, quantities });
             }
         },
@@ -59,16 +56,18 @@ export const shopperSlice = createSlice({
                   item.quantities.overall = 0;
                 }
           
-                // Check if all quantities are zero
                 const allZero = Object.values(item.quantities).every((qty) => qty === 0);
                 if (allZero) {
-                  // Remove the item from the cart
                   state.cart.splice(itemIndex, 1);
                 }
               }
             }
-          },
+        },
+        clearCart: (state) => {
+            state.cart = [];
+        },
     },
 });
-export const { addToCart,deleteItem } = shopperSlice.actions;
+
+export const { addToCart, deleteItem, clearCart } = shopperSlice.actions;
 export default shopperSlice.reducer;

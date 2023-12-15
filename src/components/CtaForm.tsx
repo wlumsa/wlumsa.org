@@ -105,6 +105,7 @@ const CtaForm: React.FC = () => {
                         </div>
                         <div className="card-actions justify-end">
                             <button type="submit" className="btn text-primary bg-secondary hover:text-base-100 border-0 shadow hover:scale-105 duration-200">Submit ➜</button>
+                            
                         </div>
                     </form>
                 </div>

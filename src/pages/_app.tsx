@@ -9,12 +9,12 @@ import { AppProps } from 'next/app';
 export default function App({Component,pageProps:{session,...pageProps} }:AppProps) {
   return (
     <Provider store={store}>
-      <SessionProvider session={session}>
+      
       <PersistGate loading={"loading"} persistor = {persistor}> 
         <Component {...pageProps} />
         <Analytics />
       </PersistGate>
-      </SessionProvider>
+      
     </Provider>
   );
 };
