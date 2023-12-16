@@ -109,6 +109,7 @@ type Product = {
     tags: string[];
 }
 
+
 const ProductsCollection = buildCollection<Product>({
     name: "Products",
     singularName: "Product",

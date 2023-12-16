@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from "react";
 
-import FullCalendar from '@fullcalendar/react';
+import FullCalendar from "@fullcalendar/react";
 
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { EventContentArg } from '@fullcalendar/common';
-import '@fullcalendar/common/main.css';
-import googleCalendarPlugin from '@fullcalendar/google-calendar';
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { EventContentArg } from "@fullcalendar/common";
+import "@fullcalendar/common/main.css";
+import googleCalendarPlugin from "@fullcalendar/google-calendar";
 
 type Event = {
   id: string;
@@ -36,8 +36,6 @@ const CalendarComponent = () => {
         }
       }
     };
-    
-    
 
     // Set the initial view based on window width
     handleResize();
@@ -46,9 +44,9 @@ const CalendarComponent = () => {
     window.addEventListener("resize", handleResize);
 
     const fetchEvents = async () => {
-      const res = await fetch('/api/calendar');
+      const res = await fetch("/api/calendar");
       const data: FetchedEvent[] = await res.json();
-      
+
       const formattedEvents: Event[] = data.map((event: FetchedEvent) => ({
         id: event.id,
         title: event.summary,
@@ -63,23 +61,25 @@ const CalendarComponent = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [])
+  }, []);
 
   return (
-    <div className="container mx-auto text-xs p-10">
+    <div className="container mx-auto p-10 text-xs">
       <div>
         <h3 className="text-xl font-bold">Upcoming Events</h3>
         <FullCalendar
-            ref={calendarRef} // Set the reference here
-            plugins={[dayGridPlugin, googleCalendarPlugin]}
-            initialView="dayGridMonth"
-            googleCalendarApiKey= "AIzaSyAD66ZFXJgMoKiZTkZUOCG9pFS459R40SI"
-            events={{ googleCalendarId: "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com" }}
-            eventContent = {renderEventContent}
+          ref={calendarRef} // Set the reference here
+          plugins={[dayGridPlugin, googleCalendarPlugin]}
+          initialView="dayGridMonth"
+          googleCalendarApiKey="AIzaSyAD66ZFXJgMoKiZTkZUOCG9pFS459R40SI"
+          events={{
+            googleCalendarId:
+              "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com",
+          }}
+          eventContent={renderEventContent}
         />
       </div>
     </div>
-
   );
 };
 
@@ -88,21 +88,28 @@ const renderEventContent = (eventInfo: EventContentArg) => {
   const eventDate = new Date(eventInfo.event.startStr);
   const isPastEvent = eventDate < now;
 
-  const bgColorClass = isPastEvent ? 'bg-red-500' : 'bg-green-500';
-  const textColorClass = 'text-white';
+  const bgColorClass = isPastEvent ? "bg-red-500" : "bg-green-500";
+  const textColorClass = "text-white";
 
   const startTime = eventDate.toLocaleTimeString([], {
-    hour: 'numeric',
-    minute: '2-digit',
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
   });
 
-  const formattedTitle = eventInfo.event.title.split('|').join('<br />');
+  const formattedTitle = eventInfo.event.title.split("|").join("<br />");
 
   return (
     <div className={`p-1 ${bgColorClass} ${textColorClass}`}>
-      <div className="text-sm"><b>{startTime}</b></div> {/* Adjusted text size */}
-      <div className="text-xs" dangerouslySetInnerHTML={{ __html: formattedTitle }}></div> {/* Adjusted text size */}
+      <div className="text-sm">
+        <b>{startTime}</b>
+      </div>{" "}
+      {/* Adjusted text size */}
+      <div
+        className="text-xs"
+        dangerouslySetInnerHTML={{ __html: formattedTitle }}
+      ></div>{" "}
+      {/* Adjusted text size */}
     </div>
   );
 };

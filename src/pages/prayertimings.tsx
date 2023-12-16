@@ -5,7 +5,6 @@ import db from "../firebase";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 
-
 interface Timings {
   Fajr: string;
   Sunrise: string;
@@ -30,10 +29,19 @@ interface Jummah {
 
 const fetchTimings = async (): Promise<DayTimings[]> => {
   const today = new Date();
-  const currentMonth = today.toLocaleString('default', { month: 'long' });
+  const currentMonth = today.toLocaleString("default", { month: "long" });
   const dayOfMonth = today.getDate();
-  const endDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7).getDate();
-  const daysCollectionRef = collection(db, "PrayerTimings", currentMonth, "Days");
+  const endDay = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 7
+  ).getDate();
+  const daysCollectionRef = collection(
+    db,
+    "PrayerTimings",
+    currentMonth,
+    "Days"
+  );
   const q = query(
     daysCollectionRef,
     where("Day", ">=", dayOfMonth),
@@ -41,23 +49,23 @@ const fetchTimings = async (): Promise<DayTimings[]> => {
     orderBy("Day", "asc")
   );
   const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(doc => ({
+  return querySnapshot.docs.map((doc) => ({
     timings: doc.data() as Timings,
-    day: doc.data().Day as number
+    day: doc.data().Day as number,
   }));
 };
 const fetchJummahTimes = async (): Promise<Jummah[]> => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
-  return querySnapshot.docs.map(doc => {
+  return querySnapshot.docs.map((doc) => {
     const data = doc.data();
-    console.log('Document Data:', data); // Add this line
+    console.log("Document Data:", data); // Add this line
     return { room: data.room as string, time: data.time as string };
   });
 };
 const PrayerTimes: React.FC = () => {
   const [timingsData, setTimingsData] = useState<DayTimings[]>([]);
-  const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+  const currentMonth = new Date().toLocaleString("default", { month: "long" });
   const [jummahTimes, setJummahTimes] = useState<Jummah[]>([]);
 
   useEffect(() => {
@@ -65,13 +73,13 @@ const PrayerTimes: React.FC = () => {
       const fetchedTimings = await fetchTimings();
       setTimingsData(fetchedTimings);
     };
-  
+
     const fetchFridayJummahTimes = async () => {
       const fetchedJummahTimes = await fetchJummahTimes();
-      console.log('Jummah Times:', fetchedJummahTimes); // Add this line
+      console.log("Jummah Times:", fetchedJummahTimes); // Add this line
       setJummahTimes(fetchedJummahTimes);
     };
-  
+
     fetchData();
     fetchFridayJummahTimes();
   }, []);
@@ -81,43 +89,46 @@ const PrayerTimes: React.FC = () => {
 
   const appendMeridiem = (time: string, isAM: boolean) => {
     if (!time) return time;
-    if (time.includes('AM') || time.includes('PM')) {
+    if (time.includes("AM") || time.includes("PM")) {
       return time;
     }
-    return `${time} ${isAM ? 'AM' : 'PM'}`;
+    return `${time} ${isAM ? "AM" : "PM"}`;
   };
 
   const isFriday = (dayNumber: number): boolean => {
     const date = new Date();
     date.setDate(dayNumber);
     const isFri = date.getDay() === 5;
-    console.log('Is Friday:', isFri);
+    console.log("Is Friday:", isFri);
     return isFri;
   };
 
   const prayerRows = [
-    { key: 'Fajr', iqamahKey: '' },
-    { key: 'Sunrise', iqamahKey: '' },
-    { key: 'Dhuhr', iqamahKey: 'DhuhrIqamah' },
-    { key: 'Asr', iqamahKey: 'AsrIqamah' },
-    { key: 'Maghrib', iqamahKey: 'MaghribIqamah' },
-    { key: 'Isha', iqamahKey: 'IshaIqamah' },
+    { key: "Fajr", iqamahKey: "" },
+    { key: "Sunrise", iqamahKey: "" },
+    { key: "Dhuhr", iqamahKey: "DhuhrIqamah" },
+    { key: "Asr", iqamahKey: "AsrIqamah" },
+    { key: "Maghrib", iqamahKey: "MaghribIqamah" },
+    { key: "Isha", iqamahKey: "IshaIqamah" },
   ];
 
   return (
-    <div className="pt-16 flex flex-col items-center">
-      <Navbar/>
+    <div className="flex flex-col items-center pt-16">
+      <Navbar />
       <div className="container mx-auto p-8">
-        <h1 className="text-3xl font-bold mb-4">Prayer Times</h1>
+        <h1 className="mb-4 text-3xl font-bold">Prayer Times</h1>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white text-black rounded-lg shadow-lg">
+          <table className="min-w-full rounded-lg bg-white text-black shadow-lg">
             <thead className="bg-primary text-white">
               <tr>
-                <th className="px-4 py-2 font-bold text-left text-xs uppercase">
+                <th className="px-4 py-2 text-left text-xs font-bold uppercase">
                   Prayer
                 </th>
-                {timingsData.map(day => (
-                  <th key={day.day} className="px-4 py-2 font-bold text-left text-xs uppercase border-l border-gray-400">
+                {timingsData.map((day) => (
+                  <th
+                    key={day.day}
+                    className="border-l border-gray-400 px-4 py-2 text-left text-xs font-bold uppercase"
+                  >
                     {getFullDate(day.day)}
                   </th>
                 ))}
@@ -126,25 +137,41 @@ const PrayerTimes: React.FC = () => {
             <tbody className="bg-base-200">
               {prayerRows.map(({ key, iqamahKey }) => (
                 <tr key={key}>
-                  <td className="px-4 py-2 font-bold text-left text-xs uppercase border-t border-gray-400">
-                    {key.replace(/Iqamah$/, ' Iqamah')}
+                  <td className="border-t border-gray-400 px-4 py-2 text-left text-xs font-bold uppercase">
+                    {key.replace(/Iqamah$/, " Iqamah")}
                   </td>
-                  {timingsData.map(day => {
-                  console.log('Prayer:', key, 'Day:', day.day);
-                  return (
-                    <td key={day.day} className="px-4 py-2 whitespace-nowrap border-t border-l border-gray-400">
-                      <div className="text-black">{appendMeridiem(day.timings[key as keyof Timings], key === 'Fajr' || key === 'Sunrise')}</div>
-                      {iqamahKey && !(key === 'Dhuhr' && isFriday(day.day)) && (
-                        <div className="text-green-600">{appendMeridiem(day.timings[iqamahKey as keyof Timings], false)}</div>
-                      )}
-                      {key === 'Dhuhr' && isFriday(day.day) && jummahTimes.map((jummah, index) => (
-                        <div key={index} className="text-blue-600">
-                          {jummah.time} at {jummah.room}
+                  {timingsData.map((day) => {
+                    console.log("Prayer:", key, "Day:", day.day);
+                    return (
+                      <td
+                        key={day.day}
+                        className="whitespace-nowrap border-l border-t border-gray-400 px-4 py-2"
+                      >
+                        <div className="text-black">
+                          {appendMeridiem(
+                            day.timings[key as keyof Timings],
+                            key === "Fajr" || key === "Sunrise"
+                          )}
                         </div>
-                      ))}
-                    </td>
-                  );
-                })}
+                        {iqamahKey &&
+                          !(key === "Dhuhr" && isFriday(day.day)) && (
+                            <div className="text-green-600">
+                              {appendMeridiem(
+                                day.timings[iqamahKey as keyof Timings],
+                                false
+                              )}
+                            </div>
+                          )}
+                        {key === "Dhuhr" &&
+                          isFriday(day.day) &&
+                          jummahTimes.map((jummah, index) => (
+                            <div key={index} className="text-blue-600">
+                              {jummah.time} at {jummah.room}
+                            </div>
+                          ))}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
@@ -152,7 +179,7 @@ const PrayerTimes: React.FC = () => {
         </div>
         <p>Waterloo Masjid timings with Hanafi Asr calculation method</p>
       </div>
-     <Footer/>
+      <Footer />
     </div>
   );
 };

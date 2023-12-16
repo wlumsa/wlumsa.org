@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit'
-import shopperReducer from "./shopperSlice"
+import { configureStore } from "@reduxjs/toolkit";
+import shopperReducer from "./shopperSlice";
 
 import {
   persistStore,
@@ -10,27 +10,24 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage,
-}
-const persistedReducer = persistReducer(persistConfig, shopperReducer)
-
+};
+const persistedReducer = persistReducer(persistConfig, shopperReducer);
 
 export const store = configureStore({
-  reducer: {shopper: persistedReducer},
+  reducer: { shopper: persistedReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-})
+});
 
-
-
-export let persistor = persistStore(store)
+export let persistor = persistStore(store);

@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
                 <ul className="bg-primary rounded-t-none w-fit">
                   <li><Link href="/about">Our Mission</Link></li>
                   <li><Link href="/IIA">WLU IIA</Link></li>
-                  <li><Link href="/about#team">Meet the Team</Link></li>
+                  <li><Link href="/about#team">Meet the Team</Link></li> 
                   <li><Link href="/about#constiuion">Constitution</Link></li>
                   <li><Link href="/about#services">Services Offered</Link></li>
                 </ul>
@@ -67,9 +67,9 @@ const Navbar: React.FC = () => {
                 <summary>Contact</summary>
                 <ul className="bg-primary rounded-t-none w-fit">
                   <li><Link href="/contact">Contact Us</Link></li>
-                  <li><Link href="/contact/support">Support Form</Link></li>
-                  <li><Link href="/contact/volunteer">Volunteer</Link></li>
-                  <li><Link href="/contact/incident">Incident Report</Link></li>
+                  <li><Link href="/contact/Support">Support Form</Link></li>
+                  <li><Link href="/contact/Volunteer">Volunteer</Link></li>
+                  <li><Link href="/contact/Incident">Incident Report</Link></li>
                 </ul>
               </details>
             </li>
@@ -110,9 +110,9 @@ const Navbar: React.FC = () => {
               <summary className="w-32">Contact</summary>
               <ul className="bg-primary rounded-t-none  shadow-lg ">
                 <li><Link href="/contact">Contact Us</Link></li>
-                <li><Link href="/contact/support">Support Form</Link></li>
-                <li><Link href="/contact/volunteer">Volunteer</Link></li>
-                <li><Link href="/contact/incident">Incident Report</Link></li>
+                <li><Link href="/contact/Support">Support Form</Link></li>
+                <li><Link href="/contact/Volunteer">Volunteer</Link></li>
+                <li><Link href="/contact/Incident">Incident Report</Link></li>
               </ul>
             </details>
           </li>

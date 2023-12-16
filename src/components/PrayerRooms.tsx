@@ -15,9 +15,11 @@ const PrayerRooms: React.FC = () => {
     const fetchPrayerRooms = async () => {
       const prayerRoomsCollectionRef = collection(db, "PrayerRooms");
       const querySnapshot = await getDocs(prayerRoomsCollectionRef);
-      
-      const prayerRoomsData = querySnapshot.docs.map(doc => doc.data() as PrayerRoomItem);
-      
+
+      const prayerRoomsData = querySnapshot.docs.map(
+        (doc) => doc.data() as PrayerRoomItem
+      );
+
       setPrayerRooms(prayerRoomsData);
     };
 
@@ -25,7 +27,7 @@ const PrayerRooms: React.FC = () => {
   }, []);
 
   return (
-    <div className="stats stats-vertical lg:stats-horizontal shadow">
+    <div className="stats stats-vertical shadow lg:stats-horizontal">
       {prayerRooms.map((room, index) => (
         <div className="stat" key={index}>
           <div className="stat-title">{room.building}</div>

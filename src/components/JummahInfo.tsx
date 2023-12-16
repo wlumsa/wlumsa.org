@@ -14,8 +14,10 @@ const JummahInfo: React.FC = () => {
     const fetchJummahInfo = async () => {
       const jummahCollectionRef = collection(db, "Jummah");
       const querySnapshot = await getDocs(jummahCollectionRef);
-      
-      const jummahInfoData = querySnapshot.docs.map(doc => doc.data() as JummahItem);
+
+      const jummahInfoData = querySnapshot.docs.map(
+        (doc) => doc.data() as JummahItem
+      );
       setJummahInfo(jummahInfoData);
     };
 
@@ -23,7 +25,7 @@ const JummahInfo: React.FC = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto shadow mb-2">
+    <div className="mb-2 overflow-x-auto shadow">
       <table className="table">
         <thead>
           <tr>
