@@ -54,11 +54,11 @@ const Navbar: React.FC = () => {
               <details>
                 <summary>About</summary>
                 <ul className="bg-primary rounded-t-none w-fit">
-                  <li><Link href="/">Our Mission</Link></li>
-                  <li><Link href="/">WLU IIA</Link></li>
-                  <li><Link href="/">Meet the Team</Link></li>
-                  <li><Link href="/">Constitution</Link></li>
-                  <li><Link href="/">Services Offered</Link></li>
+                  <li><Link href="/about">Our Mission</Link></li>
+                  <li><Link href="/IIA">WLU IIA</Link></li>
+                  <li><Link href="/about#team">Meet the Team</Link></li>
+                  <li><Link href="/about#constiuion">Constitution</Link></li>
+                  <li><Link href="/about#services">Services Offered</Link></li>
                 </ul>
               </details>
             </li>
@@ -66,10 +66,10 @@ const Navbar: React.FC = () => {
               <details>
                 <summary>Contact</summary>
                 <ul className="bg-primary rounded-t-none w-fit">
-                  <li><Link href="/">Contact Us</Link></li>
-                  <li><Link href="/">Support Form</Link></li>
-                  <li><Link href="/">Volunteer</Link></li>
-                  <li><Link href="/">Incident Report</Link></li>
+                  <li><Link href="/contact">Contact Us</Link></li>
+                  <li><Link href="/contact/support">Support Form</Link></li>
+                  <li><Link href="/contact/volunteer">Volunteer</Link></li>
+                  <li><Link href="/contact/incident">Incident Report</Link></li>
                 </ul>
               </details>
             </li>
@@ -77,30 +77,31 @@ const Navbar: React.FC = () => {
               <details>
                 <summary>Resources</summary>
                 <ul className="bg-primary rounded-t-none w-fit">
-                  <li><Link href="/">Prayer Information</Link></li>
-                  <li><Link href="/">Events</Link></li>
-                  <li><Link href="/">Fiqh Q&A</Link></li>
+                  <li><Link href="/prayerinfo">Prayer Information</Link></li>
+                  <li><Link href="/events">Events</Link></li>
+                  <li><Link href="/contact/fiqh">Fiqh Q&A</Link></li>
                 </ul>
               </details>
             </li>
-            <li><Link href="/">Links</Link></li>
+            <li><Link href="/products">Merch</Link></li>
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost normal-case text-xl">
           <img src={logo.src} alt="Logo" className="h-8 w-8" />
         </Link>
       </div>
+      {/* Desktop */}
       <div className="navbar-center hidden lg:flex text-base-100">
         <ul className="menu menu-horizontal px-2 gap-2" tabIndex={0}>
           <li className="">
             <details>
               <summary className="w-32">About</summary>
               <ul className="bg-primary rounded-t-none shadow-lg">
-                <li><Link href="/">Our Mission</Link></li>
-                <li><Link href="/">WLU IIA</Link></li>
-                <li><Link href="/">Meet the Team</Link></li>
-                <li><Link href="/">Constitution</Link></li>
-                <li><Link href="/">Services Offered</Link></li>
+                <li><Link href="/about">Our Mission</Link></li>
+                <li><Link href="/IIA">WLU IIA</Link></li>
+                <li><Link href="/about#team">Meet the Team</Link></li>
+                <li><Link href="/about#constiuion">Constitution</Link></li>
+                <li><Link href="/about#services">Services Offered</Link></li>
               </ul>
             </details>
           </li>
@@ -108,24 +109,24 @@ const Navbar: React.FC = () => {
             <details>
               <summary className="w-32">Contact</summary>
               <ul className="bg-primary rounded-t-none  shadow-lg ">
-                <li><Link href="/">Contact Us</Link></li>
-                <li><Link href="/">Support Form</Link></li>
-                <li><Link href="/">Volunteer</Link></li>
-                <li><Link href="/">Incident Report</Link></li>
+                <li><Link href="/contact">Contact Us</Link></li>
+                <li><Link href="/contact/support">Support Form</Link></li>
+                <li><Link href="/contact/volunteer">Volunteer</Link></li>
+                <li><Link href="/contact/incident">Incident Report</Link></li>
               </ul>
             </details>
           </li>
           <li className="">
             <details>
               <summary className="w-32">Resources</summary>
-              <ul className="bg-primary rounded-t-none  shadow-lg ">
-                <li><Link href="/">Prayer Information</Link></li>
-                <li><Link href="/">Events</Link></li>
-                <li><Link href="/">Fiqh Q&A</Link></li>
+              <ul className="bg-primary rounded-t-none shadow-lg ">
+                <li><Link href="/prayerinfo">Prayer Information</Link></li>
+                <li><Link href="/events">Events</Link></li>
+                <li><Link href="/contact/fiqh">Fiqh Q&A</Link></li>
               </ul>
             </details>
           </li>
-          <li><Link href="/">Links</Link></li>
+          <li><Link href="/products">Merch</Link></li>
         </ul>
       </div>
       <div className="navbar-end">
@@ -157,17 +158,3 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-/*
-
-<div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-base-100">
-          <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
-          <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
-          <li><Link href="/about" className="hover:scale-105 duration-200">About us</Link></li>
-          <li><Link href="/resources" className="hover:scale-105 duration-200">Resources</Link></li>
-          <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
-          <li><Link href="/products" className="hover:scale-105 duration-200">Merch</Link></li>
-        </ul>
-      </div>
-
-      */
