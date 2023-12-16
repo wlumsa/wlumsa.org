@@ -127,8 +127,8 @@ const Cart = () => {
             <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
             <div className="flex flex-col md:flex-row gap-4">
             <div className="md:w-3/4">
-                <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-                <table className="w-full">
+                <div className="bg-white rounded-lg shadow-md p-6 mb-4 table-xs">
+                <table className="w-full ">
                     <thead>
                     <tr>
                         <th className="text-left font-semibold">Product</th>

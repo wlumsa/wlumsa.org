@@ -40,37 +40,92 @@ const Navbar: React.FC = () => {
   }, [productData]);
 
   return (
-    <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl sm:w-full p">
+    <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl sm:w-full ">
       {/* Mobile */}
-      <div className="navbar-start">
+      <div className="navbar-start text-base-100">
         <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost lg:hidden text-base-100 hover:scale-105 duration-200">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
-          </label>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-52 text-base-100">
-            <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
-            <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
-            <li><Link href="/about" className="hover:scale-105 duration-200">About us</Link></li>
-            <li><Link href="/resources" className="hover:scale-105 duration-200">Resources</Link></li>
-            <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
-            <li><Link href="/products" className="hover:scale-105 duration-200">Merch</Link></li>
+          </div>
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box w-52">
+            <li className="menu-item">
+              <details>
+                <summary>About</summary>
+                <ul className="bg-primary rounded-t-none w-fit">
+                  <li><Link href="/">Our Mission</Link></li>
+                  <li><Link href="/">WLU IIA</Link></li>
+                  <li><Link href="/">Meet the Team</Link></li>
+                  <li><Link href="/">Constitution</Link></li>
+                  <li><Link href="/">Services Offered</Link></li>
+                </ul>
+              </details>
+            </li>
+            <li className="menu-item">
+              <details>
+                <summary>Contact</summary>
+                <ul className="bg-primary rounded-t-none w-fit">
+                  <li><Link href="/">Contact Us</Link></li>
+                  <li><Link href="/">Support Form</Link></li>
+                  <li><Link href="/">Volunteer</Link></li>
+                  <li><Link href="/">Incident Report</Link></li>
+                </ul>
+              </details>
+            </li>
+            <li className="menu-item">
+              <details>
+                <summary>Resources</summary>
+                <ul className="bg-primary rounded-t-none w-fit">
+                  <li><Link href="/">Prayer Information</Link></li>
+                  <li><Link href="/">Events</Link></li>
+                  <li><Link href="/">Fiqh Q&A</Link></li>
+                </ul>
+              </details>
+            </li>
+            <li><Link href="/">Links</Link></li>
           </ul>
         </div>
-        <Link href="/" className="btn btn-ghost normal-case text-xl text-base-100">
-          <img src={logo.src} alt="WLU MSA Logo" className="h-8 w-8 hover:scale-105 duration-200" />
+        <Link href="/" className="btn btn-ghost normal-case text-xl">
+          <img src={logo.src} alt="Logo" className="h-8 w-8" />
         </Link>
       </div>
-      {/* Desktop */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-base-100">
-          <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
-          <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
-          <li><Link href="/about" className="hover:scale-105 duration-200">About us</Link></li>
-          <li><Link href="/resources" className="hover:scale-105 duration-200">Resources</Link></li>
-          <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
-          <li><Link href="/products" className="hover:scale-105 duration-200">Merch</Link></li>
+      <div className="navbar-center hidden lg:flex text-base-100">
+        <ul className="menu menu-horizontal px-2 gap-2" tabIndex={0}>
+          <li className="">
+            <details>
+              <summary className="w-32">About</summary>
+              <ul className="bg-primary rounded-t-none shadow-lg">
+                <li><Link href="/">Our Mission</Link></li>
+                <li><Link href="/">WLU IIA</Link></li>
+                <li><Link href="/">Meet the Team</Link></li>
+                <li><Link href="/">Constitution</Link></li>
+                <li><Link href="/">Services Offered</Link></li>
+              </ul>
+            </details>
+          </li>
+          <li className="">
+            <details>
+              <summary className="w-32">Contact</summary>
+              <ul className="bg-primary rounded-t-none  shadow-lg ">
+                <li><Link href="/">Contact Us</Link></li>
+                <li><Link href="/">Support Form</Link></li>
+                <li><Link href="/">Volunteer</Link></li>
+                <li><Link href="/">Incident Report</Link></li>
+              </ul>
+            </details>
+          </li>
+          <li className="">
+            <details>
+              <summary className="w-32">Resources</summary>
+              <ul className="bg-primary rounded-t-none  shadow-lg ">
+                <li><Link href="/">Prayer Information</Link></li>
+                <li><Link href="/">Events</Link></li>
+                <li><Link href="/">Fiqh Q&A</Link></li>
+              </ul>
+            </details>
+          </li>
+          <li><Link href="/">Links</Link></li>
         </ul>
       </div>
       <div className="navbar-end">
@@ -101,3 +156,18 @@ const Navbar: React.FC = () => {
 }
 
 export default Navbar;
+
+/*
+
+<div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1 text-base-100">
+          <li><Link href="/#prayer_info" className="hover:scale-105 duration-200">Prayer Info</Link></li>
+          <li><Link href="/events" className="hover:scale-105 duration-200">Events</Link></li>
+          <li><Link href="/about" className="hover:scale-105 duration-200">About us</Link></li>
+          <li><Link href="/resources" className="hover:scale-105 duration-200">Resources</Link></li>
+          <li><Link href="/#member" className="hover:scale-105 duration-200">Member Signup</Link></li>
+          <li><Link href="/products" className="hover:scale-105 duration-200">Merch</Link></li>
+        </ul>
+      </div>
+
+      */
