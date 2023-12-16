@@ -41,9 +41,12 @@ const Cart = () => {
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState("");
   const [discountCodes, setDiscountCodes] = useState<DiscountCodes[]>([]);
-  const router = useRouter();
+  const [couponError, setCouponError] = useState('');
+  const [couponSuccess, setCouponSuccess] = useState('');
+  
   const handleCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCoupon(event.target.value);
+    setCouponSuccess(''); 
   };
 
   
@@ -76,6 +79,7 @@ const Cart = () => {
     let discount = 0;
     const discountCode = discountCodes.find(code => code.code === coupon);
     if (discountCode) {
+      setCouponError('');
       if (discountCode.appliedToAll) {
         // Apply discount to all products
         cartItems.forEach((item: CartItem) => {
@@ -101,6 +105,11 @@ const Cart = () => {
           }
         });
       }
+      setCouponError(''); 
+      setCouponSuccess('Coupon Applied');
+    }else{
+      setCouponError('Invalid coupon'); 
+      setCouponSuccess('');
     }
     console.log('Total discount:', discount); // Debugging line
     setDiscount(discount);
@@ -166,15 +175,17 @@ const Cart = () => {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-lg font-semibold mb-4">Summary</h2>
                 <div className="flex justify-between mb-2">
-                  <input
-                    type="text"
-                    value={coupon}
-                    onChange={handleCouponChange}
-                    placeholder="Enter coupon code"
-                    className='bg-base-100 text-neutral'
-                  />
-                  <button onClick={applyCoupon}>Apply Coupon</button>
-                </div>
+                <input
+                  type="text"
+                  value={coupon}
+                  onChange={handleCouponChange}
+                  placeholder="Enter coupon code"
+                  className='bg-base-100 text-neutral'
+                />
+                <button onClick={applyCoupon}>Apply Coupon</button>
+              </div>
+              {couponError && <p className="text-red-500">{couponError}</p>} 
+              {couponSuccess && <p className="text-green-500">{couponSuccess}</p>}
                 <hr className="my-2" />
                 <div className="flex justify-between mb-2">
                   <span className="font-semibold">Subtotal</span>
