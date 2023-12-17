@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
 import db from "../firebase";
-
+import { toast } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 const MemberSignup: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -11,25 +12,35 @@ const MemberSignup: React.FC = () => {
   const [newsLetter, setNewsLetter] = useState(true);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
+  
     try {
-      const docRef = await addDoc(collection(db, "Members"), {
+      const membersCollection = collection(db, "Members");
+      const sameMemberQuery = query(membersCollection, where("Email", "==", email));
+      const querySnapshot = await getDocs(sameMemberQuery);
+  
+      if (!querySnapshot.empty) {
+        toast.error("User already exists.");
+        return;
+      }
+  
+      const docRef = await addDoc(membersCollection, {
         FirstName: firstName,
         LastName: lastName,
         Email: email,
         StudentId: studentId,
         Newsletter: newsLetter,
-      }).then((response) => {
-        console.log(response);
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setStudentId("");
-        setNewsLetter(true);
       });
+  
       console.log("Document written", docRef);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setStudentId("");
+      setNewsLetter(true);
+      toast.success("Thanks for signing up.");
     } catch (e) {
       console.error("Error adding document: ", e);
+      toast.error("An error occurred.");
     }
   };
   return (
@@ -76,7 +87,7 @@ const MemberSignup: React.FC = () => {
               value={studentId}
             />
             <label className="label cursor-pointer">
-              <span className="label-text">Remember me</span>
+              <span className="label-text">Newsletter Signup</span>
               <input
                 type="checkbox"
                 className="toggle"
@@ -96,6 +107,16 @@ const MemberSignup: React.FC = () => {
           </div>
         </form>
       </div>
+      <Toaster
+            reverseOrder={false}
+            position="top-center"
+            toastOptions={{
+              style: {
+                borderRadius: "8px",
+                background: "#333",
+                color: "white",
+              },
+            }}/>
     </div>
   );
 };

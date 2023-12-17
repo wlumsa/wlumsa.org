@@ -5,8 +5,7 @@ import {
   getDocs,
   query,
   where,
-  doc,
-  deleteDoc,
+  updateDoc
 } from "firebase/firestore"; // Import Firebase Firestore functions
 
 function DeleteDocumentPage() {
@@ -15,23 +14,22 @@ function DeleteDocumentPage() {
 
   const handleDelete = async () => {
     try {
-      // Reference the db collection and query for documents with matching email
       const usersRef = collection(db, "Members");
       const q = query(usersRef, where("Email", "==", email));
       const querySnapshot = await getDocs(q);
-
+  
       if (!querySnapshot.empty) {
         querySnapshot.forEach(async (doc) => {
-          // Delete each matching document
-          await deleteDoc(doc.ref);
+          // Update the "Newsletter" field of each matching document to false
+          await updateDoc(doc.ref, { Newsletter: false });
         });
-
-        setMessage(`${email} removed from newsletter successfully.`);
+  
+        setMessage(`${email} unsubscribed from newsletter successfully.`);
       } else {
         setMessage(`No document with email ${email} found.`);
       }
     } catch (error) {
-      console.error("Error deleting document:", error);
+      console.error("Error updating document:", error);
       setMessage("Error, contact ahme2085@mylaurier.ca");
     }
   };
