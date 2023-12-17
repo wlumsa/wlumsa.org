@@ -108,6 +108,7 @@ type Product = {
   quantity: number; // For products without sizes
   sizes?: { [size: string]: number }; // For products with sizes
   tags: string[];
+
 };
 
 const ProductsCollection = buildCollection<Product>({
@@ -173,6 +174,7 @@ const ProductsCollection = buildCollection<Product>({
       },
       validation: { required: !values.hasSizes, min: 0 },
     })),
+
 
     sizes: buildProperty(({ values }) => ({
       dataType: "map",

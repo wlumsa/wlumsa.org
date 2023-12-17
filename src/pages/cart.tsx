@@ -156,10 +156,10 @@ const Cart = () => {
                   <thead>
                     <tr>
                       <th className="text-left font-semibold">Product</th>
-                      <th className="text-left font-semibold">Price</th>
+             
                       <th className="text-left font-semibold">Quantity</th>
                       <th className="text-left font-semibold">Total</th>
-                      <th className="text-left font-semibold">Action</th>
+                      <th className="text-left font-semibold">Remove Item</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -183,16 +183,14 @@ const Cart = () => {
                                 </Link>
                               </div>
                             </td>
-                            <td className="py-4">
-                              ${item.product.price.toFixed(2)}
-                            </td>
+                            
                             <td className="py-4">{qty}</td>
                             <td className="py-4">
                               ${(item.product.price * qty).toFixed(2)}
                             </td>
-                            <td className="py-4">
+                            <td className="py-4 hover:text-red-600">
                               <button
-                                className="mt-4 rounded-md bg-red-500 px-4 py-2 text-white"
+                                className="mt-4 rounded-md "
                                 onClick={() =>
                                   handleRemove(
                                     item.product.id,
@@ -200,7 +198,20 @@ const Cart = () => {
                                   )
                                 }
                               >
-                                Remove
+                               <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                  stroke="currentColor"
+                                  className="h-4 w-4"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                  />
+                                </svg>
                               </button>
                             </td>
                           </tr>
@@ -213,15 +224,16 @@ const Cart = () => {
             <div className="md:w-1/4">
               <div className="rounded-lg bg-white p-6 shadow-md">
                 <h2 className="mb-4 text-lg font-semibold">Summary</h2>
-                <div className="mb-2 flex justify-between">
+                <div className="mb-2 flex justify-between ">
                   <input
                     type="text"
                     value={coupon}
                     onChange={handleCouponChange}
                     placeholder="Enter coupon code"
-                    className="bg-base-100 text-neutral"
+                    className="bg-base-100 text-neutral w-1/2 "
                   />
-                  <button onClick={applyCoupon}>Apply Coupon</button>
+                  <button className=" justify-self-end" onClick={applyCoupon}>Apply Coupon</button>
+                  
                 </div>
                 {couponError && <p className="text-red-500">{couponError}</p>}
                 {couponSuccess && (

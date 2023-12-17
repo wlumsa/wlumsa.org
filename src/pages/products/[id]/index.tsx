@@ -9,6 +9,7 @@ import { addToCart } from "~/redux/shopperSlice";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 import toast, { Toaster } from "react-hot-toast";
+import {useSelector} from "react-redux"
 interface Product {
   id: string;
   name: string;
@@ -20,7 +21,6 @@ interface Product {
   sizes: { S: number; M: number; L: number };
   tags: string[];
 }
-
 export default function ProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -30,7 +30,7 @@ export default function ProductPage() {
   const [quantityS, setQuantityS] = useState(0);
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
-
+  
   useEffect(() => {
     const fetchProduct = async () => {
       if (typeof id === "string") {
@@ -57,14 +57,13 @@ export default function ProductPage() {
     };
     fetchProduct();
   }, [id]);
-
   const handleSizeQuantityChange = (
     size: "S" | "M" | "L",
     newQuantity: number
   ) => {
     if (product) {
       const availableQuantity = product.sizes[size];
-      const limitedQuantity = Math.max(0, Math.min(newQuantity, 1));
+      const limitedQuantity = Math.max(0, Math.min(newQuantity, 3));
       //const limitedQuantity = Math.max(0, Math.min(newQuantity, availableQuantity)); // uncomment this line to let limit be the product quantity
       switch (size) {
         case "S":
@@ -85,17 +84,15 @@ export default function ProductPage() {
     if (product) {
       const availableQuantity = product.quantity;
       //setQuantity(Math.max(0, Math.min(newQuantity, availableQuantity))); uncomment this line to let limit be the product quantity
-      setQuantity(Math.max(0, Math.min(newQuantity, 1)));
+      setQuantity(Math.max(0, Math.min(newQuantity, 3)));
     }
   };
-
   type SizeKey = "S" | "M" | "L";
   const sizeNames: Record<SizeKey, string> = {
     S: "Small",
     M: "Medium",
     L: "Large",
   };
-
   const renderQuantityInputs = () => {
     if (product?.hasSizes && product.sizes) {
       const allSizesOutOfStock =
@@ -193,13 +190,13 @@ export default function ProductPage() {
             onChange={(e) => handleQuantityChange(parseInt(e.target.value))}
             className="h-10 w-16 border-gray-200 bg-white text-center"
             min="0"
-            max={1}
+            max={product.quantity}
           />
           <button
             type="button"
             onClick={() => handleQuantityChange(quantity + 1)}
             className="h-10 w-10 text-neutral transition hover:opacity-75"
-            disabled={quantity >= 1}
+            disabled={quantity >= product.quantity}
           >
             +
           </button>
@@ -231,7 +228,6 @@ export default function ProductPage() {
       totalPrice += product.price * quantity;
     }
   }
-
   const dispatch = useDispatch();
   return (
     <div className="py-10">

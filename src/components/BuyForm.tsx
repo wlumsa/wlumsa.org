@@ -150,6 +150,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
           <form className="card-body" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2 ">
               <h1>E-Transfer ${totalPrice} to msa@wlu.ca</h1>
+              <p>Please note all items are for pickup only!</p>
               <input
                 type="text"
                 required

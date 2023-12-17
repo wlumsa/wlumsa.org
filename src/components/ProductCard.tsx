@@ -62,7 +62,7 @@ const Products = ({ productId, name, description, image, tags }: Product) => {
         <p>{description}</p>
         <div className="card-actions justify-end">
           <Link href={`/products/${productId}`}>
-            <button className="btn btn-primary">Buy Now</button>
+            <button className="btn btn-primary text-white">Buy Now</button>
           </Link>
         </div>
       </div>

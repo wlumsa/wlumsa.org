@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "~/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { SessionProvider } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
+
 import { AppProps } from "next/app";
 export default function App({
   Component,
@@ -13,7 +13,7 @@ export default function App({
   return (
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
-        <Toaster />
+        
         <Component {...pageProps} />
         <Analytics />
       </PersistGate>
