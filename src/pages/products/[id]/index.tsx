@@ -267,6 +267,7 @@ export default function ProductPage() {
                   <div className="flex w-fit flex-col md:flex-row md:gap-10">
                     {renderQuantityInputs()}
                   </div>
+                  <p>Limit of 3 items per customer</p>
                 </div>
                 <div>
                   <span className="text-xl font-bold text-neutral">
