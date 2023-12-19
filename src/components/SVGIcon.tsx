@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface SVGIconProps {
   svgContent: string;
@@ -6,7 +6,7 @@ interface SVGIconProps {
 }
 
 const SVGIcon: React.FC<SVGIconProps> = ({ svgContent, fill }) => {
-  const svgBlob = new Blob([svgContent], { type: 'image/svg+xml' });
+  const svgBlob = new Blob([svgContent], { type: "image/svg+xml" });
   const svgUrl = URL.createObjectURL(svgBlob);
 
   return (

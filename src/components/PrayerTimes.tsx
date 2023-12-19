@@ -1,80 +1,79 @@
-// components/PrayerTimes.tsx
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import db from "../firebase";
 
 interface Timings {
   Fajr: string;
   Sunrise: string;
   Dhuhr: string;
+  DhuhrIqamah: string;
   Asr: string;
+  AsrIqamah: string;
   Maghrib: string;
+  MaghribIqamah: string;
   Isha: string;
+  IshaIqamah: string;
 }
 
-interface PrayerTimesProps {
+interface DayTimings {
   timings: Timings;
+  day: number;
 }
-const convertTo12HourFormat = (timeString?: string): string => {
-    if (!timeString) {
-      return "N/A"; // or any other placeholder you wish to display
-    }
-  
-    const [hours, minutes] = timeString.split(":");
-    if (!hours || !minutes) {
-      return "N/A"; // Handle invalid time format
-    }
-  
-    let period = "AM";
-    let hoursInNumber = parseInt(hours, 10);
-    if (hoursInNumber >= 12) {
-      period = "PM";
-      if (hoursInNumber > 12) {
-        hoursInNumber -= 12;
-      }
-    } else if (hoursInNumber === 0) {
-      hoursInNumber = 12;
-    }
-  
-    return `${hoursInNumber}:${minutes} ${period}`;
-  };
 
-  const PrayerTimes: React.FC<PrayerTimesProps> = ({ timings }) => {
-    // Check if timings is not null before rendering
-    if (!timings) {
-      // Render some fallback UI or a loading state
-      return <div>Loading prayer times...</div>;
-    }
-  
-    // Define the keys for the timings you want to display
-    const timingKeysToShow: (keyof Timings)[] = [
-      'Fajr',
-      'Sunrise',
-      'Dhuhr',
-      'Asr',
-      'Maghrib',
-      'Isha',
-    ];
-  
-    return (
-      <div className="overflow-x-auto shadow mb-4">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {timingKeysToShow.map((key) => (
+const fetchTimings = async (): Promise<DayTimings | null> => {
+  const today = new Date();
+  const currentMonth = today.toLocaleString("default", { month: "long" });
+  const dayOfMonth = today.getDate();
+  const daysCollectionRef = collection(db, "PrayerTimings", currentMonth, "Days");
+  const q = query(daysCollectionRef, where("Day", "==", dayOfMonth));
+  const querySnapshot = await getDocs(q);
+  const doc = querySnapshot.docs[0];
+  return doc ? { timings: doc.data() as Timings, day: doc.data().Day as number } : null;
+};
+
+const PrayerTimes: React.FC = () => {
+  const [timingsData, setTimingsData] = useState<DayTimings | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedTimings = await fetchTimings();
+      setTimingsData(fetchedTimings);
+    };
+
+    fetchData();
+  }, []);
+
+  if (!timingsData) {
+    return <div>Loading...</div>;
+  }
+  const orderedKeys: (keyof Timings)[] = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
+  return (
+    <div className="mb-4 overflow-x-auto shadow">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Time</th>
+            <th>Iqamah</th>
+          </tr>
+        </thead>
+        <tbody>
+        {orderedKeys.map((key) => {
+            const iqamahKey = `${key}Iqamah` as keyof Timings;
+            const iqamahTime = key === "Sunrise" ? "N/A" : timingsData.timings[iqamahKey];
+            const timeSuffix = ["Fajr", "Sunrise"].includes(key) ? " AM" : " PM";
+            return (
               <tr key={key}>
                 <td>{key}</td>
-                <td>{convertTo12HourFormat(timings[key])}</td>
+                <td>{timingsData.timings[key] + timeSuffix}</td>
+                <td>{iqamahTime + (iqamahTime !== "N/A" ? timeSuffix : "")}</td>
               </tr>
-            ))}
+            );
+          })}
           </tbody>
-        </table>
-      </div>
-    );
-  };
-  
+      </table>
+    </div>
+  );
+};
 
 export default PrayerTimes;

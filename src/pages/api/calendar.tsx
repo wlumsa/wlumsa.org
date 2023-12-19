@@ -1,12 +1,17 @@
 // pages/api/calendar.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const calendarId = 'ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com';
+  const calendarId =
+    "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com";
   const apiKey = process.env.GOOGLE_API_KEY;
 
   try {
-    const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?key=${apiKey}`);
+    const response = await fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+        calendarId
+      )}/events?key=${apiKey}`
+    );
     if (!response.ok) {
       const errorResponse = await response.text();
       console.error(errorResponse);
@@ -16,6 +21,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(data.items);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 };

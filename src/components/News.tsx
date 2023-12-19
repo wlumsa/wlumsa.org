@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { InstagramEmbed } from "react-social-media-embed";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; // Import orderBy
 import db from "../firebase";
-import { InstagramEmbed } from 'react-social-media-embed';
+import { Suspense } from "react";
 
 interface InstagramPost {
   link: string;
@@ -9,76 +10,57 @@ interface InstagramPost {
 }
 
 const News: React.FC = () => {
-    const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([]);
-    const pinnedPostsRef = useRef(null);
-    const latestNewsRef = useRef(null);
+  const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([]);
 
-    const pinnedPosts = [
-        { link: "https://www.instagram.com/p/Cz2Ll19r4aD/?hl=en", date: new Date() },
-        { link: "https://www.instagram.com/p/Czo5n_0pd5x/?hl=en&img_index=1", date: new Date() },
-        { link: "https://www.instagram.com/p/CyPnU-RtXDz/?hl=en&img_index=1", date: new Date() },
-    ];
+  useEffect(() => {
+    const fetchInstagramPosts = async () => {
+      const instagramPostsCollectionRef = collection(db, "Posts");
+      const postsQuery = query(
+        instagramPostsCollectionRef,
+        orderBy("date", "desc")
+      );
+      const querySnapshot = await getDocs(postsQuery); // Use getDocs on the query
 
-    useEffect(() => {
-        const fetchInstagramPosts = async () => {
-            const instagramPostsCollectionRef = collection(db, "Posts");
-            const postsQuery = query(instagramPostsCollectionRef, orderBy("date", "desc"));
-            const querySnapshot = await getDocs(postsQuery);
-
-            const instagramPostsData = querySnapshot.docs.map(doc => doc.data() as InstagramPost);
-            setInstagramPosts(instagramPostsData);
-        };
-
-        fetchInstagramPosts();
-    }, []);
-
-    const scrollToPost = (ref, index, isPinnedPost) => {
-        if (ref.current) {
-            const selector = isPinnedPost ? `#pinnedItem${index+1}` : `#latestItem${index+1}`;
-            const post = ref.current.querySelector(selector);
-            if (post) {
-                ref.current.scrollLeft = post.offsetLeft - ref.current.offsetLeft;
-            }
-        }
+      const instagramPostsData = querySnapshot.docs.map(
+        (doc) => doc.data() as InstagramPost
+      );
+      setInstagramPosts(instagramPostsData);
     };
 
-    return (
-        <div id="news" className="py-10 w-full bg-base-100 flex">
-            {/* Pinned Posts Section */}
-            <div className='w-1/2 px-4'>
-                <h3 className="text-3xl text-center pb-4 font-bold text-primary">Pinned Posts</h3>
-                <div ref={pinnedPostsRef} className="carousel rounded-box p-2 overflow-x-auto border-3 border-primary bg-primary">
-                    {pinnedPosts.map((post, index) => (
-                        <div key={index} id={`pinnedItem${index+1}`} className="carousel-item relative p-2">
-                            <InstagramEmbed url={post.link} height={425} />
-                        </div>
-                    ))}
-                </div>
-                <div className='flex justify-center w-full pt-4 gap-2'>
-                    {pinnedPosts.map((_, index) => (
-                        <button onClick={() => scrollToPost(pinnedPostsRef, index, true)} className='btn btn-xs bg-primary border-primary text-base-100'>Pinned {index+1}</button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Latest News Section */}
-            <div className='w-1/2 px-4'>
-                <h3 className="text-3xl text-center pb-4 font-bold text-primary">Latest News</h3>
-                <div ref={latestNewsRef} className="carousel rounded-box p-2 bg-primary overflow-x-auto border-3 border-primary">
-                    {instagramPosts.map((post, index) => (
-                        <div key={index} id={`latestItem${index+1}`} className="carousel-item relative p-2">
-                            <InstagramEmbed url={post.link} height={425} />
-                        </div>
-                    ))}
-                </div>
-                <div className='flex justify-center w-full pt-4 gap-2'>
-                    {instagramPosts.map((_, index) => (
-                        <button onClick={() => scrollToPost(latestNewsRef, index, false)} className='btn btn-xs bg-base-100 border-primary text-primary'>News {index+1}</button>
-                    ))}
-                </div>
-            </div>
+    fetchInstagramPosts();
+  }, []);
+  const queryLength = instagramPosts.length;
+  return (
+    <div id="news" className="w-full bg-base-100 py-10">
+      <div className="flex flex-col items-center justify-center px-8">
+        <div className="flex flex-col items-start justify-center">
+          <h3 className="pb-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105">
+            Latest News
+          </h3>
+          <div className="carousel max-w-[22rem] overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+            {instagramPosts.map((post, index) => (
+              <div
+                id={`item${(index + 1).toString()}`}
+                className="carousel-item relative px-2 "
+              >
+                <InstagramEmbed url={post.link} height={425} />
+              </div>
+            ))}
+          </div>
         </div>
-    );
-}
+        <div className="flex w-full justify-center gap-2 pt-4">
+          {Array.from({ length: queryLength }, (_, index) => (
+            <a
+              href={`#item${index + 1}`}
+              className="btn btn-xs border-primary bg-base-100 text-primary duration-200 hover:scale-105 hover:bg-base-200"
+            >
+              {index + 1}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default News;
