@@ -9,7 +9,7 @@ const allowedEmails = [
   "waleedasif370@gmail.com",
   "bassamkh17@gmail.com",
 ];
-
+import { EmailPreview } from "./EmailPreview";
 import React, { useCallback } from "react";
 
 import { User as FirebaseUser } from "firebase/auth";
@@ -110,6 +110,130 @@ type Product = {
   tags: string[];
 
 };
+
+type EmailEntryImages = {
+  type: "images";
+  value: string[];
+};
+
+type EmailEntryText = {
+  type: "text";
+  value: string;
+};
+
+// Define the props for your Email component
+type EmailProps = {
+  firstName: string;
+  lastName: string;
+  content: (EmailEntryImages | EmailEntryText)[];
+}
+
+// Define the structure for the modified values you expect from FireCMS
+interface EmailEntry extends EmailProps {
+  name: string;
+  header_image: string;
+  created_on: Date;
+  status: string;
+}
+export const EmailCollection = buildCollection<EmailEntry>({
+  name: "Emails",
+  path: "Emails",
+  views: [{
+    path: "preview",
+    name: "Preview",
+    Builder: EmailPreview
+  }],
+
+  properties: {
+      name: buildProperty({
+          name: "Name",
+          validation: { required: true },
+          dataType: "string"
+      }),
+      header_image: buildProperty({
+          name: "Header image",
+          dataType: "string",
+          storage: {
+              mediaType: "image",
+              storagePath: "images",
+              acceptedFiles: ["image/*"],
+              metadata: {
+                  cacheControl: "max-age=1000000"
+              }
+          }
+      }),
+      content: buildProperty({
+          name: "Content",
+          description: "Example of a complex array with multiple properties as children",
+          validation: { required: true },
+          dataType: "array",
+          columnWidth: 400,
+          oneOf: {
+              typeField: "type", // you can ommit these `typeField` and `valueField` props to use the defaults
+              valueField: "value",
+              properties: {
+                  images: buildProperty({
+                      name: "Images",
+                      dataType: "array",
+                      of: buildProperty({
+                          dataType: "string",
+                          storage: {
+                              mediaType: "image",
+                              storagePath: "images",
+                              acceptedFiles: ["image/*"],
+                              metadata: {
+                                  cacheControl: "max-age=1000000"
+                              }
+                          }
+                      }),
+                      description: "This fields allows uploading multiple images at once and reordering"
+                  }),
+                  text: buildProperty({
+                      dataType: "string",
+                      name: "Text",
+                      markdown: true
+                  }),
+                  products: buildProperty({
+                      name: "Products",
+                      dataType: "array",
+                      of: {
+                          dataType: "reference",
+                          path: "products" // you need to define a valid collection in this path
+                      }
+                  })
+              }
+          }
+      }),
+      status: buildProperty(({ values }) => ({
+          name: "Status",
+          validation: { required: true },
+          dataType: "string",
+          columnWidth: 140,
+          enumValues: {
+              published: {
+                  id: "published",
+                  label: "Published",
+                  disabled: !values.header_image
+              },
+              draft: "Draft"
+          },
+          defaultValue: "draft"
+      })),
+      created_on: buildProperty({
+          name: "Created on",
+          dataType: "date",
+          autoValue: "on_create"
+      }),
+      firstName:buildProperty({
+        name:"first name",
+        dataType:"string",
+      }),
+      lastName:buildProperty({
+        name:"last name",
+        dataType:"string",
+      })
+  }
+})
 
 const ProductsCollection = buildCollection<Product>({
   name: "Products",
@@ -1001,6 +1125,7 @@ export default function CMS() {
         ReligiousResourcesCollection,
         OtherResourcesCollection,
         CampusResourcesCollection,
+        EmailCollection
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}

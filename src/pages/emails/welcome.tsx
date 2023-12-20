@@ -10,19 +10,57 @@ import {
   Preview,
   Section,
   Tailwind,
-  Text,
+  Text,Img
+  
 } from "@react-email/components";
-
+import {Markdown} from "@react-email/markdown"
 import React from "react";
+
 
 interface MemberInfo {
   firstName: string;
   lastName: string;
 }
 
-const Email = ({ firstName, lastName }: MemberInfo) => {
-  const previewText = ``;
+// Extend EmailEntry with MemberInfo if you need firstName and lastName as additional props
+interface EmailEntry extends MemberInfo {
+  name?: string;             // Optional
+  header_image?: string;     // Optional
+  created_on?: Date;         // Optional
+  status?: string;           // Optional
+  content: (EmailEntryImages | EmailEntryText)[];
+}
 
+interface EmailEntryImages {
+  type: "images";
+  value: string[];
+}
+
+interface EmailEntryText {
+  type: "text";
+  value: string;
+}
+
+const Email = ({ firstName, lastName, content }: EmailEntry) => {
+  const previewText = ``;
+  const renderContent = () => {
+    return content.map((entry, index) => {
+      switch (entry.type) {
+        case 'text':
+          return <EmailText markdownText={`test`}/>;
+        case 'images':
+          return (
+            <Section key={index}>
+              {entry.value.map((imageSrc, imgIndex) => (
+                <Img key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`} width={'100'} height={'auto'} />
+              ))}
+            </Section>
+          );
+        default:
+          return <div key={index}>Unexpected value in content</div>;
+      }
+    });
+  };
   return (
     <Html>
       <Head>
@@ -53,47 +91,15 @@ const Email = ({ firstName, lastName }: MemberInfo) => {
             </Section>
 
             <Text className="text-black">
-              <h1 className="text-[14px]">
+              <Heading className="text-[14px]">
                 Salam {`${firstName} ${lastName},`}
-              </h1>
-              <p className="text-[12px]">
-                We're finally at that time of the year, just a few more weeks
-                till winter break inshallah. Our weekly events are resuming next
-                semseter, and this week we only have one Jummah inshallah.
-              </p>
+              </Heading>
+              
             </Text>
 
             {/* Event Details */}
             <Section>
-              <Text>
-                <h1 className="my-0 text-[14px]">December 04, Monday:</h1>
-                <p className="text-[12px]">
-                  ❌ No Quran Circle Today (Resuming Next Semester!)
-                </p>
-
-                <h1 className="my-0 text-[14px]">December 05, Tuesday:</h1>
-                <p className="text-[12px]">
-                  ❌ No Dawah Boothing Today (Resuming Next Semester!)
-                </p>
-                <p className="text-[12px]">
-                  📚 Study Session | P118 | 1 - 3 PM
-                </p>
-
-                <h1 className="my-0 text-[14px]">December 06, Wednesday:</h1>
-                <p className="text-[12px]">
-                  ❌ No Halaqa Today (Resuming Next Semester!)
-                </p>
-
-                <h1 className="my-0 text-[14px]">December 07, Thursday:</h1>
-                <p className="text-[12px]">
-                  ❌ No Prophetic Stories Today (Resuming Next Semester!)
-                </p>
-
-                <h1 className="my-0 text-[14px]">December 08, Friday:</h1>
-                <p className="text-[12px]">
-                  🕌 Salat-ul-Jummah | Turret | 1:00 PM
-                </p>
-              </Text>
+              {renderContent()}
             </Section>
 
             <Hr className="mx-0 my-[10px] w-full border border-solid border-[#eaeaea]" />
@@ -114,5 +120,15 @@ const Email = ({ firstName, lastName }: MemberInfo) => {
     </Html>
   );
 };
+function EmailText({ markdownText }: { markdownText: string }) {
 
+  if (!markdownText)
+      return <></>;
+
+  return <Container className="max-w-sm">
+      <Text className="mt-6 mb-6">
+          <Markdown>{markdownText}</Markdown>
+      </Text>
+  </Container>;
+}
 export default Email;
