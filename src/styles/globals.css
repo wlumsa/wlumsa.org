@@ -4,3 +4,15 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;700&display=swap");
 
+
+
+/* Add this in your global CSS file */
+.navbar-dark {
+    background-color: #f8f9fa; /* light gray */
+  }
+  
+  .navbar-light {
+    background-color: #1D232A; /* dark gray */
+  }
+  
+
