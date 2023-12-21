@@ -8,11 +8,10 @@ export default {
   plugins: [require("daisyui")],
   daisyui: {
     themes: [
-      "light",
-      "dark",
+     
       {
         light: {
-          "color-scheme": "dark",
+          "color-scheme": "light",
           "primary": "#2e046d", // purple
           "secondary": "#e7ac3b", // yellow
           "accent": "#6c703e", // green
@@ -24,6 +23,7 @@ export default {
           "error": "#F2B6B5",
         },
       },
+      "dark",
     ],
   },
 } satisfies Config;

@@ -10,83 +10,125 @@ import {
   Preview,
   Section,
   Tailwind,
-  Text,
-} from '@react-email/components';
-
+  Text,Img
+  
+} from "@react-email/components";
+import {Markdown} from "@react-email/markdown"
 import React from "react";
 
+
 interface MemberInfo {
-  firstName: string,
-  lastName: string,
+  firstName: string;
+  lastName: string;
 }
 
-const Email = ({ firstName, lastName }: MemberInfo) => {
+// Extend EmailEntry with MemberInfo if you need firstName and lastName as additional props
+interface EmailEntry extends MemberInfo {
+  name?: string;             // Optional
+  header_image?: string;     // Optional
+  created_on?: Date;         // Optional
+  status?: string;           // Optional
+  content: (EmailEntryImages | EmailEntryText)[];
+}
 
-  const previewText = `🌟 Upcoming MSA Events for Nov 06 - Nov 10!`;
+interface EmailEntryImages {
+  type: "images";
+  value: string[];
+}
 
+interface EmailEntryText {
+  type: "text";
+  value: string;
+}
+
+const Email = ({ firstName, lastName, content }: EmailEntry) => {
+  const previewText = ``;
+  const renderContent = () => {
+    return content.map((entry, index) => {
+      switch (entry.type) {
+        case 'text':
+          return <EmailText markdownText={`test`}/>;
+        case 'images':
+          return (
+            <Section key={index}>
+              {entry.value.map((imageSrc, imgIndex) => (
+                <Img key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`} width={'100'} height={'auto'} />
+              ))}
+            </Section>
+          );
+        default:
+          return <div key={index}>Unexpected value in content</div>;
+      }
+    });
+  };
   return (
     <Html>
-      <Head><title>MSA Week at a Glance</title></Head>
+      <Head>
+        <title>MSA Week at a Glance</title>
+      </Head>
       <Preview>{previewText}</Preview>
       <Tailwind
         config={{
           theme: {
             extend: {
               colors: {
-                "primary": "#2e046d", // purple
-                "secondary": "#e7ac3b", // yellow
-                "accent": "#6c703e", // green
-                "neutral": "#444444", // gray
+                primary: "#2e046d", // purple
+                secondary: "#e7ac3b", // yellow
+                accent: "#6c703e", // green
+                neutral: "#444444", // gray
                 "base-100": "#ffffff", // white
               },
             },
           },
         }}
       >
-        <Body className="bg-base-100 my-auto mx-auto font-sans">
-          <Container className="border border-solid border-primary  rounded-lg my-[40px] mx-auto p-[20px] w-[465px]">
-            <Section className="h-[150px] bg-primary  rounded-lg">
-              <Heading className='text-center text-secondary'>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
+        <Body className="mx-auto my-auto bg-base-100 font-sans">
+          <Container className="mx-auto my-[40px] w-[465px]  rounded-lg border border-solid border-primary p-[20px]">
+            <Section className="h-[150px] rounded-lg  bg-primary">
+              <Heading className="text-center text-secondary">
+                اَلسَّلاَ مُ عَلَيْكُمْ
+              </Heading>
             </Section>
 
             <Text className="text-black">
-              <h1 className='text-[14px]'>Salam {`${firstName} ${lastName},`}</h1>
-              <p className='text-[12px]'>Like always, hope you are doing well and started preparing for exams, heres what the MSA has planned this week.</p>
+              <Heading className="text-[14px]">
+                Salam {`${firstName} ${lastName},`}
+              </Heading>
+              
             </Text>
 
             {/* Event Details */}
             <Section>
-              <Text>
-                <h1 className='text-[14px] my-0'>November 27, Monday:</h1>
-                <p className='text-[12px]'>📖 Brothers Quran Circles | P101 | 4:30-5 PM</p>
-                
-                <h1 className='text-[14px] my-0'>November 28, Tuesday:</h1>
-                <p className='text-[12px]'>🕌 Dawah Boothing | Concourse I | 1-4 PM</p>
-
-                <h1 className='text-[14px] my-0'>November 29, Wednesday:</h1>
-                <p className='text-[12px]'>📖 Halaqa Series | P101 | 4 - 4:30 PM</p>
-                <p className='text-[12px]'>🎨 Sisters Tote Bag Paint Social | BA110 | 4:45 - 6:30 PM</p>
-
-                <h1 className='text-[14px] my-0'>November 30, Thursday:</h1>
-                <p className='text-[12px]'>📖 Sisters Prophetic Stories | P118 | 3 - 4:00 PM</p>
-                <p className='text-[12px]'>⛸️ Skating Night | AMCC | 2:30 - 4:30 PM</p>
-
-                <h1 className='text-[14px] my-0'>December 1, Friday:</h1>
-                <p className='text-[12px]'>🕌 Salat-ul-Jummah | Turret | 1:00 PM & 2:00 PM</p>
-              </Text>
+              {renderContent()}
             </Section>
 
-            <Hr className="border border-solid border-[#eaeaea] my-[10px] mx-0 w-full" />
-            <Text className="text-[#666666] text-[12px] leading-[24px]">
-              This is an automated email, please do not reply. If you would like to unsubscribe from this newsletter, you can do so
-              <Link href='https://www.wlumsa.org/unsubscribe'> here</Link>
+            <Hr className="mx-0 my-[10px] w-full border border-solid border-[#eaeaea]" />
+            <Text className="text-[12px] leading-[24px] text-[#666666]">
+              This is an automated email, please do not reply. If you would like
+              to unsubscribe from this newsletter, you can do so
+              <Link href="https://www.wlumsa.org/unsubscribe"> here</Link>
             </Text>
-            <Button href="https://www.wlumsa.org/events" className="bg-primary text-white p-2  mt-4">Check Out All Events</Button>
+            <Button
+              href="https://www.wlumsa.org/events"
+              className="mt-4 bg-primary p-2  text-white"
+            >
+              Check Out All Events
+            </Button>
           </Container>
         </Body>
       </Tailwind>
     </Html>
   );
 };
+function EmailText({ markdownText }: { markdownText: string }) {
 
+  if (!markdownText)
+      return <></>;
+
+  return <Container className="max-w-sm">
+      <Text className="mt-6 mb-6">
+          <Markdown>{markdownText}</Markdown>
+      </Text>
+  </Container>;
+}
 export default Email;

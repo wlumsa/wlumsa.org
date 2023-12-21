@@ -6,4 +6,3 @@ dist/
 coverage/
 .vscode/
 .next/
-src/firebase.ts
