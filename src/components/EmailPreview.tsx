@@ -22,21 +22,27 @@ type EmailEntryText = {
   type: "text";
   value: string;
 };
-
+type EmailEntryAttachments = {
+  type: "attachments";
+  value: string[];
+};
 // Define the props for your Email component
-type EmailProps = {
-  firstName: string;
-  lastName: string;
-  content: (EmailEntryImages | EmailEntryText)[];
-}
+
+
 
 // Define the structure for the modified values you expect from FireCMS
-interface EmailEntry extends EmailProps {
+
+
+// Define the props for your Email component
+interface EmailEntry  {
   name: string;
-  header_image: string;
+  subject:string;
+ content: (EmailEntryImages | EmailEntryText | EmailEntryAttachments)[];
   created_on: Date;
   status: string;
-  sendEmail:boolean
+  sendEmail:boolean;
+  distributionListType: "members" | "custom";
+  customEmails?: string; // Optional, only if distributionListType is 'custom'
 }
 
 /**
@@ -49,25 +55,26 @@ export function EmailPreview({ entity }: EntityCustomViewParams<EmailEntry>) {
     
     useEffect(() => {
       if (entity && entity.values.content) {
-        // Resolve storage paths to URLs for image types if needed
-        const contentWithUrls = entity.values.content.map(async (entry) => {
-          if (entry.type === "images") {
-            const imageUrls = await Promise.all(entry.value.map((imagePath) =>
-              storage.getDownloadURL(imagePath).then((res) => res.url)
-            ));
-            return { ...entry, value: imageUrls };
-          } else {
-            return entry;
-          }
-        });
+        const filteredContent = entity.values.content
+          .filter(entry => entry.type !== 'attachments')
+          .map(async (entry) => {
+            if (entry.type === "images") {
+              const imageUrls = await Promise.all(entry.value.map((imagePath) =>
+                storage.getDownloadURL(imagePath).then((res) => res.url)
+              ));
+              return { ...entry, value: imageUrls };
+            } else {
+              return entry;
+            }
+          });
   
-        Promise.all(contentWithUrls).then((contentResolved) => {
+          Promise.all(filteredContent).then((contentResolved) => {
           // Render the Email component with all required props including resolved URLs
           const emailComponent = (
             <Email
-              firstName={entity.values.firstName || 'First Name'}
-              lastName={entity.values.lastName || 'Last Name'}
-              content={contentResolved }
+              firstName={'First Name'}
+              lastName={'Last Name'}
+              content={contentResolved}
             />
           );
           // Convert the Email component to an HTML string using @react-email/render

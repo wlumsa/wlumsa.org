@@ -28,7 +28,7 @@ interface EmailEntry extends MemberInfo {
   header_image?: string;     // Optional
   created_on?: Date;         // Optional
   status?: string;           // Optional
-  content: (EmailEntryImages | EmailEntryText)[];
+  content: (EmailEntryImages | EmailEntryText | EmailEntryAttachments)[];
 }
 
 interface EmailEntryImages {
@@ -41,6 +41,10 @@ interface EmailEntryText {
   value: string;
 }
 
+interface EmailEntryAttachments {
+  type: "attachments";
+  value: string[];
+};
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
   const previewText = ``;
   const renderContent = () => {
@@ -48,23 +52,26 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
       switch (entry.type) {
         case 'text':
           return (
+            //background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:1em 10px
             
               <Markdown markdownCustomStyles={{
-                h1: {  },
+                h1: {  paddingTop:"0px", fontSize:"14px" },
                 h2: { paddingTop:"0px", fontSize:"14px" },
+                image:{display:"block", marginLeft:"auto", marginRight:"auto", width:"250px", height:"250px", objectFit:"cover" },
+                blockQuote:{ background:"#f9f9f9", borderLeft:"10px solid #ccc", padding:"0.5rem 5px"},
                 codeInline: { background: "grey" },
               }}
+
               markdownContainerStyles={{
-                padding: "0px",
-                paddingBlock:"0px"
+               /* any future styles add it here (applies to entire container) */
               }}>{entry.value}</Markdown>
             
           );
         case 'images':
           return (
-            <Section className="flex items-center justify-center" key={index}>
+            <Section className="" key={index}>
               {entry.value.map((imageSrc, imgIndex) => (
-                <Img className="" key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`} width={'auto'} height={'500px'} />
+                <Img className= " block ml-auto mr-auto object-cover h-[250px] w-[250px] " key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`}  />
               ))}
             </Section>
           );
@@ -94,7 +101,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
           },
         }}
       >
-        <Body className="mx-auto my-auto bg-base-100 font-sans">
+        <Body className="mx-auto my-auto bg-base-100 font-sans items-center">
           <Container className="mx-auto my-[40px] w-[465px]  rounded-lg border border-solid border-primary p-[20px]">
             <Section className="h-[150px] rounded-lg  bg-primary">
               <Heading className="text-center text-secondary">
@@ -103,8 +110,8 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
             </Section>
 
             <Text className="text-black">
-              <Heading className="text-[14px]">
-                Salam {`${firstName} ${lastName},`}
+              <Heading className="text-[18px]">
+                Salam {`${firstName} ${lastName}`}
               </Heading>
               {renderContent()}
             </Text>

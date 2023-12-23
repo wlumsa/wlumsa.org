@@ -76,7 +76,7 @@ type Member = {
   LastName: string;
   StudentId: string;
   Email: string;
-  Newsletter:boolean;
+  Newsletter: boolean;
 };
 
 type ServicesOffered = {
@@ -108,9 +108,7 @@ type Product = {
   quantity: number; // For products without sizes
   sizes?: { [size: string]: number }; // For products with sizes
   tags: string[];
-
 };
-
 
 type EmailEntryImages = {
   type: "images";
@@ -121,157 +119,200 @@ type EmailEntryText = {
   type: "text";
   value: string;
 };
-
+type EmailEntryAttachments = {
+  type: "attachments";
+  value: string[];
+};
 // Define the props for your Email component
-type EmailProps = {
-  firstName: string;
-  lastName: string;
-  content: (EmailEntryImages | EmailEntryText)[];
-}
-
 
 // Define the structure for the modified values you expect from FireCMS
-interface EmailEntry extends EmailProps {
+interface EmailEntry {
   name: string;
-  header_image: string;
+  subject: string;
+  content: (EmailEntryImages | EmailEntryText | EmailEntryAttachments)[];
   created_on: Date;
   status: string;
-  sendEmail:boolean;
+  sendEmail: boolean;
+  distributionListType: "members" | "custom";
+  customEmails?: string; // Optional, only if distributionListType is 'custom'
 }
 export const EmailCollection = buildCollection<EmailEntry>({
   name: "Emails",
   path: "Emails",
   views: [{ path: "preview", name: "Preview", Builder: EmailPreview }],
   properties: {
-    name: buildProperty({ 
-      name: "Name", 
-      validation: { required: true }, 
-      dataType: "string"
+    name: buildProperty({
+      name: "Title",
+      validation: { required: false },
+      dataType: "string",
     }),
-    header_image: buildProperty({ 
-      name: "Header image", 
-      dataType: "string", 
-      storage: {
-        mediaType: "image", 
-        storagePath: "images", 
-        acceptedFiles: ["image/*"], 
-        metadata: { cacheControl: "max-age=1000000" }
-      }
+    subject: buildProperty({
+      name: "Subject",
+      validation: { required: true },
+      dataType: "string",
     }),
     content: buildProperty({
-      name: "Content", 
-      description: "Example of a complex array with multiple properties as children", 
-      validation: { required: true }, 
-      dataType: "array", 
-      columnWidth: 400, 
+      name: "Content",
+      description:
+        "Example of a complex array with multiple properties as children",
+      validation: { required: true },
+      dataType: "array",
+      columnWidth: 400,
       oneOf: {
-        typeField: "type", 
-        valueField: "value", 
+        typeField: "type",
+        valueField: "value",
         properties: {
           images: buildProperty({
-            name: "Images", 
-            dataType: "array", 
+            name: "Images",
+            dataType: "array",
             of: buildProperty({
-              dataType: "string", 
+              dataType: "string",
               storage: {
-                mediaType: "image", 
-                storagePath: "images/emails", 
-                acceptedFiles: ["image/*"], 
-                metadata: { cacheControl: "max-age=1000000" }
-              }
+                mediaType: "image",
+                storagePath: "emails/images",
+                acceptedFiles: ["image/*"],
+                metadata: { cacheControl: "max-age=1000000" },
+              },
             }),
-            description: "This fields allows uploading multiple images at once and reordering"
+            description:
+              "This fields allows uploading multiple images at once and reordering",
+          }),
+          attachments: buildProperty({
+            name: "Attachments - Not recommended for large amount of ppl",
+            dataType: "array",
+            of: buildProperty({
+              dataType: "string",
+              storage: {
+                mediaType: "file",
+                storagePath: "emails/attachments",
+                acceptedFiles: [".pdf", ".doc", ".docx", ".xls", ".xlsx"], // List of accepted file types
+              },
+            }),
+            description:
+              "This field allows uploading files like documents and images.",
           }),
           text: buildProperty({
-            dataType: "string", 
-            name: "Text", 
-            markdown: true 
-          }),         
-        }
-      }
+            dataType: "string",
+            name: "Text",
+            markdown: true,
+          }),
+        },
+      },
     }),
     status: buildProperty(({ values }) => ({
-      name: "Status", 
-      validation: { required: true }, 
-      dataType: "string", 
-      columnWidth: 140, 
+      name: "Status",
+      validation: { required: true },
+      dataType: "string",
+      columnWidth: 140,
       enumValues: {
         published: {
-          id: "published", 
-          label: "Published", 
+          id: "published",
+          label: "Published",
         },
-        draft: "Draft"
+        draft: "Draft",
       },
-      defaultValue: "draft"
+      defaultValue: "draft",
     })),
     created_on: buildProperty({
-      name: "Created on", 
-      dataType: "date", 
-      autoValue: "on_create"
+      name: "Created on",
+      dataType: "date",
+      autoValue: "on_create",
     }),
-    firstName: buildProperty({
-      name: "first name", 
-      dataType: "string"
-    }),
-    lastName: buildProperty({
-      name: "last name", 
-      dataType: "string"
-    }),
-    sendEmail: buildProperty(({ values }) => ({
-      name: "Send Email",
-      dataType: "boolean",
-      validation: { required: false },
-      defaultValue: false,
-      // Conditional rendering based on the status
 
-      disabled: values.status  !== 'published' && {
+    distributionListType: buildProperty({
+      name: "Distribution List Type",
+      dataType: "string",
+      validation: { required: true },
+      enumValues: {
+        members: {
+          id: "members",
+          label: "Members",
+        },
+        custom: {
+          id: "custom",
+          label: "Custom",
+        },
+      },
+    }),
+    customEmails: buildProperty(({ values }) => ({
+      name: "Enter Emails",
+      dataType: "string",
+      multiline: true,
+      disabled: values.distributionListType !== "custom" && {
         clearOnDisabled: true,
         disabledMessage: "Sizes are only available if 'Has Sizes' is selected.",
         hidden: true,
       },
     })),
-    
+    sendEmail: buildProperty(({ values }) => ({
+      name: "Send Email",
+      dataType: "boolean",
+      validation:
+        values.distributionListType == "custom"
+          ? { required: true }
+          : undefined,
+      defaultValue: false,
+      // Conditional rendering based on the status
+
+      disabled: values.status !== "published" && {
+        clearOnDisabled: true,
+        disabledMessage: "Sizes are only available if 'Has Sizes' is selected.",
+        hidden: true,
+      },
+    })),
   },
   callbacks: {
     onSaveSuccess: async ({ values, context }) => {
-      if (values.status === 'published' && values.content && values) {
+      if (
+        values.sendEmail &&
+        values.status === "published" &&
+        values.content &&
+        values
+      ) {
         const contentWithUrls = await Promise.all(
           values.content.map(async (entry) => {
-            if (entry.type === "images") {
-              const imageUrls = await Promise.all(
-                entry.value.map(imagePath =>
-                  context.storageSource.getDownloadURL(imagePath)
-                    .then(res => res.url)
+            if (entry.type === "images" || entry.type === "attachments") {
+              const fileUrls = await Promise.all(
+                entry.value.map((filePath) =>
+                  context.storageSource
+                    .getDownloadURL(filePath)
+                    .then((res) => res.url)
                 )
               );
-              return { ...entry, value: imageUrls };
+              return { ...entry, value: fileUrls };
             } else {
               return entry;
             }
           })
         );
+
         const emailData = {
           name: values.name,
-          header_image: values.header_image,
-          created_on: values.created_on,
-          status: values.status,
+          subject: values.subject,
           content: contentWithUrls,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        };
-        const endpoint = values.sendEmail ? 'http://localhost:3000/api/sendemail' : 'http://localhost:3000/api/testmail';
+          status: values.status,
+          distributionList:
+            values.distributionListType === "custom"
+              ? values.customEmails
+              : "Members",
+          created_on: values.created_on,
+        }; /*  */
+        const baseUrl = window.location.origin; // This will get the domain
+        const endpoint = values.sendEmail ? `${baseUrl}/api/sendemails` : "";
+
         const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(emailData),
         });
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`HTTP error! Status: ${response.status}`);
       }
     },
   },
-  
 });
-
 
 const ProductsCollection = buildCollection<Product>({
   name: "Products",
@@ -336,7 +377,6 @@ const ProductsCollection = buildCollection<Product>({
       },
       validation: { required: !values.hasSizes, min: 0 },
     })),
-
 
     sizes: buildProperty(({ values }) => ({
       dataType: "map",
@@ -600,12 +640,12 @@ const MemberCollection = buildCollection<Member>({
       description: "Email address of person",
       dataType: "string",
     },
-    Newsletter:{
-        name:"Newsletter",
-        validation:{required:false},
-        description:"Is the user signed up for the newsletter?",
-        dataType:"boolean"
-    }
+    Newsletter: {
+      name: "Newsletter",
+      validation: { required: false },
+      description: "Is the user signed up for the newsletter?",
+      dataType: "boolean",
+    },
   },
 });
 
@@ -1163,7 +1203,7 @@ export default function CMS() {
         ReligiousResourcesCollection,
         OtherResourcesCollection,
         CampusResourcesCollection,
-        EmailCollection
+        EmailCollection,
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}
