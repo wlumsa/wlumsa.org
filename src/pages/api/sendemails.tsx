@@ -12,7 +12,7 @@ interface EmailListItem {
   firstName: string;
   lastName: string;
 }
-
+/*
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const membersCollection = collection(db, "Members");
@@ -48,4 +48,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
-};
+};*/

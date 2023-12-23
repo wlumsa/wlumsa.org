@@ -111,6 +111,7 @@ type Product = {
 
 };
 
+
 type EmailEntryImages = {
   type: "images";
   value: string[];
@@ -128,112 +129,149 @@ type EmailProps = {
   content: (EmailEntryImages | EmailEntryText)[];
 }
 
+
 // Define the structure for the modified values you expect from FireCMS
 interface EmailEntry extends EmailProps {
   name: string;
   header_image: string;
   created_on: Date;
   status: string;
+  sendEmail:boolean;
 }
 export const EmailCollection = buildCollection<EmailEntry>({
   name: "Emails",
   path: "Emails",
-  views: [{
-    path: "preview",
-    name: "Preview",
-    Builder: EmailPreview
-  }],
-
+  views: [{ path: "preview", name: "Preview", Builder: EmailPreview }],
   properties: {
-      name: buildProperty({
-          name: "Name",
-          validation: { required: true },
-          dataType: "string"
-      }),
-      header_image: buildProperty({
-          name: "Header image",
-          dataType: "string",
-          storage: {
-              mediaType: "image",
-              storagePath: "images",
-              acceptedFiles: ["image/*"],
-              metadata: {
-                  cacheControl: "max-age=1000000"
+    name: buildProperty({ 
+      name: "Name", 
+      validation: { required: true }, 
+      dataType: "string"
+    }),
+    header_image: buildProperty({ 
+      name: "Header image", 
+      dataType: "string", 
+      storage: {
+        mediaType: "image", 
+        storagePath: "images", 
+        acceptedFiles: ["image/*"], 
+        metadata: { cacheControl: "max-age=1000000" }
+      }
+    }),
+    content: buildProperty({
+      name: "Content", 
+      description: "Example of a complex array with multiple properties as children", 
+      validation: { required: true }, 
+      dataType: "array", 
+      columnWidth: 400, 
+      oneOf: {
+        typeField: "type", 
+        valueField: "value", 
+        properties: {
+          images: buildProperty({
+            name: "Images", 
+            dataType: "array", 
+            of: buildProperty({
+              dataType: "string", 
+              storage: {
+                mediaType: "image", 
+                storagePath: "images/emails", 
+                acceptedFiles: ["image/*"], 
+                metadata: { cacheControl: "max-age=1000000" }
               }
-          }
-      }),
-      content: buildProperty({
-          name: "Content",
-          description: "Example of a complex array with multiple properties as children",
-          validation: { required: true },
-          dataType: "array",
-          columnWidth: 400,
-          oneOf: {
-              typeField: "type", // you can ommit these `typeField` and `valueField` props to use the defaults
-              valueField: "value",
-              properties: {
-                  images: buildProperty({
-                      name: "Images",
-                      dataType: "array",
-                      of: buildProperty({
-                          dataType: "string",
-                          storage: {
-                              mediaType: "image",
-                              storagePath: "images",
-                              acceptedFiles: ["image/*"],
-                              metadata: {
-                                  cacheControl: "max-age=1000000"
-                              }
-                          }
-                      }),
-                      description: "This fields allows uploading multiple images at once and reordering"
-                  }),
-                  text: buildProperty({
-                      dataType: "string",
-                      name: "Text",
-                      markdown: true
-                  }),
-                  products: buildProperty({
-                      name: "Products",
-                      dataType: "array",
-                      of: {
-                          dataType: "reference",
-                          path: "products" // you need to define a valid collection in this path
-                      }
-                  })
-              }
-          }
-      }),
-      status: buildProperty(({ values }) => ({
-          name: "Status",
-          validation: { required: true },
-          dataType: "string",
-          columnWidth: 140,
-          enumValues: {
-              published: {
-                  id: "published",
-                  label: "Published",
-                  disabled: !values.header_image
-              },
-              draft: "Draft"
-          },
-          defaultValue: "draft"
-      })),
-      created_on: buildProperty({
-          name: "Created on",
-          dataType: "date",
-          autoValue: "on_create"
-      }),
-      firstName:buildProperty({
-        name:"first name",
-        dataType:"string",
-      }),
-      lastName:buildProperty({
-        name:"last name",
-        dataType:"string",
-      })
-  }
-})
+            }),
+            description: "This fields allows uploading multiple images at once and reordering"
+          }),
+          text: buildProperty({
+            dataType: "string", 
+            name: "Text", 
+            markdown: true 
+          }),         
+        }
+      }
+    }),
+    status: buildProperty(({ values }) => ({
+      name: "Status", 
+      validation: { required: true }, 
+      dataType: "string", 
+      columnWidth: 140, 
+      enumValues: {
+        published: {
+          id: "published", 
+          label: "Published", 
+        },
+        draft: "Draft"
+      },
+      defaultValue: "draft"
+    })),
+    created_on: buildProperty({
+      name: "Created on", 
+      dataType: "date", 
+      autoValue: "on_create"
+    }),
+    firstName: buildProperty({
+      name: "first name", 
+      dataType: "string"
+    }),
+    lastName: buildProperty({
+      name: "last name", 
+      dataType: "string"
+    }),
+    sendEmail: buildProperty(({ values }) => ({
+      name: "Send Email",
+      dataType: "boolean",
+      validation: { required: false },
+      defaultValue: false,
+      // Conditional rendering based on the status
+
+      disabled: values.status  !== 'published' && {
+        clearOnDisabled: true,
+        disabledMessage: "Sizes are only available if 'Has Sizes' is selected.",
+        hidden: true,
+      },
+    })),
+    
+  },
+  callbacks: {
+    onSaveSuccess: async ({ values, context }) => {
+      if (values.status === 'published' && values.content && values) {
+        const contentWithUrls = await Promise.all(
+          values.content.map(async (entry) => {
+            if (entry.type === "images") {
+              const imageUrls = await Promise.all(
+                entry.value.map(imagePath =>
+                  context.storageSource.getDownloadURL(imagePath)
+                    .then(res => res.url)
+                )
+              );
+              return { ...entry, value: imageUrls };
+            } else {
+              return entry;
+            }
+          })
+        );
+        const emailData = {
+          name: values.name,
+          header_image: values.header_image,
+          created_on: values.created_on,
+          status: values.status,
+          content: contentWithUrls,
+          firstName: values.firstName,
+          lastName: values.lastName,
+        };
+        const endpoint = values.sendEmail ? 'http://localhost:3000/api/sendemail' : 'http://localhost:3000/api/testmail';
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(emailData),
+        });
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    },
+  },
+  
+});
+
 
 const ProductsCollection = buildCollection<Product>({
   name: "Products",

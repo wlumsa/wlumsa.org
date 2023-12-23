@@ -1,7 +1,7 @@
 import React from 'react';
 import Email from './emails/welcome';
 import { render } from '@react-email/render';
-
+/*
 const Test = () => {
     const emailComponent = <Email firstName='syed' lastName='ahmed' />;
     const html = render(emailComponent, { pretty: true });
@@ -20,3 +20,4 @@ const Test = () => {
   
 
 export default Test;
+*/

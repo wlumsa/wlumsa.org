@@ -47,12 +47,24 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
     return content.map((entry, index) => {
       switch (entry.type) {
         case 'text':
-          return <EmailText markdownText={`test`}/>;
+          return (
+            
+              <Markdown markdownCustomStyles={{
+                h1: {  },
+                h2: { paddingTop:"0px", fontSize:"14px" },
+                codeInline: { background: "grey" },
+              }}
+              markdownContainerStyles={{
+                padding: "0px",
+                paddingBlock:"0px"
+              }}>{entry.value}</Markdown>
+            
+          );
         case 'images':
           return (
-            <Section key={index}>
+            <Section className="flex items-center justify-center" key={index}>
               {entry.value.map((imageSrc, imgIndex) => (
-                <Img key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`} width={'100'} height={'auto'} />
+                <Img className="" key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`} width={'auto'} height={'500px'} />
               ))}
             </Section>
           );
@@ -94,13 +106,11 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
               <Heading className="text-[14px]">
                 Salam {`${firstName} ${lastName},`}
               </Heading>
-              
+              {renderContent()}
             </Text>
 
             {/* Event Details */}
-            <Section>
-              {renderContent()}
-            </Section>
+            
 
             <Hr className="mx-0 my-[10px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">

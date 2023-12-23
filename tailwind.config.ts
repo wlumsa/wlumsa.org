@@ -10,8 +10,8 @@ export default {
     themes: [
      
       {
-        light: {
-          "color-scheme": "light",
+        mytheme: {
+          
           "primary": "#2e046d", // purple
           "secondary": "#e7ac3b", // yellow
           "accent": "#6c703e", // green

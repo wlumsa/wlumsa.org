@@ -36,6 +36,7 @@ interface EmailEntry extends EmailProps {
   header_image: string;
   created_on: Date;
   status: string;
+  sendEmail:boolean
 }
 
 /**
@@ -45,7 +46,7 @@ interface EmailEntry extends EmailProps {
 export function EmailPreview({ entity }: EntityCustomViewParams<EmailEntry>) {
     const [htmlContent, setHtmlContent] = useState('');
     const storage = useStorageSource();
-  
+    
     useEffect(() => {
       if (entity && entity.values.content) {
         // Resolve storage paths to URLs for image types if needed
@@ -66,7 +67,7 @@ export function EmailPreview({ entity }: EntityCustomViewParams<EmailEntry>) {
             <Email
               firstName={entity.values.firstName || 'First Name'}
               lastName={entity.values.lastName || 'Last Name'}
-              content={contentResolved as (EmailEntryImages | EmailEntryText)[]}
+              content={contentResolved }
             />
           );
           // Convert the Email component to an HTML string using @react-email/render
