@@ -7,8 +7,9 @@ import MemberSignup from "../components/MemberSignup";
 import PrayerSection from "../components/PrayerSection";
 import News from "../components/News";
 import Events from "../components/WeeklyEvents";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
+import Popup from "~/components/Popup";
 
 
 // Define the props structure for prayer times
@@ -44,6 +45,28 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 const Home: NextPage<IndexPageProps> = ({ prayerTimes }) => {
+const [popupOpen, setPopupOpen] = useState(false);
+
+useEffect(() => {
+  const popupDisplayed = localStorage.getItem('popupDisplayed');
+  if(!popupDisplayed) {
+    const timeout = setTimeout(() => {
+      setPopupOpen(true);
+      localStorage.setItem('popupDisplayed', 'true');
+
+    }, 4000);
+    return () => clearTimeout(timeout);  
+
+  } 
+}, [])
+const displayPopup = () => {
+  setPopupOpen(true);
+};
+
+const hidePopup = () => {
+  setPopupOpen(false);
+};
+
   return (
     <>
         <Head>
@@ -56,7 +79,12 @@ const Home: NextPage<IndexPageProps> = ({ prayerTimes }) => {
         <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
             <Navbar />
             <Hero />
-            <News />
+           
+            {popupOpen && (
+        <div className="overlay fixed inset-0 bg-black opacity-50 z-50"></div>)}  
+      <Popup isPopupOpen={popupOpen} hidePopup={hidePopup}/>
+         
+            <News /> 
             <PrayerSection prayerTimes={prayerTimes} />
             <Events />
             <MemberSignup/>
