@@ -12,7 +12,7 @@ Discover more about the WLU MSA, our values, and our mission on our [official we
 - [NextJs](https://nextjs.org/docs)
 - [Typescript](https://www.typescriptlang.org/docs/handbook/)
 - [Tailwind CSS](https://tailwindcss.com/docs/installation)
-- [Resend](https://resend.com/docs/introduction)
+- [DaisyUI](https://daisyui.com/)
 - [Firebase](https://firebase.google.com/docs)
 - [Firecms](https://firecms.co/)
 - [Vercel](https://vercel.com/)
