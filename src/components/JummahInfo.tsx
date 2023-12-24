@@ -25,7 +25,7 @@ const JummahInfo: React.FC = () => {
   }, []);
 
   return (
-    <div className="mb-2 overflow-x-auto shadow">
+    <div className="stats stats-vertical shadow lg:stats-horizontal ">
       <table className="table">
         <thead>
           <tr>

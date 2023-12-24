@@ -104,6 +104,20 @@ const Footer: React.FC = () => {
             </a>
           ))}
         </div>
+        <div>
+          <span className="footer-title">Other</span>
+          {otherLinks.map((item, index) => (
+            <a
+              key={index}
+              href={item.link}
+              className="link-hover link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {item.name}
+            </a>
+          ))}
+        </div>
       </footer>
 
       <footer className="footer border-0 bg-base-100 px-10 py-4 text-base-content">
@@ -118,6 +132,7 @@ const Footer: React.FC = () => {
           <div className="flex flex-row items-center justify-center gap-4">
             {socialLinks.map((social, index) => (
               <a
+                key={index}
                 href={social.link}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -128,7 +143,7 @@ const Footer: React.FC = () => {
                   viewBox="0 0 50 50"
                   className="hover:fill-neutral-focus h-6 w-6 fill-neutral"
                 >
-                  <path d={social.icon}></path>
+                  <path key={index} d={social.icon}></path>
                 </svg>
               </a>
             ))}

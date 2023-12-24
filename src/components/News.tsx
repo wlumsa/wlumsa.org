@@ -32,7 +32,7 @@ const News: React.FC = () => {
   const queryLength = instagramPosts.length;
   return (
     <div id="news" className="w-full bg-base-100 py-10">
-      <div className="flex flex-col items-center justify-center px-8">
+      <div className="flex flex-col flex-grow items-center justify-center px-8">
         <div className="flex flex-col items-start justify-center">
           <h3 className="pb-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105">
             Latest News
@@ -41,7 +41,7 @@ const News: React.FC = () => {
             {instagramPosts.map((post, index) => (
               <div
                 id={`item${(index + 1).toString()}`}
-                className="carousel-item relative px-2 "
+                className="carousel-item relative px-2 " key={index}
               >
                 <InstagramEmbed url={post.link} height={425} />
               </div>
@@ -52,7 +52,7 @@ const News: React.FC = () => {
           {Array.from({ length: queryLength }, (_, index) => (
             <a
               href={`#item${index + 1}`}
-              className="btn btn-xs border-primary bg-base-100 text-primary duration-200 hover:scale-105 hover:bg-base-200"
+              className="btn btn-xs border-primary bg-base-100 text-primary duration-200 hover:scale-105 hover:bg-base-200" key={index}
             >
               {index + 1}
             </a>

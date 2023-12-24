@@ -9,34 +9,7 @@ interface SocialLink {
   icon: string;
 }
 
-const Hero: React.FC = () => {
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
-  const [heroUrl, setHeroUrl] = useState("");
-
-  useEffect(() => {
-    const fetchSocialLinks = async () => {
-      const socialsCollectionRef = collection(db, "Socials");
-      const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
-      const querySnapshot = await getDocs(socialQuery);
-
-      const socialLinksData = querySnapshot.docs.map((doc) => {
-        const socialData = doc.data() as SocialLink;
-        return socialData;
-      });
-
-      setSocialLinks(socialLinksData);
-    };
-
-    const fetchHeroUrl = async () => {
-      const heroRef = ref(storage, "images/hero.jpg");
-      const url = await getDownloadURL(heroRef);
-      setHeroUrl(url);
-    };
-
-    fetchHeroUrl();
-    fetchSocialLinks();
-  }, []);
-
+const Hero: React.FC<{ socialLinks: SocialLink[], heroUrl: string }> = ({ socialLinks, heroUrl }) => {
   return (
     <div
       id="hero"
@@ -54,19 +27,20 @@ const Hero: React.FC = () => {
             brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
           </p>
           <div className="flex flex-row items-center justify-center gap-4">
-            {socialLinks.map((social, index) => (
+            {socialLinks && socialLinks.map((social, index) => (
               <a
                 href={social.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="duration-200 hover:scale-105"
+                key = {index}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
                   className="h-8 w-8 fill-base-100 stroke-neutral hover:fill-base-200"
                 >
-                  <path d={social.icon}></path>
+                  <path key = {index} d={social.icon}></path>
                 </svg>
               </a>
             ))}
@@ -76,5 +50,6 @@ const Hero: React.FC = () => {
     </div>
   );
 };
+
 
 export default Hero;
