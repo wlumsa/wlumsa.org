@@ -12,6 +12,7 @@ import { GetStaticProps } from "next";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import db, { storage } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
+import Popup from "~/components/Popup";
 
 interface SocialLinkProps {
   name: string;
@@ -53,6 +54,7 @@ const Home: NextPage<HomeProps> = ({
       <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
         <Navbar />
         <Hero socialLinks={socialLinks} heroUrl={heroUrl} />;
+        <Popup />
         <News />
         <PrayerSection />
         <Events events={events} />
