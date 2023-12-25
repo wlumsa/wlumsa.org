@@ -2,7 +2,7 @@ import { InstagramEmbed } from "react-social-media-embed";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore"; // Import orderBy
 import db from "../firebase";
-import { Suspense } from "react";
+
 
 interface InstagramPost {
   link: string;
@@ -44,6 +44,7 @@ const News: React.FC = () => {
                 className="carousel-item relative px-2 " key={index}
               >
                 <InstagramEmbed url={post.link} height={425} />
+                
               </div>
             ))}
           </div>

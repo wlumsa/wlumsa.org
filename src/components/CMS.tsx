@@ -17,7 +17,6 @@ import {
   Authenticator,
   buildCollection,
   buildProperty,
-  EntityReference,
   FirebaseCMSApp,
 } from "firecms";
 

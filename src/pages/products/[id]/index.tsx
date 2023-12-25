@@ -9,7 +9,6 @@ import { addToCart } from "~/redux/shopperSlice";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
 interface Product {
   id: string;
   name: string;

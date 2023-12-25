@@ -1,5 +1,3 @@
-import { collection, getDocs } from "firebase/firestore";
-import db from "~/firebase";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";

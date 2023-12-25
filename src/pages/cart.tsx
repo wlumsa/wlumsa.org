@@ -7,8 +7,6 @@ import Navbar from "~/components/Navbar";
 import { deleteItem } from "~/redux/shopperSlice";
 import db from "~/firebase";
 import { collection, getDocs } from "firebase/firestore"; //
-import { useRouter } from "next/router";
-import CtaForm from "~/components/CtaForm";
 import BuyForm from "~/components/BuyForm";
 interface Product {
   id: string;

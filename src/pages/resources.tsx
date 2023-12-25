@@ -2,7 +2,6 @@ import React from "react";
 
 import { useState, useEffect } from "react";
 
-import CtaForm from "~/components/CtaForm";
 
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 

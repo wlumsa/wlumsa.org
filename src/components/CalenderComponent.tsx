@@ -108,7 +108,7 @@ const renderEventContent = (eventInfo: EventContentArg) => {
       <div
         className="text-xs"
         dangerouslySetInnerHTML={{ __html: formattedTitle }}
-      ></div>{" "}
+      ></div>
       {/* Adjusted text size */}
     </div>
   );

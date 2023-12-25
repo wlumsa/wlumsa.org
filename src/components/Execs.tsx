@@ -1,19 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import db, { storage } from "../firebase";
-import Link from "next/link";
-import { ref, getDownloadURL } from "firebase/storage";
-
-/*
-interface Events {
-  day:string;
-  desc:string;
-  img: string;
-  name:string;
-  room:string;
-  time:string;
-}
-*/
+import React from "react";
 
 const Execs: React.FC = () => {
   return (

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import Link from "next/link";
 import db from "~/firebase";
 
 import Products from "~/components/ProductCard";

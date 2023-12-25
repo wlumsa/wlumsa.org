@@ -3,13 +3,7 @@ import { render } from '@react-email/render';
 
 import Email from "~/pages/emails/welcome"; // Adjust the import path as necessary
 import {
-    Entity,
     EntityCustomViewParams,
-    EntityReference,
-    EntityValues,
-    ErrorView,
-    Markdown,
-    useDataSource,
     useStorageSource
 } from "firecms";
 // Define the types for your Email content entries

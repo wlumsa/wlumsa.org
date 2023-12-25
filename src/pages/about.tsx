@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
-import Execs from "~/components/Execs";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 

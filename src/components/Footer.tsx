@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { ref, getDownloadURL } from "firebase/storage";
-import db, { storage } from "../firebase";
+import db from "../firebase";
 import logo from "public/logo.png";
 interface FooterItem {
   name: string;

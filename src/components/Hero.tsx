@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import db, { storage } from "../firebase";
-import { ref, getDownloadURL } from "firebase/storage";
+import React from "react"
 
 interface SocialLink {
   name: string;

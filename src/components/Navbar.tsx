@@ -2,7 +2,7 @@ import Link from "next/link";
 import logo from "public/logo.png";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
 
 interface Product {
   id: string;
@@ -130,7 +130,7 @@ const Navbar: React.FC = () => {
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl normal-case">
-          <img src={logo.src} alt="Logo" className="h-8 w-8" />
+          <Image src={logo.src} alt="Logo" className="h-8 w-8" />
         </Link>
       </div>
 
