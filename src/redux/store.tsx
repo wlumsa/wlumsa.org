@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import shopperReducer from "./shopperSlice";
-import popupReducer from "./popUpSlice";
+import popupReducer from "./popupSlice";
 import {
   persistStore,
   persistReducer,
