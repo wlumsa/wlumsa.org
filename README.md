@@ -7,7 +7,7 @@ This project is the official page for Laurier's Muslim Student Association. It w
 Discover more about the WLU MSA, our values, and our mission on our [official website](https://www.wlumsa.org/about).
 
 ## Tech Stack
-[![Technologies](https://skillicons.dev/icons?i=nextjs,typescript,tailwind,react,,firebase)](https://skillicons.dev)
+[![Technologies](https://skillicons.dev/icons?i=nextjs,typescript,tailwind,react,firebase)](https://skillicons.dev)
 
 ## Deployment
 This project is currently being hosted by Vercel. However one can run it locally. Please note you will need your own API keys for the services used
