@@ -10,15 +10,20 @@ const Popup: React.FC = () => {
 
   const handleClose = () => {
     dispatch(hidePopup());
+    // Set the flag in localStorage when the popup is closed
+    localStorage.setItem('popupShown', 'true');
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(showPopup());
-    }, 4000); 
+    // Only show the popup if the flag is not set in localStorage
+    if (!localStorage.getItem('popupShown')) {
+      const timer = setTimeout(() => {
+        dispatch(showPopup());
+      }, 10000); // 10000 milliseconds = 10 seconds
 
-    // Cleanup function to clear the timeout if the component unmounts before the timeout finishes
-    return () => clearTimeout(timer);
+      // Cleanup function to clear the timeout if the component unmounts before the timeout finishes
+      return () => clearTimeout(timer);
+    }
   }, [dispatch]);
 
   if (!isPopupOpen) {

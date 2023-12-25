@@ -130,7 +130,7 @@ const Navbar: React.FC = () => {
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl normal-case">
-          <Image src={logo.src} alt="Logo" className="h-8 w-8" />
+          <Image src={logo.src} alt="Logo" height={32} width={32} />
         </Link>
       </div>
 

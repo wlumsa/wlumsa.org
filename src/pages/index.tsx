@@ -43,7 +43,7 @@ const Home: NextPage<HomeProps> = ({
     <>
       <Head>
         <title>WLU MSA</title>
-        <meta name="description" />
+        <meta name="The Laurier Muslim Student Association (MSA) is a student-run organization at Laurier which was founded in 2010. Its primary purpose is to provide a platform for Muslim students to come together, practice their faith, engage in community service, and promote understanding and awareness of Islam on campus." />
         <link rel="icon" href="/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
