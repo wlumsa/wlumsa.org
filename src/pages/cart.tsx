@@ -156,7 +156,7 @@ const Cart = () => {
                   <thead>
                     <tr>
                       <th className="text-left font-semibold">Product</th>
-             
+
                       <th className="text-left font-semibold">Quantity</th>
                       <th className="text-left font-semibold">Total</th>
                       <th className="text-left font-semibold">Remove Item</th>
@@ -183,7 +183,7 @@ const Cart = () => {
                                 </Link>
                               </div>
                             </td>
-                            
+
                             <td className="py-4">{qty}</td>
                             <td className="py-4">
                               ${(item.product.price * qty).toFixed(2)}
@@ -198,7 +198,7 @@ const Cart = () => {
                                   )
                                 }
                               >
-                               <svg
+                                <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
@@ -230,10 +230,11 @@ const Cart = () => {
                     value={coupon}
                     onChange={handleCouponChange}
                     placeholder="Enter coupon code"
-                    className="bg-base-100 text-neutral w-1/2 "
+                    className="w-1/2 bg-base-100 text-neutral "
                   />
-                  <button className=" justify-self-end" onClick={applyCoupon}>Apply Coupon</button>
-                  
+                  <button className=" justify-self-end" onClick={applyCoupon}>
+                    Apply Coupon
+                  </button>
                 </div>
                 {couponError && <p className="text-red-500">{couponError}</p>}
                 {couponSuccess && (
@@ -271,9 +272,21 @@ const Cart = () => {
                     <div className="modal-action">
                       <form method="dialog">
                         <button className="px-4">
-                        <svg className="w-3 h-3aa" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
+                          <svg
+                            className="h-3aa w-3"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 14 14"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                            />
+                          </svg>
                         </button>
                       </form>
                     </div>

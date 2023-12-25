@@ -9,7 +9,7 @@ import { addToCart } from "~/redux/shopperSlice";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 import toast, { Toaster } from "react-hot-toast";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
 interface Product {
   id: string;
   name: string;
@@ -30,7 +30,7 @@ export default function ProductPage() {
   const [quantityS, setQuantityS] = useState(0);
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
-  
+
   useEffect(() => {
     const fetchProduct = async () => {
       if (typeof id === "string") {
@@ -335,15 +335,18 @@ export default function ProductPage() {
                           <form method="dialog">
                             <button className="px-4">
                               <svg
+                                className="h-3aa w-3"
+                                aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 shrink-0 stroke-current"
                                 fill="none"
-                                viewBox="0 0 24 24"
+                                viewBox="0 0 14 14"
                               >
                                 <path
+                                  stroke="currentColor"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  stroke-width="2"
+                                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                                 />
                               </svg>
                             </button>
