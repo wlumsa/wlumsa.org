@@ -19,7 +19,6 @@ interface Product {
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
     const fetchAndSetProducts = async () => {
       const productsCollectionRef = collection(db, "Products");

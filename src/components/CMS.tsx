@@ -1,14 +1,7 @@
 "use client";
 import msalogo from "public/logo.png";
 
-const allowedEmails = [
-  "wlumsa.admin@gmail.com",
-  "siddiquifurqan5@gmail.com",
-  "syedahmedd.02@gmail.com",
-  "usamamohiudin@gmail.com",
-  "waleedasif370@gmail.com",
-  "bassamkh17@gmail.com",
-];
+
 import { EmailPreview } from "./EmailPreview";
 import React, { useCallback } from "react";
 
@@ -24,7 +17,7 @@ import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
 
 import { firebaseConfig } from "../firebase";
-
+import db from "../firebase";
 type PrayerRooms = {
   building: string;
   roomNumber: number;
@@ -415,7 +408,7 @@ const PrayerTimingsCollection = buildCollection({
   singularName: "Month",
   group: "Prayer Timings Page",
   permissions: ({ user, authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -430,7 +423,7 @@ const PrayerTimingsCollection = buildCollection({
       name: "Days",
       singularName: "Day",
       permissions: ({ user, authController }) => {
-        const isAdmin = authController.extra?.roles.includes("admin");
+        const isAdmin = authController.extra?.roles.includes("Admin");
         return {
           edit: isAdmin,
           create: isAdmin,
@@ -527,21 +520,21 @@ const ordersCollection = buildCollection({
   properties: {
     Name: buildProperty({
       dataType: "string",
-      title: "Name",
+      name: "Name",
       validation: { required: true },
     }),
     delivered: buildProperty({
       dataType: "boolean",
-      title: "Delivered",
+      name: "Delivered",
     }),
     email: buildProperty({
       dataType: "string",
-      title: "Email",
+      name: "Email",
       validation: { required: true, email: true },
     }),
     image: buildProperty({
       dataType: "string",
-      title: "Image URL",
+      name: "Image URL",
       config: {
         storageMeta: {
           mediaType: "image",
@@ -552,46 +545,39 @@ const ordersCollection = buildCollection({
     }),
     password: buildProperty({
       dataType: "string",
-      title: "Password",
+      name: "Password",
       // Ensure to hash and properly secure passwords in a real application
     }),
     phoneNumber: buildProperty({
       dataType: "string",
-      title: "Phone Number",
+      name: "Phone Number",
     }),
     pickuptime: buildProperty({
       dataType: "string",
-      title: "Pick-up Time",
+      name: "Pick-up Time",
     }),
     price: buildProperty({
       dataType: "string",
-      title: "Price",
+      name: "Price",
     }),
     products: buildProperty({
       dataType: "array",
-      title: "Products",
+      name: "Products",
       of: {
         dataType: "map",
         properties: {
-          hasSizes: {
-            dataType: "boolean",
-            title: "Has Sizes",
-          },
-          id: {
-            dataType: "string",
-            title: "Product ID",
-          },
+          
           name: {
             dataType: "string",
-            title: "Product Name",
+            name: "Product Name",
           },
           quantity: {
             dataType: "number",
-            title: "Quantity",
+            name: "Quantity",
           },
           size: {
             dataType: "string",
-            title: "Size",
+            name: "Size",
           },
         },
       },
@@ -604,7 +590,7 @@ const MemberCollection = buildCollection<Member>({
   name: "Members",
   singularName: "Member",
   permissions: ({ user, authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -654,7 +640,7 @@ const FormsCollection = buildCollection<Forms>({
   singularName: "Form",
   group: "Footer",
   permissions: ({ user, authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -686,7 +672,7 @@ const JummahCollection = buildCollection<JummahInfo>({
   name: "Jummah",
   group: "Home Page",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -717,7 +703,7 @@ const ServicesOfferedCollection = buildCollection<ServicesOffered>({
   path: "ServicesOffered",
   name: "Services Offered",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -756,7 +742,7 @@ const LocalMosquesCollection = buildCollection<LocalMosques>({
   singularName: "Mosque",
   group: "Footer",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -787,7 +773,7 @@ const OtherCollection = buildCollection<Other>({
   name: "Other",
   group: "Footer",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -822,7 +808,7 @@ const InstagramCollection = buildCollection<InstagramPost>({
   group: "Home Page",
 
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -854,7 +840,7 @@ const ResourcesCollection = buildCollection<Resources>({
   singularName: "Resource",
   group: "Footer",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -886,7 +872,7 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
   singularName: "Prayer room",
   group: "Home Page",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -928,7 +914,7 @@ const SocialsCollection = buildCollection<Socials>({
   name: "Socials",
   group: "Footer",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -984,7 +970,7 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
   singularName: "Event",
   group: "Home Page",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -1064,7 +1050,7 @@ const CampusResourcesCollection = buildCollection<CampusResource>({
   name: "Campus Resources",
   group: "Resources Page",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -1099,11 +1085,12 @@ const ReligiousResourcesCollection = buildCollection<ReligiousResource>({
   name: "Religious Resources",
   group: "Resources Page",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
       delete: isAdmin,
+      
     };
   },
   properties: {
@@ -1133,7 +1120,7 @@ const OtherResourcesCollection = buildCollection<OtherResource>({
   name: "Other Resources",
   group: "Resources Page",
   permissions: ({ authController }) => {
-    const isAdmin = authController.extra?.roles.includes("admin");
+    const isAdmin = authController.extra?.roles.includes("Admin");
     return {
       edit: isAdmin,
       create: isAdmin,
@@ -1163,28 +1150,79 @@ const OtherResourcesCollection = buildCollection<OtherResource>({
   },
 });
 
+
+
+const usersCollection = buildCollection({
+  path: "users", // Path to the collection in Firestore
+  name: "Users",
+  permissions: ({ authController }) => {
+    const isAdmin = authController.extra?.roles.includes("Admin");
+    return {
+      edit: isAdmin,
+      create: isAdmin,
+      delete: isAdmin,
+      
+    };
+  },
+  properties: {
+    email: buildProperty({
+      dataType: "string",
+      name: "Email",
+      validation: { required: true, email: true }
+    }),
+    role: buildProperty({
+      dataType: "string",
+      name: "Role",
+      validation: { required: true },
+     
+      enumValues: {
+          
+          Admin: "Admin",
+          Marketing: "Marketing",
+          ReligiousAffairs: "Religious Affairs",
+          Events: "Events",
+          Finance: "Finance",
+          External:"External/Internal",
+          ProfessionalDevelopment: "Professional Development",
+          Member: "Member"
+      }
+    
+    }),
+  }
+});
+
+import { collection, query, where, getDocs } from "firebase/firestore";
+
 export default function CMS() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
     async ({ user, authController }) => {
-      if (user?.email && allowedEmails.includes(user?.email.toLowerCase())) {
-        const sampleUserData = await Promise.resolve({
-          roles: ["admin"],
-        });
-        authController.setExtra(sampleUserData);
-        return true;
+      if (user?.email) {
+      
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+  
+        if (!querySnapshot.empty && querySnapshot.docs[0]?.exists()) {
+          const userData = querySnapshot.docs[0].data();
+          if (userData && userData.role) {
+            authController.setExtra({ roles: [userData.role] });
+            return true;
+          }
+        }
+        throw Error("User not found in the system");
       } else {
-        throw Error("Access Denied, Contact Admin");
+        throw Error("No email associated with the Firebase user");
       }
     },
     []
   );
-
   return (
     <FirebaseCMSApp
       name={"Muslim Students Association "}
       basePath={"/cms"}
       authentication={myAuthenticator}
       collections={[
+        usersCollection,
         ordersCollection,
         ProductsCollection,
         PrayerTimingsCollection,
