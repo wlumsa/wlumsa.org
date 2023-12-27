@@ -132,6 +132,18 @@ export const EmailCollection = buildCollection<EmailEntry>({
   name: "Emails",
   path: "Emails",
   views: [{ path: "preview", name: "Preview", Builder: EmailPreview }],
+  permissions: ({ authController }) => {
+    const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isEvents = authController.extra?.roles.includes("Events");
+    const isExternal = authController.extra?.roles.includes("External");
+    return {
+      edit: isAdmin || isMarketing || isEvents || isExternal,
+      create: isAdmin || isMarketing || isEvents || isExternal,
+      delete: isAdmin || isMarketing || isEvents || isExternal,
+      
+    };
+  },
   properties: {
     name: buildProperty({
       name: "Title",
@@ -311,6 +323,18 @@ const ProductsCollection = buildCollection<Product>({
   singularName: "Product",
   path: "Products",
   group: "Products page",
+  permissions: ({ authController }) => {
+    const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isFinance = authController.extra?.roles.includes("Finance");
+    const isExternal = authController.extra?.roles.includes("External");
+    return {
+      edit: isAdmin || isMarketing || isFinance || isExternal,
+      create: isAdmin || isMarketing || isFinance || isExternal,
+      delete: isAdmin || isMarketing || isFinance || isExternal,
+      
+    };
+  },
   properties: {
     name: buildProperty({
       dataType: "string",
@@ -409,11 +433,13 @@ const PrayerTimingsCollection = buildCollection({
   group: "Prayer Timings Page",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isReligiousAffairs || isExternal,
+      create: isAdmin || isReligiousAffairs || isExternal ,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isReligiousAffairs || isExternal,
     };
   },
   properties: {}, // This is kept empty because the month name is the document ID
@@ -517,6 +543,17 @@ const ordersCollection = buildCollection({
   name: "Orders",
   path: "Orders",
   group: "Products page",
+  permissions: ({ authController }) => {
+    const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isFinance = authController.extra?.roles.includes("Finance");
+    return {
+      edit: isAdmin || isMarketing || isFinance,
+      create: isAdmin || isMarketing || isFinance,
+      delete: isAdmin || isMarketing || isFinance,
+      
+    };
+  },
   properties: {
     Name: buildProperty({
       dataType: "string",
@@ -591,11 +628,12 @@ const MemberCollection = buildCollection<Member>({
   singularName: "Member",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isExternal,
+      create: isAdmin || isExternal,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isExternal,
     };
   },
   properties: {
@@ -641,11 +679,12 @@ const FormsCollection = buildCollection<Forms>({
   group: "Footer",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isExternal,
+      create: isAdmin || isExternal,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isExternal,
     };
   },
   properties: {
@@ -673,11 +712,13 @@ const JummahCollection = buildCollection<JummahInfo>({
   group: "Home Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isReligiousAffairs || isExternal,
+      create: isAdmin || isReligiousAffairs || isExternal,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isReligiousAffairs || isExternal,
     };
   },
   properties: {
@@ -704,11 +745,14 @@ const ServicesOfferedCollection = buildCollection<ServicesOffered>({
   name: "Services Offered",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isExternal = authController.extra?.roles.includes("External");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isExternal || isMarketing || isProfessionalDevelopment,
+      create: isAdmin || isExternal || isMarketing || isProfessionalDevelopment,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isExternal || isMarketing || isProfessionalDevelopment,
     };
   },
   properties: {
@@ -743,11 +787,13 @@ const LocalMosquesCollection = buildCollection<LocalMosques>({
   group: "Footer",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isReligiousAffairs || isExternal,
+      create: isAdmin || isReligiousAffairs || isExternal,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isReligiousAffairs || isExternal,
     };
   },
   properties: {
@@ -774,11 +820,13 @@ const OtherCollection = buildCollection<Other>({
   group: "Footer",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isExternal = authController.extra?.roles.includes("External");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isExternal || isMarketing,
+      create: isAdmin || isExternal || isMarketing,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isExternal || isMarketing,
     };
   },
   properties: {
@@ -809,11 +857,13 @@ const InstagramCollection = buildCollection<InstagramPost>({
 
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isExternal = authController.extra?.roles.includes("External");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isExternal || isMarketing,
+      create: isAdmin || isExternal || isMarketing,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isExternal || isMarketing,
     };
   },
   properties: {
@@ -841,11 +891,13 @@ const ResourcesCollection = buildCollection<Resources>({
   group: "Footer",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isExternal || isMarketing,
+      create: isAdmin || isExternal || isMarketing,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isExternal || isMarketing,
     };
   },
   properties: {
@@ -873,11 +925,13 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
   group: "Home Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
+      edit: isAdmin || isReligiousAffairs || isExternal,
+      create: isAdmin || isReligiousAffairs || isExternal,
       // we have created the roles object in the navigation builder
-      delete: isAdmin,
+      delete: isAdmin || isReligiousAffairs || isExternal,
     };
   },
   properties: {
@@ -915,10 +969,12 @@ const SocialsCollection = buildCollection<Socials>({
   group: "Footer",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isExternal = authController.extra?.roles.includes("External");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
     return {
-      edit: isAdmin,
-      create: isAdmin,
-      delete: isAdmin,
+      edit: isAdmin || isExternal || isMarketing,
+      create: isAdmin || isExternal || isMarketing,
+      delete: isAdmin || isExternal || isMarketing,
     };
   },
   properties: {
@@ -971,10 +1027,13 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
   group: "Home Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isEvents = authController.extra?.roles.includes("Events");
+    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
-      delete: isAdmin,
+      edit: isAdmin || isEvents || isReligiousAffairs || isExternal,
+      create: isAdmin || isEvents || isReligiousAffairs || isExternal,
+      delete: isAdmin || isEvents || isReligiousAffairs ||isExternal,
     };
   },
   properties: {
@@ -1051,10 +1110,13 @@ const CampusResourcesCollection = buildCollection<CampusResource>({
   group: "Resources Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
-      delete: isAdmin,
+      edit: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      create: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      delete: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
     };
   },
   properties: {
@@ -1086,11 +1148,13 @@ const ReligiousResourcesCollection = buildCollection<ReligiousResource>({
   group: "Resources Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
-      delete: isAdmin,
-      
+      edit: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      create: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      delete: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
     };
   },
   properties: {
@@ -1121,10 +1185,13 @@ const OtherResourcesCollection = buildCollection<OtherResource>({
   group: "Resources Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
+    const isMarketing = authController.extra?.roles.includes("Marketing");
+    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin,
-      create: isAdmin,
-      delete: isAdmin,
+      edit: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      create: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      delete: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
     };
   },
   properties: {
@@ -1177,19 +1244,21 @@ const usersCollection = buildCollection({
      
       enumValues: {
           
-          Admin: "Admin",
-          Marketing: "Marketing",
-          ReligiousAffairs: "Religious Affairs",
-          Events: "Events",
-          Finance: "Finance",
-          External:"External/Internal",
-          ProfessionalDevelopment: "Professional Development",
-          Member: "Member"
+          Admin: "Admin", /* Everything */
+          Marketing: "Marketing", /* Products + Orders + Instagram Posts + Footer + Resources Page */
+          ReligiousAffairs: "Religious Affairs", /* Prayer timings + Prayer Rooms + Events + Local Mosques + Jummah*/
+          Events: "Events", /* Emails + Events + Calander wehn made */
+          Finance: "Finance", /* Orders + Products */ 
+          External:"External/Internal", /* Everything But Users  */
+          ProfessionalDevelopment: "Professional Development", /* Resource Page*/
+          Member: "Member" /* Nothing lol */
       }
     
     }),
   }
 });
+
+
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 
