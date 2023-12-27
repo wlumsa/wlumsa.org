@@ -118,33 +118,28 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   
       dispatch(clearCart());
   
-      // rest of the code...
-    } catch (error) {
-      alert("An error has occurred, please contact msa@wlu.ca if you have already paid");
-    }
-
-    dispatch(clearCart());
-
-    let imageUrl = "";
-    if (image) {
-      const storage = getStorage();
-      const storageRef = ref(storage, `receipts/${image.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-        },
-        (error) => {
-          console.error("Error uploading image: ", error);
-        },
-        async () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            console.log("File available at", downloadURL);
-            imageUrl = downloadURL;
+      let imageUrl = "";
+      if (image) {
+        const storage = getStorage();
+        const storageRef = ref(storage, `receipts/${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+  
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (error) => {
+            console.error("Error uploading image: ", error);
+          },
+          async () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+              console.log("File available at", downloadURL);
+              imageUrl = downloadURL;
+  
+  
 
             // Add a new document to Firestore
             const docRef = addDoc(collection(db, "Orders"), {
@@ -185,9 +180,12 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
             } catch (error) {
               console.error("Error sending form: ", error);
             }
-          });
-        }
-      );
+            });
+          }
+        );
+      }
+    } catch (error) {
+      alert("An error has occurred, please contact msa@wlu.ca if you have already paid");
     }
   };
 
