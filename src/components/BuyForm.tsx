@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import db from "~/firebase";
+
 import {
   updateDoc,
   doc,
   increment,
   collection,
-  addDoc,
+  addDoc,getDoc
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { clearCart } from "~/redux/shopperSlice";
@@ -36,6 +37,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   const [pickupTime, setPickupTime] = useState<string>("");
   const [customTime, setCustomTime] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
+  const [areQuantitiesValid, setAreQuantitiesValid] = useState<boolean>(true);
 
   const dispatch = useDispatch();
 
@@ -56,21 +58,69 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   ) => {
     setCustomTime(event.target.value);
   };
+  
+
+  useEffect(() => {
+    const verifyQuantities = async () => {
+      for (const product of products) {
+        const productRef = doc(db, "Products", product.id);
+        const productSnapshot = await getDoc(productRef);
+        const productData = productSnapshot.data();
+
+        if (product.hasSizes) {
+          const sizeQuantity = productData?.sizes[product.size];
+          if (sizeQuantity && sizeQuantity < product.quantity) {
+            setAreQuantitiesValid(false);
+            break;
+          }
+        } else {
+          const quantity = productData?.quantity;
+          if (quantity && quantity < product.quantity) {
+            setAreQuantitiesValid(false);
+            break;
+          }
+        }
+      }
+    };
+
+    verifyQuantities();
+  }, [products]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    for (const product of products) {
-      const productRef = doc(db, "Products", product.id);
-      if (product.hasSizes) {
-        await updateDoc(productRef, {
-          [`sizes.${product.size}`]: increment(-product.quantity),
-        });
-      } else {
-        await updateDoc(productRef, {
-          quantity: increment(-product.quantity),
-        });
+  
+    try {
+      for (const product of products) {
+        const productRef = doc(db, "Products", product.id);
+        const productSnapshot = await getDoc(productRef);
+        const productData = productSnapshot.data();
+  
+        if (product.hasSizes) {
+          const sizeQuantity = productData?.sizes[product.size];
+          if (sizeQuantity && sizeQuantity < product.quantity) {
+            throw new Error("Invalid quantity");
+          } else {
+            await updateDoc(productRef, {
+              [`sizes.${product.size}`]: increment(-product.quantity),
+            });
+          }
+        } else {
+          const quantity = productData?.quantity;
+          if (quantity && quantity < product.quantity) {
+            throw new Error("Invalid quantity");
+          } else {
+            await updateDoc(productRef, {
+              quantity: increment(-product.quantity),
+            });
+          }
+        }
       }
+  
+      dispatch(clearCart());
+  
+      // rest of the code...
+    } catch (error) {
+      alert("An error has occurred, please contact msa@wlu.ca if you have already paid");
     }
 
     dispatch(clearCart());
@@ -142,7 +192,9 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   };
 
   console.log(products);
-  // Return the form JSX
+  if (!areQuantitiesValid) {
+    return <div>Some products have invalid quantities. Please update your cart.</div>;
+  }
   return (
     <div>
       <div className="flex items-center">
