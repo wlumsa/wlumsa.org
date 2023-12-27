@@ -119,7 +119,7 @@ const Navbar: React.FC = () => {
                     <Link href="/events">Events</Link>
                   </li>
                   <li>
-                    <Link href="/contact/fiqh">Fiqh Q&A</Link>
+                    <Link href="/contact/Fiqh">Fiqh Q&A</Link>
                   </li>
                 </ul>
               </details>
@@ -185,7 +185,7 @@ const Navbar: React.FC = () => {
                 <Link href="/events">Events</Link>
               </li>
               <li>
-                <Link href="/contact/fiqh">Fiqh Q&A</Link>
+                <Link href="/contact/Fiqh">Fiqh Q&A</Link>
               </li>
             </ul>
           </li>

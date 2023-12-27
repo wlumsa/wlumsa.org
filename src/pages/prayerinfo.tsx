@@ -4,7 +4,7 @@ import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import db from "../firebase";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
-
+import { GetStaticProps } from "next";
 interface Timings {
   Fajr: string;
   Sunrise: string;
@@ -27,64 +27,61 @@ interface Jummah {
   time: string;
 }
 
+
 const fetchTimings = async (): Promise<DayTimings[]> => {
   const today = new Date();
-  const currentMonth = today.toLocaleString("default", { month: "long" });
-  const dayOfMonth = today.getDate();
-  const endDay = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() + 7
-  ).getDate();
-  const daysCollectionRef = collection(
-    db,
-    "PrayerTimings",
-    currentMonth,
-    "Days"
-  );
-  const q = query(
-    daysCollectionRef,
-    where("Day", ">=", dayOfMonth),
-    where("Day", "<=", endDay),
-    orderBy("Day", "asc")
-  );
-  const querySnapshot = await getDocs(q);
+  const currentMonth = today.toLocaleString('default', { month: 'long' });
+
+  let daysCollectionRef = collection(db, 'PrayerTimings', currentMonth, 'Days');
+  let q = query(daysCollectionRef, orderBy('Day', 'asc'));
+
+  let querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => ({
     timings: doc.data() as Timings,
     day: doc.data().Day as number,
   }));
 };
+
 const fetchJummahTimes = async (): Promise<Jummah[]> => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
   return querySnapshot.docs.map((doc) => {
     const data = doc.data();
-    console.log("Document Data:", data); // Add this line
     return { room: data.room as string, time: data.time as string };
   });
 };
-const PrayerTimes: React.FC = () => {
-  const [timingsData, setTimingsData] = useState<DayTimings[]>([]);
-  const currentMonth = new Date().toLocaleString("default", { month: "long" });
-  const [jummahTimes, setJummahTimes] = useState<Jummah[]>([]);
+
+export const getStaticProps: GetStaticProps = async () => {
+  const timingsData = await fetchTimings();
+  const jummahTimes = await fetchJummahTimes();
+
+  return {
+    props: {
+      timingsData,
+      jummahTimes,
+    },
+  };
+};
+
+const PrayerTimes: React.FC<{ timingsData: DayTimings[], jummahTimes: Jummah[] }> = ({ timingsData, jummahTimes }) => {
+  const [filteredData, setFilteredData] = useState<DayTimings[]>([]);
+  const today = new Date();
+  const currentDay = today.getDate();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+  const currentMonthLong = new Date().toLocaleString("default", { month: "long" });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedTimings = await fetchTimings();
-      setTimingsData(fetchedTimings);
-    };
+    const endDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const nextSevenDaysData = timingsData.filter((data) => {
+      const day = data.day;
+      return day >= currentDay && day <= Math.min(currentDay + 6, endDay);
+    });
+    setFilteredData(nextSevenDaysData);
+  }, [timingsData, currentDay]);
 
-    const fetchFridayJummahTimes = async () => {
-      const fetchedJummahTimes = await fetchJummahTimes();
-      console.log("Jummah Times:", fetchedJummahTimes); // Add this line
-      setJummahTimes(fetchedJummahTimes);
-    };
-
-    fetchData();
-    fetchFridayJummahTimes();
-  }, []);
   const getFullDate = (day: number): string => {
-    return `${currentMonth} ${day}`;
+    return `${currentMonthLong} ${day}`;
   };
 
   const appendMeridiem = (time: string, isAM: boolean) => {
@@ -124,7 +121,7 @@ const PrayerTimes: React.FC = () => {
                 <th className="px-4 py-2 text-left text-xs font-bold uppercase">
                   Prayer
                 </th>
-                {timingsData.map((day) => (
+                {filteredData.map((day) => (
                   <th
                     key={day.day}
                     className="border-l border-gray-400 px-4 py-2 text-left text-xs font-bold uppercase"
@@ -140,7 +137,7 @@ const PrayerTimes: React.FC = () => {
                   <td className="border-t border-gray-400 px-4 py-2 text-left text-xs font-bold uppercase">
                     {key.replace(/Iqamah$/, " Iqamah")}
                   </td>
-                  {timingsData.map((day) => {
+                  {filteredData.map((day) => {
                     console.log("Prayer:", key, "Day:", day.day);
                     return (
                       <td
