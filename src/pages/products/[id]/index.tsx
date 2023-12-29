@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import db from "~/firebase";
-import BuyForm from "~/components/BuyForm";
+import BuyForm from "~/components/Forms/BuyForm";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { useDispatch } from "react-redux";
 import { addToCart } from "~/redux/shopperSlice";

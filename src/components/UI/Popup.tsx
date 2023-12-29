@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { hidePopup, showPopup } from "../redux/popupSlice"
-import { RootState } from '../redux/store';
+import { hidePopup, showPopup } from "../../redux/popupSlice"
+import { RootState } from '../../redux/store';
 import MemberSignup from './MemberSignup';
 
 const Popup: React.FC = () => {

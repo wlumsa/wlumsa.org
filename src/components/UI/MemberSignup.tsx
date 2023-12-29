@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
-import db from "../firebase";
+import db from "../../firebase";
 import { toast } from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
 const MemberSignup: React.FC = () => {

@@ -1,10 +1,9 @@
 "use client";
 import msalogo from "public/logo.png";
 
-
 import { EmailPreview } from "./EmailPreview";
 import React, { useCallback } from "react";
-
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { User as FirebaseUser } from "firebase/auth";
 import {
   Authenticator,
@@ -16,8 +15,8 @@ import {
 import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
 
-import { firebaseConfig } from "../firebase";
-import db from "../firebase";
+import { firebaseConfig } from "../../firebase";
+import db from "../../firebase";
 type PrayerRooms = {
   building: string;
   roomNumber: number;
@@ -128,6 +127,222 @@ interface EmailEntry {
   distributionListType: "members" | "custom";
   customEmails?: string; // Optional, only if distributionListType is 'custom'
 }
+
+type FormShortAns = {
+  label: string;
+  required?: boolean;
+  maxCharacters: number;
+};
+
+type FormParagraph = {
+  label: string;
+  required?: boolean;
+};
+type FormImages = {
+  label?: string;
+  value: string[];
+  // Additional properties like maxFileSize, allowedFileTypes, etc.
+};
+type FormFiles = {
+  label?: string;
+  value: string[];
+  // Additional properties like maxFileSize, allowedFileTypes, etc.
+};
+type FormNumber = {
+  label: string;
+  min?: number;
+  max?: number;
+  required?: boolean;
+};
+type FormCheckbox = {
+  questionText: string;
+  options: string[]; // List of options for checkboxes
+  required: boolean; // Indicates if the question is required
+  // Optional: defaultValue: string[];
+};
+type FormMultipleChoiceQuestion = {
+  questionText: string;
+  options: string[]; // List of options for multiple choice
+  required: boolean; // Indicates if the question is required
+  // Optional: defaultValue: string;
+};
+type FormEmail = {
+  label: string;
+  required?: boolean;
+  // Regular expression for email validation
+  pattern?: string;
+};
+type FormTelephone = {
+  label: string;
+  required?: boolean;
+  // Regular expression for telephone number validation
+  pattern?: string;
+};
+
+// Define the custom form type
+interface CustomForm {
+  name: string;
+  title: string;
+  description: string;
+  questions: (
+    | FormParagraph
+    | FormShortAns
+    | FormImages
+    | FormFiles
+    | FormNumber
+    | FormCheckbox
+    | FormMultipleChoiceQuestion
+    | FormEmail
+    | FormTelephone
+  )[];
+  registrationLimit?: number;
+  sendEmails: boolean;
+}
+
+export const customFormCollection = buildCollection<CustomForm>({
+  name: "Custom Forms",
+  path: "custom_forms",
+  properties: {
+    name: buildProperty({
+      name: "Title",
+      validation: { required: false },
+      dataType: "string",
+    }),
+    title: buildProperty({
+      name: "Subject",
+      validation: { required: true },
+      dataType: "string",
+    }),
+    description: buildProperty({
+      name: "Description",
+      validation: { required: true },
+      dataType: "string",
+    }),
+    questions: buildProperty({
+      name: "Questions",
+      dataType: "array",
+      oneOf: {
+        typeField: "type",
+        properties: {
+          paragraph: buildProperty({
+            name: "Paragraph ",
+            dataType: "map",
+            properties: {
+              label: { name: "Label", dataType: "string" },
+              required: { name: "Required", dataType: "boolean" },
+            },
+          }),
+          short_ans: buildProperty({
+            name: "Short Answer",
+            dataType: "map",
+            properties: {
+              label: { name: "Label", dataType: "string" },
+              maxCharacters: { name: "Max characters", dataType: "number" },
+              required: { name: "Required?", dataType: "boolean" },
+              // Add other properties specific to FormShortAns
+            },
+          }),
+          image: buildProperty({
+            name: "Images",
+            dataType: "array",
+            of: buildProperty({
+              dataType: "string",
+              storage: {
+                mediaType: "image",
+                storagePath: "forms/images",
+                acceptedFiles: ["image/*"],
+                metadata: { cacheControl: "max-age=1000000" },
+              },
+            }),
+            description:
+              "This field allows uploading multiple images at once and reordering",
+          }),
+          attachments: buildProperty({
+            name: "Attachments",
+            dataType: "array",
+            of: buildProperty({
+              dataType: "string",
+              storage: {
+                mediaType: "file",
+                storagePath: "emails/attachments",
+                acceptedFiles: [".pdf", ".doc", ".docx", ".xls", ".xlsx"], // List of accepted file types
+              },
+            }),
+          }), // Missing comma here
+          number: buildProperty({
+            name: "Number",
+            dataType: "map",
+            properties: {
+              label: { name: "Label", dataType: "string" },
+              min: { name: "Min", dataType: "number" },
+              max: { name: "Max", dataType: "number" },
+              required: { name: "Required?", dataType: "boolean" },
+              // Add other properties specific to FormNumber
+            },
+          }),
+          checkbox: buildProperty({
+            name: "Checkbox",
+            dataType: "map",
+            properties: {
+              questionText: { name: "Label", dataType: "string" },
+              options: {
+                label: "Options",
+                dataType: "array",
+                of: { dataType: "string" },
+              },
+              required: { name: "Required?", dataType: "boolean" },
+              // Add other properties specific to FormCheckbox
+            },
+          }),
+          multiple_choice: buildProperty({
+            name: "Multiple Choice",
+            dataType: "map",
+            properties: {
+              questionText: { dataType: "string" },
+              options: {
+                label: "Options",
+                dataType: "array",
+                of: { dataType: "string" },
+              },
+              required: { name: "Required?", dataType: "boolean" },
+              // Add other properties specific to FormMultipleChoiceQuestion
+            },
+          }),
+          email: buildProperty({
+            name: "Email",
+            dataType: "map",
+            properties: {
+              label: { name: "label", dataType: "string" },
+              required: { name: "Required?", dataType: "boolean" },
+              // Add other properties specific to FormEmail
+            },
+          }),
+          telephone: buildProperty({
+            name: "Telephone Number",
+            dataType: "map",
+            properties: {
+              label: { name: "label", dataType: "string" },
+              required: { name: "Required?", dataType: "boolean" },
+            },
+          }),
+        },
+      },
+    }),
+    registrationLimit: buildProperty({
+      name: "Registration Limit",
+      validation: { required: false },
+      dataType: "number",
+      description:
+        "Maximum number of registrations allowed (leave empty for no limit)",
+    }),
+    sendEmails: buildProperty({
+      name: "Send Emails",
+      dataType: "boolean",
+      description: "Enable to send confirmation emails to registrants",
+    }),
+  },
+});
+
 export const EmailCollection = buildCollection<EmailEntry>({
   name: "Emails",
   path: "Emails",
@@ -141,7 +356,6 @@ export const EmailCollection = buildCollection<EmailEntry>({
       edit: isAdmin || isMarketing || isEvents || isExternal,
       create: isAdmin || isMarketing || isEvents || isExternal,
       delete: isAdmin || isMarketing || isEvents || isExternal,
-      
     };
   },
   properties: {
@@ -332,7 +546,6 @@ const ProductsCollection = buildCollection<Product>({
       edit: isAdmin || isMarketing || isFinance || isExternal,
       create: isAdmin || isMarketing || isFinance || isExternal,
       delete: isAdmin || isMarketing || isFinance || isExternal,
-      
     };
   },
   properties: {
@@ -433,11 +646,12 @@ const PrayerTimingsCollection = buildCollection({
   group: "Prayer Timings Page",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
-    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isReligiousAffairs =
+      authController.extra?.roles.includes("ReligiousAffairs");
     const isExternal = authController.extra?.roles.includes("External");
     return {
       edit: isAdmin || isReligiousAffairs || isExternal,
-      create: isAdmin || isReligiousAffairs || isExternal ,
+      create: isAdmin || isReligiousAffairs || isExternal,
       // we have created the roles object in the navigation builder
       delete: isAdmin || isReligiousAffairs || isExternal,
     };
@@ -551,7 +765,6 @@ const ordersCollection = buildCollection({
       edit: isAdmin || isMarketing || isFinance,
       create: isAdmin || isMarketing || isFinance,
       delete: isAdmin || isMarketing || isFinance,
-      
     };
   },
   properties: {
@@ -603,7 +816,6 @@ const ordersCollection = buildCollection({
       of: {
         dataType: "map",
         properties: {
-          
           name: {
             dataType: "string",
             name: "Product Name",
@@ -712,7 +924,8 @@ const JummahCollection = buildCollection<JummahInfo>({
   group: "Home Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
-    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isReligiousAffairs =
+      authController.extra?.roles.includes("ReligiousAffairs");
     const isExternal = authController.extra?.roles.includes("External");
     return {
       edit: isAdmin || isReligiousAffairs || isExternal,
@@ -747,7 +960,9 @@ const ServicesOfferedCollection = buildCollection<ServicesOffered>({
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isExternal = authController.extra?.roles.includes("External");
     const isMarketing = authController.extra?.roles.includes("Marketing");
-    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isProfessionalDevelopment = authController.extra?.roles.includes(
+      "ProfessionalDevelopment"
+    );
     return {
       edit: isAdmin || isExternal || isMarketing || isProfessionalDevelopment,
       create: isAdmin || isExternal || isMarketing || isProfessionalDevelopment,
@@ -787,7 +1002,8 @@ const LocalMosquesCollection = buildCollection<LocalMosques>({
   group: "Footer",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
-    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isReligiousAffairs =
+      authController.extra?.roles.includes("ReligiousAffairs");
     const isExternal = authController.extra?.roles.includes("External");
     return {
       edit: isAdmin || isReligiousAffairs || isExternal,
@@ -925,7 +1141,8 @@ const PrayerRoomsCollection = buildCollection<PrayerRooms>({
   group: "Home Page",
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
-    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isReligiousAffairs =
+      authController.extra?.roles.includes("ReligiousAffairs");
     const isExternal = authController.extra?.roles.includes("External");
     return {
       edit: isAdmin || isReligiousAffairs || isExternal,
@@ -1028,12 +1245,13 @@ const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isEvents = authController.extra?.roles.includes("Events");
-    const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
+    const isReligiousAffairs =
+      authController.extra?.roles.includes("ReligiousAffairs");
     const isExternal = authController.extra?.roles.includes("External");
     return {
       edit: isAdmin || isEvents || isReligiousAffairs || isExternal,
       create: isAdmin || isEvents || isReligiousAffairs || isExternal,
-      delete: isAdmin || isEvents || isReligiousAffairs ||isExternal,
+      delete: isAdmin || isEvents || isReligiousAffairs || isExternal,
     };
   },
   properties: {
@@ -1111,12 +1329,14 @@ const CampusResourcesCollection = buildCollection<CampusResource>({
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isMarketing = authController.extra?.roles.includes("Marketing");
-    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isProfessionalDevelopment = authController.extra?.roles.includes(
+      "ProfessionalDevelopment"
+    );
     const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
-      create: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
-      delete: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      edit: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
+      create: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
+      delete: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
     };
   },
   properties: {
@@ -1149,12 +1369,14 @@ const ReligiousResourcesCollection = buildCollection<ReligiousResource>({
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isMarketing = authController.extra?.roles.includes("Marketing");
-    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isProfessionalDevelopment = authController.extra?.roles.includes(
+      "ProfessionalDevelopment"
+    );
     const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
-      create: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
-      delete: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      edit: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
+      create: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
+      delete: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
     };
   },
   properties: {
@@ -1186,12 +1408,14 @@ const OtherResourcesCollection = buildCollection<OtherResource>({
   permissions: ({ authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isMarketing = authController.extra?.roles.includes("Marketing");
-    const isProfessionalDevelopment = authController.extra?.roles.includes("ProfessionalDevelopment");
+    const isProfessionalDevelopment = authController.extra?.roles.includes(
+      "ProfessionalDevelopment"
+    );
     const isExternal = authController.extra?.roles.includes("External");
     return {
-      edit: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
-      create: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
-      delete: isAdmin ||isMarketing || isProfessionalDevelopment || isExternal,
+      edit: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
+      create: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
+      delete: isAdmin || isMarketing || isProfessionalDevelopment || isExternal,
     };
   },
   properties: {
@@ -1217,8 +1441,6 @@ const OtherResourcesCollection = buildCollection<OtherResource>({
   },
 });
 
-
-
 const usersCollection = buildCollection({
   path: "users", // Path to the collection in Firestore
   name: "Users",
@@ -1228,49 +1450,43 @@ const usersCollection = buildCollection({
       edit: isAdmin,
       create: isAdmin,
       delete: isAdmin,
-      
     };
   },
   properties: {
     email: buildProperty({
       dataType: "string",
       name: "Email",
-      validation: { required: true, email: true }
+      validation: { required: true, email: true },
     }),
     role: buildProperty({
       dataType: "string",
       name: "Role",
       validation: { required: true },
-     
+
       enumValues: {
-          
-          Admin: "Admin", /* Everything */
-          Marketing: "Marketing", /* Products + Orders + Instagram Posts + Footer + Resources Page */
-          ReligiousAffairs: "Religious Affairs", /* Prayer timings + Prayer Rooms + Events + Local Mosques + Jummah*/
-          Events: "Events", /* Emails + Events + Calander wehn made */
-          Finance: "Finance", /* Orders + Products */ 
-          External:"External/Internal", /* Everything But Users  */
-          ProfessionalDevelopment: "Professional Development", /* Resource Page*/
-          Member: "Member" /* Nothing lol */
-      }
-    
+        Admin: "Admin" /* Everything */,
+        Marketing:
+          "Marketing" /* Products + Orders + Instagram Posts + Footer + Resources Page */,
+        ReligiousAffairs:
+          "Religious Affairs" /* Prayer timings + Prayer Rooms + Events + Local Mosques + Jummah*/,
+        Events: "Events" /* Emails + Events + Calander wehn made */,
+        Finance: "Finance" /* Orders + Products */,
+        External: "External/Internal" /* Everything But Users  */,
+        ProfessionalDevelopment: "Professional Development" /* Resource Page*/,
+        Member: "Member" /* Nothing lol */,
+      },
     }),
-  }
+  },
 });
-
-
-
-import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default function CMS() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
     async ({ user, authController }) => {
       if (user?.email) {
-      
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("email", "==", user.email));
         const querySnapshot = await getDocs(q);
-  
+
         if (!querySnapshot.empty && querySnapshot.docs[0]?.exists()) {
           const userData = querySnapshot.docs[0].data();
           if (userData && userData.role) {
@@ -1285,6 +1501,7 @@ export default function CMS() {
     },
     []
   );
+
   return (
     <FirebaseCMSApp
       name={"Muslim Students Association "}
@@ -1310,6 +1527,7 @@ export default function CMS() {
         OtherResourcesCollection,
         CampusResourcesCollection,
         EmailCollection,
+        customFormCollection,
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}

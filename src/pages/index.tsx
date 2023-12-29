@@ -1,18 +1,18 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Hero from "../components/Hero";
+import Hero from "../components/UI/Hero";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import MemberSignup from "../components/MemberSignup";
-import PrayerSection from "../components/PrayerSection";
-import News from "../components/News";
-import Events from "../components/WeeklyEvents";
+import MemberSignup from "../components/UI/MemberSignup";
+import PrayerSection from "../components/UI/PrayerSection";
+import News from "../components/UI/News";
+import Events from "../components/UI/WeeklyEvents";
 import { Timestamp } from "firebase/firestore";
 import { GetStaticProps } from "next";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import db, { storage } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
-import Popup from "~/components/Popup";
+import Popup from "~/components/UI/Popup";
 
 interface SocialLinkProps {
   name: string;

@@ -7,7 +7,7 @@ import Navbar from "~/components/Navbar";
 import { deleteItem } from "~/redux/shopperSlice";
 import db from "~/firebase";
 import { collection, getDocs } from "firebase/firestore"; //
-import BuyForm from "~/components/BuyForm";
+import BuyForm from "~/components/Forms/BuyForm";
 interface Product {
   id: string;
   name: string;

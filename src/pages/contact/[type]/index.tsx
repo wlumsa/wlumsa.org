@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import CtaForm from "~/components/CtaForm";
+import CtaForm from "~/components/Forms/CtaForm";
 import Footer from "~/components/Footer";
 import Navbar from "~/components/Navbar";
 

@@ -1,7 +1,7 @@
 import { InstagramEmbed } from "react-social-media-embed";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore"; // Import orderBy
-import db from "../firebase";
+import db from "../../firebase";
 
 
 interface InstagramPost {
