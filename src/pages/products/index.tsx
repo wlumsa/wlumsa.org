@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "~/firebase";
 
-import Products from "~/components/ProductCard";
+import Products from "~/components/UI/ProductCard";
 import Navbar from "~/components/Navbar";
 import Footer from "~/components/Footer";
 interface Product {
