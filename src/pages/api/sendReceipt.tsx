@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             quantity: number;
             size: string;
           }) =>
-            `Item: ${product.name}, Quantity: ${product.quantity}, Size: ${product.size}`
+            `\tItem: ${product.name}, Quantity: ${product.quantity}, Size: ${product.size}`
         )
         .join("\n");
 
@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Phone Number: ${phoneNumber}\n
         E-Transfer Email: ${email}\n
         E-Transfer Password ${password}\n
-        Price: ${price}\n
+        Total: $${price}\n
         Pickup Time: ${pickuptime}\n
         Products: \n${productsString}\n
         Image: ${image}\n

@@ -46,7 +46,7 @@ interface EmailEntryAttachments {
   value: string[];
 };
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
-  const previewText = ``;
+  const previewText = ``;   
   const renderContent = () => {
     return content.map((entry, index) => {
       switch (entry.type) {

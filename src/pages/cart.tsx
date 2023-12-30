@@ -2,8 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Footer from "~/components/Footer";
-import Navbar from "~/components/Navbar";
+
 import { deleteItem } from "~/redux/shopperSlice";
 import db from "~/firebase";
 import { collection, getDocs } from "firebase/firestore"; //
@@ -143,7 +142,6 @@ const Cart = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="h-fit bg-base-100 py-8">
         <div className="container mx-auto px-4">
           <h1 className="mb-4 text-2xl font-semibold">Shopping Cart</h1>
@@ -323,7 +321,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <Footer />
+   
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { render } from '@react-email/render';
 
-import Email from "~/pages/emails/welcome"; // Adjust the import path as necessary
+import Email from "~/pages/emails/newsletter"; // Adjust the import path as necessary
 import {
     EntityCustomViewParams,
     useStorageSource

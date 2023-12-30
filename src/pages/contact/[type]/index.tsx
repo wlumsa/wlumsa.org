@@ -1,8 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import CtaForm from "~/components/Forms/CtaForm";
-import Footer from "~/components/Footer";
-import Navbar from "~/components/Navbar";
+
 
 const Index = () => {
   const router = useRouter();
@@ -17,7 +16,6 @@ const Index = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="mt-20 flex flex-col items-center">
         <div className="mb-10">
           <h3 className="pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
@@ -29,7 +27,6 @@ const Index = () => {
         </div>
         <CtaForm category={category} />
       </div>
-      <Footer />
     </div>
   );
 };

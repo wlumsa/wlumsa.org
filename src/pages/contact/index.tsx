@@ -1,12 +1,10 @@
 import React from "react";
 import CtaForm from "~/components/Forms/CtaForm";
-import Footer from "~/components/Footer";
-import Navbar from "~/components/Navbar";
+
 
 const Contact = () => {
   return (
     <div>
-      <Navbar />
       <div className="mt-20 flex flex-col items-center">
         <section className="bg-base-100" id="contact">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
@@ -68,7 +66,6 @@ const Contact = () => {
           </div>
         </section>
       </div>
-      <Footer />
     </div>
   );
 };

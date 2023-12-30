@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import Email from '../emails/welcome';
+import Email from '../emails/newsletter';
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../../firebase";

@@ -1,13 +1,11 @@
 // pages/events.tsx
 import React from "react";
 import CalendarComponent from "~/components/UI/CalenderComponent";
-import Footer from "~/components/Footer";
-import Navbar from "~/components/Navbar";
 
 const Events = () => {
   return (
     <div className=" min-h-screen ">
-      <Navbar />
+     
 
       <div className="flex flex-col py-10">
         <CalendarComponent />
@@ -24,7 +22,7 @@ const Events = () => {
           </a>
         </div>
       </div>
-      <Footer />
+     
     </div>
   );
 };

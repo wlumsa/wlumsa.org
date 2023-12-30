@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import db from "../firebase";
-import Navbar from "~/components/Navbar";
-import Footer from "~/components/Footer";
+
 import { GetStaticProps } from "next";
 interface Timings {
   Fajr: string;
@@ -111,7 +110,7 @@ const PrayerTimes: React.FC<{ timingsData: DayTimings[], jummahTimes: Jummah[] }
 
   return (
     <div className="flex flex-col items-center pt-16">
-      <Navbar />
+     
       <div className="container mx-auto p-8">
         <h1 className="mb-4 text-3xl font-bold">Prayer Times</h1>
         <div className="overflow-x-auto">
@@ -176,7 +175,7 @@ const PrayerTimes: React.FC<{ timingsData: DayTimings[], jummahTimes: Jummah[] }
         </div>
         <p>Waterloo Masjid timings with Hanafi Asr calculation method</p>
       </div>
-      <Footer />
+     
     </div>
   );
 };

@@ -1,10 +1,8 @@
-import Navbar from "~/components/Navbar";
-import Footer from "~/components/Footer";
 
 export default function Custom404() {
   return (
     <div>
-      <Navbar />
+      
 
       <div className="grid h-screen place-content-center bg-white px-4">
         <div className="text-center">
@@ -34,7 +32,7 @@ export default function Custom404() {
           <p className="mt-4 text-gray-500">We can't find that page.</p>
         </div>
       </div>
-      <Footer />
+     
     </div>
   );
 }

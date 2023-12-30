@@ -1,8 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Hero from "../components/UI/Hero";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+
 import MemberSignup from "../components/UI/MemberSignup";
 import PrayerSection from "../components/UI/PrayerSection";
 import News from "../components/UI/News";
@@ -52,14 +51,14 @@ const Home: NextPage<HomeProps> = ({
         />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
-        <Navbar />
+       
         <Hero socialLinks={socialLinks} heroUrl={heroUrl} />
         <Popup />
         <News />
         <PrayerSection />
         <Events events={events} />
         <MemberSignup />
-        <Footer />
+       
       </main>
     </>
   );

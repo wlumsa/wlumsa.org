@@ -6,8 +6,7 @@ import BuyForm from "~/components/Forms/BuyForm";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { useDispatch } from "react-redux";
 import { addToCart } from "~/redux/shopperSlice";
-import Navbar from "~/components/Navbar";
-import Footer from "~/components/Footer";
+
 import toast, { Toaster } from "react-hot-toast";
 interface Product {
   id: string;
@@ -230,7 +229,7 @@ export default function ProductPage() {
   const dispatch = useDispatch();
   return (
     <div className="py-10">
-      <Navbar />
+    
       {product ? (
         <div className="mb-20 mt-20 bg-base-100">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -386,7 +385,7 @@ export default function ProductPage() {
               </div>
             </div>
           </div>
-          <Footer />
+        
           <Toaster
             reverseOrder={false}
             position="top-center"
