@@ -5,14 +5,22 @@ interface SocialLink {
   link: string;
   icon: string;
 }
-
+import Image from "next/image";
 const Hero: React.FC<{ socialLinks: SocialLink[], heroUrl: string }> = ({ socialLinks, heroUrl }) => {
   return (
     <div
       id="hero"
       className="hero min-h-screen"
-      style={{ backgroundImage: `url(${heroUrl})` }}
+     
     >
+      <Image 
+      src ={heroUrl}
+       alt ="hero"
+       fill
+       style={{
+        objectFit:"cover"
+       }}
+       />
       <div className="hero-overlay bg-neutral bg-opacity-50" />
       <div className="hero-content text-center">
         <div className="max-w-md">
