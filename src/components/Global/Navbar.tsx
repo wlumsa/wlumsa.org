@@ -3,6 +3,8 @@ import logo from "public/logo.png";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import db from "~/firebase" // Adjust this path to your Firebase configuration
+import { collection, getDocs } from 'firebase/firestore';
 
 interface Product {
   id: string;
@@ -21,13 +23,22 @@ interface CartItem {
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
 
+interface NavbarLink {
+  name: string;
+  link: string;
+}
+
+interface NavbarGroup {
+  group: string;
+  links: NavbarLink[];
+}
+
 const Navbar: React.FC = () => {
   const productData = useSelector((state: any) => state.shopper.cart);
-
   const [totalAmt, setTotalAmt] = useState("");
-  useEffect(() => {
-   
+  const [navbarData, setNavbarData] = useState<NavbarGroup[]>([]);
 
+  useEffect(() => {
     let price = 0;
     productData.forEach((item: CartItem) => {
       if (item.product.hasSizes) {
@@ -38,164 +49,69 @@ const Navbar: React.FC = () => {
         price += (item.quantities.overall || 0) * item.product.price;
       }
     });
-
     setTotalAmt(price.toFixed(2));
   }, [productData]);
 
+  useEffect(() => {
+    const fetchNavbarData = async () => {
+      const navbarQuerySnapshot = await getDocs(collection(db, 'Navbar'));
+      const navbarGroups = await Promise.all(navbarQuerySnapshot.docs.map(async doc => {
+        const group = doc.data().Group || doc.data().CustomGroup;
+        const linksQuerySnapshot = await getDocs(collection(db, `Navbar/${doc.id}/Links`));
+        const links = linksQuerySnapshot.docs.map(linkDoc => linkDoc.data() as NavbarLink);
+        return { group, links };
+      }));
+      setNavbarData(navbarGroups);
+    };
+    fetchNavbarData();
+  }, []);
+
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
-      {/* Mobile */}
       <div className="navbar-start text-base-100">
         <div className="dropdown dropdown-hover ">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+            {/* Menu icon */}
           </div>
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content menu-sm   z-[1] w-52 rounded-box bg-primary p-2 shadow"
-          >
-            <li className="menu-item">
-              <details>
-                <summary>About</summary>
-                <ul className="w-fit rounded-t-none bg-primary">
-                  <li>
-                    <Link href="/about">Our Mission</Link>
-                  </li>
-                  <li>
-                    <Link href="/IIA">WLU IIA</Link>
-                  </li>
-                  <li>
-                    <Link href="/about#team">Meet the Team</Link>
-                  </li>
-                  <li>
-                    <Link href="/about#constiuion">Constitution</Link>
-                  </li>
-                  <li>
-                    <Link href="/about#services">Services Offered</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li className="menu-item">
-              <details>
-                <summary>Contact</summary>
-                <ul className="w-fit rounded-t-none bg-primary">
-                  <li>
-                    <Link href="/contact">Contact Us</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Support">Support Form</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Volunteer">Volunteer</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Incident">Incident Report</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li className="menu-item">
-              <details>
-                <summary>Resources</summary>
-                <ul className="w-fit rounded-t-none bg-primary">
-                  <li>
-                    <Link href="/prayerinfo">Prayer Information</Link>
-                  </li>
-                  <li>
-                    <Link href="/events">Events</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Fiqh">Fiqh Q&A</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <Link href="/products">Merch</Link>
-            </li>
+          <ul tabIndex={0} className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow">
+            {navbarData.map(group => (
+              <li key={group.group} className="menu-item">
+                <details>
+                  <summary>{group.group}</summary>
+                  <ul className="w-fit rounded-t-none bg-primary">
+                    {group.links.map((link, index) => (
+                      <li key={index}>
+                        <Link href={link.link}>{link.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ))}
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl normal-case">
           <Image src={logo.src} alt="Logo" height={32} width={32} />
         </Link>
       </div>
-
-      {/* Desktop */}
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          <li className="dropdown dropdown-hover">
-            <div className="">About</div>
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              <li>
-                <Link href="/about">Our Mission</Link>
-              </li>
-              <li>
-                <Link href="/IIA">WLU IIA</Link>
-              </li>
-              <li>
-                <Link href="/about#team">Meet the Team</Link>
-              </li>
-              <li>
-                <Link href="/about#constiuion">Constitution</Link>
-              </li>
-              <li>
-                <Link href="/about#services">Services Offered</Link>
-              </li>
-            </ul>
-          </li>
-
-          <li className="dropdown dropdown-hover">
-            <div className="">Contact</div>
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              <li>
-                <Link href="/contact">Contact Us</Link>
-              </li>
-              <li>
-                <Link href="/contact/Support">Support Form</Link>
-              </li>
-              <li>
-                <Link href="/contact/Volunteer">Volunteer</Link>
-              </li>
-              <li>
-                <Link href="/contact/Incident">Incident Report</Link>
-              </li>
-            </ul>
-          </li>
-          <li className="dropdown dropdown-hover">
-            <div className="">Resources</div>
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              <li>
-                <Link href="/prayerinfo">Prayer Information</Link>
-              </li>
-              <li>
-                <Link href="/events">Events</Link>
-              </li>
-              <li>
-                <Link href="/contact/Fiqh">Fiqh Q&A</Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <Link href="/products">Merch</Link>
-          </li>
-          
+          {navbarData.map(group => (
+            <li key={group.group} className="dropdown dropdown-hover">
+              <div className="">{group.group}</div>
+              <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                {group.links.map((link, index) => (
+                  <li key={index}>
+                    <Link href={link.link}>{link.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="navbar-end">
+      
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -240,8 +156,9 @@ const Navbar: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+          </div>
+          </div>
+      
     </div>
   );
 };

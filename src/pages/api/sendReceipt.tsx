@@ -46,9 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         E-Transfer Password ${password}\n
         Total: $${price}\n
         Pickup Time: ${pickuptime}\n
-        Products: \n${productsString}\n
-        Image: ${image}\n
-        `;
+        Products: \n${productsString}\n`;
 
       // Send the email using Resend
       const response = await resend.emails.send({
