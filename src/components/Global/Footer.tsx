@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import React, { useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
 import db from "../../firebase";
 import logo from "public/logo.png";
+import { useDispatch, useSelector } from 'react-redux';
+import { setResources, setForms, setLocalMosques, setSocialLinks, setOtherLinks } from 'src/redux/footerSlice';
+import { RootState } from 'src/redux/store';
+
 interface FooterItem {
   name: string;
   link: string;
@@ -13,49 +17,32 @@ interface SocialLink {
   icon: string;
 }
 
-interface Other {
-  name: string;
-  link: string;
-}
 const Footer: React.FC = () => {
-  const [resources, setResources] = useState<FooterItem[]>([]);
-  const [forms, setForms] = useState<FooterItem[]>([]);
-  const [localMosques, setLocalMosques] = useState<FooterItem[]>([]);
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
-  const [otherLinks, setOtherLinks] = useState<Other[]>([]);
+  const dispatch = useDispatch();
+  const resources = useSelector((state: RootState) => state.footer.resources);
+  const forms = useSelector((state: RootState) => state.footer.forms);
+  const localMosques = useSelector((state: RootState) => state.footer.localMosques);
+  const socialLinks = useSelector((state: RootState) => state.footer.socialLinks);
+  const otherLinks = useSelector((state: RootState) => state.footer.otherLinks);
+
+  const fetchFooterItems = async (
+    collectionName: string,
+    actionCreator: (items: FooterItem[] | SocialLink[]) => any
+  ) => {
+    const collectionRef = collection(db, collectionName);
+    const querySnapshot = await getDocs(collectionRef);
+
+    const itemsData = querySnapshot.docs.map(
+      (doc) => doc.data() as FooterItem | SocialLink
+    );
+    dispatch(actionCreator(itemsData));
+  };
 
   useEffect(() => {
-    const fetchFooterItems = async (
-      collectionName: string,
-      setState: Function
-    ) => {
-      const collectionRef = collection(db, collectionName);
-      const querySnapshot = await getDocs(collectionRef);
-
-      const itemsData = querySnapshot.docs.map(
-        (doc) => doc.data() as FooterItem | SocialLink
-      );
-      setState(itemsData);
-    };
-
-    const fetchSocialLinks = async () => {
-      const socialsCollectionRef = collection(db, "Socials");
-      const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
-      const querySnapshot = await getDocs(socialQuery);
-
-      const socialLinksData = querySnapshot.docs.map((doc) => {
-        const socialData = doc.data() as SocialLink;
-        return socialData;
-      });
-
-      setSocialLinks(socialLinksData);
-    };
-
     fetchFooterItems("Resources", setResources);
     fetchFooterItems("Forms", setForms);
     fetchFooterItems("LocalMosques", setLocalMosques);
     fetchFooterItems("Other", setOtherLinks);
-    fetchSocialLinks();
   }, []);
 
   return (
@@ -118,7 +105,7 @@ const Footer: React.FC = () => {
           ))}
         </div>
       </footer>
-
+  
       <footer className="footer border-0 bg-base-100 px-10 py-4 text-base-content">
         <div className="grid-flow-col items-center">
           <img src={logo.src} alt="WLU MSA Logo" className="mr-2 h-6 w-6" />

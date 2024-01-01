@@ -27,20 +27,4 @@ export default function App({
 }
 
 
-/*
-const router = useRouter();
-
-  // Check if the current path starts with /cms
-  const showNavbarFooter = !router.pathname.startsWith('/cms');
-
-  return (
-    <>
-      {showNavbarFooter && <Navbar />}
-      <Component {...pageProps} />
-      {showNavbarFooter && <Footer />}
-    </>
-  );
-}
-
-*/
 

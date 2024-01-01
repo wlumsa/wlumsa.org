@@ -1,6 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import shopperReducer from "./shopperSlice";
 import popupReducer from "./popupSlice";
+import footerReducer from "./footerSlice";
 import {
   persistStore,
   persistReducer,
@@ -18,10 +19,17 @@ const persistConfig = {
   version: 1,
   storage,
 };
-const persistedReducer = persistReducer(persistConfig, shopperReducer);
+
+const rootReducer = combineReducers({
+  shopper: shopperReducer,
+  popup: popupReducer,
+  footer: footerReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: { shopper: persistedReducer, popup: popupReducer },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
