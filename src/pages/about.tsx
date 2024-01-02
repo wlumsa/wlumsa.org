@@ -31,7 +31,7 @@ const About: React.FC = () => {
     <div>
      
 
-      <div className="min-h-screen  px-10">
+      <div className="min-h-screen  px-10 mt-20">
         <div className="flex flex-col items-center justify-center">
           {/* About Us Section */}
           <div className="hero h-fit self-center">
@@ -62,7 +62,7 @@ const About: React.FC = () => {
             <div className="mb-10 flex flex-wrap gap-4 items-center justify-center">
               {servicesInfo.map((service, index) => (
                 <div
-                  className="card card-compact w-96 bg-base-100 shadow-xl"
+                  className="card card-compact w-fit sm:w-96 bg-base-100 shadow-xl"
                   key={index}
                 >
                   <div className="card-body">
