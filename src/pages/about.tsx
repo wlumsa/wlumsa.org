@@ -32,17 +32,17 @@ const About: React.FC = () => {
      
 
       <div className="min-h-screen  px-10">
-        <div className="flex flex-col items-start lg:space-x-0 lg:space-y-10">
+        <div className="flex flex-col items-center justify-center">
           {/* About Us Section */}
-          <div className="hero min-h-screen">
-            <div className="hero-content flex flex-col items-center gap-8 px-0  lg:flex-row">
-              <img
-                src="/logo.png"
-                className="max-w-[300px] rounded-lg shadow-2xl lg:mb-0"
-              />
-              <div>
-                <h1 className="text-5xl font-bold text-primary">About us</h1>
-                <p className="py-6 text-lg">
+          <div className="hero h-fit max-w-prose self-center">
+            <div className="hero-content flex flex-col items-center justify-center gap-8">
+              <h1 className="text-4xl font-bold text-primary text-center">About</h1>
+              <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+                <img
+                  src="/logo.png"
+                  className="w-64 h-64 rounded-lg shadow-2xl"
+                />
+                <p className="py-6 text-lg w-96">
                   The <strong>Laurier Muslim Student Association (MSA)</strong>{" "}
                   is a student-run organization at Laurier which was founded in
                   2010. Its primary purpose is to provide a platform for Muslim
@@ -56,10 +56,10 @@ const About: React.FC = () => {
 
           {/* Services Offered Section */}
           <div className="flex-1 " id="services">
-            <h2 className="mb-4 text-4xl font-bold text-primary ">
+            <h2 className="mb-4 text-4xl font-bold text-primary text-center">
               Services Offered
             </h2>
-            <div className="mb-10 flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0 ">
+            <div className="mb-10 flex flex-wrap gap-4 items-center justify-center">
               {servicesInfo.map((service, index) => (
                 <div
                   className="card card-compact w-96 bg-base-100 shadow-xl"
