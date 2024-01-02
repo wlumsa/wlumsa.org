@@ -31,18 +31,18 @@ const About: React.FC = () => {
     <div>
      
 
-      <div className="min-h-screen  px-10">
+      <div className="min-h-screen  px-10 mt-20">
         <div className="flex flex-col items-center justify-center">
           {/* About Us Section */}
-          <div className="hero h-fit max-w-prose self-center">
-            <div className="hero-content flex flex-col items-center justify-center gap-8">
+          <div className="hero h-fit self-center">
+            <div className="hero-content min-w-96 sm:max-w-[80%] flex flex-col items-center justify-center gap-8">
               <h1 className="text-4xl font-bold text-primary text-center">About</h1>
               <div className="flex flex-col md:flex-row items-center justify-center gap-8">
                 <img
                   src="/logo.png"
-                  className="w-64 h-64 rounded-lg shadow-2xl"
+                  className="w-64 h-64 md:w-48 md:h-48 rounded-lg shadow-2xl"
                 />
-                <p className="py-6 text-lg w-96">
+                <p className="py-6 text-lg">
                   The <strong>Laurier Muslim Student Association (MSA)</strong>{" "}
                   is a student-run organization at Laurier which was founded in
                   2010. Its primary purpose is to provide a platform for Muslim
@@ -62,7 +62,7 @@ const About: React.FC = () => {
             <div className="mb-10 flex flex-wrap gap-4 items-center justify-center">
               {servicesInfo.map((service, index) => (
                 <div
-                  className="card card-compact w-96 bg-base-100 shadow-xl"
+                  className="card card-compact w-fit sm:w-96 bg-base-100 shadow-xl"
                   key={index}
                 >
                   <div className="card-body">
