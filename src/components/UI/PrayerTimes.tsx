@@ -48,7 +48,7 @@ const PrayerTimes: React.FC = () => {
   }
   const orderedKeys: (keyof Timings)[] = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
   return (
-    <div className="mb-4 overflow-x-auto shadow">
+    <div className="mb-4 stats stats-vertical shadow lg:stats-horizontal ">
       <table className="table">
         <thead>
           <tr>
