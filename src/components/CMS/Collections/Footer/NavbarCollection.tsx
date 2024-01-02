@@ -1,14 +1,6 @@
 import { buildCollection, buildProperty } from "firecms";
 
-interface Navbar {
-  Group: string;
-  CustomGroup?: string; // Optional property for custom group name
-}
 
-interface Links {
-  name: string;
-  link: string;
-}
 
 export const NavbarCollection = buildCollection<Navbar>({
   path: "Navbar",
@@ -36,7 +28,8 @@ export const NavbarCollection = buildCollection<Navbar>({
         Contact: "Contact",
         About: "About",
         Resources: "Resources",
-        Other: "Other"
+        Other: "Other",
+        None:"None",
       },
     }),
     CustomGroup: buildProperty(({ values }) => ({
@@ -52,6 +45,39 @@ export const NavbarCollection = buildCollection<Navbar>({
             hidden: true,
         },
     })),
+    NoGroup: buildProperty(({ values }) => ({
+      dataType: "string",
+      title: "NoGroup Name",
+      name:"NoGroup Group Link",
+      validation: values.Group === "None" ? { required: true } : undefined,
+      description: "Enter the name of the navbar item without a group",
+      // Assuming you want to disable or hide this field based on certain conditions
+      disabled: values.Group !== "None" && {
+          clearOnDisabled: true,
+          disabledMessage: "Custom group is only available when certain conditions are met.",
+          hidden: true,
+      },
+  })),
+  NoGroupLink: buildProperty(({ values }) => ({
+    dataType: "string",
+    title: "No Group Link",
+    name:"No Group Link",
+    validation: values.Group === "None" ? { required: true } : undefined,
+    description: "Enter the of the navbar item without a group",
+    // Assuming you want to disable or hide this field based on certain conditions
+    disabled: values.Group !== "None" && {
+        clearOnDisabled: true,
+        disabledMessage: "Custom group is only available when certain conditions are met.",
+        hidden: true,
+    },
+})),
+  createdAt: buildProperty({
+    dataType: "date",
+    title: "Created At",
+    autoValue: "on_create" || "on_update",
+    validation:{required:true}
+  }),
+
     
     /*
     sendEmail: buildProperty(({ values }) => ({
@@ -96,6 +122,12 @@ export const NavbarCollection = buildCollection<Navbar>({
           title: "Link",
           validation: { required: true },
           description: "Link to item",
+        }),
+        createdAt: buildProperty({
+          dataType: "date",
+          title: "Created At",
+          autoValue: "on_create" || "on_update",
+          validation:{required:true}
         }),
       },
     }),

@@ -179,3 +179,16 @@ type PrayerRooms = {
     registrationLimit?: number;
     sendEmails: boolean;
   }
+  interface Navbar {
+    Group: string;
+    CustomGroup?: string; // Optional property for custom group name
+    NoGroup?:string;
+    NoGroupLink:string;
+    createdAt:Date;
+  }
+  
+  interface Links {
+    name: string;
+    link: string;
+    createdAt:Date;
+  }
