@@ -4,7 +4,7 @@ const test = () => {
   return (
     <div className='mt-20'>
       <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLSfRHkZmrcxuMcZkmxAi_X2O9nOK24DA7pu_ZuwsxNeWjoLyMw/viewform?embedded=true"
+      src="https://www.launchgood.com/campaign/wlu_x_uw_osp_auction?src=1694569"
       width="640"
       height="593"
       // @ts-ignore
