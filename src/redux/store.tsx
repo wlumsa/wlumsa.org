@@ -13,6 +13,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import navbarSlice from "./navbarSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   shopper: shopperReducer,
   popup: popupReducer,
   footer: footerReducer,
+  navbar: navbarSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,10 +35,11 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER,'footer/fetchData/fulfilled'],
+        ignoredPaths: ['footer.footerGroups.createdAt', 'footer.socialLinks.date'], // Ignore specific state paths
       },
     }),
 });
-
+export type AppDispatch = typeof store.dispatch;
 export let persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;

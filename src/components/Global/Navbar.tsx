@@ -1,19 +1,11 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import logo from "public/logo.png";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import Image from "next/image";
-import db from "~/firebase"; // Adjust this path to your Firebase configuration
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-
-interface Navbar {
-  Group: string;
-  CustomGroup?: string;
-  NoGroup?: string;
-  NoGroupLink: string;
-  createdAt: Date;
-}
-
+import logo from "public/logo.png";
+import { fetchNavbarData } from "~/redux/navbarSlice";
+import { RootState } from "~/redux/store";
+import { AppDispatch } from "~/redux/store";
 interface Links {
   name: string;
   link: string;
@@ -21,7 +13,7 @@ interface Links {
 }
 
 interface NavbarGroup {
-  group: string;
+  Group: string;
   CustomGroup?: string;
   NoGroup?: string;
   NoGroupLink?: string;
@@ -46,9 +38,14 @@ interface CartItem {
 }
 
 const NavbarComponent: React.FC = () => {
-  const productData = useSelector((state: any) => state.shopper.cart);
+  const dispatch = useDispatch<AppDispatch>();
+  const productData = useSelector((state: RootState) => state.shopper.cart);
+  const navbarData = useSelector((state: RootState) => state.navbar.navbarData);
   const [totalAmt, setTotalAmt] = useState("");
-  const [navbarData, setNavbarData] = useState<NavbarGroup[]>([]);
+
+  useEffect(() => {
+    dispatch(fetchNavbarData() );
+  }, [dispatch]);
 
   useEffect(() => {
     let price = 0;
@@ -64,69 +61,22 @@ const NavbarComponent: React.FC = () => {
     setTotalAmt(price.toFixed(2));
   }, [productData]);
 
-  useEffect(() => {
-    const fetchNavbarData = async () => {
-      const navbarQuery = query(collection(db, "Navbar"), orderBy("createdAt"));
-      const navbarQuerySnapshot = await getDocs(navbarQuery);
-      const navbarGroups = await Promise.all(
-        navbarQuerySnapshot.docs.map(async (doc) => {
-          const data = doc.data() as Navbar;
-          const group = data.Group === "Other" ? (data.CustomGroup ?? "Other") : data.Group;
-          let links: Links[] = [];
-    
-          if (data.Group !== "None") {
-            const linksQuerySnapshot = await getDocs(
-              collection(db, `Navbar/${doc.id}/Links`)
-            );
-            links = linksQuerySnapshot.docs.map(
-              (linkDoc) => ({ ...linkDoc.data(), link: linkDoc.data().link ?? "#" }) as Links
-            );
-          }
-    
-          return { 
-            group, 
-            CustomGroup: data.CustomGroup, 
-            NoGroup: data.NoGroup, 
-            NoGroupLink: data.NoGroupLink ?? "#", 
-            links 
-          };
-        })
-      );
-      setNavbarData(navbarGroups);
-    };
-    fetchNavbarData();
-  }, []);
-
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
-      <div className="navbar-start text-base-100">
+       <div className="navbar-start text-base-100">
         <div className="dropdown dropdown-hover ">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-          <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
-          >
+          <ul tabIndex={0} className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow">
             {navbarData.map((item) => {
-              const title = item.group === "Other" && item.CustomGroup ? item.CustomGroup : item.group;
-              return item.group !== "None" ? (
-                <li key={item.group} className="menu-item">
+              const title = item.Group === "Other" && item.CustomGroup ? item.CustomGroup : item.Group;
+              return item.Group !== "None" ? (
+                <li key={item.Group} className="menu-item">
                   <details>
-                    <summary>{title}</summary>
+                    <summary className="">{title}</summary>
                     <ul className="w-fit rounded-t-none bg-primary">
                       {item.links.map((link, index) => (
                         <li key={index}>
@@ -149,29 +99,30 @@ const NavbarComponent: React.FC = () => {
         </Link>
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
-        <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.map((item) => (
-            item.group !== "None" ? (
-              <li key={item.group} className="dropdown dropdown-hover">
-                <div className="">{item.group}</div>
-                {item.links.length > 0 && (
-                  <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-                    {item.links.map((link, index) => (
-                      <li key={index}>
-                        {link.link && <Link href={link.link}>{link.name}</Link>}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ) : (
-              <li key={item.NoGroup}>
-                {item.NoGroupLink && <Link href={item.NoGroupLink}>{item.NoGroup}</Link>}
-              </li>
-            )
-          ))}
-        </ul>
-      </div>
+  <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+    {navbarData.map((item, idx) => (
+      item.Group && item.Group !== "None" ? (
+        <li key={item.Group || idx} className="dropdown dropdown-hover">
+          <div className="text-white">{item.Group}</div>
+          {item.links && item.links.length > 0 && (
+            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+              {item.links.map((link, index) => (
+                <li key={index}>
+                  {link.link && <Link href={link.link}>{link.name}</Link>}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ) : item.NoGroup ? (
+        <li key={item.NoGroup}>
+          {item.NoGroupLink && <Link href={item.NoGroupLink}>{item.NoGroup}</Link>}
+        </li>
+      ) : null // Or render some fallback content
+    ))}
+  </ul>
+</div>
+
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-circle btn-secondary">
@@ -201,7 +152,8 @@ const NavbarComponent: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+
   );
 };
 

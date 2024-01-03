@@ -1,8 +1,19 @@
-import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import db from '~/firebase';
 
-interface FooterItem {
+// Define your types
+interface Link {
   name: string;
   link: string;
+  createdAt: Date;
+}
+
+interface FooterGroup {
+  Group: string;
+  CustomGroup?: string;
+  createdAt: Date;
+  Links: Link[];
 }
 
 interface SocialLink {
@@ -12,55 +23,70 @@ interface SocialLink {
 }
 
 interface FooterState {
-  resources: FooterItem[];
-  forms: FooterItem[];
-  localMosques: FooterItem[];
+  footerGroups: FooterGroup[];
   socialLinks: SocialLink[];
-  otherLinks: FooterItem[];
-  fetched: boolean;
+  lastFetch: number | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
 }
 
+// Initial state
 const initialState: FooterState = {
-  resources: [],
-  forms: [],
-  localMosques: [],
+  footerGroups: [],
   socialLinks: [],
-  otherLinks: [],
-  fetched: false,
+  lastFetch: null,
+  status: 'idle',
+  error: null,
 };
 
+// Async thunks
+export const fetchFooterData = createAsyncThunk('footer/fetchData', async () => {
+  const footerGroups: FooterGroup[] = [];
+  const socialLinks: SocialLink[] = [];
+
+  const footerQuery = query(collection(db, "Footer"), orderBy("createdAt"));
+  const footerSnapshot = await getDocs(footerQuery);
+
+  for (const doc of footerSnapshot.docs) {
+    const footerData = doc.data() as Omit<FooterGroup, 'Links'>;
+    const linksSnapshot = await getDocs(collection(db, `Footer/${doc.id}/Links`));
+    const links = linksSnapshot.docs.map(linkDoc => linkDoc.data() as Link);
+
+    footerGroups.push({ ...footerData, Links: links });
+  }
+
+  const socialsCollectionRef = collection(db, "Socials");
+  const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
+  const socialSnapshot = await getDocs(socialQuery);
+
+  for (const doc of socialSnapshot.docs) {
+    socialLinks.push(doc.data() as SocialLink);
+  }
+  console.log("footer slice fetched")
+  return { footerGroups, socialLinks };
+});
+
+// Slice
 const footerSlice = createSlice({
   name: 'footer',
   initialState,
-  reducers: {
-    setResources: (state, action: PayloadAction<FooterItem[]>) => {
-      state.resources = action.payload;
-    },
-    setForms: (state, action: PayloadAction<FooterItem[]>) => {
-      state.forms = action.payload;
-    },
-    setLocalMosques: (state, action: PayloadAction<FooterItem[]>) => {
-      state.localMosques = action.payload;
-    },
-    setSocialLinks: (state, action: PayloadAction<SocialLink[]>) => {
-      state.socialLinks = action.payload;
-    },
-    setOtherLinks: (state, action: PayloadAction<FooterItem[]>) => {
-      state.otherLinks = action.payload;
-    },
-    setFetched: (state) => {
-      state.fetched = true;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchFooterData.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchFooterData.fulfilled, (state, action: PayloadAction<{ footerGroups: FooterGroup[], socialLinks: SocialLink[] }>) => {
+        state.status = 'succeeded';
+        state.footerGroups = action.payload.footerGroups;
+        state.socialLinks = action.payload.socialLinks;
+        state.lastFetch = Date.now();
+      })
+      .addCase(fetchFooterData.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || null;
+      });
   },
 });
-
-export const {
-  setResources,
-  setForms,
-  setLocalMosques,
-  setSocialLinks,
-  setOtherLinks,
-  setFetched,
-} = footerSlice.actions;
 
 export default footerSlice.reducer;
