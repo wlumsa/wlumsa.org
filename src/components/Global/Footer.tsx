@@ -34,8 +34,8 @@ const Footer: React.FC = () => {
         <div className="grid-flow-col items-center">
           <Image src={logo} alt="Logo" className="mr-2 h-6 w-6" />
           <p>
-            Company Name<br />
-            Tagline or Address
+            Wilfrid Laurier University <br />
+            Muslim Students' Association
           </p>
         </div>
         <div className="md:place-self-center md:justify-self-end">

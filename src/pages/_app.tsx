@@ -3,29 +3,29 @@ import "~/styles/globals.css";
 import { Provider } from "react-redux";
 import { store, persistor } from "~/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
-import  {useRouter} from "next/router"
+import { useRouter } from "next/router";
 import Navbar from "~/components/Global/Navbar";
 import Footer from "~/components/Global/Footer";
 import { AppProps } from "next/app";
-import NavbarComponent from "~/components/Global/Navbar";
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
- 
+  const router = useRouter();
+  const showNavbarFooter = !router.pathname.startsWith('/cms');
   return (
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
-        
-        <NavbarComponent/>
-        <Component {...pageProps} />
-        
+        <div className="flex flex-col min-h-screen">
+          {showNavbarFooter && <Navbar />}
+          <main className="flex-grow">
+            <Component {...pageProps} />
+          </main>
+          {showNavbarFooter && <Footer />}
+        </div>
         <Analytics />
-        <Footer/>
       </PersistGate>
     </Provider>
   );
 }
-
-
-
