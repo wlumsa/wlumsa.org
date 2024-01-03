@@ -2,10 +2,9 @@ import { buildCollection, buildProperty } from "firecms";
 
 
 
-export const NavbarCollection = buildCollection<Navbar>({
-  path: "Navbar",
-  name: "Navbar Collection",
-  singularName: "Navbar",
+export const FooterCollection = buildCollection<Footer>({
+  path: "Footer",
+  name: "Footer Collection",
   group: "Navbar",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
@@ -25,11 +24,11 @@ export const NavbarCollection = buildCollection<Navbar>({
       validation: { required: true },
       description: "Select the Navbar Group",
       enumValues: {
-        Contact: "Contact",
-        About: "About",
+        Forms:"Forms",
+        LocalMosques: "LocalMosques",
         Resources: "Resources",
+        Other: "Other",
         Custom:"Custom",
-        SingleLink:"Single Link",
       },
     }),
     CustomGroup: buildProperty(({ values }) => ({
@@ -45,32 +44,8 @@ export const NavbarCollection = buildCollection<Navbar>({
             hidden: true,
         },
     })),
-    NoGroup: buildProperty(({ values }) => ({
-      dataType: "string",
-      title: "Single Link Name",
-      name:"NoGroup Group Link",
-      validation: values.Group === "Single Link" ? { required: true } : undefined,
-      description: "Enter the name of the navbar item without a group",
-      // Assuming you want to disable or hide this field based on certain conditions
-      disabled: values.Group !== "Single Link" && {
-          clearOnDisabled: true,
-          disabledMessage: "Custom group is only available when certain conditions are met.",
-          hidden: true,
-      },
-  })),
-  NoGroupLink: buildProperty(({ values }) => ({
-    dataType: "string",
-    title: " Link",
-    name:"Link",
-    validation: values.Group === "Single Link" ? { required: true } : undefined,
-    description: "Enter the of the navbar item without a group",
-    // Assuming you want to disable or hide this field based on certain conditions
-    disabled: values.Group !== "Single Link" && {
-        clearOnDisabled: true,
-        disabledMessage: "Custom group is only available when certain conditions are met.",
-        hidden: true,
-    },
-})),
+   
+  
   createdAt: buildProperty({
     dataType: "date",
     title: "Created At",

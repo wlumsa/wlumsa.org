@@ -3,29 +3,19 @@ import logo from "public/logo.png";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import db from "~/firebase"; // Adjust this path to your Firebase configuration
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-
-interface Navbar {
-  Group: string;
-  CustomGroup?: string;
-  NoGroup?: string;
-  NoGroupLink: string;
-  createdAt: Date;
-}
-
-interface Links {
-  name: string;
-  link: string;
-  createdAt: Date;
-}
-
+/*
 interface NavbarGroup {
   group: string;
   CustomGroup?: string;
   NoGroup?: string;
   NoGroupLink?: string;
   links: Links[];
+}
+
+interface Links {
+  name: string;
+  link: string;
+  createdAt: Date;
 }
 
 interface Product {
@@ -45,10 +35,16 @@ interface CartItem {
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
 
-const NavbarComponent: React.FC = () => {
+type NavbarProps = {
+  navbarData: NavbarGroup[];
+};
+
+
+
+
+const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: any) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
-  const [navbarData, setNavbarData] = useState<NavbarGroup[]>([]);
 
   useEffect(() => {
     let price = 0;
@@ -64,38 +60,7 @@ const NavbarComponent: React.FC = () => {
     setTotalAmt(price.toFixed(2));
   }, [productData]);
 
-  useEffect(() => {
-    const fetchNavbarData = async () => {
-      const navbarQuery = query(collection(db, "Navbar"), orderBy("createdAt"));
-      const navbarQuerySnapshot = await getDocs(navbarQuery);
-      const navbarGroups = await Promise.all(
-        navbarQuerySnapshot.docs.map(async (doc) => {
-          const data = doc.data() as Navbar;
-          const group = data.Group === "Other" ? (data.CustomGroup ?? "Other") : data.Group;
-          let links: Links[] = [];
-    
-          if (data.Group !== "None") {
-            const linksQuerySnapshot = await getDocs(
-              collection(db, `Navbar/${doc.id}/Links`)
-            );
-            links = linksQuerySnapshot.docs.map(
-              (linkDoc) => ({ ...linkDoc.data(), link: linkDoc.data().link ?? "#" }) as Links
-            );
-          }
-    
-          return { 
-            group, 
-            CustomGroup: data.CustomGroup, 
-            NoGroup: data.NoGroup, 
-            NoGroupLink: data.NoGroupLink ?? "#", 
-            links 
-          };
-        })
-      );
-      setNavbarData(navbarGroups);
-    };
-    fetchNavbarData();
-  }, []);
+ 
 
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
@@ -205,4 +170,13 @@ const NavbarComponent: React.FC = () => {
   );
 };
 
-export default NavbarComponent;
+export default Navbar;*/
+import React from 'react'
+
+const Navbar = () => {
+  return (
+    <div>Navbar</div>
+  )
+}
+
+export default Navbar

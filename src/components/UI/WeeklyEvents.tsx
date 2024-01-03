@@ -1,21 +1,12 @@
 import React from "react";
 import Image from "next/image";
 
-interface EventsProps {
-  events: {
-    day: string;
-    desc: string;
-    img: string;
-    name: string;
-    room: string;
-    time: string;
-  }[];
-}
+
 
 const Events: React.FC<EventsProps> = ({ events }) => {
   return (
     <div id="events" className="flex-grow" >
-      {events.map((event, index) => (
+        {Array.isArray(events) && events.map((event, index) => (
         <div className="hero h-fit bg-base-100 px-4" key={index}>
           <div
             className={`hero-content flex-col ${

@@ -11,15 +11,14 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const router = useRouter();
-  const showNavbarFooter = !router.pathname.startsWith('/cms');
+ 
   return (
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
         
-        {showNavbarFooter && <Navbar />}
+      
         <Component {...pageProps} />
-        {showNavbarFooter && <Footer />}
+      
         <Analytics />
       </PersistGate>
     </Provider>

@@ -192,3 +192,39 @@ type PrayerRooms = {
     link: string;
     createdAt:Date;
   }
+  interface Footer {
+    Group: string;
+    CustomGroup?: string; // Optional property for custom group name
+    createdAt:Date;
+  }
+  type Events = {
+    day: string;
+    desc: string;
+    img: string;
+    name: string;
+    room: string;
+    time: string;
+  };
+  interface EventsProps {
+    events:Events[];
+  }
+  type SocialLinkProps = {
+    name: string;
+    link: string;
+    icon: string;
+    date: string | undefined;
+  };
+  type NavbarGroup = {
+    Group: string;
+    CustomGroup?: string; // Optional property for custom group name
+    NoGroup?: string;
+    NoGroupLink: string;
+    createdAt: Date;
+  };
+  type HomeProps = {
+    socialLinks: SocialLinkProps[];
+    heroUrl: string;
+    events: EventsProps;
+    navbar: NavbarGroup[]; // Now NavbarGroup is defined
+    footer: Footer[];
+  };

@@ -6,37 +6,29 @@ import MemberSignup from "../components/UI/MemberSignup";
 import PrayerSection from "../components/UI/PrayerSection";
 import News from "../components/UI/News";
 import Events from "../components/UI/WeeklyEvents";
-import { Timestamp } from "firebase/firestore";
+
 import { GetStaticProps } from "next";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import db, { storage } from "../firebase";
-import { ref, getDownloadURL } from "firebase/storage";
+
 import Popup from "~/components/UI/Popup";
 
-interface SocialLinkProps {
-  name: string;
-  link: string;
-  icon: string;
-  date?: string; // Define date as string
-}
-interface Events {
-  day: string;
-  desc: string;
-  img: string;
-  name: string;
-  room: string;
-  time: string;
-}
-
-interface HomeProps {
+import { getSocialLinksData, getEventsData, getHeroImageURL } from "../components/Uitlity/dataFetcher"
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+import { getNavbarData, getFooterData } from "../components/Uitlity/dataFetcher";
+type HomeProps = {
   socialLinks: SocialLinkProps[];
   heroUrl: string;
-  events: Events[]; // Add this line
-}
+  events: EventsProps;
+  navbar: Navbar;
+  footer: Footer;
+};
+
 const Home: NextPage<HomeProps> = ({
   socialLinks,
   heroUrl,
   events,
+  navbar,
+  footer,
 }) => {
   return (
     <>
@@ -51,67 +43,37 @@ const Home: NextPage<HomeProps> = ({
         />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
-       
+      <Navbar />
         <Hero socialLinks={socialLinks} heroUrl={heroUrl} />
         <Popup />
         <News />
         <PrayerSection />
-        <Events events={events} />
+        <Events events={events.events} />
         <MemberSignup />
        
       </main>
     </>
   );
 };
+
+
 export const getStaticProps: GetStaticProps = async () => {
-  const fetchSocialLinks = async () => {
-    const socialsCollectionRef = collection(db, "Socials");
-    const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
-    const querySnapshot = await getDocs(socialQuery);
-    return querySnapshot.docs.map((doc) => doc.data());
-  };
+  const socialLinksData = await getSocialLinksData();
+  const eventsData = await getEventsData();
+  const heroUrl = await getHeroImageURL();
+  const navbarData = await getNavbarData(); // Ensure this returns NavbarGroup[]
+  console.log(navbarData)
+  const footerData = await getFooterData();
 
-  const socialLinks = await fetchSocialLinks();
-
-  const socialLinksData: SocialLinkProps[] = socialLinks.map((socialData) => {
-    let date: string | undefined;
-    if (socialData.date) {
-      if (typeof socialData.date === "string") {
-        date = socialData.date;
-      } else if (socialData.date instanceof Timestamp) {
-        date = socialData.date.toDate().toISOString();
-      }
-    }
-    return {
-      name: socialData.name,
-      link: socialData.link,
-      icon: socialData.icon,
-      date,
-    };
-  });
-  const fetchEvents = async () => {
-    const eventsCollectionRef = collection(db, "WeeklyEvents");
-    const querySnapshot = await getDocs(eventsCollectionRef);
-
-    return Promise.all(
-      querySnapshot.docs.map(async (doc) => {
-        const eventData = doc.data() as Events;
-        const imgURL = await getDownloadURL(ref(storage, eventData.img)); // Assuming eventData.icon is the path to the icon in Firebase Storage
-        return { ...eventData, img: imgURL };
-      })
-    );
-  };
-
-  const heroRef = ref(storage, "images/hero.jpg");
-  const url = await getDownloadURL(heroRef);
-  const events = await fetchEvents();
   return {
     props: {
       socialLinks: socialLinksData,
-
-      heroUrl: url,
-      events,
+      events: eventsData,
+      heroUrl,
+      navbar: navbarData, // This should be NavbarGroup[]
+      footer: footerData,
     },
+    revalidate: 60 * 60 * 24, // This will re-generate the page every 24 hours
   };
 };
 export default Home;

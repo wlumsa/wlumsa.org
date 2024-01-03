@@ -20,22 +20,23 @@ import { EmailCollection } from "./Collections/EmailCollection";
 import { ProductsCollection } from "./Collections/Products Page/ProductCollection";
 import { usersCollection } from "./Collections/UsersCollection";
 import { CampusResourcesCollection } from "./Collections/Resources Page/CampusResourceCollection";
-import { FormsCollection } from "./Collections/Footer/FormsCollection";
+
 import { InstagramCollection } from "./Collections/Home Page/InstagramCollection";
 import { JummahCollection } from "./Collections/Home Page/JummahCollection";
-import { LocalMosquesCollection } from "./Collections/Footer/LocalMosquesCollection";
+
 import { MemberCollection } from "./Collections/MembersCollection";
 import { ordersCollection } from "./Collections/Products Page/OrdersCollection";
-import { OtherCollection } from "./Collections/Footer/OtherCollection";
+
 import { OtherResourcesCollection } from "./Collections/Resources Page/OtherResourceCollection";
 import { PrayerRoomsCollection } from "./Collections/Home Page/PrayerRoomsCollection";
 import { PrayerTimingsCollection } from "./Collections/PrayerTimings Page/PrayerTimingsCollection";
 import { ReligiousResourcesCollection } from "./Collections/Resources Page/ReligiousResourceCollection";
-import { ResourcesCollection } from "./Collections/Footer/ResourcesCollection";
+
 import { ServicesOfferedCollection } from "./Collections/Resources Page/ServicesCollection";
 import { SocialsCollection } from "./Collections/Footer/SocialsCollection";
 import { WeeklyEventsCollection } from "./Collections/Home Page/WeeklyEventsCollection";
 import { NavbarCollection } from "./Collections/Footer/NavbarCollection";
+import {FooterCollection} from "./Collections/Footer/FooterCollection";
 
 export default function CMS() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
@@ -72,12 +73,8 @@ export default function CMS() {
         PrayerTimingsCollection,
         InstagramCollection,
         MemberCollection,
-        FormsCollection,
         JummahCollection,
-        LocalMosquesCollection,
-        OtherCollection,
         PrayerRoomsCollection,
-        ResourcesCollection,
         SocialsCollection,
         WeeklyEventsCollection,
         ServicesOfferedCollection,
@@ -86,6 +83,7 @@ export default function CMS() {
         CampusResourcesCollection,
         EmailCollection,
         NavbarCollection,
+        FooterCollection,
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}
