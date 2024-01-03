@@ -21,16 +21,20 @@ import { ProductsCollection } from "./Collections/Products Page/ProductCollectio
 import { usersCollection } from "./Collections/UsersCollection";
 import { CampusResourcesCollection } from "./Collections/Resources Page/CampusResourceCollection";
 
+
 import { InstagramCollection } from "./Collections/Home Page/InstagramCollection";
 import { JummahCollection } from "./Collections/Home Page/JummahCollection";
 
+
 import { MemberCollection } from "./Collections/MembersCollection";
 import { ordersCollection } from "./Collections/Products Page/OrdersCollection";
+
 
 import { OtherResourcesCollection } from "./Collections/Resources Page/OtherResourceCollection";
 import { PrayerRoomsCollection } from "./Collections/Home Page/PrayerRoomsCollection";
 import { PrayerTimingsCollection } from "./Collections/PrayerTimings Page/PrayerTimingsCollection";
 import { ReligiousResourcesCollection } from "./Collections/Resources Page/ReligiousResourceCollection";
+
 
 import { ServicesOfferedCollection } from "./Collections/Resources Page/ServicesCollection";
 import { SocialsCollection } from "./Collections/Footer/SocialsCollection";
@@ -83,6 +87,7 @@ export default function CMS() {
         CampusResourcesCollection,
         EmailCollection,
         NavbarCollection,
+        FooterCollection,
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}

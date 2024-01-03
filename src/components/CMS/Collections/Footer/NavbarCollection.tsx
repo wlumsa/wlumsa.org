@@ -28,18 +28,18 @@ export const NavbarCollection = buildCollection<Navbar>({
         Contact: "Contact",
         About: "About",
         Resources: "Resources",
-        Other: "Other",
-        None:"None",
+        Custom:"Custom",
+        SingleLink:"Single Link",
       },
     }),
     CustomGroup: buildProperty(({ values }) => ({
         dataType: "string",
         title: "Custom Group Name",
         name:"Custom Group Name",
-        validation: values.Group === "Other" ? { required: true } : undefined,
+        validation: values.Group === "Custom" ? { required: true } : undefined,
         description: "Enter the name of your custom group",
         // Assuming you want to disable or hide this field based on certain conditions
-        disabled: values.Group !== "Other" && {
+        disabled: values.Group !== "Custom" && {
             clearOnDisabled: true,
             disabledMessage: "Custom group is only available when certain conditions are met.",
             hidden: true,
@@ -47,12 +47,12 @@ export const NavbarCollection = buildCollection<Navbar>({
     })),
     NoGroup: buildProperty(({ values }) => ({
       dataType: "string",
-      title: "NoGroup Name",
+      title: "Single Link Name",
       name:"NoGroup Group Link",
-      validation: values.Group === "None" ? { required: true } : undefined,
+      validation: values.Group === "Single Link" ? { required: true } : undefined,
       description: "Enter the name of the navbar item without a group",
       // Assuming you want to disable or hide this field based on certain conditions
-      disabled: values.Group !== "None" && {
+      disabled: values.Group !== "Single Link" && {
           clearOnDisabled: true,
           disabledMessage: "Custom group is only available when certain conditions are met.",
           hidden: true,
@@ -60,12 +60,12 @@ export const NavbarCollection = buildCollection<Navbar>({
   })),
   NoGroupLink: buildProperty(({ values }) => ({
     dataType: "string",
-    title: "No Group Link",
-    name:"No Group Link",
-    validation: values.Group === "None" ? { required: true } : undefined,
+    title: " Link",
+    name:"Link",
+    validation: values.Group === "Single Link" ? { required: true } : undefined,
     description: "Enter the of the navbar item without a group",
     // Assuming you want to disable or hide this field based on certain conditions
-    disabled: values.Group !== "None" && {
+    disabled: values.Group !== "Single Link" && {
         clearOnDisabled: true,
         disabledMessage: "Custom group is only available when certain conditions are met.",
         hidden: true,
@@ -77,25 +77,6 @@ export const NavbarCollection = buildCollection<Navbar>({
     autoValue: "on_create" || "on_update",
     validation:{required:true}
   }),
-
-    
-    /*
-    sendEmail: buildProperty(({ values }) => ({
-        name: "Send Email",
-        dataType: "boolean",
-        validation:
-          values.distributionListType == "custom"
-            ? { required: true }
-            : undefined,
-        defaultValue: false,
-        // Conditional rendering based on the status
-  
-        disabled: values.status !== "published" && {
-          clearOnDisabled: true,
-          disabledMessage: "Sizes are only available if 'Has Sizes' is selected.",
-          hidden: true,
-        },
-      })),*/
   },
   subcollections: [
     buildCollection<Links>({

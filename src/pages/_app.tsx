@@ -7,20 +7,21 @@ import  {useRouter} from "next/router"
 import Navbar from "~/components/Global/Navbar";
 import Footer from "~/components/Global/Footer";
 import { AppProps } from "next/app";
+import NavbarComponent from "~/components/Global/Navbar";
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const router = useRouter();
-  const showNavbarFooter = !router.pathname.startsWith('/cms');
+ 
   return (
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
         
-        {showNavbarFooter && <Navbar />}
+        <NavbarComponent/>
         <Component {...pageProps} />
-        {showNavbarFooter && <Footer />}
+        
         <Analytics />
+        <Footer/>
       </PersistGate>
     </Provider>
   );
