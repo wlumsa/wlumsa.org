@@ -87,7 +87,7 @@ export default function CMS() {
         CampusResourcesCollection,
         EmailCollection,
         NavbarCollection,
-        FooterCollection,
+       
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}
