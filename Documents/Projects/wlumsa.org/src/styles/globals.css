@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;700&display=swap");
+
+
+
+/* Add this in your global CSS file */
+.navbar-dark {
+    background-color: #f8f9fa; /* light gray */
+  }
+  
+  .navbar-light {
+    background-color: #1D232A; /* dark gray */
+  }
+  
+
+ 
+
+  .navItems .dropdown > div:after {
+    content: "▼"; /* arrow down icon */
+    font-size: 0.75em; /* adjust size as needed */
+    margin-left: 0.5em; /* adjust spacing as needed */
+  }
+  
+  /* Flip the arrow when the dropdown is hovered */
+  .navItems .dropdown:hover > div:after {
+    transform: rotate(180deg);
+  }
