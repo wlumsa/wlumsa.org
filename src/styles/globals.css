@@ -16,3 +16,15 @@
   }
   
 
+ 
+
+  .navItems .dropdown > div:after {
+    content: "▼"; /* arrow down icon */
+    font-size: 0.75em; /* adjust size as needed */
+    margin-left: 0.5em; /* adjust spacing as needed */
+  }
+  
+  /* Flip the arrow when the dropdown is hovered */
+  .navItems .dropdown:hover > div:after {
+    transform: rotate(180deg);
+  }

@@ -99,7 +99,7 @@ const NavbarComponent: React.FC = () => {
         </Link>
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
-  <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+  <ul className="menu menu-horizontal gap-2 px-2 navItems" tabIndex={0}>
     {navbarData.map((item, idx) => (
       item.Group && item.Group !== "None" ? (
         <li key={item.Group || idx} className="dropdown dropdown-hover">

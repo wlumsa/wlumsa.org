@@ -2,30 +2,33 @@ import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../firebase";
-
+import { GetStaticProps } from 'next';
 
 interface ServiceItem {
   title: string;
   description: string;
   link: string;
 }
+export const getStaticProps: GetStaticProps = async () => {
+  const serviceCollectionRef = collection(db, 'ServicesOffered');
+  const querySnapshot = await getDocs(serviceCollectionRef);
 
-const About: React.FC = () => {
-  const [servicesInfo, setServiceInfo] = useState<ServiceItem[]>([]);
+  const servicesInfo = querySnapshot.docs.map(
+    (doc) => doc.data() as ServiceItem
+  );
 
-  useEffect(() => {
-    const fetchServiceInfo = async () => {
-      const serviceCollectionRef = collection(db, "ServicesOffered");
-      const querySnapshot = await getDocs(serviceCollectionRef);
-
-      const serviceInfoData = querySnapshot.docs.map(
-        (doc) => doc.data() as ServiceItem
-      );
-      setServiceInfo(serviceInfoData);
-    };
-
-    fetchServiceInfo();
-  }, []);
+  return {
+    props: {
+      servicesInfo,
+    },
+    // Next.js will attempt to regenerate the page:
+    // - When a request comes in
+    // - At most once every 60 seconds
+    revalidate: 43200, // In seconds
+  };
+};
+const About: React.FC<{ servicesInfo: ServiceItem[] }> = ({ servicesInfo }) => {
+ 
 
   return (
     <div>
@@ -36,7 +39,7 @@ const About: React.FC = () => {
           {/* About Us Section */}
           <div className="hero h-fit self-center">
             <div className="hero-content min-w-96 sm:max-w-[80%] flex flex-col items-center justify-center gap-8">
-              <h1 className="text-4xl font-bold text-primary text-center">About</h1>
+              <h1 className="text-4xl font-bold text-primary text-center">About Us</h1>
               <div className="flex flex-col md:flex-row items-center justify-center gap-8">
                 <img
                   src="/logo.png"

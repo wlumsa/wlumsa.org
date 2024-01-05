@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import db from "~/firebase";
-
+import { GetStaticProps } from "next";
 import Products from "~/components/UI/ProductCard";
 interface Product {
   id: string;
@@ -15,22 +15,26 @@ interface Product {
   tags: string[];
 }
 
-const ProductsPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    const fetchAndSetProducts = async () => {
-      const productsCollectionRef = collection(db, "Products");
-      const querySnapshot = await getDocs(productsCollectionRef);
+export const getStaticProps: GetStaticProps = async () => {
+  const productsCollectionRef = collection(db, 'Products');
+  const querySnapshot = await getDocs(productsCollectionRef);
 
-      const productsData = querySnapshot.docs.map((doc) => {
-        const data = doc.data() as Product;
-        return { ...data, id: doc.id };
-      });
-      setProducts(productsData);
-    };
+  const productsData = querySnapshot.docs.map((doc) => {
+    const data = doc.data() as Product;
+    return { ...data, id: doc.id };
+  });
 
-    fetchAndSetProducts();
-  }, []);
+  return {
+    props: {
+      products: productsData,
+    },
+    // Re-generate the page every 1 hour
+    revalidate: 3600,
+  };
+};
+
+const ProductsPage = ({ products }: { products: Product[] }) => {
+ 
 
   return (
     <div>

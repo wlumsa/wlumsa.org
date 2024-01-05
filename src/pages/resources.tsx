@@ -2,7 +2,7 @@ import React from "react";
 
 import { useState, useEffect } from "react";
 
-
+import { GetStaticProps } from "next";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 import db from "../firebase";
@@ -18,61 +18,51 @@ interface CampusResource {
   title: string;
   link: string;
 }
-interface ReligiousResource {
-  title: string;
-  link: string;
-}
+
 interface OtherResource {
   title: string;
   link: string;
 }
-const ResourcesPage: NextPage = () => {
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
-  const [campusResources, setCampusResources] = useState<CampusResource[]>([]);
-  const [religiousResources, setReligiousResources] = useState<
-    ReligiousResource[]
-  >([]);
-  const [otherResources, setOtherResources] = useState<OtherResource[]>([]);
 
-  useEffect(() => {
-    const fetchSocialLinks = async () => {
-      const socialsCollectionRef = collection(db, "Socials");
-      const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
-      const querySnapshot = await getDocs(socialQuery);
+interface ReligiousResource {
+  title: string;
+  link: string;
+}
 
-      const socialLinksData = querySnapshot.docs.map((doc) => {
-        const socialData = doc.data() as SocialLink;
-        return socialData;
-      });
 
-      setSocialLinks(socialLinksData);
-    };
-    const fetchResources = async () => {
-      // Fetch Campus Resources
-      const campusResourcesRef = collection(db, "CampusResources");
-      const campusResourcesSnapshot = await getDocs(campusResourcesRef);
-      const campusResourcesData = campusResourcesSnapshot.docs.map(
-        (doc) => doc.data() as CampusResource
-      );
-      setCampusResources(campusResourcesData);
+export const getStaticProps: GetStaticProps = async () => {
+  const socialsCollectionRef = collection(db, 'Socials');
+  const socialsSnapshot = await getDocs(socialsCollectionRef);
+  const socialLinksData = socialsSnapshot.docs.map((doc) => doc.data() as SocialLink);
 
-      const otherResourcesRef = collection(db, "OtherResources");
-      const otherResourcesSnapshot = await getDocs(otherResourcesRef);
-      const otherResourcesData = otherResourcesSnapshot.docs.map(
-        (doc) => doc.data() as OtherResource
-      );
-      setOtherResources(otherResourcesData);
-      const religiousResourcesRef = collection(db, "ReligiousResources");
-      const religiousResourcesSnapshot = await getDocs(religiousResourcesRef);
-      const religiousResourcesData = religiousResourcesSnapshot.docs.map(
-        (doc) => doc.data() as ReligiousResource
-      );
-      setReligiousResources(religiousResourcesData);
-    };
-    fetchSocialLinks();
-    fetchResources();
-  }, []);
+  const campusResourcesRef = collection(db, 'CampusResources');
+  const campusResourcesSnapshot = await getDocs(campusResourcesRef);
+  const campusResourcesData = campusResourcesSnapshot.docs.map((doc) => doc.data() as CampusResource);
 
+  const otherResourcesRef = collection(db, 'OtherResources');
+  const otherResourcesSnapshot = await getDocs(otherResourcesRef);
+  const otherResourcesData = otherResourcesSnapshot.docs.map((doc) => doc.data() as OtherResource);
+
+  const religiousResourcesRef = collection(db, 'ReligiousResources');
+  const religiousResourcesSnapshot = await getDocs(religiousResourcesRef);
+  const religiousResourcesData = religiousResourcesSnapshot.docs.map((doc) => doc.data() as ReligiousResource);
+
+  return {
+    props: {
+      socialLinksData,
+      campusResourcesData,
+      otherResourcesData,
+      religiousResourcesData,
+    },
+    // Next.js will attempt to regenerate the page:
+    // - When a request comes in
+    // - At most once every 60 seconds
+    revalidate: 43200, // In seconds
+  };
+};
+
+const ResourcesPage: NextPage<{ socialLinksData: SocialLink[], campusResourcesData: CampusResource[], otherResourcesData: OtherResource[], religiousResourcesData: ReligiousResource[] }> = ({ socialLinksData, campusResourcesData, otherResourcesData, religiousResourcesData }) => {
+  
   return (
     <div className="">
       
@@ -90,7 +80,7 @@ const ResourcesPage: NextPage = () => {
             </p>
             <div className="flex flex-row">
               <div className="flex flex-col">
-                {socialLinks.map((social, index) => (
+                {socialLinksData.map((social, index) => (
                   <div
                     key={index}
                     className="mx-20 mt-[3.8rem] flex items-center duration-200 hover:scale-105"
@@ -159,7 +149,7 @@ const ResourcesPage: NextPage = () => {
             Campus Resources
           </summary>
           <ul className="p-2">
-            {campusResources.map((resource, index) => (
+            {campusResourcesData.map((resource, index) => (
               <li key={index}>
                 <a
                   href={resource.link}
@@ -178,7 +168,7 @@ const ResourcesPage: NextPage = () => {
             Religious Resources
           </summary>
           <ul className="p-2">
-            {religiousResources.map((resource, index) => (
+            {religiousResourcesData.map((resource, index) => (
               <li key={index}>
                 <a
                   href={resource.link}
@@ -197,7 +187,7 @@ const ResourcesPage: NextPage = () => {
             Other
           </summary>
           <ul className="p-2">
-            {otherResources.map((resource, index) => (
+            {otherResourcesData.map((resource, index) => (
               <li key={index}>
                 <a
                   href={resource.link}
