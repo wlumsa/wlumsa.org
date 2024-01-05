@@ -71,12 +71,7 @@ export const NavbarCollection = buildCollection<Navbar>({
         hidden: true,
     },
 })),
-  createdAt: buildProperty({
-    dataType: "date",
-    title: "Created At",
-    autoValue: "on_create" || "on_update",
-    validation:{required:true}
-  }),
+ 
   },
   subcollections: [
     buildCollection<Links>({

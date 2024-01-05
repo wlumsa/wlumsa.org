@@ -184,7 +184,7 @@ type PrayerRooms = {
     CustomGroup?: string; // Optional property for custom group name
     NoGroup?:string;
     NoGroupLink:string;
-    createdAt:Date;
+  
   }
   interface Footer {
     Group: string;
@@ -223,7 +223,7 @@ type PrayerRooms = {
     CustomGroup?: string; // Optional property for custom group name
     NoGroup?: string;
     NoGroupLink: string;
-    createdAt: Date;
+ 
   };
   type HomeProps = {
     socialLinks: SocialLinkProps[];
