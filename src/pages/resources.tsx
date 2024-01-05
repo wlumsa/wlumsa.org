@@ -32,7 +32,8 @@ interface ReligiousResource {
 
 export const getStaticProps: GetStaticProps = async () => {
   const socialsCollectionRef = collection(db, 'Socials');
-  const socialsSnapshot = await getDocs(socialsCollectionRef);
+  const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
+  const socialsSnapshot = await getDocs(socialQuery);
   const socialLinksData = socialsSnapshot.docs.map((doc) => doc.data() as SocialLink);
 
   const campusResourcesRef = collection(db, 'CampusResources');
@@ -64,79 +65,11 @@ export const getStaticProps: GetStaticProps = async () => {
 const ResourcesPage: NextPage<{ socialLinksData: SocialLink[], campusResourcesData: CampusResource[], otherResourcesData: OtherResource[], religiousResourcesData: ReligiousResource[] }> = ({ socialLinksData, campusResourcesData, otherResourcesData, religiousResourcesData }) => {
   
   return (
-    <div className="">
+    <div className="mt-20">
       
       {/*Desktop*/}
 
-      <div className="mt-20 hidden items-center md:flex  md:flex-col">
-        <div className="m-10 grid w-full grid-cols-2 gap-10 ">
-          <div className="flex flex-col ">
-            <h3 className="pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
-              Contact Us!
-            </h3>
-            <p className="text-center text-neutral lg:text-lg">
-              Fill out the form or shoot us a message on one of our social media
-              accounts!
-            </p>
-            <div className="flex flex-row">
-              <div className="flex flex-col">
-                {socialLinksData.map((social, index) => (
-                  <div
-                    key={index}
-                    className="mx-20 mt-[3.8rem] flex items-center duration-200 hover:scale-105"
-                  >
-                    <a
-                      href={social.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 50 50"
-                        className="hover:fill-neutral-focus mr-2 h-6 w-6 fill-neutral"
-                      >
-                        <path d={social.icon}></path>
-                      </svg>
-                      <span className="text-neutral">{social.name}</span>
-                    </a>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-[3.8rem] w-full ">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d574.5123406885597!2d-80.52840270038443!3d43.47394430083161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf3f61b1f9a23%3A0xd224e64459372537!2sWilfrid%20Laurier%20University%20Waterloo%20Campus!5e0!3m2!1sen!2sca!4v1699381173730!5m2!1sen!2sca"
-                  className="h-full w-full"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center"></div>
-        </div>
-      </div>
-      {/* Section for small screens */}
-      <div className="flex flex-col items-center px-4 md:hidden ">
-        <h3 className="mt-20 pt-4 text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
-          Contact Us!
-        </h3>
-        <p className="mb-10 text-center text-neutral lg:text-lg">
-          Fill out the form or send us a message on one of our social media
-          accounts!
-        </p>
-
-        <div className="my-6 w-full">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d574.5123406885597!2d-80.52840270038443!3d43.47394430083161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf3f61b1f9a23%3A0xd224e64459372537!2sWilfrid%20Laurier%20University%20Waterloo%20Campus!5e0!3m2!1sen!2sca!4v1699381173730!5m2!1sen!2sca"
-            className="h-96 w-full"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-          ></iframe>
-        </div>
-      </div>
+      
 
       {/* Resources */}
       <div className="m-10">

@@ -66,29 +66,14 @@ const Home: NextPage<HomeProps> = ({
 export const getStaticProps: GetStaticProps = async () => {
   const fetchSocialLinks = async () => {
     const socialsCollectionRef = collection(db, "Socials");
-    const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
+    const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
     const querySnapshot = await getDocs(socialQuery);
     return querySnapshot.docs.map((doc) => doc.data());
   };
 
   const socialLinks = await fetchSocialLinks();
 
-  const socialLinksData: SocialLinkProps[] = socialLinks.map((socialData) => {
-    let date: string | undefined;
-    if (socialData.date) {
-      if (typeof socialData.date === "string") {
-        date = socialData.date;
-      } else if (socialData.date instanceof Timestamp) {
-        date = socialData.date.toDate().toISOString();
-      }
-    }
-    return {
-      name: socialData.name,
-      link: socialData.link,
-      icon: socialData.icon,
-      date,
-    };
-  });
+ 
   const fetchEvents = async () => {
     const eventsCollectionRef = collection(db, "WeeklyEvents");
     const querySnapshot = await getDocs(eventsCollectionRef);
@@ -107,7 +92,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const events = await fetchEvents();
   return {
     props: {
-      socialLinks: socialLinksData,
+      socialLinks: socialLinks,
 
       heroUrl: url,
       events,

@@ -56,7 +56,7 @@ export const fetchFooterData = createAsyncThunk('footer/fetchData', async () => 
   }
 
   const socialsCollectionRef = collection(db, "Socials");
-  const socialQuery = query(socialsCollectionRef, orderBy("date", "asc"));
+  const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
   const socialSnapshot = await getDocs(socialQuery);
 
   for (const doc of socialSnapshot.docs) {
