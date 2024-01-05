@@ -73,7 +73,7 @@ const NavbarComponent: React.FC = () => {
           <ul tabIndex={0} className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow">
             {navbarData.map((item) => {
               const title = item.Group === "Other" && item.CustomGroup ? item.CustomGroup : item.Group;
-              return item.Group !== "None" ? (
+              return item.Group !== "SingleLink" ? (
                 <li key={item.Group} className="menu-item">
                   <details>
                     <summary className="">{title}</summary>
@@ -101,7 +101,7 @@ const NavbarComponent: React.FC = () => {
       <div className="navbar-center hidden text-base-100 lg:flex">
   <ul className="menu menu-horizontal gap-2 px-2 navItems" tabIndex={0}>
     {navbarData.map((item, idx) => (
-      item.Group && item.Group !== "None" ? (
+      item.Group && item.Group !== "SingleLink" ? (
         <li key={item.Group || idx} className="dropdown dropdown-hover">
           <div className="text-white">{item.Group}</div>
           {item.links && item.links.length > 0 && (

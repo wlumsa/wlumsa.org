@@ -71,7 +71,7 @@ export const NavbarCollection = buildCollection<Navbar>({
         hidden: true,
     },
 })),
- 
+  
   },
   subcollections: [
     buildCollection<Links>({
