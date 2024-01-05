@@ -189,17 +189,17 @@ type PrayerRooms = {
   interface Footer {
     Group: string;
     CustomGroup?: string; // Optional property for custom group name
-    createdAt:Date;
+    
   }
   interface Links {
     name: string;
     link: string;
-    createdAt:Date;
+  
   }
   interface Footer {
     Group: string;
     CustomGroup?: string; // Optional property for custom group name
-    createdAt:Date;
+    
   }
   type Events = {
     day: string;

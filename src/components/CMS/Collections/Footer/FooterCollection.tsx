@@ -46,12 +46,7 @@ export const FooterCollection = buildCollection<Footer>({
     })),
    
   
-  createdAt: buildProperty({
-    dataType: "date",
-    title: "Created At",
-    autoValue: "on_create" || "on_update",
-    validation:{required:true}
-  }),
+  
   },
   subcollections: [
     buildCollection<Links>({
@@ -79,12 +74,7 @@ export const FooterCollection = buildCollection<Footer>({
           validation: { required: true },
           description: "Link to item",
         }),
-        createdAt: buildProperty({
-          dataType: "date",
-          title: "Created At",
-          autoValue: "on_create" || "on_update",
-          validation:{required:true}
-        }),
+        
       },
     }),
   ],
