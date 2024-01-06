@@ -30,10 +30,8 @@ export const usersCollection = buildCollection({
   
         enumValues: {
           Admin: "Admin" /* Everything */,
-          Marketing:
-            "Marketing" /* Products + Orders + Instagram Posts + Footer + Resources Page */,
-          ReligiousAffairs:
-            "Religious Affairs" /* Prayer timings + Prayer Rooms + Events + Local Mosques + Jummah*/,
+          Marketing:"Marketing" /* Products + Orders + Instagram Posts + Footer + Resources Page */,
+          ReligiousAffairs:"Religious Affairs" /* Prayer timings + Prayer Rooms + Events + Local Mosques + Jummah*/,
           Events: "Events" /* Emails + Events + Calander wehn made */,
           Finance: "Finance" /* Orders + Products */,
           External: "External/Internal" /* Everything But Users  */,

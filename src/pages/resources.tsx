@@ -55,10 +55,8 @@ export const getStaticProps: GetStaticProps = async () => {
       otherResourcesData,
       religiousResourcesData,
     },
-    // Next.js will attempt to regenerate the page:
-    // - When a request comes in
-    // - At most once every 60 seconds
-    revalidate: 43200, // In seconds
+    
+    revalidate: 43200, 
   };
 };
 

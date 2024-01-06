@@ -1,6 +1,5 @@
 "use client";
 import msalogo from "public/logo.png";
-
 import React, { useCallback } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { User as FirebaseUser } from "firebase/auth";
@@ -10,37 +9,28 @@ import {
   buildProperty,
   FirebaseCMSApp,
 } from "firecms";
-
 import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
-
 import { firebaseConfig } from "../../firebase";
 import db from "../../firebase";
 import { EmailCollection } from "./Collections/EmailCollection";
 import { ProductsCollection } from "./Collections/Products Page/ProductCollection";
 import { usersCollection } from "./Collections/UsersCollection";
 import { CampusResourcesCollection } from "./Collections/Resources Page/CampusResourceCollection";
-
-
 import { InstagramCollection } from "./Collections/Home Page/InstagramCollection";
 import { JummahCollection } from "./Collections/Home Page/JummahCollection";
-
-
 import { MemberCollection } from "./Collections/MembersCollection";
 import { ordersCollection } from "./Collections/Products Page/OrdersCollection";
-
-
 import { OtherResourcesCollection } from "./Collections/Resources Page/OtherResourceCollection";
 import { PrayerRoomsCollection } from "./Collections/Home Page/PrayerRoomsCollection";
 import { PrayerTimingsCollection } from "./Collections/PrayerTimings Page/PrayerTimingsCollection";
 import { ReligiousResourcesCollection } from "./Collections/Resources Page/ReligiousResourceCollection";
-
-
 import { ServicesOfferedCollection } from "./Collections/Resources Page/ServicesCollection";
 import { SocialsCollection } from "./Collections/Footer/SocialsCollection";
 import { WeeklyEventsCollection } from "./Collections/Home Page/WeeklyEventsCollection";
 import { NavbarCollection } from "./Collections/Footer/NavbarCollection";
 import { FooterCollection } from "./Collections/Footer/FooterCollection";
+import { ResourcesCollection } from "./Collections/Resources Page/ResourcesCollection";
 export default function CMS() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
     async ({ user, authController }) => {
@@ -87,7 +77,7 @@ export default function CMS() {
         CampusResourcesCollection,
         EmailCollection,
         NavbarCollection,
-       
+        ResourcesCollection,
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}

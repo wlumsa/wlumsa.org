@@ -29,10 +29,7 @@ type PrayerRooms = {
     name: string;
     link: string;
   };
-  type Resources = {
-    name: string;
-    link: string;
-  };
+ 
   type Socials = {
     icon: string;
     link: string;
@@ -262,7 +259,7 @@ interface Timings {
   Asr: string;
   AsrIqamah: string;
   Maghrib: string;
-  MaghribIqamah: string;
+  MaghribIqamah:  string;
   Isha: string;
   IshaIqamah: string;
 }
@@ -274,4 +271,12 @@ interface DayTimings {
 interface Jummah {
   room: string;
   time: string;
+}
+
+interface Resources {
+  Group: string;
+  CustomGroup?: string; // Optional property for custom group name
+  NoGroup?:string;
+  NoGroupLink:string;
+  index:number;
 }

@@ -86,14 +86,7 @@ export const NavbarCollection = buildCollection<Navbar>({
       path: "Links",
       name: "Links",
       singularName: "Link",
-      permissions: ({ user, authController }) => {
-        const isAdmin = authController.extra?.roles.includes("Admin");
-        return {
-          edit: isAdmin,
-          create: isAdmin,
-          delete: isAdmin,
-        };
-      },
+      
       properties: {
         name: buildProperty({
           dataType: "string",

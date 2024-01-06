@@ -21,10 +21,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       servicesInfo,
     },
-    // Next.js will attempt to regenerate the page:
-    // - When a request comes in
-    // - At most once every 60 seconds
-    revalidate: 43200, // In seconds
+    revalidate: 43200, 
   };
 };
 const About: React.FC<{ servicesInfo: ServiceItem[] }> = ({ servicesInfo }) => {
