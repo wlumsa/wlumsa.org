@@ -184,23 +184,20 @@ type PrayerRooms = {
     CustomGroup?: string; // Optional property for custom group name
     NoGroup?:string;
     NoGroupLink:string;
-
-  }
-  interface Footer {
-    Group: string;
-    CustomGroup?: string; // Optional property for custom group name
-    
+    index:number;
   }
   interface Links {
     name: string;
     link: string;
-   
+    index:number;
   }
   interface Footer {
     Group: string;
     CustomGroup?: string; // Optional property for custom group name
-  
+
   }
+ 
+  
   type Events = {
     day: string;
     desc: string;
@@ -216,19 +213,65 @@ type PrayerRooms = {
     name: string;
     link: string;
     icon: string;
-    date: string | undefined;
+    index: number;
   };
-  type NavbarGroup = {
+  interface NavbarGroup {
     Group: string;
-    CustomGroup?: string; // Optional property for custom group name
+    CustomGroup?: string;
     NoGroup?: string;
-    NoGroupLink: string;
-    createdAt: Date;
-  };
-  type HomeProps = {
-    socialLinks: SocialLinkProps[];
-    heroUrl: string;
-    events: EventsProps;
-    navbar: NavbarGroup[]; // Now NavbarGroup is defined
-    footer: Footer[];
-  };
+    NoGroupLink?: string;
+    links: Links[];
+  }
+  interface Links {
+    name: string;
+    link: string;
+    index:number
+  }
+  
+  interface FooterGroup {
+    Group: string;
+    CustomGroup?: string;
+    links: Links[];
+  }
+  
+  interface SocialLink {
+    name: string;
+    link: string;
+    icon: string;
+  }
+  
+  interface FooterProps {
+    footerGroups: FooterGroup[];
+    socialLinks: SocialLink[];
+  }
+  
+
+  interface DiscountCodes {
+    appliedToAll: boolean;
+    id: string;
+    discountAmount: number;
+    code: string;
+  }
+  
+  
+interface Timings {
+  Fajr: string;
+  Sunrise: string;
+  Dhuhr: string;
+  DhuhrIqamah: string;
+  Asr: string;
+  AsrIqamah: string;
+  Maghrib: string;
+  MaghribIqamah: string;
+  Isha: string;
+  IshaIqamah: string;
+}
+
+interface DayTimings {
+  timings: Timings;
+  day: number;
+}
+interface Jummah {
+  room: string;
+  time: string;
+}

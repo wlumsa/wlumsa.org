@@ -6,37 +6,26 @@ import MemberSignup from "../components/UI/MemberSignup";
 import PrayerSection from "../components/UI/PrayerSection";
 import News from "../components/UI/News";
 import Events from "../components/UI/WeeklyEvents";
-import { Timestamp } from "firebase/firestore";
 import { GetStaticProps } from "next";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import db, { storage } from "../firebase";
-import { ref, getDownloadURL } from "firebase/storage";
+import Navbar from "~/components/Global/Navbar";
 import Popup from "~/components/UI/Popup";
+import Footer from "~/components/Global/Footer";
 
-interface SocialLinkProps {
-  name: string;
-  link: string;
-  icon: string;
-  date?: string; // Define date as string
-}
-interface Events {
-  day: string;
-  desc: string;
-  img: string;
-  name: string;
-  room: string;
-  time: string;
-}
 
 interface HomeProps {
   socialLinks: SocialLinkProps[];
   heroUrl: string;
-  events: Events[]; // Add this line
+  events: Events[];
+  navbarData: NavbarGroup[]; // Add this line
+  footerData: FooterGroup[]
 }
+
 const Home: NextPage<HomeProps> = ({
   socialLinks,
   heroUrl,
   events,
+  navbarData, // Add this line
+  footerData,
 }) => {
   return (
     <>
@@ -51,52 +40,52 @@ const Home: NextPage<HomeProps> = ({
         />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
-       
+      <Navbar navbarData={navbarData} />
         <Hero socialLinks={socialLinks} heroUrl={heroUrl} />
         <Popup />
         <News />
         <PrayerSection />
         <Events events={events} />
         <MemberSignup />
-       
+        <Footer footerGroups={footerData} socialLinks={socialLinks} />
       </main>
     </>
   );
 };
+import { fetchSocialLinks,getFooterData  } from "~/lib/api";
+import { fetchEvents, getNavbarData,heroUrl } from "~/lib/api";
+
+
 export const getStaticProps: GetStaticProps = async () => {
-  const fetchSocialLinks = async () => {
-    const socialsCollectionRef = collection(db, "Socials");
-    const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
-    const querySnapshot = await getDocs(socialQuery);
-    return querySnapshot.docs.map((doc) => doc.data());
-  };
-
-  const socialLinks = await fetchSocialLinks();
-
- 
-  const fetchEvents = async () => {
-    const eventsCollectionRef = collection(db, "WeeklyEvents");
-    const querySnapshot = await getDocs(eventsCollectionRef);
-
-    return Promise.all(
-      querySnapshot.docs.map(async (doc) => {
-        const eventData = doc.data() as Events;
-        const imgURL = await getDownloadURL(ref(storage, eventData.img)); // Assuming eventData.icon is the path to the icon in Firebase Storage
-        return { ...eventData, img: imgURL };
-      })
-    );
-  };
-
-  const heroRef = ref(storage, "images/hero.jpg");
-  const url = await getDownloadURL(heroRef);
-  const events = await fetchEvents();
-  return {
-    props: {
-      socialLinks: socialLinks,
-
-      heroUrl: url,
-      events,
-    },
-  };
+  try {
+    const socialLinks = await fetchSocialLinks();
+    const events = await fetchEvents();
+    const navbarData = await getNavbarData();
+    const heroImageUrl = heroUrl
+    const footerData = await getFooterData();
+    
+    return {
+      props: {
+        socialLinks,
+        events,
+        navbarData,
+        footerData,
+        heroUrl: heroImageUrl,
+      },
+      revalidate: 43200, // or however many seconds you prefer
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        socialLinks: [],
+        events: [],
+        navbarData: [],
+        footerdata:[],
+        heroUrl: '', // Provide a default value or handle the error as appropriate
+      },
+    };
+  }
 };
+
 export default Home;

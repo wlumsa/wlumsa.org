@@ -71,6 +71,14 @@ export const NavbarCollection = buildCollection<Navbar>({
         hidden: true,
     },
 })),
+    index:buildProperty({
+        dataType:"number",
+        name:"Index for ordering purposes (0 = first item on the left)",
+        validation: {
+            min:0,
+        }
+    })
+
   
   },
   subcollections: [
@@ -99,7 +107,13 @@ export const NavbarCollection = buildCollection<Navbar>({
           validation: { required: true },
           description: "Link to item",
         }),
-        
+        index:buildProperty({
+            dataType:"number",
+            name:"Index for ordering purposes (0 = first item on the left)",
+            validation: {
+                min:0,
+            }
+        })
       },
     }),
   ],

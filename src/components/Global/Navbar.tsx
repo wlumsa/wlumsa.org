@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "public/logo.png";
-import { fetchNavbarData } from "~/redux/navbarSlice";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import db from "~/firebase";
 import { RootState } from "~/redux/store";
-import { AppDispatch } from "~/redux/store";
-interface Links {
-  name: string;
-  link: string;
-  createdAt: Date;
-}
 
-interface NavbarGroup {
-  Group: string;
-  CustomGroup?: string;
-  NoGroup?: string;
-  NoGroupLink?: string;
-  links: Links[];
-}
+
+
+
 
 interface Product {
   id: string;
@@ -36,16 +27,15 @@ interface CartItem {
   product: Product;
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
+interface NavbarProps {
+  navbarData: NavbarGroup[]; // Add this to define the shape of props
+}
 
-const NavbarComponent: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
-  const navbarData = useSelector((state: RootState) => state.navbar.navbarData);
-  const [totalAmt, setTotalAmt] = useState("");
 
-  useEffect(() => {
-    dispatch(fetchNavbarData() );
-  }, [dispatch]);
+  const [totalAmt, setTotalAmt] = useState("");
+  
 
   useEffect(() => {
     let price = 0;
@@ -63,24 +53,41 @@ const NavbarComponent: React.FC = () => {
 
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
-       <div className="navbar-start text-base-100">
+      <div className="navbar-start text-base-100">
         <div className="dropdown dropdown-hover ">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
             </svg>
           </div>
-          <ul tabIndex={0} className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow">
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
+          >
             {navbarData.map((item) => {
-              const title = item.Group === "Other" && item.CustomGroup ? item.CustomGroup : item.Group;
-              return item.Group !== "SingleLink" ? (
+              const title =
+                item.Group === "Custom" ? item.CustomGroup : item.Group;
+              return item.Group !== "NoGroup" ? (
                 <li key={item.Group} className="menu-item">
                   <details>
                     <summary className="">{title}</summary>
                     <ul className="w-fit rounded-t-none bg-primary">
                       {item.links.map((link, index) => (
                         <li key={index}>
-                          {link.link && <Link href={link.link}>{link.name}</Link>}
+                          {link.link && (
+                            <Link href={link.link}>{link.name}</Link>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -88,7 +95,9 @@ const NavbarComponent: React.FC = () => {
                 </li>
               ) : (
                 <li key={item.NoGroup}>
-                  {item.NoGroupLink && <Link href={item.NoGroupLink}>{item.NoGroup}</Link>}
+                  {item.NoGroupLink && (
+                    <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+                  )}
                 </li>
               );
             })}
@@ -99,43 +108,70 @@ const NavbarComponent: React.FC = () => {
         </Link>
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
-  <ul className="menu menu-horizontal gap-2 px-2 navItems" tabIndex={0}>
-    {navbarData.map((item, idx) => (
-      item.Group && item.Group !== "SingleLink" ? (
-        <li key={item.Group || idx} className="dropdown dropdown-hover">
-          <div className="text-white">{item.Group}</div>
-          {item.links && item.links.length > 0 && (
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              {item.links.map((link, index) => (
-                <li key={index}>
-                  {link.link && <Link href={link.link}>{link.name}</Link>}
-                </li>
-              ))}
-            </ul>
-          )}
-        </li>
-      ) : item.NoGroup ? (
-        <li key={item.NoGroup}>
-          {item.NoGroupLink && <Link href={item.NoGroupLink}>{item.NoGroup}</Link>}
-        </li>
-      ) : null // Or render some fallback content
-    ))}
-  </ul>
-</div>
+        <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
+          {navbarData.map((item) => {
+            // Determine the title to display
+            const title =
+              item.Group === "Custom" && item.CustomGroup
+                ? item.CustomGroup
+                : item.Group;
+
+            return item.Group && item.Group !== "NoGroup" ? (
+              <li key={item.Group} className="dropdown dropdown-hover">
+                <div className="text-white">{title}</div>{" "}
+                {/* Updated this line */}
+                {item.links && item.links.length > 0 && (
+                  <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                    {item.links.map((link, index) => (
+                      <li key={index}>
+                        {link.link && <Link href={link.link}>{link.name}</Link>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ) : item.NoGroup ? (
+              <li key={item.NoGroup}>
+                {item.NoGroupLink && (
+                  <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+                )}
+              </li>
+            ) : null; // Or render some fallback content
+          })}
+        </ul>
+      </div>
 
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-circle btn-secondary">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-circle btn-secondary"
+          >
             <div className="indicator">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               <span className="badge indicator-item badge-sm">
                 {productData.length > 0 ? productData.length : 0}
               </span>
             </div>
           </div>
-          <div tabIndex={0} className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow">
+          <div
+            tabIndex={0}
+            className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
+          >
             <div className="card-body">
               <span className="text-lg font-bold text-secondary">
                 {productData.length > 0 ? productData.length : 0} Items
@@ -152,11 +188,8 @@ const NavbarComponent: React.FC = () => {
           </div>
         </div>
       </div>
-      </div>
-
+    </div>
   );
 };
 
-
-
-export default NavbarComponent;
+export default Navbar;

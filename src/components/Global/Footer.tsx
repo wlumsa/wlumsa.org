@@ -1,27 +1,24 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchFooterData } from '~/redux/footerSlice'; // Adjust the import path
-import { RootState, AppDispatch } from '../../redux/store'; // Adjust the import path
+
+
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from 'public/logo.png'; // Adjust the path
 
-const Footer: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { footerGroups, socialLinks } = useSelector((state: RootState) => state.footer);
 
-  useEffect(() => {
-    dispatch(fetchFooterData());
-  }, [dispatch]);
 
+const Footer: React.FC<FooterProps> = ({ footerGroups, socialLinks }) => {
+ 
   return (
     <>
-      <footer id="member" className="footer bg-base-100 p-10 text-base-content">
+       <footer id="footer" className="footer bg-base-100 p-10 text-base-content">
         {footerGroups && footerGroups.map((group) => (
+  
           <div key={group.Group}>
             <span className="footer-title">{group.CustomGroup || group.Group}</span>
-            {group.Links && group.Links.map((link, index) => (
-              <a key={index} href={link.link} className="link-hover link" target="_blank" rel="noopener noreferrer">
+            {group.links.map((link, index) => ( 
+              <a key={index} href={link.link} className="link-hover link " target="_blank" rel="noopener noreferrer">
                 {link.name}
               </a>
             ))}

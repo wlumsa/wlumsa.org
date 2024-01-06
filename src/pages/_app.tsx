@@ -18,11 +18,11 @@ export default function App({
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
         <div className="flex flex-col min-h-screen">
-          {showNavbarFooter && <Navbar />}
+          
           <main className="flex-grow">
             <Component {...pageProps} />
           </main>
-          {showNavbarFooter && <Footer />}
+          
         </div>
         <Analytics />
       </PersistGate>

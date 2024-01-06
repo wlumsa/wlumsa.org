@@ -2,11 +2,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { GetStaticProps } from "next";
+import { getNavbarData, getFooterData,fetchDiscountCodes,fetchSocialLinks } from "~/lib/api";
 import { deleteItem } from "~/redux/shopperSlice";
-import db from "~/firebase";
-import { collection, getDocs } from "firebase/firestore"; //
 import BuyForm from "~/components/Forms/BuyForm";
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+import { NextPage } from "next";
 interface Product {
   id: string;
   name: string;
@@ -18,26 +20,30 @@ interface Product {
   sizes: { S?: number; M?: number; L?: number };
   tags: string[];
 }
-interface DiscountCodes {
-  appliedToAll: boolean;
-  id: string;
-  discountAmount: number;
-  code: string;
+interface CartProps {
+  socialLinks: SocialLinkProps[];
+  discountCodes :DiscountCodes[];
+  navbarData: NavbarGroup[]; 
+  footerData: FooterGroup[];
 }
-
 interface CartItem {
   product: Product;
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
 
-const Cart = () => {
+const Cart: NextPage<CartProps> = ({
+  socialLinks,
+  discountCodes,
+  navbarData, // Add this line
+  footerData,
+}) => {
   const cartItems: CartItem[] = useSelector((state: any) => state.shopper.cart);
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState("");
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState("");
-  const [discountCodes, setDiscountCodes] = useState<DiscountCodes[]>([]);
+  
   const [couponError, setCouponError] = useState("");
   const [couponSuccess, setCouponSuccess] = useState("");
 
@@ -57,18 +63,7 @@ const Cart = () => {
         price += (item.quantities.overall || 0) * item.product.price;
       }
     });
-    const fetchDiscountCodes = async () => {
-      const discountCodesCollection = collection(db, "DiscountCodes");
-      const querySnapshot = await getDocs(discountCodesCollection);
-
-      const discountCodeData = querySnapshot.docs.map(
-        (doc) => doc.data() as DiscountCodes
-      );
-      console.log(discountCodeData);
-      setDiscountCodes(discountCodeData);
-    };
-    fetchDiscountCodes();
-
+    
     setSubtotal(price.toFixed(2));
     const total = price - discount; // Corrected calculation
     setTotal(total.toFixed(2));
@@ -142,6 +137,7 @@ const Cart = () => {
 
   return (
     <div>
+      <Navbar navbarData={navbarData} />
       <div className="h-fit bg-base-100 py-8">
         <div className="container mx-auto px-4">
           <h1 className="mb-4 text-2xl font-semibold">Shopping Cart</h1>
@@ -321,9 +317,39 @@ const Cart = () => {
           </div>
         </div>
       </div>
-   
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };
 
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+    const discountCodes = await fetchDiscountCodes();
+    const socialLinks = await fetchSocialLinks();
+    return {
+      props: {
+        socialLinks,
+        navbarData,
+        footerData,
+        discountCodes,
+      },
+      revalidate: 43200, // or however many seconds you prefer
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        socialLinks:[],
+        discountCodes:[],
+        navbarData: [],
+        footerdata:[],
+        
+      },
+    };
+  }
+};
 export default Cart;
