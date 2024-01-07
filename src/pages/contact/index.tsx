@@ -1,11 +1,48 @@
 import React from "react";
 import CtaForm from "~/components/Forms/CtaForm";
-
-
-const Contact = () => {
+import { GetStaticProps } from "next";
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+import { getNavbarData, getFooterData, fetchSocialLinks } from "~/lib/api";
+import { NextPage } from "next";
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const socialLinks = await fetchSocialLinks();
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+    return {
+      props: {
+        socialLinks,
+        navbarData,
+        footerData,
+      },
+      revalidate: 43200, // or however many seconds you prefer
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        socialLinks: [],
+        navbarData: [],
+        footerdata: [],
+      },
+    };
+  }
+};
+interface ContactPageProps {
+  socialLinks: SocialLinkProps[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
+}
+const Contact: NextPage<ContactPageProps> = ({
+  socialLinks,
+  navbarData, // Add this line
+  footerData,
+}) => {
   return (
-    <div>
-      <div className="mt-20 flex flex-col items-center">
+    <div className="flex min-h-screen flex-col">
+      <Navbar navbarData={navbarData} />
+      <div className="mt-20 flex flex-col items-center flex-grow">
         <section className="bg-base-100" id="contact">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
             <div className="mb-4">
@@ -66,6 +103,7 @@ const Contact = () => {
           </div>
         </section>
       </div>
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };
