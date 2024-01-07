@@ -16,7 +16,7 @@ const PrayerSection: React.FC = () => {
         </h3>
         <PrayerTimes />
         <Link
-          href="/prayertimings"
+          href="/prayerinfo"
           className="btn btn-primary mt-4 border-0 text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"
         >
           View Prayer Timings
