@@ -3,13 +3,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "public/logo.png";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import db from "~/firebase";
 import { RootState } from "~/redux/store";
-
-
-
-
 
 interface Product {
   id: string;
@@ -27,15 +21,27 @@ interface CartItem {
   product: Product;
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
+
+interface LinkItem {
+  link?: string;
+  name: string;
+}
+
+interface NavbarGroup {
+  Group: string;
+  CustomGroup?: string;
+  NoGroup?: string;
+  NoGroupLink?: string;
+  links: LinkItem[];
+}
+
 interface NavbarProps {
-  navbarData: NavbarGroup[]; // Add this to define the shape of props
+  navbarData: NavbarGroup[];
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
-
-  const [totalAmt, setTotalAmt] = useState("");
-  
+  const [totalAmt, setTotalAmt] = useState('');
 
   useEffect(() => {
     let price = 0;
@@ -51,11 +57,45 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
     setTotalAmt(price.toFixed(2));
   }, [productData]);
 
+  const renderLinkItem = (item: NavbarGroup) => {
+    if (item.Group === 'SingleLink') {
+      return (
+        <li key={item.NoGroup}>
+          <Link href={item.NoGroupLink || '#'}>
+            {item.NoGroup}
+          </Link>
+        </li>
+      );
+    }
+    const title = item.Group === 'Custom' ? item.CustomGroup : item.Group;
+    return item.Group !== 'NoGroup' ? (
+      <li key={item.Group} className='menu-item'>
+        <details>
+          <summary>{title}</summary>
+          <ul className='w-fit rounded-t-none bg-primary'>
+            {item.links.map((link: LinkItem, index: number) => (
+              <li key={index}>
+                {link.link && (
+                  <Link href={link.link}>{link.name}</Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </details>
+      </li>
+    ) : (
+      <li key={item.NoGroup}>
+        {item.NoGroupLink && (
+          <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+        )}
+      </li>
+    );
+  };
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
       <div className="navbar-start text-base-100">
-        <div className="dropdown dropdown-hover ">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+        <div className="dropdown dropdown-hover">
+        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -71,36 +111,8 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               />
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
-          >
-            {navbarData.map((item) => {
-              const title =
-                item.Group === "Custom" ? item.CustomGroup : item.Group;
-              return item.Group !== "NoGroup" ? (
-                <li key={item.Group} className="menu-item">
-                  <details>
-                    <summary className="">{title}</summary>
-                    <ul className="w-fit rounded-t-none bg-primary">
-                      {item.links.map((link, index) => (
-                        <li key={index}>
-                          {link.link && (
-                            <Link href={link.link}>{link.name}</Link>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                </li>
-              ) : (
-                <li key={item.NoGroup}>
-                  {item.NoGroupLink && (
-                    <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
-                  )}
-                </li>
-              );
-            })}
+          <ul tabIndex={0} className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow">
+            {navbarData.map(renderLinkItem)}
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl normal-case">
@@ -109,38 +121,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.map((item) => {
-            // Determine the title to display
-            const title =
-              item.Group === "Custom" && item.CustomGroup
-                ? item.CustomGroup
-                : item.Group;
-
-            return item.Group && item.Group !== "NoGroup" ? (
-              <li key={item.Group} className="dropdown dropdown-hover">
-                <div className="text-white">{title}</div>{" "}
-                {/* Updated this line */}
-                {item.links && item.links.length > 0 && (
-                  <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-                    {item.links.map((link, index) => (
-                      <li key={index}>
-                        {link.link && <Link href={link.link}>{link.name}</Link>}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ) : item.NoGroup ? (
-              <li key={item.NoGroup}>
-                {item.NoGroupLink && (
-                  <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
-                )}
-              </li>
-            ) : null; // Or render some fallback content
-          })}
+          {navbarData.map(renderLinkItem)}
         </ul>
       </div>
-
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
           <div
