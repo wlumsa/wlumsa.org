@@ -42,7 +42,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState('');
-
+  
   useEffect(() => {
     let price = 0;
     productData.forEach((item: CartItem) => {
@@ -68,20 +68,19 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       );
     }
     const title = item.Group === 'Custom' ? item.CustomGroup : item.Group;
-    return item.Group !== 'NoGroup' ? (
-      <li key={item.Group} className='menu-item'>
-        <details>
-          <summary>{title}</summary>
-          <ul className='w-fit rounded-t-none bg-primary'>
-            {item.links.map((link: LinkItem, index: number) => (
+    return item.Group && item.Group !== "NoGroup" ? (
+      <li key={item.Group} className="dropdown dropdown-hover">
+        <div className="text-white">{title}</div>{""}
+        {/* Updated this line */}
+        {item.links && item.links.length > 0 && (
+          <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg w-32">
+            {item.links.map((link, index) => (
               <li key={index}>
-                {link.link && (
-                  <Link href={link.link}>{link.name}</Link>
-                )}
+                {link.link && <Link href={link.link}>{link.name}</Link>}
               </li>
             ))}
           </ul>
-        </details>
+        )}
       </li>
     ) : (
       <li key={item.NoGroup}>
