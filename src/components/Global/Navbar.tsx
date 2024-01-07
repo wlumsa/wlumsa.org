@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   <li key={item.Group} className="menu-item">
                     <details>
                       <summary className="">{title}</summary>
-                      <ul className="w-fit rounded-t-none bg-primary">
+                      <ul className=" rounded-t-none bg-primary">
                         {item.links.map((link, index) => (
                           <li key={index}>
                             {link.link && (
