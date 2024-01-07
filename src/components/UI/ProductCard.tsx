@@ -1,6 +1,7 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { storage } from "~/firebase";
 
 interface Product {
   productId: string;
@@ -15,7 +16,6 @@ const Products = ({ productId, name, description, image, tags }: Product) => {
 
   useEffect(() => {
     const fetchImageUrl = async () => {
-      const storage = getStorage();
       const imageRef = ref(storage, image); // Create a reference to the image file
       try {
         const url = await getDownloadURL(imageRef);

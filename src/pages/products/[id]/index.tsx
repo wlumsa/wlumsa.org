@@ -6,8 +6,13 @@ import BuyForm from "~/components/Forms/BuyForm";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { useDispatch } from "react-redux";
 import { addToCart } from "~/redux/shopperSlice";
-
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+import { getNavbarData,getFooterData,fetchSocialLinks } from "~/lib/api";
+import { GetStaticProps } from "next";
+import { NextPage } from "next";
 import toast, { Toaster } from "react-hot-toast";
+
 interface Product {
   id: string;
   name: string;
@@ -19,9 +24,19 @@ interface Product {
   sizes: { S: number; M: number; L: number };
   tags: string[];
 }
-export default function ProductPage() {
-  const [product, setProduct] = useState<Product | null>(null);
-  const [imageUrl, setImageUrl] = useState("");
+
+
+interface ProductPageProps {
+  product: Product;
+  imageUrl: string;
+  socialLinks: SocialLinkProps[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
+}
+
+const ProductPage: NextPage<ProductPageProps> = ({ product, imageUrl, socialLinks, navbarData, footerData }) => {
+
+
   const router = useRouter();
   const { id } = router.query;
   const [quantity, setQuantity] = useState(0); // Added overall quantity state
@@ -29,32 +44,7 @@ export default function ProductPage() {
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      if (typeof id === "string") {
-        try {
-          const docRef = doc(db, "Products", id);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const productData = {
-              id: docSnap.id,
-              ...docSnap.data(),
-            } as Product;
-            setProduct(productData);
-            const storage = getStorage();
-            const imageRef = ref(storage, productData.image);
-            try {
-              const url = await getDownloadURL(imageRef);
-              setImageUrl(url);
-            } catch (error) {
-              setImageUrl("");
-            }
-          }
-        } catch (error) {}
-      }
-    };
-    fetchProduct();
-  }, [id]);
+  
   const handleSizeQuantityChange = (
     size: "S" | "M" | "L",
     newQuantity: number
@@ -228,8 +218,9 @@ export default function ProductPage() {
   }
   const dispatch = useDispatch();
   return (
-    <div className="py-10">
-    
+    <div className="py-10 flex min-h-screen flex-col">
+      <Navbar navbarData={navbarData} />
+      <div className="flex-grow">
       {product ? (
         <div className="mb-20 mt-20 bg-base-100">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -401,6 +392,57 @@ export default function ProductPage() {
       ) : (
         <div>Error loading product</div>
       )}
+      </div>
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 }
+
+import { fetchProduct,fetchProductIds } from "~/lib/api";
+import { GetStaticPaths } from "next";
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = await fetchProductIds();
+  return {
+    paths: paths.map((path) => ({
+      params: { id: path.params.id }, // Notice that the structure matches { params: { id: string } }
+    })),
+    fallback: 'blocking',
+  };
+};
+
+// This function fetches data required for pre-rendering the page
+export const getStaticProps: GetStaticProps = async (context) => {
+  try {
+    const { params } = context;
+
+    // Check if 'params' and 'params.id' are defined
+    if (!params || typeof params.id !== 'string') {
+      return { notFound: true };
+    }
+
+    const { product, imageUrl } = await fetchProduct(params.id);
+    const socialLinks = await fetchSocialLinks();
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+
+    if (!product) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        product,
+        imageUrl,
+        socialLinks,
+        navbarData,
+        footerData,
+      },
+      revalidate: 43200, // or your preferred revalidation time
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return { notFound: true };
+  }
+};
+
+export default ProductPage

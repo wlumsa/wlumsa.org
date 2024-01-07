@@ -16,16 +16,12 @@ import db from "../../firebase";
 import { EmailCollection } from "./Collections/EmailCollection";
 import { ProductsCollection } from "./Collections/Products Page/ProductCollection";
 import { usersCollection } from "./Collections/UsersCollection";
-import { CampusResourcesCollection } from "./Collections/Resources Page/CampusResourceCollection";
 import { InstagramCollection } from "./Collections/Home Page/InstagramCollection";
 import { JummahCollection } from "./Collections/Home Page/JummahCollection";
 import { MemberCollection } from "./Collections/MembersCollection";
 import { ordersCollection } from "./Collections/Products Page/OrdersCollection";
-import { OtherResourcesCollection } from "./Collections/Resources Page/OtherResourceCollection";
 import { PrayerRoomsCollection } from "./Collections/Home Page/PrayerRoomsCollection";
 import { PrayerTimingsCollection } from "./Collections/PrayerTimings Page/PrayerTimingsCollection";
-import { ReligiousResourcesCollection } from "./Collections/Resources Page/ReligiousResourceCollection";
-import { ServicesOfferedCollection } from "./Collections/Resources Page/ServicesCollection";
 import { SocialsCollection } from "./Collections/Footer/SocialsCollection";
 import { WeeklyEventsCollection } from "./Collections/Home Page/WeeklyEventsCollection";
 import { NavbarCollection } from "./Collections/Footer/NavbarCollection";
@@ -71,10 +67,6 @@ export default function CMS() {
         PrayerRoomsCollection,
         SocialsCollection,
         WeeklyEventsCollection,
-        ServicesOfferedCollection,
-        ReligiousResourcesCollection,
-        OtherResourcesCollection,
-        CampusResourcesCollection,
         EmailCollection,
         NavbarCollection,
         ResourcesCollection,

@@ -1,46 +1,51 @@
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import db from "../firebase";
-import { GetStaticProps } from 'next';
-
-interface ServiceItem {
-  title: string;
-  description: string;
-  link: string;
+import React from "react";
+import Footer from "~/components/Global/Footer";
+import Navbar from "~/components/Global/Navbar";
+import { GetStaticProps } from "next";
+import {
+  getServicesOffered,
+  getNavbarData,
+  getFooterData,
+  fetchSocialLinks,
+} from "~/lib/api";
+interface AboutUsPageProps {
+  servicesInfo: ServicesOffered[];
+  socialLinks: SocialLinkProps[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
 }
 export const getStaticProps: GetStaticProps = async () => {
-  const serviceCollectionRef = collection(db, 'ServicesOffered');
-  const querySnapshot = await getDocs(serviceCollectionRef);
-
-  const servicesInfo = querySnapshot.docs.map(
-    (doc) => doc.data() as ServiceItem
-  );
-
+  const servicesInfo = await getServicesOffered();
+  const socialLinks = await fetchSocialLinks();
+  const navbarData = await getNavbarData();
+  const footerData = await getFooterData();
   return {
     props: {
       servicesInfo,
+      socialLinks,
+      navbarData,
+      footerData,
     },
-    revalidate: 43200, 
+    revalidate: 43200,
   };
 };
-const About: React.FC<{ servicesInfo: ServiceItem[] }> = ({ servicesInfo }) => {
- 
-
+const About: NextPage<AboutUsPageProps> = ({ servicesInfo,socialLinks,navbarData,footerData }) => {
   return (
-    <div>
-     
-
-      <div className="min-h-screen  px-10 mt-20">
+    <div className="min-h-screen">
+      <Navbar navbarData={navbarData} />
+      <div className="mt-20  flex-grow px-10">
         <div className="flex flex-col items-center justify-center">
           {/* About Us Section */}
           <div className="hero h-fit self-center">
-            <div className="hero-content min-w-96 sm:max-w-[80%] flex flex-col items-center justify-center gap-8">
-              <h1 className="text-4xl font-bold text-primary text-center">About Us</h1>
-              <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+            <div className="min-w-96 hero-content flex flex-col items-center justify-center gap-8 sm:max-w-[80%]">
+              <h1 className="text-center text-4xl font-bold text-primary">
+                About Us
+              </h1>
+              <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
                 <img
                   src="/logo.png"
-                  className="w-64 h-64 md:w-48 md:h-48 rounded-lg shadow-2xl"
+                  className="h-64 w-64 rounded-lg shadow-2xl md:h-48 md:w-48"
                 />
                 <p className="py-6 text-lg">
                   The <strong>Laurier Muslim Student Association (MSA)</strong>{" "}
@@ -56,13 +61,13 @@ const About: React.FC<{ servicesInfo: ServiceItem[] }> = ({ servicesInfo }) => {
 
           {/* Services Offered Section */}
           <div className="flex-1 " id="services">
-            <h2 className="mb-4 text-4xl font-bold text-primary text-center">
+            <h2 className="mb-4 text-center text-4xl font-bold text-primary">
               Services Offered
             </h2>
-            <div className="mb-10 flex flex-wrap gap-4 items-center justify-center">
+            <div className="mb-10 flex flex-wrap items-center justify-center gap-4">
               {servicesInfo.map((service, index) => (
                 <div
-                  className="card card-compact w-fit sm:w-96 bg-base-100 shadow-xl"
+                  className="card card-compact w-fit bg-base-100 shadow-xl sm:w-96"
                   key={index}
                 >
                   <div className="card-body">
@@ -92,6 +97,7 @@ const About: React.FC<{ servicesInfo: ServiceItem[] }> = ({ servicesInfo }) => {
           </div>
         </div>
       </div>
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };

@@ -1,9 +1,8 @@
+import Link from "next/link";
 
 export default function Custom404() {
   return (
     <div>
-      
-
       <div className="grid h-screen place-content-center bg-white px-4">
         <div className="text-center">
           <svg
@@ -30,9 +29,13 @@ export default function Custom404() {
           </h1>
 
           <p className="mt-4 text-gray-500">We can't find that page.</p>
+          <Link href="/">
+            <button className="btn border-0 bg-primary text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary">
+              Go back!
+            </button>
+          </Link>
         </div>
       </div>
-     
     </div>
   );
 }

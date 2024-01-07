@@ -1,139 +1,95 @@
 import React from "react";
 
-import { useState, useEffect } from "react";
-
 import { GetStaticProps } from "next";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
-import db from "../firebase";
 import { NextPage } from "next";
-
-interface SocialLink {
-  name: string;
-  link: string;
-  icon: string;
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+interface ResourcePageProps {
+  resourcesData: ResourceData[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
+  socialLinks: SocialLinkProps[];
 }
-
-interface CampusResource {
-  title: string;
-  link: string;
-}
-
-interface OtherResource {
-  title: string;
-  link: string;
-}
-
-interface ReligiousResource {
-  title: string;
-  link: string;
-}
-
-
+import {
+  getNavbarData,
+  getFooterData,
+  fetchSocialLinks,
+  getResourcesData,
+} from "~/lib/api";
 export const getStaticProps: GetStaticProps = async () => {
-  const socialsCollectionRef = collection(db, 'Socials');
-  const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
-  const socialsSnapshot = await getDocs(socialQuery);
-  const socialLinksData = socialsSnapshot.docs.map((doc) => doc.data() as SocialLink);
+  const resourcesData = await getResourcesData();
+  const socialLinks = await fetchSocialLinks();
 
-  const campusResourcesRef = collection(db, 'CampusResources');
-  const campusResourcesSnapshot = await getDocs(campusResourcesRef);
-  const campusResourcesData = campusResourcesSnapshot.docs.map((doc) => doc.data() as CampusResource);
+  const navbarData = await getNavbarData();
 
-  const otherResourcesRef = collection(db, 'OtherResources');
-  const otherResourcesSnapshot = await getDocs(otherResourcesRef);
-  const otherResourcesData = otherResourcesSnapshot.docs.map((doc) => doc.data() as OtherResource);
-
-  const religiousResourcesRef = collection(db, 'ReligiousResources');
-  const religiousResourcesSnapshot = await getDocs(religiousResourcesRef);
-  const religiousResourcesData = religiousResourcesSnapshot.docs.map((doc) => doc.data() as ReligiousResource);
+  const footerData = await getFooterData();
 
   return {
     props: {
-      socialLinksData,
-      campusResourcesData,
-      otherResourcesData,
-      religiousResourcesData,
+      resourcesData,
+      socialLinks,
+      navbarData,
+      footerData,
     },
-    
-    revalidate: 43200, 
+    revalidate: 43200, // or however many seconds you prefer
   };
 };
 
-const ResourcesPage: NextPage<{ socialLinksData: SocialLink[], campusResourcesData: CampusResource[], otherResourcesData: OtherResource[], religiousResourcesData: ReligiousResource[] }> = ({ socialLinksData, campusResourcesData, otherResourcesData, religiousResourcesData }) => {
-  
+const ResourcesPage: NextPage<ResourcePageProps> = ({
+  resourcesData,
+  navbarData,
+  footerData,
+  socialLinks,
+}) => {
   return (
-    <div className="mt-20">
-      
-      {/*Desktop*/}
-
-      
-
-      {/* Resources */}
-      <div className="m-10">
-        <h2 className="mb-10 pt-4 text-3xl font-bold text-primary lg:pt-0 ">
-          Resources Available
-        </h2>
-
-        <details className="mb-4  border border-base-300 bg-base-200">
-          <summary className="cursor-pointer text-xl font-medium">
-            Campus Resources
-          </summary>
-          <ul className="p-2">
-            {campusResourcesData.map((resource, index) => (
-              <li key={index}>
-                <a
-                  href={resource.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  - {resource.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
-
-        <details className="mb-4 border border-base-300 bg-base-200">
-          <summary className="cursor-pointer text-xl font-medium">
-            Religious Resources
-          </summary>
-          <ul className="p-2">
-            {religiousResourcesData.map((resource, index) => (
-              <li key={index}>
-                <a
-                  href={resource.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  - {resource.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
-
-        <details className="mb-4 border border-base-300 bg-base-200 ">
-          <summary className="cursor-pointer text-xl font-medium">
-            Other
-          </summary>
-          <ul className="p-2">
-            {otherResourcesData.map((resource, index) => (
-              <li key={index}>
-                <a
-                  href={resource.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  - {resource.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
-      </div>
-
-     
+    <div className="flex flex-col min-h-screen">
+      <Navbar navbarData={navbarData} />
+      <main className="mt-20 flex-grow px-20">
+        <h1 className="text-4xl font-bold text-primary my-10">Resources</h1>
+        {resourcesData.map((resourceGroup, index) => {
+          // Check if the group is "Single Link" and render a different JSX
+          if (resourceGroup.group === "SingleLink") {
+            return resourceGroup.links.map((link, linkIndex) => (
+              <a
+                key={linkIndex}
+                href={link.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-2 text-xl font-medium"
+              >
+                {link.name}
+              </a>
+            ));
+          } else {
+            // Render the collapsible group for other types of resources
+            return (
+              <details
+                key={index}
+                className="mb-4 border border-base-300 bg-base-200"
+              >
+                <summary className="cursor-pointer text-xl font-medium">
+                  {resourceGroup.group} Resources
+                </summary>
+                <ul className="p-2">
+                  {resourceGroup.links.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <a
+                        href={link.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        - {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            );
+          }
+        })}
+      </main>
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };

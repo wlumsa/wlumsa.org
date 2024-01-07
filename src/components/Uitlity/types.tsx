@@ -52,6 +52,7 @@ type PrayerRooms = {
     title: string;
     description: string;
     link: string;
+    index:number;
   };
   
   type CampusResource = {
@@ -279,4 +280,8 @@ interface Resources {
   NoGroup?:string;
   NoGroupLink:string;
   index:number;
+}
+interface ResourceData {
+  group:string;
+  links: Links[];
 }

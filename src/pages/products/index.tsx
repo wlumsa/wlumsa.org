@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import db from "~/firebase";
+
 import { GetStaticProps } from "next";
 import Products from "~/components/UI/ProductCard";
+import { NextPage } from "next";
+import {
+  getProductsData,
+  getFooterData,
+  getNavbarData,
+  fetchSocialLinks,
+} from "~/lib/api";
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
 interface Product {
   id: string;
   name: string;
@@ -14,32 +22,50 @@ interface Product {
   sizes: { S: number; M: number; L: number };
   tags: string[];
 }
+interface ProductsPageProps {
+  products: Product[];
+  socialLinks: SocialLinkProps[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
+}
 
 export const getStaticProps: GetStaticProps = async () => {
-  const productsCollectionRef = collection(db, 'Products');
-  const querySnapshot = await getDocs(productsCollectionRef);
-
-  const productsData = querySnapshot.docs.map((doc) => {
-    const data = doc.data() as Product;
-    return { ...data, id: doc.id };
-  });
-
-  return {
-    props: {
-      products: productsData,
-    },
-    // Re-generate the page every 1 hour
-    revalidate: 3600,
-  };
+  try {
+    const socialLinks = await fetchSocialLinks();
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+    const products = await getProductsData();
+    return {
+      props: {
+        socialLinks,
+        navbarData,
+        footerData,
+        products,
+      },
+      revalidate: 43200, // or however many seconds you prefer
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        socialLinks: [],
+        navbarData: [],
+        footerdata: [],
+      },
+    };
+  }
 };
 
-const ProductsPage = ({ products }: { products: Product[] }) => {
- 
-
+const ProductsPage: NextPage<ProductsPageProps> = ({
+  socialLinks,
+  navbarData, // Add this line
+  footerData,
+  products,
+}) => {
   return (
-    <div>
-  
-      <div className="mb-28 mt-28 px-4 md:px-10">
+    <div className="flex min-h-screen flex-col">
+      <Navbar navbarData={navbarData} />
+      <div className="mb-28 mt-28 flex-grow px-4 md:px-10">
         <section className="mx-auto w-fit ">
           <h2 className="text-4xl font-bold text-primary">Merchandise</h2>
           <div className="mb-5 mt-10 grid grid-cols-1 justify-center justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
@@ -55,9 +81,8 @@ const ProductsPage = ({ products }: { products: Product[] }) => {
           </div>
         </section>
       </div>
-      
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };
-
-export default ProductsPage;
+export default ProductsPage

@@ -5,7 +5,7 @@ import {
   query,
   orderBy,
   doc,
-  collectionGroup,
+  collectionGroup,getDoc,
 } from "firebase/firestore";
 import db from "~/firebase";
 import { storage } from "~/firebase";
@@ -87,19 +87,109 @@ export const fetchJummahTimes = async (): Promise<Jummah[]> => {
   });
 };
 export const fetchTimings = async (): Promise<DayTimings[]> => {
-    const today = new Date();
-    const currentMonth = today.toLocaleString('default', { month: 'long' });
-  
-    let daysCollectionRef = collection(db, 'PrayerTimings', currentMonth, 'Days');
-    let q = query(daysCollectionRef, orderBy('Day', 'asc'));
-  
-    let querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({
-      timings: doc.data() as Timings,
-      day: doc.data().Day as number,
-    }));
-  };
-  
+  const today = new Date();
+  const currentMonth = today.toLocaleString("default", { month: "long" });
 
+  let daysCollectionRef = collection(db, "PrayerTimings", currentMonth, "Days");
+  let q = query(daysCollectionRef, orderBy("Day", "asc"));
+
+  let querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => ({
+    timings: doc.data() as Timings,
+    day: doc.data().Day as number,
+  }));
+};
+
+export async function getResourcesData() {
+  const resourcesQuery = query(collection(db, "Resources"), orderBy("index"));
+  const resourcesQuerySnapshot = await getDocs(resourcesQuery);;
+
+  const resourcesData = await Promise.all(
+    resourcesQuerySnapshot.docs.map(async (doc) => {
+      const group = doc.data().Group;
+      const linksCollectionRef = collection(db, `Resources/${doc.id}/Links`);
+      const linksQuery = query(linksCollectionRef, orderBy("index"));
+      const linksQuerySnapshot = await getDocs(linksQuery);
+      const links = linksQuerySnapshot.docs.map((linkDoc) => linkDoc.data());
+
+      return {
+        group,
+        links,
+      };
+    })
+  );
+
+  return resourcesData;
+}
+export async function getServicesOffered() {
+  const serviceCollectionRef = collection(db, 'ServicesOffered');
+  const querySnapshot = await getDocs(serviceCollectionRef);
+
+  const servicesInfo = querySnapshot.docs.map((doc) => ({
+   
+    ...doc.data(),
+  }));
+
+  return servicesInfo;
+}
+
+export async function getProductsData() {
+  const productsCollectionRef = collection(db, 'Products');
+  const querySnapshot = await getDocs(productsCollectionRef);
+
+  const productsData = querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    // If using TypeScript, ensure that the data structure matches the Product type
+    return { ...data, id: doc.id };
+  });
+
+  return productsData;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  hasSizes: boolean;
+  quantity: number;
+  sizes: { S: number; M: number; L: number };
+  tags: string[];
+}
+export async function fetchProduct(id: string): Promise<{ product: Product | null, imageUrl: string }> {
+  let product = null;
+  let imageUrl = '';
+
+  try {
+    const docRef = doc(db, "Products", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      product = {
+        id: docSnap.id,
+        ...docSnap.data(),
+      } as Product;
+
+    
+      const imageRef = ref(storage, product.image);
+      imageUrl = await getDownloadURL(imageRef).catch(() => '');
+    }
+  } catch (error) {
+    // Handle any errors here, such as logging or throwing the error
+    console.error("Error fetching product: ", error);
+    throw new Error("Error fetching product");
+  }
+
+  return { product, imageUrl };
+}
+
+export const fetchProductIds = async () => {
+  const productsCollectionRef = collection(db, 'Products');
+  const querySnapshot = await getDocs(productsCollectionRef);
+  return querySnapshot.docs.map((doc) => ({
+    params: { id: doc.id },
+  }));
+};
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);

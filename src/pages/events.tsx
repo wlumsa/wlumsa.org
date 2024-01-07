@@ -6,20 +6,20 @@ import Navbar from "~/components/Global/Navbar";
 import Footer from "~/components/Global/Footer";
 import { getNavbarData, getFooterData, fetchSocialLinks } from "~/lib/api";
 import { NextPage } from "next";
-interface EventsProps{
+interface EventsPageProps {
   socialLinks: SocialLinkProps[];
-  navbarData: NavbarGroup[]; 
+  navbarData: NavbarGroup[];
   footerData: FooterGroup[];
 }
-const Events: NextPage<EventsProps> = ({
+const Events: NextPage<EventsPageProps> = ({
   socialLinks,
   navbarData, // Add this line
   footerData,
 }) => {
   return (
-    <div>
+    <div className="flex min-h-screen flex-col">
       <Navbar navbarData={navbarData} />
-      <div className=" min-h-screen">
+      <div className="flex-grow">
         <div className="flex flex-col py-10">
           <CalendarComponent />
           <div className="mt-4 text-center">
@@ -37,7 +37,6 @@ const Events: NextPage<EventsProps> = ({
         </div>
       </div>
       <Footer footerGroups={footerData} socialLinks={socialLinks} />
-      
     </div>
   );
 };

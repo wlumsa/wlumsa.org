@@ -136,9 +136,9 @@ const Cart: NextPage<CartProps> = ({
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar navbarData={navbarData} />
-      <div className="h-fit bg-base-100 py-8">
+      <div className="h-fit bg-base-100 py-8 flex-grow" >
         <div className="container mx-auto px-4">
           <h1 className="mb-4 text-2xl font-semibold">Shopping Cart</h1>
           <div className="flex flex-col gap-4 md:flex-row">

@@ -28,7 +28,7 @@ export const ResourcesCollection = buildCollection<Resources>({
         Other: "Other",
         Religious: "Religious",
         Custom: "Custom",
-        SingleLink: "Single Link",
+        SingleLink: "No Group",
       },
     }),
     CustomGroup: buildProperty(({ values }) => ({
@@ -88,14 +88,7 @@ export const ResourcesCollection = buildCollection<Resources>({
       path: "Links",
       name: "Links",
       singularName: "Link",
-      permissions: ({ user, authController }) => {
-        const isAdmin = authController.extra?.roles.includes("Admin");
-        return {
-          edit: isAdmin,
-          create: isAdmin,
-          delete: isAdmin,
-        };
-      },
+
       properties: {
         name: buildProperty({
           dataType: "string",

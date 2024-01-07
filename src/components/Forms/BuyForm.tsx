@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import db from "~/firebase";
 
@@ -7,7 +7,8 @@ import {
   doc,
   increment,
   collection,
-  addDoc,getDoc
+  addDoc,
+  getDoc,
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { clearCart } from "~/redux/shopperSlice";
@@ -58,7 +59,6 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   ) => {
     setCustomTime(event.target.value);
   };
-  
 
   useEffect(() => {
     const verifyQuantities = async () => {
@@ -88,13 +88,13 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       for (const product of products) {
         const productRef = doc(db, "Products", product.id);
         const productSnapshot = await getDoc(productRef);
         const productData = productSnapshot.data();
-  
+
         if (product.hasSizes) {
           const sizeQuantity = productData?.sizes[product.size];
           if (sizeQuantity && sizeQuantity < product.quantity) {
@@ -115,15 +115,15 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
           }
         }
       }
-  
+
       dispatch(clearCart());
-  
+
       let imageUrl = "";
       if (image) {
         const storage = getStorage();
         const storageRef = ref(storage, `receipts/${image.name}`);
         const uploadTask = uploadBytesResumable(storageRef, image);
-  
+
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -135,63 +135,65 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
             console.error("Error uploading image: ", error);
           },
           async () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-              console.log("File available at", downloadURL);
-              imageUrl = downloadURL;
-  
-  
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                console.log("File available at", downloadURL);
+                imageUrl = downloadURL;
 
-            // Add a new document to Firestore
-            const docRef = addDoc(collection(db, "Orders"), {
-              Name: fullName,
-              email: email,
-              phoneNumber: phoneNumber,
-              password: password,
-              image: imageUrl,
-              price: totalPrice,
-              pickuptime: pickupTime === "Other" ? customTime : pickupTime,
-              products: products,
-              delivered: false,
-            });
-
-            console.log("Document written with ID: ", docRef);
-
-            const formData = {
-              Name: fullName,
-              email: email,
-              phoneNumber: phoneNumber,
-              password: password,
-              image: imageUrl,
-              price: totalPrice,
-              pickuptime: pickupTime === "Other" ? customTime : pickupTime,
-              products: products,
-            };
-
-            try {
-              const response = await axios.post("/api/sendReceipt", formData);
-              console.log(response.data);
-              setFullName("");
-              setEmail("");
-              setPhoneNumber("");
-              setPassword("");
-              setPickupTime("");
-              setCustomTime("");
-              setImage(null);
-            } catch (error) {
-              console.error("Error sending form: ", error);
-            }
-            });
+                // Add a new document to Firestore
+              }
+            );
           }
         );
+        const docRef = addDoc(collection(db, "Orders"), {
+          Name: fullName,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password,
+          image: imageUrl,
+          price: totalPrice,
+          pickuptime: pickupTime === "Other" ? customTime : pickupTime,
+          products: products,
+          delivered: false,
+        });
+
+        const formData = {
+          Name: fullName,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password,
+          image: imageUrl,
+          price: totalPrice,
+          pickuptime: pickupTime === "Other" ? customTime : pickupTime,
+          products: products,
+        };
+
+        try {
+          const response = await axios.post("/api/sendReceipt", formData);
+          console.log(response.data);
+          setFullName("");
+          setEmail("");
+          setPhoneNumber("");
+          setPassword("");
+          setPickupTime("");
+          setCustomTime("");
+          setImage(null);
+        } catch (error) {
+          console.error("Error sending form: ", error);
+        }
       }
     } catch (error) {
-      alert("An error has occurred, please contact msa@wlu.ca if you have already paid");
+      alert(
+        "An error has occurred, please contact msa@wlu.ca if you have already paid"
+      );
     }
   };
 
   console.log(products);
   if (!areQuantitiesValid) {
-    return <div>Some products have invalid quantities. Please update your cart.</div>;
+    return (
+      <div>Some products have invalid quantities. Please update your cart.</div>
+    );
   }
   return (
     <div>

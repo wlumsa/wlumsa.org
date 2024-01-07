@@ -93,11 +93,11 @@ const PrayerInfo: NextPage<PrayerInfoProps> = ({
   ];
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar navbarData={navbarData} />
-      <div className="flex flex-col items-center pt-16">
+      <div className="flex flex-col items-center pt-16 flex-grow">
         <div className="container mx-auto p-8">
-          <h1 className="mb-4 text-3xl font-bold">Prayer Times</h1>
+          <h1 className="text-4xl font-bold text-primary my-4">Prayer Times</h1>
           <div className="overflow-x-auto">
             <table className="min-w-full rounded-lg bg-white text-black shadow-lg">
               <thead className="bg-primary text-white">
