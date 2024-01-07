@@ -41,8 +41,8 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
-  const [totalAmt, setTotalAmt] = useState('');
-  
+  const [totalAmt, setTotalAmt] = useState("");
+
   useEffect(() => {
     let price = 0;
     productData.forEach((item: CartItem) => {
@@ -58,22 +58,21 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   }, [productData]);
 
   const renderLinkItem = (item: NavbarGroup) => {
-    if (item.Group === 'SingleLink') {
+    if (item.Group === "SingleLink") {
       return (
         <li key={item.NoGroup}>
-          <Link href={item.NoGroupLink || '#'}>
-            {item.NoGroup}
-          </Link>
+          <Link href={item.NoGroupLink || "#"}>{item.NoGroup}</Link>
         </li>
       );
     }
-    const title = item.Group === 'Custom' ? item.CustomGroup : item.Group;
+    const title = item.Group === "Custom" ? item.CustomGroup : item.Group;
     return item.Group && item.Group !== "NoGroup" ? (
       <li key={item.Group} className="dropdown dropdown-hover">
-        <div className="text-white">{title}</div>{""}
+        <div className="text-white">{title}</div>
+        {""}
         {/* Updated this line */}
         {item.links && item.links.length > 0 && (
-          <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg w-32">
+          <ul className="menu dropdown-content w-32 rounded-sm bg-primary shadow-lg">
             {item.links.map((link, index) => (
               <li key={index}>
                 {link.link && <Link href={link.link}>{link.name}</Link>}
@@ -93,8 +92,8 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
       <div className="navbar-start text-base-100">
-        <div className="dropdown dropdown-hover">
-        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+        <div className="dropdown dropdown-hover ">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -110,8 +109,52 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               />
             </svg>
           </div>
-          <ul tabIndex={0} className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow">
-            {navbarData.map(renderLinkItem)}
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
+          >
+            {navbarData.map((item) => {
+              if (item.Group === "SingleLink") {
+                // This will handle the 'SingleLink' case
+                return (
+                  <li key={item.NoGroup}>
+                    <Link href={item.NoGroupLink || "#"}>
+                    {item.NoGroup}
+                    </Link>
+                  </li>
+                );
+              } else {
+                // Handle 'Custom' group or any other group
+                const title =
+                  item.Group === "Custom" && item.CustomGroup
+                    ? item.CustomGroup
+                    : item.Group;
+
+                // Your existing dropdown code here...
+                return item.Group && item.Group !== "NoGroup" ? (
+                  <li key={item.Group} className="menu-item">
+                    <details>
+                      <summary className="">{title}</summary>
+                      <ul className="w-fit rounded-t-none bg-primary">
+                        {item.links.map((link, index) => (
+                          <li key={index}>
+                            {link.link && (
+                              <Link href={link.link}>{link.name}</Link>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </li>
+                ) : (
+                  <li key={item.NoGroup}>
+                    {item.NoGroupLink && (
+                      <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+                    )}
+                  </li>
+                );
+              }
+            })}
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl normal-case">
@@ -120,9 +163,52 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.map(renderLinkItem)}
+          {navbarData.map((item) => {
+            if (item.Group === "SingleLink") {
+              // This will handle the 'SingleLink' case
+              return (
+                <li key={item.NoGroup}>
+                  <Link href={item.NoGroupLink || "#"}>
+                    {item.NoGroup}
+                  </Link>
+                </li>
+              );
+            } else {
+              // Handle 'Custom' group or any other group
+              const title =
+                item.Group === "Custom" && item.CustomGroup
+                  ? item.CustomGroup
+                  : item.Group;
+
+              // Your existing dropdown code here...
+              return item.Group && item.Group !== "NoGroup" ? (
+                <li key={item.Group} className="dropdown dropdown-hover">
+                  <div className="text-white">{title}</div>{" "}
+                  {/* Updated this line */}
+                  {item.links && item.links.length > 0 && (
+                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                      {item.links.map((link, index) => (
+                        <li key={index}>
+                          {link.link && (
+                            <Link href={link.link}>{link.name}</Link>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ) : item.NoGroup ? (
+                <li key={item.NoGroup}>
+                  {item.NoGroupLink && (
+                    <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+                  )}
+                </li>
+              ) : null;
+            } // Or render some fallback content
+          })}
         </ul>
       </div>
+
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
           <div
