@@ -195,8 +195,7 @@ export const fetchFilters = async () => {
   // Simulating a delay and fetching filters (e.g., from a database or external API)
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  // Return a list of filters (e.g., categories, tags, etc.)
-  // This is just example data. Replace this with your actual filter data.
+  
   return [
     { id: 'category1', name: 'Category 1' },
     { id: 'category2', name: 'Category 2' },

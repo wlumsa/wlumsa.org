@@ -111,7 +111,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
+            className="menu dropdown-content menu-md z-[1] w-60 rounded-box bg-primary p-2 shadow"
           >
             {navbarData.map((item) => {
               if (item.Group === "SingleLink") {

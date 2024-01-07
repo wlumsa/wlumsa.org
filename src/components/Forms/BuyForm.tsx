@@ -145,42 +145,43 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
             );
           }
         );
-        const docRef = addDoc(collection(db, "Orders"), {
-          Name: fullName,
-          email: email,
-          phoneNumber: phoneNumber,
-          password: password,
-          image: imageUrl,
-          price: totalPrice,
-          pickuptime: pickupTime === "Other" ? customTime : pickupTime,
-          products: products,
-          delivered: false,
-        });
+        
+      }
+      const docRef = await addDoc(collection(db, "Orders"), {
+        Name: fullName,
+        email: email,
+        phoneNumber: phoneNumber,
+        password: password,
+        image: imageUrl,
+        price: totalPrice,
+        pickuptime: pickupTime === "Other" ? customTime : pickupTime,
+        products: products,
+        delivered: false,
+      });
+      
+      const formData = {
+        Name: fullName,
+        email: email,
+        phoneNumber: phoneNumber,
+        password: password,
+        image: imageUrl,
+        price: totalPrice,
+        pickuptime: pickupTime === "Other" ? customTime : pickupTime,
+        products: products,
+      };
 
-        const formData = {
-          Name: fullName,
-          email: email,
-          phoneNumber: phoneNumber,
-          password: password,
-          image: imageUrl,
-          price: totalPrice,
-          pickuptime: pickupTime === "Other" ? customTime : pickupTime,
-          products: products,
-        };
-
-        try {
-          const response = await axios.post("/api/sendReceipt", formData);
-          console.log(response.data);
-          setFullName("");
-          setEmail("");
-          setPhoneNumber("");
-          setPassword("");
-          setPickupTime("");
-          setCustomTime("");
-          setImage(null);
-        } catch (error) {
-          console.error("Error sending form: ", error);
-        }
+      try {
+        const response = await axios.post("/api/sendReceipt", formData);
+        console.log(response.data);
+        setFullName("");
+        setEmail("");
+        setPhoneNumber("");
+        setPassword("");
+        setPickupTime("");
+        setCustomTime("");
+        setImage(null);
+      } catch (error) {
+        console.error("Error sending form: ", error);
       }
     } catch (error) {
       alert(
@@ -214,6 +215,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
               <input
                 type="tel"
                 required
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
                 placeholder="Phone Number"
                 className="input input-bordered w-full text-neutral focus:border-secondary"
                 onChange={(e) => setPhoneNumber(e.target.value)}

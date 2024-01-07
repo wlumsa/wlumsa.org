@@ -406,7 +406,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: paths.map((path) => ({
       params: { id: path.params.id }, // Notice that the structure matches { params: { id: string } }
     })),
-    fallback: 'blocking',
+    fallback: false,
   };
 };
 

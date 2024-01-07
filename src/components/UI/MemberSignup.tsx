@@ -79,7 +79,7 @@ const MemberSignup: React.FC = () => {
               value={email}
             />
             <input
-              type="string"
+              type="number"
               required
               placeholder="Student ID"
               className="input input-bordered w-full text-neutral focus:border-secondary"
