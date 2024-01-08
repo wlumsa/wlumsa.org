@@ -238,7 +238,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <div
             tabIndex={0}
-            className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
+            className="card dropdown-content card-compact z-[1] mt-3 w-60 bg-primary shadow"
           >
             <div className="card-body">
               <span className="text-lg font-bold text-secondary">

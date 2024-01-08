@@ -3,7 +3,7 @@ import Email from '../emails/newsletter';
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../../firebase";
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 interface EmailListItem {
     email: string;
     firstName: string;
