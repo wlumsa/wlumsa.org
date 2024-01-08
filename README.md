@@ -28,13 +28,8 @@ The website should now be accessible at `http://localhost:3000` in your web brow
 ## Authors and Acknowledgements
  
 ### Contributors 
-<img src = 'https://github.com/Syed-Ahmed02.png' height = {50} width = {50}/>
-<img src = 'https://github.com/UsamaMo.png' height = {50} width = {50}/>
-<img src = 'https://github.com/CoderMF.png' height = {50} width = {50}/>
-<img src = 'https://github.com/mxsaad.png' height = {50} width = {50}/>
-<img src = 'https://github.com/WaleedAAA.png' height = {50} width = {50}/>
-<img src = 'https://github.com/rzlm.png' height = {50} width = {50}/>
-<img src = 'https://github.com/Syed-Ahmed02.png' height = {50} width = {50}/>
+![avatar](https://images.weserv.nl/?url=https://github.com/Syed-Ahmed02.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/UsamaMo.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/CoderMF.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/mxsaad.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/WaleedAAA.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url==https://github.com/rzlm.png?v=4&h=100&w=100fit=cover&mask=circle)
+
 
 ### Special Thanks
 Thanks to the executive team of the Laurier Muslim Students Association in the 2023/2024 school for facilitating the project and giving feedback.
