@@ -7,10 +7,12 @@ export default {
   },
   plugins: [require("daisyui")],
   daisyui: {
+    
     themes: [
+     
       {
-        light: {
-          "color-scheme": "dark",
+        mytheme: {
+          
           "primary": "#2e046d", // purple
           "secondary": "#e7ac3b", // yellow
           "accent": "#6c703e", // green
@@ -22,6 +24,8 @@ export default {
           "error": "#F2B6B5",
         },
       },
+      "dark",
     ],
+    darkTheme:"mytheme",
   },
 } satisfies Config;

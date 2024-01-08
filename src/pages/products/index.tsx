@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-import Link from 'next/link';
-import db from '~/firebase';
-import Navbar from '~/components/Navbar';
-import Footer from '~/components/Footer';
-import Products from '~/components/ProductCard';
+import React, { useEffect, useState } from "react";
+
+import { GetStaticProps } from "next";
+import Products from "~/components/UI/ProductCard";
+import { NextPage } from "next";
+import {
+  getProductsData,
+  getFooterData,
+  getNavbarData,
+  fetchSocialLinks,
+} from "~/lib/api";
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
 interface Product {
   id: string;
   name: string;
@@ -14,55 +19,70 @@ interface Product {
   image: string;
   hasSizes: boolean;
   quantity: number;
-  sizes: { S: number; M: number; L: number; };
+  sizes: { S: number; M: number; L: number };
   tags: string[];
 }
+interface ProductsPageProps {
+  products: Product[];
+  socialLinks: SocialLinkProps[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
+}
 
-const ProductsPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [imageUrl, setImageUrl] = useState('');
-  useEffect(() => {
-    const fetchAndSetProducts = async () => {
-      const productsCollectionRef = collection(db, "Products");
-      const querySnapshot = await getDocs(productsCollectionRef);
-      
-      const productsData = querySnapshot.docs.map(doc => {
-        const data = doc.data() as Product;
-        return { ...data, id: doc.id };
-      });
-      setProducts(productsData);
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const socialLinks = await fetchSocialLinks();
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+    const products = await getProductsData();
+    return {
+      props: {
+        socialLinks,
+        navbarData,
+        footerData,
+        products,
+      },
+      revalidate: 43200, // or however many seconds you prefer
     };
-    
-    fetchAndSetProducts();
-  }, []);
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        socialLinks: [],
+        navbarData: [],
+        footerdata: [],
+      },
+    };
+  }
+};
 
+const ProductsPage: NextPage<ProductsPageProps> = ({
+  socialLinks,
+  navbarData, // Add this line
+  footerData,
+  products,
+}) => {
   return (
-    <div>
-      <Navbar/>
-      <div className="mt-28 mb-28 px-4 md:px-10">
-        
-        <section className="w-fit mx-auto ">
+    <div className="flex min-h-screen flex-col">
+      <Navbar navbarData={navbarData} />
+      <div className="mb-28 mt-28 flex-grow px-4 md:px-10">
+        <section className="mx-auto w-fit ">
           <h2 className="text-4xl font-bold text-primary">Merchandise</h2>
-          <div className='grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5'>
-          {products.map(product => (
-            
-            <Products
-            productId={product.id}
-            name={product.name}
-            description={product.description}
-            image={product.image}
-            tags={product.tags}
-          />
-            
-          ))}
+          <div className="mb-5 mt-10 grid grid-cols-1 justify-center justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            {products.map((product) => (
+              <Products
+                productId={product.id}
+                name={product.name}
+                description={product.description}
+                image={product.image}
+                tags={product.tags}
+              />
+            ))}
           </div>
         </section>
-        
       </div>
-      <Footer/>
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };
-
-export default ProductsPage;
-
+export default ProductsPage

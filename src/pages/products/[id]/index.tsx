@@ -1,10 +1,17 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import db from '~/firebase';
-import Navbar from '~/components/Navbar';
-import Footer from '~/components/Footer';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import db from "~/firebase";
+import BuyForm from "~/components/Forms/BuyForm";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { useDispatch } from "react-redux";
+import { addToCart } from "~/redux/shopperSlice";
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+import { getNavbarData,getFooterData,fetchSocialLinks } from "~/lib/api";
+import { GetStaticProps } from "next";
+import { NextPage } from "next";
+import toast, { Toaster } from "react-hot-toast";
 
 interface Product {
   id: string;
@@ -14,13 +21,22 @@ interface Product {
   image: string;
   hasSizes: boolean;
   quantity: number;
-  sizes: { S: number; M: number; L: number; };
+  sizes: { S: number; M: number; L: number };
   tags: string[];
 }
 
-export default function ProductPage() {
-  const [product, setProduct] = useState<Product | null>(null);
-  const [imageUrl, setImageUrl] = useState('');
+
+interface ProductPageProps {
+  product: Product;
+  imageUrl: string;
+  socialLinks: SocialLinkProps[];
+  navbarData: NavbarGroup[];
+  footerData: FooterGroup[];
+}
+
+const ProductPage: NextPage<ProductPageProps> = ({ product, imageUrl, socialLinks, navbarData, footerData }) => {
+
+
   const router = useRouter();
   const { id } = router.query;
   const [quantity, setQuantity] = useState(0); // Added overall quantity state
@@ -28,133 +44,405 @@ export default function ProductPage() {
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      if (typeof id === 'string') {
-        try {
-          const docRef = doc(db, 'Products', id);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const productData = {
-              id: docSnap.id,
-              ...docSnap.data()
-            } as Product;
-            setProduct(productData);
-            const storage = getStorage();
-            const imageRef = ref(storage, productData.image);
-            try {
-              const url = await getDownloadURL(imageRef);
-              setImageUrl(url);
-            } catch (error) {
-              setImageUrl('');
-            }
-          }
-        } catch (error) {}
+  
+  const handleSizeQuantityChange = (
+    size: "S" | "M" | "L",
+    newQuantity: number
+  ) => {
+    if (product) {
+      const availableQuantity = product.sizes[size];
+      const limitedQuantity = Math.max(0, Math.min(newQuantity, 3));
+      //const limitedQuantity = Math.max(0, Math.min(newQuantity, availableQuantity)); // uncomment this line to let limit be the product quantity
+      switch (size) {
+        case "S":
+          setQuantityS(limitedQuantity);
+          break;
+        case "M":
+          setQuantityM(limitedQuantity);
+          break;
+        case "L":
+          setQuantityL(limitedQuantity);
+          break;
+        default:
+          break;
       }
-    };
-    fetchProduct();
-  }, [id]);
-
-  const handleSizeQuantityChange = (size: 'S' | 'M' | 'L', newQuantity: number) => {
-    const limitedQuantity = Math.max(0, Math.min(newQuantity, 1)); // Limit quantity between 0 and 1
-    switch (size) {
-      case 'S':
-        setQuantityS(limitedQuantity);
-        break;
-      case 'M':
-        setQuantityM(limitedQuantity);
-        break;
-      case 'L':
-        setQuantityL(limitedQuantity);
-        break;
-      default:
-        break;
     }
   };
   const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(Math.max(0, Math.min(newQuantity, 1))); // Limit quantity between 0 and 1
+    if (product) {
+      const availableQuantity = product.quantity;
+      //setQuantity(Math.max(0, Math.min(newQuantity, availableQuantity))); uncomment this line to let limit be the product quantity
+      setQuantity(Math.max(0, Math.min(newQuantity, 3)));
+    }
   };
-
-  type SizeKey = 'S' | 'M' | 'L';
-const sizeNames: Record<SizeKey, string> = { 'S': 'Small', 'M': 'Medium', 'L': 'Large' };
-
+  type SizeKey = "S" | "M" | "L";
+  const sizeNames: Record<SizeKey, string> = {
+    S: "Small",
+    M: "Medium",
+    L: "Large",
+  };
   const renderQuantityInputs = () => {
     if (product?.hasSizes && product.sizes) {
-      const allSizesOutOfStock = product.sizes.S === 0 && product.sizes.M === 0 && product.sizes.L === 0;
+      const allSizesOutOfStock =
+        product.sizes.S === 0 && product.sizes.M === 0 && product.sizes.L === 0;
       if (allSizesOutOfStock) {
-        return <div className="text-red-500 text-lg mt-2">Out of Stock</div>;
+        return <div className="mt-2 text-lg text-red-500">Out of Stock</div>;
       } else {
         return Object.entries(product.sizes).map(([size, qty]) => (
           <div key={size} className="mt-2">
             <span>{sizeNames[size as SizeKey]}:</span>
-            <div className="flex items-center mt-2">
-              <button type="button" onClick={() => handleSizeQuantityChange(size as 'S' | 'M' | 'L', (size === 'S' ? quantityS : size === 'M' ? quantityM : quantityL) - 1)} className="h-10 w-10 text-neutral transition hover:opacity-75" disabled={(size === 'S' ? quantityS : size === 'M' ? quantityM : quantityL) <= 0}>-</button>
-              <input type="number" value={size === 'S' ? quantityS : size === 'M' ? quantityM : quantityL} onChange={(e) => handleSizeQuantityChange(size as 'S' | 'M' | 'L', parseInt(e.target.value))} className="h-10 w-16 text-center border-gray-200 bg-white" min="0" max={qty} />
-              <button type="button" onClick={() => handleSizeQuantityChange(size as 'S' | 'M' | 'L', (size === 'S' ? quantityS : size === 'M' ? quantityM : quantityL) + 1)} className="h-10 w-10 text-neutral transition hover:opacity-75" disabled={(size === 'S' ? quantityS : size === 'M' ? quantityM : quantityL) >= qty}>+</button>
+            <div className="mt-2 flex items-center">
+              <button
+                type="button"
+                onClick={() =>
+                  handleSizeQuantityChange(
+                    size as "S" | "M" | "L",
+                    (size === "S"
+                      ? quantityS
+                      : size === "M"
+                      ? quantityM
+                      : quantityL) - 1
+                  )
+                }
+                className="h-10 w-10 text-neutral transition hover:opacity-75"
+                disabled={
+                  (size === "S"
+                    ? quantityS
+                    : size === "M"
+                    ? quantityM
+                    : quantityL) <= 0
+                }
+              >
+                -
+              </button>
+              <input
+                type="number"
+                value={
+                  size === "S"
+                    ? quantityS
+                    : size === "M"
+                    ? quantityM
+                    : quantityL
+                }
+                onChange={(e) =>
+                  handleSizeQuantityChange(
+                    size as "S" | "M" | "L",
+                    parseInt(e.target.value)
+                  )
+                }
+                className="h-10 w-16 border-gray-200 bg-white text-center"
+                min="0"
+                max={qty}
+              />
+              <button
+                type="button"
+                onClick={() =>
+                  handleSizeQuantityChange(
+                    size as "S" | "M" | "L",
+                    (size === "S"
+                      ? quantityS
+                      : size === "M"
+                      ? quantityM
+                      : quantityL) + 1
+                  )
+                }
+                className="h-10 w-10 text-neutral transition hover:opacity-75"
+                disabled={
+                  (size === "S"
+                    ? quantityS
+                    : size === "M"
+                    ? quantityM
+                    : quantityL) >= qty
+                }
+              >
+                +
+              </button>
             </div>
           </div>
         ));
       }
     } else if (product && product.quantity > 0) {
       return (
-        <div className="flex items-center mt-2">
-          <button type="button" onClick={() => handleQuantityChange(quantity - 1)} className="h-10 w-10 text-neutral transition hover:opacity-75" disabled={quantity <= 0}>-</button>
-          <input type="number" value={quantity} onChange={(e) => handleQuantityChange(parseInt(e.target.value))} className="h-10 w-16 text-center border-gray-200 bg-white" min="0" max={1} />
-          <button type="button" onClick={() => handleQuantityChange(quantity + 1)} className="h-10 w-10 text-neutral transition hover:opacity-75" disabled={quantity >= 1}>+</button>
+        <div className="mt-2 flex items-center">
+          <button
+            type="button"
+            onClick={() => handleQuantityChange(quantity - 1)}
+            className="h-10 w-10 text-neutral transition hover:opacity-75"
+            disabled={quantity <= 0}
+          >
+            -
+          </button>
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => handleQuantityChange(parseInt(e.target.value))}
+            className="h-10 w-16 border-gray-200 bg-white text-center"
+            min="0"
+            max={product.quantity}
+          />
+          <button
+            type="button"
+            onClick={() => handleQuantityChange(quantity + 1)}
+            className="h-10 w-10 text-neutral transition hover:opacity-75"
+            disabled={quantity >= product.quantity}
+          >
+            +
+          </button>
         </div>
       );
     } else {
-      return <div className="text-red-500 text-lg mt-2">Out of Stock</div>;
+      return <div className="mt-2 text-lg text-red-500">Out of Stock</div>;
     }
   };
-  
-
+  let cartItems = [];
+  if (product) {
+    if (product.hasSizes) {
+      cartItems.push({
+        product: product,
+        quantities: { S: quantityS, M: quantityM, L: quantityL },
+      });
+    } else {
+      cartItems.push({
+        product: product,
+        quantities: { overall: quantity },
+      });
+    }
+  }
+  let totalPrice = 0;
+  if (product) {
+    if (product.hasSizes) {
+      totalPrice += product.price * (quantityS + quantityM + quantityL);
+    } else {
+      totalPrice += product.price * quantity;
+    }
+  }
+  const dispatch = useDispatch();
   return (
-    <div className='py-10'>
-      <Navbar/>
+    <div className="py-10 flex min-h-screen flex-col">
+      <Navbar navbarData={navbarData} />
+      <div className="flex-grow">
       {product ? (
-        <div className="bg-base-100 mt-20 mb-20">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row -mx-4">
-              <div className="md:flex-1 px-4">
-                <div className="h-[460px] shadow-lg mb-4">
-                  <img className="w-full h-full object-cover rounded-lg" src={imageUrl} alt="Product Image"/>
+        <div className="mb-20 mt-20 bg-base-100">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="-mx-4 flex flex-col md:flex-row">
+              <div className="px-4 md:flex-1">
+                <div className="mb-4 h-[460px] shadow-lg">
+                  <img
+                    className="h-full w-full rounded-lg object-cover"
+                    src={imageUrl}
+                    alt="Product Image"
+                  />
                 </div>
               </div>
-              <div className="md:flex-1 px-4">
-                <h2 className="text-3xl font-bold text-neutral mb-2">{product.name}</h2>
-                <div className="flex mb-4">
+              <div className="px-4 md:flex-1">
+                <h2 className="mb-2 text-3xl font-bold text-neutral">
+                  {product.name}
+                </h2>
+                <div className="mb-4 flex">
                   <div className="mr-4">
-                    <span className="font-bold text-neutral text-xl">Price:</span>
-                    <span className="text-neutral text-lg"> ${product.price} </span>
+                    <span className="text-xl font-bold text-neutral">
+                      Price:
+                    </span>
+                    <span className="text-lg text-neutral">
+                      {" "}
+                      ${product.price}{" "}
+                    </span>
                   </div>
                 </div>
                 <div className="mb-4">
-                  <span className="font-bold text-neutral text-xl">Select Quantity</span>
-                  <div className='flex flex-col md:flex-row md:gap-10 w-fit'>
-                  {renderQuantityInputs()}
+                  <span className="text-xl font-bold text-neutral">
+                    Select Quantity
+                  </span>
+                  <div className="flex w-fit flex-col md:flex-row md:gap-10">
+                    {renderQuantityInputs()}
                   </div>
+                  <p>Limit of 3 items per customer</p>
                 </div>
                 <div>
-                  <span className="font-bold text-neutral text-xl">Product Description:</span>
-                  <p className="text-neutral text-lg mt-2">{product.description}</p>
+                  <span className="text-xl font-bold text-neutral">
+                    Product Description:
+                  </span>
+                  <p className="mt-2 text-lg text-neutral">
+                    {product.description}
+                  </p>
                 </div>
-                <div className="flex flex-col md:flex-row gap-2 -mx-2 mb-4 py-10">
-                    <div className="w-full px-2 ">
-                        <button className="w-full bg-primary text-secondary py-2 px-4 rounded-full font-bold hover:bg-gray-800 ">Add to Cart</button>
-                    </div>
-                    <div className="w-full px-2">
-                        <button className="w-full bg-secondary text-primary  py-2 px-4 rounded-full font-bold hover:bg-gray-300 ">Buy Now</button>
-                    </div>
+                <div className="-mx-2 mb-4 flex flex-col gap-2 py-10 md:flex-row">
+                  <div className="w-full px-2 ">
+                    <button
+                      onClick={() => {
+                        if (
+                          (product.hasSizes &&
+                            quantityS === 0 &&
+                            quantityM === 0 &&
+                            quantityL === 0) ||
+                          (!product.hasSizes && quantity === 0)
+                        ) {
+                          alert(
+                            "Please select a quantity before adding to cart."
+                          );
+                        } else {
+                          dispatch(
+                            addToCart({
+                              product: {
+                                id: product.id,
+                                name: product.name,
+                                price: product.price,
+                                description: product.description,
+                                image: imageUrl,
+                                hasSizes: product.hasSizes,
+                                quantity: product.quantity,
+                                sizes: product.sizes,
+                                tags: product.tags,
+                              },
+                              quantities: product.hasSizes
+                                ? { S: quantityS, M: quantityM, L: quantityL }
+                                : { overall: quantity },
+                            })
+                          ) && toast.success("Added to Cart");
+                        }
+                      }}
+                      className="mt-4 w-full rounded-lg bg-primary px-4 py-2 text-secondary "
+                    >
+                      Add to Cart
+                    </button>
                   </div>
+                  <div className="w-full px-2">
+                    <button
+                      className="mt-4 w-full rounded-lg bg-secondary px-4 py-2 text-primary  "
+                      onClick={() => {
+                        const modal = document.getElementById("my_modal_1");
+                        if (modal instanceof HTMLDialogElement) {
+                          modal.showModal();
+                        }
+                      }}
+                    >
+                      Buy Now
+                    </button>
+                    <dialog id="my_modal_1" className="modal">
+                      <div className="modal-box">
+                        <div className="modal-action">
+                          <form method="dialog">
+                            <button className="px-4">
+                              <svg
+                                className="h-3aa w-3"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 14 14"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                />
+                              </svg>
+                            </button>
+                          </form>
+                        </div>
+                        <BuyForm
+                          products={cartItems
+                            .flatMap((item) => {
+                              if (item.product.hasSizes) {
+                                return Object.entries(item.quantities).map(
+                                  ([size, quantity]) => ({
+                                    id: item.product.id,
+                                    name: item.product.name,
+                                    quantity: quantity || 0,
+                                    size: size,
+                                    hasSizes: item.product.hasSizes,
+                                  })
+                                );
+                              } else {
+                                return [
+                                  {
+                                    id: item.product.id,
+                                    name: item.product.name,
+                                    quantity: item.quantities.overall || 0,
+                                    size: "N/A", // Or whatever you use to signify no size
+                                    hasSizes: item.product.hasSizes,
+                                  },
+                                ];
+                              }
+                            })
+                            .filter((item) => item.quantity > 0)}
+                          totalPrice={totalPrice.toString()}
+                        />
+                      </div>
+                    </dialog>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        
+          <Toaster
+            reverseOrder={false}
+            position="top-center"
+            toastOptions={{
+              style: {
+                borderRadius: "8px",
+                background: "#333",
+                color: "white",
+              },
+            }}
+          />
         </div>
       ) : (
         <div>Error loading product</div>
       )}
-      <Footer/>
+      </div>
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 }
+
+import { fetchProduct,fetchProductIds } from "~/lib/api";
+import { GetStaticPaths } from "next";
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = await fetchProductIds();
+  return {
+    paths: paths.map((path) => ({
+      params: { id: path.params.id }, // Notice that the structure matches { params: { id: string } }
+    })),
+    fallback: false,
+  };
+};
+
+// This function fetches data required for pre-rendering the page
+export const getStaticProps: GetStaticProps = async (context) => {
+  try {
+    const { params } = context;
+
+    // Check if 'params' and 'params.id' are defined
+    if (!params || typeof params.id !== 'string') {
+      return { notFound: true };
+    }
+
+    const { product, imageUrl } = await fetchProduct(params.id);
+    const socialLinks = await fetchSocialLinks();
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+
+    if (!product) {
+      return { notFound: true };
+    }
+
+    return {
+      props: {
+        product,
+        imageUrl,
+        socialLinks,
+        navbarData,
+        footerData,
+      },
+      revalidate: 43200, // or your preferred revalidation time
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return { notFound: true };
+  }
+};
+
+export default ProductPage
