@@ -13,16 +13,14 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   const router = useRouter();
-  const showNavbarFooter = !router.pathname.startsWith('/cms');
+  const showNavbarFooter = !router.pathname.startsWith("/cms");
   return (
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
-        <div className="flex flex-col min-h-screen">
-          
+        <div className="flex min-h-screen flex-col">
           <main className="flex-grow">
             <Component {...pageProps} />
           </main>
-          
         </div>
         <Analytics />
       </PersistGate>

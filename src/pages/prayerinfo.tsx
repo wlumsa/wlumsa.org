@@ -159,6 +159,7 @@ const PrayerInfo: NextPage<PrayerInfoProps> = ({
             </table>
           </div>
           <p>Waterloo Masjid timings with Hanafi Asr calculation method</p>
+          <p> Black = Adhan times, Green = Iqamah times , Blue = Jummah times</p>
         </div>
       </div>
       <Footer footerGroups={footerData} socialLinks={socialLinks} />
