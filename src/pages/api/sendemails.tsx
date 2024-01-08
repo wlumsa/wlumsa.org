@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(content)
         let emailRecipients = [];
         if (distributionList === 'Members') {
-            /*
+        
             const membersCollection = collection(db, "Members");
             const newsletterMembersQuery = query(membersCollection, where("Newsletter", "==", true));
             const querySnapshot = await getDocs(newsletterMembersQuery);
@@ -63,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     });
                 }, index * 1000);
             });
-            */
+            
         } else {
             emailRecipients = distributionList.trim().split(/[\s\n]+/);
             emailRecipients.forEach((email: string, index: number) => {
