@@ -43,6 +43,7 @@
     "nextjs": "^0.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropdown": "^1.11.0",
     "react-email": "^1.9.4",
     "react-hot-toast": "^2.4.1",
     "react-router": "^6.14.2",

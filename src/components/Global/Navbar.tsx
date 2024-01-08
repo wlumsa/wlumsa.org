@@ -165,7 +165,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
           {navbarData.map((item) => {
             if (item.Group === "SingleLink") {
-              // This will handle the 'SingleLink' case
+             
               return (
                 <li key={item.NoGroup}>
                   <Link href={item.NoGroupLink || "#"}>
@@ -174,19 +174,19 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 </li>
               );
             } else {
-              // Handle 'Custom' group or any other group
+              
               const title =
                 item.Group === "Custom" && item.CustomGroup
                   ? item.CustomGroup
                   : item.Group;
 
-              // Your existing dropdown code here...
+              
               return item.Group && item.Group !== "NoGroup" ? (
                 <li key={item.Group} className="dropdown dropdown-hover">
-                  <div className="text-white">{title}</div>{" "}
+                  <div tabIndex={0} role="button" className="text-white">{title}</div>{""}
                   {/* Updated this line */}
                   {item.links && item.links.length > 0 && (
-                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                    <ul tabIndex={0} className="dropdown-content z-[1] menu rounded-sm bg-primary shadow-lg">
                       {item.links.map((link, index) => (
                         <li key={index}>
                           {link.link && (
@@ -204,7 +204,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   )}
                 </li>
               ) : null;
-            } // Or render some fallback content
+            } 
           })}
         </ul>
       </div>
