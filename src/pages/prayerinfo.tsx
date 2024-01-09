@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import classNames from 'classnames';
 
 import { GetStaticProps } from "next";
 
@@ -99,67 +100,61 @@ const PrayerInfo: NextPage<PrayerInfoProps> = ({
         <div className="container mx-auto p-8">
           <h1 className="text-4xl font-bold text-primary my-4">Prayer Times</h1>
           <div className="overflow-x-auto">
-            <table className="min-w-full rounded-lg bg-white text-black shadow-lg">
-              <thead className="bg-primary text-white">
-                <tr>
-                  <th className="px-4 py-2 text-left text-xs font-bold uppercase">
-                    Prayer
-                  </th>
-                  {filteredData.map((day) => (
-                    <th
-                      key={day.day}
-                      className="border-l border-gray-400 px-4 py-2 text-left text-xs font-bold uppercase"
-                    >
-                      {getFullDate(day.day)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="bg-base-200">
-                {prayerRows.map(({ key, iqamahKey }) => (
-                  <tr key={key}>
-                    <td className="border-t border-gray-400 px-4 py-2 text-left text-xs font-bold uppercase">
-                      {key.replace(/Iqamah$/, " Iqamah")}
-                    </td>
-                    {filteredData.map((day) => {
-                      console.log("Prayer:", key, "Day:", day.day);
-                      return (
-                        <td
-                          key={day.day}
-                          className="whitespace-nowrap border-l border-t border-gray-400 px-4 py-2"
-                        >
-                          <div className="text-black">
-                            {appendMeridiem(
-                              day.timings[key as keyof Timings],
-                              key === "Fajr" || key === "Sunrise"
-                            )}
-                          </div>
-                          {iqamahKey &&
-                            !(key === "Dhuhr" && isFriday(day.day)) && (
-                              <div className="text-green-600">
-                                {appendMeridiem(
-                                  day.timings[iqamahKey as keyof Timings],
-                                  false
-                                )}
-                              </div>
-                            )}
-                          {key === "Dhuhr" &&
-                            isFriday(day.day) &&
-                            jummahTimes.map((jummah, index) => (
-                              <div key={index} className="text-blue-600">
-                                {jummah.time} at {jummah.room}
-                              </div>
-                            ))}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <table className="min-w-full divide-y divide-gray-200 shadow-lg rounded-lg overflow-hidden">
+  <thead className="bg-[#2E046D] text-white">
+    <tr>
+      <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+        Prayer
+      </th>
+      {filteredData.map((day) => (
+        <th
+          key={day.day}
+          className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+        >
+          {getFullDate(day.day)}
+        </th>
+      ))}
+    </tr>
+  </thead>
+  <tbody className="bg-white divide-y divide-gray-200">
+    {prayerRows.map(({ key, iqamahKey }, index) => (
+      <tr key={key} className={classNames(index % 2 === 0 ? 'bg-gray-50' : 'bg-white')}>
+        <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-900">
+          {key.replace(/Iqamah$/, " Iqamah")}
+        </td>
+        {filteredData.map((day) => (
+          <td
+            key={day.day}
+            className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+          >
+            <div>
+              {appendMeridiem(
+                day.timings[key as keyof Timings],
+                key === "Fajr" || key === "Sunrise"
+              )}
+            </div>
+            {iqamahKey && !(key === "Dhuhr" && isFriday(day.day)) && (
+              <div className="text-green-500">
+                {appendMeridiem(
+                  day.timings[iqamahKey as keyof Timings],
+                  false
+                )}
+              </div>
+            )}
+            {key === "Dhuhr" && isFriday(day.day) && jummahTimes.map((jummah, index) => (
+              <div key={index} className="text-blue-500">
+                {jummah.time} at {jummah.room}
+              </div>
+            ))}
+          </td>
+        ))}
+      </tr>
+    ))}
+  </tbody>
+</table>
           </div>
-          <p>Waterloo Masjid timings with Hanafi Asr calculation method</p>
-          <p> Black = Adhan times, Green = Iqamah times , Blue = Jummah times</p>
+          <p className="text-red-600">*Waterloo Masjid timings with Hanafi Asr calculation method</p>
+          <p className="text-red-600">*Black = Adhan times, Green = Iqamah times , Blue = Jummah times</p>
         </div>
       </div>
       <Footer footerGroups={footerData} socialLinks={socialLinks} />
