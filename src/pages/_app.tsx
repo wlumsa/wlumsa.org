@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Navbar from "~/components/Global/Navbar";
 import Footer from "~/components/Global/Footer";
 import { AppProps } from "next/app";
+import ThemeToggleButton from "~/components/ThemeToggleButton";
 
 export default function App({
   Component,
@@ -17,6 +18,7 @@ export default function App({
   return (
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
+        <ThemeToggleButton/>
         <div className="flex min-h-screen flex-col">
           <main className="flex-grow">
             <Component {...pageProps} />
