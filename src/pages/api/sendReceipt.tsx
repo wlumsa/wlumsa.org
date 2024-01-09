@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // Initialize the Resend client with your API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 /*
 Name: fullName,
             email: email,
@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             quantity: number;
             size: string;
           }) =>
-            `Item: ${product.name}, Quantity: ${product.quantity}, Size: ${product.size}`
+            `\tItem: ${product.name}, Quantity: ${product.quantity}, Size: ${product.size}`
         )
         .join("\n");
 
@@ -44,11 +44,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         Phone Number: ${phoneNumber}\n
         E-Transfer Email: ${email}\n
         E-Transfer Password ${password}\n
-        Price: ${price}\n
+        Total: $${price}\n
         Pickup Time: ${pickuptime}\n
-        Products: \n${productsString}\n
-        Image: ${image}\n
-        `;
+        Products: \n${productsString}\n`;
 
       // Send the email using Resend
       const response = await resend.emails.send({

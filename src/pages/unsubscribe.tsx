@@ -35,7 +35,7 @@ function DeleteDocumentPage() {
   };
 
   return (
-    <div className="max-w-xl px-2">
+    <div className="max-w-xl px-2 mt-20 justify-center items-center">
       <div className="flex flex-col gap-2 py-2">
         <h1>Unsubscribe</h1>
         <input

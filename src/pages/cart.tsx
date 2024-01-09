@@ -2,14 +2,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Footer from "~/components/Footer";
-import Navbar from "~/components/Navbar";
+import { GetStaticProps } from "next";
+import { getNavbarData, getFooterData,fetchDiscountCodes,fetchSocialLinks } from "~/lib/api";
 import { deleteItem } from "~/redux/shopperSlice";
-import db from "~/firebase";
-import { collection, getDocs } from "firebase/firestore"; //
-import { useRouter } from "next/router";
-import CtaForm from "~/components/CtaForm";
-import BuyForm from "~/components/BuyForm";
+import BuyForm from "~/components/Forms/BuyForm";
+import Navbar from "~/components/Global/Navbar";
+import Footer from "~/components/Global/Footer";
+import { NextPage } from "next";
 interface Product {
   id: string;
   name: string;
@@ -21,26 +20,30 @@ interface Product {
   sizes: { S?: number; M?: number; L?: number };
   tags: string[];
 }
-interface DiscountCodes {
-  appliedToAll: boolean;
-  id: string;
-  discountAmount: number;
-  code: string;
+interface CartProps {
+  socialLinks: SocialLinkProps[];
+  discountCodes :DiscountCodes[];
+  navbarData: NavbarGroup[]; 
+  footerData: FooterGroup[];
 }
-
 interface CartItem {
   product: Product;
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
 
-const Cart = () => {
+const Cart: NextPage<CartProps> = ({
+  socialLinks,
+  discountCodes,
+  navbarData, // Add this line
+  footerData,
+}) => {
   const cartItems: CartItem[] = useSelector((state: any) => state.shopper.cart);
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState("");
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState("");
-  const [discountCodes, setDiscountCodes] = useState<DiscountCodes[]>([]);
+  
   const [couponError, setCouponError] = useState("");
   const [couponSuccess, setCouponSuccess] = useState("");
 
@@ -60,18 +63,7 @@ const Cart = () => {
         price += (item.quantities.overall || 0) * item.product.price;
       }
     });
-    const fetchDiscountCodes = async () => {
-      const discountCodesCollection = collection(db, "DiscountCodes");
-      const querySnapshot = await getDocs(discountCodesCollection);
-
-      const discountCodeData = querySnapshot.docs.map(
-        (doc) => doc.data() as DiscountCodes
-      );
-      console.log(discountCodeData);
-      setDiscountCodes(discountCodeData);
-    };
-    fetchDiscountCodes();
-
+    
     setSubtotal(price.toFixed(2));
     const total = price - discount; // Corrected calculation
     setTotal(total.toFixed(2));
@@ -144,9 +136,9 @@ const Cart = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="h-fit bg-base-100 py-8">
+    <div className="flex flex-col min-h-screen">
+      <Navbar navbarData={navbarData} />
+      <div className="h-fit bg-base-100 py-8 flex-grow" >
         <div className="container mx-auto px-4">
           <h1 className="mb-4 text-2xl font-semibold">Shopping Cart</h1>
           <div className="flex flex-col gap-4 md:flex-row">
@@ -156,7 +148,7 @@ const Cart = () => {
                   <thead>
                     <tr>
                       <th className="text-left font-semibold">Product</th>
-             
+
                       <th className="text-left font-semibold">Quantity</th>
                       <th className="text-left font-semibold">Total</th>
                       <th className="text-left font-semibold">Remove Item</th>
@@ -183,7 +175,7 @@ const Cart = () => {
                                 </Link>
                               </div>
                             </td>
-                            
+
                             <td className="py-4">{qty}</td>
                             <td className="py-4">
                               ${(item.product.price * qty).toFixed(2)}
@@ -198,7 +190,7 @@ const Cart = () => {
                                   )
                                 }
                               >
-                               <svg
+                                <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
@@ -230,10 +222,11 @@ const Cart = () => {
                     value={coupon}
                     onChange={handleCouponChange}
                     placeholder="Enter coupon code"
-                    className="bg-base-100 text-neutral w-1/2 "
+                    className="w-1/2 bg-base-100 text-neutral "
                   />
-                  <button className=" justify-self-end" onClick={applyCoupon}>Apply Coupon</button>
-                  
+                  <button className=" justify-self-end" onClick={applyCoupon}>
+                    Apply Coupon
+                  </button>
                 </div>
                 {couponError && <p className="text-red-500">{couponError}</p>}
                 {couponSuccess && (
@@ -272,15 +265,18 @@ const Cart = () => {
                       <form method="dialog">
                         <button className="px-4">
                           <svg
+                            className="h-3aa w-3"
+                            aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 shrink-0 stroke-current"
                             fill="none"
-                            viewBox="0 0 24 24"
+                            viewBox="0 0 14 14"
                           >
                             <path
+                              stroke="currentColor"
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              stroke-width="2"
+                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                             />
                           </svg>
                         </button>
@@ -321,9 +317,39 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>
   );
 };
 
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const navbarData = await getNavbarData();
+    const footerData = await getFooterData();
+    const discountCodes = await fetchDiscountCodes();
+    const socialLinks = await fetchSocialLinks();
+    return {
+      props: {
+        socialLinks,
+        navbarData,
+        footerData,
+        discountCodes,
+      },
+      revalidate: 43200, // or however many seconds you prefer
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        socialLinks:[],
+        discountCodes:[],
+        navbarData: [],
+        footerdata:[],
+        
+      },
+    };
+  }
+};
 export default Cart;
