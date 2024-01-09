@@ -285,3 +285,26 @@ interface ResourceData {
   group:string;
   links: Links[];
 }
+interface PrayerRoomItem {
+  building: string;
+  roomNumber: number;
+  description: string;
+}
+interface JummahItem {
+  time: string;
+  room: string;
+}
+
+interface Timings {
+  Fajr: string;
+  Sunrise: string;
+  Dhuhr: string;
+  DhuhrIqamah: string;
+  Asr: string;
+  AsrIqamah: string;
+  Maghrib: string;
+  MaghribIqamah: string;
+  Isha: string;
+  IshaIqamah: string;
+}
+

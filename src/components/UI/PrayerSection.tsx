@@ -3,8 +3,12 @@ import Link from "next/link";
 import JummahInfo from "./JummahInfo";
 import PrayerRooms from "./PrayerRooms";
 import PrayerTimes from "./PrayerTimes";
-
-const PrayerSection: React.FC = () => {
+interface PrayerSectionProps {
+  prayerRoomsData: PrayerRoomItem[]; // The type you defined for prayer room items
+  jummahInfo:JummahItem[];
+  timingsData: DayTimings | null;
+}
+const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData,jummahInfo,timingsData }) => {
   return (
     <div
       id="prayer_info"
@@ -14,7 +18,7 @@ const PrayerSection: React.FC = () => {
         <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
           Prayer Times
         </h3>
-        <PrayerTimes />
+        <PrayerTimes timingsData={timingsData} />
         <Link
           href="/prayerinfo"
           className="btn btn-primary mt-4 border-0 text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"
@@ -31,14 +35,14 @@ const PrayerSection: React.FC = () => {
             <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
               Jummah Info
             </h3>
-            <JummahInfo />
+            <JummahInfo jummahInfo={jummahInfo} />
           </div>
           <div className="divider mx-4 "></div>
           <div className="card grid place-items-center rounded-box bg-base-100">
             <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
               Prayer Rooms
             </h3>
-            <PrayerRooms />
+            <PrayerRooms prayerRoomsData={prayerRoomsData} />
           </div>
         </div>
       </div>

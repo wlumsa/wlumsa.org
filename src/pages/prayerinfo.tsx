@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "~/components/Global/Navbar";
 import Footer from "~/components/Global/Footer";
 
-
-import classNames from 'classnames';
+import classNames from "classnames";
 import PrayerSpaceCard from "~/components/PrayerSpaceCard";
 
 import { GetStaticProps } from "next";
@@ -24,21 +23,21 @@ export const getStaticProps: GetStaticProps = async () => {
   const footerData = await getFooterData();
 
   const videoIds = [
-    'Esnqdy0rqiY', // Video ID extracted from the first URL
-    'XQALLoF6Buo', // Video ID extracted from the second URL
-    'BeT9uC4NBPw', // Video ID extracted from the third URL
+    "Esnqdy0rqiY", // Video ID extracted from the first URL
+    "XQALLoF6Buo", // Video ID extracted from the second URL
+    "BeT9uC4NBPw", // Video ID extracted from the third URL
   ];
 
   return {
     props: {
-      socialLinks,  
+      socialLinks,
       navbarData,
       footerData,
       timingsData,
       jummahTimes,
       videoIds,
     },
-    revalidate:3600,
+    revalidate: 3600,
   };
 };
 
@@ -58,7 +57,6 @@ const PrayerInfo: NextPage<PrayerInfoProps> = ({
   timingsData,
   jummahTimes,
   videoIds,
-
 }) => {
   const [filteredData, setFilteredData] = useState<DayTimings[]>([]);
   const today = new Date();
@@ -68,7 +66,6 @@ const PrayerInfo: NextPage<PrayerInfoProps> = ({
   const currentMonthLong = new Date().toLocaleString("default", {
     month: "long",
   });
-
 
   useEffect(() => {
     const endDay = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -186,27 +183,27 @@ const PrayerInfo: NextPage<PrayerInfoProps> = ({
       </div>
 
       <div className="container mx-auto p-8">
-  <h2 className="mb-8 text-center text-3xl font-bold">
-    These Videos Can help guide you to the Prayer Rooms
-  </h2>
-  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-    <PrayerSpaceCard
-      videoId="Esnqdy0rqiY"
-      title="Jummah"
-      thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
-    />
-    <PrayerSpaceCard
-      videoId="XQALLoF6Buo"
-      title="Brickers"
-      thumbnailUrl="https://img.youtube.com/vi/XQALLoF6Buo/maxresdefault.jpg"
-    />
-    <PrayerSpaceCard
-      videoId="BeT9uC4NBPw"
-      title="Peters"
-      thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
-    />
-  </div>
-</div>
+        <h2 className="mb-8 text-center text-3xl font-bold">
+          These Videos Can help guide you to the Prayer Rooms
+        </h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <PrayerSpaceCard
+            videoId="Esnqdy0rqiY"
+            title="Jummah"
+            thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
+          />
+          <PrayerSpaceCard
+            videoId="XQALLoF6Buo"
+            title="Brickers"
+            thumbnailUrl="https://img.youtube.com/vi/XQALLoF6Buo/maxresdefault.jpg"
+          />
+          <PrayerSpaceCard
+            videoId="BeT9uC4NBPw"
+            title="Peters"
+            thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
+          />
+        </div>
+      </div>
 
       <Footer footerGroups={footerData} socialLinks={socialLinks} />
     </div>

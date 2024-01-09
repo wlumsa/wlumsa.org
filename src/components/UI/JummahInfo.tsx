@@ -1,28 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import db from "../../firebase";
+import React from "react";
 
-interface JummahItem {
-  time: string;
-  room: string;
-}
 
-const JummahInfo: React.FC = () => {
-  const [jummahInfo, setJummahInfo] = useState<JummahItem[]>([]);
 
-  useEffect(() => {
-    const fetchJummahInfo = async () => {
-      const jummahCollectionRef = collection(db, "Jummah");
-      const querySnapshot = await getDocs(jummahCollectionRef);
 
-      const jummahInfoData = querySnapshot.docs.map(
-        (doc) => doc.data() as JummahItem
-      );
-      setJummahInfo(jummahInfoData);
-    };
-
-    fetchJummahInfo();
-  }, []);
+const JummahInfo: React.FC<{ jummahInfo: JummahItem[] }> = ({ jummahInfo }) => {
+  
 
   return (
     <div className="stats stats-vertical shadow lg:stats-horizontal ">

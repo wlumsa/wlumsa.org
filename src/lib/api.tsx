@@ -5,7 +5,7 @@ import {
   query,
   orderBy,
   doc,
-  collectionGroup,getDoc,
+  collectionGroup,getDoc,where
 } from "firebase/firestore";
 import db from "~/firebase";
 import { storage } from "~/firebase";
@@ -203,5 +203,35 @@ export const fetchFilters = async () => {
     // ... other filters
   ];
 };
+
+export async function fetchPrayerRooms(): Promise<PrayerRoomItem[]> {
+  const prayerRoomsCollectionRef = collection(db, "PrayerRooms");
+  const querySnapshot = await getDocs(prayerRoomsCollectionRef);
+
+  const prayerRoomsData = querySnapshot.docs.map(doc => {
+    return doc.data() as PrayerRoomItem; // Cast the data to the PrayerRoomItem type
+  });
+
+  return prayerRoomsData;
+}
+
+export async function fetchJummahInfo() {
+  const jummahCollectionRef = collection(db, "Jummah");
+  const querySnapshot = await getDocs(jummahCollectionRef);
+
+  return querySnapshot.docs.map((doc) => doc.data() as JummahItem);
+}
+
+export const fetchTodaysTimings = async (): Promise<DayTimings | null> => {
+  const today = new Date();
+  const currentMonth = today.toLocaleString("default", { month: "long" });
+  const dayOfMonth = today.getDate();
+  const daysCollectionRef = collection(db, "PrayerTimings", currentMonth, "Days");
+  const q = query(daysCollectionRef, where("Day", "==", dayOfMonth));
+  const querySnapshot = await getDocs(q);
+  const doc = querySnapshot.docs[0];
+  return doc ? { timings: doc.data() as Timings, day: doc.data().Day as number } : null;
+};
+
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);
