@@ -25,6 +25,22 @@ const Navbar: React.FC = () => {
   const productData = useSelector((state: any) => state.shopper.cart)
 
   const [totalAmt, setTotalAmt] = useState("")
+
+  const [theme, setTheme] = useState('mytheme'); //Added Theme State
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'mytheme';
+    setTheme(savedTheme); // Set theme from localStorage or default
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const toggleTheme = () => { // Add toggle theme function
+    const newTheme = theme === 'mytheme' ? 'mydark' : 'mytheme';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
   useEffect(() => {
     let price = 0;
     productData.forEach((item: CartItem) => {
@@ -40,9 +56,9 @@ const Navbar: React.FC = () => {
   }, [productData]);
 
   return (
-    <div className="navbar bg-primary fixed top-0 z-30 rounded-b-3xl sm:w-full ">
+    <div className="navbar bg-[#2e046d]  fixed top-0 z-30 rounded-b-3xl sm:w-full">
       {/* Mobile */}
-      <div className="navbar-start text-base-100">
+      <div className="navbar-start text-white">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,7 +108,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Desktop */}
-      <div className="navbar-center hidden lg:flex text-base-100">
+      <div className="navbar-center hidden lg:flex text-white">
         <ul className="menu menu-horizontal px-2 gap-2" tabIndex={0}>
           <li className="">
             <details>
@@ -129,11 +145,8 @@ const Navbar: React.FC = () => {
             </details>
           </li>
           <li><Link href="/products">Merch</Link></li>
-          <li><label className="cursor-pointer grid place-items-center">
-  <input type="checkbox" value="light" className="toggle theme-controller bg-base-content row-start-1 col-start-1 col-span-2"/>
-  <svg className="col-start-2 row-start-1 stroke-base-100 fill-base-100" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-  <svg className="col-start-1 row-start-1 stroke-base-100 fill-base-100" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-</label></li>
+          {/* Here is where you can add more to the navbar if needed */}
+
         </ul>
       </div>
       <div className="navbar-end">

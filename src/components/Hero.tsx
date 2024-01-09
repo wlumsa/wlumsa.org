@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
           <h1 className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105">
             Salam!
           </h1>
-          <p className="mb-5 text-base-100">
+          <p className="mb-5 text-white">
             "The believers are but brothers, so make settlement between your
             brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
           </p>
