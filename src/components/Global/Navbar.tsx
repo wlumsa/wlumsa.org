@@ -61,7 +61,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
     if (item.Group === "SingleLink") {
       return (
         <li key={item.NoGroup}>
-          <Link href={item.NoGroupLink || "#"}>{item.NoGroup}</Link>
+          <Link prefetch={false} href={item.NoGroupLink || "#"}>{item.NoGroup}</Link>
         </li>
       );
     }
@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           <ul className="menu dropdown-content w-32 rounded-sm bg-primary shadow-lg">
             {item.links.map((link, index) => (
               <li key={index}>
-                {link.link && <Link href={link.link}>{link.name}</Link>}
+                {link.link && <Link prefetch ={false} href={link.link}>{link.name}</Link>}
               </li>
             ))}
           </ul>
@@ -84,7 +84,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
     ) : (
       <li key={item.NoGroup}>
         {item.NoGroupLink && (
-          <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+          <Link  prefetch={false} href={item.NoGroupLink}>{item.NoGroup}</Link>
         )}
       </li>
     );
@@ -118,7 +118,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 // This will handle the 'SingleLink' case
                 return (
                   <li key={item.NoGroup}>
-                    <Link href={item.NoGroupLink || "#"}>
+                    <Link href={item.NoGroupLink || "#"} prefetch={false}>
                     {item.NoGroup}
                     </Link>
                   </li>
@@ -139,7 +139,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                         {item.links.map((link, index) => (
                           <li key={index}>
                             {link.link && (
-                              <Link href={link.link}>{link.name}</Link>
+                              <Link href={link.link} prefetch={false}>{link.name}</Link>
                             )}
                           </li>
                         ))}
@@ -149,7 +149,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 ) : (
                   <li key={item.NoGroup}>
                     {item.NoGroupLink && (
-                      <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+                      <Link href={item.NoGroupLink} prefetch={false}>{item.NoGroup}</Link>
                     )}
                   </li>
                 );
@@ -157,7 +157,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             })}
           </ul>
         </div>
-        <Link href="/" className="btn btn-ghost text-xl normal-case">
+        <Link  prefetch= {false} href="/" className="btn btn-ghost text-xl normal-case">
           <Image src={logo.src} alt="Logo" height={32} width={32} />
         </Link>
       </div>
@@ -168,7 +168,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
              
               return (
                 <li key={item.NoGroup}>
-                  <Link href={item.NoGroupLink || "#"}>
+                  <Link prefetch={false} href={item.NoGroupLink || "#"}>
                     {item.NoGroup}
                   </Link>
                 </li>
@@ -190,7 +190,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                       {item.links.map((link, index) => (
                         <li key={index}>
                           {link.link && (
-                            <Link href={link.link}>{link.name}</Link>
+                            <Link prefetch = {false}href={link.link}>{link.name}</Link>
                           )}
                         </li>
                       ))}
@@ -200,7 +200,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               ) : item.NoGroup ? (
                 <li key={item.NoGroup}>
                   {item.NoGroupLink && (
-                    <Link href={item.NoGroupLink}>{item.NoGroup}</Link>
+                    <Link prefetch={false} href={item.NoGroupLink}>{item.NoGroup}</Link>
                   )}
                 </li>
               ) : null;
@@ -246,7 +246,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               </span>
               <span className="text-white">${totalAmt} CAD</span>
               <div className="card-actions">
-                <Link href={"/cart"}>
+                <Link  prefetch={false} href={"/cart"}>
                   <button className="btn btn-secondary btn-block">
                     View cart
                   </button>

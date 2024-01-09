@@ -29,7 +29,9 @@ const Footer: React.FC<FooterProps> = ({ footerGroups, socialLinks }) => {
 
       <footer className="footer border-0 bg-base-100 px-10 py-4 text-base-content">
         <div className="grid-flow-col items-center">
+          <Link prefetch={false} href = '/'>
           <Image src={logo} alt="Logo" className="mr-2 h-6 w-6" />
+          </Link>
           <p>
             Wilfrid Laurier University <br />
             Muslim Students' Association

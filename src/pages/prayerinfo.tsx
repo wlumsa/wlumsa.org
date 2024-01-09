@@ -21,12 +21,13 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      socialLinks,
+      socialLinks,  
       navbarData,
       footerData,
       timingsData,
       jummahTimes,
     },
+    revalidate:3600,
   };
 };
 
