@@ -9,7 +9,7 @@ interface Props {
 
 const ResourceCollapse: React.FC<Props> = ({ resources, header }) => {
     return (
-        <div className="collapse collapse-arrow border bg-secondary text-neutral">
+        <div className="collapse collapse-arrow border bg-secondary text-base-content">
             <input type="checkbox" /> 
             <div className="collapse-title text-xl font-medium text-primary">{header}</div>
             <ul className="collapse-content">
