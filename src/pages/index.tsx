@@ -18,6 +18,9 @@ interface HomeProps {
   events: Events[];
   navbarData: NavbarGroup[]; // Add this line
   footerData: FooterGroup[]
+  prayerRoomsData: PrayerRoomItem[];
+  jummahInfo: JummahInfo[];
+  timingsData: DayTimings;
 }
 
 const Home: NextPage<HomeProps> = ({
@@ -26,6 +29,9 @@ const Home: NextPage<HomeProps> = ({
   events,
   navbarData, // Add this line
   footerData,
+  prayerRoomsData,
+  jummahInfo,
+  timingsData,
 }) => {
   return (
     <>
@@ -44,7 +50,8 @@ const Home: NextPage<HomeProps> = ({
         <Hero socialLinks={socialLinks} heroUrl={heroUrl} />
         <Popup />
         <News />
-        <PrayerSection />
+        <PrayerSection prayerRoomsData={prayerRoomsData}  jummahInfo={jummahInfo}  timingsData={timingsData} />
+
         <Events events={events} />
         <MemberSignup />
         <Footer footerGroups={footerData} socialLinks={socialLinks} />
@@ -52,7 +59,7 @@ const Home: NextPage<HomeProps> = ({
     </>
   );
 };
-import { fetchSocialLinks,getFooterData  } from "~/lib/api";
+import { fetchPrayerRooms, fetchSocialLinks,getFooterData,fetchJummahInfo,fetchTodaysTimings  } from "~/lib/api";
 import { fetchEvents, getNavbarData,heroUrl } from "~/lib/api";
 
 
@@ -61,16 +68,21 @@ export const getStaticProps: GetStaticProps = async () => {
     const socialLinks = await fetchSocialLinks();
     const events = await fetchEvents();
     const navbarData = await getNavbarData();
-    const heroImageUrl = heroUrl
+    const heroImageUrl = heroUrl;
     const footerData = await getFooterData();
-    
+    const prayerRoomsData = await fetchPrayerRooms()
+    const jummahInfo = await fetchJummahInfo();
+    const timingsData = await fetchTodaysTimings();
     return {
       props: {
         socialLinks,
+        prayerRoomsData,
         events,
         navbarData,
         footerData,
         heroUrl: heroImageUrl,
+        jummahInfo,
+        timingsData
       },
       revalidate: 43200, // or however many seconds you prefer
     };

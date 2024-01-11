@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+
 import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
 import db from "../../firebase";
 import { toast } from 'react-hot-toast';

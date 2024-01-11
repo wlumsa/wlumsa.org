@@ -14,8 +14,7 @@ export const PrayerTimingsCollection = buildCollection({
     group: "Prayer Timings Page",
     permissions: ({ user, authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
-      const isReligiousAffairs =
-        authController.extra?.roles.includes("ReligiousAffairs");
+      const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
       const isExternal = authController.extra?.roles.includes("External");
       return {
         edit: isAdmin || isReligiousAffairs || isExternal,
@@ -32,8 +31,9 @@ export const PrayerTimingsCollection = buildCollection({
         singularName: "Day",
         permissions: ({ user, authController }) => {
           const isAdmin = authController.extra?.roles.includes("Admin");
+          const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
           return {
-            edit: isAdmin,
+            edit: isAdmin || isReligiousAffairs,
             create: isAdmin,
             // we have created the roles object in the navigation builder
             delete: isAdmin,

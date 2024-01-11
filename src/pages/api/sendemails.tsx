@@ -3,7 +3,7 @@ import Email from '../emails/newsletter';
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "../../firebase";
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 interface EmailListItem {
     email: string;
     firstName: string;
@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(content)
         let emailRecipients = [];
         if (distributionList === 'Members') {
-            /*
+        
             const membersCollection = collection(db, "Members");
             const newsletterMembersQuery = query(membersCollection, where("Newsletter", "==", true));
             const querySnapshot = await getDocs(newsletterMembersQuery);
@@ -63,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     });
                 }, index * 1000);
             });
-            */
+            
         } else {
             emailRecipients = distributionList.trim().split(/[\s\n]+/);
             emailRecipients.forEach((email: string, index: number) => {
