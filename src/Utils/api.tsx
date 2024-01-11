@@ -7,55 +7,81 @@ import {
   doc,
   collectionGroup,getDoc,where
 } from "firebase/firestore";
-import db from "~/firebase";
-import { storage } from "~/firebase";
+import db from "@/firebase";
+import { storage } from "@/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
-
-export async function getNavbarData() {
+import { cache } from "react";
+export const getNavbarData = cache(async () => {
   const navbarQuery = query(collection(db, "Navbar"), orderBy("index"));
   const navbarQuerySnapshot = await getDocs(navbarQuery);
   const navbarGroups = await Promise.all(
     navbarQuerySnapshot.docs.map(async (doc) => {
-      const data = doc.data(); // Assuming the Navbar type matches your data structure
+      const data = doc.data(); 
       const linksCollectionRef = collection(db, `Navbar/${doc.id}/Links`);
-      const linksQuery = query(linksCollectionRef, orderBy("index")); // If you want to order links as well
+      const linksQuery = query(linksCollectionRef, orderBy("index")); 
       const linksSnapshot = await getDocs(linksQuery);
       const links = linksSnapshot.docs.map(
-        (linkDoc) => linkDoc.data() as Links
+        (linkDoc) => linkDoc.data() as LinkItem
       );
-      return { ...data, links };
+      return { 
+        Group: data.Group, 
+        CustomGroup: data.CustomGroup, 
+        NoGroup: data.NoGroup, 
+        NoGroupLink: data.NoGroupLink, 
+        links 
+      }; 
     })
   );
   return navbarGroups;
-}
+})
 
-export const fetchSocialLinks = async () => {
+export const fetchSocialLinks = cache(async () => {
   const socialsCollectionRef = collection(db, "Socials");
   const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
   const querySnapshot = await getDocs(socialQuery);
-  return querySnapshot.docs.map((doc) => doc.data());
-};
-export async function getFooterData() {
+  return querySnapshot.docs.map((doc) => doc.data() as SocialLink);
+});
+
+export const fetchInstagramPosts = cache(async () => {
+  const instagramPostsCollectionRef = collection(db, "Posts");
+  const postsQuery = query(
+    instagramPostsCollectionRef,
+    orderBy("date", "desc")
+  );
+  const querySnapshot = await getDocs(postsQuery); // Use getDocs on the query
+
+  const instagramPostsData = querySnapshot.docs.map((doc) => {
+    const data = doc.data() as instagramPost;
+    return {
+      ...data,
+      date: new Date(data.date), // Convert Firestore Timestamp to JavaScript Date
+    };
+  });
+  return instagramPostsData;
+});
+export const getFooterData = cache(async () => {
   const footerQuery = query(collection(db, "Footer"), orderBy("index"));
   const footerQuerySnapshot = await getDocs(footerQuery);
   const footerGroups = await Promise.all(
     footerQuerySnapshot.docs.map(async (doc) => {
-      const data = doc.data(); // Assuming the Footer type matches your data structure
+      const data = doc.data(); 
       const linksCollectionRef = collection(db, `Footer/${doc.id}/Links`);
-      const linksQuery = query(linksCollectionRef, orderBy("index")); // If you want to order links as well
+      const linksQuery = query(linksCollectionRef, orderBy("index")); 
       const linksSnapshot = await getDocs(linksQuery);
-      const links = linksSnapshot.docs.map((linkDoc) => {
-        const linkData = linkDoc.data() as Links;
-
-        return linkData;
-      });
-      return { ...data, links };
+      const links = linksSnapshot.docs.map(
+        (linkDoc) => linkDoc.data() as Links
+      );
+      return { 
+        Group: data.Group, 
+        CustomGroup: data.CustomGroup, 
+        links 
+      }; 
     })
   );
   return footerGroups;
-}
+})
 
-export const fetchEvents = async () => {
+export const fetchEvents = cache(async () => {
   const eventsCollectionRef = collection(db, "WeeklyEvents");
   const querySnapshot = await getDocs(eventsCollectionRef);
 
@@ -66,7 +92,7 @@ export const fetchEvents = async () => {
       return { ...eventData, img: imgURL };
     })
   );
-};
+});
 
 export async function fetchDiscountCodes() {
   const discountCodesCollection = collection(db, "DiscountCodes");
@@ -204,7 +230,7 @@ export const fetchFilters = async () => {
   ];
 };
 
-export async function fetchPrayerRooms(): Promise<PrayerRoomItem[]> {
+export const fetchPrayerRooms = cache(async () => {
   const prayerRoomsCollectionRef = collection(db, "PrayerRooms");
   const querySnapshot = await getDocs(prayerRoomsCollectionRef);
 
@@ -213,16 +239,16 @@ export async function fetchPrayerRooms(): Promise<PrayerRoomItem[]> {
   });
 
   return prayerRoomsData;
-}
+})
 
-export async function fetchJummahInfo() {
+export const fetchJummahInfo = cache(async () => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
 
   return querySnapshot.docs.map((doc) => doc.data() as JummahItem);
-}
+})
 
-export const fetchTodaysTimings = async (): Promise<DayTimings | null> => {
+export const fetchTodaysTimings  = cache(async () => {
   const today = new Date();
   const currentMonth = today.toLocaleString("default", { month: "long" });
   const dayOfMonth = today.getDate();
@@ -231,7 +257,7 @@ export const fetchTodaysTimings = async (): Promise<DayTimings | null> => {
   const querySnapshot = await getDocs(q);
   const doc = querySnapshot.docs[0];
   return doc ? { timings: doc.data() as Timings, day: doc.data().Day as number } : null;
-};
+});
 
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);

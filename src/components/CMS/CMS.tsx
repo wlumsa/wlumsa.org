@@ -1,5 +1,5 @@
 "use client";
-import msalogo from "public/logo.png";
+import msalogo from "../../logo.png"
 import React, { useCallback } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { User as FirebaseUser } from "firebase/auth";

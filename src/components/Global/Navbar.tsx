@@ -1,9 +1,10 @@
+"use client"
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "public/logo.png";
-import { RootState } from "~/redux/store";
+import { useSelector } from "react-redux";
+
 
 interface Product {
   id: string;
@@ -40,6 +41,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
+ 
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
 
@@ -56,39 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
     });
     setTotalAmt(price.toFixed(2));
   }, [productData]);
-
-  const renderLinkItem = (item: NavbarGroup) => {
-    if (item.Group === "SingleLink") {
-      return (
-        <li key={item.NoGroup}>
-          <Link prefetch={false} href={item.NoGroupLink || "#"}>{item.NoGroup}</Link>
-        </li>
-      );
-    }
-    const title = item.Group === "Custom" ? item.CustomGroup : item.Group;
-    return item.Group && item.Group !== "NoGroup" ? (
-      <li key={item.Group} className="dropdown dropdown-hover">
-        <div className="text-white">{title}</div>
-        {""}
-        {/* Updated this line */}
-        {item.links && item.links.length > 0 && (
-          <ul className="menu dropdown-content w-32 rounded-sm bg-primary shadow-lg">
-            {item.links.map((link, index) => (
-              <li key={index}>
-                {link.link && <Link prefetch ={false} href={link.link}>{link.name}</Link>}
-              </li>
-            ))}
-          </ul>
-        )}
-      </li>
-    ) : (
-      <li key={item.NoGroup}>
-        {item.NoGroupLink && (
-          <Link  prefetch={false} href={item.NoGroupLink}>{item.NoGroup}</Link>
-        )}
-      </li>
-    );
-  };
+  
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
       <div className="navbar-start text-base-100">
@@ -115,7 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           >
             {navbarData.map((item) => {
               if (item.Group === "SingleLink") {
-                // This will handle the 'SingleLink' case
+             
                 return (
                   <li key={item.NoGroup}>
                     <Link href={item.NoGroupLink || "#"} prefetch={false}>
@@ -124,13 +94,13 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   </li>
                 );
               } else {
-                // Handle 'Custom' group or any other group
+            
                 const title =
                   item.Group === "Custom" && item.CustomGroup
                     ? item.CustomGroup
                     : item.Group;
 
-                // Your existing dropdown code here...
+                
                 return item.Group && item.Group !== "NoGroup" ? (
                   <li key={item.Group} className="menu-item">
                     <details>
@@ -157,9 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             })}
           </ul>
         </div>
-        <Link  prefetch= {false} href="/" className="btn btn-ghost text-xl normal-case">
-          <Image src={logo.src} alt="Logo" height={32} width={32} />
-        </Link>
+        
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>

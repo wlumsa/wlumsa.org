@@ -1,5 +1,5 @@
+"use client"
 import { useState } from "react";
-
 import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
 import db from "../../firebase";
 import { toast } from 'react-hot-toast';
