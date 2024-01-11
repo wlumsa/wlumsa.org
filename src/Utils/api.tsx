@@ -94,7 +94,7 @@ export const fetchEvents = cache(async () => {
   );
 });
 
-export async function fetchDiscountCodes() {
+export const fetchDiscountCodes = cache(async () => {
   const discountCodesCollection = collection(db, "DiscountCodes");
   const querySnapshot = await getDocs(discountCodesCollection);
 
@@ -102,17 +102,17 @@ export async function fetchDiscountCodes() {
     (doc) => doc.data() as DiscountCodes
   );
   return discountCodeData;
-}
+})
 
-export const fetchJummahTimes = async (): Promise<Jummah[]> => {
+export const fetchJummahTimes = cache(async () => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
   return querySnapshot.docs.map((doc) => {
     const data = doc.data();
     return { room: data.room as string, time: data.time as string };
   });
-};
-export const fetchTimings = async (): Promise<DayTimings[]> => {
+});
+export const fetchTimings = cache(async () => {
   const today = new Date();
   const currentMonth = today.toLocaleString("default", { month: "long" });
 
@@ -124,9 +124,9 @@ export const fetchTimings = async (): Promise<DayTimings[]> => {
     timings: doc.data() as Timings,
     day: doc.data().Day as number,
   }));
-};
+});
 
-export async function getResourcesData() {
+export const getResourcesData= cache(async () => {
   const resourcesQuery = query(collection(db, "Resources"), orderBy("index"));
   const resourcesQuerySnapshot = await getDocs(resourcesQuery);;
 
@@ -146,7 +146,7 @@ export async function getResourcesData() {
   );
 
   return resourcesData;
-}
+})
 export async function getServicesOffered() {
   const serviceCollectionRef = collection(db, 'ServicesOffered');
   const querySnapshot = await getDocs(serviceCollectionRef);

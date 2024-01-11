@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import db from "~/firebase";
+import db from "@/firebase";
 
 import {
   updateDoc,
@@ -11,7 +11,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { clearCart } from "~/redux/shopperSlice";
+import { clearCart } from "@/redux/shopperSlice";
 import {
   getStorage,
   ref,

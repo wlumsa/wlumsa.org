@@ -1,57 +1,41 @@
+"use client"
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { GetStaticProps } from "next";
-import { getNavbarData, getFooterData,fetchDiscountCodes,fetchSocialLinks } from "~/lib/api";
-import { deleteItem } from "~/redux/shopperSlice";
-import BuyForm from "~/components/Forms/BuyForm";
-import Navbar from "~/components/Global/Navbar";
-import Footer from "~/components/Global/Footer";
-import { NextPage } from "next";
+import { deleteItem } from "@/redux/shopperSlice";
+import BuyForm from "@/components/Forms/BuyForm";
 interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  hasSizes: boolean;
-  quantity: number;
-  sizes: { S?: number; M?: number; L?: number };
-  tags: string[];
-}
-interface CartProps {
-  socialLinks: SocialLinkProps[];
-  discountCodes :DiscountCodes[];
-  navbarData: NavbarGroup[]; 
-  footerData: FooterGroup[];
+    id: string;
+    name: string;
+    price: number;
+    description: string;
+    image: string;
+    hasSizes: boolean;
+    quantity: number;
+    sizes: { S?: number; M?: number; L?: number };
+    tags: string[];
+  }
+interface CartDetailsProps {
+  discountCodes: DiscountCodes[];
 }
 interface CartItem {
-  product: Product;
-  quantities: { S?: number; M?: number; L?: number; overall?: number };
-}
+    product: Product;
+    quantities: { S?: number; M?: number; L?: number; overall?: number };
+  }
 
-const Cart: NextPage<CartProps> = ({
-  socialLinks,
-  discountCodes,
-  navbarData, // Add this line
-  footerData,
-}) => {
+const CartDetails: React.FC<CartDetailsProps> = ({ discountCodes }) => {
   const cartItems: CartItem[] = useSelector((state: any) => state.shopper.cart);
   const dispatch = useDispatch();
   const [subtotal, setSubtotal] = useState("");
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState("");
-  
   const [couponError, setCouponError] = useState("");
   const [couponSuccess, setCouponSuccess] = useState("");
-
   const handleCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCoupon(event.target.value);
     setCouponSuccess("");
   };
-
   useEffect(() => {
     let price = 0;
     cartItems.forEach((item: CartItem) => {
@@ -63,18 +47,17 @@ const Cart: NextPage<CartProps> = ({
         price += (item.quantities.overall || 0) * item.product.price;
       }
     });
-    
     setSubtotal(price.toFixed(2));
-    const total = price - discount; // Corrected calculation
+    const total = price - discount;
     setTotal(total.toFixed(2));
   }, [cartItems, discount]);
+
   const applyCoupon = () => {
     let discount = 0;
     const discountCode = discountCodes.find((code) => code.code === coupon);
     if (discountCode) {
       setCouponError("");
       if (discountCode.appliedToAll) {
-        // Apply discount to all products
         cartItems.forEach((item: CartItem) => {
           if (item.product.hasSizes) {
             discount +=
@@ -97,7 +80,6 @@ const Cart: NextPage<CartProps> = ({
           }
         });
       } else {
-        // Apply discount to specific product
         cartItems.forEach((item: CartItem) => {
           if (item.product.id === discountCode.id) {
             if (item.product.hasSizes) {
@@ -128,17 +110,15 @@ const Cart: NextPage<CartProps> = ({
       setCouponError("Invalid coupon");
       setCouponSuccess("");
     }
-    console.log("Total discount:", discount); // Debugging line
     setDiscount(discount);
   };
+
   const handleRemove = (productId: string, size?: keyof Product["sizes"]) => {
     dispatch(deleteItem({ productId, size: size as keyof Product["sizes"] }));
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar navbarData={navbarData} />
-      <div className="h-fit bg-base-100 py-8 flex-grow" >
+    <div className="h-fit bg-base-100 py-8 flex-grow" >
         <div className="container mx-auto px-4">
           <h1 className="mb-4 text-2xl font-semibold">Shopping Cart</h1>
           <div className="flex flex-col gap-4 md:flex-row">
@@ -317,39 +297,7 @@ const Cart: NextPage<CartProps> = ({
           </div>
         </div>
       </div>
-      <Footer footerGroups={footerData} socialLinks={socialLinks} />
-    </div>
   );
 };
 
-
-
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const navbarData = await getNavbarData();
-    const footerData = await getFooterData();
-    const discountCodes = await fetchDiscountCodes();
-    const socialLinks = await fetchSocialLinks();
-    return {
-      props: {
-        socialLinks,
-        navbarData,
-        footerData,
-        discountCodes,
-      },
-      revalidate: 43200, // or however many seconds you prefer
-    };
-  } catch (error) {
-    console.error("Error in getStaticProps:", error);
-    return {
-      props: {
-        socialLinks:[],
-        discountCodes:[],
-        navbarData: [],
-        footerdata:[],
-        
-      },
-    };
-  }
-};
-export default Cart;
+export default CartDetails;

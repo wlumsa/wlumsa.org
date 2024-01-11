@@ -1,10 +1,6 @@
 import React from "react";
 
-import { GetStaticProps } from "next";
 
-import { NextPage } from "next";
-import Navbar from "~/components/Global/Navbar";
-import Footer from "~/components/Global/Footer";
 interface ResourcePageProps {
   resourcesData: ResourceData[];
   navbarData: NavbarGroup[];
@@ -12,39 +8,16 @@ interface ResourcePageProps {
   socialLinks: SocialLinkProps[];
 }
 import {
-  getNavbarData,
-  getFooterData,
-  fetchSocialLinks,
+ 
   getResourcesData,
-} from "~/lib/api";
-export const getStaticProps: GetStaticProps = async () => {
-  const resourcesData = await getResourcesData();
-  const socialLinks = await fetchSocialLinks();
+} from "../../../Utils/api"
 
-  const navbarData = await getNavbarData();
 
-  const footerData = await getFooterData();
-
-  return {
-    props: {
-      resourcesData,
-      socialLinks,
-      navbarData,
-      footerData,
-    },
-    revalidate: 43200, // or however many seconds you prefer
-  };
-};
-
-const ResourcesPage: NextPage<ResourcePageProps> = ({
-  resourcesData,
-  navbarData,
-  footerData,
-  socialLinks,
-}) => {
+export default async function ResourcesPage() {
+const resourcesData = await getResourcesData();
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar navbarData={navbarData} />
+      
       <main className="mt-20 flex-grow px-20">
         <h1 className="text-4xl font-bold text-primary my-10">Resources</h1>
         {resourcesData.map((resourceGroup, index) => {
@@ -89,9 +62,9 @@ const ResourcesPage: NextPage<ResourcePageProps> = ({
           }
         })}
       </main>
-      <Footer footerGroups={footerData} socialLinks={socialLinks} />
+   
     </div>
   );
 };
 
-export default ResourcesPage;
+

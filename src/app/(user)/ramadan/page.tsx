@@ -1,23 +1,13 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { GetStaticProps } from "next";
-import { getNavbarData, getFooterData, fetchSocialLinks } from "~/lib/api";
-import { NextPage } from "next";
-import Navbar from "~/components/Global/Navbar";
-import Footer from "~/components/Global/Footer";
+
 type ExtendedStyle = React.CSSProperties & {
   "--value"?: string;
 };
-interface RamadanPageProps {
-  socialLinks: SocialLinkProps[];
-  navbarData: NavbarGroup[];
-  footerData: FooterGroup[];
-}
-const RamadanPage: NextPage<RamadanPageProps> = ({
-  socialLinks,
-  navbarData, // Add this line
-  footerData,
-}) => {
+
+export default async function RamadanPage() {
+ 
   const [days, setDays] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
@@ -46,7 +36,7 @@ const RamadanPage: NextPage<RamadanPageProps> = ({
 
   return (
     <div className="flex flex-col min-h-screen ">
-      <Navbar navbarData={navbarData} />
+   
       <Head>
         <title>Countdown to March 10</title>
       </Head>
@@ -94,32 +84,7 @@ const RamadanPage: NextPage<RamadanPageProps> = ({
           </div>
         </div>
       </main>
-      <Footer footerGroups={footerData} socialLinks={socialLinks} />
+   
     </div>
   );
 };
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const socialLinks = await fetchSocialLinks();
-    const navbarData = await getNavbarData();
-    const footerData = await getFooterData();
-    return {
-      props: {
-        socialLinks,
-        navbarData,
-        footerData,
-      },
-      revalidate: 43200, // or however many seconds you prefer
-    };
-  } catch (error) {
-    console.error("Error in getStaticProps:", error);
-    return {
-      props: {
-        socialLinks: [],
-        navbarData: [],
-        footerdata: [],
-      },
-    };
-  }
-};
-export default RamadanPage;
