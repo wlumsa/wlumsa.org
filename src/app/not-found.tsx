@@ -1,8 +1,7 @@
 
-import Link from "next/link";
-import "../styles/globals.css"
-export default function Custom404() {
-  
+import Link from "next/link" ;
+import "../styles/globals.css" 
+export default function NotFound() {
   return (
     <html>
       <body className="grid h-screen place-content-center bg-white px-4">

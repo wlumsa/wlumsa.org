@@ -1,4 +1,4 @@
-export default async function DirectoryPage() {
+export default async function DirectoryPageFiltered() {
   return (
     <div className="mb-20 mt-40 flex flex-grow items-center justify-center">
       <h1 className="font-sans text-xl font-bold  text-primary md:text-5xl">

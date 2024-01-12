@@ -2,8 +2,8 @@
 import React from "react";
 
 import { fetchDiscountCodes} from "../../../Utils/api";
-import CartDetails from "./CartDetails";
-
+import CartDetails from "../../../components/CartDetails";
+export const revalidate = 86400
 export default async function Cart() {
    const discountCodes = await fetchDiscountCodes();
 

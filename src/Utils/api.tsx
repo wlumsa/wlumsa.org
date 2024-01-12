@@ -147,7 +147,7 @@ export const getResourcesData= cache(async () => {
 
   return resourcesData;
 })
-export async function getServicesOffered() {
+export const  getServicesOffered =  cache(async () => {
   const serviceCollectionRef = collection(db, 'ServicesOffered');
   const querySnapshot = await getDocs(serviceCollectionRef);
 
@@ -157,9 +157,9 @@ export async function getServicesOffered() {
   }));
 
   return servicesInfo;
-}
+})
 
-export async function getProductsData() {
+export const getProductsData =  cache(async () => {
   const productsCollectionRef = collection(db, 'Products');
   const querySnapshot = await getDocs(productsCollectionRef);
 
@@ -170,7 +170,7 @@ export async function getProductsData() {
   });
 
   return productsData;
-}
+})
 
 interface Product {
   id: string;

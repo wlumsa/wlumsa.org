@@ -8,7 +8,7 @@ import {
   where,
   updateDoc
 } from "firebase/firestore"; // Import Firebase Firestore functions
-
+export const revalidate = 3600 
 function DeleteDocumentPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
