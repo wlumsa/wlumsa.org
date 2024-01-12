@@ -6,6 +6,7 @@ import {
  
 } from "../../../Utils/api";
 import Image from "next/image";
+export const revalidate = 3600
 export default async function About() {
     const servicesInfo = await getServicesOffered()
   return (

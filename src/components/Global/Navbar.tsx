@@ -4,7 +4,7 @@ import { RootState } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-
+import logo from "../../logo.png"
 
 interface Product {
   id: string;
@@ -127,7 +127,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             })}
           </ul>
         </div>
-        
+        <Link  prefetch= {false} href="/" className="btn btn-ghost text-xl normal-case">
+          <Image src={logo.src} alt="Logo" height={32} width={32} />
+        </Link>
       </div>
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
