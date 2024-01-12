@@ -1,7 +1,6 @@
-// pages/api/calendar.ts
-import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+import { NextResponse } from "next/server";
+export async function GET(request: Request) {
   const calendarId =
     "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com";
   const apiKey = process.env.GOOGLE_API_KEY;
@@ -18,9 +17,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error(`Failed to fetch: ${response.statusText}`);
     }
     const data = await response.json();
-    res.status(200).json(data.items);
+    return NextResponse.json(data)
+    
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    return  NextResponse.json(error)
   }
 };

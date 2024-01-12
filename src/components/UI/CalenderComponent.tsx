@@ -98,16 +98,16 @@ const renderEventContent = (eventInfo: EventContentArg) => {
     hour12: true,
   });
 
-  const formattedTitle = eventInfo.event.title.split("|").join("<br />");
+  const formattedTitle = eventInfo.event.title.split("-").join("<br />");
 
   return (
-    <div className={`p-1 ${bgColorClass} ${textColorClass}`}>
+    <div className={`p-1 ${bgColorClass} ${textColorClass} min-w-0 flex-shrink-1`}>
       <div className="text-sm">
         <b>{startTime}</b>
       </div>{" "}
       {/* Adjusted text size */}
       <div
-        className="text-xs"
+        className="flex-shrink-1"
         dangerouslySetInnerHTML={{ __html: formattedTitle }}
       ></div>
       {/* Adjusted text size */}
