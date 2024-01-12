@@ -52,7 +52,7 @@
     "react-router-dom": "^6.14.2",
     "react-social-media-embed": "^2.3.5",
     "redux-persist": "^6.0.0",
-    "resend": "^1.0.0",
+    "resend": "^2.1.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

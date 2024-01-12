@@ -7,7 +7,7 @@ import {
 
 
 
-export const InstagramCollection = buildCollection<InstagramPost>({
+export const InstagramCollection = buildCollection<instagramPost>({
     path: "Posts",
     name: "Instagram Posts",
     singularName: "Instagram Post",

@@ -176,7 +176,7 @@ export const EmailCollection = buildCollection<EmailEntry>({
                 ? values.customEmails
                 : "Members",
             created_on: values.created_on,
-          }; /*  */
+          }; 
           const baseUrl = window.location.origin; // This will get the domain
           const endpoint = values.sendEmail ? `${baseUrl}/api/sendemails` : "";
   

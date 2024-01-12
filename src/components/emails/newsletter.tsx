@@ -1,4 +1,4 @@
-"use client"
+
 import {
   Body,
   Button,
@@ -68,14 +68,26 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
               }}>{entry.value}</Markdown>
             
           );
-        case 'images':
-          return (
-            <Section className="" key={index}>
-              {entry.value.map((imageSrc, imgIndex) => (
-                <Img className= " block ml-auto mr-auto object-cover h-[250px] w-[250px] " key={imgIndex} src={imageSrc} alt={`Content Image ${imgIndex}`}  />
-              ))}
-            </Section>
-          );
+          case 'images':
+            return (
+              <Section key={index} style={{ textAlign: 'center' }}> {/* Adjust Section styles as needed */}
+                {entry.value.map((imageSrc, imgIndex) => (
+                  <Img 
+                    key={imgIndex} 
+                    src={imageSrc} 
+                    alt={`Content Image ${imgIndex}`}
+                    style={{
+                      display: 'block',
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                      objectFit: 'cover',
+                      height: '250px',
+                      width: '250px'
+                    }}
+                  />
+                ))}
+              </Section>
+            );
         default:
           return <div key={index}>Unexpected value in content</div>;
       }
@@ -87,57 +99,37 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
         <title>MSA Week at a Glance</title>
       </Head>
       <Preview>{previewText}</Preview>
-      <Tailwind
-        config={{
-          theme: {
-            extend: {
-              colors: {
-                primary: "#2e046d", // purple
-                secondary: "#e7ac3b", // yellow
-                accent: "#6c703e", // green
-                neutral: "#444444", // gray
-                "base-100": "#ffffff", // white
-              },
-            },
-          },
-        }}
-      >
-        <Body className="mx-auto my-auto bg-base-100 font-sans items-center">
-          <Container className="mx-auto my-[40px] w-[465px]  rounded-lg border border-solid border-primary p-[20px]">
-            <Section className="h-[150px] rounded-lg  bg-primary">
-              <Heading className="text-center text-secondary">
-                اَلسَّلاَ مُ عَلَيْكُمْ
-              </Heading>
-            </Section>
+      <Body style={{ margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff', fontFamily: 'sans-serif' }}>
+        <Container style={{ margin: '40px auto', width: '465px', borderRadius: '10px', border: 'solid #2e046d', padding: '20px' }}>
+          <Section style={{ height: '150px', borderRadius: '10px', backgroundColor: '#2e046d', textAlign: 'center', color: '#e7ac3b' }}>
+            <Heading>اَلسَّلاَ مُ عَلَيْكُمْ</Heading>
+          </Section>
 
-            <Text className="text-black">
-              <Heading className="text-[18px]">
-                Salam {`${firstName} ${lastName}`}
-              </Heading>
-              {renderContent()}
-            </Text>
+          <Text style={{ color: 'black' }}>
+            <Heading style={{ fontSize: '18px' }}>
+              Salam {`${firstName} ${lastName}`}
+            </Heading>
+            {renderContent()}
+          </Text>
 
-            {/* Event Details */}
-            
-
-            <Hr className="mx-0 my-[10px] w-full border border-solid border-[#eaeaea]" />
-            <Text className="text-[12px] leading-[24px] text-[#666666]">
-              This is an automated email, please do not reply. If you would like
-              to unsubscribe from this newsletter, you can do so
-              <Link href="https://www.wlumsa.org/unsubscribe"> here</Link>
-            </Text>
-            <Button
-              href="https://www.wlumsa.org/events"
-              className="mt-4 bg-primary p-2  text-white"
-            >
-              Check Out All Events
-            </Button>
-          </Container>
-        </Body>
-      </Tailwind>
+          <Hr style={{ width: '100%', border: 'solid #eaeaea', margin: '10px 0' }} />
+          <Text style={{ fontSize: '12px', lineHeight: '24px', color: '#666666' }}>
+            This is an automated email, please do not reply. If you would like
+            to unsubscribe from this newsletter, you can do so
+            <Link href="https://www.wlumsa.org/unsubscribe"> here</Link>
+          </Text>
+          <Button
+            href="https://www.wlumsa.org/events"
+            style={{ marginTop: '16px', backgroundColor: '#2e046d', color: 'white', padding: '8px 16px' }}
+          >
+            Check Out All Events
+          </Button>
+        </Container>
+      </Body>
     </Html>
   );
 };
+
 function EmailText({ markdownText }: { markdownText: string }) {
 
   if (!markdownText)
