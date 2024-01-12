@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState, useRef } from "react";
 
 import FullCalendar from "@fullcalendar/react";
@@ -50,7 +51,7 @@ const CalendarComponent = () => {
       const formattedEvents: Event[] = data.map((event: FetchedEvent) => ({
         id: event.id,
         title: event.summary,
-        start: event.start.dateTime,
+        start: event.start ? event.start.dateTime : 'default-date',
       }));
 
       setEvents(formattedEvents);

@@ -1,11 +1,6 @@
 import React from "react";
 
-
-
-
 const JummahInfo: React.FC<{ jummahInfo: JummahItem[] }> = ({ jummahInfo }) => {
-  
-
   return (
     <div className="stats stats-vertical shadow lg:stats-horizontal ">
       <table className="table">

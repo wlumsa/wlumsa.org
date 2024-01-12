@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { hidePopup, showPopup } from "../../redux/popupSlice"
-import { RootState } from '../../redux/store';
-import MemberSignup from './MemberSignup';
+"use client";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { hidePopup, showPopup } from "../../redux/popupSlice";
+import { RootState } from "../../redux/store";
+import MemberSignup from "./MemberSignup";
 
 const Popup: React.FC = () => {
   const dispatch = useDispatch();
@@ -10,18 +11,14 @@ const Popup: React.FC = () => {
 
   const handleClose = () => {
     dispatch(hidePopup());
-    // Set the flag in localStorage when the popup is closed
-    localStorage.setItem('popupShown', 'true');
+    localStorage.setItem("popupShown", "true");
   };
 
   useEffect(() => {
-    // Only show the popup if the flag is not set in localStorage
-    if (!localStorage.getItem('popupShown')) {
+    if (!localStorage.getItem("popupShown")) {
       const timer = setTimeout(() => {
         dispatch(showPopup());
-      }, 10000); // 10000 milliseconds = 10 seconds
-
-      // Cleanup function to clear the timeout if the component unmounts before the timeout finishes
+      }, 10000);
       return () => clearTimeout(timer);
     }
   }, [dispatch]);
@@ -31,21 +28,40 @@ const Popup: React.FC = () => {
   }
 
   return (
-    <div  tabIndex={-1} className=" md:w-2/5 w-4/5  rounded-lg overflow-y-auto overflow-x-hidden z-50 bg-white p-4  border border-gray-300 shadow-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-        <div>
-        <button  onClick={handleClose} type="button" className="absolute top-4 right-4 start-0 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >
-            <svg className="w-3 h-3aa" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
-                  <span className="sr-only">Close modal</span>
+    <div
+      tabIndex={-1}
+      className=" fixed left-1/2  top-1/2 z-50 w-4/5 -translate-x-1/2 -translate-y-1/2 transform  overflow-y-auto overflow-x-hidden rounded-lg border border-gray-300 bg-white p-4 shadow-md md:w-2/5 "
+    >
+      <div>
+        <button
+          onClick={handleClose}
+          type="button"
+          className="absolute right-4 start-0 top-4 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          <svg
+            className="h-3aa w-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span className="sr-only">Close modal</span>
         </button>
-        
-        <div >
-          <MemberSignup/>
+
+        <div>
+          <MemberSignup />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Popup
+export default Popup;

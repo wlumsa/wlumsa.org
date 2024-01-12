@@ -28,13 +28,8 @@ The website should now be accessible at `http://localhost:3000` in your web brow
 ## Authors and Acknowledgements
  
 ### Contributors 
-- [Syed Ahmed](https://github.com/Syed-Ahmed02) - Team Lead
-- [Usama Mohiuddin](https://github.com/UsamaMo) - Tech Lead
-- [Maham Farooq](https://github.com/CoderMF) - UI/UX Designer
-- [Muhammad Saad](https://github.com/mxsaad) - Developer
-- [Waleed Asif](https://github.com/WaleedAAA) - Developer
-- [Razan](https://github.com/rzlm) - Developer 
-- [Muneeb](https://github.com/Muneeb231) - Developer 
+![avatar](https://images.weserv.nl/?url=https://github.com/Syed-Ahmed02.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/UsamaMo.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/CoderMF.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/mxsaad.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/WaleedAAA.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url==https://github.com/rzlm.png?v=4&h=100&w=100fit=cover&mask=circle)
+
 
 ### Special Thanks
 Thanks to the executive team of the Laurier Muslim Students Association in the 2023/2024 school for facilitating the project and giving feedback.

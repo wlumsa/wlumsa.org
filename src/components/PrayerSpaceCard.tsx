@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 
 interface PrayerSpaceCardProps {
@@ -12,7 +13,7 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
   const togglePopup = () => setIsOpen(!isOpen);
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card w-54 md:w-96 bg-base-100 shadow-xl">
       <figure onClick={togglePopup} className="cursor-pointer">
         <img src={thumbnailUrl} alt={title} />
       </figure>
