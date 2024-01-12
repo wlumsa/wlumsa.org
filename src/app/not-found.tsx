@@ -1,9 +1,11 @@
-import Link from "next/link";
 
+import Link from "next/link";
+import "../styles/globals.css"
 export default function Custom404() {
+  
   return (
-    <div>
-      <div className="grid h-screen place-content-center bg-white px-4">
+    <html>
+      <body className="grid h-screen place-content-center bg-white px-4">
         <div className="text-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +37,7 @@ export default function Custom404() {
             </button>
           </Link>
         </div>
-      </div>
-    </div>
+      </body>
+    </html>
   );
 }

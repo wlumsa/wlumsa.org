@@ -1,25 +1,13 @@
 import React from "react";
 
-
-interface ResourcePageProps {
-  resourcesData: ResourceData[];
-  navbarData: NavbarGroup[];
-  footerData: FooterGroup[];
-  socialLinks: SocialLinkProps[];
-}
-import {
- 
-  getResourcesData,
-} from "../../../Utils/api"
-
+import { getResourcesData } from "../../../Utils/api";
 
 export default async function ResourcesPage() {
-const resourcesData = await getResourcesData();
+  const resourcesData = await getResourcesData();
   return (
-    <div className="flex flex-col min-h-screen">
-      
+    <div className="flex min-h-screen flex-col">
       <main className="mt-20 flex-grow px-20">
-        <h1 className="text-4xl font-bold text-primary my-10">Resources</h1>
+        <h1 className="my-10 text-4xl font-bold text-primary">Resources</h1>
         {resourcesData.map((resourceGroup, index) => {
           // Check if the group is "Single Link" and render a different JSX
           if (resourceGroup.group === "SingleLink") {
@@ -62,9 +50,6 @@ const resourcesData = await getResourcesData();
           }
         })}
       </main>
-   
     </div>
   );
-};
-
-
+}

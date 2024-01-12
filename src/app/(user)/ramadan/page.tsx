@@ -6,7 +6,7 @@ type ExtendedStyle = React.CSSProperties & {
   "--value"?: string;
 };
 
-export default async function RamadanPage() {
+export default function RamadanPage() {
  
   const [days, setDays] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);

@@ -1,39 +1,15 @@
-import { NextPage } from "next";
+
 import React from "react";
-import Footer from "~/components/Global/Footer";
-import Navbar from "~/components/Global/Navbar";
-import { GetStaticProps } from "next";
+import  logo from "../../../logo.png"
 import {
   getServicesOffered,
-  getNavbarData,
-  getFooterData,
-  fetchSocialLinks,
-} from "~/lib/api";
-interface AboutUsPageProps {
-  servicesInfo: ServicesOffered[];
-  socialLinks: SocialLinkProps[];
-  navbarData: NavbarGroup[];
-  footerData: FooterGroup[];
-}
-export const getStaticProps: GetStaticProps = async () => {
-  const servicesInfo = await getServicesOffered();
-  const socialLinks = await fetchSocialLinks();
-  const navbarData = await getNavbarData();
-  const footerData = await getFooterData();
-  return {
-    props: {
-      servicesInfo,
-      socialLinks,
-      navbarData,
-      footerData,
-    },
-    revalidate: 43200,
-  };
-};
-const About: NextPage<AboutUsPageProps> = ({ servicesInfo,socialLinks,navbarData,footerData }) => {
+ 
+} from "../../../Utils/api";
+import Image from "next/image";
+export default async function About() {
+    const servicesInfo = await getServicesOffered()
   return (
-    <div className="min-h-screen">
-      <Navbar navbarData={navbarData} />
+   
       <div className="mt-20  flex-grow px-10">
         <div className="flex flex-col items-center justify-center">
           {/* About Us Section */}
@@ -43,9 +19,10 @@ const About: NextPage<AboutUsPageProps> = ({ servicesInfo,socialLinks,navbarData
                 About Us
               </h1>
               <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
-                <img
-                  src="/logo.png"
+                <Image
+                  src={logo}
                   className="h-64 w-64 rounded-lg shadow-2xl md:h-48 md:w-48"
+                  alt = "logo"
                 />
                 <p className="py-6 text-lg">
                   The <strong>Laurier Muslim Student Association (MSA)</strong>{" "}
@@ -97,9 +74,7 @@ const About: NextPage<AboutUsPageProps> = ({ servicesInfo,socialLinks,navbarData
           </div>
         </div>
       </div>
-      <Footer footerGroups={footerData} socialLinks={socialLinks} />
-    </div>
+      
   );
 };
 
-export default About;

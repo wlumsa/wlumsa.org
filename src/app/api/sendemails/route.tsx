@@ -1,8 +1,8 @@
 import { Resend } from 'resend';
-import Email from '../../components/emails/newsletter';
+import Email from '@/components/emails/newsletter';
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import db from "../../firebase";
+import db from '@/firebase';
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 interface EmailListItem {
     email: string;

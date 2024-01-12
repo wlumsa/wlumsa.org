@@ -4,31 +4,16 @@ import PrayerSpaceCard from "@/components/PrayerSpaceCard";
 import { fetchTimings, fetchJummahTimes } from "../../../Utils/api";
 
 
-
-interface PrayerInfoProps {
-  socialLinks: SocialLinkProps[];
-  navbarData: NavbarGroup[];
-  footerData: FooterGroup[];
-  timingsData: DayTimings[];
-  jummahTimes: Jummah[];
-  videoIds: string[];
-}
-
 export default async function PrayerInfo() {
-  
-
   const timingsData = await fetchTimings();
   const jummahTimes = await fetchJummahTimes();
 
- 
   return (
-    <div className=" mt-10">
-      
-      <div className="flex flex-col items-center pt-16">
+    <div className="flex-grow items-center pt-16">
       <div className="container mx-auto p-8">
-      <PrayerTimesTable timingsData={timingsData} jummahTimes={jummahTimes} />
+        <PrayerTimesTable timingsData={timingsData} jummahTimes={jummahTimes} />
       </div>
-      <div className="container mx-auto p-8  justify-center">
+      <div className="container mx-auto justify-center  p-8">
         <h2 className="mb-8 text-center text-3xl font-bold">
           These Videos Can help guide you to the Prayer Rooms
         </h2>
@@ -49,9 +34,7 @@ export default async function PrayerInfo() {
             thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
           />
         </div>
-        </div>
       </div>
     </div>
   );
-};
-
+}
