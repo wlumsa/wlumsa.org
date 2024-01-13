@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // Initialize the Resend client with your API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 /*
 Name: fullName,
             email: email,
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
         "X-Priority": "1",
       },
     });
-
+    console.log('worked!')
     return new Response("Success!", {
       status: 200,
     });
