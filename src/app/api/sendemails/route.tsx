@@ -1,13 +1,11 @@
+
 import { Resend } from "resend";
 import Email from "@/components/emails/newsletter";
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "@/firebase";
 
-const RESEND_API_KEY = process.env.NEXT_PUBLIC_RESEND_API_KEY;
-
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 interface EmailListItem {
   email: string;
   firstName: string;
@@ -58,13 +56,7 @@ export async function POST(request: Request) {
 
       emailList.forEach((member, index) => {
         setTimeout(async () => {
-          const res = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${RESEND_API_KEY}`,
-            },
-            body: JSON.stringify({
+          const data = await resend.emails.send({
             from: "admin@wlumsa.org",
             to: member.email,
             subject: name,
@@ -75,7 +67,8 @@ export async function POST(request: Request) {
                 content={content}
               />
             ),
-            })})
+          });
+          console.log(data)
         }, index * 1000);
       });
     } else {
@@ -88,22 +81,15 @@ export async function POST(request: Request) {
             .flatMap((entry: EmailEntryAttachments) => entry.value)
             .map((url: string) => ({ path: url }));
 
-          const res = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${RESEND_API_KEY}`,
-            },
-            body: JSON.stringify({
-              from: "admin@wlumsa.org",
-              to: email,
-              subject: subject,
-              react: <Email firstName={""} lastName={""} content={content} />,
-              attachments: attachments,
-            }),
+          const data = await resend.emails.send({
+            from: "admin@wlumsa.org",
+            to: email,
+            subject: subject,
+            react: <Email firstName={""} lastName={""} content={content} />,
+            attachments: attachments,
           });
-
-          console.log("HELLO worlD");
+          console.log(data)
+          console.log('HELLO worlD')
         }, index * 1000);
       });
     }
