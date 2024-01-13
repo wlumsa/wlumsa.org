@@ -1,4 +1,4 @@
-
+'use client'
 import { Resend } from "resend";
 import Email from "@/components/emails/newsletter";
 
@@ -76,6 +76,7 @@ export async function POST(request: Request) {
       emailRecipients.forEach((email: string, index: number) => {
         console.log(email);
         setTimeout(async () => {
+          
           const attachments = content
             .filter((entry: EmailEntryContent) => entry.type === "attachments")
             .flatMap((entry: EmailEntryAttachments) => entry.value)
