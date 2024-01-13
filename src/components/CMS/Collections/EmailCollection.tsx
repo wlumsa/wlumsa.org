@@ -179,9 +179,9 @@ export const EmailCollection = buildCollection<EmailEntry>({
           }; 
           
          
-          const endpoint = values.sendEmail ? `/api/sendemails` : "";
+          
   
-          const response = await fetch(endpoint, {
+          const response = await fetch('/api/sendemails', {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
