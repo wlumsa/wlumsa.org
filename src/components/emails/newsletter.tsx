@@ -65,7 +65,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
 
               markdownContainerStyles={{
                /* any future styles add it here (applies to entire container) */
-              }}>{entry.value}</Markdown>
+              }} key={index}>{entry.value}</Markdown>
             
           );
           case 'images':
