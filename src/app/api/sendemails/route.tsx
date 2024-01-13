@@ -1,3 +1,4 @@
+
 import { Resend } from "resend";
 import Email from "@/components/emails/newsletter";
 
@@ -86,6 +87,7 @@ export async function POST(request: Request) {
             react: <Email firstName={""} lastName={""} content={content} />,
             attachments: attachments,
           });
+          console.log('HELLO worlD')
         }, index * 1000);
       });
     }
