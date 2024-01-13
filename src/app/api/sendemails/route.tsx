@@ -4,7 +4,7 @@ import Email from "@/components/emails/newsletter";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import db from "@/firebase";
 
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+const resend = new Resend("re_dapWdQCg_4gN4zUZudxaVXm99oqPNkYqE");
 interface EmailListItem {
   email: string;
   firstName: string;
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
               />
             ),
           });
-          console.log(data)
+          console.log(data);
         }, index * 1000);
       });
     } else {
@@ -75,12 +75,13 @@ export async function POST(request: Request) {
       emailRecipients.forEach((email: string, index: number) => {
         console.log(email);
         setTimeout(async () => {
-          
+        
           const attachments = content
             .filter((entry: EmailEntryContent) => entry.type === "attachments")
             .flatMap((entry: EmailEntryAttachments) => entry.value)
             .map((url: string) => ({ path: url }));
-
+        
+        
           const data = await resend.emails.send({
             from: "admin@wlumsa.org",
             to: email,
@@ -88,8 +89,8 @@ export async function POST(request: Request) {
             react: <Email firstName={""} lastName={""} content={content} />,
             attachments: attachments,
           });
-          console.log(data)
-          console.log('HELLO worlD')
+          console.log(data);
+          console.log("HELLO worlD");
         }, index * 1000);
       });
     }
