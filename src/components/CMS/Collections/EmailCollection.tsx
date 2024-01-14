@@ -5,6 +5,7 @@ import {
   buildProperty,
 
 } from "firecms";
+import axios from "axios";
 export const EmailCollection = buildCollection<EmailEntry>({
     name: "Emails",
     path: "Emails",
@@ -180,16 +181,8 @@ export const EmailCollection = buildCollection<EmailEntry>({
           
          
           
-  
-          const response = await fetch('/api/sendemails', {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(emailData),
-          });
-          if (!response.ok)
-            throw new Error(`HTTP error! Status: ${response.status}`);
+          const response = await axios.post('/api/send', emailData);
+          console.log(response)
         }
       },
     },
