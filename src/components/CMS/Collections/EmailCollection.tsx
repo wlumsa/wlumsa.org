@@ -181,7 +181,7 @@ export const EmailCollection = buildCollection<EmailEntry>({
           
          
           
-          const response = await axios.post('/api/sendemails', emailData);
+          const response = await axios.post('/api/send', emailData);
           console.log(response)
         }
       },

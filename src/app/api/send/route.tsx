@@ -1,27 +1,42 @@
-import { NextResponse } from "next/server";
+import { resend } from "../../../Utils/resend";
+import Email from "@/components/emails/newsletter";
+import { NextRequest, NextResponse } from "next/server";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import db from "@/firebase";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
+interface EmailListItem {
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+export async function POST(request: Request) {
+  const body = await request.json();
+  console.log(body);
+  let {
+    name,
+    subject,
+    content,
+    status,
+    distributionList,
+    created_on,
+  }= body;
+  let emailRecipients;
+  console.log(typeof(distributionList))
+  emailRecipients = distributionList;
 
-const RESEND_API_KEY = process.env.NEXT_PUBLIC_RESEND_API_KEY;
-
-export async function POST() {
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${RESEND_API_KEY}`,
-    },
-    body: JSON.stringify({
-      from: "Acme <onboarding@resend.dev>",
-      to: ["syedahmedd.02@gmail.com"],
-      subject: "hello world",
-      html: "<strong>it works!</strong>",
-    }),
-  });
-
-  if (res.ok) {
-    const data = await res.json();
-    return NextResponse.json(data);
+  try {
+    'use client'
+    console.log("test");
+    const data = await resend.emails.send({
+      from: "admin@wlumsa.org",
+      to: emailRecipients,
+      subject: subject,
+      react: <Email firstName={""} lastName={""} content={content} />,
+    });
+    console.log(data)
+    return NextResponse.json({ status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: "missing content" });
   }
 }
