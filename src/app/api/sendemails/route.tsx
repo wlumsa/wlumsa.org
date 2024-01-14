@@ -72,21 +72,26 @@ export async function POST(request: Request) {
     } else {
       emailRecipients = distributionList.trim().split(/[\s\n]+/);
       emailRecipients.forEach((email: string, index: number) => {
-        console.log(email);
         setTimeout(async () => {
-          const attachments = content
-            .filter((entry: EmailEntryContent) => entry.type === "attachments")
-            .flatMap((entry: EmailEntryAttachments) => entry.value)
-            .map((url: string) => ({ path: url }));
+          try {
+            const attachments = content
+              .filter(
+                (entry: EmailEntryContent) => entry.type === "attachments"
+              )
+              .flatMap((entry: EmailEntryAttachments) => entry.value)
+              .map((url: string) => ({ path: url }));
 
-          const data = await resend.emails.send({
-            from: "admin@wlumsa.org",
-            to: email,
-            subject: subject,
-            react: <Email firstName={""} lastName={""} content={content} />,
-            attachments: attachments,
-          });
-          console.log(data);
+            const data = await resend.emails.send({
+              from: "admin@wlumsa.org",
+              to: email,
+              subject: subject,
+              react: <Email firstName={""} lastName={""} content={content} />,
+              attachments: attachments,
+            });
+            console.log(data);
+          } catch (error) {
+            console.error("An error occurred:", error);
+          }
         }, index * 1000);
       });
     }
