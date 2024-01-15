@@ -27,12 +27,12 @@ export default async function ResourcesPage() {
             return (
               <details
                 key={index}
-                className="mb-4 border border-base-300 bg-base-200"
+                className="collapse collapse-arrow border bg-secondary text-base-content"
               >
-                <summary className="cursor-pointer text-xl font-medium">
+                <summary className="collapse-title text-xl font-medium text-primary">
                   {resourceGroup.group} Resources
                 </summary>
-                <ul className="p-2">
+                <ul className="collapse-content">
                   {resourceGroup.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
                       <a
