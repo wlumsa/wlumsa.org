@@ -65,7 +65,7 @@ export async function POST(request: Request) {
     console.log("test");
     if (distributionList != "Members") {
       for (const recipient of emailRecipients) {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+        await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
           to: recipient, // Send to the current recipient
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
       }
     } else {
       for (const member of emailList) {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+        await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
           to: member.email, // Send to the current member's email
