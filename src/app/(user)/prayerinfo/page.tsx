@@ -1,7 +1,7 @@
 import React from "react";
 import PrayerTimesTable from "../../../components/PrayerTimeTable"; // assuming PrayerTimesTable is the client component
 import PrayerSpaceCard from "@/components/PrayerSpaceCard";
-import { fetchTimings, fetchJummahTimes } from "../../../Utils/api";
+import { fetchTimings, fetchJummahTimes } from "../../../utils/api";
 
 export const revalidate = 3600 
 export default async function PrayerInfo() {

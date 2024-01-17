@@ -1,7 +1,7 @@
 
 import React from "react";
 
-import { fetchDiscountCodes} from "../../../Utils/api";
+import { fetchDiscountCodes} from "../../../utils/api";
 import CartDetails from "../../../components/CartDetails";
 export const revalidate = 86400
 export default async function Cart() {
