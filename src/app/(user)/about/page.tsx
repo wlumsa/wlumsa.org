@@ -4,7 +4,7 @@ import  logo from "../../../logo.png"
 import {
   getServicesOffered,
  
-} from "../../../utils/api";
+} from "../../../Utils/api";
 import Image from "next/image";
 export const revalidate = 3600
 export default async function About() {

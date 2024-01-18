@@ -1,4 +1,4 @@
-import { resend } from "../../../utils/resend";
+import { resend } from "../../../Utils/resend";
 import Email from "@/components/emails/newsletter";
 import { NextRequest, NextResponse } from "next/server";
 import { collection, query, where, getDocs } from "firebase/firestore";
