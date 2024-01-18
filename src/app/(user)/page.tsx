@@ -6,8 +6,8 @@ import PrayerSection from '@/components/UI/PrayerSection';
 import Events from '@/components/UI/WeeklyEvents';
 import MemberSignup from '@/components/UI/MemberSignup';
 
-import { fetchInstagramPosts, fetchSocialLinks, getNavbarData,  heroUrl ,fetchPrayerRooms,fetchJummahInfo,fetchTodaysTimings,fetchEvents,getFooterData} from "@/Utils/api"
-
+import { fetchInstagramPosts, fetchSocialLinks, getNavbarData,  heroUrl ,fetchPrayerRooms,fetchJummahInfo,fetchTodaysTimings,fetchEvents,getFooterData} from "../../utils/api"
+export const revalidate = 3600 
 export default async function Home() {
   
   const socialLinks = await fetchSocialLinks() 

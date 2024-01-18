@@ -312,3 +312,9 @@ Isha: string;
 IshaIqamah: string;
 }
 
+type YoutubeVideo = {
+  link: string;
+  type:string;
+  date: Date;
+  
+}

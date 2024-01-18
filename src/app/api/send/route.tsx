@@ -1,4 +1,4 @@
-import { resend } from "../../../Utils/resend";
+import { resend } from "../../../utils/resend";
 import Email from "@/components/emails/newsletter";
 import { NextRequest, NextResponse } from "next/server";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -32,7 +32,6 @@ interface EmailListItem {
 }
 export async function POST(request: Request) {
   const body = await request.json();
-  console.log(body);
   let { name, subject, content, status, distributionList, created_on } = body;
   let emailRecipients;
   emailRecipients = distributionList.trim().split(/[\s\n]+/);
@@ -62,18 +61,16 @@ export async function POST(request: Request) {
 
   try {
     ("use client");
-    console.log("test");
     if (distributionList != "Members") {
       for (const recipient of emailRecipients) {
         await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
-          to: recipient, // Send to the current recipient
+          to: recipient,
           subject: subject,
           react: <Email firstName={""} lastName={""} content={content} />,
-          attachments:attachments,
+          attachments: attachments,
         });
-        console.log(data);
       }
     } else {
       for (const member of emailList) {
@@ -89,9 +86,8 @@ export async function POST(request: Request) {
               content={content}
             />
           ),
-          attachments:attachments,
+          attachments: attachments,
         });
-        console.log(data);
       }
     }
     return NextResponse.json({ status: 200 });

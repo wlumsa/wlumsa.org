@@ -259,5 +259,24 @@ export const fetchTodaysTimings  = cache(async () => {
   return doc ? { timings: doc.data() as Timings, day: doc.data().Day as number } : null;
 });
 
+export const fetchYoutubeVideos = cache(async (category:string) => {
+  const youtubeVideosCollectionRef = collection(db, "Recordings");
+  const postsQuery = query(
+    youtubeVideosCollectionRef,
+    where("category", "==", category), // Filter based on category
+    orderBy("date", "desc")
+  );
+  const querySnapshot = await getDocs(postsQuery); // Use getDocs on the query
+
+  const youtubeVideosData = querySnapshot.docs.map((doc) => {
+    const data = doc.data() as  YoutubeVideo;
+    return {
+      ...data,
+      date: new Date(data.date), // Convert Firestore Timestamp to JavaScript Date
+    };
+  });
+  return youtubeVideosData;
+});
+
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);
