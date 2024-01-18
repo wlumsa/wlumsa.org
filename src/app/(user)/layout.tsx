@@ -3,7 +3,7 @@ import "../../styles/globals.css";
 import { Providers } from "@/redux/Provider";
 import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
-import { getNavbarData, getFooterData, fetchSocialLinks } from "../../utils/api"
+import { getNavbarData, getFooterData, fetchSocialLinks } from "../../Utils/api"
 export const metadata: Metadata = {
   title: "WLU MSA",
   description:
