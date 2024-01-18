@@ -18,18 +18,13 @@ const page = () => {
                   Jummah Kutbahs
                 </h3>
                 <p className="text-neutral">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Tortor aliquam nulla facilisi cras fermentum odio eu.
-                  Facilisis volutpat est velit egestas dui id ornare. Erat
-                  imperdiet sed euismod nisi porta lorem mollis. Dui id ornare
-                  arcu odio.
+                  View recordings of previous Kutbahs on Campus
                 </p>
 
                 <div className="card-actions justify-end">
                   <a
-                    href="/recordings/Jummah"
-                
+                    href="https://www.youtube.com/playlist?list=PLDk3wfLWI2WgOZn-RKW9s97KfORA3G4YN"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:text-secondary"
                   >
@@ -49,18 +44,13 @@ const page = () => {
                   Halaqahs
                 </h3>
                 <p className="text-neutral">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Tortor aliquam nulla facilisi cras fermentum odio eu.
-                  Facilisis volutpat est velit egestas dui id ornare. Erat
-                  imperdiet sed euismod nisi porta lorem mollis. Dui id ornare
-                  arcu odio.
+                  Missed a Halaqah? No problem you can view the recordings here
                 </p>
 
                 <div className="card-actions justify-end">
                   <a
-                    href="/recordings/halaqah"
-    
+                    href="https://www.youtube.com/playlist?list=PLDk3wfLWI2WgS1x45kBt8yFVXapKtjDD9"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:text-secondary"
                   >
@@ -80,17 +70,13 @@ const page = () => {
                   Guest Speakers
                 </h3>
                 <p className="text-neutral">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Tortor aliquam nulla facilisi cras fermentum odio eu.
-                  Facilisis volutpat est velit egestas dui id ornare. Erat
-                  imperdiet sed euismod nisi porta lorem mollis. Dui id ornare
-                  arcu odio.
+                  View all the recordings of the guest speakers which have came to Laurier in the past
                 </p>
 
                 <div className="card-actions justify-end">
                   <a
-                    href="/recordings/"
+                    href="https://www.youtube.com/playlist?list=PLDk3wfLWI2Wi_R3R3lNZ9AuHVRfp6acEP"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:text-secondary"
                   >
