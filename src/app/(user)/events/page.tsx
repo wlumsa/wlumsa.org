@@ -1,4 +1,3 @@
-// pages/events.tsx
 import React from "react";
 import CalendarComponent from "@/components/UI/CalenderComponent";
 

@@ -81,14 +81,14 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-md z-[1] w-60 rounded-box bg-primary p-2 shadow"
+            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-primary p-2 shadow"
           >
             {navbarData.map((item) => {
               if (item.Group === "SingleLink") {
              
                 return (
                   <li key={item.NoGroup}>
-                    <Link href={item.NoGroupLink || "#"} prefetch={false}>
+                    <Link className="flex-shrink min-w-0"  href={item.NoGroupLink || "#"} prefetch={false}>
                     {item.NoGroup}
                     </Link>
                   </li>
@@ -109,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                         {item.links.map((link, index) => (
                           <li key={index}>
                             {link.link && (
-                              <Link href={link.link} prefetch={false}>{link.name}</Link>
+                              <Link className="flex-shrink min-w-0" href={link.link} prefetch={false}>{link.name}</Link>
                             )}
                           </li>
                         ))}
@@ -119,7 +119,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 ) : (
                   <li key={item.NoGroup}>
                     {item.NoGroupLink && (
-                      <Link href={item.NoGroupLink} prefetch={false}>{item.NoGroup}</Link>
+                      <Link className="flex-shrink min-w-0" href={item.NoGroupLink} prefetch={false}>{item.NoGroup}</Link>
                     )}
                   </li>
                 );
