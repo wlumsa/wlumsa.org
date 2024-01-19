@@ -27,7 +27,8 @@ import { WeeklyEventsCollection } from "./Collections/Home Page/WeeklyEventsColl
 import { NavbarCollection } from "./Collections/Footer/NavbarCollection";
 import { FooterCollection } from "./Collections/Footer/FooterCollection";
 import { ResourcesCollection } from "./Collections/Resources Page/ResourcesCollection";
-import { YoutubeCollection } from "./Collections/YoutubeCollection";
+import { blogCollection } from "./Collections/BlogCollection";
+
 export default function CMS() {
   const myAuthenticator: Authenticator<FirebaseUser> = useCallback(
     async ({ user, authController }) => {
@@ -71,7 +72,7 @@ export default function CMS() {
         EmailCollection,
         NavbarCollection,
         ResourcesCollection,
-        YoutubeCollection,
+        blogCollection
       ]}
       firebaseConfig={firebaseConfig}
       logo={msalogo.src}

@@ -318,3 +318,22 @@ type YoutubeVideo = {
   date: Date;
   
 }
+
+type BlogEntry = {
+  name: string,
+  header_image: string,
+  created_on: Date,
+  status: string,
+  content: (BlogEntryImages | BlogEntryText )[];
+}
+
+type BlogEntryImages = {
+  type: "images";
+  value: string[];
+}
+
+type BlogEntryText = {
+  type: "text";
+  value: string;
+}
+
