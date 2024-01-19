@@ -100,7 +100,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                     isFriday(day.day) &&
                     jummahTimes.map((jummah, index) => (
                       <div key={index} className="text-blue-500">
-                        {jummah.time} at {jummah.room}
+                        {jummah.time} ({jummah.room})
                       </div>
                     ))}
                 </td>
