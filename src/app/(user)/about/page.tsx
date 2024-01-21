@@ -72,7 +72,7 @@ export default async function About() {
           <h2 className="mb-4 text-center text-4xl font-bold text-primary">
             Our Constitution
           </h2>
-          <div className="container h-screen w-full overflow-hidden border-none">
+          <div className="container h-screen w-full overflow-hidden ">
             <iframe
               width="100%"
               height="100%"
