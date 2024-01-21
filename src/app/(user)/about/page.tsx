@@ -68,15 +68,14 @@ export default async function About() {
             ))}
           </div>
         </div>
-        <div className="flex-1 " id="Constitution">
+        <div className="w-full px-2" id="Constitution">
           <h2 className="mb-4 text-center text-4xl font-bold text-primary">
             Our Constitution
           </h2>
-          <div className="py-10">
+          <div className="container h-screen w-full overflow-hidden border-none">
             <iframe
-              className="border-none" // TailwindCSS utility class for no border
-              width="600"
-              height="700"
+              width="100%"
+              height="100%"
               src="/Constitution.pdf"
               allow="autoplay"
             ></iframe>
