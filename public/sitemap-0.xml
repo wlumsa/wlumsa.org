@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://wlumsa.org/about</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/recordings</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/directory</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/unsubscribe</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/events</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/cart</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/contact</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/ramadan</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/IIA</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/prayerinfo</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://wlumsa.org/resources</loc><lastmod>2024-01-21T21:10:17.482Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/events</loc><lastmod>2024-01-22T04:01:38.564Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/unsubscribe</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/IIA</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/directory</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/cart</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/recordings</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/resources</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/about</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/ramadan</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/contact</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://wlumsa.org/prayerinfo</loc><lastmod>2024-01-22T04:01:38.565Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
