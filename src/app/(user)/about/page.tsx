@@ -26,7 +26,7 @@ export default async function About() {
                 Its primary purpose is to provide a platform for Muslim students
                 to come together, practice their faith, engage in community
                 service, and promote understanding and awareness of Islam on
-                campus.
+                campus. View our full Constitution by clicking <a href = '/Constitution.pdf'>here</a>
               </p>
             </div>
           </div>
@@ -66,19 +66,6 @@ export default async function About() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-        <div className="w-full px-2" id="Constitution">
-          <h2 className="mb-4 text-center text-4xl font-bold text-primary">
-            Our Constitution
-          </h2>
-          <div className="container h-screen w-full overflow-hidden ">
-            <iframe
-              width="100%"
-              height="100%"
-              src="/Constitution.pdf"
-              allow="autoplay"
-            ></iframe>
           </div>
         </div>
       </div>

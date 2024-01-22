@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     ("use client");
     if (distributionList != "Members") {
       for (const recipient of emailRecipients) {
-        await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
+        await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 1 second
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
           to: recipient,
