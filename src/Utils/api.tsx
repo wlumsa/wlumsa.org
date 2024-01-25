@@ -159,6 +159,18 @@ export const  getServicesOffered =  cache(async () => {
   return servicesInfo;
 })
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  hasSizes: boolean;
+  quantity: number;
+  sizes: { S: number; M: number; L: number };
+  tags: string[];
+}
+
 export const getProductsData =  cache(async () => {
   const productsCollectionRef = collection(db, 'Products');
   const querySnapshot = await getDocs(productsCollectionRef);
@@ -166,7 +178,7 @@ export const getProductsData =  cache(async () => {
   const productsData = querySnapshot.docs.map((doc) => {
     const data = doc.data();
     // If using TypeScript, ensure that the data structure matches the Product type
-    return { ...data, id: doc.id };
+    return { ...data as Product, id: doc.id };
   });
 
   return productsData;
