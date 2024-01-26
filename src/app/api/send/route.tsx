@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     
     if (distributionList != "Members") {
       for (const recipient of emailRecipients) {
-        await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 1 second
+        await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait for 1 second
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
           to: recipient,
@@ -73,22 +73,22 @@ export async function POST(request: Request) {
         });
       }
     } else {
-      for (const member of emailList) {
-        await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 1 second
+      const emailAddresses = emailList.map(item => item.email);
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
-          to: member.email, // Send to the current member's email
+          to: "admin@wlumsa.org", // Send to the current member's email
+          bcc: emailAddresses,
           subject: subject,
           react: (
             <Email
-              firstName={member.firstName}
-              lastName={member.lastName}
+              firstName={''}
+              lastName={''}
               content={content}
             />
           ),
           attachments: attachments,
         });
-      }
+      
     }
     return NextResponse.json({ status: 200 });
   } catch (error) {
