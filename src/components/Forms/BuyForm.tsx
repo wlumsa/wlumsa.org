@@ -171,7 +171,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
       };
 
       try {
-        const response = await axios.post("/api/sendReceipt", formData);
+        const response = await axios.post("/api/sendreceipt", formData);
         console.log(response.data);
         setFullName("");
         setEmail("");
@@ -215,7 +215,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
               <input
                 type="tel"
                 required
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 placeholder="Phone Number"
                 className="input input-bordered w-full text-neutral focus:border-secondary"
                 onChange={(e) => setPhoneNumber(e.target.value)}

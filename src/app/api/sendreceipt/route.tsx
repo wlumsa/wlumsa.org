@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     // Send the email using Resend
     const response = await resend.emails.send({
       from: `Order from ${Name} <admin@wlumsa.org>`,
-      to: ["msa@wlu.ca"],
+      to: ["msa@wlu.ca","moha5150@mylaurier.ca"],
       subject: subject,
       cc: email,
       text: textContent,
