@@ -60,26 +60,23 @@ export async function POST(request: Request) {
     .map((url: string) => ({ path: url }));
 
   try {
-    
     if (distributionList != "Members") {
-     
-        await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait for 1 second
-        const data = await resend.emails.send({
-          from: "admin@wlumsa.org",
-          to: "admin@wlumsa.org",
-          bcc:emailRecipients,
-          subject: subject,
-          react: <Email firstName={""} lastName={""} content={content} />,
-          attachments: attachments,
-          reply_to:"msa@wlu.ca"
-        });
-      
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const data = await resend.emails.send({
+        from: "admin@wlumsa.org",
+        to: "admin@wlumsa.org",
+        bcc: emailRecipients,
+        subject: subject,
+        react: <Email firstName={""} lastName={""} content={content} />,
+        attachments: attachments,
+        reply_to: "msa@wlu.ca",
+      });
     } else {
       for (const member of emailList) {
-        await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
+        await new Promise((resolve) => setTimeout(resolve, 10000));
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
-          to: member.email, // Send to the current member's email
+          to: member.email,
           subject: subject,
           react: (
             <Email
@@ -89,7 +86,7 @@ export async function POST(request: Request) {
             />
           ),
           attachments: attachments,
-          reply_to:"msa@wlu.ca"
+          reply_to: "msa@wlu.ca",
         });
       }
     }
