@@ -71,6 +71,7 @@ export async function POST(request: Request) {
           subject: subject,
           react: <Email firstName={""} lastName={""} content={content} />,
           attachments: attachments,
+          reply_to:["msa@wlu.ca","ahme2085@mylaurier.ca"]
         });
       
     } else {
@@ -88,6 +89,7 @@ export async function POST(request: Request) {
             />
           ),
           attachments: attachments,
+          reply_to:["msa@wlu.ca","ahme2085@mylaurier.ca"]
         });
       }
     }
