@@ -16,6 +16,11 @@ export const blogCollection = buildCollection<BlogEntry>({
             validation: { required: true },
             dataType: "string"
         }),
+        tagline: buildProperty({
+            name:"Tagline",
+            validation:{required:true},
+            dataType:"string",
+        }),
         header_image: buildProperty({
             name: "Header image",
             dataType: "string",

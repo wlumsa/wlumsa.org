@@ -1,12 +1,8 @@
 import React from "react";
 
+import Products from "../../../components/UI/ProductCard";
 
-import Products from "../../../components/UI/ProductCard"
-
-import {
-  getProductsData,
-  
-} from "../../../Utils/api"
+import { getProductsData } from "../../../Utils/api";
 
 interface Product {
   id: string;
@@ -20,14 +16,11 @@ interface Product {
   tags: string[];
 }
 
-
-
 export default async function ProductsPage() {
   const products = await getProductsData();
 
   return (
     <div className="flex min-h-screen flex-col">
-    
       <div className="mb-28 mt-28 flex-grow px-4 md:px-10">
         <section className="mx-auto w-fit ">
           <h2 className="text-4xl font-bold text-primary">Merchandise</h2>
@@ -44,7 +37,6 @@ export default async function ProductsPage() {
           </div>
         </section>
       </div>
-
     </div>
   );
-};
+}

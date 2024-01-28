@@ -1,9 +1,4 @@
-
-
-
-import { fetchProduct } from '@/Utils/api';
-
-
+import { fetchProduct } from "@/Utils/api";
 
 interface Product {
   id: string;
@@ -17,18 +12,21 @@ interface Product {
   tags: string[];
 }
 
-import ProductDisplay from '@/components/UI/ProductComponent';
+import ProductDisplay from "@/components/UI/ProductComponent";
 
-export default async function ProductPage({ params }: { params: { id: string } })  {
-  const id = params.id
+export default async function ProductPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const id = params.id;
   const { product, imageUrl } = await fetchProduct(id);
   if (!product) {
     return <div>Product not found</div>;
   }
   return (
-    <div className="py-10 flex min-h-screen flex-col">
-    <ProductDisplay product={product} imageUrl={imageUrl} />
+    <div className="flex min-h-screen flex-col py-10">
+      <ProductDisplay product={product} imageUrl={imageUrl} />
     </div>
-    );
-};
-
+  );
+}
