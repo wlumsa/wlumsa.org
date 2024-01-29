@@ -45,7 +45,7 @@ interface EmailEntryAttachments {
   value: string[];
 }
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
-
+  const previewText = `Week at a glance!`;
   const renderContent = () => {
     return content.map((entry, index) => {
       switch (entry.type) {
@@ -116,7 +116,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
       <Head>
         <title>MSA Week at a Glance</title>
       </Head>
-      
+      <Preview>{previewText}</Preview>
       <Body
         style={{
           margin: "auto",
