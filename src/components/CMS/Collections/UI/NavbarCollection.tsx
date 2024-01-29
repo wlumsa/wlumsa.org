@@ -6,7 +6,7 @@ export const NavbarCollection = buildCollection<Navbar>({
   path: "Navbar",
   name: "Navbar Collection",
   singularName: "Navbar",
-  group: "Navbar",
+  group: "UI",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");

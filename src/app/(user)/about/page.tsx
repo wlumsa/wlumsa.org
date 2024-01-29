@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../../../logo.png";
 import { getServicesOffered } from "../../../Utils/api";
 import Image from "next/image";
+import Link from "next/link";
 export const revalidate = 3600;
 export default async function About() {
   const servicesInfo = await getServicesOffered();
@@ -68,22 +69,24 @@ export default async function About() {
           </div>
         </div>
         <div
-          className="mb-10 flex w-full flex-col py-10 md:w-1/2"
+          className="mb-10 flex w-full flex-col py-10 md:w-1/2 items-center"
           id="services"
         >
           <h2 className="mb-4 text-center text-4xl font-bold text-primary">
             Constitution
           </h2>
-          <div className="relative w-full justify-center overflow-hidden rounded-md border-2 border-base-300 bg-base-100">
-            <div className="max-w-64 align-middle">
-              <iframe
-                width="100%"
-                height="600px"
-                src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
-                allowFullScreen
-              />
-            </div>
+          <div className="max-w-64 TRANSFORM- relative w-full justify-center overflow-hidden rounded-md border-2 border-base-300  bg-base-100">
+            <iframe
+              width="100%"
+              height="600px"
+              src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
+              allowFullScreen
+            />
+            
           </div>
+          <Link href={`https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub`}  target="_blank" className="mt-2">
+              <button className="btn btn-primary text-white">View on docs</button>
+            </Link>
         </div>
       </div>
     </div>

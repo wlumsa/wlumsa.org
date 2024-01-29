@@ -3,7 +3,7 @@ import { buildCollection, buildProperty } from "firecms";
 export const FooterCollection = buildCollection<Footer>({
   path: "Footer",
   name: "Footer Collection",
-  group: "Navbar",
+  group: "UI",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isReligiousAffairs =

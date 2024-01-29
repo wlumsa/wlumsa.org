@@ -10,7 +10,7 @@ import {
 export const SocialsCollection = buildCollection<Socials>({
     path: "Socials",
     name: "Socials",
-    group: "Footer",
+    group: "UI",
     permissions: ({ authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
       const isExternal = authController.extra?.roles.includes("External");

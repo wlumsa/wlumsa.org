@@ -11,7 +11,7 @@ export const PrayerTimingsCollection = buildCollection({
     path: "PrayerTimings",
     name: "Prayer Timings",
     singularName: "Month",
-    group: "Prayer Timings Page",
+    group: "Prayer Timings",
     permissions: ({ user, authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
       const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");
@@ -29,6 +29,7 @@ export const PrayerTimingsCollection = buildCollection({
         path: "Days",
         name: "Days",
         singularName: "Day",
+        initialSort: ["Day", "desc"],
         permissions: ({ user, authController }) => {
           const isAdmin = authController.extra?.roles.includes("Admin");
           const isReligiousAffairs = authController.extra?.roles.includes("ReligiousAffairs");

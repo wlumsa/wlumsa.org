@@ -10,7 +10,7 @@ import {
 export const JummahCollection = buildCollection<JummahInfo>({
     path: "Jummah",
     name: "Jummah",
-    group: "Home Page",
+    group: "Prayer Timings",
     permissions: ({ authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
       const isReligiousAffairs =
