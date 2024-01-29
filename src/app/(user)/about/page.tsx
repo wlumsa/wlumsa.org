@@ -26,14 +26,13 @@ export default async function About() {
                 Its primary purpose is to provide a platform for Muslim students
                 to come together, practice their faith, engage in community
                 service, and promote understanding and awareness of Islam on
-                campus. View our full Constitution by clicking <a href = '/Constitution.pdf'>here</a>
+                campus.
               </p>
             </div>
           </div>
         </div>
-        <div className="flex-1 py-10" id="services"></div>
         {/* Services Offered Section */}
-        <div className="flex-1 " id="services">
+        <div className="flex-1 py-10 " id="services">
           <h2 className="mb-4 text-center text-4xl font-bold text-primary">
             Services Offered
           </h2>
@@ -66,6 +65,24 @@ export default async function About() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+        <div
+          className="mb-10 flex w-full flex-col py-10 md:w-1/2"
+          id="services"
+        >
+          <h2 className="mb-4 text-center text-4xl font-bold text-primary">
+            Constitution
+          </h2>
+          <div className="relative w-full justify-center overflow-hidden rounded-md border-2 border-base-300 bg-base-100">
+            <div className="max-w-64 align-middle">
+              <iframe
+                width="100%"
+                height="600px"
+                src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       </div>
