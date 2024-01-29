@@ -184,6 +184,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
         console.error("Error sending form: ", error);
       }
     } catch (error) {
+      console.log(error)
       alert(
         "An error has occurred, please contact msa@wlu.ca if you have already paid"
       );
