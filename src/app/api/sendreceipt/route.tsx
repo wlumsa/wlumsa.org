@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 // Initialize the Resend client with your API key
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
@@ -15,7 +15,6 @@ Name: fullName,
             */
 export async function POST(request: Request) {
   try {
-    // Extract the member details from the request body
     const {
       Name,
       email,
@@ -48,7 +47,7 @@ export async function POST(request: Request) {
         Products: \n${productsString}\n`;
 
     // Send the email using Resend
-    const response = await resend.emails.send({
+    const response =  resend.emails.send({
       from: `Order from ${Name} <admin@wlumsa.org>`,
       to: ["msa@wlu.ca","moha5150@mylaurier.ca"],
       subject: subject,
@@ -58,14 +57,11 @@ export async function POST(request: Request) {
         "X-Priority": "1",
       },
     });
-    console.log('worked!')
-    return new Response("Success!", {
-      status: 200,
-    });
+    const responses = await response
+    console.log(responses)
+    return NextResponse.json({ status: 200 });
   } catch (error) {
     console.error("Error sending email:", error);
-    return new Response(`Internal server error ${error}`, {
-      status: 500,
-    });
+    return NextResponse.json({ error: "missing content" });
   }
 }
