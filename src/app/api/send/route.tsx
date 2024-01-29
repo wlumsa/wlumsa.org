@@ -73,7 +73,7 @@ export async function POST(request: Request) {
       });
     } else {
       for (const member of emailList) {
-        await new Promise((resolve) => setTimeout(resolve, 10000));
+        await new Promise((resolve) => setTimeout(resolve, 5000));
         const data = await resend.emails.send({
           from: "admin@wlumsa.org",
           to: member.email,
