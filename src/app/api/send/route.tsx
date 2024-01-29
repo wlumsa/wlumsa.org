@@ -72,23 +72,25 @@ export async function POST(request: Request) {
         reply_to: "msa@wlu.ca",
       });
     } else {
-      for (const member of emailList) {
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        const data = await resend.emails.send({
-          from: "admin@wlumsa.org",
-          to: member.email,
-          subject: subject,
-          react: (
-            <Email
-              firstName={member.firstName}
-              lastName={member.lastName}
-              content={content}
-            />
-          ),
-          attachments: attachments,
-          reply_to: "msa@wlu.ca",
+      const emailPromises = emailList.map(member => {
+        return resend.emails.send({
+            from: "admin@wlumsa.org",
+            to: member.email,
+            subject: subject,
+            react: (
+                <Email
+                    firstName={member.firstName}
+                    lastName={member.lastName}
+                    content={content}
+                />
+            ),
+            attachments: attachments,
+            reply_to: "msa@wlu.ca",
         });
-      }
+    });
+    
+      const responses = await Promise.all(emailPromises)
+      console.log(responses)
     }
     return NextResponse.json({ status: 200 });
   } catch (error) {
