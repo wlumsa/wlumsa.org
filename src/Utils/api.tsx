@@ -290,5 +290,19 @@ export const fetchYoutubeVideos = cache(async (category:string) => {
   return youtubeVideosData;
 });
 
+
+export const getBlogsData =  cache(async () => {
+  const blogCollectionRef = collection(db, 'blog');
+  const querySnapshot = await getDocs(blogCollectionRef);
+
+  const blogData = querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    // If using TypeScript, ensure that the data structure matches the Product type
+    return { ...data as BlogEntry, id: doc.id };
+  });
+
+  return blogData;
+})
+
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);

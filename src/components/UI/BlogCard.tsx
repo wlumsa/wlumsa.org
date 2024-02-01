@@ -13,7 +13,7 @@ const BlogCard = ({ id, name, tagline }: BlogCard) => {
         <p>{tagline}</p>
         <div className="card-actions justify-end">
           <Link href={`/blog/${id}`}>
-            <button className="btn btn-primary text-base-100">Buy Now</button>
+            <button className="btn btn-primary text-base-100">Read More</button>
           </Link>
         </div>
       </div>
