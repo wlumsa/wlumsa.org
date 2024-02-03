@@ -10,7 +10,7 @@ export default async function BlogPost({
   const id = params.post;
   const { post } = await getPost(id);
 
-  if (!id) {
+  if (!post) {
     return <div>Post not found</div>;
   }
   return (

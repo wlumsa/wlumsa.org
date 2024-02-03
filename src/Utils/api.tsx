@@ -303,8 +303,9 @@ export const getBlogsData =  cache(async () => {
 
   return blogData;
 })
-export async function getPost(id: string): Promise<{ post:BlogEntry }> {
+export async function getPost(id: string): Promise<{ post: BlogEntry | null, imageURL: string }> {
   let post = null;
+  let imageURL = '';
   
 
   try {
@@ -312,13 +313,15 @@ export async function getPost(id: string): Promise<{ post:BlogEntry }> {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
+
+      
       post = {
         ...docSnap.data(),
       } as BlogEntry;
 
     
-      //const imageRef = ref(storage, post.image);
-      //imageUrl = await getDownloadURL(imageRef).catch(() => '');
+      const imageRef = ref(storage, post.header_image);
+      imageURL = await getDownloadURL(imageRef).catch(() => '');
     }
   } catch (error) {
     // Handle any errors here, such as logging or throwing the error
@@ -326,7 +329,7 @@ export async function getPost(id: string): Promise<{ post:BlogEntry }> {
     throw new Error("Error fetching product");
   }
 
-  return { post: post ? post : {} as BlogEntry };
+  return { post, imageURL };
 }
 
 export const heroRef = ref(storage, "images/hero.jpg");

@@ -204,7 +204,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
         <div className="w-full rounded-xl px-2  md:w-[30rem]">
           <form className="card-body" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2 ">
-              <h1>E-Transfer ${totalPrice} to msa@wlu.ca</h1>
+              <h1>E-Transfer ${totalPrice} to wlumsa.donate@gmail.com</h1>
               <p>Please note all items are for pickup only!</p>
               <input
                 type="text"
