@@ -303,6 +303,31 @@ export const getBlogsData =  cache(async () => {
 
   return blogData;
 })
+export async function getPost(id: string): Promise<{ post:BlogEntry }> {
+  let post = null;
+  
+
+  try {
+    const docRef = doc(db, "blog", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      post = {
+        ...docSnap.data(),
+      } as BlogEntry;
+
+    
+      //const imageRef = ref(storage, post.image);
+      //imageUrl = await getDownloadURL(imageRef).catch(() => '');
+    }
+  } catch (error) {
+    // Handle any errors here, such as logging or throwing the error
+    console.error("Error fetching product: ", error);
+    throw new Error("Error fetching product");
+  }
+
+  return { post: post ? post : {} as BlogEntry };
+}
 
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);
