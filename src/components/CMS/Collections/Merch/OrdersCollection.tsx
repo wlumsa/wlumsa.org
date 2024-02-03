@@ -8,7 +8,7 @@ import {
 export const ordersCollection = buildCollection({
     name: "Orders",
     path: "Orders",
-    group: "Products page",
+    group: "Merch",
     permissions: ({ authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
       const isMarketing = authController.extra?.roles.includes("Marketing");

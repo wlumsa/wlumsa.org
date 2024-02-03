@@ -4,7 +4,7 @@ export const ResourcesCollection = buildCollection<Resources>({
   path: "Resources",
   name: "Resources Collection",
   singularName: "Resources",
-  group: "Navbar",
+  group: "UI",
   permissions: ({ user, authController }) => {
     const isAdmin = authController.extra?.roles.includes("Admin");
     const isReligiousAffairs =

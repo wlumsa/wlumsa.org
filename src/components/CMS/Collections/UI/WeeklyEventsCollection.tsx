@@ -11,7 +11,7 @@ export const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
     path: "WeeklyEvents",
     name: "Events",
     singularName: "Event",
-    group: "Home Page",
+    group: "UI",
     permissions: ({ authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
       const isEvents = authController.extra?.roles.includes("Events");

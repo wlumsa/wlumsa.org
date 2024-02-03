@@ -12,7 +12,7 @@ export const InstagramCollection = buildCollection<instagramPost>({
     name: "Instagram Posts",
     singularName: "Instagram Post",
     initialSort: ["date", "desc"],
-    group: "Home Page",
+    group: "UI",
   
     permissions: ({ authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");

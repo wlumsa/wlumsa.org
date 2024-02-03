@@ -60,35 +60,37 @@ export async function POST(request: Request) {
     .map((url: string) => ({ path: url }));
 
   try {
-    ("use client");
     if (distributionList != "Members") {
-      for (const recipient of emailRecipients) {
-        await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
-        const data = await resend.emails.send({
-          from: "admin@wlumsa.org",
-          to: recipient,
-          subject: subject,
-          react: <Email firstName={""} lastName={""} content={content} />,
-          attachments: attachments,
-        });
-      }
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const data = await resend.emails.send({
+        from: "admin@wlumsa.org",
+        to: "admin@wlumsa.org",
+        bcc: emailRecipients,
+        subject: subject,
+        react: <Email firstName={""} lastName={""} content={content} />,
+        attachments: attachments,
+        reply_to: "msa@wlu.ca",
+      });
     } else {
-      for (const member of emailList) {
-        await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for 1 second
-        const data = await resend.emails.send({
-          from: "admin@wlumsa.org",
-          to: member.email, // Send to the current member's email
-          subject: subject,
-          react: (
-            <Email
-              firstName={member.firstName}
-              lastName={member.lastName}
-              content={content}
-            />
-          ),
-          attachments: attachments,
+      const emailPromises = emailList.map(member => {
+        return resend.emails.send({
+            from: "admin@wlumsa.org",
+            to: member.email,
+            subject: subject,
+            react: (
+                <Email
+                    firstName={member.firstName}
+                    lastName={member.lastName}
+                    content={content}
+                />
+            ),
+            attachments: attachments,
+            reply_to: "msa@wlu.ca",
         });
-      }
+    });
+    
+      const responses = await Promise.all(emailPromises)
+      console.log(responses)
     }
     return NextResponse.json({ status: 200 });
   } catch (error) {

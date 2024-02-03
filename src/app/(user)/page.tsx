@@ -5,7 +5,12 @@ import Hero from '@/components/UI/Hero';
 import PrayerSection from '@/components/UI/PrayerSection';
 import Events from '@/components/UI/WeeklyEvents';
 import MemberSignup from '@/components/UI/MemberSignup';
-
+import { Metadata } from 'next';
+export const metadata: Metadata = {
+  title: "WLU MSA",
+  description:
+    "Wilfrid Laurier Univeristies Offical Muslim Students Assoication Website. We are a Muslim community at Wilfrid Laurier's Universities and our main focus ",
+};
 import { fetchInstagramPosts, fetchSocialLinks, getNavbarData,  heroUrl ,fetchPrayerRooms,fetchJummahInfo,fetchTodaysTimings,fetchEvents,getFooterData} from "../../Utils/api"
 export const revalidate = 3600 
 export default async function Home() {

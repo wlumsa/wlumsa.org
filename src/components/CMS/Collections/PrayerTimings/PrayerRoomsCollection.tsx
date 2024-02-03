@@ -10,7 +10,7 @@ export const PrayerRoomsCollection = buildCollection<PrayerRooms>({
     path: "PrayerRooms",
     name: "Prayer rooms",
     singularName: "Prayer room",
-    group: "Home Page",
+    group: "Prayer Timings",
     permissions: ({ authController }) => {
       const isAdmin = authController.extra?.roles.includes("Admin");
       const isReligiousAffairs =
