@@ -81,7 +81,7 @@ export async function POST(request: Request) {
         from: "admin@wlumsa.org",
         to: member.email,
         subject: subject,
-        html: `<Email firstName=${member.firstName} lastName=${member.lastName} content=${content} />`, // Adjust this line according to how you convert the component to HTML or use the right format
+        react: <Email firstName={member.firstName} lastName={member.lastName} content={content} />, // Adjust this line according to how you convert the component to HTML or use the right format
         attachments: attachments,
         reply_to: "msa@wlu.ca",
       }));
