@@ -77,27 +77,20 @@ export async function POST(request: Request) {
       });
     } else {
       const delayTime = 2000;
-      const emailPromises = emailList.map((member, index) => {
-        return delay(index * delayTime).then(() => 
-          resend.emails.send({
-            from: "admin@wlumsa.org",
-            to: member.email,
-            subject: subject,
-            react: (
-                <Email
-                    firstName={member.firstName}
-                    lastName={member.lastName}
-                    content={content}
-                />
-            ),
-            attachments: attachments,
-            reply_to: "msa@wlu.ca",
-          })
-        );
-      });
-    
-      const responses = await Promise.all(emailPromises)
-      console.log(responses)
+      const emailData = emailList.map((member) => ({
+        from: "admin@wlumsa.org",
+        to: member.email,
+        subject: subject,
+        html: `<Email firstName=${member.firstName} lastName=${member.lastName} content=${content} />`, // Adjust this line according to how you convert the component to HTML or use the right format
+        attachments: attachments,
+        reply_to: "msa@wlu.ca",
+      }));
+  
+      // Send the batch email
+      const response = await resend.batch.send(
+        emailData // The array of emails to send
+      );
+      console.log(response)
     }
     return NextResponse.json({ status: 200 });
   } catch (error) {
