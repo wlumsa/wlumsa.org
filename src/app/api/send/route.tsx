@@ -30,6 +30,10 @@ interface EmailListItem {
   firstName: string;
   lastName: string;
 }
+
+function delay(time:number) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
 export async function POST(request: Request) {
   const body = await request.json();
   let { name, subject, content, status, distributionList, created_on } = body;
@@ -72,8 +76,10 @@ export async function POST(request: Request) {
         reply_to: "msa@wlu.ca",
       });
     } else {
-      const emailPromises = emailList.map(member => {
-        return resend.emails.send({
+      const delayTime = 2000;
+      const emailPromises = emailList.map((member, index) => {
+        return delay(index * delayTime).then(() => 
+          resend.emails.send({
             from: "admin@wlumsa.org",
             to: member.email,
             subject: subject,
@@ -86,8 +92,9 @@ export async function POST(request: Request) {
             ),
             attachments: attachments,
             reply_to: "msa@wlu.ca",
-        });
-    });
+          })
+        );
+      });
     
       const responses = await Promise.all(emailPromises)
       console.log(responses)
