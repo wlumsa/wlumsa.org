@@ -1,6 +1,7 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
+//import Markdown from "react-markdown";
 import { getPost } from "@/Utils/api";
+import { Markdown } from "@react-email/markdown";
 export default async function BlogPost({
   params,
 }: {
@@ -8,7 +9,6 @@ export default async function BlogPost({
 }) {
   const id = params.post;
   const { post, imageURL } = await getPost(id);
-
   if (!post) {
     return <div>Post not found</div>;
   }
@@ -39,7 +39,7 @@ export default async function BlogPost({
           <div className="flex flex-col lg:flex-row lg:space-x-12">
             <div className="mt-12 w-full px-4 text-lg leading-relaxed text-gray-700 lg:w-3/4 lg:px-0">
               <div key={0} className="mb-10">
-                <ReactMarkdown>{post.content}</ReactMarkdown>
+                <Markdown>{post.content}</Markdown>
               </div>
             </div>
           </div>
