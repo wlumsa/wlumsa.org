@@ -325,16 +325,7 @@ type BlogEntry = {
   header_image: string,
   created_on: Date,
   status: string,
-  content: (BlogEntryImages | BlogEntryText )[];
+  content: string;
 }
 
-type BlogEntryImages = {
-  type: "images";
-  value: string[];
-}
-
-type BlogEntryText = {
-  type: "text";
-  value: string;
-}
 
