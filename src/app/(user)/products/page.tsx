@@ -4,17 +4,6 @@ import Products from "../../../components/UI/ProductCard";
 
 import { getProductsData } from "../../../Utils/api";
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  hasSizes: boolean;
-  quantity: number;
-  sizes: { S: number; M: number; L: number };
-  tags: string[];
-}
 
 export default async function ProductsPage() {
   const products = await getProductsData();

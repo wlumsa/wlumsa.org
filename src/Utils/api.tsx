@@ -5,7 +5,9 @@ import {
   query,
   orderBy,
   doc,
-  collectionGroup,getDoc,where
+  collectionGroup,
+  getDoc,
+  where,
 } from "firebase/firestore";
 import db from "@/firebase";
 import { storage } from "@/firebase";
@@ -16,24 +18,24 @@ export const getNavbarData = cache(async () => {
   const navbarQuerySnapshot = await getDocs(navbarQuery);
   const navbarGroups = await Promise.all(
     navbarQuerySnapshot.docs.map(async (doc) => {
-      const data = doc.data(); 
+      const data = doc.data();
       const linksCollectionRef = collection(db, `Navbar/${doc.id}/Links`);
-      const linksQuery = query(linksCollectionRef, orderBy("index")); 
+      const linksQuery = query(linksCollectionRef, orderBy("index"));
       const linksSnapshot = await getDocs(linksQuery);
       const links = linksSnapshot.docs.map(
         (linkDoc) => linkDoc.data() as LinkItem
       );
-      return { 
-        Group: data.Group, 
-        CustomGroup: data.CustomGroup, 
-        NoGroup: data.NoGroup, 
-        NoGroupLink: data.NoGroupLink, 
-        links 
-      }; 
+      return {
+        Group: data.Group,
+        CustomGroup: data.CustomGroup,
+        NoGroup: data.NoGroup,
+        NoGroupLink: data.NoGroupLink,
+        links,
+      };
     })
   );
   return navbarGroups;
-})
+});
 
 export const fetchSocialLinks = cache(async () => {
   const socialsCollectionRef = collection(db, "Socials");
@@ -64,22 +66,22 @@ export const getFooterData = cache(async () => {
   const footerQuerySnapshot = await getDocs(footerQuery);
   const footerGroups = await Promise.all(
     footerQuerySnapshot.docs.map(async (doc) => {
-      const data = doc.data(); 
+      const data = doc.data();
       const linksCollectionRef = collection(db, `Footer/${doc.id}/Links`);
-      const linksQuery = query(linksCollectionRef, orderBy("index")); 
+      const linksQuery = query(linksCollectionRef, orderBy("index"));
       const linksSnapshot = await getDocs(linksQuery);
       const links = linksSnapshot.docs.map(
         (linkDoc) => linkDoc.data() as Links
       );
-      return { 
-        Group: data.Group, 
-        CustomGroup: data.CustomGroup, 
-        links 
-      }; 
+      return {
+        Group: data.Group,
+        CustomGroup: data.CustomGroup,
+        links,
+      };
     })
   );
   return footerGroups;
-})
+});
 
 export const fetchEvents = cache(async () => {
   const eventsCollectionRef = collection(db, "WeeklyEvents");
@@ -102,7 +104,7 @@ export const fetchDiscountCodes = cache(async () => {
     (doc) => doc.data() as DiscountCodes
   );
   return discountCodeData;
-})
+});
 
 export const fetchJummahTimes = cache(async () => {
   const jummahCollectionRef = collection(db, "Jummah");
@@ -126,9 +128,9 @@ export const fetchTimings = cache(async () => {
   }));
 });
 
-export const getResourcesData= cache(async () => {
+export const getResourcesData = cache(async () => {
   const resourcesQuery = query(collection(db, "Resources"), orderBy("index"));
-  const resourcesQuerySnapshot = await getDocs(resourcesQuery);;
+  const resourcesQuerySnapshot = await getDocs(resourcesQuery);
 
   const resourcesData = await Promise.all(
     resourcesQuerySnapshot.docs.map(async (doc) => {
@@ -146,18 +148,17 @@ export const getResourcesData= cache(async () => {
   );
 
   return resourcesData;
-})
-export const  getServicesOffered =  cache(async () => {
-  const serviceCollectionRef = collection(db, 'ServicesOffered');
+});
+export const getServicesOffered = cache(async () => {
+  const serviceCollectionRef = collection(db, "ServicesOffered");
   const querySnapshot = await getDocs(serviceCollectionRef);
 
   const servicesInfo = querySnapshot.docs.map((doc) => ({
-   
     ...doc.data(),
   }));
 
   return servicesInfo;
-})
+});
 
 interface Product {
   id: string;
@@ -171,18 +172,18 @@ interface Product {
   tags: string[];
 }
 
-export const getProductsData =  cache(async () => {
-  const productsCollectionRef = collection(db, 'Products');
-  const querySnapshot = await getDocs(productsCollectionRef);
+export const getProductsData = cache(async () => {
+  const productsCollectionRef = collection(db, "Products");
+  const productsQuery = query(productsCollectionRef, orderBy("date"));
+  const querySnapshot = await getDocs(productsQuery);
 
   const productsData = querySnapshot.docs.map((doc) => {
     const data = doc.data();
-    // If using TypeScript, ensure that the data structure matches the Product type
-    return { ...data as Product, id: doc.id };
+    return { ...(data as Product), id: doc.id,date: new Date(data.date)  };
   });
 
   return productsData;
-})
+});
 
 interface Product {
   id: string;
@@ -194,10 +195,13 @@ interface Product {
   quantity: number;
   sizes: { S: number; M: number; L: number };
   tags: string[];
+  date: Date;
 }
-export async function fetchProduct(id: string): Promise<{ product: Product | null, imageUrl: string }> {
+export async function fetchProduct(
+  id: string
+): Promise<{ product: Product | null; imageUrl: string }> {
   let product = null;
-  let imageUrl = '';
+  let imageUrl = "";
 
   try {
     const docRef = doc(db, "Products", id);
@@ -207,11 +211,11 @@ export async function fetchProduct(id: string): Promise<{ product: Product | nul
       product = {
         id: docSnap.id,
         ...docSnap.data(),
+      
       } as Product;
 
-    
       const imageRef = ref(storage, product.image);
-      imageUrl = await getDownloadURL(imageRef).catch(() => '');
+      imageUrl = await getDownloadURL(imageRef).catch(() => "");
     }
   } catch (error) {
     // Handle any errors here, such as logging or throwing the error
@@ -223,7 +227,7 @@ export async function fetchProduct(id: string): Promise<{ product: Product | nul
 }
 
 export const fetchProductIds = async () => {
-  const productsCollectionRef = collection(db, 'Products');
+  const productsCollectionRef = collection(db, "Products");
   const querySnapshot = await getDocs(productsCollectionRef);
   return querySnapshot.docs.map((doc) => ({
     params: { id: doc.id },
@@ -233,11 +237,10 @@ export const fetchFilters = async () => {
   // Simulating a delay and fetching filters (e.g., from a database or external API)
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  
   return [
-    { id: 'category1', name: 'Category 1' },
-    { id: 'category2', name: 'Category 2' },
-    { id: 'category3', name: 'Category 3' },
+    { id: "category1", name: "Category 1" },
+    { id: "category2", name: "Category 2" },
+    { id: "category3", name: "Category 3" },
     // ... other filters
   ];
 };
@@ -246,32 +249,39 @@ export const fetchPrayerRooms = cache(async () => {
   const prayerRoomsCollectionRef = collection(db, "PrayerRooms");
   const querySnapshot = await getDocs(prayerRoomsCollectionRef);
 
-  const prayerRoomsData = querySnapshot.docs.map(doc => {
+  const prayerRoomsData = querySnapshot.docs.map((doc) => {
     return doc.data() as PrayerRoomItem; // Cast the data to the PrayerRoomItem type
   });
 
   return prayerRoomsData;
-})
+});
 
 export const fetchJummahInfo = cache(async () => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
 
   return querySnapshot.docs.map((doc) => doc.data() as JummahItem);
-})
+});
 
-export const fetchTodaysTimings  = cache(async () => {
+export const fetchTodaysTimings = cache(async () => {
   const today = new Date();
   const currentMonth = today.toLocaleString("default", { month: "long" });
   const dayOfMonth = today.getDate();
-  const daysCollectionRef = collection(db, "PrayerTimings", currentMonth, "Days");
+  const daysCollectionRef = collection(
+    db,
+    "PrayerTimings",
+    currentMonth,
+    "Days"
+  );
   const q = query(daysCollectionRef, where("Day", "==", dayOfMonth));
   const querySnapshot = await getDocs(q);
   const doc = querySnapshot.docs[0];
-  return doc ? { timings: doc.data() as Timings, day: doc.data().Day as number } : null;
+  return doc
+    ? { timings: doc.data() as Timings, day: doc.data().Day as number }
+    : null;
 });
 
-export const fetchYoutubeVideos = cache(async (category:string) => {
+export const fetchYoutubeVideos = cache(async (category: string) => {
   const youtubeVideosCollectionRef = collection(db, "Recordings");
   const postsQuery = query(
     youtubeVideosCollectionRef,
@@ -281,7 +291,7 @@ export const fetchYoutubeVideos = cache(async (category:string) => {
   const querySnapshot = await getDocs(postsQuery); // Use getDocs on the query
 
   const youtubeVideosData = querySnapshot.docs.map((doc) => {
-    const data = doc.data() as  YoutubeVideo;
+    const data = doc.data() as YoutubeVideo;
     return {
       ...data,
       date: new Date(data.date), // Convert Firestore Timestamp to JavaScript Date
@@ -290,38 +300,35 @@ export const fetchYoutubeVideos = cache(async (category:string) => {
   return youtubeVideosData;
 });
 
-
-export const getBlogsData =  cache(async () => {
-  const blogCollectionRef = collection(db, 'blog');
+export const getBlogsData = cache(async () => {
+  const blogCollectionRef = collection(db, "blog");
   const querySnapshot = await getDocs(blogCollectionRef);
 
   const blogData = querySnapshot.docs.map((doc) => {
     const data = doc.data();
     // If using TypeScript, ensure that the data structure matches the Product type
-    return { ...data as BlogEntry, id: doc.id };
+    return { ...(data as BlogEntry), id: doc.id };
   });
 
   return blogData;
-})
-export async function getPost(id: string): Promise<{ post: BlogEntry | null, imageURL: string }> {
+});
+export async function getPost(
+  id: string
+): Promise<{ post: BlogEntry | null; imageURL: string }> {
   let post = null;
-  let imageURL = '';
-  
+  let imageURL = "";
 
   try {
     const docRef = doc(db, "blog", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-
-      
       post = {
         ...docSnap.data(),
       } as BlogEntry;
 
-    
       const imageRef = ref(storage, post.header_image);
-      imageURL = await getDownloadURL(imageRef).catch(() => '');
+      imageURL = await getDownloadURL(imageRef).catch(() => "");
     }
   } catch (error) {
     // Handle any errors here, such as logging or throwing the error

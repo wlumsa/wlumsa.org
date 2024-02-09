@@ -79,6 +79,7 @@ type Product = {
   quantity: number; // For products without sizes
   sizes?: { [size: string]: number }; // For products with sizes
   tags: string[];
+  date:Date;
 };
 
 type EmailEntryImages = {
