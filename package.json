@@ -31,7 +31,6 @@
     "@react-email/markdown": "^0.0.8",
     "@react-email/render": "^0.0.10",
     "@reduxjs/toolkit": "^2.0.1",
-    "@rpldy/upload-button": "^1.7.1",
     "@rpldy/uploady": "^1.7.1",
     "@t3-oss/env-nextjs": "^0.2.1",
     "@vercel/analytics": "^1.1.1",
