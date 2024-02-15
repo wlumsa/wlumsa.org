@@ -86,6 +86,7 @@ export default function RamadanPage() {
               </button>
             </div>
           </div>
+          {/*
           <div className="mx-4 flex flex-col items-center">
             <h1 className="mb-10 mt-32 text-3xl font-bold text-[#203B5D] ">
               SPONSOR DAILY IFTARS
@@ -100,6 +101,7 @@ export default function RamadanPage() {
               SPONSOR
             </button>
           </div>
+              */}
           <div className="mx-4 mb-20 flex flex-col items-center">
             <h1 className="mb-20 mt-32 text-3xl font-bold text-[#203B5D] ">
               RAMADAN CHALLENGES
