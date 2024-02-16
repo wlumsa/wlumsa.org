@@ -1,6 +1,6 @@
 
 export default  function DirectoryPage() {
-  const clientID = process.env.GOOGLE_DRIVE_CLIENT_ID 
+  
   return (
     <div className="flex min-h-screen flex-col">
       <div className=" flex flex-grow items-center  justify-center">

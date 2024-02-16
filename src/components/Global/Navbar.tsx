@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import logo from "../../logo.png";
-import { UserButton, useUser } from "@clerk/nextjs";
+
 
 interface Product {
   id: string;
@@ -44,7 +44,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
-  const { user, isLoaded } = useUser();
+
   useEffect(() => {
     let price = 0;
     productData.forEach((item: CartItem) => {
@@ -249,11 +249,11 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             </div>
           </div>
         </div>
-        {isLoaded && user && (
+        {/*isLoaded && user && (
           <div className="btn btn-circle btn-secondary">
             <UserButton afterSignOutUrl="/" />
           </div>
-        )}
+        )*/}
       </div>
     </div>
   );
