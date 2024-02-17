@@ -1,11 +1,12 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import logo from "../../logo.png"
+import logo from "../../logo.png";
 
+/* Readd donate button */
 interface Product {
   id: string;
   name: string;
@@ -41,7 +42,6 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
- 
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
 
@@ -58,7 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
     });
     setTotalAmt(price.toFixed(2));
   }, [productData]);
-  
+
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
       <div className="navbar-start text-base-100">
@@ -85,22 +85,23 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           >
             {navbarData.map((item) => {
               if (item.Group === "SingleLink") {
-             
                 return (
                   <li key={item.NoGroup}>
-                    <Link className="flex-shrink min-w-0"  href={item.NoGroupLink || "#"} prefetch={false}>
-                    {item.NoGroup}
+                    <Link
+                      className="min-w-0 flex-shrink"
+                      href={item.NoGroupLink || "#"}
+                      prefetch={false}
+                    >
+                      {item.NoGroup}
                     </Link>
                   </li>
                 );
               } else {
-            
                 const title =
                   item.Group === "Custom" && item.CustomGroup
                     ? item.CustomGroup
                     : item.Group;
 
-                
                 return item.Group && item.Group !== "NoGroup" ? (
                   <li key={item.Group} className="menu-item">
                     <details>
@@ -109,7 +110,13 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                         {item.links.map((link, index) => (
                           <li key={index}>
                             {link.link && (
-                              <Link className="flex-shrink min-w-0" href={link.link} prefetch={false}>{link.name}</Link>
+                              <Link
+                                className="min-w-0 flex-shrink"
+                                href={link.link}
+                                prefetch={false}
+                              >
+                                {link.name}
+                              </Link>
                             )}
                           </li>
                         ))}
@@ -119,7 +126,13 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 ) : (
                   <li key={item.NoGroup}>
                     {item.NoGroupLink && (
-                      <Link className="flex-shrink min-w-0" href={item.NoGroupLink} prefetch={false}>{item.NoGroup}</Link>
+                      <Link
+                        className="min-w-0 flex-shrink"
+                        href={item.NoGroupLink}
+                        prefetch={false}
+                      >
+                        {item.NoGroup}
+                      </Link>
                     )}
                   </li>
                 );
@@ -127,7 +140,11 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             })}
           </ul>
         </div>
-        <Link  prefetch= {false} href="/" className="btn btn-ghost text-xl normal-case">
+        <Link
+          prefetch={false}
+          href="/"
+          className="btn btn-ghost text-xl normal-case"
+        >
           <Image src={logo.src} alt="Logo" height={32} width={32} />
         </Link>
       </div>
@@ -135,7 +152,6 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
           {navbarData.map((item) => {
             if (item.Group === "SingleLink") {
-             
               return (
                 <li key={item.NoGroup}>
                   <Link prefetch={false} href={item.NoGroupLink || "#"}>
@@ -144,23 +160,29 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 </li>
               );
             } else {
-              
               const title =
                 item.Group === "Custom" && item.CustomGroup
                   ? item.CustomGroup
                   : item.Group;
 
-              
               return item.Group && item.Group !== "NoGroup" ? (
                 <li key={item.Group} className="dropdown dropdown-hover">
-                  <div tabIndex={0} role="button" className="text-white">{title}</div>{""}
+                  <div tabIndex={0} role="button" className="text-white">
+                    {title}
+                  </div>
+                  {""}
                   {/* Updated this line */}
                   {item.links && item.links.length > 0 && (
-                    <ul tabIndex={0} className="dropdown-content z-[1] menu rounded-sm bg-primary shadow-lg">
+                    <ul
+                      tabIndex={0}
+                      className="menu dropdown-content z-[1] rounded-sm bg-primary shadow-lg"
+                    >
                       {item.links.map((link, index) => (
                         <li key={index}>
                           {link.link && (
-                            <Link prefetch = {false}href={link.link}>{link.name}</Link>
+                            <Link prefetch={false} href={link.link}>
+                              {link.name}
+                            </Link>
                           )}
                         </li>
                       ))}
@@ -170,16 +192,24 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               ) : item.NoGroup ? (
                 <li key={item.NoGroup}>
                   {item.NoGroupLink && (
-                    <Link prefetch={false} href={item.NoGroupLink}>{item.NoGroup}</Link>
+                    <Link prefetch={false} href={item.NoGroupLink}>
+                      {item.NoGroup}
+                    </Link>
                   )}
                 </li>
               ) : null;
-            } 
+            }
           })}
         </ul>
       </div>
 
       <div className="navbar-end">
+        <Link
+          href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
+          className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
+        >
+          Donate
+        </Link>
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -216,7 +246,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               </span>
               <span className="text-white">${totalAmt} CAD</span>
               <div className="card-actions">
-                <Link  prefetch={false} href={"/cart"}>
+                <Link prefetch={false} href={"/cart"}>
                   <button className="btn btn-secondary btn-block">
                     View cart
                   </button>
