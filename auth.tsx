@@ -1,6 +1,11 @@
-import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
- 
-export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+import NextAuth from "next-auth";
+import GitHub from "next-auth/providers/github";
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  providers: [GitHub],
 });
