@@ -13,6 +13,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Analytics } from "@vercel/analytics/react";
 
+
 export const metadata: Metadata = {
   title: "WLU MSA",
   description:
@@ -34,6 +35,7 @@ export default async function RootLayout({
         <Analytics />
         <Providers>
           <Navbar navbarData={navbarData} />
+         
           {children}
           <Footer footerGroups={footerData} socialLinks={socialLinks} />
         </Providers>

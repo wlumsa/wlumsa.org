@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import logo from "../../logo.png";
 
-
+/* Readd donate button */
 interface Product {
   id: string;
   name: string;
@@ -204,7 +204,13 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       </div>
 
       <div className="navbar-end">
-        <div className="dropdown dropdown-end gap-2">
+        <Link
+          href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
+          className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
+        >
+          Donate
+        </Link>
+        <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
