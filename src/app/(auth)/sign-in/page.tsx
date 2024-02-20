@@ -1,5 +1,9 @@
 import { auth, signIn, signOut } from "auth";
+import { Session } from "next-auth";
 import Image from "next/image";
+interface MySession extends Session {
+  sessionToken?: string;
+}
 function SignIn() {
   return (
     <div className="mt 10">
@@ -31,9 +35,9 @@ function SignOut({ children }: { children: React.ReactNode }) {
 }
 
 export default async function Page() {
-  let session = await auth();
+  let session: MySession | null = await auth();
   let user = session?.user?.email;
-  console.log(session)
+  
 
 
   return (
