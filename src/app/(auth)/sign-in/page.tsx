@@ -1,5 +1,5 @@
 import { auth, signIn, signOut } from "auth";
-
+import Image from "next/image";
 function SignIn() {
   return (
     <div className="mt 10">
@@ -39,7 +39,9 @@ export default async function Page() {
   return (
     <section className="mt-20">
       <h1>Home</h1>
-      <div>{user ? <SignOut>{`Welcome ${user} ${session?.user?.image}`}</SignOut> : <SignIn />}</div>
+      <div>{user ? <SignOut>{`Welcome ${user} ${session?.user?.image} `}</SignOut> : <SignIn />}
+      <Image src={session?.user?.image ?? ''} alt={""} width={100} height={100}></Image>      
+      </div>
     </section>
   );
 }
