@@ -4,7 +4,7 @@ import Image from "next/image";
 interface MySession extends Session {
   sessionToken?: string;
 }
-function SignIn() {
+export function SignIn() {
   return (
     <div className="mt 10">
     <form
@@ -20,7 +20,7 @@ function SignIn() {
   );
 }
 
-function SignOut({ children }: { children: React.ReactNode }) {
+export function SignOut({ children }: { children: React.ReactNode }) {
   return (
     <form
       action={async () => {
