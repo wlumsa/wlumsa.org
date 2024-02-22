@@ -1,20 +1,23 @@
-import { SignIn } from "@/app/(auth)/sign-in/page";
-import { Session } from "next-auth";
-import { useSession, signOut } from "next-auth/react";
-import { useState, useRef, ReactElement } from "react";
+
+
+
+import { auth } from "auth";
+
 import { redirect } from "next/navigation";
-export default  function DirectoryPage() {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/");
-    },
-  })
+export default  async function DirectoryPage() {
+  const session = await auth()
+
+ 
+  if (!session?.user) {
+    redirect(`/sign-in`)
+  }
+  
+  
   return (
     <div className="flex min-h-screen flex-col">
       <div className=" flex flex-grow items-center  justify-center">
         <div className="w-full">
-          <SignIn/>
+         <h1>Test</h1>
         </div>
       </div>
     </div>

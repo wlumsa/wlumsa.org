@@ -1,5 +1,5 @@
 // lib/firebaseApi.js
-"use server"
+
 import {
   collection,
   getDocs,
