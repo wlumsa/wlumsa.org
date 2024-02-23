@@ -1,51 +1,18 @@
-import { auth, signIn, signOut } from "auth";
-import { Session } from "next-auth";
-import Image from "next/image";
-interface MySession extends Session {
-  sessionToken?: string;
-}
-export function SignIn() {
+import { auth} from "auth";
+import { redirect } from "next/navigation";
+import React from "react";
+import { LoginButton } from "../LoginButton";
+
+export default async function SignInPage() {
+  const session = await auth();
+  // redirect to home if user is already logged in
+  if (session?.user) {
+    redirect("/");
+  }
+
   return (
-    <div className="mt 10">
-    <form
-      action={async () => {
-        "use server";
-        await signIn("google");
-      }}
-    >
-      <p>You are not logged in</p>
-      <button type="submit">Sign in with google</button>
-    </form>
+    <div className="flex h-[calc(100vh-theme(spacing.16))] items-center justify-center py-10">
+      <LoginButton />
     </div>
-  );
-}
-
-export function SignOut({ children }: { children: React.ReactNode }) {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut();
-      }}
-    >
-      <p>{children}</p>
-      <button type="submit">Sign out</button>
-    </form>
-  );
-}
-
-export default async function Page() {
-  let session: MySession | null = await auth();
-  let user = session?.user?.email;
-  
-
-
-  return (
-    <section className="mt-20">
-      <h1>Home</h1>
-      <div>{user ? <SignOut>{`Welcome ${user} ${session?.user?.image} `}</SignOut> : <SignIn />}
-      <Image src={session?.user?.image ?? ''} alt={""} width={100} height={100}></Image>      
-      </div>
-    </section>
   );
 }
