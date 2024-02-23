@@ -1,5 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import shopperReducer from "./shopperSlice";
+import popupReducer from "./popupSlice";
 
 import {
   persistStore,
@@ -18,16 +19,25 @@ const persistConfig = {
   version: 1,
   storage,
 };
-const persistedReducer = persistReducer(persistConfig, shopperReducer);
+
+const rootReducer = combineReducers({
+  shopper: shopperReducer,
+  popup: popupReducer,
+ 
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: { shopper: persistedReducer },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER,],
+       
       },
     }),
 });
-
+export type AppDispatch = typeof store.dispatch;
 export let persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;

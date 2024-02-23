@@ -1,23 +1,14 @@
 # WLU Muslim Student's Association Website
 
-This project is the official page for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University by the permission of Allah. Feel free to fork the repository and use it for your own MSA website
+This project is the official page for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University by the permission of Allah
 
 ## Learn More
 
 Discover more about the WLU MSA, our values, and our mission on our [official website](https://www.wlumsa.org/about).
 
-
 ## Tech Stack
 
-- [NextJs](https://nextjs.org/docs)
-- [Typescript](https://www.typescriptlang.org/docs/handbook/)
-- [Tailwind CSS](https://tailwindcss.com/docs/installation)
-- [Resend](https://resend.com/docs/introduction)
-- [Firebase](https://firebase.google.com/docs)
-- [Firecms](https://firecms.co/)
-- [Vercel](https://vercel.com/)
-- [React Email](https://react.email/)
-- [Resend](https://resend.com/)
+[![Technologies](https://skillicons.dev/icons?i=nextjs,typescript,tailwind,react,firebase)](https://skillicons.dev)
 
 ## Deployment
 This project is currently being hosted by Vercel. However one can run it locally. Please note you will need your own API keys for the services used
@@ -37,13 +28,7 @@ The website should now be accessible at `http://localhost:3000` in your web brow
 ## Authors and Acknowledgements
  
 ### Contributors 
-- [Syed Ahmed](https://github.com/Syed-Ahmed02) - Team Lead
-- [Usama Mohiuddin](https://github.com/UsamaMo) - Tech Lead
-- [Maham Farooq](https://github.com/CoderMF) - UI/UX Designer
-- [Muhammad Saad](https://github.com/mxsaad) - Developer
-- [Waleed Asif](https://github.com/WaleedAAA) - Developer
-- [Razan](https://github.com/rzlm) - Developer 
-- [Muneeb](https://github.com/Muneeb231) - Developer 
+![avatar](https://images.weserv.nl/?url=https://github.com/Syed-Ahmed02.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/UsamaMo.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/CoderMF.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/mxsaad.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/WaleedAAA.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url==https://github.com/rzlm.png?v=4&h=100&w=100fit=cover&mask=circle)
 
 
 ### Special Thanks
