@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import db from "@/firebase";
@@ -171,7 +172,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
       };
 
       try {
-        const response = await axios.post("/api/sendReceipt", formData);
+        const response = await axios.post("/api/sendreceipt", formData);
         console.log(response.data);
         setFullName("");
         setEmail("");
@@ -184,6 +185,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
         console.error("Error sending form: ", error);
       }
     } catch (error) {
+      console.log(error)
       alert(
         "An error has occurred, please contact msa@wlu.ca if you have already paid"
       );
@@ -202,7 +204,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
         <div className="w-full rounded-xl px-2  md:w-[30rem]">
           <form className="card-body" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2 ">
-              <h1>E-Transfer ${totalPrice} to msa@wlu.ca</h1>
+              <h1>E-Transfer ${totalPrice} to wlumsa.donate@gmail.com</h1>
               <p>Please note all items are for pickup only!</p>
               <input
                 type="text"
@@ -215,7 +217,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
               <input
                 type="tel"
                 required
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 placeholder="Phone Number"
                 className="input input-bordered w-full text-neutral focus:border-secondary"
                 onChange={(e) => setPhoneNumber(e.target.value)}

@@ -9,7 +9,6 @@ import {
   Link,
   Preview,
   Section,
-  Tailwind,
   Text,
   Img,
 } from "@react-email/components";

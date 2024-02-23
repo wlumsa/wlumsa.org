@@ -74,6 +74,11 @@ export const ProductsCollection = buildCollection<Product>({
       },
       validation: { required: !values.hasSizes, min: 0 },
     })),
+    date: buildProperty({
+      dataType: "date",
+      name: "Created at",
+      autoValue:  "on_update",
+    }),
 
     sizes: buildProperty(({ values }) => ({
       dataType: "map",

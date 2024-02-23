@@ -7,84 +7,243 @@ type ExtendedStyle = React.CSSProperties & {
 };
 
 export default function RamadanPage() {
- 
-  const [days, setDays] = useState<number>(0);
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
-  const [seconds, setSeconds] = useState<number>(0);
+  const [year, setYear] = useState(0);
+  const [sadaqah, setSadaqah] = useState(0);
+  const [meals, setMeals] = useState(0);
 
   useEffect(() => {
-    const targetDate = new Date(new Date().getFullYear(), 2, 10);
-    if (new Date() > targetDate) {
-      targetDate.setFullYear(targetDate.getFullYear() + 1);
-    }
-
     const interval = setInterval(() => {
-      const now = new Date();
-      const difference = targetDate.getTime() - now.getTime();
-
-      setDays(Math.floor(difference / (1000 * 60 * 60 * 24)));
-      setHours(
-        Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      );
-      setMinutes(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)));
-      setSeconds(Math.floor((difference % (1000 * 60)) / 1000));
-    }, 1000);
+      if (year < 2021) setYear(year + 1);
+      if (sadaqah < 68300) setSadaqah(sadaqah + 100);
+      if (meals < 986) setMeals(meals + 1);
+    }, 1);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [year, sadaqah, meals]);
 
   return (
-    <div className="flex flex-col min-h-screen ">
-   
+    <div className="flex min-h-screen flex-col bg-gray-100 ">
       <Head>
-        <title>Countdown to March 10</title>
+        <title>Ramadan 2024</title>
       </Head>
       <main className="flex-grow">
-        <div className="mb-20 mt-40 flex flex-grow flex-col items-center justify-center ">
-          <h1 className="font-sans text-xl font-bold  text-primary md:text-5xl">
-            Coming Soon Inshallah!
+        <div className="flex w-full flex-col items-center">
+          <h1 className="mb-5 mt-28 text-4xl font-bold text-[#203B5D]">
+            RAMADAN 2024
           </h1>
-          <h2 className="font-sans text-lg font-bold  text-secondary md:text-3xl">
-            Ramdan Countdown
-          </h2>
-        </div>
-        <div className="my-10 grid auto-cols-max grid-flow-col justify-center gap-5 text-center">
-          <div className="flex flex-col">
-            <span className="countdown font-mono text-5xl">
-              <span style={{ "--value": `${days}` } as ExtendedStyle}>
-                {days}
+          <div className="my-4 flex w-full flex-col items-center justify-around bg-[#203B5D] p-4 shadow-lg sm:flex-row sm:p-12">
+            <div className="mb-4 text-center sm:mx-2 sm:mb-0">
+              <span className="text-2xl font-semibold text-[#2474A3] sm:text-4xl">
+                {year}
               </span>
-            </span>
-            days
+              <p className="mt-2 text-xs text-white">ESTABLISHED</p>
+            </div>
+            <div className="mb-4 text-center sm:mx-2 sm:mb-0">
+              <span className="text-2xl font-semibold text-[#2474A3] sm:text-4xl">
+                {sadaqah.toLocaleString()}
+              </span>
+              <p className="mt-2 text-xs text-white">$ OF SADAQAH RAISED</p>
+            </div>
+            <div className="text-center sm:mx-2">
+              <span className="text-2xl font-semibold text-[#2474A3] sm:text-4xl">
+                {meals}
+              </span>
+              <p className="mt-2 text-xs text-white">MEALS SERVED</p>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="countdown font-mono text-5xl">
-              <span style={{ "--value": `${hours}` } as ExtendedStyle}>
-                {hours}
-              </span>
-            </span>
-            hours
+          <div className="mx-4 flex flex-col items-center">
+            <h1 className="mb-10 mt-32 text-3xl font-bold text-[#203B5D]">
+              DONATE THIS RAMADAN
+            </h1>
+            <p>
+              Contribute to our notable goal of raising $$$ for [cause of
+              fundraiser]
+            </p>
+            <button className=" my-4 rounded-lg bg-[#203B5D] px-8 py-2 font-bold text-white">
+              DONATE
+            </button>
           </div>
-          <div className="flex flex-col">
-            <span className="countdown font-mono text-5xl">
-              <span style={{ "--value": `${minutes}` } as ExtendedStyle}>
-                {minutes}
-              </span>
-            </span>
-            min
+          <div className="mx-4 flex flex-col items-center">
+            <h1 className="mb-2 mt-32 text-3xl font-bold text-[#203B5D]">
+              IFTAR FOOD REGISTRATION
+            </h1>
+            <p className="mb-4">Description of how registration works</p>
+            <div className="rounded-lg bg-[#203B5D] p-4">
+              <input
+                className="mb-2 w-full rounded border-2 border-gray-200 p-2"
+                placeholder="Name"
+              />
+              <input
+                className="mb-2 w-full rounded border-2 border-gray-200 p-2"
+                placeholder="Email"
+              />
+              <input
+                className="mb-4 w-full rounded border-2 border-gray-200 p-2"
+                placeholder="Iftar Dates"
+              />
+              <button className="mx-auto my-4 block rounded-lg bg-[#2474A3] px-8 py-2  text-white">
+                REGISTER
+              </button>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="countdown font-mono text-5xl">
-              <span style={{ "--value": `${seconds}` } as ExtendedStyle}>
-                {seconds}
-              </span>
-            </span>
-            sec
+          {/*
+          <div className="mx-4 flex flex-col items-center">
+            <h1 className="mb-10 mt-32 text-3xl font-bold text-[#203B5D] ">
+              SPONSOR DAILY IFTARS
+            </h1>
+            <p className="mb-4 font-bold text-[#2474A3]">Help us, Help you.</p>
+            <p>
+              {" " }
+              sponsor a daily iftar to students on campus that don't have the
+              resources to break their fast.
+            </p>
+            <button className=" my-4 rounded-lg bg-[#2474A3] px-8 py-2  text-white">
+              SPONSOR
+            </button>
+          </div>
+              */}
+          <div className="mx-4 mb-20 flex flex-col items-center">
+            <h1 className="mb-20 mt-32 text-3xl font-bold text-[#203B5D] ">
+              RAMADAN CHALLENGES
+            </h1>
+            <ul className="timeline timeline-vertical timeline-snap-icon max-md:timeline-compact">
+              <li>
+                <div className="timeline-middle">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                      clipRule="evenodd"
+                      fill="#2474A3"
+                    />
+                  </svg>
+                </div>
+                <div className="timeline-start mb-10 md:text-end">
+                  <div className="mx-10">
+                    <h1 className="text-lg font-bold text-[#203B5D]">
+                      $$$ MILESTONE CHALLENGE
+                    </h1>
+                    <p>Short Description of Challenge</p>
+                  </div>
+                </div>
+                <hr className="bg-[#2474A3]" />
+              </li>
+              <li>
+                <hr className="bg-[#2474A3]" />
+                <div className="timeline-middle">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                      clipRule="evenodd"
+                      fill="#2474A3"
+                    />
+                  </svg>
+                </div>
+                <div className="timeline-end mb-10">
+                  <div className="mx-10">
+                    <h1 className="text-lg font-bold text-[#203B5D]">
+                      $$$ MILESTONE CHALLENGE
+                    </h1>
+                    <p>Short Description of Challenge</p>
+                  </div>
+                </div>
+                <hr className="bg-[#2474A3]" />
+              </li>
+              <li>
+                <hr className="bg-[#2474A3]" />
+                <div className="timeline-middle">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                      clipRule="evenodd"
+                      fill="#2474A3"
+                    />
+                  </svg>
+                </div>
+                <div className="timeline-start mb-10 md:text-end">
+                  <div className="mx-10">
+                    <h1 className="text-lg font-bold text-[#203B5D]">
+                      $$$ MILESTONE CHALLENGE
+                    </h1>
+                    <p>Short Description of Challenge</p>
+                  </div>
+                </div>
+                <hr className="bg-[#2474A3]" />
+              </li>
+              <li>
+                <hr />
+                <div className="timeline-middle">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                      clipRule="evenodd"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+                <div className="timeline-end mb-10">
+                  <div className="mx-10">
+                    <h1 className="text-lg font-bold text-[#203B5D]">
+                      $$$ MILESTONE CHALLENGE
+                    </h1>
+                    <p>Short Description of Challenge</p>
+                  </div>
+                </div>
+                <hr />
+              </li>
+              <li>
+                <hr />
+                <div className="timeline-middle">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                      clipRule="evenodd"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+                <div className="timeline-start mb-10 md:text-end">
+                  <div className="mx-10">
+                    <h1 className="text-lg font-bold text-[#203B5D]">
+                      $$$ MILESTONE CHALLENGE
+                    </h1>
+                    <p>Short Description of Challenge</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </main>
-   
     </div>
   );
-};
+}

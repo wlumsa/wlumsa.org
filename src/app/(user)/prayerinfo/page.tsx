@@ -18,14 +18,10 @@ export default async function PrayerInfo() {
           These Videos Can help guide you to the Prayer Rooms
         </h2>
         <div className=" grid grid-cols-1 gap-4 md:grid-cols-3">
-          <PrayerSpaceCard
-            videoId="Esnqdy0rqiY"
-            title="Jummah"
-            thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
-          />
+          
           <PrayerSpaceCard
             videoId="XQALLoF6Buo"
-            title="Brickers"
+            title="Bricker"
             thumbnailUrl="https://img.youtube.com/vi/XQALLoF6Buo/maxresdefault.jpg"
           />
           <PrayerSpaceCard
@@ -33,6 +29,20 @@ export default async function PrayerInfo() {
             title="Peters"
             thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
           />
+
+          <PrayerSpaceCard
+            videoId="xnGcNytQNxQ"
+            title="PMC"
+            thumbnailUrl="https://img.youtube.com/vi/xnGcNytQNxQ/maxresdefault.jpg"
+          />
+
+          <PrayerSpaceCard
+            videoId="Esnqdy0rqiY"
+            title="Turret"
+            thumbnailUrl="https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg"
+          />
+
+
         </div>
       </div>
     </div>
