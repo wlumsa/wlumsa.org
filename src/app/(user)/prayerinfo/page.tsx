@@ -21,24 +21,24 @@ export default async function PrayerInfo() {
           
           <PrayerSpaceCard
             videoId="XQALLoF6Buo"
-            title="Bricker"
+            title="Bricker Prayer Room"
             thumbnailUrl="https://img.youtube.com/vi/XQALLoF6Buo/maxresdefault.jpg"
           />
           <PrayerSpaceCard
             videoId="BeT9uC4NBPw"
-            title="Peters"
+            title="Peters Prayer Room"
             thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
           />
 
           <PrayerSpaceCard
             videoId="xnGcNytQNxQ"
-            title="PMC"
+            title="PMC (Jumu'ah)"
             thumbnailUrl="https://img.youtube.com/vi/xnGcNytQNxQ/maxresdefault.jpg"
           />
 
           <PrayerSpaceCard
             videoId="Esnqdy0rqiY"
-            title="Turret"
+            title="Turret (Jumu'ah)"
             thumbnailUrl="https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg"
           />
 

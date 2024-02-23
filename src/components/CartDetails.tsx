@@ -193,21 +193,23 @@ const CartDetails: React.FC<CartDetailsProps> = ({ discountCodes }) => {
                 </table>
               </div>
             </div>
-            <div className="md:w-1/4">
-              <div className="rounded-lg bg-white p-6 shadow-md">
-                <h2 className="mb-4 text-lg font-semibold">Summary</h2>
-                <div className="mb-2 flex justify-between ">
-                  <input
-                    type="text"
-                    value={coupon}
-                    onChange={handleCouponChange}
-                    placeholder="Enter coupon code"
-                    className="w-1/2 bg-base-100 text-neutral "
-                  />
-                  <button className=" justify-self-end" onClick={applyCoupon}>
-                    Apply Coupon
-                  </button>
-                </div>
+        <div className="md:w-1/4">
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h2 className="mb-4 text-lg font-semibold">Summary</h2>
+              <div className="flex items-center mb-2">
+                <input
+                  type="text"
+                  value={coupon}
+                  onChange={handleCouponChange}
+                  placeholder="Enter Code"
+                  className="flex-grow bg-base-100 text-black py-1 px-2 rounded-lg border border-gray-300 mr-2"
+                />
+               <button
+                className="btn btn-primary text-secondary float-left w-1/3"
+                onClick={applyCoupon}>
+                Apply Coupon
+              </button>
+            </div>
                 {couponError && <p className="text-red-500">{couponError}</p>}
                 {couponSuccess && (
                   <p className="text-green-500">{couponSuccess}</p>
@@ -227,9 +229,8 @@ const CartDetails: React.FC<CartDetailsProps> = ({ discountCodes }) => {
                   <span className="font-semibold">Total</span>
                   <span className="font-semibold">${total}</span>
                 </div>
-
                 <button
-                  className="mt-4 w-full rounded-lg bg-primary px-4 py-2 text-secondary"
+                  className="mt-4 w-full btn btn-primary text-secondary"
                   onClick={() => {
                     const modal = document.getElementById("my_modal_1");
                     if (modal instanceof HTMLDialogElement) {
@@ -245,7 +246,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ discountCodes }) => {
                       <form method="dialog">
                         <button className="px-4">
                           <svg
-                            className="h-3aa w-3"
+                            className="h-3aa w-3" 
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
