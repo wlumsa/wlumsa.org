@@ -1,6 +1,6 @@
 import React from "react";
 //import Markdown from "react-markdown";
-import { getPost } from "@/Utils/api";
+import { getPost } from "@/Utils/datafetcher";
 import { Markdown } from "@react-email/markdown";
 export default async function BlogPost({
   params,

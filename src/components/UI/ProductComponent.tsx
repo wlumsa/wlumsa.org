@@ -1,7 +1,7 @@
 "use client"
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from "react";
-import { fetchProduct } from '@/Utils/api';
+import { fetchProduct } from '@/Utils/datafetcher';
 import BuyForm from "@/components/Forms/BuyForm";
 
 import { useDispatch } from "react-redux";

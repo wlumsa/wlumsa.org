@@ -1,6 +1,6 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
-import { getBlogsData } from "@/Utils/api";
+import { getBlogsData } from "@/Utils/datafetcher";
 export default async function Blog() {
   const posts = await getBlogsData();
   return (

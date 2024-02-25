@@ -2,7 +2,7 @@ import React from "react";
 
 import Products from "../../../components/UI/ProductCard";
 
-import { getProductsData } from "../../../Utils/api";
+import { getProductsData } from "../../../Utils/datafetcher";
 
 
 export default async function ProductsPage() {

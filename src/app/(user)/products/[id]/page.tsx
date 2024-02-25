@@ -1,4 +1,4 @@
-import { fetchProduct } from "@/Utils/api";
+import { fetchProduct } from "@/Utils/datafetcher";
 
 interface Product {
   id: string;
