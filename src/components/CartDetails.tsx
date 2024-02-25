@@ -101,11 +101,13 @@ const CartDetails: React.FC<CartDetailsProps> = ({ discountCodes }) => {
                 item.product.price *
                 discountCode.discountAmount;
             }
+            setCouponSuccess("Coupon Applied");
+          }else{
+            setCouponError("Invalid coupon");
           }
         });
       }
-      setCouponError("");
-      setCouponSuccess("Coupon Applied");
+     
     } else {
       setCouponError("Invalid coupon");
       setCouponSuccess("");
