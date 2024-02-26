@@ -1,83 +1,116 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import "@fullcalendar/common/main.css";
+import { useEffect, useState, useRef } from "react";
 
-// Define the event type
+import FullCalendar from "@fullcalendar/react";
+
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { EventContentArg } from "@fullcalendar/common";
+import "@fullcalendar/common/main.css";
+import googleCalendarPlugin from "@fullcalendar/google-calendar";
+
 type Event = {
   id: string;
   title: string;
   start: string;
   end?: string;
-  color?: string; // Optional property for custom background color
+  recurring?: boolean;
+};
+
+type FetchedEvent = {
+  id: string;
+  summary: string;
+  start: { dateTime: string };
+  recurring?: boolean;
 };
 
 const CalendarComponent = () => {
-  const [events, setEvents] = useState<Event[]>([{
-    id: '1',
-    title: 'Hanafi Fiqh Course',
-    start: '2024-02-24',
-    color: '#ADD8E6', // Light blue
-  }]);
-  const [isEventClicked, setIsEventClicked] = useState<boolean>(false);
+  const [events, setEvents] = useState<Event[]>([]);
   const calendarRef = useRef<any>(null);
 
   useEffect(() => {
-    // Normally, you would fetch events from an API here.
-    // For simplicity, we're using a hardcoded event.
+    const handleResize = () => {
+      if (calendarRef.current) {
+        if (window.innerWidth <= 480) {
+          calendarRef.current.getApi().changeView("dayGridWeek");
+        } else {
+          calendarRef.current.getApi().changeView("dayGridMonth");
+        }
+      }
+    };
+
+    // Set the initial view based on window width
+    handleResize();
+
+    // Attach the event listener
+    window.addEventListener("resize", handleResize);
+
+    const fetchEvents = async () => {
+      const res = await fetch("/api/calendar");
+      const data: FetchedEvent[] = await res.json();
+
+      const formattedEvents: Event[] = data.map((event: FetchedEvent) => ({
+        id: event.id,
+        title: event.summary,
+        start: event.start ? event.start.dateTime : 'default-date',
+      }));
+
+      setEvents(formattedEvents);
+    };
+    fetchEvents();
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const handleEventClick = () => {
-    // Handler for when an event is clicked
-    setIsEventClicked(true);
-  };
-
-  const renderEventContent = (eventInfo: any) => (
-    <div style={{ padding: '2px 5px', borderRadius: '5px', backgroundColor: eventInfo.backgroundColor || '#ADD8E6' }}>
-      {eventInfo.event.title}
+  return (
+    <div className="container mx-auto p-10 text-xs">
+      <div>
+        <h3 className="text-xl font-bold">Upcoming Events</h3>
+        <FullCalendar
+          ref={calendarRef} // Set the reference here
+          plugins={[dayGridPlugin, googleCalendarPlugin]}
+          initialView="dayGridMonth"
+          googleCalendarApiKey="AIzaSyAD66ZFXJgMoKiZTkZUOCG9pFS459R40SI"
+          events={{
+            googleCalendarId:
+              "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com",
+          }}
+          eventContent={renderEventContent}
+        />
+      </div>
     </div>
   );
+};
 
-  const EventDetailsPanel = () => (
-    <div style={{
-      position: 'fixed',
-      right: 0,
-      top: 0,
-      width: '33%',
-      height: '100vh',
-      backgroundColor: '#f9f9f9',
-      boxShadow: '-2px 0 8px rgba(0,0,0,0.1)',
-      padding: '20px',
-      overflowY: 'auto',
-      zIndex: 1000, // Ensure it's above other content
-    }}>
-      <h2>Hanafi Fiqh Course</h2>
-      {/* Example content, replace with actual event details */}
-      <p>Location: Community Center</p>
-      <p>Time: 10:00 AM - 3:00 PM</p>
-      <p>Speaker: Sheikh Abdullah</p>
-      <p>Description: An in-depth course on Hanafi Fiqh.</p>
-      {/* Placeholder for the image */}
-      <div style={{ backgroundColor: '#ddd', height: '200px', margin: '20px 0' }}>Event Image Here</div>
-      <button onClick={() => setIsEventClicked(false)} style={{ padding: '10px', cursor: 'pointer' }}>Close</button>
-    </div>
-  );
+const renderEventContent = (eventInfo: EventContentArg) => {
+  const now = new Date();
+  const eventDate = new Date(eventInfo.event.startStr);
+  const isPastEvent = eventDate < now;
+
+  const bgColorClass = isPastEvent ? "bg-red-500" : "bg-green-500";
+  const textColorClass = "text-white";
+
+  const startTime = eventDate.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const formattedTitle = eventInfo.event.title.split("-").join("<br />");
 
   return (
-    <div className="container mx-auto p-10">
-      {isEventClicked && <EventDetailsPanel />}
-      <h3 className="text-xl font-bold mb-4">Upcoming Events</h3>
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={events}
-        eventContent={renderEventContent}
-        eventClick={handleEventClick}
-        height="auto"
-      />
+    <div className={`p-1 ${bgColorClass} ${textColorClass} min-w-0 flex-shrink-1`}>
+      <div className="text-sm">
+        <b>{startTime}</b>
+      </div>{" "}
+      {/* Adjusted text size */}
+      <div
+        className="flex-shrink-1"
+        dangerouslySetInnerHTML={{ __html: formattedTitle }}
+      ></div>
+      {/* Adjusted text size */}
     </div>
   );
 };
