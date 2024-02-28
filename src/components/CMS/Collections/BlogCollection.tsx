@@ -51,7 +51,7 @@ export const blogCollection = buildCollection<BlogEntry>({
         published: {
           id: "published",
           label: "Published",
-          disabled: !values.header_image,
+          disabled: !values.content,
         },
         draft: "Draft",
       },
