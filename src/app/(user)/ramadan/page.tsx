@@ -214,7 +214,7 @@ export default function RamadanPage() {
                 </div>
                 <hr />
               </li>
-              <li>
+              <li> 
                 <hr />
                 <div className="timeline-middle">
                   <svg

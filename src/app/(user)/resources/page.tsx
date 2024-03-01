@@ -1,7 +1,7 @@
 import React from "react";
 
 import { getResourcesData } from "../../../Utils/datafetcher";
-export const revalidate = 600
+export const revalidate = 600 
 export default async function ResourcesPage() {
   const resourcesData = await getResourcesData();
   return (

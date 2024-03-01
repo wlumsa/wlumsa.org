@@ -1,23 +1,20 @@
 
 
 
-import { auth } from "auth";
+import UploadPhotoForm from "@/components/Forms/UploadPhoto";
 
-import { redirect } from "next/navigation";
-export default  async function DirectoryPage() {
-  const session = await auth()
 
- 
-  if (!session?.user) {
-    redirect(`/sign-in`)
-  }
-  
-  
+export default function Page() {
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className=" flex flex-grow items-center  justify-center">
-        <div className="w-full">
-         <h1>Test</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="flex flex-col  flex-grow items-center justify-center">
+        <h1 className="text-center text-4xl font-bold text-primary mb-20 ">
+          Upload your photos and videos here!
+        </h1>
+        <div className="w-full flex flex-col items-center justify-center px-2">
+
+          <UploadPhotoForm />
         </div>
       </div>
     </div>

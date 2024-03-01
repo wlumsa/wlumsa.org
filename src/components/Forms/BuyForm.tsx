@@ -19,7 +19,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import {   handleOrders, handleQuantityUpdate, verifyQuantities } from "@/Utils/actions";
+import { handleOrders, handleQuantityUpdate, verifyQuantities } from "@/Utils/actions";
 interface Product {
   name: string;
   id: string;
@@ -80,11 +80,11 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
       await handleQuantityUpdate(products)
 
       dispatch(clearCart());
-      
+
       let imageUrl = "";
       if (image) {
         'use server'
-       imageUrl = await handleImage(image)
+        imageUrl = await handleImage(image)
       }
       await handleOrders(fullName, phoneNumber, email, imageUrl, totalPrice, pickupTime, products, password, customTime)
 
@@ -100,8 +100,8 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
       };
 
       try {
-         await axios.post("/api/sendreceipt", formData);
-        
+        await axios.post("/api/sendreceipt", formData);
+
         setFullName("");
         setEmail("");
         setPhoneNumber("");
@@ -113,14 +113,14 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
         console.error("Error sending form: ", error);
       }
     } catch (error) {
-    
+
       alert(
         "An error has occurred, please contact msa@wlu.ca if you have already paid"
       );
     }
   };
 
-  
+
   if (!areQuantitiesValid) {
     return (
       <div>Some products have invalid quantities. Please update your cart.</div>
@@ -221,8 +221,6 @@ export default BuyForm;
 
 async function handleImage(image: File) {
   let imageUrl = "";
-
-
 
   const storage = getStorage();
   const storageRef = ref(storage, `receipts/${image.name}`);
