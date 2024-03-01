@@ -1,28 +1,25 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import db from "@/firebase";
-import app from "@/firebase"
+
 import {
-    updateDoc,
-    doc,
-    increment,
+   
     collection,
     addDoc,
-    getDoc,
+ 
 } from "firebase/firestore";
-import { useDispatch } from "react-redux";
-import { clearCart } from "@/redux/shopperSlice";
+
 import {
     getStorage,
     ref,
     uploadBytesResumable,
     getDownloadURL,
 } from "firebase/storage";
-import { handleOrders, handleQuantityUpdate, verifyQuantities } from "@/Utils/actions";
+
 
 
 const UploadPhotoForm: React.FC = () => {
-    const [gender, setGender] = useState<string>("Brother");
+    const [gender, setGender] = useState<string>("");
     const [images, setImages] = useState<File[]>([]); 
     const fileInputRef = React.useRef<HTMLInputElement>(null); 
     const [uploadProgress, setUploadProgress] = useState<number>(0); 
@@ -60,9 +57,9 @@ const UploadPhotoForm: React.FC = () => {
 
         if (event.target.files) {
             const files = Array.from(event.target.files);
-            const oversizedFiles = files.some(file => file.size / (1024 * 1024) > 100);
+            const oversizedFiles = files.some(file => file.size / (1024 * 1024) > 200);
             if (oversizedFiles) {
-                alert(`One or more files exceed 100MB. Please select smaller files.`);
+                alert(`One or more files exceed 200MB. Please select smaller files.`);
             } else {
                 setImages(files); // Set the state to the list of files
             }
@@ -90,12 +87,15 @@ const UploadPhotoForm: React.FC = () => {
                     goodPhoto: false,
                 });
             }
+            if(imageUrls.length > 0 ){
+                alert('Images have been uploaded successfully!');
+            }
             setGender("");
             setImages([]); // Clear the images
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
             }
-            alert('Images have been uploaded successfully!');
+            
         } catch (error) {
             console.error('Error in handleSubmit: ', error, '\n please contact msa@wlu.ca with an image of this error');
         }
