@@ -26,10 +26,10 @@ const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
           <h1 className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105">
             Salam!
           </h1>
-          <p className="mb-5 text-white">
-            "The believers are but brothers, so make settlement between your
-            brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
-          </p>
+          <p className="mb-5 text-white" style={{ textShadow: '2px 2px 2px #000000' }}>
+              "The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
+            </p>
+
           <div className="flex flex-row items-center justify-center gap-4">
             {socialLinks &&
               socialLinks.map((social, index) => (

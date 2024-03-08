@@ -7,7 +7,7 @@ import {
   getNavbarData,
   getFooterData,
   fetchSocialLinks,
-} from "../../Utils/api";
+} from "../../Utils/datafetcher";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 

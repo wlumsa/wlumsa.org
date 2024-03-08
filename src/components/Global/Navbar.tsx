@@ -255,6 +255,11 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             </div>
           </div>
         </div>
+        {/*isLoaded && user && (
+          <div className="btn btn-circle btn-secondary">
+            <UserButton afterSignOutUrl="/" />
+          </div>
+        )*/}
       </div>
     </div>
   );

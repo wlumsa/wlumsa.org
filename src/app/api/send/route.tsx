@@ -88,7 +88,7 @@ export async function POST(request: Request) {
   
       // Send the batch email
       const response = await resend.batch.send(
-        emailData // The array of emails to send
+        emailData 
       );
       console.log(response)
     }

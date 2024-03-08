@@ -79,6 +79,7 @@ type Product = {
   quantity: number; // For products without sizes
   sizes?: { [size: string]: number }; // For products with sizes
   tags: string[];
+  date:Date;
 };
 
 type EmailEntryImages = {
@@ -321,19 +322,11 @@ type YoutubeVideo = {
 
 type BlogEntry = {
   name: string,
+  tagline:string,
   header_image: string,
   created_on: Date,
   status: string,
-  content: (BlogEntryImages | BlogEntryText )[];
+  content: string;
 }
 
-type BlogEntryImages = {
-  type: "images";
-  value: string[];
-}
-
-type BlogEntryText = {
-  type: "text";
-  value: string;
-}
 

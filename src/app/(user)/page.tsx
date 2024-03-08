@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "Wilfrid Laurier Univeristies Offical Muslim Students Assoication Website. We are a Muslim community at Wilfrid Laurier's Universities and our main focus ",
 };
-import { fetchInstagramPosts, fetchSocialLinks, getNavbarData,  heroUrl ,fetchPrayerRooms,fetchJummahInfo,fetchTodaysTimings,fetchEvents,getFooterData} from "../../Utils/api"
+import { fetchInstagramPosts, fetchSocialLinks, getNavbarData,  heroUrl ,fetchPrayerRooms,fetchJummahInfo,fetchTodaysTimings,fetchEvents,getFooterData} from "../../Utils/datafetcher"
 export const revalidate = 3600 
 export default async function Home() {
   

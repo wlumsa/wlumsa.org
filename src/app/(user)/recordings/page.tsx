@@ -41,10 +41,10 @@ const page = () => {
             >
               <div className="card-body">
                 <h3 className="card-title mb-2 text-2xl font-semibold text-secondary">
-                  Halaqahs
+                  Halaqa
                 </h3>
                 <p className="text-neutral">
-                  Missed a Halaqah? No problem you can view the recordings here
+                  Missed a Halaqa? No problem you can view the recordings here
                 </p>
 
                 <div className="card-actions justify-end">
