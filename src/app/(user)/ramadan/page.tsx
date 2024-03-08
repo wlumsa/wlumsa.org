@@ -17,7 +17,7 @@ export default function RamadanPage() {
     const interval = setInterval(() => {
       if (year < 2021) setYear(year + 1);
       if (sadaqah < 68300) setSadaqah(sadaqah + 100);
-      if (meals < 986) setMeals(meals + 1);
+      if (meals < 3000) setMeals(meals + 1);
     }, 1);
 
     return () => clearInterval(interval);
@@ -48,7 +48,7 @@ export default function RamadanPage() {
             </div>
             <div className="text-center sm:mx-2">
               <span className="text-2xl font-semibold text-[#2474A3] sm:text-4xl">
-                {meals}
+                {meals}+
               </span>
               <p className="mt-2 text-xs text-white">MEALS SERVED</p>
             </div>
@@ -85,7 +85,7 @@ export default function RamadanPage() {
             <h1 className="mb-2 mt-32 text-3xl font-bold text-[#203B5D]">
               Ramadan Prayer Table
             </h1>
-            <p className="mb-4">A prayer table for all your needs print your own or download <Link href='ramadan#download' className="underline" >here</Link> </p>
+            <p className="mb-4">A prayer table for all your needs print your own or download <Link href="/ramadan_schdules.pdf" target="_blank" className="underline">here</Link> </p>
             <div className="rounded-lg bg-[#203B5D] p-4">
               <Image src='https://firebasestorage.googleapis.com/v0/b/wlumsa-web.appspot.com/o/images%2FRamadan%20Schedule%20MSA%20(1).png?alt=media&token=754c7c81-7f98-4ee5-b8bf-d03da80d6391' width={966} height={1250} alt="prayer table" />
             </div>
@@ -111,7 +111,7 @@ export default function RamadanPage() {
           <h1 className="mb-4 mt-12 text-3xl font-bold text-[#203B5D]">
             Prayer Rooms
           </h1>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3" id="prayerlocations">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mx-4" id="prayerlocations">
 
             <PrayerSpaceCard
               videoId="XQALLoF6Buo"
