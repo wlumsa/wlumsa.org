@@ -1,7 +1,7 @@
 import React from "react";
 import PrayerTimesTable from "../../../components/PrayerTimeTable"; // assuming PrayerTimesTable is the client component
 import PrayerSpaceCard from "@/components/PrayerSpaceCard";
-import { fetchTimings, fetchJummahTimes } from "../../../Utils/api";
+import { fetchTimings, fetchJummahTimes } from "../../../Utils/datafetcher";
 
 export const revalidate = 3600 
 export default async function PrayerInfo() {
@@ -18,21 +18,31 @@ export default async function PrayerInfo() {
           These Videos Can help guide you to the Prayer Rooms
         </h2>
         <div className=" grid grid-cols-1 gap-4 md:grid-cols-3">
-          <PrayerSpaceCard
-            videoId="Esnqdy0rqiY"
-            title="Jummah"
-            thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
-          />
+          
           <PrayerSpaceCard
             videoId="XQALLoF6Buo"
-            title="Brickers"
+            title="Bricker Prayer Room"
             thumbnailUrl="https://img.youtube.com/vi/XQALLoF6Buo/maxresdefault.jpg"
           />
           <PrayerSpaceCard
             videoId="BeT9uC4NBPw"
-            title="Peters"
+            title="Peters Prayer Room"
             thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
           />
+
+          <PrayerSpaceCard
+            videoId="xnGcNytQNxQ"
+            title="PMC (Jumu'ah)"
+            thumbnailUrl="https://img.youtube.com/vi/xnGcNytQNxQ/maxresdefault.jpg"
+          />
+
+          <PrayerSpaceCard
+            videoId="Esnqdy0rqiY"
+            title="Turret (Jumu'ah)"
+            thumbnailUrl="https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg"
+          />
+
+
         </div>
       </div>
     </div>

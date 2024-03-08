@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import db from "@/firebase";
@@ -18,6 +19,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { handleOrders, handleQuantityUpdate, verifyQuantities } from "@/Utils/actions";
 interface Product {
   name: string;
   id: string;
@@ -61,104 +63,31 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   };
 
   useEffect(() => {
-    const verifyQuantities = async () => {
-      for (const product of products) {
-        const productRef = doc(db, "Products", product.id);
-        const productSnapshot = await getDoc(productRef);
-        const productData = productSnapshot.data();
-
-        if (product.hasSizes) {
-          const sizeQuantity = productData?.sizes[product.size];
-          if (sizeQuantity && sizeQuantity < product.quantity) {
-            setAreQuantitiesValid(false);
-            break;
-          }
-        } else {
-          const quantity = productData?.quantity;
-          if (quantity && quantity < product.quantity) {
-            setAreQuantitiesValid(false);
-            break;
-          }
-        }
-      }
+    const checkQuantities = async () => {
+      const validQuantites = await verifyQuantities(products);
+      setAreQuantitiesValid(validQuantites);
     };
 
-    verifyQuantities();
+    checkQuantities();
   }, [products]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  async function handleSubmit() {
+
+
+
 
     try {
-      for (const product of products) {
-        const productRef = doc(db, "Products", product.id);
-        const productSnapshot = await getDoc(productRef);
-        const productData = productSnapshot.data();
-
-        if (product.hasSizes) {
-          const sizeQuantity = productData?.sizes[product.size];
-          if (sizeQuantity && sizeQuantity < product.quantity) {
-            throw new Error("Invalid quantity");
-          } else {
-            await updateDoc(productRef, {
-              [`sizes.${product.size}`]: increment(-product.quantity),
-            });
-          }
-        } else {
-          const quantity = productData?.quantity;
-          if (quantity && quantity < product.quantity) {
-            throw new Error("Invalid quantity");
-          } else {
-            await updateDoc(productRef, {
-              quantity: increment(-product.quantity),
-            });
-          }
-        }
-      }
+      await handleQuantityUpdate(products)
 
       dispatch(clearCart());
 
       let imageUrl = "";
       if (image) {
-        const storage = getStorage();
-        const storageRef = ref(storage, `receipts/${image.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, image);
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-          },
-          (error) => {
-            console.error("Error uploading image: ", error);
-          },
-          async () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(
-              async (downloadURL) => {
-                console.log("File available at", downloadURL);
-                imageUrl = downloadURL;
-
-                // Add a new document to Firestore
-              }
-            );
-          }
-        );
-        
+        'use server'
+        imageUrl = await handleImage(image)
       }
-      const docRef = await addDoc(collection(db, "Orders"), {
-        Name: fullName,
-        email: email,
-        phoneNumber: phoneNumber,
-        password: password,
-        image: imageUrl,
-        price: totalPrice,
-        pickuptime: pickupTime === "Other" ? customTime : pickupTime,
-        products: products,
-        delivered: false,
-      });
-      
+      await handleOrders(fullName, phoneNumber, email, imageUrl, totalPrice, pickupTime, products, password, customTime)
+
       const formData = {
         Name: fullName,
         email: email,
@@ -171,8 +100,8 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
       };
 
       try {
-        const response = await axios.post("/api/sendReceipt", formData);
-        console.log(response.data);
+        await axios.post("/api/sendreceipt", formData);
+
         setFullName("");
         setEmail("");
         setPhoneNumber("");
@@ -184,13 +113,14 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
         console.error("Error sending form: ", error);
       }
     } catch (error) {
+
       alert(
         "An error has occurred, please contact msa@wlu.ca if you have already paid"
       );
     }
   };
 
-  console.log(products);
+
   if (!areQuantitiesValid) {
     return (
       <div>Some products have invalid quantities. Please update your cart.</div>
@@ -200,9 +130,9 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
     <div>
       <div className="flex items-center">
         <div className="w-full rounded-xl px-2  md:w-[30rem]">
-          <form className="card-body" onSubmit={handleSubmit}>
+          <form className="card-body" action={handleSubmit}>
             <div className="flex flex-col gap-2 ">
-              <h1>E-Transfer ${totalPrice} to msa@wlu.ca</h1>
+              <h1>E-Transfer ${totalPrice} to wlumsa.donate@gmail.com</h1>
               <p>Please note all items are for pickup only!</p>
               <input
                 type="text"
@@ -215,7 +145,7 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
               <input
                 type="tel"
                 required
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                pattern="[0-9]{10}"
                 placeholder="Phone Number"
                 className="input input-bordered w-full text-neutral focus:border-secondary"
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -288,3 +218,33 @@ const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
 };
 
 export default BuyForm;
+
+async function handleImage(image: File) {
+  let imageUrl = "";
+
+  const storage = getStorage();
+  const storageRef = ref(storage, `receipts/${image.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, image);
+
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      const progress =
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + progress + "% done");
+    },
+    (error) => {
+      console.error("Error uploading image: ", error);
+    },
+    async () => {
+      getDownloadURL(uploadTask.snapshot.ref).then(
+        async (downloadURL) => {
+          imageUrl = downloadURL;
+        }
+      );
+    }
+  );
+
+
+  return imageUrl
+}

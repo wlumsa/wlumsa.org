@@ -32,7 +32,7 @@ export const WeeklyEventsCollection = buildCollection<WeeklyEvents>({
           requiredMessage: "You must set the title of the event",
         },
         dataType: "string",
-        description: "Title of Event, i.e Halaqas",
+        description: "Title of Event, i.e Halaqa",
       },
       room: {
         name: "Room Code",

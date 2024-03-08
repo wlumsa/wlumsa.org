@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../../logo.png";
-import { getServicesOffered } from "../../../Utils/api";
+import { getServicesOffered } from "../../../Utils/datafetcher";
 import Image from "next/image";
 import Link from "next/link";
 export const revalidate = 3600;
