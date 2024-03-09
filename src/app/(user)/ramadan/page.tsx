@@ -75,9 +75,11 @@ export default function RamadanPage() {
                 {" "}
                 Inshallah we will be giving out free iftars everday Monday - Friday in <Link href="ramadan#pmc" className="underline">PMC</Link>. Registration is mandatory click the button below for more info
               </p>
+              <Link href='https://docs.google.com/forms/d/1wa1rcim8VSwiqq6heLcV7zoEFh2MDMiAgD5xcdhfPBk' target="_blank">
               <button className=" my-4 rounded-lg bg-[#203B5D] px-8 py-2 font-bold text-white">
                 Register here
               </button>
+              </Link>
             </div>
 
           }
