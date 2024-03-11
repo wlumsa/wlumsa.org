@@ -44,7 +44,7 @@ interface EmailEntryAttachments {
   value: string[];
 }
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
-  const previewText = `Week at a glance!`;
+  const previewText = `The MSA Admin Team`;
   const renderContent = () => {
     return content.map((entry, index) => {
       switch (entry.type) {
@@ -160,8 +160,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
           <Text
             style={{ fontSize: "12px", lineHeight: "24px", color: "#666666" }}
           >
-            This is an automated email, please do not reply. If you would like
-            to unsubscribe from this newsletter, you can do so
+            This is an automated email,any inquires should be directed to msa@wlu.ca
             <Link href="https://www.wlumsa.org/unsubscribe"> here</Link>
           </Text>
           <Button

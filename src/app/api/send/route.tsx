@@ -31,9 +31,17 @@ interface EmailListItem {
   lastName: string;
 }
 
-function delay(time:number) {
+function delay(time: number) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
+function chunkArray(array: string[], chunkSize: number): string[][] {
+  const chunks: string[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize));
+  }
+  return chunks;
+}
+
 export async function POST(request: Request) {
   const body = await request.json();
   let { name, subject, content, status, distributionList, created_on } = body;
@@ -64,19 +72,8 @@ export async function POST(request: Request) {
     .map((url: string) => ({ path: url }));
 
   try {
-    if (distributionList != "Members") {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const data = await resend.emails.send({
-        from: "admin@wlumsa.org",
-        to: "admin@wlumsa.org",
-        bcc: emailRecipients,
-        subject: subject,
-        react: <Email firstName={""} lastName={""} content={content} />,
-        attachments: attachments,
-        reply_to: "msa@wlu.ca",
-      });
-    } else {
-      const delayTime = 2000;
+    if (distributionList == "Members") {
+
       const emailData = emailList.map((member) => ({
         from: "admin@wlumsa.org",
         to: member.email,
@@ -85,13 +82,35 @@ export async function POST(request: Request) {
         attachments: attachments,
         reply_to: "msa@wlu.ca",
       }));
-  
+      console.log()
+
       // Send the batch email
       const response = await resend.batch.send(
-        emailData 
+        emailData
       );
       console.log(response)
+    } else {
+      const chunkSize = 40; // BCC limit
+      const emailChunks = chunkArray(emailRecipients, chunkSize);
+      const delayTime = 10000; // Adjust delay time as needed
+      for (const batch of emailChunks) {
+        const response = await resend.emails.send({
+          from: "admin@wlumsa.org",
+          to: "admin@wlumsa.org", // Necessary if 'to' is required but will not see the email
+          bcc: batch,
+          subject: subject,
+          react: <Email firstName={""} lastName={""} content={content} />,
+          attachments: attachments,
+          reply_to: "msa@wlu.ca",
+        });
+        console.log(`Batch sent to ${batch.length} recipients. ${response}`);
+
+        // Delay between sends, if necessary, to avoid rate limits
+        await delay(delayTime);
+      }
     }
+
+
     return NextResponse.json({ status: 200 });
   } catch (error) {
     console.log(error);
