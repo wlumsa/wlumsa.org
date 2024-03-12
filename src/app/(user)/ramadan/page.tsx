@@ -60,9 +60,11 @@ export default function RamadanPage() {
             <p className=" text-center">
               Contribute to our notable goal of raising $25000 for the Gaza Emergency Response
             </p>
+            <Link href='http://LaunchGood.com/WLUGaza' target="_blank">
             <button className="my-4 rounded-lg bg-[#203B5D] px-8 py-2 font-bold text-white">
-              Coming soon
+              Donate
             </button>
+            </Link>
           </div>
 
           {

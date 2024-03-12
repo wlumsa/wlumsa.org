@@ -92,7 +92,7 @@ export async function POST(request: Request) {
     } else {
       const chunkSize = 40; // BCC limit
       const emailChunks = chunkArray(emailRecipients, chunkSize);
-      const delayTime = 10000; // Adjust delay time as needed
+      const delayTime = 1000; // Adjust delay time as needed
       for (const batch of emailChunks) {
         const response = await resend.emails.send({
           from: "admin@wlumsa.org",
