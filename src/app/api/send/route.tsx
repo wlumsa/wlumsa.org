@@ -75,7 +75,7 @@ export async function POST(request: Request) {
     if (distributionList == "Members") {
 
       const emailData = emailList.map((member) => ({
-        from: "admin@wlumsa.org",
+        from: "WLU MSA <admin@wlumsa.org>",
         to: member.email,
         subject: subject,
         react: <Email firstName={member.firstName} lastName={member.lastName} content={content} />, // Adjust this line according to how you convert the component to HTML or use the right format
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
       const delayTime = 1000; // Adjust delay time as needed
       for (const batch of emailChunks) {
         const response = await resend.emails.send({
-          from: "admin@wlumsa.org",
+          from: "WLU MSA <admin@wlumsa.org>",
           to: "admin@wlumsa.org", // Necessary if 'to' is required but will not see the email
           bcc: batch,
           subject: subject,
