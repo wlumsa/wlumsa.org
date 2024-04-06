@@ -42,6 +42,12 @@ function chunkArray(array: string[], chunkSize: number): string[][] {
   return chunks;
 }
 
+/**
+ * Sends a POST request with the provided data.
+ * 
+ * @param request - The request object containing the data.
+ * @returns A JSON response indicating the status of the request.
+ */
 export async function POST(request: Request) {
   const body = await request.json();
   let { name, subject, content, status, distributionList, created_on } = body;

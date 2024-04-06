@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { renderAsync } from "@react-email/render";
-import Email from "../emails/newsletter";
+import Email from "../emails/ramadan";
 
 import {
     EntityCustomViewParams,
