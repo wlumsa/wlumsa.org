@@ -45,7 +45,7 @@ interface EmailEntryAttachments {
     value: string[];
 }
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
-    const previewText = `The MSA Admin Team`;
+    const previewText = `WLUMSA 2024 Ramadan Project - Join us`;
     const renderContent = () => {
         return content.map((entry, index) => {
             switch (entry.type) {
@@ -143,8 +143,8 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
                         }}
                     >
                         <Heading style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Img src={logo.src} width={50} height={50} />
-                            <Img src={PA.src} width={300} height={50} />
+                            <Img src="https://firebasestorage.googleapis.com/v0/b/wlumsa-web.appspot.com/o/emails%2Fimages%2FMSA%20Logo.png?alt=media&token=073b3ae0-ff18-4078-96ee-e6acfcc4b367" width={50} height={50} />
+                            <Img src="https://firebasestorage.googleapis.com/v0/b/wlumsa-web.appspot.com/o/emails%2Fimages%2Fimages.png?alt=media&token=634e2065-718a-420f-af02-3d290bcaa1e6" width={300} height={50} />
 
                         </Heading>
                         <Heading style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: "16px", fontStyle: "italic", color: "#0E3762" }}>
@@ -279,11 +279,11 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
 
                             backgroundColor: '#AF8D4E',
                             color: 'white',
-                            width: "100px",
+                            width: "150px",
                             textAlign: "center",
                             borderRadius: "20px",
                         }} href="https://www.launchgood.com/v4/campaign/help_us_build_25_shelters_in_gaza">
-                            <Text style={{ fontSize: "12px", lineHeight: "24px", color: "#FFFFFF", }}>
+                            <Text style={{ fontSize: "20px", lineHeight: "24px", color: "#FFFFFF",  fontWeight:"bold"}}>
                                 Donate Here
                             </Text>
                         </Button>
@@ -293,7 +293,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
                         textAlign: "center",
                         paddingTop: "0px"
                     }}>
-                        <Text style={{ marginLeft: "auto", marginRight: "auto", fontFamily: "sans", fontSize: "16px", color: "#161F31", textAlign: "center" }}>
+                        <Text style={{ marginLeft: "auto", marginRight: "auto", fontFamily: "sans", fontSize: "14px", color: "#161F31", textAlign: "center" }}>
                             Gaza's plight is etched in the faces of its people – the weary eyes of parents trying to shield their children from the horrors of war, the silent cries of the wounded seeking solace amidst chaos. <b>It's a reality that pierces the soul and demands a response,</b> a compassionate gesture of solidarity and support.
                         </Text>
                     </Section>
@@ -302,7 +302,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
                         textAlign: "center",
                         paddingTop: "0px"
                     }}>
-                        <Text style={{ marginLeft: "auto", marginRight: "auto", fontFamily: "sans", fontSize: "16px", color: "#161F31", textAlign: "center" }}>
+                        <Text style={{ marginLeft: "auto", marginRight: "auto", fontFamily: "sans", fontSize: "14px", color: "#161F31", textAlign: "center" }}>
                             With over <b>31,000 innocent lives</b> lost, <b>2.2 million displaced</b>, and more than <b>73,000 injured</b>, the magnitude of the crisis is staggering. Yet amidst this darkness, there glimmers a ray of hope – the unwavering compassion of people like you, ready to extend a helping hand in their darkest hour.
                         </Text>
                     </Section>
@@ -312,7 +312,7 @@ const Email = ({ firstName, lastName, content }: EmailEntry) => {
                         textAlign: "center",
                         paddingTop: "0px"
                     }}>
-                        <Text style={{ marginLeft: "auto", marginRight: "auto", fontFamily: "sans", fontSize: "13.2px", color: "#161F31", textAlign: "center", }}>
+                        <Text style={{ marginLeft: "auto", marginRight: "auto", fontFamily: "sans", fontSize: "14px", color: "#161F31", textAlign: "center", }}>
                             As we seek Laylatul Qadr, the Night of Power and Decree, let us remember the immense rewards of charity and compassion during this blessed time. Your generosity today can be the lifeline for those clinging to hope amidst despair. Let your heart guide your actions, and together, we can bring light to the darkest corners of Gaza.
                         </Text>
                     </Section>
