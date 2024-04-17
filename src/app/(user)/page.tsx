@@ -11,11 +11,11 @@ export const metadata: Metadata = {
   description:
     "Wilfrid Laurier Univeristies Offical Muslim Students Assoication Website. We are a Muslim community at Wilfrid Laurier's Universities and our main focus ",
 };
-import { fetchInstagramPosts, fetchSocialLinks, getNavbarData,  heroUrl ,fetchPrayerRooms,fetchJummahInfo,fetchTodaysTimings,fetchEvents,getFooterData} from "../../Utils/datafetcher"
-export const revalidate = 3600 
+import { fetchInstagramPosts, fetchSocialLinks, getNavbarData, heroUrl, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimings, fetchEvents, getFooterData } from "../../Utils/datafetcher"
+export const revalidate = 3600
 export default async function Home() {
-  
-  const socialLinks = await fetchSocialLinks() 
+
+  const socialLinks = await fetchSocialLinks()
   const heroImageUrl = heroUrl;
   const instagramPosts = await fetchInstagramPosts();
   const prayerRoomsData = await fetchPrayerRooms()
@@ -25,14 +25,12 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
-     
       <Hero socialLinks={socialLinks} heroUrl={heroImageUrl} />
       <Popup />
-      <News instagramPosts={instagramPosts}/>
-      <PrayerSection prayerRoomsData={prayerRoomsData}  jummahInfo={jummahInfo}  timingsData={timingsData} />
+      <News instagramPosts={instagramPosts} />
+      <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} />
       <Events events={events} />
       <MemberSignup />
-      
     </main>
   )
 }
