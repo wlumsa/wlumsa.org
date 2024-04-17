@@ -29,8 +29,10 @@ export const metadata: Metadata = {
     "Wilfrid Laurier Univeristies Offical Muslim Students Assoication Website. We are a Muslim community at Wilfrid Laurier's Universities and our main focus ",
 };
 
-// Nextjs timebased revalidation function for cache, set to 1 hour
-// More information on nextjs caching, and best pratices can be found here: https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
+/*  Nextjs timebased revalidation function for cache, set to 1 hour
+More information on nextjs caching, and best pratices can be found here: 
+https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
+*/
 export const revalidate = 3600;
 
 /**
@@ -45,6 +47,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch data from database for dynamic data
   const navbarData = await getNavbarData();
   const socialLinks = await fetchSocialLinks();
   const footerData = await getFooterData();

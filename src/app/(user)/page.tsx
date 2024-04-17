@@ -1,20 +1,25 @@
 
+/**
+ * Renders the home page of the application.
+ * 
+ * @returns The JSX element representing the home page.
+ */
 import Popup from '@/components/UI/Popup';
 import News from '@/components/UI/News';
 import Hero from '@/components/UI/Hero';
 import PrayerSection from '@/components/UI/PrayerSection';
 import Events from '@/components/UI/WeeklyEvents';
 import MemberSignup from '@/components/UI/MemberSignup';
-import { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: "WLU MSA",
-  description:
-    "Wilfrid Laurier Univeristies Offical Muslim Students Assoication Website. We are a Muslim community at Wilfrid Laurier's Universities and our main focus ",
-};
-import { fetchInstagramPosts, fetchSocialLinks, getNavbarData, heroUrl, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimings, fetchEvents, getFooterData } from "../../Utils/datafetcher"
-export const revalidate = 3600
-export default async function Home() {
+import { fetchInstagramPosts, fetchSocialLinks, heroUrl, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimings, fetchEvents} from "../../Utils/datafetcher"
 
+/*  Nextjs timebased revalidation function for cache, set to 1 hour
+More information on nextjs caching, and best pratices can be found here: 
+https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
+*/
+export const revalidate = 3600
+
+export default async function Home() {
+  // Fetch data from database for dynamic data
   const socialLinks = await fetchSocialLinks()
   const heroImageUrl = heroUrl;
   const instagramPosts = await fetchInstagramPosts();
