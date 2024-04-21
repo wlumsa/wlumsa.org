@@ -3,7 +3,15 @@ import logo from "../../../logo.png";
 import { getServicesOffered } from "../../../Utils/datafetcher";
 import Image from "next/image";
 import Link from "next/link";
+
+/* Revalidate data from db every hour */
 export const revalidate = 3600;
+
+/**
+ * Renders the about page of the application.
+ * 
+ * @returns The JSX element representing the about page.
+**/
 export default async function About() {
   const servicesInfo = await getServicesOffered();
   return (

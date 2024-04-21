@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * Renders the page component for displaying recordings.
+ * @returns The JSX element representing the page component.
+ */
 const page = () => {
   return (
     <div className="flex min-h-screen flex-col">

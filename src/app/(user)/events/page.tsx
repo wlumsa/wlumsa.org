@@ -1,6 +1,10 @@
 import React from "react";
 import CalendarComponent from "@/components/UI/CalenderComponent";
 
+/**
+ * Renders the Events page component.
+ * @returns The rendered Events page component.
+ */
 export default async function EventsPage() {
   return (
     <div className="flex-grow">

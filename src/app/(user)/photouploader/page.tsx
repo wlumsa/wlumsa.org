@@ -1,5 +1,9 @@
 
 import UploadPhotoForm from "@/components/Forms/UploadPhoto";
+/**
+ * Renders the page for uploading photos and videos.
+ * @returns The rendered page component.
+ */
 export default function Page() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">

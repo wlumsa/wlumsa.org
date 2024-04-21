@@ -3,7 +3,13 @@ import PrayerTimesTable from "../../../components/PrayerTimeTable"; // assuming 
 import PrayerSpaceCard from "@/components/PrayerSpaceCard";
 import { fetchTimings, fetchJummahTimes } from "../../../Utils/datafetcher";
 
-export const revalidate = 3600 
+export const revalidate = 3600
+/**
+ * Renders the Prayer Info page.
+ * This page displays the prayer timings and videos guiding users to the prayer rooms.
+ * @returns The JSX element representing the Prayer Info page.
+ */
+
 export default async function PrayerInfo() {
   const timingsData = await fetchTimings();
   const jummahTimes = await fetchJummahTimes();
@@ -18,7 +24,7 @@ export default async function PrayerInfo() {
           These Videos Can help guide you to the Prayer Rooms
         </h2>
         <div className=" grid grid-cols-1 gap-4 md:grid-cols-3">
-          
+
           <PrayerSpaceCard
             videoId="XQALLoF6Buo"
             title="Bricker Prayer Room"

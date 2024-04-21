@@ -2,6 +2,11 @@ import React from "react";
 
 import { getResourcesData } from "../../../Utils/datafetcher";
 export const revalidate = 600 
+/**
+ * Renders the Resources page component.
+ * Fetches the resources data and renders the appropriate JSX based on the resource group type.
+ * @returns The JSX for the Resources page.
+ */
 export default async function ResourcesPage() {
   const resourcesData = await getResourcesData();
   return (

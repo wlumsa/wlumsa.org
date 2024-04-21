@@ -1,6 +1,12 @@
 import React from "react";
 import CtaForm from "@/components/Forms/CtaForm";
 
+/**
+ * Renders the ContactPage component.
+ * 
+ * @returns The ContactPage component.
+ */
+
 export default function ContactPage() {
   return (
     <div className="mt-20 flex flex-grow flex-col items-center">

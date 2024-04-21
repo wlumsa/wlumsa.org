@@ -4,9 +4,16 @@ import { useParams } from "next/navigation";
 
 import CtaForm from "@/components/Forms/CtaForm";
 
-export default  function DynamicContactPage() {
-  const params = useParams<{ type: string }>()
+/**
+ * This is a dynamic route page, to learn more about dynamic routes visit the nextjs docs below
+ * https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes
+ * Renders a dynamic contact page based on the specified type.
+ * @returns The JSX element representing the dynamic contact page.
+ */
+export default function DynamicContactPage() {
+  const params = useParams<{ type: string }>();
   const type = params ? params.type : 'Contact';
+
   return (
     <div className="flex min-h-screen flex-col">
       <div className="mt-20 flex flex-col items-center flex-grow">
@@ -20,7 +27,6 @@ export default  function DynamicContactPage() {
         </div>
         <CtaForm category={type} />
       </div>
-   
     </div>
   );
 };

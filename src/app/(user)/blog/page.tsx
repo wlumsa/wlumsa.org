@@ -1,6 +1,11 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
 import { getBlogsData } from "@/Utils/datafetcher";
+/**
+ * Renders the Blog component.
+ * Fetches blog data and displays a list of blog cards.
+ * @returns The rendered Blog component.
+ */
 export default async function Blog() {
   const posts = await getBlogsData();
   return (

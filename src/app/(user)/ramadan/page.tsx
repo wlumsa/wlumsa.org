@@ -8,6 +8,13 @@ type ExtendedStyle = React.CSSProperties & {
   "--value"?: string;
 };
 
+/**
+ * Renders the RamadanPage component.
+ * This component displays information about Ramadan, including the year, amount of sadaqah raised, and number of meals served.
+ * It also provides options to donate, register for free iftars, view the Ramadan prayer table, and download the Ramadan checklist.
+ * Additionally, it shows the prayer rooms available on campus.
+ */
+
 export default function RamadanPage() {
   const [year, setYear] = useState(0);
   const [sadaqah, setSadaqah] = useState(0);

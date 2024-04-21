@@ -2,16 +2,34 @@ import React from "react";
 //import Markdown from "react-markdown";
 import { getPost } from "@/Utils/datafetcher";
 import { Markdown } from "@react-email/markdown";
+
+
+/**
+ * This is a dynamic route page, to learn more about dynamic routes visit the nextjs docs below
+ * https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes
+ * 
+ * Renders a blog post page.
+ * @param {Object} props - The component props.
+ * @param {Object} props.params - The parameters object.
+ * @param {string} props.params.post - The ID of the blog post.
+ * @returns {JSX.Element} The rendered blog post page.
+ * 
+ */
 export default async function BlogPost({
   params,
 }: {
   params: { post: string };
 }) {
+  // Retrieve the post and image URL using the post ID
   const id = params.post;
   const { post, imageURL } = await getPost(id);
+
+  // If the post is not found, render a message
   if (!post) {
     return <div>Post not found</div>;
   }
+
+  // Render the blog post page
   return (
     <div className="mt-20">
       <div className="mx-auto max-w-screen-lg">

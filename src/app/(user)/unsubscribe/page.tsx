@@ -9,6 +9,9 @@ import {
   updateDoc
 } from "firebase/firestore"; // Import Firebase Firestore functions
 export const revalidate = 3600 
+/**
+ * Renders the Unsubscribe page component.
+ */
 function DeleteDocumentPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
