@@ -5,6 +5,11 @@ import { hidePopup, showPopup } from "../../redux/popupSlice";
 import { RootState } from "../../redux/store";
 import MemberSignup from "./MemberSignup";
 
+/**
+ * Represents a popup component.
+ * This component displays a popup window with a close button and a member signup form.
+ */
+
 const Popup: React.FC = () => {
   const dispatch = useDispatch();
   const isPopupOpen = useSelector((state: RootState) => state.popup.displayed);

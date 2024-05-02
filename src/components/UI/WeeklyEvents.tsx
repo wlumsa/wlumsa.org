@@ -1,6 +1,14 @@
 import React from "react";
 import Image from "next/image";
 
+/**
+ * Renders a list of events.
+ *
+ * @component
+ * @param {EventsProps} props - The component props.
+ * @param {Event[]} props.events - The array of events to render.
+ * @returns {JSX.Element} The rendered component.
+ */
 const Events: React.FC<EventsProps> = ({ events }) => {
   return (
     <div id="events" className="flex-grow">

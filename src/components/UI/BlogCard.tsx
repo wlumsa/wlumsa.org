@@ -5,6 +5,13 @@ type BlogCard = {
   name: string;
   tagline: string;
 };
+/**
+ * Represents a blog card component.
+ * @param {string} id - The unique identifier of the blog.
+ * @param {string} name - The name of the blog.
+ * @param {string} tagline - The tagline of the blog.
+ * @returns {JSX.Element} The rendered blog card component.
+ */
 const BlogCard = ({ id, name, tagline }: BlogCard) => {
   return (
     <div className="card w-72 rounded-xl bg-base-100 shadow-md duration-500 hover:scale-105 hover:shadow-xl">

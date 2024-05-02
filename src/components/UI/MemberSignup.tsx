@@ -4,25 +4,33 @@ import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
 import db from "../../firebase";
 import { toast } from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
+/**
+ * Component for member signup form.
+ */
 const MemberSignup: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [studentId, setStudentId] = useState("");
   const [newsLetter, setNewsLetter] = useState(true);
+
+  /**
+   * Handles form submission.
+   * @param e - The form event.
+   */
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-  
+
     try {
       const membersCollection = collection(db, "Members");
       const sameMemberQuery = query(membersCollection, where("Email", "==", email));
       const querySnapshot = await getDocs(sameMemberQuery);
-  
+
       if (!querySnapshot.empty) {
         toast.error("User already exists.");
         return;
       }
-  
+
       const docRef = await addDoc(membersCollection, {
         FirstName: firstName,
         LastName: lastName,
@@ -30,7 +38,7 @@ const MemberSignup: React.FC = () => {
         StudentId: studentId,
         Newsletter: newsLetter,
       });
-  
+
       console.log("Document written", docRef);
       setFirstName("");
       setLastName("");
@@ -43,6 +51,7 @@ const MemberSignup: React.FC = () => {
       toast.error("An error occurred.");
     }
   };
+
   return (
     <div className="flex w-full items-center justify-center bg-base-100 py-2">
       <div className="max-w-xl px-2">
@@ -108,15 +117,16 @@ const MemberSignup: React.FC = () => {
         </form>
       </div>
       <Toaster
-            reverseOrder={false}
-            position="top-center"
-            toastOptions={{
-              style: {
-                borderRadius: "8px",
-                background: "#333",
-                color: "white",
-              },
-            }}/>
+        reverseOrder={false}
+        position="top-center"
+        toastOptions={{
+          style: {
+            borderRadius: "8px",
+            background: "#333",
+            color: "white",
+          },
+        }}
+      />
     </div>
   );
 };

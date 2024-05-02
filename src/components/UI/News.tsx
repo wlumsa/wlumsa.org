@@ -6,6 +6,12 @@ interface InstagramPageProps {
   instagramPosts: instagramPost[];
 }
 
+/**
+ * Renders the News component.
+ * @param {InstagramPageProps} props - The component props.
+ * @param {Array<InstagramPost>} props.instagramPosts - The array of Instagram posts.
+ * @returns {JSX.Element} The rendered News component.
+ */
 const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
   const queryLength = instagramPosts.length;
   return (

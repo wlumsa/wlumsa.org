@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * JummahInfo component displays the Jummah prayer time and room information in a table format.
+ *
+ * @param jummahInfo - An array of JummahItem objects containing the time and room information.
+ */
 const JummahInfo: React.FC<{ jummahInfo: JummahItem[] }> = ({ jummahInfo }) => {
   return (
     <div className="stats stats-vertical shadow lg:stats-horizontal ">

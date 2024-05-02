@@ -12,10 +12,22 @@ interface Product {
   tags: string[];
 }
 
+/**
+ * Renders a product card component.
+ * @param {string} productId - The ID of the product.
+ * @param {string} name - The name of the product.
+ * @param {string} description - The description of the product.
+ * @param {string} image - The image URL of the product.
+ * @param {string[]} tags - The tags associated with the product.
+ * @returns {JSX.Element} The rendered product card component.
+ */
 const Products = ({ productId, name, description, image, tags }: Product) => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    /**
+     * Fetches the image URL from the storage.
+     */
     const fetchImageUrl = async () => {
       const imageRef = ref(storage, image); // Create a reference to the image file
       try {

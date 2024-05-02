@@ -8,7 +8,14 @@ interface PrayerSectionProps {
   jummahInfo:JummahItem[];
   timingsData: DayTimings | null;
 }
-const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData,jummahInfo,timingsData }) => {
+/**
+ * Represents the PrayerSection component.
+ * @param {Object} prayerRoomsData - The data for prayer rooms.
+ * @param {Object} jummahInfo - The data for Jummah info.
+ * @param {Object} timingsData - The data for prayer timings.
+ * @returns {JSX.Element} The rendered PrayerSection component.
+ */
+const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahInfo, timingsData }) => {
   return (
     <div
       id="prayer_info"
@@ -25,10 +32,8 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData,jummahInf
         >
           View Prayer Timings
         </Link>
-       
       </div>
       <div className="divider  md:divider-horizontal mt-10 mx-10"></div>
-      
       <div className="card flex-grow place-items-center rounded-box">
         <div className="flex w-full items-center justify-center flex-row gap-6 gap:0 md:flex-col">
           <div className="card grid place-items-center rounded-box bg-base-100">

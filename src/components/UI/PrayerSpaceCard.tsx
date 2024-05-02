@@ -7,9 +7,19 @@ interface PrayerSpaceCardProps {
   thumbnailUrl: string;
 }
 
+/**
+ * PrayerSpaceCard component represents a card that displays a prayer space video.
+ *
+ * @param videoId - The ID of the YouTube video.
+ * @param title - The title of the video.
+ * @param thumbnailUrl - The URL of the video thumbnail.
+ */
 const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumbnailUrl }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  /**
+   * Toggles the visibility of the video popup.
+   */
   const togglePopup = () => setIsOpen(!isOpen);
 
   return (

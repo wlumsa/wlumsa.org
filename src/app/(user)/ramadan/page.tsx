@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import PrayerSpaceCard from "@/components/PrayerSpaceCard";
+import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 type ExtendedStyle = React.CSSProperties & {
   "--value"?: string;
 };

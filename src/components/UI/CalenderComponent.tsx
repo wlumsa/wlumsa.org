@@ -8,6 +8,8 @@ import { EventContentArg } from "@fullcalendar/common";
 import "@fullcalendar/common/main.css";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 
+
+
 type Event = {
   id: string;
   title: string;
@@ -23,11 +25,19 @@ type FetchedEvent = {
   recurring?: boolean;
 };
 
+/**
+ * CalendarComponent is a component that displays upcoming events using FullCalendar.
+ * FullCalendar is a JavaScript event calendar that is used to display events in a calendar format.
+ * More info on FullCalendar can be found here: https://fullcalendar.io/
+ */
 const CalendarComponent = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const calendarRef = useRef<any>(null);
 
   useEffect(() => {
+    /**
+     * handleResize is a function that handles the resizing of the calendar based on the window width.
+     */
     const handleResize = () => {
       if (calendarRef.current) {
         if (window.innerWidth <= 480) {
@@ -44,6 +54,9 @@ const CalendarComponent = () => {
     // Attach the event listener
     window.addEventListener("resize", handleResize);
 
+    /**
+     * fetchEvents is an asynchronous function that fetches events from the server and sets them in the state.
+     */
     const fetchEvents = async () => {
       const res = await fetch("/api/calendar");
       const data: FetchedEvent[] = await res.json();

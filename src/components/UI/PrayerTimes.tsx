@@ -4,6 +4,14 @@ interface PrayerTimesProps {
   timingsData: DayTimings | null;
 }
 
+/**
+ * Renders the prayer times component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Timings} props.timingsData - The prayer timings data.
+ * @returns {JSX.Element} The rendered component.
+ */
 const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
   if (!timingsData) {
     return <div>Loading...</div>;

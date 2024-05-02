@@ -27,14 +27,21 @@ interface Props {
   imageUrl: string;
 }
 
+/**
+ * Component for displaying a product and managing its quantity.
+ */
 const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
- 
- 
-  const [quantity, setQuantity] = useState(0); // Added overall quantity state
+  // State for overall quantity and size-specific quantities
+  const [quantity, setQuantity] = useState(0);
   const [quantityS, setQuantityS] = useState(0);
   const [quantityM, setQuantityM] = useState(0);
   const [quantityL, setQuantityL] = useState(0);
 
+  /**
+   * Handles the change in quantity for a specific size.
+   * @param size - The size of the product (S, M, L).
+   * @param newQuantity - The new quantity value.
+   */
   const handleSizeQuantityChange = (
     size: "S" | "M" | "L",
     newQuantity: number
@@ -42,7 +49,6 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
     if (product) {
       const availableQuantity = product.sizes[size];
       const limitedQuantity = Math.max(0, Math.min(newQuantity, 3));
-      //const limitedQuantity = Math.max(0, Math.min(newQuantity, availableQuantity)); // uncomment this line to let limit be the product quantity
       switch (size) {
         case "S":
           setQuantityS(limitedQuantity);
@@ -58,19 +64,30 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
       }
     }
   };
+
+  /**
+   * Handles the change in overall quantity.
+   * @param newQuantity - The new quantity value.
+   */
   const handleQuantityChange = (newQuantity: number) => {
     if (product) {
       const availableQuantity = product.quantity;
-      //setQuantity(Math.max(0, Math.min(newQuantity, availableQuantity))); uncomment this line to let limit be the product quantity
       setQuantity(Math.max(0, Math.min(newQuantity, 3)));
     }
   };
+
+  // Object mapping size keys to size names
   type SizeKey = "S" | "M" | "L";
   const sizeNames: Record<SizeKey, string> = {
     S: "Small",
     M: "Medium",
     L: "Large",
   };
+
+  /**
+   * Renders the quantity inputs based on the product's availability and size options.
+   * @returns The JSX elements for the quantity inputs.
+   */
   const renderQuantityInputs = () => {
     if (product?.hasSizes && product.sizes) {
       const allSizesOutOfStock =
@@ -82,6 +99,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
           <div key={size} className="mt-2">
             <span>{sizeNames[size as SizeKey]}:</span>
             <div className="mt-2 flex items-center">
+              {/* Decrease quantity button */}
               <button
                 type="button"
                 onClick={() =>
@@ -105,6 +123,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
               >
                 -
               </button>
+              {/* Quantity input */}
               <input
                 type="number"
                 value={
@@ -124,6 +143,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
                 min="0"
                 max={qty}
               />
+              {/* Increase quantity button */}
               <button
                 type="button"
                 onClick={() =>
@@ -154,6 +174,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
     } else if (product && product.quantity > 0) {
       return (
         <div className="mt-2 flex items-center">
+          {/* Decrease quantity button */}
           <button
             type="button"
             onClick={() => handleQuantityChange(quantity - 1)}
@@ -162,6 +183,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
           >
             -
           </button>
+          {/* Quantity input */}
           <input
             type="number"
             value={quantity}
@@ -170,6 +192,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
             min="0"
             max={product.quantity}
           />
+          {/* Increase quantity button */}
           <button
             type="button"
             onClick={() => handleQuantityChange(quantity + 1)}
@@ -184,6 +207,8 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
       return <div className="mt-2 text-lg text-red-500">Out of Stock</div>;
     }
   };
+
+  // Array to store cart items
   let cartItems = [];
   if (product) {
     if (product.hasSizes) {
@@ -198,6 +223,8 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
       });
     }
   }
+
+  // Calculate total price
   let totalPrice = 0;
   if (product) {
     if (product.hasSizes) {
@@ -206,7 +233,9 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
       totalPrice += product.price * quantity;
     }
   }
+
   const dispatch = useDispatch();
+
   return (
     <div className="flex min-h-screen flex-col py-10">
       <div className="flex-grow">
@@ -216,6 +245,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
               <div className="-mx-4 flex flex-col md:flex-row">
                 <div className="px-4 md:flex-1">
                   <div className="mb-4 h-[460px] shadow-lg">
+                    {/* Product image */}
                     <img
                       className="h-full w-full rounded-lg object-cover"
                       src={imageUrl}
@@ -224,6 +254,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
                   </div>
                 </div>
                 <div className="px-4 md:flex-1">
+                  {/* Product name */}
                   <h2 className="mb-2 text-3xl font-bold text-neutral">
                     {product.name}
                   </h2>
@@ -232,6 +263,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
                       <span className="text-xl font-bold text-neutral">
                         Price:
                       </span>
+                      {/* Product price */}
                       <span className="text-lg text-neutral">
                         {" "}
                         ${product.price}{" "}
@@ -243,6 +275,7 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
                       Select Quantity
                     </span>
                     <div className="flex w-fit flex-col md:flex-row md:gap-10">
+                      {/* Render quantity inputs */}
                       {renderQuantityInputs()}
                     </div>
                     <p>Limit of 3 items per customer</p>
@@ -251,12 +284,14 @@ const ProductDisplay: React.FC<Props> = ({ product, imageUrl }) => {
                     <span className="text-xl font-bold text-neutral">
                       Product Description:
                     </span>
+                    {/* Product description */}
                     <p className="mt-2 text-lg text-neutral">
                       {product.description}
                     </p>
                   </div>
                   <div className="-mx-2 mb-4 flex flex-col gap-2 py-10 md:flex-row">
                     <div className="w-full px-2 ">
+                      {/* Add to cart button */}
                       <button
                         onClick={() => {
                           if (
