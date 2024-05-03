@@ -32,6 +32,12 @@ interface BuyFormProps {
   products: Product[];
   totalPrice: string;
 }
+/**
+ * Represents a form for buying products.
+ * @param products - The list of products to buy.
+ * @param totalPrice - The total price of the products.
+ */
+
 const BuyForm: React.FC<BuyFormProps> = ({ products, totalPrice }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");

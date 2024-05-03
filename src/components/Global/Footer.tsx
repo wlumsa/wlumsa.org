@@ -7,6 +7,13 @@ import Image from 'next/image';
 import logo from "../../logo.png"
 
 
+/**
+ * Footer component.
+ * 
+ * @param {Object[]} footerGroups - An array of footer groups.
+ * @param {Object[]} socialLinks - An array of social links.
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 const Footer: React.FC<FooterProps> = ({ footerGroups, socialLinks }) => {
  
   return (

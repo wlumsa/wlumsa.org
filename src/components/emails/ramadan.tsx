@@ -44,6 +44,13 @@ interface EmailEntryAttachments {
     type: "attachments";
     value: string[];
 }
+/**
+ * Renders an email component with dynamic content.
+ *
+ * @param {EmailEntry} props - The props containing the first name, last name, and content.
+ * @returns {JSX.Element} The rendered email component.
+ */
+
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
     const previewText = `WLUMSA 2024 Ramadan Project - Join us`;
     const renderContent = () => {

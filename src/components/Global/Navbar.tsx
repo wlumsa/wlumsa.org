@@ -41,6 +41,12 @@ interface NavbarProps {
   navbarData: NavbarGroup[];
 }
 
+/**
+ * Represents the Navbar component.
+ * @param {NavbarProps} props - The props for the Navbar component.
+ * @returns {JSX.Element} The rendered Navbar component.
+ */
+
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");

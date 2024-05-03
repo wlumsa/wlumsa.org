@@ -43,6 +43,14 @@ interface EmailEntryAttachments {
   type: "attachments";
   value: string[];
 }
+/**
+ * Renders an email with the provided content.
+ * @param firstName - The first name of the recipient.
+ * @param lastName - The last name of the recipient.
+ * @param content - An array of content entries for the email.
+ * @returns The rendered email component.
+ */
+
 const Email = ({ firstName, lastName, content }: EmailEntry) => {
   const previewText = `The MSA Admin Team`;
   const renderContent = () => {

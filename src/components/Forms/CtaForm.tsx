@@ -6,6 +6,12 @@ interface CtaFormProps {
   category: string;
 }
 
+/**
+ * CtaForm component represents a form used for submitting a call-to-action.
+ * @param {CtaFormProps} props - The component props.
+ * @param {string} props.category - The category of the call-to-action.
+ * @returns {JSX.Element} The rendered CtaForm component.
+ */
 const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,6 +20,10 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
   const [summary, setSummary] = useState("");
   const [categoryState, setCategoryState] = useState(category);
 
+  /**
+   * Handles the form submission.
+   * @param {React.FormEvent<HTMLFormElement>} e - The form event.
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = {

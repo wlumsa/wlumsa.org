@@ -18,13 +18,23 @@ import {
 
 
 
+/**
+ * UploadPhotoForm component for uploading photos.
+ */
 const UploadPhotoForm: React.FC = () => {
     const [gender, setGender] = useState<string>("");
     const [images, setImages] = useState<File[]>([]); 
     const fileInputRef = React.useRef<HTMLInputElement>(null); 
     const [uploadProgress, setUploadProgress] = useState<number>(0); 
     const [uploadStarted, setUploadStarted] = useState<boolean>(false); 
-    async function handleImage(image: File, gender: string) {
+
+    /**
+     * Handles the upload of an image file.
+     * @param image - The image file to be uploaded.
+     * @param gender - The gender associated with the image.
+     * @returns The URL of the uploaded image.
+     */
+    async function handleImage(image: File, gender: string): Promise<string> {
         let imageUrl = "";
 
         const storage = getStorage();
@@ -53,8 +63,12 @@ const UploadPhotoForm: React.FC = () => {
 
         return imageUrl;
     }
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 
+    /**
+     * Handles the upload of image files selected by the user.
+     * @param event - The change event triggered by the file input.
+     */
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const files = Array.from(event.target.files);
             const oversizedFiles = files.some(file => file.size / (1024 * 1024) > 200);
@@ -65,11 +79,20 @@ const UploadPhotoForm: React.FC = () => {
             }
         }
     };
+
+    /**
+     * Handles the selection of the gender.
+     * @param event - The change event triggered by the gender select input.
+     */
     const handleGender = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
         setGender(event.target.value);
     };
+
+    /**
+     * Handles the form submission.
+     */
     async function handleSubmit() {
         setUploadStarted(true);
         try {
