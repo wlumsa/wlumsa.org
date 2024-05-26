@@ -1,4 +1,5 @@
-import { withPayload } from '@payloadcms/next/withPayload';
+import { withPayload } from '@payloadcms/next/withPayload'
+
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
@@ -37,4 +38,4 @@ const config = {
     ],
   },
 };
-export default withPayload(withPayload(withPayload(config)));
+export default withPayload(withPayload(withPayload(withPayload(config))));

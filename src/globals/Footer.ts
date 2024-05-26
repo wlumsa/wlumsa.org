@@ -27,4 +27,4 @@ const Footer: GlobalConfig = {
     ],
 }
 
-export default Nav
+export default Footer
