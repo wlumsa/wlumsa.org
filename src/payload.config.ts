@@ -5,10 +5,12 @@ import path from 'path'
 import { buildConfig } from 'payload/config'
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
-import {link} from "./collections/link"
+import {link} from './collections/Link'
 import { Users } from './collections/Users'
 import Nav from './globals/Navbar'
 import Footer from './globals/Footer'
+import Instagram from './collections/UI/Instagram'
+import Resources from './collections/UI/Resources'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -16,7 +18,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users,link],
+  collections: [Users,link,Instagram,Resources],
   globals: [Nav, Footer], 
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0

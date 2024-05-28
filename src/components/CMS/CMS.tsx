@@ -13,7 +13,6 @@ import "typeface-rubik";
 import "@fontsource/ibm-plex-mono";
 import { firebaseConfig } from "../../firebase";
 import db from "../../firebase";
-import { EmailCollection } from "./Collections/EmailCollection";
 import { ProductsCollection } from "./Collections/Merch/ProductCollection";
 import { usersCollection } from "./Collections/UsersCollection";
 import { InstagramCollection } from "./Collections/UI/InstagramCollection";

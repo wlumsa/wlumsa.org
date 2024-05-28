@@ -1,4 +1,4 @@
-import { GlobalConfig } from 'payload/types'
+import { GlobalConfig } from 'payload/types';
 
 const Nav: GlobalConfig = {
     slug: 'nav',
