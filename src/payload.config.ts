@@ -11,6 +11,8 @@ import Nav from './globals/Navbar'
 import Footer from './globals/Footer'
 import Instagram from './collections/UI/Instagram'
 import Resources from './collections/UI/Resources'
+import { Media } from './collections/Media'
+import { Hero } from './collections/UI/Hero'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -18,7 +20,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users,link,Instagram,Resources],
+  collections: [Users,link,Instagram,Resources,Media,Hero],
   globals: [Nav, Footer], 
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
