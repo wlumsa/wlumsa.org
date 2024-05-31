@@ -1,3 +1,4 @@
+import { s3Storage } from '@payloadcms/storage-s3';
 import { postgresAdapter } from '@payloadcms/db-postgres'
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -12,7 +13,7 @@ import Footer from './globals/Footer'
 import Instagram from './collections/UI/Instagram'
 import Resources from './collections/UI/Resources'
 import { Media } from './collections/Media'
-import { Hero } from './collections/UI/Hero'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -20,7 +21,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users,link,Instagram,Resources,Media,Hero],
+  collections: [Users,link,Instagram,Resources,Media],
   globals: [Nav, Footer], 
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
@@ -33,6 +34,25 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
+  plugins:[
+    s3Storage({
+      collections: {
+        media: {
+          prefix: 'media',
+        }
+      },
+      bucket: process.env.S3_BUCKET || 'default_bucket',
+      config: {
+        forcePathStyle: true,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || 'default_access_key_id',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || 'default_secret_access_key',
+        },
+        region: process.env.S3_REGION || 'default_region',
+        endpoint: process.env.S3_ENDPOINT || 'default_endpoint',
+      },
+    }),
+  ]
 
   // Sharp is now an optional dependency -
   // if you want to resize images, crop, set focal point, etc.

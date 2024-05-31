@@ -13,8 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -29,11 +29,13 @@
         "./src/payload.config.ts"
       ],
     },
+    "target":"ES2017",
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    
   },
   "include": [
     ".eslintrc.cjs",
