@@ -1,4 +1,4 @@
-import type {CollectionConfig} from "payload/types"
+import type { CollectionConfig } from "payload/types"
 
 const Instagram: CollectionConfig = {
     slug: 'Instagram',
@@ -8,11 +8,9 @@ const Instagram: CollectionConfig = {
     timestamps: true,
     fields: [
         {
-            name: 'link',
-            type: 'relationship',
-            relationTo: 'link',
+            name: 'url',
+            type: 'text',
             required: true,
-            hasMany: true,
         },
     ],
 }

@@ -7,7 +7,6 @@ export const Members: CollectionConfig = {
         group: 'Admin',
     },
 
-    auth: true,
     fields: [
         {
             name: 'First Name',
