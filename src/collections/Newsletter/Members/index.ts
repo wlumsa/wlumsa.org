@@ -31,6 +31,7 @@ export const Members: CollectionConfig = {
             type: 'checkbox',
         },
         
-        // Add more fields as needed
+ 
     ],
 }
+export default Members;

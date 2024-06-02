@@ -13,6 +13,8 @@ import Footer from './globals/Footer'
 import Instagram from './collections/UI/Instagram'
 import Resources from './collections/UI/Resources'
 import { Media } from './collections/Media'
+import Emails from './collections/Newsletter/Emails';
+import Members from './collections/Newsletter/Members';
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +23,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users,link,Instagram,Resources,Media],
+  collections: [Users,link,Instagram,Resources,Media,Emails,Members],
   globals: [Nav, Footer], 
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
