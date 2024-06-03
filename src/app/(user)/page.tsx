@@ -10,7 +10,7 @@ import Hero from '@/components/UI/Hero';
 import PrayerSection from '@/components/UI/PrayerSection';
 import Events from '@/components/UI/WeeklyEvents';
 import MemberSignup from '@/components/UI/MemberSignup';
-import { fetchInstagramPosts, fetchSocialLinks, heroUrl, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimings, fetchEvents} from "../../Utils/datafetcher"
+import { fetchInstagramPosts, fetchSocialLinks, heroUrl, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimings, fetchEvents } from "../../Utils/datafetcher"
 
 /*  Nextjs timebased revalidation function for cache, set to 1 hour
 More information on nextjs caching, and best pratices can be found here: 

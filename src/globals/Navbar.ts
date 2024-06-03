@@ -20,9 +20,9 @@ const Nav: GlobalConfig = {
                     relationTo: 'link',
                     required: true,
                     hasMany: true,
-                },        
+                },
             ],
-            
+
         },
     ],
 }

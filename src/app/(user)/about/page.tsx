@@ -15,7 +15,7 @@ export const revalidate = 3600;
 export default async function About() {
   const servicesInfo = await getServicesOffered();
   return (
-    <div className="mt-20  flex-grow px-10">
+    <div className="flex-grow px-10 mt-20 ">
       <div className="flex flex-col items-center justify-center">
         {/* About Us Section */}
         <div className="hero h-fit self-center">
