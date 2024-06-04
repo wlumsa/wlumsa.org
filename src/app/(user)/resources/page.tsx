@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getResourcesData } from "../../../Utils/datafetcher";
+import { getResourcesData } from "../../../utils/datafetcher";
 export const revalidate = 600
 /**
  * Renders the Resources page component.

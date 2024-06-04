@@ -10,6 +10,7 @@ import {
   getDoc,
   where,
 } from "firebase/firestore";
+
 import db from "@/firebase";
 import { storage } from "@/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
@@ -18,13 +19,13 @@ export const getNavbarData = cache(async () => {
   const navbarQuery = query(collection(db, "Navbar"), orderBy("index"));
   const navbarQuerySnapshot = await getDocs(navbarQuery);
   const navbarGroups = await Promise.all(
-    navbarQuerySnapshot.docs.map(async (doc) => {
+    navbarQuerySnapshot.docs.map(async (doc: { data: () => any; id: any; }) => {
       const data = doc.data();
       const linksCollectionRef = collection(db, `Navbar/${doc.id}/Links`);
       const linksQuery = query(linksCollectionRef, orderBy("index"));
       const linksSnapshot = await getDocs(linksQuery);
       const links = linksSnapshot.docs.map(
-        (linkDoc) => linkDoc.data() as LinkItem
+        (linkDoc: { data: () => LinkItem; }) => linkDoc.data() as LinkItem
       );
       return {
         Group: data.Group,
@@ -42,7 +43,7 @@ export const fetchSocialLinks = cache(async () => {
   const socialsCollectionRef = collection(db, "Socials");
   const socialQuery = query(socialsCollectionRef, orderBy("index", "asc"));
   const querySnapshot = await getDocs(socialQuery);
-  return querySnapshot.docs.map((doc) => doc.data() as SocialLink);
+  return querySnapshot.docs.map((doc: { data: () => SocialLink; }) => doc.data() as SocialLink);
 });
 
 export const fetchInstagramPosts = cache(async () => {
@@ -53,7 +54,7 @@ export const fetchInstagramPosts = cache(async () => {
   );
   const querySnapshot = await getDocs(postsQuery); // Use getDocs on the query
 
-  const instagramPostsData = querySnapshot.docs.map((doc) => {
+  const instagramPostsData = querySnapshot.docs.map((doc: { data: () => instagramPost; }) => {
     const data = doc.data() as instagramPost;
     return {
       ...data,
@@ -66,13 +67,13 @@ export const getFooterData = cache(async () => {
   const footerQuery = query(collection(db, "Footer"), orderBy("index"));
   const footerQuerySnapshot = await getDocs(footerQuery);
   const footerGroups = await Promise.all(
-    footerQuerySnapshot.docs.map(async (doc) => {
+    footerQuerySnapshot.docs.map(async (doc: { data: () => any; id: any; }) => {
       const data = doc.data();
       const linksCollectionRef = collection(db, `Footer/${doc.id}/Links`);
       const linksQuery = query(linksCollectionRef, orderBy("index"));
       const linksSnapshot = await getDocs(linksQuery);
       const links = linksSnapshot.docs.map(
-        (linkDoc) => linkDoc.data() as Links
+        (linkDoc: { data: () => Links; }) => linkDoc.data() as Links
       );
       return {
         Group: data.Group,
@@ -89,7 +90,7 @@ export const fetchEvents = cache(async () => {
   const querySnapshot = await getDocs(eventsCollectionRef);
 
   return Promise.all(
-    querySnapshot.docs.map(async (doc) => {
+    querySnapshot.docs.map(async (doc: { data: () => Events; }) => {
       const eventData = doc.data() as Events;
       const imgURL = await getDownloadURL(ref(storage, eventData.img)); // Assuming eventData.icon is the path to the icon in Firebase Storage
       return { ...eventData, img: imgURL };
@@ -102,7 +103,7 @@ export const fetchDiscountCodes = cache(async () => {
   const querySnapshot = await getDocs(discountCodesCollection);
 
   const discountCodeData = querySnapshot.docs.map(
-    (doc) => doc.data() as DiscountCodes
+    (doc: { data: () => DiscountCodes; }) => doc.data() as DiscountCodes
   );
   return discountCodeData;
 });
@@ -110,7 +111,7 @@ export const fetchDiscountCodes = cache(async () => {
 export const fetchJummahTimes = cache(async () => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
-  return querySnapshot.docs.map((doc) => {
+  return querySnapshot.docs.map((doc: { data: () => any; }) => {
     const data = doc.data();
     return { room: data.room as string, time: data.time as string };
   });
@@ -123,7 +124,7 @@ export const fetchTimings = cache(async () => {
   let q = query(daysCollectionRef, orderBy("Day", "asc"));
 
   let querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => ({
+  return querySnapshot.docs.map((doc: { data: () => Timings; }) => ({
     timings: doc.data() as Timings,
     day: doc.data().Day as number,
   }));
@@ -134,12 +135,12 @@ export const getResourcesData = cache(async () => {
   const resourcesQuerySnapshot = await getDocs(resourcesQuery);
 
   const resourcesData = await Promise.all(
-    resourcesQuerySnapshot.docs.map(async (doc) => {
+    resourcesQuerySnapshot.docs.map(async (doc: { data: () => { (): any; new(): any; Group: any; }; id: any; }) => {
       const group = doc.data().Group;
       const linksCollectionRef = collection(db, `Resources/${doc.id}/Links`);
       const linksQuery = query(linksCollectionRef, orderBy("index"));
       const linksQuerySnapshot = await getDocs(linksQuery);
-      const links = linksQuerySnapshot.docs.map((linkDoc) => linkDoc.data());
+      const links = linksQuerySnapshot.docs.map((linkDoc: { data: () => any; }) => linkDoc.data());
 
       return {
         group,
@@ -154,7 +155,7 @@ export const getServicesOffered = cache(async () => {
   const serviceCollectionRef = collection(db, "ServicesOffered");
   const querySnapshot = await getDocs(serviceCollectionRef);
 
-  const servicesInfo = querySnapshot.docs.map((doc) => ({
+  const servicesInfo = querySnapshot.docs.map((doc: { data: () => any; }) => ({
     ...doc.data(),
   }));
 
@@ -178,7 +179,7 @@ export const getProductsData = cache(async () => {
   const productsQuery = query(productsCollectionRef, orderBy("date"));
   const querySnapshot = await getDocs(productsQuery);
 
-  const productsData = querySnapshot.docs.map((doc) => {
+  const productsData = querySnapshot.docs.map((doc: { data: () => any; id: any; }) => {
     const data = doc.data();
     return { ...(data as Product), id: doc.id,date: new Date(data.date)  };
   });
@@ -230,7 +231,7 @@ export async function fetchProduct(
 export const fetchProductIds = async () => {
   const productsCollectionRef = collection(db, "Products");
   const querySnapshot = await getDocs(productsCollectionRef);
-  return querySnapshot.docs.map((doc) => ({
+  return querySnapshot.docs.map((doc: { id: any; }) => ({
     params: { id: doc.id },
   }));
 };
@@ -250,7 +251,7 @@ export const fetchPrayerRooms = cache(async () => {
   const prayerRoomsCollectionRef = collection(db, "PrayerRooms");
   const querySnapshot = await getDocs(prayerRoomsCollectionRef);
 
-  const prayerRoomsData = querySnapshot.docs.map((doc) => {
+  const prayerRoomsData = querySnapshot.docs.map((doc: { data: () => PrayerRoomItem; }) => {
     return doc.data() as PrayerRoomItem; // Cast the data to the PrayerRoomItem type
   });
 
@@ -261,7 +262,7 @@ export const fetchJummahInfo = cache(async () => {
   const jummahCollectionRef = collection(db, "Jummah");
   const querySnapshot = await getDocs(jummahCollectionRef);
 
-  return querySnapshot.docs.map((doc) => doc.data() as JummahItem);
+  return querySnapshot.docs.map((doc: { data: () => JummahItem; }) => doc.data() as JummahItem);
 });
 
 export const fetchTodaysTimings = cache(async () => {
@@ -291,7 +292,7 @@ export const fetchYoutubeVideos = cache(async (category: string) => {
   );
   const querySnapshot = await getDocs(postsQuery); // Use getDocs on the query
 
-  const youtubeVideosData = querySnapshot.docs.map((doc) => {
+  const youtubeVideosData = querySnapshot.docs.map((doc: { data: () => YoutubeVideo; }) => {
     const data = doc.data() as YoutubeVideo;
     return {
       ...data,
@@ -305,7 +306,7 @@ export const getBlogsData = cache(async () => {
   const blogCollectionRef = collection(db, "blog");
   const querySnapshot = await getDocs(blogCollectionRef);
 
-  const blogData = querySnapshot.docs.map((doc) => {
+  const blogData = querySnapshot.docs.map((doc: { data: () => any; id: any; }) => {
     const data = doc.data();
     // If using TypeScript, ensure that the data structure matches the Product type
     return { ...(data as BlogEntry), id: doc.id };
@@ -342,3 +343,4 @@ export async function getPost(
 
 export const heroRef = ref(storage, "images/hero.jpg");
 export const heroUrl = await getDownloadURL(heroRef);
+

@@ -19,7 +19,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { handleOrders, handleQuantityUpdate, verifyQuantities } from "@/Utils/actions";
+import { handleOrders, handleQuantityUpdate, verifyQuantities } from "@/utils/actions";
 interface Product {
   name: string;
   id: string;

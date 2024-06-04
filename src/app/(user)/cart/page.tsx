@@ -1,7 +1,7 @@
 
 import React from "react";
 
-import { fetchDiscountCodes} from "../../../Utils/datafetcher";
+import { fetchDiscountCodes} from "../../../utils/datafetcher";
 import CartDetails from "../../../components/CartDetails";
 export const revalidate = 86400
 /**

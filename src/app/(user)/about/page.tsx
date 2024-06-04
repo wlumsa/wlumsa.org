@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../../logo.png";
-import { getServicesOffered } from "../../../Utils/datafetcher";
+import { getServicesOffered } from "../../../utils/datafetcher";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -90,11 +90,11 @@ export default async function About() {
               src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
               allowFullScreen
             />
-            
+
           </div>
-          <Link href={`https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub`}  target="_blank" className="mt-2">
-              <button className="btn btn-primary text-white">View on docs</button>
-            </Link>
+          <Link href={`https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub`} target="_blank" className="mt-2">
+            <button className="btn btn-primary text-white">View on docs</button>
+          </Link>
         </div>
       </div>
     </div>
