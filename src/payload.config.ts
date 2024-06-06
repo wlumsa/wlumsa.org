@@ -15,6 +15,8 @@ import Resources from './collections/UI/Resources'
 import { Media } from './collections/Media'
 import Emails from './collections/Newsletter/Emails';
 import Members from './collections/Newsletter/Members';
+import Socials from './collections/UI/Socials';
+
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,7 +25,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users,link,Instagram,Resources,Media,Emails,Members],
+  collections: [Users,link,Instagram,Resources,Media,Emails,Members,Socials],
   globals: [Nav, Footer], 
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0

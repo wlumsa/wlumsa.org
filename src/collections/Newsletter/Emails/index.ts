@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload/types'
 import {
     lexicalEditor
 } from '@payloadcms/richtext-lexical'
-import type {  } from 'payload/types'
 
 export const Emails: CollectionConfig = {
     slug: 'Emails',

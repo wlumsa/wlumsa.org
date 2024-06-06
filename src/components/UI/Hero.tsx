@@ -1,11 +1,8 @@
 import React from "react";
 
-interface SocialLink {
-  name: string;
-  link: string;
-  icon: string;
-}
 import Image from "next/image";
+import { SocialLinks } from "@/utils/types";
+
 /**
  * Hero component displays a hero section with an image, overlay, content, and social links.
  *
@@ -15,7 +12,8 @@ import Image from "next/image";
  * @param {string} props.heroUrl - The URL of the hero image.
  * @returns {JSX.Element} The rendered Hero component.
  */
-const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
+
+const Hero: React.FC<{ socialLinks: SocialLinks; heroUrl: string }>= ({
   socialLinks,
   heroUrl,
 }) => {
@@ -52,7 +50,7 @@ const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
             {socialLinks &&
               socialLinks.map((social, index) => (
                 <a
-                  href={social.link}
+                  href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="duration-200 hover:scale-105"

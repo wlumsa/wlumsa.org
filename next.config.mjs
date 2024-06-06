@@ -35,7 +35,15 @@ const config = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: process.env.S3_HOSTNAME || '',
+        port: "",
+        pathname: "/**",
+      }
+      
     ],
   },
+  domains: [process.env.NEXT_PUBLIC_SUPABASE_URL],
 };
 export default withPayload(withPayload(withPayload(withPayload(config))));

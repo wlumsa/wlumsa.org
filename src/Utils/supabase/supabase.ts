@@ -1,5 +1,3 @@
-//Type script types for supabase, generated from https://supabase.com/dashboard/project/_/api?page=tables-intro
-
 export type Json =
   | string
   | number
@@ -559,6 +557,41 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "resources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      socials: {
+        Row: {
+          created_at: string
+          icon: string
+          id: number
+          link_id: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          icon: string
+          id?: number
+          link_id: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string
+          id?: number
+          link_id?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "socials_link_id_link_id_fk"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "link"
             referencedColumns: ["id"]
           },
         ]
