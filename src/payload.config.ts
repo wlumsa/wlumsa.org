@@ -7,10 +7,10 @@ import { buildConfig } from 'payload/config'
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import {link} from './collections/Link'
-import { Users } from './collections/Users'
+import { Execs } from './collections/Users/Execs'
 import Nav from './globals/Navbar'
 import Footer from './globals/Footer'
-import Instagram from './collections/UI/Instagram'
+import {Instagram} from './collections/UI/Instagram'
 import Resources from './collections/UI/Resources'
 import { Media } from './collections/Media'
 import Emails from './collections/Newsletter/Emails';
@@ -23,9 +23,9 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
-    user: Users.slug,
+    user: Execs.slug,
   },
-  collections: [Users,link,Instagram,Resources,Media,Emails,Members,Socials],
+  collections: [Execs,link,Instagram,Resources,Media,Emails,Members,Socials],
   globals: [Nav, Footer], 
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
@@ -56,7 +56,9 @@ export default buildConfig({
         endpoint: process.env.S3_ENDPOINT || 'default_endpoint',
       },
     }),
-  ]
+  ],
+  
+
 
   // Sharp is now an optional dependency -
   // if you want to resize images, crop, set focal point, etc.

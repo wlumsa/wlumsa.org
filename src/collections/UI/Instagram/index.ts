@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload/types"
 
-const Instagram: CollectionConfig = {
+export const Instagram: CollectionConfig = {
     slug: 'Instagram',
     admin: {
         group: 'UI',
@@ -14,5 +14,3 @@ const Instagram: CollectionConfig = {
         },
     ],
 }
-
-export default Instagram;
