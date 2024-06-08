@@ -18,7 +18,7 @@ export const heroUrl = await supabase
 
 export const fetchSocialLinks = async () => {
     const { data, error } = await supabase
-    .from('socials') // Provide a valid relation name here
+    .from('socials') 
     .select(
         `title,link_id,updated_at,icon,link:link_id("url")`
     ) 
