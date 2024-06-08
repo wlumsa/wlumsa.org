@@ -1,19 +1,14 @@
 import React from "react";
-
+import GradualSpacing from "./gradual-spacing-animation";
+import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
-import { SocialLinks } from "@/utils/types";
+interface SocialLink {
+  name: string;
+  link: string;
+  icon: string;
+}
 
-/**
- * Hero component displays a hero section with an image, overlay, content, and social links.
- *
- * @component
- * @param {Object} props - The component props.
- * @param {SocialLink[]} props.socialLinks - An array of social links.
- * @param {string} props.heroUrl - The URL of the hero image.
- * @returns {JSX.Element} The rendered Hero component.
- */
-
-const Hero: React.FC<{ socialLinks: SocialLinks; heroUrl: string }>= ({
+const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
   socialLinks,
   heroUrl,
 }) => {
@@ -35,15 +30,11 @@ const Hero: React.FC<{ socialLinks: SocialLinks; heroUrl: string }>= ({
       {/* Hero Content */}
       <div className="hero-content text-center">
         <div className="max-w-md">
-          {/* Hero Title */}
-          <h1 className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105">
-            Salam!
-          </h1>
-
-          {/* Hero Description */}
-          <p className="mb-5 text-white" style={{ textShadow: '2px 2px 2px #000000' }}>
-            "The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
-          </p>
+          <GradualSpacing className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" text="Salam!" duration={1}/>
+           
+          <TextGenerateEffect className="mb-5 text-white " words = {" \"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy.\" (Quran 49:10)"}/>
+             
+          
 
           {/* Social Links */}
           <div className="flex flex-row items-center justify-center gap-4">
