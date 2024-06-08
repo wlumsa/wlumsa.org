@@ -21,39 +21,68 @@ export const Products: CollectionConfig = {
     },
     fields: [
         {
-            name: 'Title',
+            name: 'name',
             type: 'text',
+            required: true
         },
         {
-            name: 'Subject',
-            type: 'text',
-        },
-        //Basic fields for the email, will add custom email blocks later based on marketing teams needs
-        //https://payloadcms.com/docs/fields/blocks for more info on blocks
+            name: 'price',
+            type: 'number',
+            required: true
+        }, 
         {
-            name: 'content',
-            type: 'richText',
-            editor: lexicalEditor({})
+            name: 'desc',
+            type: 'textarea',
+            required: true
         },
         {
-            name: 'attachments',
+            name: 'image',
             type: 'relationship',
             relationTo: 'media',
             hasMany: true,
+            required: true
         },
         {
-            name: 'published',
-            type: 'select',
-            options: ['Yes', 'No'],
-            defaultValue: 'No',
-            hooks: {
-                afterChange: [({ value, previousValue, req }) => {
-                    if(value === 'Yes'){
-                        console.log('Email Published')
-                    }
-                }],
-            }
+            name: 'tags',
+            type: 'number',
+            required: true
         },
+        {
+            name: 'sizes',
+            type: 'number',
+            required: true
+        },
+        {
+            name: 'quantity',
+            type: 'number',
+            required: true
+        }
+        //Basic fields for the email, will add custom email blocks later based on marketing teams needs
+        //https://payloadcms.com/docs/fields/blocks for more info on blocks
+        // {
+        //     name: 'content',
+        //     type: 'richText',
+        //     editor: lexicalEditor({})
+        // },
+        // {
+        //     name: 'attachments',
+        //     type: 'relationship',
+        //     relationTo: 'media',
+        //     hasMany: true,
+        // },
+        // {
+        //     name: 'published',
+        //     type: 'select',
+        //     options: ['Yes', 'No'],
+        //     defaultValue: 'No',
+        //     hooks: {
+        //         afterChange: [({ value, previousValue, req }) => {
+        //             if(value === 'Yes'){
+        //                 console.log('Email Published')
+        //             }
+        //         }],
+        //     }
+        // },
     ],
 }
 export default Products;

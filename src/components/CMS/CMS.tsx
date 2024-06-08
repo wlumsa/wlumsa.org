@@ -68,7 +68,6 @@ export default function CMS() {
         PrayerRoomsCollection,
         SocialsCollection,
         WeeklyEventsCollection,
-        EmailCollection,
         NavbarCollection,
         ResourcesCollection,
         blogCollection
