@@ -2,6 +2,7 @@ import React from "react";
 import GradualSpacing from "./gradual-spacing-animation";
 import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
+import { FadeText } from "./FadeText";
 interface SocialLink {
   name: string;
   link: string;
@@ -25,7 +26,7 @@ const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
       <div className="hero-overlay bg-neutral bg-opacity-50" />
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <GradualSpacing className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" text="Salam!" duration={1}/>
+          <FadeText className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" direction = "right" text="Salam!"/>
            
           <TextGenerateEffect className="mb-5 text-white " words = {" \"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy.\" (Quran 49:10)"}/>
              
