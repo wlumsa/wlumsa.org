@@ -41,7 +41,7 @@ const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
             {socialLinks &&
               socialLinks.map((social, index) => (
                 <a
-                  href={social.url}
+                  href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="duration-200 hover:scale-105"
