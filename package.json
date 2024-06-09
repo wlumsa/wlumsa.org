@@ -10,8 +10,6 @@
     "lint": "next lint",
     "start": "next start",
     "email": "email dev --dir src/pages/emails"
-   
-
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -30,8 +28,11 @@
     "@mui/x-date-pickers": "^5.0.20",
     "@payloadcms/db-postgres": "3.0.0-beta.39",
     "@payloadcms/next": "3.0.0-beta.39",
+    "@payloadcms/plugin-seo": "3.0.0-beta.43",
     "@payloadcms/richtext-lexical": "3.0.0-beta.39",
     "@payloadcms/storage-s3": "3.0.0-beta.29",
+    "@payloadcms/translations": "3.0.0-beta.43",
+    "@payloadcms/ui": "3.0.0-beta.43",
     "@reduxjs/toolkit": "^2.2.5",
     "@rpldy/uploady": "^1.8.1",
     "@supabase/ssr": "^0.3.0",

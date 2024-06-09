@@ -6,18 +6,26 @@ import path from 'path'
 import { buildConfig } from 'payload/config'
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
-import {link} from './collections/Link'
+import { link } from './collections/Link'
 import { Execs } from './collections/Users/Execs'
 import Nav from './globals/Navbar'
 import Footer from './globals/Footer'
-import {Instagram} from './collections/UI/Instagram'
+import { Instagram } from './collections/UI/Instagram'
 import Resources from './collections/UI/Resources'
 import { Media } from './collections/Media'
 import Emails from './collections/Newsletter/Emails';
 import Members from './collections/Newsletter/Members';
 import Socials from './collections/UI/Socials';
 import Products from './collections/Products';
+import { Posts } from './collections/Blog';
+import { Categories } from './collections/Categories';
+import { Tags } from './collections/Tags';
+import { seoPlugin } from '@payloadcms/plugin-seo'
 
+import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
+const generateTitle: GenerateTitle = () => {
+  return 'Laurier\'s Muslim Students Association'
+}
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,8 +34,21 @@ export default buildConfig({
   admin: {
     user: Execs.slug,
   },
-  collections: [Execs,link,Instagram,Resources,Media,Emails,Members,Socials,Products],
-  globals: [Nav, Footer], 
+  collections: [
+    Execs,
+    link,
+    Instagram,
+    Resources,
+    Media,
+    Emails,
+    Members,
+    Socials,
+    Products,
+    Posts,
+    Categories,
+    Tags,
+  ],
+  globals: [Nav, Footer],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',
@@ -39,7 +60,14 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  plugins:[
+  plugins: [
+    seoPlugin({
+
+      collections: ['posts',],
+      generateTitle,
+      uploadsCollection: 'media',
+
+    }),
     s3Storage({
       collections: {
         media: {
@@ -58,7 +86,7 @@ export default buildConfig({
       },
     }),
   ],
-  
+
 
 
   // Sharp is now an optional dependency -

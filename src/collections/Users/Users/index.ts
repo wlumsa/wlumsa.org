@@ -1,4 +1,4 @@
-import { isAdminFieldLevel } from '@/access/isAdmin'
+// import { isAdminFieldLevel } from '@/access/isAdmin'
 import type { CollectionConfig } from 'payload/types'
 
 export const Execs: CollectionConfig = {
@@ -35,10 +35,10 @@ export const Execs: CollectionConfig = {
       name:"roles",
       saveToJWT: true,
       type:'select',
-      access:{
-        create:isAdminFieldLevel,
-        update:isAdminFieldLevel,
-      },
+      // access:{
+      //   create:isAdminFieldLevel,
+      //   update:isAdminFieldLevel,
+      // },
       options:[
         {
           label: 'Admin',
