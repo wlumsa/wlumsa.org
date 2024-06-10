@@ -23,6 +23,7 @@ import { Tags } from './collections/Tags';
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
+import { Sizes } from './collections/Products/sizes';
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
 }
@@ -47,6 +48,7 @@ export default buildConfig({
     Posts,
     Categories,
     Tags,
+    Sizes,
   ],
   globals: [Nav, Footer],
   editor: lexicalEditor({}),

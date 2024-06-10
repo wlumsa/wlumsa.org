@@ -30,6 +30,7 @@ export const Products: CollectionConfig = {
             type: 'number',
             required: true
         }, 
+        
         {
             name: 'desc',
             type: 'textarea',
@@ -44,18 +45,31 @@ export const Products: CollectionConfig = {
         },
         {
             name: 'tags',
-            type: 'number',
+            type: 'relationship',
+            relationTo: 'tags',
             required: true
         },
+        
         {
             name: 'sizes',
-            type: 'number',
-            required: true
+            type: 'relationship',
+            relationTo: 'Sizes',
+            required: false
         },
         {
             name: 'quantity',
             type: 'number',
-            required: true
+
+            admin:{
+                condition: (data, siblingData, { user }) => {
+                    if (!siblingData.sizes) {
+                        return true
+                    } else {
+                        return false
+                    }
+                },
+            },
+            required: true,
         }
         //Basic fields for the email, will add custom email blocks later based on marketing teams needs
         //https://payloadcms.com/docs/fields/blocks for more info on blocks
