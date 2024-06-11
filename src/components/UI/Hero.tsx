@@ -2,13 +2,9 @@ import React from "react";
 import GradualSpacing from "./gradual-spacing-animation";
 import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
-interface SocialLink {
-  name: string;
-  link: string;
-  icon: string;
-}
 
-const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
+
+const Hero: React.FC<{ socialLinks: Social[]; heroUrl: string }> = ({
   socialLinks,
   heroUrl,
 }) => {
@@ -41,7 +37,7 @@ const Hero: React.FC<{ socialLinks: SocialLink[]; heroUrl: string }> = ({
             {socialLinks &&
               socialLinks.map((social, index) => (
                 <a
-                  href={social.link}
+                  href={social.link.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="duration-200 hover:scale-105"

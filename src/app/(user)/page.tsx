@@ -16,13 +16,14 @@ import { heroUrl } from '@/utils/supabase/datafetcher';
 More information on nextjs caching, and best pratices can be found here: 
 https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 */
+import { fetchNavLinks } from '@/utils/supabase/datafetcher';
 import { fetchSocialLinks } from '@/utils/supabase/datafetcher';
 export const revalidate = 3600
 
 export default async function Home() {
   // Fetch data from database for dynamic data
   const socialLinks = await fetchSocialLinks()
-
+  const navLinks = await fetchNavLinks();
   const instagramPosts = await fetchInstagramPosts();
   const prayerRoomsData = await fetchPrayerRooms()
   const jummahInfo = await fetchJummahInfo();

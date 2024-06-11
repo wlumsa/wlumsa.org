@@ -1,9 +1,15 @@
-export type SocialLink = {
+type Social = {
+  id: number;
   title: string;
-  link_id: string;
-  updated_at: string;
+  link: number | Link;
   icon: string;
-  url: string;
+  updatedAt: string;
+  createdAt: string;
 }
-
-export type SocialLinks = SocialLink[];
+type Link = {
+  id: number;
+  title?: string | null;
+  url: string;
+  updatedAt: string;
+  createdAt: string;
+}

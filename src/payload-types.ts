@@ -8,7 +8,7 @@
 
 export interface Config {
   collections: {
-    users: User;
+    execs: Exec;
     link: Link;
     Instagram: Instagram;
     resources: Resource;
@@ -16,6 +16,11 @@ export interface Config {
     Emails: Email;
     Members: Member;
     Socials: Social;
+    Products: Product;
+    Posts: Post;
+    categories: Category;
+    tags: Tag;
+    Sizes: Size;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -25,8 +30,8 @@ export interface Config {
   };
   locale: null;
   user:
-    | (User & {
-        collection: 'users';
+    | (Exec & {
+        collection: 'execs';
       })
     | (Email & {
         collection: 'Emails';
@@ -34,13 +39,32 @@ export interface Config {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "execs".
  */
-export interface User {
+export interface Exec {
   id: number;
   name?: string | null;
-  phone_number?: number | null;
-  mylaurier_email?: string | null;
+  department?:
+    | (
+        | 'marketing'
+        | 'events_brothers'
+        | 'events_sisters'
+        | 'religious_affairs_brothers'
+        | 'religious_affairs_sisters'
+        | 'finance'
+        | 'community_engagement'
+        | 'operations'
+        | 'technology'
+      )
+    | null;
+  position?: ('vice_president' | 'head_director' | 'director') | null;
+  'student id'?: number | null;
+  major?: string | null;
+  year?: number | null;
+  'phone number'?: number | null;
+  'mylaurier email'?: string | null;
+  city?: string | null;
+  roles?: ('admin' | 'editor') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -182,14 +206,94 @@ export interface Social {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Products".
+ */
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  desc: string;
+  image: (number | Media)[];
+  tags: number | Tag;
+  sizes?: (number | null) | Size;
+  quantity?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title?: string | null;
+  color?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sizes".
+ */
+export interface Size {
+  id: number;
+  size: 'Small' | 'Medium' | 'Large';
+  quantity: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Posts".
+ */
+export interface Post {
+  id: number;
+  Title?: string | null;
+  description?: string | null;
+  header_image?: (number | Media)[] | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
+  authors?: (number | Exec)[] | null;
+  status?: ('draft' | 'published') | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
   id: number;
   user:
     | {
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'execs';
+        value: number | Exec;
       }
     | {
         relationTo: 'Emails';
@@ -226,8 +330,14 @@ export interface PayloadMigration {
 export interface Nav {
   id: number;
   items: {
-    label: string;
-    links: (number | Link)[];
+    label?: string | null;
+    links?:
+      | {
+          title?: string | null;
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
     id?: string | null;
   }[];
   updatedAt?: string | null;

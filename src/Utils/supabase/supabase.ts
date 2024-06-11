@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      categories: {
+        Row: {
+          created_at: string
+          id: number
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       emails: {
         Row: {
           content: Json | null
@@ -102,6 +123,81 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      execs: {
+        Row: {
+          city: string | null
+          created_at: string
+          department:
+            | Database["public"]["Enums"]["enum_execs_department"]
+            | null
+          email: string
+          hash: string | null
+          id: number
+          lock_until: string | null
+          login_attempts: number | null
+          major: string | null
+          mylaurier_email: string | null
+          name: string | null
+          phone_number: number | null
+          position: Database["public"]["Enums"]["enum_execs_position"] | null
+          reset_password_expiration: string | null
+          reset_password_token: string | null
+          roles: Database["public"]["Enums"]["enum_execs_roles"] | null
+          salt: string | null
+          student_id: number | null
+          updated_at: string
+          year: number | null
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          department?:
+            | Database["public"]["Enums"]["enum_execs_department"]
+            | null
+          email: string
+          hash?: string | null
+          id?: number
+          lock_until?: string | null
+          login_attempts?: number | null
+          major?: string | null
+          mylaurier_email?: string | null
+          name?: string | null
+          phone_number?: number | null
+          position?: Database["public"]["Enums"]["enum_execs_position"] | null
+          reset_password_expiration?: string | null
+          reset_password_token?: string | null
+          roles?: Database["public"]["Enums"]["enum_execs_roles"] | null
+          salt?: string | null
+          student_id?: number | null
+          updated_at?: string
+          year?: number | null
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          department?:
+            | Database["public"]["Enums"]["enum_execs_department"]
+            | null
+          email?: string
+          hash?: string | null
+          id?: number
+          lock_until?: string | null
+          login_attempts?: number | null
+          major?: string | null
+          mylaurier_email?: string | null
+          name?: string | null
+          phone_number?: number | null
+          position?: Database["public"]["Enums"]["enum_execs_position"] | null
+          reset_password_expiration?: string | null
+          reset_password_token?: string | null
+          roles?: Database["public"]["Enums"]["enum_execs_roles"] | null
+          salt?: string | null
+          student_id?: number | null
+          updated_at?: string
+          year?: number | null
+        }
+        Relationships: []
       }
       footer: {
         Row: {
@@ -344,19 +440,19 @@ export type Database = {
           _order: number
           _parent_id: number
           id: string
-          label: string
+          label: string | null
         }
         Insert: {
           _order: number
           _parent_id: number
           id: string
-          label: string
+          label?: string | null
         }
         Update: {
           _order?: number
           _parent_id?: number
           id?: string
-          label?: string
+          label?: string | null
         }
         Relationships: [
           {
@@ -368,41 +464,34 @@ export type Database = {
           },
         ]
       }
-      nav_rels: {
+      nav_items_links: {
         Row: {
-          id: number
-          link_id: number | null
-          order: number | null
-          parent_id: number
-          path: string
+          _order: number
+          _parent_id: string
+          id: string
+          title: string | null
+          url: string
         }
         Insert: {
-          id?: number
-          link_id?: number | null
-          order?: number | null
-          parent_id: number
-          path: string
+          _order: number
+          _parent_id: string
+          id: string
+          title?: string | null
+          url: string
         }
         Update: {
-          id?: number
-          link_id?: number | null
-          order?: number | null
-          parent_id?: number
-          path?: string
+          _order?: number
+          _parent_id?: string
+          id?: string
+          title?: string | null
+          url?: string
         }
         Relationships: [
           {
-            foreignKeyName: "nav_rels_link_fk"
-            columns: ["link_id"]
+            foreignKeyName: "nav_items_links_parent_id_fk"
+            columns: ["_parent_id"]
             isOneToOne: false
-            referencedRelation: "link"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "nav_rels_parent_fk"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "nav"
+            referencedRelation: "nav_items"
             referencedColumns: ["id"]
           },
         ]
@@ -458,27 +547,27 @@ export type Database = {
       payload_preferences_rels: {
         Row: {
           emails_id: number | null
+          execs_id: number | null
           id: number
           order: number | null
           parent_id: number
           path: string
-          users_id: number | null
         }
         Insert: {
           emails_id?: number | null
+          execs_id?: number | null
           id?: number
           order?: number | null
           parent_id: number
           path: string
-          users_id?: number | null
         }
         Update: {
           emails_id?: number | null
+          execs_id?: number | null
           id?: number
           order?: number | null
           parent_id?: number
           path?: string
-          users_id?: number | null
         }
         Relationships: [
           {
@@ -489,17 +578,209 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "payload_preferences_rels_execs_fk"
+            columns: ["execs_id"]
+            isOneToOne: false
+            referencedRelation: "execs"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "payload_preferences_rels_parent_fk"
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "payload_preferences"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      posts: {
+        Row: {
+          content: Json | null
+          created_at: string
+          description: string | null
+          id: number
+          published_at: string | null
+          status: Database["public"]["Enums"]["enum_posts_status"] | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          published_at?: string | null
+          status?: Database["public"]["Enums"]["enum_posts_status"] | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          published_at?: string | null
+          status?: Database["public"]["Enums"]["enum_posts_status"] | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      posts_rels: {
+        Row: {
+          categories_id: number | null
+          execs_id: number | null
+          id: number
+          media_id: number | null
+          order: number | null
+          parent_id: number
+          path: string
+          tags_id: number | null
+        }
+        Insert: {
+          categories_id?: number | null
+          execs_id?: number | null
+          id?: number
+          media_id?: number | null
+          order?: number | null
+          parent_id: number
+          path: string
+          tags_id?: number | null
+        }
+        Update: {
+          categories_id?: number | null
+          execs_id?: number | null
+          id?: number
+          media_id?: number | null
+          order?: number | null
+          parent_id?: number
+          path?: string
+          tags_id?: number | null
+        }
+        Relationships: [
           {
-            foreignKeyName: "payload_preferences_rels_users_fk"
-            columns: ["users_id"]
+            foreignKeyName: "posts_rels_categories_fk"
+            columns: ["categories_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_rels_execs_fk"
+            columns: ["execs_id"]
+            isOneToOne: false
+            referencedRelation: "execs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_rels_media_fk"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_rels_parent_fk"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_rels_tags_fk"
+            columns: ["tags_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          created_at: string
+          desc: string
+          id: number
+          name: string
+          price: number
+          quantity: number | null
+          sizes_id: number | null
+          tags_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          desc: string
+          id?: number
+          name: string
+          price: number
+          quantity?: number | null
+          sizes_id?: number | null
+          tags_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          desc?: string
+          id?: number
+          name?: string
+          price?: number
+          quantity?: number | null
+          sizes_id?: number | null
+          tags_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_sizes_id_sizes_id_fk"
+            columns: ["sizes_id"]
+            isOneToOne: false
+            referencedRelation: "sizes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_tags_id_tags_id_fk"
+            columns: ["tags_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products_rels: {
+        Row: {
+          id: number
+          media_id: number | null
+          order: number | null
+          parent_id: number
+          path: string
+        }
+        Insert: {
+          id?: number
+          media_id?: number | null
+          order?: number | null
+          parent_id: number
+          path: string
+        }
+        Update: {
+          id?: number
+          media_id?: number | null
+          order?: number | null
+          parent_id?: number
+          path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_rels_media_fk"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_rels_parent_fk"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
         ]
@@ -561,6 +842,30 @@ export type Database = {
           },
         ]
       }
+      sizes: {
+        Row: {
+          created_at: string
+          id: number
+          quantity: number
+          size: Database["public"]["Enums"]["enum_sizes_size"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          quantity: number
+          size: Database["public"]["Enums"]["enum_sizes_size"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          quantity?: number
+          size?: Database["public"]["Enums"]["enum_sizes_size"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       socials: {
         Row: {
           created_at: string
@@ -596,50 +901,26 @@ export type Database = {
           },
         ]
       }
-      users: {
+      tags: {
         Row: {
+          color: string | null
           created_at: string
-          email: string
-          hash: string | null
           id: number
-          lock_until: string | null
-          login_attempts: number | null
-          mylaurier_email: string | null
-          name: string | null
-          phone_number: number | null
-          reset_password_expiration: string | null
-          reset_password_token: string | null
-          salt: string | null
+          title: string | null
           updated_at: string
         }
         Insert: {
+          color?: string | null
           created_at?: string
-          email: string
-          hash?: string | null
           id?: number
-          lock_until?: string | null
-          login_attempts?: number | null
-          mylaurier_email?: string | null
-          name?: string | null
-          phone_number?: number | null
-          reset_password_expiration?: string | null
-          reset_password_token?: string | null
-          salt?: string | null
+          title?: string | null
           updated_at?: string
         }
         Update: {
+          color?: string | null
           created_at?: string
-          email?: string
-          hash?: string | null
           id?: number
-          lock_until?: string | null
-          login_attempts?: number | null
-          mylaurier_email?: string | null
-          name?: string | null
-          phone_number?: number | null
-          reset_password_expiration?: string | null
-          reset_password_token?: string | null
-          salt?: string | null
+          title?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -653,6 +934,20 @@ export type Database = {
     }
     Enums: {
       enum_emails_published: "Yes" | "No"
+      enum_execs_department:
+        | "marketing"
+        | "events_brothers"
+        | "events_sisters"
+        | "religious_affairs_brothers"
+        | "religious_affairs_sisters"
+        | "finance"
+        | "community_engagement"
+        | "operations"
+        | "technology"
+      enum_execs_position: "vice_president" | "head_director" | "director"
+      enum_execs_roles: "admin" | "editor"
+      enum_posts_status: "draft" | "published"
+      enum_sizes_size: "Small" | "Medium" | "Large"
     }
     CompositeTypes: {
       [_ in never]: never
