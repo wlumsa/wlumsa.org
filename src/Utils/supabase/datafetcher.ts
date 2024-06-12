@@ -1,24 +1,19 @@
 
-
-import { createClient } from '@supabase/supabase-js'
-import { Database } from './supabase'
+import { createClient } from "./server";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL 
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-export const supabase = createClient<Database>(
-    supabaseUrl!,
-    supabaseAnonKey!,
-)
 
-export const heroUrl = 
-    await supabase
+const supabase = createClient()
+
+export async function getHeroUrl() {
+    supabase
     .storage
     .from(process.env.s3_bucket ?? 'default_bucket')
     .getPublicUrl('ui/hero.jpg')
     .data.publicUrl;
+}
 
-
-
-export const fetchSocialLinks = async () => {
+export async function fetchSocialLinks() {
     const { data, error } = await supabase
     .from('socials')
     .select(`
@@ -38,8 +33,7 @@ export const fetchSocialLinks = async () => {
     return data
 }
 
-
-export const fetchNavLinks = async () => {
+export async function fetchNavLinks() {
   try {
       const { data: navItems, error: navItemsError } = await supabase
           .from('nav_items')
@@ -57,11 +51,11 @@ export const fetchNavLinks = async () => {
           throw navItemLinksError;
       }
 
-      const result = navItems.map(item => ({
+      const result = navItems.map((item: { label: any; id: any; }) => ({
           label: item.label,
           links: navItemLinks
-              .filter(link => link._parent_id === item.id)
-              .map(link => ({ title: link.title, url: link.url }))
+              .filter((link: { _parent_id: any; }) => link._parent_id === item.id)
+              .map((link: { title: any; url: any; }) => ({ title: link.title, url: link.url }))
       }));
 
       console.log('Nav Items Details:', result);

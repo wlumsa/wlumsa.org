@@ -2,12 +2,14 @@ import React from "react";
 import GradualSpacing from "./gradual-spacing-animation";
 import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
+import { fetchSocialLinks, getHeroUrl } from "@/utils/supabase/datafetcher";
 
 
-const Hero: React.FC<{ socialLinks: Social[]; heroUrl: string }> = ({
-  socialLinks,
-  heroUrl,
-}) => {
+
+const Hero: React.FC = async () => {
+  const heroUrl = await getHeroUrl();
+  const socialLinks = await fetchSocialLinks();
+
   return (
     <div id="hero" className="hero min-h-screen">
       {/* Hero Image */}
@@ -35,7 +37,7 @@ const Hero: React.FC<{ socialLinks: Social[]; heroUrl: string }> = ({
           {/* Social Links */}
           <div className="flex flex-row items-center justify-center gap-4">
             {socialLinks &&
-              socialLinks.map((social, index) => (
+              socialLinks.map((social: { link: { url: string | undefined; }; icon: string | undefined; }, index: React.Key | null | undefined) => (
                 <a
                   href={social.link.url}
                   target="_blank"
