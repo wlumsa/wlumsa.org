@@ -7,9 +7,15 @@ type Social = {
   createdAt: string;
 }
 type Link = {
-  id: number;
   title?: string | null;
   url: string;
-  updatedAt: string;
-  createdAt: string;
+ 
 }
+
+
+type NavItem = {
+  label: string;
+  links: Link[];
+};
+
+type NavbarData = NavItem[];

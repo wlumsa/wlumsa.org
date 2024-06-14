@@ -33,34 +33,36 @@ export async function fetchSocialLinks() {
     return data
 }
 
-export async function fetchNavLinks() {
+export async function fetchNavLinks(): Promise<NavbarData> {
   try {
-      const { data: navItems, error: navItemsError } = await supabase
-          .from('nav_items')
-          .select('id, label, _parent_id');
+    const { data: navItems, error: navItemsError } = await supabase
+        .from('nav_items')
+        .select('label, id');
 
-      if (navItemsError) {
-          throw navItemsError;
-      }
+    if (navItemsError) {
+        throw navItemsError;
+    }
 
-      const { data: navItemLinks, error: navItemLinksError } = await supabase
-          .from('nav_items_links')
-          .select('title, url, _parent_id');
+    const { data: navItemLinks, error: navItemLinksError } = await supabase
+        .from('nav_items_links')
+        .select('title, url, _parent_id');
 
-      if (navItemLinksError) {
-          throw navItemLinksError;
-      }
+    if (navItemLinksError) {
+        throw navItemLinksError;
+    }
 
-      const result = navItems.map((item: { label: any; id: any; }) => ({
-          label: item.label,
-          links: navItemLinks
-              .filter((link: { _parent_id: any; }) => link._parent_id === item.id)
-              .map((link: { title: any; url: any; }) => ({ title: link.title, url: link.url }))
-      }));
+    const result: NavbarData = navItems.map((item: { label: string; id: number; }) => ({
+        label: item.label,
+        links: navItemLinks
+            .filter((link: { _parent_id: number; title: string; url: string; }) => link._parent_id === item.id)
+            .map((link: { title: string; url: string; }) => ({ title: link.title, url: link.url }))
+    }));
 
-      console.log('Nav Items Details:', result);
+    console.log('Nav Items Details:', result);
+    return result;
   } catch (error) {
-      console.error('Error fetching nav items:', error);
+    console.error('Error fetching nav items:', error);
+    throw error;
   }
 }
 

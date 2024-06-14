@@ -24,34 +24,26 @@ interface CartItem {
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
 
-interface LinkItem {
-  link?: string;
-  name: string;
-}
 
-interface NavbarGroup {
-  Group: string;
-  CustomGroup?: string;
-  NoGroup?: string;
-  NoGroupLink?: string;
-  links: LinkItem[];
-}
 
 interface NavbarProps {
-  navbarData: NavbarGroup[];
+  NavbarData: Array<{
+    label: string;
+    links: Link[];
+  }>;
 }
-
 /**
  * Represents the Navbar component.
  * @param {NavbarProps} props - The props for the Navbar component.
  * @returns {JSX.Element} The rendered Navbar component.
  */
 
-const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
+const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
-
+  console.log(NavbarData);
   useEffect(() => {
+    
     let price = 0;
     productData.forEach((item: CartItem) => {
       if (item.product.hasSizes) {
@@ -67,6 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
+      {/* Mobile */}
       <div className="navbar-start text-base-100">
         <div className="dropdown dropdown-hover ">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -87,135 +80,165 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-primary p-2 shadow"
+            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
           >
-            {navbarData.map((item) => {
-              if (item.Group === "SingleLink") {
-                return (
-                  <li key={item.NoGroup}>
-                    <Link
-                      className="min-w-0 flex-shrink"
-                      href={item.NoGroupLink || "#"}
-                      prefetch={false}
-                    >
-                      {item.NoGroup}
-                    </Link>
-                  </li>
-                );
-              } else {
-                const title =
-                  item.Group === "Custom" && item.CustomGroup
-                    ? item.CustomGroup
-                    : item.Group;
+            {NavbarData.map((item: NavItem) => {
+              return (
+                <li className="menu-item">
+                  <details>
+                    <summary>{item.label}</summary>
+                    <ul className="w-fit rounded-t-none bg-primary">
+                      {item.links.map((link) => {
+                        return (
 
-                return item.Group && item.Group !== "NoGroup" ? (
-                  <li key={item.Group} className="menu-item">
-                    <details>
-                      <summary className="">{title}</summary>
-                      <ul className=" rounded-t-none bg-primary">
-                        {item.links.map((link, index) => (
-                          <li key={index}>
-                            {link.link && (
-                              <Link
-                                className="min-w-0 flex-shrink"
-                                href={link.link}
-                                prefetch={false}
-                              >
-                                {link.name}
-                              </Link>
-                            )}
+                          <li key={link.title}>
+                            <Link
+                              className="min-w-0 flex-shrink"
+                              href={link.url || "#"}
+                              prefetch={false}
+                            >
+                              {link.title}
+                            </Link>
                           </li>
-                        ))}
-                      </ul>
-                    </details>
-                  </li>
-                ) : (
-                  <li key={item.NoGroup}>
-                    {item.NoGroupLink && (
-                      <Link
-                        className="min-w-0 flex-shrink"
-                        href={item.NoGroupLink}
-                        prefetch={false}
-                      >
-                        {item.NoGroup}
-                      </Link>
-                    )}
-                  </li>
-                );
-              }
+                        );
+                      })}
+                    </ul>
+                  </details>
+                </li>
+
+              );
             })}
+
+
+            <li className="menu-item">
+              <details>
+                <summary>About</summary>
+                <ul className="w-fit rounded-t-none bg-primary">
+                  <li>
+                    <Link href="/about">Our Mission</Link>
+                  </li>
+                  <li>
+                    <Link href="/IIA">WLU IIA</Link>
+                  </li>
+                  <li>
+                    <Link href="/about#team">Meet the Team</Link>
+                  </li>
+                  <li>
+                    <Link href="/about#constiuion">Constitution</Link>
+                  </li>
+                  <li>
+                    <Link href="/about#services">Services Offered</Link>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li className="menu-item">
+              <details>
+                <summary>Contact</summary>
+                <ul className="w-fit rounded-t-none bg-primary">
+                  <li>
+                    <Link href="/contact">Contact Us</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact/Support">Support Form</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact/Volunteer">Volunteer</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact/Incident">Incident Report</Link>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li className="menu-item">
+              <details>
+                <summary>Resources</summary>
+                <ul className="w-fit rounded-t-none bg-primary">
+                  <li>
+                    <Link href="/prayerinfo">Prayer Information</Link>
+                  </li>
+                  <li>
+                    <Link href="/events">Events</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact/Fiqh">Fiqh Q&A</Link>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <Link href="/products">Merch</Link>
+            </li>
           </ul>
         </div>
-        <Link
-          prefetch={false}
-          href="/"
-          className="btn btn-ghost text-xl normal-case"
-        >
+        <Link href="/" className="btn btn-ghost text-xl normal-case">
           <Image src={logo.src} alt="Logo" height={32} width={32} />
         </Link>
       </div>
-      <div className="navbar-center hidden text-base-100 lg:flex">
-        <ul className="navItems menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.map((item) => {
-            if (item.Group === "SingleLink") {
-              return (
-                <li key={item.NoGroup}>
-                  <Link prefetch={false} href={item.NoGroupLink || "#"}>
-                    {item.NoGroup}
-                  </Link>
-                </li>
-              );
-            } else {
-              const title =
-                item.Group === "Custom" && item.CustomGroup
-                  ? item.CustomGroup
-                  : item.Group;
 
-              return item.Group && item.Group !== "NoGroup" ? (
-                <li key={item.Group} className="dropdown dropdown-hover">
-                  <div tabIndex={0} role="button" className="text-white">
-                    {title}
-                  </div>
-                  {""}
-                  {/* Updated this line */}
-                  {item.links && item.links.length > 0 && (
-                    <ul
-                      tabIndex={0}
-                      className="menu dropdown-content z-[1] rounded-sm bg-primary shadow-lg"
-                    >
-                      {item.links.map((link, index) => (
-                        <li key={index}>
-                          {link.link && (
-                            <Link prefetch={false} href={link.link}>
-                              {link.name}
-                            </Link>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ) : item.NoGroup ? (
-                <li key={item.NoGroup}>
-                  {item.NoGroupLink && (
-                    <Link prefetch={false} href={item.NoGroupLink}>
-                      {item.NoGroup}
-                    </Link>
-                  )}
-                </li>
-              ) : null;
-            }
-          })}
+      {/* Desktop */}
+      <div className="navbar-center hidden text-base-100 lg:flex">
+        <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+          <li className="dropdown dropdown-hover">
+            <div className="">About</div>
+            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+              <li>
+                <Link href="/about">Our Mission</Link>
+              </li>
+              <li>
+                <Link href="/IIA">WLU IIA</Link>
+              </li>
+              <li>
+                <Link href="/about#team">Meet the Team</Link>
+              </li>
+              <li>
+                <Link href="/about#constiuion">Constitution</Link>
+              </li>
+              <li>
+                <Link href="/about#services">Services Offered</Link>
+              </li>
+            </ul>
+          </li>
+
+          <li className="dropdown dropdown-hover">
+            <div className="">Contact</div>
+            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+              <li>
+                <Link href="/contact">Contact Us</Link>
+              </li>
+              <li>
+                <Link href="/contact/Support">Support Form</Link>
+              </li>
+              <li>
+                <Link href="/contact/Volunteer">Volunteer</Link>
+              </li>
+              <li>
+                <Link href="/contact/Incident">Incident Report</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="dropdown dropdown-hover">
+            <div className="">Resources</div>
+            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+              <li>
+                <Link href="/prayerinfo">Prayer Information</Link>
+              </li>
+              <li>
+                <Link href="/events">Events</Link>
+              </li>
+              <li>
+                <Link href="/contact/Fiqh">Fiqh Q&A</Link>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <Link href="/products">Merch</Link>
+          </li>
+
         </ul>
       </div>
-
       <div className="navbar-end">
-        <Link
-          href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
-          className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
-        >
-          Donate
-        </Link>
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -244,15 +267,15 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <div
             tabIndex={0}
-            className="card dropdown-content card-compact z-[1] mt-3 w-64 bg-primary shadow"
+            className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
           >
             <div className="card-body">
               <span className="text-lg font-bold text-secondary">
                 {productData.length > 0 ? productData.length : 0} Items
               </span>
-              <span className="text-white">${totalAmt} CAD</span>
+              <span className=" text-white">${totalAmt} CAD</span>
               <div className="card-actions">
-                <Link prefetch={false} href={"/cart"}>
+                <Link href={"/cart"}>
                   <button className="btn btn-secondary btn-block">
                     View cart
                   </button>
@@ -261,14 +284,8 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             </div>
           </div>
         </div>
-        {/*isLoaded && user && (
-          <div className="btn btn-circle btn-secondary">
-            <UserButton afterSignOutUrl="/" />
-          </div>
-        )*/}
       </div>
     </div>
   );
 };
-
 export default Navbar;

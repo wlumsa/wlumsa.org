@@ -173,6 +173,9 @@ dependencies:
   supabase:
     specifier: ^1.176.4
     version: 1.176.4
+  tailwind-merge:
+    specifier: ^2.3.0
+    version: 2.3.0
   zod:
     specifier: ^3.23.8
     version: 3.23.8
@@ -12329,6 +12332,12 @@ packages:
     resolution: {integrity: sha512-7S0AaDitt+Fjy9m3v0GrQ/KZrCswNDD25SSXX9U/HIB5h9lk0ImSkq/VVcnzu78cRQxR0fFfvHYFdfcqN3dCGA==}
     dependencies:
       find-up: 5.0.0
+    dev: false
+
+  /tailwind-merge@2.3.0:
+    resolution: {integrity: sha512-vkYrLpIP+lgR0tQCG6AP7zZXCTLc1Lnv/CCRT3BqJ9CZ3ui2++GPaGb1x/ILsINIMSYqqvrpqjUFsMNLlW99EA==}
+    dependencies:
+      '@babel/runtime': 7.24.7
     dev: false
 
   /tailwindcss@3.4.4:
