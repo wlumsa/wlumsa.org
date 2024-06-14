@@ -66,6 +66,7 @@
     "redux-persist": "^6.0.0",
     "rehype-raw": "^7.0.0",
     "resend": "^2.1.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.33.4",
     "supabase": "^1.176.4",
     "tailwind-merge": "^2.3.0",

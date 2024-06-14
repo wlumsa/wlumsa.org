@@ -167,6 +167,9 @@ dependencies:
   resend:
     specifier: ^2.1.0
     version: 2.1.0
+  server-only:
+    specifier: ^0.0.1
+    version: 0.0.1
   sharp:
     specifier: ^0.33.4
     version: 0.33.4
