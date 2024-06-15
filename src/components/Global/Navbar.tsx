@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
   const [totalAmt, setTotalAmt] = useState("");
   console.log(NavbarData);
   useEffect(() => {
-    
+
     let price = 0;
     productData.forEach((item: CartItem) => {
       if (item.product.hasSizes) {
@@ -85,91 +85,37 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
             {NavbarData.map((item: NavItem) => {
               return (
                 <li className="menu-item">
-                  <details>
-                    <summary>{item.label}</summary>
-                    <ul className="w-fit rounded-t-none bg-primary">
-                      {item.links.map((link) => {
-                        return (
+                  {item.links.length === 1 ? (
+                    <Link
+                      className="min-w-0 flex-shrink"
+                      href={item.links[0]?.url || "#"}
 
-                          <li key={link.title}>
-                            <Link
-                              className="min-w-0 flex-shrink"
-                              href={link.url || "#"}
-                              prefetch={false}
-                            >
-                              {link.title}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </details>
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <details>
+                      <summary>{item.label}</summary>
+                      <ul className="w-fit rounded-t-none bg-primary">
+                        {item.links.map((link) => {
+                          return (
+                            <li key={link.title}>
+                              <Link
+                                className="min-w-0 flex-shrink"
+                                href={link.url || "#"}
+
+                              >
+                                {link.title}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </details>
+                  )}
                 </li>
-
               );
             })}
-
-
-            <li className="menu-item">
-              <details>
-                <summary>About</summary>
-                <ul className="w-fit rounded-t-none bg-primary">
-                  <li>
-                    <Link href="/about">Our Mission</Link>
-                  </li>
-                  <li>
-                    <Link href="/IIA">WLU IIA</Link>
-                  </li>
-                  <li>
-                    <Link href="/about#team">Meet the Team</Link>
-                  </li>
-                  <li>
-                    <Link href="/about#constiuion">Constitution</Link>
-                  </li>
-                  <li>
-                    <Link href="/about#services">Services Offered</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li className="menu-item">
-              <details>
-                <summary>Contact</summary>
-                <ul className="w-fit rounded-t-none bg-primary">
-                  <li>
-                    <Link href="/contact">Contact Us</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Support">Support Form</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Volunteer">Volunteer</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Incident">Incident Report</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li className="menu-item">
-              <details>
-                <summary>Resources</summary>
-                <ul className="w-fit rounded-t-none bg-primary">
-                  <li>
-                    <Link href="/prayerinfo">Prayer Information</Link>
-                  </li>
-                  <li>
-                    <Link href="/events">Events</Link>
-                  </li>
-                  <li>
-                    <Link href="/contact/Fiqh">Fiqh Q&A</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <Link href="/products">Merch</Link>
-            </li>
           </ul>
         </div>
         <Link href="/" className="btn btn-ghost text-xl normal-case">
@@ -180,63 +126,45 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
       {/* Desktop */}
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          <li className="dropdown dropdown-hover">
-            <div className="">About</div>
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              <li>
-                <Link href="/about">Our Mission</Link>
-              </li>
-              <li>
-                <Link href="/IIA">WLU IIA</Link>
-              </li>
-              <li>
-                <Link href="/about#team">Meet the Team</Link>
-              </li>
-              <li>
-                <Link href="/about#constiuion">Constitution</Link>
-              </li>
-              <li>
-                <Link href="/about#services">Services Offered</Link>
-              </li>
-            </ul>
-          </li>
+          {NavbarData.map((item: NavItem) => {
+            return (
+              <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+                {item.links.length === 1 ? (
+                  <li>
+                    <Link
+                      className="min-w-0 flex-shrink"
+                      href={item.links[0]?.url || "#"}
 
-          <li className="dropdown dropdown-hover">
-            <div className="">Contact</div>
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              <li>
-                <Link href="/contact">Contact Us</Link>
-              </li>
-              <li>
-                <Link href="/contact/Support">Support Form</Link>
-              </li>
-              <li>
-                <Link href="/contact/Volunteer">Volunteer</Link>
-              </li>
-              <li>
-                <Link href="/contact/Incident">Incident Report</Link>
-              </li>
-            </ul>
-          </li>
-          <li className="dropdown dropdown-hover">
-            <div className="">Resources</div>
-            <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-              <li>
-                <Link href="/prayerinfo">Prayer Information</Link>
-              </li>
-              <li>
-                <Link href="/events">Events</Link>
-              </li>
-              <li>
-                <Link href="/contact/Fiqh">Fiqh Q&A</Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <Link href="/products">Merch</Link>
-          </li>
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ) : (
+                  <li className="dropdown dropdown-hover">
+                    <div className="">{item.label}</div>
+                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                      {item.links.map((link) => {
+                        return (
+                          <li key={link.title}>
+                            <Link
+                              className="min-w-0 flex-shrink"
+                              href={link.url || "#"}
 
+                            >
+                              {link.title}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                )}
+              </ul>
+            );
+          })}
         </ul>
+
+
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">

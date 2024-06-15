@@ -22,7 +22,7 @@ const Nav: GlobalConfig = {
                   {
                     name: 'links',
                     type: 'array',
-                    
+                    required: true,
                     maxRows: 8,
                     fields:[
                         {
