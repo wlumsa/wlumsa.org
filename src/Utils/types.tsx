@@ -1,5 +1,4 @@
-type Social = {
-  id: number;
+type Social ={
   title: string;
   link: number | Link;
   icon: string;
@@ -17,5 +16,11 @@ type NavItem = {
   label: string;
   links: Link[];
 };
+type FooterItem = {
+  label: string;
+  links: Link[];
+};
 
 type NavbarData = NavItem[];
+
+type FooterData = FooterItem[];

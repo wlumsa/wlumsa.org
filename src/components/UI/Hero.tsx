@@ -37,9 +37,9 @@ const Hero: React.FC = async () => {
           {/* Social Links */}
           <div className="flex flex-row items-center justify-center gap-4">
             {socialLinks &&
-              socialLinks.map((social: { link: { url: string | undefined; }; icon: string | undefined; }, index: React.Key | null | undefined) => (
+              socialLinks.map((social: Social => (
                 <a
-                  href={social.link.url}
+                  href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="duration-200 hover:scale-105"
