@@ -26,22 +26,15 @@ interface CartItem {
 
 
 
-interface NavbarProps {
-  NavbarData: Array<{
-    label: string;
-    links: Link[];
-  }>;
-}
-/**
- * Represents the Navbar component.
- * @param {NavbarProps} props - The props for the Navbar component.
- * @returns {JSX.Element} The rendered Navbar component.
- */
 
-const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
+interface NavbarProps {
+  navbarData: NavbarData[];
+}
+
+const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
-  console.log(NavbarData);
+
   useEffect(() => {
 
     let price = 0;
@@ -82,14 +75,13 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
             tabIndex={0}
             className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
           >
-            {NavbarData.map((item: NavItem) => {
+            {navbarData.map((item: NavbarData) => {
               return (
                 <li className="menu-item">
-                  {item.links.length === 1 ? (
+                  {item.links ? (
                     <Link
                       className="min-w-0 flex-shrink"
                       href={item.links[0]?.url || "#"}
-
                     >
                       {item.label}
                     </Link>
@@ -103,7 +95,6 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
                               <Link
                                 className="min-w-0 flex-shrink"
                                 href={link.url || "#"}
-
                               >
                                 {link.title}
                               </Link>
@@ -126,7 +117,7 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
       {/* Desktop */}
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {NavbarData.map((item: NavItem) => {
+          {navbarData.map((item: NavbarData) => {
             return (
               <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
                 {item.links.length === 1 ? (
@@ -134,7 +125,6 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
                     <Link
                       className="min-w-0 flex-shrink"
                       href={item.links[0]?.url || "#"}
-
                     >
                       {item.label}
                     </Link>
@@ -149,7 +139,6 @@ const Navbar: React.FC<NavbarProps> = ({ NavbarData }) => {
                             <Link
                               className="min-w-0 flex-shrink"
                               href={link.url || "#"}
-
                             >
                               {link.title}
                             </Link>

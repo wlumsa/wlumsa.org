@@ -1,9 +1,9 @@
 import "server-only";
 import { cache } from "react";
 import { QueryData, QueryError, QueryResult } from "@supabase/supabase-js";
-
-import { createClient } from "./server";
-
+import { createClient } from "./client";
+import { Database } from "./supabase";
+import { types } from "util";
 const supabase = createClient();
 
 export async function getHeroUrl() {
@@ -14,7 +14,7 @@ export async function getHeroUrl() {
     .data.publicUrl;
 }
 
-export const fetchSocialLinks = cache(async (): Promise<Social> => {
+export const fetchSocialLinks = cache(async ()=> {
   const { data, error } = await supabase
     .from("socials")
     .select(`
@@ -28,88 +28,44 @@ export const fetchSocialLinks = cache(async (): Promise<Social> => {
       )
     `)
     .order("updated_at", { ascending: false });
-  type Socials = QueryData<typeof data>;
-  if (error) {
-    console.error(error);
-  }
-  console.log(data);
-  return data;
+    return data;
 });
 export const fetchNavLinks = cache(async () => {
-  try {
-    const { data: navItems, error: navItemsError } = await supabase
-      .from("nav_items")
-      .select("label, id");
-
-    if (navItemsError) {
-      throw navItemsError;
-    }
-
-    const { data: navItemLinks, error: navItemLinksError } = await supabase
-      .from("nav_items_links")
-      .select("title, url, _parent_id");
-
-    if (navItemLinksError) {
-      throw navItemLinksError;
-    }
-
-    const result: NavbarData = navItems.map((
-      item: { label: string; id: number },
-    ) => ({
-      label: item.label,
-      links: navItemLinks
-        .filter((link: { _parent_id: number; title: string; url: string }) =>
-          link._parent_id === item.id
-        )
-        .map((link: { title: string; url: string }) => ({
-          title: link.title,
-          url: link.url,
-        })),
-    }));
-
-    return result;
-  } catch (error) {
-    throw error;
+  const { data, error } = await supabase
+    .from('nav_items')
+    .select(`
+      label:label,
+      nav_items_links (
+        title:title,
+        url:url
+      )
+    `)
+  console.log(data)
+  if (error) {
+    console.error('Error fetching navigation items:', error)
+    return null
   }
+
+  return data
 });
 
+
+
 export const fetchFooterLinks = cache(async () => {
-  try {
-    const { data: footerItems, error: footerItemsError } = await supabase
-      .from("nav_items")
-      .select("label, id");
+  const { data, error } = await supabase
+    .from('footer_items')
+    .select(`
+      label:footer_item_label,
+      footer_items_links (
+        title:footer_item_link_title,
+        url:footer_item_link_url
+      )
+    `)
 
-    if (footerItemsError) {
-      throw footerItemsError;
-    }
-
-    const { data: footerItemLinks, error: footerItemLinksError } =
-      await supabase
-        .from("nav_items_links")
-        .select("title, url, _parent_id");
-
-    if (footerItemLinksError) {
-      throw footerItemLinksError;
-    }
-
-    const result: FooterData = footerItems.map((
-      item: { label: string; id: number },
-    ) => ({
-      label: item.label,
-      links: footerItemLinks
-        .filter((link: { _parent_id: number; title: string; url: string }) =>
-          link._parent_id === item.id
-        )
-        .map((link: { title: string; url: string }) => ({
-          title: link.title,
-          url: link.url,
-        })),
-    }));
-
-    console.log("Nav Items Details:", result);
-    return result;
-  } catch (error) {
-    console.error("Error fetching nav items:", error);
-    throw error;
+  if (error) {
+    //  console.error('Error fetching footer items:', error)
+    return null
   }
+
+  return data
 });

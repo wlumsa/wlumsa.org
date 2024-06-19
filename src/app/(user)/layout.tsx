@@ -59,7 +59,7 @@ export default async function RootLayout({
         <SpeedInsights />
         <Analytics />
         <Providers>
-          <Navbar NavbarData={navbarData} />
+          <Navbar navbarData={navbarData} />
           {children}
           <Footer footerGroups={footerData} socialLinks={socialLinks} />
         </Providers>

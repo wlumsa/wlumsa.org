@@ -1,26 +1,10 @@
-type Social ={
-  title: string;
-  link: number | Link;
-  icon: string;
-  updatedAt: string;
-  createdAt: string;
-}
-type Link = {
-  title?: string | null;
-  url: string;
- 
-}
+import { Database } from "./supabase/supabase";
 
-
-type NavItem = {
-  label: string;
-  links: Link[];
-};
-type FooterItem = {
-  label: string;
-  links: Link[];
+declare global  {
+  type Social = Database['public']['Tables']['socials']
+  type NavbarData = {
+    label: Database['public']['Tables']['nav_items']
+    links: Database['public']['Tables']['nav_items_links'];
 };
 
-type NavbarData = NavItem[];
-
-type FooterData = FooterItem[];
+}
