@@ -27,8 +27,9 @@ interface CartItem {
 
 
 
+
 interface NavbarProps {
-  navbarData: NavbarData[];
+  navbarData: NavbarData;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
@@ -75,10 +76,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             tabIndex={0}
             className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
           >
-            {navbarData.map((item: NavbarData) => {
+            {navbarData && navbarData.map((item) => {
               return (
                 <li className="menu-item">
-                  {item.links ? (
+                  {item.links && item.links.length > 0 ? (
                     <Link
                       className="min-w-0 flex-shrink"
                       href={item.links[0]?.url || "#"}
@@ -88,20 +89,22 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   ) : (
                     <details>
                       <summary>{item.label}</summary>
-                      <ul className="w-fit rounded-t-none bg-primary">
-                        {item.links.map((link) => {
-                          return (
-                            <li key={link.title}>
-                              <Link
-                                className="min-w-0 flex-shrink"
-                                href={link.url || "#"}
-                              >
-                                {link.title}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
+                      {item.links && (
+                        <ul className="w-fit rounded-t-none bg-primary">
+                          {item.links.map((link) => {
+                            return (
+                              <li key={link.title}>
+                                <Link
+                                  className="min-w-0 flex-shrink"
+                                  href={link.url || "#"}
+                                >
+                                  {link.title}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
                     </details>
                   )}
                 </li>
@@ -117,10 +120,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       {/* Desktop */}
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.map((item: NavbarData) => {
+          {navbarData && navbarData.map((item) => {
             return (
               <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-                {item.links.length === 1 ? (
+                {item.links && item.links.length > 0 ? (
                   <li>
                     <Link
                       className="min-w-0 flex-shrink"
@@ -133,7 +136,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   <li className="dropdown dropdown-hover">
                     <div className="">{item.label}</div>
                     <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-                      {item.links.map((link) => {
+                      {item.links?.map((link) => {
                         return (
                           <li key={link.title}>
                             <Link

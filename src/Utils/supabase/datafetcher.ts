@@ -4,6 +4,7 @@ import { QueryData, QueryError, QueryResult } from "@supabase/supabase-js";
 import { createClient } from "./client";
 import { Database } from "./supabase";
 import { types } from "util";
+
 const supabase = createClient();
 
 export async function getHeroUrl() {
@@ -30,10 +31,11 @@ export const fetchSocialLinks = cache(async ()=> {
     .order("updated_at", { ascending: false });
     return data;
 });
-export const fetchNavLinks = cache(async () => {
+export const fetchNavLinks = cache(async (): Promise<NavbarData> => {
   const { data, error } = await supabase
     .from('nav_items')
     .select(`
+      id,
       label:label,
       nav_items_links (
         title:title,

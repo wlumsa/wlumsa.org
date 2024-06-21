@@ -5,7 +5,12 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from "../../logo.png"
-
+interface FooterProps {
+  FooterData: Array<{
+    label: string;
+    links: Link[];
+  }>;
+}
 
 /**
  * Footer component.

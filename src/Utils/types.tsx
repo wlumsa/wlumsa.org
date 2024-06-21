@@ -1,10 +1,32 @@
 import { Database } from "./supabase/supabase";
 
-declare global  {
-  type Social = Database['public']['Tables']['socials']
+declare global {
+  type Social = {
+    id: number;
+    title: string;
+    link: number | Link;
+    icon: string;
+    updatedAt: string;
+    createdAt: string;
+  }
+
+  type Link = {
+    id: number;
+    title?: string | null;
+    url: string;
+    updatedAt: string;
+    createdAt: string;
+  }
+  
   type NavbarData = {
-    label: Database['public']['Tables']['nav_items']
-    links: Database['public']['Tables']['nav_items_links'];
-};
+    
+      label?: string | null;
+      links?:
+        Link[]
+        | null;
+      id?: string | null;
+    }[] | null;
+    
+  
 
 }
