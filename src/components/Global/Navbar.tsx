@@ -123,7 +123,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           {navbarData && navbarData.map((item) => {
             return (
               <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-                {item.links && item.links.length > 0 ? (
+                {item.links && item.links.length === 1 ? (
                   <li>
                     <Link
                       className="min-w-0 flex-shrink"
