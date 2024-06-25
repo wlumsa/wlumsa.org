@@ -2,15 +2,13 @@ import { GlobalConfig } from 'payload/types';
 
 const Nav: GlobalConfig = {
     slug: 'nav',
+  
     fields: [
-        
         {
-            
             name: 'items',
             type: 'array',
             required: true,
             maxRows: 8,
-            
             fields: [
                 {
                     name:'label',
@@ -18,7 +16,6 @@ const Nav: GlobalConfig = {
                     required: false,
                     index: true,
                   },
-                  
                   {
                     name: 'links',
                     type: 'array',
@@ -39,7 +36,6 @@ const Nav: GlobalConfig = {
                     ]
                   },
             ],
-
         },
     ],
 }

@@ -12,11 +12,19 @@ type Link = {
  
 }
 
-
-type NavItem = {
-  label: string;
-  links: Link[];
-};
-
-type NavbarData = NavItem[];
-
+type Nav ={
+  id: number;
+  items: {
+    label?: string | null;
+    links?:
+      | {
+          title?: string | null;
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}

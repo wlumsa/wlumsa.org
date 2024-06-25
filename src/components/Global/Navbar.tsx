@@ -28,14 +28,16 @@ interface CartItem {
 
 
 
-interface NavbarProps {
-  navbarData: NavbarData;
-}
+import { Nav } from "@/payload-types";
 
-const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
+type NavbarProps = {
+  navbarData: Nav; // Ensure this matches the expected type
+  // other props...
+};
+const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
+  
   const productData = useSelector((state: RootState) => state.shopper.cart);
   const [totalAmt, setTotalAmt] = useState("");
-
   useEffect(() => {
 
     let price = 0;
@@ -76,7 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             tabIndex={0}
             className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
           >
-            {navbarData && navbarData.map((item) => {
+            {navbarData.items.map((item) => {
               return (
                 <li className="menu-item">
                   {item.links && item.links.length > 0 ? (
@@ -120,7 +122,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       {/* Desktop */}
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData && navbarData.map((item) => {
+          {navbarData.items.map((item) => {
             return (
               <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
                 {item.links && item.links.length === 1 ? (
