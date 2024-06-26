@@ -6,11 +6,10 @@ import Footer from "@/components/Global/Footer";
 import {
   getNavbarData,
   getFooterData,
-  fetchSocialLinks,
 } from "../../utils/datafetcher";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import { fetchNavLinks,fetchFooterLinks } from "@/utils/supabase/datafetcher";
+import { fetchNavLinks,fetchFooterLinks,fetchSocialLinks } from "@/utils/supabase/datafetcher";
 
 /*
   Default Metadata for entire project, to be changed

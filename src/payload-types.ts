@@ -331,13 +331,11 @@ export interface Nav {
   id: number;
   items: {
     label?: string | null;
-    links?:
-      | {
-          title?: string | null;
-          url: string;
-          id?: string | null;
-        }[]
-      | null;
+    links: {
+      title?: string | null;
+      url: string;
+      id?: string | null;
+    }[];
     id?: string | null;
   }[];
   updatedAt?: string | null;
@@ -350,8 +348,12 @@ export interface Nav {
 export interface Footer {
   id: number;
   items: {
-    label: string;
-    links: (number | Link)[];
+    label?: string | null;
+    links: {
+      title?: string | null;
+      url: string;
+      id?: string | null;
+    }[];
     id?: string | null;
   }[];
   updatedAt?: string | null;

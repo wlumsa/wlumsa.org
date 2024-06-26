@@ -31,8 +31,7 @@ interface CartItem {
 import { Nav } from "@/payload-types";
 
 type NavbarProps = {
-  navbarData: Nav; // Ensure this matches the expected type
-  // other props...
+  navbarData: Nav; 
 };
 const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
   

@@ -1,16 +1,4 @@
-type Social = {
-  id: number;
-  title: string;
-  link: number | Link;
-  icon: string;
-  updatedAt: string;
-  createdAt: string;
-}
-type Link = {
-  title?: string | null;
-  url: string;
- 
-}
+
 
 type Nav ={
   id: number;
@@ -28,3 +16,12 @@ type Nav ={
   updatedAt?: string | null;
   createdAt?: string | null;
 }
+
+import { Footer, Social,Link } from "@/payload-types";
+
+
+
+export type FooterProps = {
+  footerGroups: Footer,
+  socialLinks: Social[],
+};
