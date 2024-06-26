@@ -46,7 +46,7 @@ dependencies:
     version: 5.15.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
   '@mui/x-date-pickers':
     specifier: ^5.0.20
-    version: 5.0.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@mui/system@5.15.20)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+    version: 5.0.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@mui/system@5.15.20)(@types/react@18.3.3)(date-fns@3.6.0)(react-dom@18.3.1)(react@18.3.1)
   '@payloadcms/db-postgres':
     specifier: 3.0.0-beta.39
     version: 3.0.0-beta.39(@types/react@18.3.3)(payload@3.0.0-beta.43)(react@18.3.1)
@@ -95,6 +95,9 @@ dependencies:
   axios:
     specifier: ^1.7.2
     version: 1.7.2
+  date-fns:
+    specifier: ^3.6.0
+    version: 3.6.0
   firebase-admin:
     specifier: ^11.11.1
     version: 11.11.1
@@ -1170,6 +1173,18 @@ packages:
     dependencies:
       '@date-io/core': 2.17.0
       date-fns: 2.30.0
+    dev: false
+
+  /@date-io/date-fns@2.17.0(date-fns@3.6.0):
+    resolution: {integrity: sha512-L0hWZ/mTpy3Gx/xXJ5tq5CzHo0L7ry6KEO9/w/JWiFWFLZgiNVo3ex92gOl3zmzjHqY/3Ev+5sehAr8UnGLEng==}
+    peerDependencies:
+      date-fns: ^2.0.0
+    peerDependenciesMeta:
+      date-fns:
+        optional: true
+    dependencies:
+      '@date-io/core': 2.17.0
+      date-fns: 3.6.0
     dev: false
 
   /@date-io/dayjs@2.17.0:
@@ -3719,7 +3734,7 @@ packages:
       react-is: 18.3.1
     dev: false
 
-  /@mui/x-date-pickers@5.0.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@mui/system@5.15.20)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1):
+  /@mui/x-date-pickers@5.0.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@mui/system@5.15.20)(@types/react@18.3.3)(date-fns@3.6.0)(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-ERukSeHIoNLbI1C2XRhF9wRhqfsr+Q4B1SAw2ZlU7CWgcG8UBOxgqRKDEOVAIoSWL+DWT6GRuQjOKvj6UXZceA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -3749,7 +3764,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.24.7
       '@date-io/core': 2.17.0
-      '@date-io/date-fns': 2.17.0(date-fns@2.30.0)
+      '@date-io/date-fns': 2.17.0(date-fns@3.6.0)
       '@date-io/dayjs': 2.17.0
       '@date-io/luxon': 2.17.0
       '@date-io/moment': 2.17.0
@@ -3760,6 +3775,7 @@ packages:
       '@mui/utils': 5.15.20(@types/react@18.3.3)(react@18.3.1)
       '@types/react-transition-group': 4.4.10
       clsx: 1.2.1
+      date-fns: 3.6.0
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -6655,6 +6671,10 @@ packages:
     resolution: {integrity: sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==}
     dev: false
 
+  /date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+    dev: false
+
   /dateformat@4.6.3:
     resolution: {integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==}
     dev: false
@@ -8022,7 +8042,7 @@ packages:
       '@mui/icons-material': 5.15.20(@mui/material@5.15.20)(@types/react@18.3.3)(react@18.3.1)
       '@mui/lab': 5.0.0-alpha.170(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@mui/material': 5.15.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
-      '@mui/x-date-pickers': 5.0.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@mui/system@5.15.20)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
+      '@mui/x-date-pickers': 5.0.20(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/material@5.15.20)(@mui/system@5.15.20)(@types/react@18.3.3)(date-fns@3.6.0)(react-dom@18.3.1)(react@18.3.1)
       algoliasearch: 4.23.3
       date-fns: 2.30.0
       firebase: 10.12.2
@@ -11092,7 +11112,7 @@ packages:
     dependencies:
       '@floating-ui/react': 0.26.17(react-dom@18.3.1)(react@18.3.1)
       clsx: 2.1.1
-      date-fns: 3.3.1
+      date-fns: 3.6.0
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)

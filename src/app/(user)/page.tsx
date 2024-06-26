@@ -16,13 +16,13 @@ import { fetchInstagramPosts, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimi
 More information on nextjs caching, and best pratices can be found here: 
 https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 */
-import { fetchNavLinks } from '@/utils/supabase/datafetcher';
+import { fetchNavData } from '@/utils/supabase/datafetcher';
 
 export const revalidate = 3600
 
 export default async function Home() {
   // Fetch data from database for dynamic data
-  const navLinks = await fetchNavLinks();
+  const navLinks = await fetchNavData();
   const instagramPosts = await fetchInstagramPosts();
   const prayerRoomsData = await fetchPrayerRooms()
   const jummahInfo = await fetchJummahInfo();

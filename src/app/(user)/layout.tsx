@@ -9,7 +9,7 @@ import {
 } from "../../utils/datafetcher";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import { fetchNavLinks,fetchFooterLinks,fetchSocialLinks } from "@/utils/supabase/datafetcher";
+import { fetchNavData,fetchFooterData,fetchSocialData } from "@/utils/supabase/datafetcher";
 
 /*
   Default Metadata for entire project, to be changed
@@ -49,9 +49,9 @@ export default async function RootLayout({
 }) {
   // Fetch data from database for dynamic data
   //const navbarData = await getNavbarData();
-  const socialLinks = await fetchSocialLinks();
-  const footerData = await fetchFooterLinks();
-  const navbarData = await fetchNavLinks();
+  const socialData = await fetchSocialData();
+  const footerData = await fetchFooterData();
+  const navbarData = await fetchNavData();
   return (
     <html lang="en">
       <body>
@@ -60,7 +60,7 @@ export default async function RootLayout({
         <Providers>
           <Navbar navbarData={navbarData} /> 
           {children}
-          <Footer footerGroups={footerData} socialLinks={socialLinks} />
+          <Footer footerGroups={footerData} socialData={socialData} />
         </Providers>
       </body>
     </html>

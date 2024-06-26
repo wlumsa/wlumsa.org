@@ -24,6 +24,7 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 import { Sizes } from './collections/Products/sizes';
+import WeeklyEvents from './collections/UI/WeeklyEvents';
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
 }
@@ -49,6 +50,7 @@ export default buildConfig({
     Categories,
     Tags,
     Sizes,
+    WeeklyEvents,
   ],
   globals: [Nav, Footer],
   editor: lexicalEditor({}),

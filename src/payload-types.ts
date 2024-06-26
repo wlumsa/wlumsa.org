@@ -21,6 +21,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     Sizes: Size;
+    WeeklyEvents: WeeklyEvent;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -281,6 +282,22 @@ export interface Post {
 export interface Category {
   id: number;
   title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WeeklyEvents".
+ */
+export interface WeeklyEvent {
+  id: number;
+  name: string;
+  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+  timeStart: string;
+  timeEnd: string;
+  location: string;
+  caption: string;
+  image: (number | Media)[];
   updatedAt: string;
   createdAt: string;
 }

@@ -23,5 +23,5 @@ import { Footer, Social,Link } from "@/payload-types";
 
 export type FooterProps = {
   footerGroups: Footer,
-  socialLinks: Social[],
+  socialData: Social[],
 };

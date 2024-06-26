@@ -8,7 +8,7 @@ import logo from "../../logo.png"
 import { FooterProps } from '@/utils/types';
 
 
-const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialLinks }) => {
+const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData}) => {
 
   return (
     <>
@@ -40,7 +40,7 @@ const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialLinks }) =
         </div>
         <div className="md:place-self-center md:justify-self-end">
           <div className="grid grid-flow-col gap-4">
-            {socialLinks.map((social, index) => (
+            {socialData.map((social, index) => (
               <a
                 key={index}
                 href={typeof social.link === 'object' ? social.link.url : '#'}

@@ -3,17 +3,17 @@ import React from "react";
 import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
 import { FadeText } from "./FadeText";
-import { getHeroUrl, fetchSocialLinks } from "@/utils/supabase/datafetcher";
+import { getMedia, fetchSocialData } from "@/utils/supabase/datafetcher";
 
 const Hero: React.FC = async (
 ) => {
-  const heroUrl = await getHeroUrl();
-  const socialLinks = await fetchSocialLinks();
+  const mediaDocs = await getMedia("hero");
+  const socialLinks = await fetchSocialData();
   return (
     <div id="hero" className="hero min-h-screen">
       <Image
-        src={heroUrl}
-        alt="hero"
+        src={mediaDocs[0]?.url || '/path/to/default/image.jpg'}
+        alt={mediaDocs[0]?.alt || "Hero Image"}
         fill
         style={{
           objectFit: "cover",
