@@ -49,7 +49,19 @@ export async function fetchWeeklyEventsData(){
     collection: "WeeklyEvents",
     limit: 10,
   });
-
   return events.docs;
+}
 
+export async function fetchBlogPostsData(){
+  const posts = await payload.find({
+    collection: "Posts",
+    where: {
+      "status": {
+        equals: "published",
+      },
+    },
+    sort: '-publishedAt', // Sort by 'publishedAt' in descending order
+    limit: 10,
+  });
+  return posts;
 }

@@ -17,11 +17,15 @@ type Nav ={
   createdAt?: string | null;
 }
 
-import { Footer, Social,Link } from "@/payload-types";
+import { Footer, Social,Link,Post} from "@/payload-types";
 
 
 
 export type FooterProps = {
   footerGroups: Footer,
   socialData: Social[],
+};
+
+export type PostProps = {
+  post: Post,
 };
