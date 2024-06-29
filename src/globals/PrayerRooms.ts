@@ -1,4 +1,4 @@
-import { GlobalConfig } from 'payload/types';
+import { GlobalConfig } from "payload";
 
 const PrayerRooms: GlobalConfig = {
     slug: 'prayer-rooms',

@@ -1,112 +1,118 @@
-import type { CollectionConfig } from 'payload/types'
+import { CollectionConfig } from 'payload';
 import {
-    lexicalEditor
-} from '@payloadcms/richtext-lexical'
-
+  HTMLConverterFeature,
+  lexicalEditor,
+  lexicalHTML,
+} from "@payloadcms/richtext-lexical";
 export const Posts: CollectionConfig = {
-    slug: 'Posts',
-    admin: {
-        useAsTitle: 'Title',
-        group: 'Admin',
+  slug: "Posts",
+  admin: {
+    useAsTitle: "Title",
+    group: "Admin",
+  },
+
+  fields: [
+    {
+      name: "title",
+      type: "text",
+    },
+    {
+      name: "description",
+      type: "text",
+      maxLength: 100,
+    },
+    {
+      name: "header_image",
+      label: "Header Image",
+      type: "relationship",
+      relationTo: "media",
+      hasMany: true,
     },
 
-    fields: [
+    {
+      name: "content",
+      type: "richText",
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          HTMLConverterFeature({}),
+        ],
+      }),
+    },
+    lexicalHTML('content', { name: 'content_html' }),
+   
+    
+    {
+      name: "categories",
+      type: "relationship",
+      relationTo: "categories",
+      hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "tags",
+      type: "relationship",
+      relationTo: "tags",
+      hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "authors",
+      type: "relationship",
+      relationTo: "execs",
+      hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "status",
+      type: "select",
+      defaultValue: "draft",
+      options: [
         {
-            name: 'Title',
-            type: 'text',
+          label: "Draft",
+          value: "draft",
         },
         {
-            name: 'description',
-            type: 'text',
-            maxLength: 100,
+          label: "Published",
+          value: "published",
         },
-        {
-            name: 'header_image',
-            label: 'Header Image',
-            type: 'relationship',
-            relationTo: 'media',
-            hasMany: true,
+      ],
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "publishedAt",
+      type: "date",
+      admin: {
+        condition: (data, siblingData, { user }) => {
+          if (data.status === "published") {
+            return true;
+          } else {
+            return false;
+          }
         },
-        //Basic fields for the email, will add custom email blocks later based on marketing teams needs
-        //https://payloadcms.com/docs/fields/blocks for more info on blocks
-        {
-            name: 'content',
-            type: 'richText',
-            editor: lexicalEditor({})
+        position: "sidebar",
+        date: {
+          pickerAppearance: "dayAndTime",
         },
-        {
-            name: 'categories',
-            type: 'relationship',
-            relationTo: 'categories',
-            hasMany: true,
-            admin: {
-                position: 'sidebar',
-            },
-        },
-        {
-            name: 'tags',
-            type: 'relationship',
-            relationTo: 'tags',
-            hasMany: true,
-            admin: {
-                position: 'sidebar',
-            },
-        },
-        {
-            name: 'authors',
-            type: 'relationship',
-            relationTo: 'execs',
-            hasMany: true,
-            admin: {
-                position: 'sidebar',
-            },
-        },
-        {
-            name: 'status',
-            type: 'select',
-            defaultValue: 'draft',
-            options: [
-                {
-                    label: 'Draft',
-                    value: 'draft',
-                },
-                {
-                    label: 'Published',
-                    value: 'published',
-                },
-            ],
-            admin: {
-                position: 'sidebar',
-            },
-        },
-        {
-            name: 'publishedAt',
-            type: 'date',
-            admin: {
-                condition: (data, siblingData, { user }) => {
-                    if (data.status === 'published') {
-                        return true
-                    } else {
-                        return false
-                    }
-                },
-                position: 'sidebar',
-                date: {
-                    pickerAppearance: 'dayAndTime',
-                },
-            },
-            hooks: {
-                beforeChange: [
-                    ({ siblingData, value }) => {
-                        if (siblingData._status === 'published' && !value) {
-                            return new Date()
-                        }
-                        return value
-                    },
-                ],
-            },
-        },
-
-
-    ],
-}
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === "published" && !value) {
+              return new Date();
+            }
+            return value;
+          },
+        ],
+      },
+    },
+  ],
+};

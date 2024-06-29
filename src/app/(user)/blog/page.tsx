@@ -1,14 +1,14 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
 import { getBlogsData } from "@/utils/datafetcher";
-import { fetchBlogPostsData } from "@/utils/supabase/datafetcher";
+import { fetchBlogPosts } from "@/utils/supabase/datafetcher";
 /**
  * Renders the Blog component.
  * Fetches blog data and displays a list of blog cards.
  * @returns The rendered Blog component.
  */
 export default async function Blog() {
-  const res = await fetchBlogPostsData();
+  const res = await fetchBlogPosts();
   const posts = res.docs;
   return (
     <section className="mt-10 bg-base-100 ">

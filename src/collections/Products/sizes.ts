@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload/types'
+import { CollectionConfig } from 'payload';
 import {
     lexicalEditor
 } from '@payloadcms/richtext-lexical'

@@ -1,5 +1,5 @@
 // import { isAdminFieldLevel } from '@/access/isAdmin'
-import type { CollectionConfig } from 'payload/types'
+import { CollectionConfig } from 'payload';
 
 export const Execs: CollectionConfig = {
   slug: 'execs',
