@@ -2,14 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { fetchWeeklyEventsData } from "@/utils/supabase/datafetcher";
 import { format } from 'date-fns';
-/**
- * Renders a list of events.
- *
- * @component
- * @param {EventsProps} props - The component props.
- * @param {Event[]} props.events - The array of events to render.
- * @returns {JSX.Element} The rendered component.
- */
+
 const Events: React.FC = async (
 ) => {
   const res = await fetchWeeklyEventsData();
