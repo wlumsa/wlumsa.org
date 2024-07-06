@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { fetchWeeklyEventsData } from "@/utils/supabase/datafetcher";
+import { fetchWeeklyEventsData } from "@/utils/datafetcher";
 import { format } from 'date-fns';
 
 const Events: React.FC = async (

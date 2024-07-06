@@ -3,7 +3,7 @@ import React from "react";
 import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
 import { FadeText } from "./FadeText";
-import { getMedia, fetchSocialData } from "@/utils/supabase/datafetcher";
+import { getMedia, fetchSocialData } from "@/utils/datafetcher";
 
 const Hero: React.FC = async (
 ) => {

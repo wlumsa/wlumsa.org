@@ -1,7 +1,6 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
-import { getBlogsData } from "@/utils/datafetcher";
-import { fetchBlogPosts } from "@/utils/supabase/datafetcher";
+import { fetchBlogPosts } from "@/utils/datafetcher";
 /**
  * Renders the Blog component.
  * Fetches blog data and displays a list of blog cards.

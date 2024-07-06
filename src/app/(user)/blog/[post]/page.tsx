@@ -1,7 +1,7 @@
 import React from "react";
 //import Markdown from "react-markdown";
 
-import { fetchBlogPostById } from "@/utils/supabase/datafetcher";
+import { fetchBlogPostById } from "@/utils/datafetcher";
 
 export default async function BlogPost({
   params,
@@ -47,7 +47,7 @@ export default async function BlogPost({
           <div className="flex flex-col lg:flex-row lg:space-x-12">
             <div className="mt-12 w-full px-4 text-lg leading-relaxed text-gray-700 lg:w-3/4 lg:px-0">
               <div key={0} className="mb-10">
-              {post.content.children}
+                {post.content_html}
               </div>
             </div>
           </div>

@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
-import { Providers } from "@/redux/Provider";
 import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
-import {
-  getNavbarData,
-  getFooterData,
-} from "../../utils/datafetcher";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import { fetchNavData,fetchFooterData,fetchSocialData } from "@/utils/supabase/datafetcher";
+import { fetchNavData,fetchFooterData,fetchSocialData } from "@/utils/datafetcher";
 
 /*
   Default Metadata for entire project, to be changed
@@ -57,11 +52,9 @@ export default async function RootLayout({
       <body>
         <SpeedInsights />
         <Analytics />
-        <Providers>
           <Navbar navbarData={navbarData} /> 
           {children}
           <Footer footerGroups={footerData} socialData={socialData} />
-        </Providers>
       </body>
     </html>
   );
