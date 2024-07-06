@@ -7,6 +7,10 @@
  */
 
 export interface Config {
+  auth: {
+    execs: ExecAuthOperations;
+    Emails: EmailAuthOperations;
+  };
   collections: {
     execs: Exec;
     link: Link;
@@ -37,6 +41,32 @@ export interface Config {
     | (Email & {
         collection: 'Emails';
       });
+}
+export interface ExecAuthOperations {
+  forgotPassword: {
+    email: string;
+  };
+  login: {
+    password: string;
+    email: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+}
+export interface EmailAuthOperations {
+  forgotPassword: {
+    email: string;
+  };
+  login: {
+    password: string;
+    email: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -376,6 +406,13 @@ export interface Footer {
   }[];
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auth".
+ */
+export interface Auth {
+  [k: string]: unknown;
 }
 
 

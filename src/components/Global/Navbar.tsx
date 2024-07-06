@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { RootState } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
@@ -35,22 +34,22 @@ type NavbarProps = {
 };
 const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
   
-  const productData = useSelector((state: RootState) => state.shopper.cart);
-  const [totalAmt, setTotalAmt] = useState("");
-  useEffect(() => {
+  // const productData = useSelector((state: RootState) => state.shopper.cart);
+  // const [totalAmt, setTotalAmt] = useState("");
+  // useEffect(() => {
 
-    let price = 0;
-    productData.forEach((item: CartItem) => {
-      if (item.product.hasSizes) {
-        price += (item.quantities.S || 0) * item.product.price;
-        price += (item.quantities.M || 0) * item.product.price;
-        price += (item.quantities.L || 0) * item.product.price;
-      } else {
-        price += (item.quantities.overall || 0) * item.product.price;
-      }
-    });
-    setTotalAmt(price.toFixed(2));
-  }, [productData]);
+  //   let price = 0;
+  //   productData.forEach((item: CartItem) => {
+  //     if (item.product.hasSizes) {
+  //       price += (item.quantities.S || 0) * item.product.price;
+  //       price += (item.quantities.M || 0) * item.product.price;
+  //       price += (item.quantities.L || 0) * item.product.price;
+  //     } else {
+  //       price += (item.quantities.overall || 0) * item.product.price;
+  //     }
+  //   });
+  //   setTotalAmt(price.toFixed(2));
+  // }, [productData]);
 
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
@@ -181,16 +180,16 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              <span className="badge indicator-item badge-sm">
+              {/* <span className="badge indicator-item badge-sm">
                 {productData.length > 0 ? productData.length : 0}
-              </span>
+              </span> */}
             </div>
           </div>
           <div
             tabIndex={0}
             className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
           >
-            <div className="card-body">
+            {/* <div className="card-body">
               <span className="text-lg font-bold text-secondary">
                 {productData.length > 0 ? productData.length : 0} Items
               </span>
@@ -202,7 +201,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
                   </button>
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -59,7 +59,8 @@
     "sharp": "^0.33.4",
     "supabase": "^1.178.2",
     "tailwind-merge": "^2.3.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@t3-oss/env-nextjs": "^0.2.1"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.10",
