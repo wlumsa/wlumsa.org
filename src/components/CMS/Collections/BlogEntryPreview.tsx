@@ -71,7 +71,7 @@ export function BlogEntryPreview({
             {modifiedValues.name}
           </Typography>
         )}
-
+        
         {modifiedValues?.content && (
           <Text markdownText={modifiedValues.content} />
         )}

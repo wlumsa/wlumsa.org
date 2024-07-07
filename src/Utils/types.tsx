@@ -322,9 +322,11 @@ type YoutubeVideo = {
 
 type BlogEntry = {
   name: string,
+  category: string,
   tagline:string,
   header_image: string,
   created_on: Date,
+  author: string,
   status: string,
   content: string;
 }

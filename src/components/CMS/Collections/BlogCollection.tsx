@@ -17,6 +17,18 @@ export const blogCollection = buildCollection<BlogEntry>({
       validation: { required: true },
       dataType: "string",
     }),
+    category: buildProperty({
+      dataType: "string",
+      name: "Category",
+      validation: { required: true },
+
+      enumValues: {
+        Education: "Education" ,
+        Professional: "Professional development",
+        Academic: "Academic",
+        
+      },
+    }),
     tagline: buildProperty({
       name: "Tagline",
       validation: { required: true },
@@ -41,6 +53,11 @@ export const blogCollection = buildCollection<BlogEntry>({
       dataType: "string",
       columnWidth: 400,
       markdown: true,
+    }), 
+    author: buildProperty({
+      name: "Author",
+      validation: { required: true },
+      dataType: "string",
     }),
     status: buildProperty(({ values }) => ({
       name: "Status",

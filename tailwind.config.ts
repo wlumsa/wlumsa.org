@@ -3,9 +3,35 @@ import { type Config } from "tailwindcss";
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              color: '#2e046d',
+              fontWeight: 'bold',
+            },
+            h2: {
+              color: '#2e046d',
+              fontWeight: 'bold',
+            
+            },
+            h3: {
+              color: '#2e046d',
+              fontWeight: 'bold',
+            },
+            img: {
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            },
+            
+          },
+        },
+      }),
+    },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/typography")],
   daisyui: {
     
     themes: [
