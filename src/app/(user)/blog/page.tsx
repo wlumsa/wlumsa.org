@@ -1,6 +1,7 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
 import { getBlogsData } from "@/Utils/datafetcher";
+import type { Metadata, ResolvingMetadata } from 'next'
 
 interface BlogPost {
   name: string;
@@ -12,10 +13,6 @@ interface BlogPost {
   content: string;
 }
 
-interface BlogProps {
-  initialPosts: BlogPost[];
-  selectedCategory: string | null;
-}
 
 const Blog = async ({ searchParams }: { searchParams: { category?: string } }) => {
   const initialPosts = await getBlogsData();

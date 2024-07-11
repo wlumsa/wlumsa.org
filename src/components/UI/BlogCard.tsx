@@ -55,7 +55,8 @@ const BlogCard  = ({ id, name, image, tagline, category, created_on }: BlogCard)
 
         </div>
         <h2 className="card-title  text-primary">{name}</h2>
-        <p>{tagline}</p>
+        <p>{tagline.length >= 50 ? tagline.slice(0, 70) + "..." : tagline }
+</p>
         <div className="card-actions justify-end">
           <Link href={`/blog/${id}`}>
             <button className="btn btn-primary text-secondary">Read More →</button>
