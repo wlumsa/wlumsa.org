@@ -1,9 +1,11 @@
 "use client"
 import { useState } from "react";
 import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
-import db from "../../firebase";
+//import db from "../../firebase";
+import axios from "axios";
 import { toast } from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
+
 /**
  * Component for member signup form.
  */
@@ -13,11 +15,23 @@ const MemberSignup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [studentId, setStudentId] = useState("");
   const [newsLetter, setNewsLetter] = useState(true);
-
   /**
    * Handles form submission.
    * @param e - The form event.
    */
+  const sendEmail = async(formData: any) => {
+    try {
+      const response = await axios.post("/api/sendemail", formData);
+      console.log(response.data);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setStudentId("");
+    } catch (error) {
+      console.error("Error sending form: ", error);
+    }
+  } 
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -38,6 +52,7 @@ const MemberSignup: React.FC = () => {
         StudentId: studentId,
         Newsletter: newsLetter,
       });
+      sendEmail(docRef);
 
       console.log("Document written", docRef);
       setFirstName("");
