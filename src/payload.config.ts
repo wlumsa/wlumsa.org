@@ -22,6 +22,7 @@ import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
+
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 import { Sizes } from './collections/Products/sizes';
 import WeeklyEvents from './collections/UI/WeeklyEvents';

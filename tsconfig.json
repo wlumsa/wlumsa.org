@@ -29,7 +29,7 @@
         "./src/payload.config.ts"
       ],
     },
-    "target":"ES2017",
+   
     "plugins": [
       {
         "name": "next"
