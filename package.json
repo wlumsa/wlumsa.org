@@ -39,6 +39,7 @@
     "google-auth-library": "^9.11.0",
     "googleapi": "^1.0.2",
     "googleapis": "^128.0.0",
+    "lexical": "^0.16.1",
     "next": "^14.2.4",
     "next-auth": "5.0.0-beta.18",
     "next-sitemap": "^4.2.3",

@@ -297,7 +297,6 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  content_html?: string | null;
   categories?: (number | Category)[] | null;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;

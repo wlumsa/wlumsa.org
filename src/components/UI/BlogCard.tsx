@@ -1,23 +1,37 @@
 import React from "react";
 import Link from "next/link";
 import { PostProps } from "@/utils/types";
+import { format } from 'date-fns';
 
 /**
  * Represents a blog card component.
  * @param {string} id - The unique identifier of the blog.
- * @param {string} name - The name of the blog.
- * @param {string} tagline - The tagline of the blog.
+ * @param {string} title - The title of the post.
+ * @param {string} description - The description of the blog.
  * @returns {JSX.Element} The rendered blog card component.
  */
+
+
 const BlogCard: React.FC<PostProps> = ({post}) => {
+
+
+  const date = new Date(post.createdAt)
+  const formattedDate = format(date, 'MMMM dd, yyyy');
   return (
-    <div className="card w-72 rounded-xl bg-base-100 shadow-md duration-500 hover:scale-105 hover:shadow-xl">
-      <div className="card-body w-72 px-4 py-3">
-        <h2 className="card-title">{post.title}</h2>
-        <p>{post.description}</p>
+    <div className=" card cursor-pointer text-start items-center w-72 rounded-lg  bg-base-100 border duration-500 hover:scale-105 hover:shadow-xl ">
+    <figure>
+   
+      </figure>
+      <div className="card-body w-72 px-6 py-3">
+        <div className="flex flex-row  text-slate-500">
+         <p>{formattedDate}</p> 
+          <div className="badge badge-secondary text-primary font-semibold rounded-lg">{}</div>
+        </div>
+        <h2 className="card-title  text-primary">{post.title}</h2>
+        <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description: "" }</p>
         <div className="card-actions justify-end">
           <Link href={`/blog/${post.id}`}>
-            <button className="btn btn-primary text-base-100">Read More</button>
+            <button className="btn btn-primary text-secondary">Read More →</button>
           </Link>
         </div>
       </div>

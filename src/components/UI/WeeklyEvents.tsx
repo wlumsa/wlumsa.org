@@ -34,7 +34,7 @@ const Events: React.FC = async (
               </h3>
               <p className="py-6 text-neutral ">{event.caption}</p>
               <p className="font-bold text-neutral">
-                {event.day} @ {format(event.timeStart, 'h:mm aa')} to {format(event.timeEnd, 'h:mm aa')} in {event.location}
+                {/* {event.day} @ {format(event.timeStart, 'h:mm aa')} to {format(event.timeEnd, 'h:mm aa')} in {event.location} */}
               </p>
             </div>
           </div>

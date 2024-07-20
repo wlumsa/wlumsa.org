@@ -63,7 +63,7 @@ export async function fetchBlogPosts(){
     sort: '-publishedAt', // Sort by 'publishedAt' in descending order
     limit: 10,
   });
-  return posts;
+  return posts.docs;
 }
 
 export async function fetchBlogPostsByCategory(category: string){
@@ -80,7 +80,7 @@ export async function fetchBlogPostsByCategory(category: string){
     sort: '-publishedAt', // Sort by 'publishedAt' in descending order
     limit: 10,
   });
-  return posts;
+  return posts.docs;
 }
 export async function fetchBlogPostsByCategoryAndTag(category: string,tag: string){
   const posts = await payload.find({
@@ -99,9 +99,10 @@ export async function fetchBlogPostsByCategoryAndTag(category: string,tag: strin
     sort: '-publishedAt', // Sort by 'publishedAt' in descending order
     limit: 10,
   });
-  return posts;
+  return posts.docs;
 }
 export async function fetchBlogPostById(id: string){
+  
   const post = await payload.find({
     collection: "Posts",
     where: {
@@ -112,11 +113,28 @@ export async function fetchBlogPostById(id: string){
         equals: id,
       },
     },
-    sort: '-publishedAt', // Sort by 'publishedAt' in descending order
     limit: 1,
   });
-  return post;
+  return post.docs;
 }
+
+export async function fetchBlogPostByTitle(title: string){
+  
+  const post = await payload.find({
+    collection: "Posts",
+    where: {
+      "status": {
+        equals: "published",
+      },
+      "title": {
+        equals: title,
+      },
+    },
+    limit: 1,
+  });
+  return post.docs;
+}
+
 export async function fetchBlogPostsBytag(tag: string){
   const posts = await payload.find({
     collection: "Posts",
@@ -131,6 +149,6 @@ export async function fetchBlogPostsBytag(tag: string){
     sort: '-publishedAt', // Sort by 'publishedAt' in descending order
     limit: 10,
   });
-  return posts;
+  return posts.docs;
 }
 
