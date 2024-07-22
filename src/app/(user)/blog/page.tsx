@@ -12,7 +12,7 @@ export default async function Blog() {
 
   const res = await fetchBlogPosts();
   const posts = res;
- 
+  const id=posts[0]?.id;
   
   return (
     <section className="mt-10 bg-base-100 ">
@@ -37,7 +37,7 @@ export default async function Blog() {
         </div>
         </div>
           {posts.map((post) => (
-            <BlogCard post={post} />
+            <BlogCard post={post}  />
           ))}
         </div>
       </div>

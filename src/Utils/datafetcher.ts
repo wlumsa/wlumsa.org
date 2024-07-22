@@ -12,13 +12,12 @@ export async function getMedia(alt: string) {
       "alt": {
         equals: alt,
       },
-      
     },
     pagination: false,
     limit: 1,
     depth: 1,
   });
-  return Media.docs
+  return Media.docs;
 }
 
 export async function fetchSocialData() {
@@ -44,7 +43,7 @@ export async function fetchFooterData() {
   return footer;
 }
 
-export async function fetchWeeklyEventsData(){
+export async function fetchWeeklyEventsData() {
   const events = await payload.find({
     collection: "WeeklyEvents",
     limit: 10,
@@ -52,7 +51,7 @@ export async function fetchWeeklyEventsData(){
   return events.docs;
 }
 
-export async function fetchBlogPosts(){
+export async function fetchBlogPosts() {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -60,13 +59,13 @@ export async function fetchBlogPosts(){
         equals: "published",
       },
     },
-    sort: '-publishedAt', // Sort by 'publishedAt' in descending order
+    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
   });
   return posts.docs;
 }
 
-export async function fetchBlogPostsByCategory(category: string){
+export async function fetchBlogPostsByCategory(category: string) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -77,12 +76,15 @@ export async function fetchBlogPostsByCategory(category: string){
         equals: category,
       },
     },
-    sort: '-publishedAt', // Sort by 'publishedAt' in descending order
+    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
   });
   return posts.docs;
 }
-export async function fetchBlogPostsByCategoryAndTag(category: string,tag: string){
+export async function fetchBlogPostsByCategoryAndTag(
+  category: string,
+  tag: string,
+) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -96,13 +98,12 @@ export async function fetchBlogPostsByCategoryAndTag(category: string,tag: strin
         equals: tag,
       },
     },
-    sort: '-publishedAt', // Sort by 'publishedAt' in descending order
+    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
   });
   return posts.docs;
 }
-export async function fetchBlogPostById(id: string){
-  
+export async function fetchBlogPostById(id: string) {
   const post = await payload.find({
     collection: "Posts",
     where: {
@@ -118,8 +119,7 @@ export async function fetchBlogPostById(id: string){
   return post.docs;
 }
 
-export async function fetchBlogPostByTitle(title: string){
-  
+export async function fetchBlogPostByTitle(title: string) {
   const post = await payload.find({
     collection: "Posts",
     where: {
@@ -135,7 +135,7 @@ export async function fetchBlogPostByTitle(title: string){
   return post.docs;
 }
 
-export async function fetchBlogPostsBytag(tag: string){
+export async function fetchBlogPostsBytag(tag: string) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -146,9 +146,19 @@ export async function fetchBlogPostsBytag(tag: string){
         equals: tag,
       },
     },
-    sort: '-publishedAt', // Sort by 'publishedAt' in descending order
+    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
   });
   return posts.docs;
 }
 
+export async function fetchEmailData(id: string) {
+  const email = await payload.find({
+    collection: "Emails",
+    where: {
+      "id": {
+        equals: id,
+      },
+    },
+  });
+}
