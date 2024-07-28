@@ -1,23 +1,22 @@
 import React from "react";
 import Image from "next/image";
-import { fetchWeeklyEventsData } from "@/utils/datafetcher";
-import { format } from 'date-fns';
 
-const Events: React.FC = async (
-) => {
-  const res = await fetchWeeklyEventsData();
-  const events = res;
+import { format } from 'date-fns';
+import { WeeklyEvent } from "@/payload-types";
+interface WeeklyEventsProps {
+  events: WeeklyEvent[];
+}
+const Events: React.FC<WeeklyEventsProps> = ({ events }) => {
+  
   const image = events[0]?.image[0];
-  console.log(events)
 
   return (
     <div id="events" className="flex-grow">
       {events.map((event, index) => (
         <div className="hero h-fit bg-base-100 px-4" key={index}>
           <div
-            className={`hero-content flex-col ${
-              index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-            } lg:gap-32`}
+            className={`hero-content flex-col ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+              } lg:gap-32`}
           >
             <div className="relative h-80 w-full lg:w-[500px] flex-grow">
               <Image
@@ -26,15 +25,16 @@ const Events: React.FC = async (
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg shadow-2xl"
+                key={index}
               />
             </div>
             <div className="max-w-md px-8 lg:max-w-xl flex-grow">
-              <h3 className="pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
+              <h3 className="pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0" key={index}>
                 {event.name}
               </h3>
-              <p className="py-6 text-neutral ">{event.caption}</p>
+              <p className="py-6 text-neutral " key={index}>{event.caption}</p>
               <p className="font-bold text-neutral">
-                {/* {event.day} @ {format(event.timeStart, 'h:mm aa')} to {format(event.timeEnd, 'h:mm aa')} in {event.location} */}
+                { `${event.day} @ ${format(event.timeStart, 'h:mm aa')} to ${format(event.timeEnd, 'h:mm aa')} in ${event.location}`}
               </p>
             </div>
           </div>

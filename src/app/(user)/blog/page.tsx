@@ -1,6 +1,6 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
-import { fetchBlogPosts } from "@/utils/datafetcher";
+import { fetchBlogPosts } from "@/Utils/datafetcher";
 import { Media } from "@/payload-types";
 /**
  * Renders the Blog component.

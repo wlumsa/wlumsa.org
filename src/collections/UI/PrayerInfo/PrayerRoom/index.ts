@@ -1,6 +1,6 @@
-import { GlobalConfig } from "payload";
+import { CollectionConfig } from "payload";
 
-const PrayerRooms: GlobalConfig = {
+const PrayerRooms: CollectionConfig = {
     slug: 'prayer-rooms',
     fields: [
         {

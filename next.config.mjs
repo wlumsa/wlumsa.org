@@ -21,6 +21,8 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  reactCompiler: false,
+
   images: {
     remotePatterns: [
       {

@@ -3,7 +3,6 @@ import { createClient } from "./client";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
 const payload = await getPayloadHMR({ config: configPromise });
-const supabase = createClient();
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
@@ -161,4 +160,14 @@ export async function fetchEmailData(id: string) {
       },
     },
   });
+}
+
+export async function fetchInstagramPosts(){
+const posts = await payload.find({
+    collection:"Instagram",
+    limit: 10,
+    sort: "-CreatedAt",
+  })
+  
+  return posts.docs;
 }

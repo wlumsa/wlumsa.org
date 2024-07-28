@@ -2,8 +2,8 @@ import React from "react";
 //import Markdown from "react-markdown";
 
 import type { Metadata } from 'next'
-import { fetchBlogPostById, fetchBlogPostByTitle } from "@/utils/datafetcher";
-import RichText from "@/utils/RichText";
+import { fetchBlogPostById, fetchBlogPostByTitle } from "@/Utils/datafetcher";
+import RichText from "@/Utils/RichText";
 /* 
 type Post = {
   params: {post: string}

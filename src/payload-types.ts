@@ -26,8 +26,12 @@ export interface Config {
     tags: Tag;
     Sizes: Size;
     WeeklyEvents: WeeklyEvent;
+    'prayer-timings-month': PrayerTimingsMonth;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
+  };
+  db: {
+    defaultIDType: number;
   };
   globals: {
     nav: Nav;
@@ -47,12 +51,15 @@ export interface ExecAuthOperations {
     email: string;
   };
   login: {
-    password: string;
     email: string;
+    password: string;
   };
   registerFirstUser: {
     email: string;
     password: string;
+  };
+  unlock: {
+    email: string;
   };
 }
 export interface EmailAuthOperations {
@@ -60,12 +67,15 @@ export interface EmailAuthOperations {
     email: string;
   };
   login: {
-    password: string;
     email: string;
+    password: string;
   };
   registerFirstUser: {
     email: string;
     password: string;
+  };
+  unlock: {
+    email: string;
   };
 }
 /**
@@ -328,6 +338,34 @@ export interface WeeklyEvent {
   location: string;
   caption: string;
   image: (number | Media)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-timings-month".
+ */
+export interface PrayerTimingsMonth {
+  id: number;
+  month: {
+    month: string;
+    days: {
+      day: number;
+      fajr: string;
+      fajr_iqamah?: string | null;
+      sunrise: string;
+      dhuhr: string;
+      dhuhr_iqamah: string;
+      asr: string;
+      asr_iqamah: string;
+      maghrib: string;
+      maghrib_iqamah: string;
+      isha: string;
+      isha_iqamah?: string | null;
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }

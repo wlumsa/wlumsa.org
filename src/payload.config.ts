@@ -3,7 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload';
+import{buildConfig} from "payload"
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { link } from './collections/Link'
@@ -20,12 +20,14 @@ import Products from './collections/Products';
 import { Posts } from './collections/Blog';
 import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
-import { seoPlugin } from '@payloadcms/plugin-seo'
+import {seoPlugin} from '@payloadcms/plugin-seo'
 
 
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 import { Sizes } from './collections/Products/sizes';
 import WeeklyEvents from './collections/UI/WeeklyEvents';
+import PrayerTimingsMonth from './collections/UI/PrayerInfo/DayTiming';
+
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
 }
@@ -52,6 +54,7 @@ export default buildConfig({
     Tags,
     Sizes,
     WeeklyEvents,
+    PrayerTimingsMonth
   ],
   globals: [Nav, Footer],
   editor: lexicalEditor({}),
