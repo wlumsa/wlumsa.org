@@ -26,7 +26,9 @@ import {seoPlugin} from '@payloadcms/plugin-seo'
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 import { Sizes } from './collections/Products/sizes';
 import WeeklyEvents from './collections/UI/WeeklyEvents';
-import PrayerTimingsMonth from './collections/UI/PrayerInfo/DayTiming';
+import PrayerTimings from './collections/UI/PrayerInfo/PrayerTimings';
+import Jummah from './collections/UI/PrayerInfo/JummahTimings';
+import PrayerRooms from './collections/UI/PrayerInfo/PrayerRoom';
 
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
@@ -54,9 +56,10 @@ export default buildConfig({
     Tags,
     Sizes,
     WeeklyEvents,
-    PrayerTimingsMonth
+    Jummah,
+    PrayerRooms,
   ],
-  globals: [Nav, Footer],
+  globals: [Nav, Footer,PrayerTimings],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',

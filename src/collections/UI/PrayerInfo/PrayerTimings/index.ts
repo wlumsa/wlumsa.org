@@ -1,7 +1,7 @@
-import { CollectionConfig } from "payload";
+import { GlobalConfig} from "payload";
 
-const PrayerTimingsMonth: CollectionConfig = {
-  slug: "prayer-timings-month",
+const PrayerTimings: GlobalConfig = {
+  slug: "prayer-timings",
   admin: {
     group: "UI",
   },
@@ -15,8 +15,10 @@ const PrayerTimingsMonth: CollectionConfig = {
       fields: [
         {
           name: "month",
-          type: "text",
+          type: "select",
+          options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
           required: true,
+          unique: true,
         },
         {
           name: "days",
@@ -103,4 +105,4 @@ const PrayerTimingsMonth: CollectionConfig = {
   ],
 };
 
-export default PrayerTimingsMonth;
+export default PrayerTimings;

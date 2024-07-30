@@ -15,7 +15,7 @@ const PrayerRooms: CollectionConfig = {
             maxLength:50,
         },
         {
-            name:'room number',
+            name:'room_number',
             type:'number',
             max:1000,
             required:true,

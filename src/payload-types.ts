@@ -26,7 +26,8 @@ export interface Config {
     tags: Tag;
     Sizes: Size;
     WeeklyEvents: WeeklyEvent;
-    'prayer-timings-month': PrayerTimingsMonth;
+    'jummah-timings': JummahTiming;
+    'prayer-rooms': PrayerRoom;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -36,6 +37,7 @@ export interface Config {
   globals: {
     nav: Nav;
     footer: Footer;
+    'prayer-timings': PrayerTiming;
   };
   locale: null;
   user:
@@ -343,29 +345,25 @@ export interface WeeklyEvent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prayer-timings-month".
+ * via the `definition` "jummah-timings".
  */
-export interface PrayerTimingsMonth {
+export interface JummahTiming {
   id: number;
-  month: {
-    month: string;
-    days: {
-      day: number;
-      fajr: string;
-      fajr_iqamah?: string | null;
-      sunrise: string;
-      dhuhr: string;
-      dhuhr_iqamah: string;
-      asr: string;
-      asr_iqamah: string;
-      maghrib: string;
-      maghrib_iqamah: string;
-      isha: string;
-      isha_iqamah?: string | null;
-      id?: string | null;
-    }[];
-    id?: string | null;
-  }[];
+  building: string;
+  'room number'?: number | null;
+  timing: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-rooms".
+ */
+export interface PrayerRoom {
+  id: number;
+  building: string;
+  description: string;
+  room_number: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -437,6 +435,46 @@ export interface Footer {
     links: {
       title?: string | null;
       url: string;
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-timings".
+ */
+export interface PrayerTiming {
+  id: number;
+  month: {
+    month:
+      | 'January'
+      | 'February'
+      | 'March'
+      | 'April'
+      | 'May'
+      | 'June'
+      | 'July'
+      | 'August'
+      | 'September'
+      | 'October'
+      | 'November'
+      | 'December';
+    days: {
+      day: number;
+      fajr: string;
+      fajr_iqamah?: string | null;
+      sunrise: string;
+      dhuhr: string;
+      dhuhr_iqamah: string;
+      asr: string;
+      asr_iqamah: string;
+      maghrib: string;
+      maghrib_iqamah: string;
+      isha: string;
+      isha_iqamah?: string | null;
       id?: string | null;
     }[];
     id?: string | null;
