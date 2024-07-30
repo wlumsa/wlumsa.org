@@ -26,15 +26,14 @@ export default async function Home() {
   // const jummahInfo = await fetchJummahInfo();
   // const timingsData = await fetchTodaysTimings();
   // const events = await fetchEvents();
-
+ 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
       <Hero/>
       {/*<Popup />
        <News instagramPosts={instagramPosts} />
       <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} /> */}
-      <Events />
-  
+      <Events />  
     </main>
   )
 }

@@ -134,6 +134,7 @@ export interface Instagram {
  */
 export interface Resource {
   id: number;
+  title: string;
   link: (number | Link)[];
   updatedAt: string;
   createdAt: string;
@@ -302,6 +303,11 @@ export interface Post {
   authors?: (number | Exec)[] | null;
   status?: ('draft' | 'published') | null;
   publishedAt?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: number | Media | null;
+  };
   updatedAt: string;
   createdAt: string;
 }

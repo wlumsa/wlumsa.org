@@ -21,6 +21,7 @@
     "@fullcalendar/react": "^6.1.14",
     "@fullcalendar/timegrid": "^6.1.14",
     "@payloadcms/db-postgres": "3.0.0-beta.59",
+    "@payloadcms/email-resend": "3.0.0-beta.59",
     "@payloadcms/next": "3.0.0-beta.59",
     "@payloadcms/plugin-seo": "3.0.0-beta.59",
     "@payloadcms/richtext-lexical": "3.0.0-beta.59",

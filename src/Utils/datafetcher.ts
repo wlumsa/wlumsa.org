@@ -161,4 +161,5 @@ export async function fetchEmailData(id: string) {
       },
     },
   });
+  return email.docs;
 }
