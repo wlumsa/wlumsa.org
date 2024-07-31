@@ -11,7 +11,7 @@ export function getTodaysTimings(date: Date, timings: PrayerTiming) {
 }
 
 export function getFormatedTiming(key: TimingKey, time: string) {
-  const timingDictonary:Record<TimingKey,string> = {
+  const timingDictonary = {
     "fajr": "AM",
     "fajr_iqamah": "AM",
     "sunrise": "AM",
