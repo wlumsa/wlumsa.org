@@ -350,7 +350,7 @@ export interface WeeklyEvent {
 export interface JummahTiming {
   id: number;
   building: string;
-  'room number'?: number | null;
+  room_number?: number | null;
   timing: string;
   updatedAt: string;
   createdAt: string;

@@ -36,7 +36,7 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahIn
         </Link>
       </div>
       <div className="divider  md:divider-horizontal mt-10 mx-10"></div>
-      {/* <div className="card flex-grow place-items-center rounded-box">
+      <div className="card flex-grow place-items-center rounded-box">
         <div className="flex w-full items-center justify-center flex-row gap-6 gap:0 md:flex-col">
           <div className="card grid place-items-center rounded-box bg-base-100">
             <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
@@ -52,7 +52,7 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahIn
             <PrayerRooms prayerRoomsData={prayerRoomsData} />
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { PrayerTiming,JummahTiming } from "@/payload-types";
-
+import { getFullDate } from "@/Utils/dateFormater";
 interface PrayerTimesTableProps {
   timingsData: PrayerTiming;
   jummahTimes: JummahTiming[];
@@ -11,12 +11,15 @@ const daysInMonth = (year:number, month:number) => new Date(year, month, 0).getD
 
 const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummahTimes }) => {
   const today = new Date();
-  const sevenDays = new Date(today.setDate(today.getDate() + 6));
-  console.log(sevenDays.getDate())
+  const sevenDays = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   console.log(today.getDate())
+  console.log(sevenDays.getDate())
+ 
+  //console.log(today.getDate())
   const currentMonth = today.getMonth();
+  console.log(typeof(currentMonth))
   const currentMonthTimings = timingsData.month[currentMonth]?.days;
-  //console.log(currentMonthTimings)
+  console.log(currentMonthTimings)
   return (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 overflow-hidden rounded-lg shadow-lg">
@@ -25,14 +28,14 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                   Prayer
                 </th>
-                {/* {filteredData.map((day) => (
+                {currentMonthTimings && currentMonthTimings.slice(today.getDate() - 1, sevenDays.getDate()-1).map((day) => (
                   <th
                     key={day.day}
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                   >
-                    {getFullDate(day.day)}
+                    {getFullDate(today.getFullYear(),currentMonth,day.day)}
                   </th>
-                ))} */}
+                ))} 
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">

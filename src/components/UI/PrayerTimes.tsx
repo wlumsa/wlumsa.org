@@ -1,5 +1,5 @@
 import React from "react";
-import { getFormatedTiming, getTodaysTimings } from "@/Utils/dateFormater";
+import { getTodaysTimings } from "@/Utils/dateFormater";
 import { PrayerTiming } from "@/payload-types";
 
 interface PrayerTimesProps {
@@ -7,6 +7,20 @@ interface PrayerTimesProps {
 }
 
 type TimingKey = "fajr" | "fajr_iqamah" | "sunrise" | "dhuhr" | "dhuhr_iqamah" | "asr" | "asr_iqamah" | "maghrib" | "maghrib_iqamah" | "isha" | "isha_iqamah";
+const timingDictonary = {
+  "fajr": "AM",
+  "fajr_iqamah": "AM",
+  "sunrise": "AM",
+  "dhuhr": "PM",
+  "dhuhr_iqamah": "PM",
+  "asr": "PM",
+  "asr_iqamah": "PM",
+  "maghrib": "PM",
+  "maghrib_iqamah": "PM",
+  "isha": "PM",
+  "isha_iqamah": "PM",
+};
+
 
 const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
   if (!timingsData) {
@@ -30,12 +44,13 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
         </thead>
         <tbody>
           {timesToShow.map((key) => {
-            const formattedTiming = getFormatedTiming(key, todaysTimings[key]!);
+
             const iqamahKey = `${key}_iqamah` as TimingKey;
+            const formattedTiming = todaysTimings[key] + " " + timingDictonary[key];
             let iqamahTime = "N/A";
             if (key !== "fajr") {
-              const iqamahKey = `${key}_iqamah` as TimingKey;
-               iqamahTime = getFormatedTiming(iqamahKey, todaysTimings[iqamahKey]!);
+
+              iqamahTime = todaysTimings[iqamahKey] + " " + timingDictonary[iqamahKey];
             }
             return (
               <tr key={key}>

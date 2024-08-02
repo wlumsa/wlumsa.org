@@ -10,9 +10,9 @@ const Jummah: CollectionConfig = {
       required: true,
     },
     {
-      name: "room number",
+      name: "room_number",
+      label:"Room Number",
       type: "number",
-      max: 1000,
       required: false,
     },
     {
