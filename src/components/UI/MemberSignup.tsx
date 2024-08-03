@@ -52,7 +52,7 @@ const MemberSignup: React.FC = () => {
         StudentId: studentId,
         Newsletter: newsLetter,
       }); */
-      sendEmail(firstName, lastName, email, studentId, newsletter);
+      //sendEmail(firstName, lastName, email, studentId, newsletter);
 
       //console.log("Document written", docRef);
       setFirstName("");
