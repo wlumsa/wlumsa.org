@@ -3,11 +3,7 @@ import Link from "next/link";
 import JummahInfo from "./JummahInfo";
 import PrayerRooms from "./PrayerRooms";
 import PrayerTimes from "./PrayerTimes";
-interface PrayerSectionProps {
-  prayerRoomsData: PrayerRoomItem[]; // The type you defined for prayer room items
-  jummahInfo:JummahItem[];
-  timingsData: DayTimings | null;
-}
+import { JummahTiming, PrayerTiming, PrayerRoom } from "@/payload-types";
 /**
  * Represents the PrayerSection component.
  * @param {Object} prayerRoomsData - The data for prayer rooms.
@@ -15,6 +11,12 @@ interface PrayerSectionProps {
  * @param {Object} timingsData - The data for prayer timings.
  * @returns {JSX.Element} The rendered PrayerSection component.
  */
+
+interface PrayerSectionProps {
+  prayerRoomsData: PrayerRoom[];
+  jummahInfo: JummahTiming[];
+  timingsData: PrayerTiming;
+}
 const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahInfo, timingsData }) => {
   return (
     <div
