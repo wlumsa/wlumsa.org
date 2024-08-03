@@ -16,14 +16,11 @@ Name: fullName,
             pickuptime: pickupTime === 'Other' ? customTime : pickupTime,
             products:products,
             */
-            interface EmailEntryText {
-                type: 'text';
-                value: string;
-              }
+            
               
 export async function POST(request: Request) {
   try {
-    const {
+    const { //get form info
       first,
       last,
       email,
@@ -31,13 +28,14 @@ export async function POST(request: Request) {
       newsletter
     } = await request.json();
     //Get the confirmation email
-    const res = await fetchEmailData("1");
+    const res = await fetchEmailData("1"); //get email from cms
     const content= res[0]?.content|| [];
     console.log("email data:", res);
     console.log(res[0]?.Subject)
 //subject
-    const subject = res[0]?.Subject;
-    const textContent = `Name: ${first} ${last}\n
+    const subject = res[0]?.Subject;//subj
+    //msg
+    const textContent = `Name: ${first} ${last}\n 
          student id: ${studentId}\n
          newsletter: ${newsletter} \n
          Email: ${email}\n`;
@@ -47,7 +45,7 @@ export async function POST(request: Request) {
       to: ["moha5150@mylaurier.ca"],
       subject: subject,
       cc: email,
-      react: <Email firstName={""} lastName={""} content={""} />,
+      react: <Email firstName={""} lastName={""} content={""} />, //get template
       headers: {
         "X-Priority": "1",
       },

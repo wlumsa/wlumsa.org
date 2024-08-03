@@ -76,9 +76,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
             tabIndex={0}
             className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary p-2 shadow"
           >
-            {navbarData.items.map((item) => {
+            {navbarData.items.map((item,index) => {
               return (
-                <li className="menu-item">
+                <li className="menu-item" key={index}>
                   {item.links && item.links.length > 0 ? (
                     <Link
                       className="min-w-0 flex-shrink"
@@ -91,9 +91,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
                       <summary>{item.label}</summary>
                       {item.links && (
                         <ul className="w-fit rounded-t-none bg-primary">
-                          {item.links.map((link) => {
+                          {item.links.map((link,index) => {
                             return (
-                              <li key={link.title}>
+                              <li key={index}>
                                 <Link
                                   className="min-w-0 flex-shrink"
                                   href={link.url || "#"}
@@ -120,9 +120,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
       {/* Desktop */}
       <div className="navbar-center hidden text-base-100 lg:flex">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.items.map((item) => {
+          {navbarData.items.map((item,index) => {
             return (
-              <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+              <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0} key={index}>
                 {item.links && item.links.length === 1 ? (
                   <li>
                     <Link

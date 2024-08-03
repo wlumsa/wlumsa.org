@@ -29,10 +29,18 @@ const BlogCard: React.FC<PostProps> = ({post}) => {
        <img src={image?.toString()} className="object-cover h-48 w-full"/>
       </figure>
       <div className="card-body w-72 px-6 py-3">
-      
         <div className="flex flex-row  text-slate-500">
          <p>{formattedDate}</p> 
-            <div className="badge badge-secondary text-primary font-semibold rounded-lg">{}</div>
+         {post?.tags?.map((item, index) => {
+        if (typeof item === 'object' && item != null) {
+          return (
+            <div key={index} className="badge badge-secondary text-primary font-semibold rounded-lg">
+              {item.title}
+            </div>
+          );
+        }
+        return null;
+      })}
         </div>
         <h2 className="card-title  text-primary">{post.title}</h2>
         <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description: "" }</p>

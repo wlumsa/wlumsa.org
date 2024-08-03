@@ -1,6 +1,6 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
-import { fetchBlogPosts } from "@/utils/datafetcher";
+import { fetchBlogPosts } from "@/Utils/datafetcher";
 import { Media } from "@/payload-types";
 /**
  * Renders the Blog component.
@@ -8,7 +8,7 @@ import { Media } from "@/payload-types";
  * @returns The rendered Blog component.
  */
 export default async function Blog() {
-  const categories = ["Professional", "Education", "Academic"];
+  const categories = ["Professional", "Education", "Academic", "Tech"];
 
   const res = await fetchBlogPosts();
   const posts = res;
@@ -49,7 +49,7 @@ export default async function Blog() {
       <div className="flex justify-center">
         <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
         {posts.map((post) => (
-              <BlogCard key={post?.id} post={post}  />
+              <BlogCard key={id} post={post}  />
             ))}
         </div>
       </div>

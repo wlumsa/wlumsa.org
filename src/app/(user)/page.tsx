@@ -11,7 +11,7 @@ import PrayerSection from '@/components/UI/PrayerSection';
 import Events from '@/components/UI/WeeklyEvents';
 import MemberSignup from '@/components/UI/MemberSignup';
 // import { fetchInstagramPosts, fetchPrayerRooms, fetchJummahInfo, fetchTodaysTimings, fetchEvents } from "../../utils/datafetcher"
-
+import { fetchInstagramPosts, fetchWeeklyEventsData, getJummahTimings, getPrayerRooms, getPrayerTimings } from '@/Utils/datafetcher';
 /*  Nextjs timebased revalidation function for cache, set to 1 hour
 More information on nextjs caching, and best pratices can be found here: 
 https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
@@ -26,14 +26,21 @@ export default async function Home() {
   // const jummahInfo = await fetchJummahInfo();
   // const timingsData = await fetchTodaysTimings();
   // const events = await fetchEvents();
- 
+  const events= await fetchWeeklyEventsData();
+  const instagramPosts = await fetchInstagramPosts();
+  const prayerRoomsData = await getPrayerRooms();
+  const jummahInfo = await getJummahTimings();
+  const timingsData = await getPrayerTimings();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-base-100 ">
       <Hero/>
       {/*<Popup />
-       <News instagramPosts={instagramPosts} />
-      <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} /> */}
-      <Events />  
+       */}
+      <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} /> 
+      <News instagramPosts={instagramPosts} />
+      <Events events={events} />
+      <MemberSignup/>
+  
     </main>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
+//import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
 //import db from "../../firebase";
 import axios from "axios";
 import { toast } from 'react-hot-toast';
@@ -21,7 +21,7 @@ const MemberSignup: React.FC = () => {
    */
   const sendEmail = async(formData: any) => {
     try {
-      const response = await axios.post("/api/sendemail", formData);
+      const response = await axios.post("/api/sendconfirmation", formData);
       console.log(response.data);
       setFirstName("");
       setLastName("");
@@ -36,25 +36,25 @@ const MemberSignup: React.FC = () => {
     e.preventDefault();
 
     try {
-      const membersCollection = collection(db, "Members");
-      const sameMemberQuery = query(membersCollection, where("Email", "==", email));
-      const querySnapshot = await getDocs(sameMemberQuery);
+      //const membersCollection = collection(db, "Members");
+      //const sameMemberQuery = query(membersCollection, where("Email", "==", email));
+      //const querySnapshot = await getDocs(sameMemberQuery);
 
-      if (!querySnapshot.empty) {
+      /* if (!querySnapshot.empty) {
         toast.error("User already exists.");
         return;
-      }
+      } */
 
-      const docRef = await addDoc(membersCollection, {
+      /* const docRef = await (membersCollection, {
         FirstName: firstName,
         LastName: lastName,
         Email: email,
         StudentId: studentId,
         Newsletter: newsLetter,
-      });
-      sendEmail(docRef);
+      }); */
+      sendEmail(firstName, lastName, email, studentId, newsletter);
 
-      console.log("Document written", docRef);
+      //console.log("Document written", docRef);
       setFirstName("");
       setLastName("");
       setEmail("");

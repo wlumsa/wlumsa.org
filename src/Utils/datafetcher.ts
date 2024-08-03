@@ -3,7 +3,6 @@ import { createClient } from "./client";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
 const payload = await getPayloadHMR({ config: configPromise });
-const supabase = createClient();
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
@@ -163,3 +162,36 @@ export async function fetchEmailData(id: string) {
   });
   return email.docs;
 }
+
+export async function fetchInstagramPosts() {
+  const posts = await payload.find({
+    collection: "Instagram",
+    limit: 10,
+    sort: "-CreatedAt",
+  });
+
+  return posts.docs;
+}
+
+export async function getPrayerTimings() {
+  const timings = await payload.findGlobal({
+    slug: "prayer-timings",
+  });
+  return timings;
+}
+export async function getPrayerRooms() {
+  const rooms = await payload.find({
+    collection: "prayer-rooms",
+    limit: 10,
+  });
+  return rooms.docs;
+}
+export async function getJummahTimings() {
+  const timings = await payload.find({
+    collection: "jummah-timings",
+    limit: 10,
+  });
+  return timings.docs;
+}
+
+

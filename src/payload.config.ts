@@ -3,7 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload';
+import{buildConfig} from "payload"
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { link } from './collections/Link'
@@ -20,11 +20,16 @@ import Products from './collections/Products';
 import { Posts } from './collections/Blog';
 import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
-import { seoPlugin } from '@payloadcms/plugin-seo'
+
+import { resendAdapter } from '@payloadcms/email-resend'
+import {seoPlugin} from '@payloadcms/plugin-seo'
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 import { Sizes } from './collections/Products/sizes';
 import WeeklyEvents from './collections/UI/WeeklyEvents';
-import { resendAdapter } from '@payloadcms/email-resend'
+import PrayerTimings from './collections/UI/PrayerInfo/PrayerTimings';
+import Jummah from './collections/UI/PrayerInfo/JummahTimings';
+import PrayerRooms from './collections/UI/PrayerInfo/PrayerRoom';
+
 
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
@@ -52,8 +57,10 @@ export default buildConfig({
     Tags,
     Sizes,
     WeeklyEvents,
+    Jummah,
+    PrayerRooms,
   ],
-  globals: [Nav, Footer],
+  globals: [Nav, Footer,PrayerTimings],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',

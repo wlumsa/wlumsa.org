@@ -1,19 +1,16 @@
 "use client";
 import { InstagramEmbed } from "react-social-media-embed";
 import React from "react";
+import { Instagram } from "@/payload-types";
 
 interface InstagramPageProps {
-  instagramPosts: instagramPost[];
+  instagramPosts: Instagram[];
 }
 
-/**
- * Renders the News component.
- * @param {InstagramPageProps} props - The component props.
- * @param {Array<InstagramPost>} props.instagramPosts - The array of Instagram posts.
- * @returns {JSX.Element} The rendered News component.
- */
 const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
+
   const queryLength = instagramPosts.length;
+  console.log(instagramPosts);
   return (
     <div id="news" className="w-full bg-base-100 py-10">
       <div className="flex flex-grow flex-col items-center justify-center px-8">
@@ -21,17 +18,24 @@ const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
           <h3 className="pb-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105">
             Latest News
           </h3>
-          <div className="carousel max-w-[22rem] overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
-            {instagramPosts.map((post, index) => (
-              <div
-                id={`item${(index + 1).toString()}`}
-                className="carousel-item relative px-2 "
-                key={index}
-              >
-                <InstagramEmbed url={post.link} height={425} />
-              </div>
-            ))}
-          </div>
+          {instagramPosts.length > 0 ? (
+            <div className="carousel max-w-[22rem] overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+
+              {instagramPosts.map((post, index) => (
+                <div
+                  id={`item${(index + 1).toString()}`}
+                  className="carousel-item relative px-2 "
+                  key={index}
+                >
+                  <InstagramEmbed url={post.url} height={425} />
+                </div>
+              ))}
+            </div>
+          ): (
+            <div className="text-center text-primary">
+              No news to display.
+            </div>
+          )}
         </div>
         <div className="flex w-full justify-center gap-2 pt-4">
           {Array.from({ length: queryLength }, (_, index) => (

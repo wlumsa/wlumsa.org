@@ -5,8 +5,15 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from "../../logo.png"
-import { FooterProps } from '@/utils/types';
 
+import { Footer, Social} from "@/payload-types";
+
+
+
+interface FooterProps  {
+  footerGroups: Footer,
+  socialData: Social[],
+};
 
 const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData}) => {
 
@@ -18,8 +25,8 @@ const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData}) => 
           <div key={item.id}>
             <span className="footer-title">{item.label}</span>
             {item.links && (
-              item.links.map((link) => (
-                <a key={link.id} href={link.url} className="link-hover link " target="_blank" rel="noopener noreferrer">
+              item.links.map((link,index) => (
+                <a key={index} href={link.url} className="link-hover link " target="_blank" rel="noopener noreferrer">
                   {link.title}
                 </a>
               )))}

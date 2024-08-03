@@ -1,23 +1,21 @@
 import React from "react";
-
+import { getFormatedTiming, getTodaysTimings } from "@/Utils/dateFormater";
+import { PrayerTiming } from "@/payload-types";
 interface PrayerTimesProps {
-  timingsData: DayTimings | null;
+  timingsData:PrayerTiming
 }
 
-/**
- * Renders the prayer times component.
- *
- * @component
- * @param {Object} props - The component props.
- * @param {Timings} props.timingsData - The prayer timings data.
- * @returns {JSX.Element} The rendered component.
- */
 const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
   if (!timingsData) {
     return <div>Loading...</div>;
   }
 
-  const orderedKeys: (keyof Timings)[] = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
+  const today = new Date()
+ 
+  const todaysTimings = getTodaysTimings(today,timingsData)!
+  const formattedTiming = getFormatedTiming("fajr",todaysTimings["fajr"])
+  console.log(formattedTiming)
+  //const orderedKeys: (keyof timingsData)[] = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
   
   return (
     <div className="mb-4 stats stats-vertical shadow lg:stats-horizontal ">
@@ -30,7 +28,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
           </tr>
         </thead>
         <tbody>
-          {orderedKeys.map((key) => {
+          {/* {orderedKeys.map((key) => {
             const iqamahKey = `${key}Iqamah` as keyof Timings;
             const showIqamah = !["Sunrise", "Fajr"].includes(key);
             const iqamahTime = showIqamah ? timingsData.timings[iqamahKey] : "N/A";
@@ -43,7 +41,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
                 <td>{iqamahTime + (showIqamah ? timeSuffix : "")}</td>
               </tr>
             );
-          })}
+          })} */}
         </tbody>
       </table>
     </div>

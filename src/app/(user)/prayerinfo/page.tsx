@@ -1,7 +1,7 @@
 import React from "react";
 import PrayerTimesTable from "../../../components/PrayerTimeTable"; // assuming PrayerTimesTable is the client component
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
-import { fetchTimings, fetchJummahTimes } from "../../../utils/datafetcher";
+import { getJummahTimings, getPrayerTimings } from "@/Utils/datafetcher";
 
 export const revalidate = 3600
 /**
@@ -11,13 +11,13 @@ export const revalidate = 3600
  */
 
 export default async function PrayerInfo() {
-  const timingsData = await fetchTimings();
-  const jummahTimes = await fetchJummahTimes();
+  const timingsData = await getPrayerTimings()
+  const jummahTimes = await getJummahTimings()
 
   return (
     <div className="flex-grow items-center pt-16">
       <div className="container mx-auto p-8">
-        <PrayerTimesTable timingsData={timingsData} jummahTimes={jummahTimes} />
+        {/* <PrayerTimesTable timingsData={timingsData} jummahTimes={jummahTimes} /> */}
       </div>
       <div className="container mx-auto justify-center  p-8">
         <h2 className="mb-8 text-center text-3xl font-bold">

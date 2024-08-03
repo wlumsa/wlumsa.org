@@ -1,6 +1,6 @@
-import { GlobalConfig } from "payload";
+import { CollectionConfig } from "payload";
 
-const PrayerRooms: GlobalConfig = {
+const PrayerRooms: CollectionConfig = {
     slug: 'prayer-rooms',
     fields: [
         {
@@ -15,7 +15,7 @@ const PrayerRooms: GlobalConfig = {
             maxLength:50,
         },
         {
-            name:'room number',
+            name:'room_number',
             type:'number',
             max:1000,
             required:true,

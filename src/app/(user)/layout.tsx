@@ -4,7 +4,7 @@ import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import { fetchNavData,fetchFooterData,fetchSocialData } from "@/utils/datafetcher";
+import { fetchNavData,fetchFooterData,fetchSocialData } from "@/Utils/datafetcher";
 
 /*
   Default Metadata for entire project, to be changed
