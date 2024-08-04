@@ -49,7 +49,6 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
             const formattedTiming = todaysTimings[key] + " " + timingDictonary[key];
             let iqamahTime = "N/A";
             if (key !== "fajr") {
-
               iqamahTime = todaysTimings[iqamahKey] + " " + timingDictonary[iqamahKey];
             }
             return (
