@@ -39,6 +39,7 @@ export default async function Home() {
       <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} /> 
       <News instagramPosts={instagramPosts} />
       <Events events={events} />
+      <MemberSignup/>
   
     </main>
   )

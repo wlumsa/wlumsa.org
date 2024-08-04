@@ -8,7 +8,7 @@ export default {
   plugins: [require("daisyui")],
   daisyui: {
     
-    themes: [
+    themes: 
       {
         mytheme: { // Light theme
           "primary": "#2e046d", // Purple

@@ -160,6 +160,7 @@ export async function fetchEmailData(id: string) {
       },
     },
   });
+  return email.docs;
 }
 
 export async function fetchInstagramPosts() {

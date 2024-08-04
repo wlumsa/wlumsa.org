@@ -20,15 +20,16 @@ import Products from './collections/Products';
 import { Posts } from './collections/Blog';
 import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
+
+import { resendAdapter } from '@payloadcms/email-resend'
 import {seoPlugin} from '@payloadcms/plugin-seo'
-
-
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
 import { Sizes } from './collections/Products/sizes';
 import WeeklyEvents from './collections/UI/WeeklyEvents';
 import PrayerTimings from './collections/UI/PrayerInfo/PrayerTimings';
 import Jummah from './collections/UI/PrayerInfo/JummahTimings';
 import PrayerRooms from './collections/UI/PrayerInfo/PrayerRoom';
+
 
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
@@ -74,8 +75,9 @@ export default buildConfig({
   plugins: [
     seoPlugin({
 
-      collections: ['posts',],
-      generateTitle,
+      collections: ['Posts',],
+      generateTitle, 
+      generateDescription: ({ doc }) => doc.description,
       uploadsCollection: 'media',
 
     }),
@@ -97,6 +99,11 @@ export default buildConfig({
       },
     }),
   ],
+  email: resendAdapter({
+    defaultFromAddress: 'dev@payloadcms.com',
+    defaultFromName: 'Payload CMS',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
 
 
 

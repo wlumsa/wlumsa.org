@@ -7,6 +7,11 @@ const Resources: CollectionConfig = {
     },
     fields: [
         {
+            name: 'title',
+            type: 'text',
+            required:true,
+        },
+        {
             name: 'link',
             type: 'relationship',
             relationTo: 'link',

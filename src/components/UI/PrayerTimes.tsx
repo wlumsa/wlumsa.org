@@ -58,7 +58,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
                 <td>{iqamahTime}</td>
               </tr>
             );
-          })}
+          })} */}
         </tbody>
       </table>
     </div>
