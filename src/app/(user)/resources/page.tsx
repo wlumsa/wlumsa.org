@@ -7,24 +7,30 @@ export const revalidate = 600
  * Fetches the resources data and renders the appropriate JSX based on the resource group type.
  * @returns The JSX for the Resources page.
  */
+
+
 export default async function ResourcesPage() {
-  const resourcesData = await getResources();
+  const res = await getResources();
+  const resourcesData= res;
+  const id=resourcesData[0]?.id;
+  console.log("resources - ", resourcesData)
+
   return (
     <div className="flex min-h-screen flex-col">
       <main className="mt-20 flex-grow px-20">
         <h1 className="my-10 text-4xl font-bold text-primary">Resources</h1>
-        {resourcesData.map((resourceGroup, index) => {
+        {resourcesData.map((resourceGroup , index) => {
           // Check if the group is "Single Link" and render a different JSX
-          if (resourceGroup.group === "SingleLink") {
-            return resourceGroup.links.map((link, linkIndex) => (
+          if (resourceGroup.link.length == 1 ) {
+            return resourceGroup.link.map((item, index) => (
               <a
-                key={linkIndex}
-                href={link.link}
+                key = {index}
+                href={typeof item === 'object' ? item.url : '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block p-2 text-xl font-medium"
               >
-                {link.name}
+                {typeof item === 'object' ? item.title : ''}
               </a>
             ));
           } else {
@@ -35,17 +41,17 @@ export default async function ResourcesPage() {
                 className="collapse collapse-arrow border bg-secondary text-base-content"
               >
                 <summary className="collapse-title text-xl font-medium text-primary">
-                  {resourceGroup.group} Resources
+                  {resourceGroup.title} Resources
                 </summary>
                 <ul className="collapse-content">
-                  {resourceGroup.links.map((link, linkIndex) => (
+                  {resourceGroup.link.map((item, linkIndex) => (
                     <li key={linkIndex}>
                       <a
-                        href={link.link}
+                        href={typeof item === 'object' ? item.url : '#'}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        - {link.name}
+                        - {typeof item === 'object' ? item.title : ''}
                       </a>
                     </li>
                   ))}
