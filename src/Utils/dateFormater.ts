@@ -17,3 +17,18 @@ export function getFullDate(year:number,month: number, day: number) {
 
   return `${monthNames[formatedMonth]} ${formatedDay}`;
 }
+
+export function isFriday(year:number,month:number,day:number){
+  let date = new Date(year=year,month = month, day = day);
+  return date.getDay() === 5;
+}
+
+export function formatJummahTiming(jummahTiming: string){
+  const date = new Date(jummahTiming);
+  const options:Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true
+};
+  return date.toLocaleTimeString('en-US',options);
+};
