@@ -80,6 +80,12 @@ export default buildConfig({
       generateDescription: ({ doc }) => doc.description,
       uploadsCollection: 'media',
 
+      fieldOverrides: {
+        description: {
+          localized: true,
+        },
+      },
+
     }),
     s3Storage({
       collections: {
@@ -101,7 +107,7 @@ export default buildConfig({
   ],
   email: resendAdapter({
     defaultFromAddress: 'dev@payloadcms.com',
-    defaultFromName: 'Payload CMS',
+    defaultFromName: 'WLU MSA',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
 

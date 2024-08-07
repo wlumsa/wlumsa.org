@@ -1,45 +1,18 @@
 import React from "react";
-//import Markdown from "react-markdown";
-
-import type { Metadata } from 'next'
 import { fetchBlogPostById, fetchBlogPostByTitle } from "@/Utils/datafetcher";
 import RichText from "@/Utils/RichText";
 import { format } from 'date-fns';
-/* 
-type Post = {
-  params: {post: string}
-}
+import Head from "next/head";
+import { Metadata } from "next";
 
-export async function generateMetadata({ params }: Post): Promise<Metadata | undefined> {
-  const id = decodeURIComponent(params.post);
-  const {post} = await fetchBlogPostByTitle(id);  
 
-  if(!post){
-    return undefined;
-  }
-  return {
-    title: post.name,
-    description: post.tagline,
-    openGraph: {
-      title: post.name,
-      description: post.tagline,
-      images: [post.header_image],
-      type: "article",
-      locale: "en_US",
-      publishedTime: post.created_on.toString(),
-      authors: post.author,
-      siteName: "WLUMSA",
-      //image
-      //url
-    },
-  }
-} */
 
 export default async function BlogPost({
   params,
 }: {
   params: { post: string };
 }) {
+
   // const id = params.post
   const id = decodeURIComponent(params.post)
   const res = await fetchBlogPostById(id);
@@ -58,10 +31,19 @@ export default async function BlogPost({
   const content= post?.content || [];
   const date = new Date(post?.createdAt || "")
   const formattedDate = format(date, 'MMMM dd, yyyy');
-
-
+  const title=post?.meta?.title;
+  const description=post?.meta?.description || "";
+  console.log("title:", title);
+  console.log(description);
+  
   return (
+    <>
+     <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Head>
     <div className="mt-28">
+     
       <div className="mx-auto max-w-screen-lg">
         <main className="mt-10 flex flex-col justify-center items-center text-gray-700">
           <div className="relative mx-auto mb-4 md:mb-0">
@@ -99,5 +81,32 @@ export default async function BlogPost({
         </main>
       </div>
     </div>
+    </>
   );
 }
+export async function generateMetadata({
+  params,
+}: {
+  params: { post: string };
+}): Promise<Metadata> {
+ // const { isEnabled: isDraftMode } = draftMode()
+
+ const id = decodeURIComponent(params.post)
+ const res = await fetchBlogPostById(id);
+ const post = res[0]
+
+  return {title: post?.meta?.title,
+    description: post?.meta?.description,
+    openGraph: {
+      title: post?.meta?.title || "WLU MSA ",
+      description: post?.meta?.description || "Blog post",
+     // images: [post.header_image],
+      type: "article",
+      locale: "en_US",
+    //  publishedTime: ,
+ //     authors: post?.authors ,
+      siteName: "WLU MSA",
+      //image
+      //url
+    },
+  }}

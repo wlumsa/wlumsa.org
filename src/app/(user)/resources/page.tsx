@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getResourcesData } from "../../../utils/datafetcher";
+import { getResources } from "@/Utils/datafetcher";
 export const revalidate = 600
 /**
  * Renders the Resources page component.
@@ -8,7 +8,7 @@ export const revalidate = 600
  * @returns The JSX for the Resources page.
  */
 export default async function ResourcesPage() {
-  const resourcesData = await getResourcesData();
+  const resourcesData = await getResources();
   return (
     <div className="flex min-h-screen flex-col">
       <main className="mt-20 flex-grow px-20">

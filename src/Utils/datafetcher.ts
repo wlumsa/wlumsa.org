@@ -193,5 +193,11 @@ export async function getJummahTimings() {
   });
   return timings.docs;
 }
-
+ export async function getResources() {
+  const resources = await payload.find({
+    collection: "resources",
+    limit:10,
+  });
+  return resources.docs
+ }
 

@@ -1,10 +1,10 @@
 "use client"
 import { useState } from "react";
-//import { collection, addDoc,query,getDocs,where} from "firebase/firestore";
-//import db from "../../firebase";
+
 import axios from "axios";
 import { toast } from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
+
 
 /**
  * Component for member signup form.
@@ -19,9 +19,9 @@ const MemberSignup: React.FC = () => {
    * Handles form submission.
    * @param e - The form event.
    */
-  const sendEmail = async(formData: any) => {
+ /*  const sendEmail = async(formData: any) => {
     try {
-      const response = await axios.post("/api/sendconfirmation", formData);
+      const response = await axios.post("/api/send", formData);
       console.log(response.data);
       setFirstName("");
       setLastName("");
@@ -30,31 +30,27 @@ const MemberSignup: React.FC = () => {
     } catch (error) {
       console.error("Error sending form: ", error);
     }
-  } 
+  }  */
+
+
+// The created Post document is returned
+
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-      //const membersCollection = collection(db, "Members");
-      //const sameMemberQuery = query(membersCollection, where("Email", "==", email));
-      //const querySnapshot = await getDocs(sameMemberQuery);
-
-      /* if (!querySnapshot.empty) {
-        toast.error("User already exists.");
-        return;
-      } */
-
-      /* const docRef = await (membersCollection, {
-        FirstName: firstName,
-        LastName: lastName,
-        Email: email,
-        StudentId: studentId,
-        Newsletter: newsLetter,
-      }); */
-      //sendEmail(firstName, lastName, email, studentId, newsletter);
-
-      //console.log("Document written", docRef);
+     
+      await fetch("/api/send", { method: "POST",
+        body: JSON.stringify({
+          first:firstName,
+          last: lastName,
+          email: email,
+          studentId: studentId,
+          newsLetter: newsLetter
+        })
+       }); 
+      
       setFirstName("");
       setLastName("");
       setEmail("");
