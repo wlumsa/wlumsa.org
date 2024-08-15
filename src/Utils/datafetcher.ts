@@ -201,3 +201,12 @@ export async function getJummahTimings() {
   return resources.docs
  }
 
+export async function uploadFile(file: File) {
+  const client = createClient();
+    const { data, error } = await client.storage.from('wlumsa_storage_bucket_testbucket_name').upload('photos', file)
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(data);
+  }
+}

@@ -1,22 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import db from "@/firebase";
 
-import {
-   
-    collection,
-    addDoc,
- 
-} from "firebase/firestore";
-
-import {
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    getDownloadURL,
-} from "firebase/storage";
+import { createClient } from "@/Utils/client";
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
 
+export async function uploadFile(file: File) {
+    const client = createClient();
+      const { data, error } = await client.storage.from('wlumsa_storage_bucket_testbucket_name').upload('photos', file)
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+    }
+  }
 
 /**
  * UploadPhotoForm component for uploading photos.
@@ -37,30 +34,15 @@ const UploadPhotoForm: React.FC = () => {
     async function handleImage(image: File, gender: string): Promise<string> {
         let imageUrl = "";
 
-        const storage = getStorage();
-        const storageRef = ref(storage, `photos/${gender}/${image.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, image);
-
-        await new Promise((resolve, reject) => {
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setUploadProgress(progress); // Update the progress state
-                    console.log("Upload is " + progress + "% done");
-                },
-                (error) => {
-                    console.error("Error uploading image: ", error);
-                    reject(error);
-                },
-                async () => {
-                    imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-                    resolve(imageUrl);
-                }
-            );
-        });
-
+        
+        const uploadCommand = new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET || 'default_bucket',
+            Key: `photos/${gender}/${image.name}`,
+            Body: image,
+            ContentType: 'image/jpeg',
+        })
+        console.log(uploadCommand)
+        imageUrl = uploadCommand.input.Metadata?.url || "";
         return imageUrl;
     }
 
@@ -104,20 +86,10 @@ const UploadPhotoForm: React.FC = () => {
                 }
                 imageUrls.push(imageUrl);
             }
-            for (const imageUrl of imageUrls) {
-                await addDoc(collection(db, `${gender}Photos`), {
-                    image: imageUrl,
-                    goodPhoto: false,
-                });
-            }
-            if(imageUrls.length > 0 ){
-                alert('Images have been uploaded successfully!');
-            }
+           
+            
             setGender("");
             setImages([]); // Clear the images
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
-            }
             
         } catch (error) {
             console.error('Error in handleSubmit: ', error, '\n please contact msa@wlu.ca with an image of this error');
