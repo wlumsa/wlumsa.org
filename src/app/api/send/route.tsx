@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-import WelcomeEmail from 'emails/signup.tsx';
+import WelcomeEmail from 'emails/signup';
 import { fetchEmailData } from "@/Utils/datafetcher";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
