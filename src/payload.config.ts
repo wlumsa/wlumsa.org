@@ -29,7 +29,7 @@ import WeeklyEvents from './collections/UI/WeeklyEvents';
 import PrayerTimings from './collections/UI/PrayerInfo/PrayerTimings';
 import Jummah from './collections/UI/PrayerInfo/JummahTimings';
 import PrayerRooms from './collections/UI/PrayerInfo/PrayerRoom';
-
+import { EmailCollection } from './collections/EmailCollection';
 
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
@@ -59,6 +59,7 @@ export default buildConfig({
     WeeklyEvents,
     Jummah,
     PrayerRooms,
+    EmailCollection
   ],
   globals: [Nav, Footer,PrayerTimings],
   editor: lexicalEditor({}),

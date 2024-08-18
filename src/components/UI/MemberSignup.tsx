@@ -19,22 +19,10 @@ const MemberSignup: React.FC = () => {
    * Handles form submission.
    * @param e - The form event.
    */
- /*  const sendEmail = async(formData: any) => {
-    try {
-      const response = await axios.post("/api/send", formData);
-      console.log(response.data);
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setStudentId("");
-    } catch (error) {
-      console.error("Error sending form: ", error);
-    }
-  }  */
 
 
-// The created Post document is returned
 
+//make sure to query the collection before adding members
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -49,8 +37,23 @@ const MemberSignup: React.FC = () => {
           studentId: studentId,
           newsLetter: newsLetter
         })
-       }); 
-      
+       });  //change this
+       const req = await fetch('http://localhost:3000/api/Members', {
+        method: "POST", 
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "First Name":firstName,
+          "Last Name": lastName,
+          "mylaurier email": email,
+          "Student Id": studentId,
+          "Newsletter": newsLetter
+        }),
+      })
+      const data = await req.json()
+
       setFirstName("");
       setLastName("");
       setEmail("");

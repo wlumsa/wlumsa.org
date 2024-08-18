@@ -32,6 +32,33 @@ importers:
       '@fullcalendar/timegrid':
         specifier: ^6.1.15
         version: 6.1.15(@fullcalendar/core@6.1.15)
+      '@lexical/headless':
+        specifier: ^0.16.1
+        version: 0.16.1
+      '@lexical/link':
+        specifier: 0.16.1
+        version: 0.16.1
+      '@lexical/list':
+        specifier: 0.16.1
+        version: 0.16.1
+      '@lexical/mark':
+        specifier: 0.16.1
+        version: 0.16.1
+      '@lexical/markdown':
+        specifier: ^0.16.1
+        version: 0.16.1
+      '@lexical/rich-text':
+        specifier: 0.16.1
+        version: 0.16.1
+      '@lexical/selection':
+        specifier: 0.16.1
+        version: 0.16.1
+      '@lexical/table':
+        specifier: 0.16.1
+        version: 0.16.1
+      '@lexical/utils':
+        specifier: 0.16.1
+        version: 0.16.1
       '@payloadcms/db-postgres':
         specifier: 3.0.0-beta.67
         version: 3.0.0-beta.67(@types/react@18.3.3)(payload@3.0.0-beta.67(@swc/core@1.7.5(@swc/helpers@0.5.11))(@swc/types@0.1.12)(graphql@16.9.0)(typescript@5.5.4))(react@19.0.0-rc-f994737d14-20240522)
@@ -59,6 +86,9 @@ importers:
       '@react-email/components':
         specifier: 0.0.23-canary.2
         version: 0.0.23-canary.2(@types/react@18.3.3)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)
+      '@react-email/markdown':
+        specifier: 0.0.12-canary.0
+        version: 0.0.12-canary.0(react@19.0.0-rc-f994737d14-20240522)
       '@supabase/auth-helpers-nextjs':
         specifier: ^0.10.0
         version: 0.10.0(@supabase/supabase-js@2.45.0)
@@ -104,6 +134,9 @@ importers:
       lexical:
         specifier: ^0.16.1
         version: 0.16.1
+      mark@0.16.1:
+        specifier: link:lexical/mark@0.16.1
+        version: link:lexical/mark@0.16.1
       next:
         specifier: 15.0.0-rc.0
         version: 15.0.0-rc.0(@babel/core@7.24.5)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)(sass@1.77.4)
@@ -4446,14 +4479,13 @@ packages:
   lexical@0.16.1:
     resolution: {integrity: sha512-+R05d3+N945OY8pTUjTqQrWoApjC+ctzvjnmNETtx9WmVAaiW0tQVG+AYLt5pDGY8dQXtd4RPorvnxBTECt9SA==}
 
-  lib0@0.2.95:
-    resolution: {integrity: sha512-St5XGDh5omvNawGkAOa7CFRjxl4xEKLj9DxgT8Nl7rmrD6l2WRTngvmZGhJKRaniROterT0RDVdnwLlU9PiEOg==}
+  lib0@0.2.97:
+    resolution: {integrity: sha512-Q4d1ekgvufi9FiHkkL46AhecfNjznSL9MRNoJRQ76gBHS9OqU2ArfQK0FvBpuxgWeJeNI0LVgAYMIpsGeX4gYg==}
     engines: {node: '>=16'}
     hasBin: true
 
   libsql@0.3.19:
     resolution: {integrity: sha512-Aj5cQ5uk/6fHdmeW0TiXK42FqUlwx7ytmMLPSaUQPin5HKKKuUPD62MAbN4OEweGBBI7q1BekoEN4gPUEL6MZA==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:
@@ -11191,7 +11223,7 @@ snapshots:
 
   lexical@0.16.1: {}
 
-  lib0@0.2.95:
+  lib0@0.2.97:
     dependencies:
       isomorphic.js: 0.2.5
 
@@ -13073,7 +13105,7 @@ snapshots:
 
   yjs@13.6.18:
     dependencies:
-      lib0: 0.2.95
+      lib0: 0.2.97
 
   yocto-queue@0.1.0: {}
 

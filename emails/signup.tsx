@@ -78,7 +78,7 @@ import {
   export default WelcomeEmail;
   
   const main = {
-    backgroundColor: "#e6d5e2",
+    backgroundColor: "#EAD4EE",
     fontFamily:
       '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
   };

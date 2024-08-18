@@ -37,29 +37,25 @@ export default async function BlogPost({
   console.log(description);
   
   return (
-    <>
-     <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-      </Head>
+
     <div className="mt-28">
-     
       <div className="mx-auto max-w-screen-lg">
         <main className="mt-10 flex flex-col justify-center items-center text-gray-700">
           <div className="relative mx-auto mb-4 md:mb-0">
             <div className="px-4 lg:px-0">
               <h2 className=" text-left my-6 text-4xl font-bold leading-tight text-primary  ">
                 {post?.title} </h2>
-              <p className="">
-                Published - {formattedDate} </p>
-              <p className="">
-                Author -  {}
-              </p>
-
-  
-              <p className="flex mb-2 py-2 text-gray-700">
-                {post?.description}
-              </p>
+                <div className="flex flex-row justify-start text-lg">
+                    <p className="">
+                    Published - {formattedDate} </p>
+                 
+                    {post?.authors?.map((author, index) => (
+                  <p key={index}>{typeof author === 'object' ? `   Author - ${author.name}`  : ''}
+                  </p> ))}
+                </div>
+                <p className="flex mb-2 py-2 text-gray-700 text-lg">
+                    {post?.description}
+                  </p>
             </div>
             <div className="flex justify-center items-center ">
               <img
@@ -81,7 +77,7 @@ export default async function BlogPost({
         </main>
       </div>
     </div>
-    </>
+  
   );
 }
 export async function generateMetadata({
