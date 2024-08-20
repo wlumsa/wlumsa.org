@@ -391,6 +391,7 @@ export interface EmailCollection {
   status?: ('draft' | 'published') | null;
   publishedAt?: string | null;
   distributionList?: (number | DistribuitionList)[] | null;
+  Send?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

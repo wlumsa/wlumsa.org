@@ -49,8 +49,8 @@ export const EmailCollection: CollectionConfig = {
         },
       ],
       admin: {
-        position: "sidebar"
-      }
+        position: "sidebar",
+      },
     },
     {
       name: "publishedAt",
@@ -83,6 +83,41 @@ export const EmailCollection: CollectionConfig = {
           }
         },
         position: "sidebar",
+      },
+    },
+    {
+      name: "Send",
+      label: "Send Email",
+      type: "checkbox",
+      hooks: {
+        afterChange: [
+          ({ siblingData }) => {
+            if (siblingData.Send === true) {
+              console.log("SEND EMAIL LOGIC HERE");
+              /*
+              below is example found on https://payloadcms.com/docs/beta/email/overview, replace with actual email sending logic when ready
+              using the siblingData object to get the email data
+
+              const email = await payload.sendEmail({
+              to: 'test@example.com',
+              subject: 'This is a test email',
+              text: 'This is my message body',
+              })
+
+            */
+            }
+          },
+        ],
+      },
+      admin: {
+        position: "sidebar",
+        condition: (siblingData) => {
+          if (siblingData.status == "published") {
+            return true;
+          } else {
+            return false;
+          }
+        },
       },
     },
   ],
