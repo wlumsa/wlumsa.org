@@ -52,6 +52,7 @@ export interface Config {
 export interface ExecAuthOperations {
   forgotPassword: {
     email: string;
+    password: string;
   };
   login: {
     email: string;
@@ -63,11 +64,13 @@ export interface ExecAuthOperations {
   };
   unlock: {
     email: string;
+    password: string;
   };
 }
 export interface EmailAuthOperations {
   forgotPassword: {
     email: string;
+    password: string;
   };
   login: {
     email: string;
@@ -79,6 +82,7 @@ export interface EmailAuthOperations {
   };
   unlock: {
     email: string;
+    password: string;
   };
 }
 /**

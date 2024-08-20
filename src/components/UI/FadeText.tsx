@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
 import { useMemo } from "react";
+import { motion,Variants } from "framer-motion";
 
 type FadeTextProps = {
   className?: string;
@@ -15,7 +15,7 @@ export function FadeText({
   className,
   framerProps = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { type: "spring", duration: 5} },
+    show: { opacity: 1, transition: { type: "spring" } },
   },
   text,
 }: FadeTextProps) {

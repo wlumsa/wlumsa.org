@@ -13,10 +13,7 @@ quantity
 
 export const aaccessories: CollectionConfig = {
     slug: 'accessories',
-
     fields: [
-       
-        
         {
             name: 'quantity',
             label: 'Quantity',

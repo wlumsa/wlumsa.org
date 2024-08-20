@@ -2,7 +2,9 @@ import { CollectionConfig } from "payload";
 
 const Jummah: CollectionConfig = {
   slug: "jummah-timings",
-  
+  admin: {
+    group: "Prayer Info",
+  },
   fields: [
     {
       name: "building",
@@ -11,7 +13,7 @@ const Jummah: CollectionConfig = {
     },
     {
       name: "room_number",
-      label:"Room Number",
+      label: "Room Number",
       type: "number",
       required: false,
     },
@@ -19,13 +21,13 @@ const Jummah: CollectionConfig = {
       name: "timing",
       type: "date",
       required: true,
-      admin:{
+      admin: {
         date: {
-          pickerAppearance: 'timeOnly',
-          displayFormat: 'h:mm aa',
-          timeIntervals:30,
+          pickerAppearance: "timeOnly",
+          displayFormat: "h:mm aa",
+          timeIntervals: 30,
         },
-      }
+      },
     },
   ],
 };

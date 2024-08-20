@@ -3,7 +3,7 @@ import { GlobalConfig} from "payload";
 const PrayerTimings: GlobalConfig = {
   slug: "prayer-timings",
   admin: {
-    group: "UI",
+    group: "Prayer Info",
   },
   fields: [
     {

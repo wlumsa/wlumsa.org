@@ -6,9 +6,13 @@ import {
 } from "@payloadcms/richtext-lexical";
 export const Posts: CollectionConfig = {
   slug: "Posts",
+  labels:{
+    singular: "Blog Post",
+    plural: "Blog Posts",
+  },
   admin: {
-    useAsTitle: "Title",
-    group: "Admin",
+
+    group: "Marketing",
   },
 
   fields: [

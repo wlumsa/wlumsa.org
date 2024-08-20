@@ -6,8 +6,7 @@ import {
 export const Emails: CollectionConfig = {
     slug: 'Emails',
     admin: {
-        useAsTitle: 'Title',
-        group: 'Admin',
+        group: 'Marketing',
     },
 
     auth: true,

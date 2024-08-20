@@ -3,7 +3,7 @@ import { CollectionConfig } from 'payload';
 export const Tags: CollectionConfig = {
   slug: 'tags',
   admin: {
-    useAsTitle: 'title',
+    hidden:true,
   },
   access: {
     read: () => true,

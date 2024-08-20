@@ -3,8 +3,7 @@ import { CollectionConfig } from 'payload';
 export const link: CollectionConfig = {
   slug: 'link',
   admin: {
-    useAsTitle: 'title',
-    group:'Admin'
+   hidden: true,
   },
   fields: [
     {

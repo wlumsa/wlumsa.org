@@ -1,9 +1,17 @@
-import { CollectionConfig } from 'payload';
-import { NewsletterBlock } from '@/blocks/Emails/Newsletter';
-import { EventBlock } from '@/blocks/Emails/Event';
-import { GeneralBlock } from '@/blocks/Emails/General';
- export const EmailCollection: CollectionConfig = {
-  slug: 'email-collection',
+import { CollectionConfig } from "payload";
+import { NewsletterBlock } from "@/blocks/Emails/Newsletter";
+import { EventBlock } from "@/blocks/Emails/Event";
+import { GeneralBlock } from "@/blocks/Emails/General";
+export const EmailCollection: CollectionConfig = {
+  slug: "email-collection",
+  labels: {
+    singular: "Email Collection",
+    plural: "Email Collection"
+  },
+  admin: {
+    group: "Marketing",
+    description: "Collection of emails for marketing purposes",
+  },
   fields: [
     {
       name: "title",
@@ -12,11 +20,11 @@ import { GeneralBlock } from '@/blocks/Emails/General';
     {
       name: "subject",
       type: "text",
-    //  maxLength: 100,
+      //  maxLength: 100,
     },
     {
-      name: 'layout', // required
-      type: 'blocks', // required
+      name: "layout", // required
+      type: "blocks", // required
       minRows: 1,
       maxRows: 20,
       blocks: [
@@ -27,4 +35,4 @@ import { GeneralBlock } from '@/blocks/Emails/General';
       ],
     },
   ],
-} 
+};
