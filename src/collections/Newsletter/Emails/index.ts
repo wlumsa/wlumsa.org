@@ -46,7 +46,6 @@ export const Emails: CollectionConfig = {
             }
         },
 
-        // Add more fields as needed
     ],
 }
 export default Emails;

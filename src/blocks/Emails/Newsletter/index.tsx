@@ -1,6 +1,6 @@
 
 import { Block } from 'payload'
-import { lexicalEditor} from "@payloadcms/richtext-lexical";
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
 export const NewsletterBlock: Block = {
   slug: 'Newsletter', // required
   imageURL: 'https://google.com/path/to/image.jpg',
@@ -8,50 +8,25 @@ export const NewsletterBlock: Block = {
   interfaceName: 'NewsletterBlock', // optional
   fields: [
     // required
-   
     {
-      name: 'Monday',
-      type: 'richText',
-      editor: lexicalEditor({}),
-    },
-    {
-        name: 'Tuesday',
-        type: 'richText',
-        editor: lexicalEditor({}),
-      },
-      {
-        name: 'Wednesday',
-        type: 'richText',
-        editor: lexicalEditor({}),
-      },
-
-      {
-        name: 'Thursday',
-        type: 'richText',
-        editor: lexicalEditor({}),
-      },
-      {
-        name: 'Friday',
-        type: 'richText',
-        editor: lexicalEditor({}),
-      },
-      {
-        name: "status",
-        type: "select",
-        defaultValue: "draft",
-        options: [
-          {
-            label: "Draft",
-            value: "draft",
-          },
-          {
-            label: "Published",
-            value: "published",
-          },
-        ],
-        admin: {
-          position: "sidebar",
+      name: 'Days',
+      type: 'array',
+      fields: [
+        {
+          name: 'Day',
+          type: 'select',
+          options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         },
-      },
+        {
+          name: 'Content',
+          type: 'richText',
+          editor: lexicalEditor({}),
+        },
+      ],
+      minRows: 1,
+      maxRows: 7,
+      required: true,
+
+    },
   ],
 }

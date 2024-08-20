@@ -6,7 +6,7 @@ export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
   labels: {
     singular: "Email Collection",
-    plural: "Email Collection"
+    plural: "Email Collection",
   },
   admin: {
     group: "Marketing",
@@ -33,6 +33,57 @@ export const EmailCollection: CollectionConfig = {
         EventBlock,
         GeneralBlock,
       ],
+    },
+    {
+      name: "status",
+      type: "select",
+      defaultValue: "draft",
+      options: [
+        {
+          label: "Draft",
+          value: "draft",
+        },
+        {
+          label: "Published",
+          value: "published",
+        },
+      ],
+      admin: {
+        position: "sidebar"
+      }
+    },
+    {
+      name: "publishedAt",
+      type: "date",
+      required: true,
+      admin: {
+        position: "sidebar",
+        condition: (siblingData) => {
+          if (siblingData.status == "published") {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      },
+    },
+    {
+      name: "distributionList",
+      label: "Distribution List(s)",
+      type: "relationship",
+      relationTo: "distribuitionList",
+      hasMany: true,
+      required: true,
+      admin: {
+        condition: (siblingData) => {
+          if (siblingData.status === "published") {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        position: "sidebar",
+      },
     },
   ],
 };
