@@ -31,7 +31,7 @@ import Jummah from './collections/UI/PrayerInfo/JummahTimings';
 import PrayerRooms from './collections/UI/PrayerInfo/PrayerRoom';
 import { EmailCollection } from './collections/EmailCollection';
 import DistributionList from './collections/Newsletter/Distribution-List';
-
+import sharp from 'sharp';
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
 }
@@ -66,7 +66,7 @@ export default buildConfig({
   globals: [Nav, Footer,PrayerTimings],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
-  secret: process.env.PAYLOAD_SECRET || '',
+  
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
@@ -122,6 +122,6 @@ export default buildConfig({
 
   // This is temporary - we may make an adapter pattern
   // for this before reaching 3.0 stable
-
-  // sharp,
+  secret: process.env.PAYLOAD_SECRET || '',
+  sharp,
 })
