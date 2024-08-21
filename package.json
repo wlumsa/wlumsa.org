@@ -80,6 +80,7 @@
     "sharp": "^0.33.4",
     "supabase": "^1.187.10",
     "tailwind-merge": "^2.4.0",
+    "use-debounce": "^10.0.3",
     "withPayload": "link:@payloadcms\\next\\withPayload",
     "zod": "^3.23.8"
   },

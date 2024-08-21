@@ -1,5 +1,5 @@
 
-import { Block, CollectionConfig } from 'payload'
+import { Block } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { lexicalToMarkdownFieldHook } from '@/Utils/converter'
 export const GeneralBlock: Block = {

@@ -151,6 +151,35 @@ export async function fetchBlogPostsBytag(tag: string) {
   return posts.docs;
 }
 
+
+export async function fetchBlogPostsByQuery(query: string) {
+  const posts = await payload.find({
+    collection: "Posts",
+    where: {
+      or: [
+        {
+          "title": {
+            like: `${query}`,
+           },
+         },
+         {
+          "plaintext": {
+            like: `${query}`,
+           },
+         },
+         {
+          "description": {
+            like: `${query}`,
+           },
+         },
+        
+      ],
+    },
+    //sort: "-publishedAt", // Sort by 'publishedAt' in descending order
+    limit: 10,
+  });
+  return posts.docs;
+}
 export async function fetchEmailData(id: string) {
   const email = await payload.find({
     collection: "Emails",

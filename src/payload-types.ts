@@ -311,6 +311,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
+  plaintext?: string | null;
   categories?: (number | Category)[] | null;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
