@@ -11,25 +11,47 @@ import {
     Text,
   } from "@react-email/components";
   import * as React from "react";
+  import { Markdown } from "@react-email/markdown";
   import logo from "src/logo.png"
   
   interface MemberInfo {
     firstName: string;
-    lastName: string;
-    email: string;
-    studentId: string;
-    newsletter: boolean;
+  }
+  interface EventInfo  {
+    formLink: string;
+    content: string;
+  }
+
+  interface EmailEntryText {
+    type: "text";
+    value: string;
   }
   
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "";
-  
-  export const WelcomeEmail = ({
-    firstName, lastName, email, studentId, newsletter}: MemberInfo) => (
+
+  export const EventEmail = ({formLink, content}: EventInfo) => {
+    const renderContent = () => {
+        if (!content) {
+            return <Text>No content available</Text>;
+        }
+            return (
+                <Markdown
+        markdownCustomStyles={{
+          h1: { color: "red" },
+          h2: { color: "blue" },
+          codeInline: { background: "grey" },
+        }}
+        markdownContainerStyles={{
+          padding: "12px",
+          border: "solid 1px black",
+        }}
+      >{content}</Markdown>
+            );
+          
+    }; 
+    return (
     <Html>
       <Head />
-      <Preview>Salam, {firstName}, Thank you for subscribing to our newsletter.</Preview>
+      <Preview>MSA Event Coming Up</Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
@@ -39,22 +61,18 @@ import {
             alt="logo"
             style={logo_style}
           /> 
-          <Text style={header}>Salam, {firstName} </Text>
-          <Text style={paragraph}>
-            Thank you for signing up as a member.
+          <Text style={header}>Salam, </Text>
+          <Text  style={paragraph}>
+          {renderContent()}
           </Text>
           <Text style={paragraph}>
-            first: {firstName}, 
-            last: {lastName},
-            email : {email}, 
-            student id: {studentId},
-            newsletter: {newsletter ? "Yes" : "No"},
+          
 
           </Text>
         
           <Section style={btnContainer}>
-            <Button style={button} href="https://wlumsa.org">
-              Visit our website
+            <Button style={button} href={formLink}>
+              Sign up here
             </Button>
           </Section>
           <Text style={paragraph}>
@@ -72,9 +90,20 @@ import {
       </Body>
     </Html>
   );
+}
+function EmailText({ markdownText }: { markdownText: string }) {
+    if (!markdownText) return <></>;
   
+    return (
+      <Container className="max-w-sm">
+        <Text className="mb-6 mt-6">
+          <Markdown>{markdownText}</Markdown>
+        </Text>
+      </Container>
+    );
+  }
   
-  export default WelcomeEmail;
+  export default EventEmail;
   
   const main = {
     backgroundColor: "#EAD4EE",

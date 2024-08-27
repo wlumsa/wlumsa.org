@@ -18,7 +18,7 @@ export interface Config {
     resources: Resource;
     media: Media;
     Emails: Email;
-    Members: Member;
+    members: Member;
     Socials: Social;
     Products: Product;
     Posts: Post;
@@ -29,6 +29,7 @@ export interface Config {
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
     'email-collection': EmailCollection;
+    'distribution-list': DistributionList;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -52,6 +53,7 @@ export interface Config {
 export interface ExecAuthOperations {
   forgotPassword: {
     email: string;
+    password: string;
   };
   login: {
     email: string;
@@ -63,11 +65,13 @@ export interface ExecAuthOperations {
   };
   unlock: {
     email: string;
+    password: string;
   };
 }
 export interface EmailAuthOperations {
   forgotPassword: {
     email: string;
+    password: string;
   };
   login: {
     email: string;
@@ -79,6 +83,7 @@ export interface EmailAuthOperations {
   };
   unlock: {
     email: string;
+    password: string;
   };
 }
 /**
@@ -225,7 +230,7 @@ export interface Email {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Members".
+ * via the `definition` "members".
  */
 export interface Member {
   id: number;
@@ -311,7 +316,6 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  plaintext?: string | null;
   categories?: (number | Category)[] | null;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
@@ -384,6 +388,10 @@ export interface EmailCollection {
   title?: string | null;
   subject?: string | null;
   layout?: (NewsletterBlock | EventBlock | GeneralBlock)[] | null;
+  status?: ('draft' | 'published') | null;
+  publishedAt?: string | null;
+  distributionList?: (number | null) | DistributionList;
+  Send?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -392,82 +400,25 @@ export interface EmailCollection {
  * via the `definition` "NewsletterBlock".
  */
 export interface NewsletterBlock {
-  Monday?: {
-    root: {
-      type: string;
-      children: {
+  Days: {
+    Day?: ('Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday') | null;
+    Content?: {
+      root: {
         type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
         version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  Tuesday?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  Wednesday?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  Thursday?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  Friday?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  status?: ('draft' | 'published') | null;
+      };
+      [k: string]: unknown;
+    } | null;
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'Newsletter';
@@ -523,6 +474,22 @@ export interface GeneralBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'General';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "distribution-list".
+ */
+export interface DistributionList {
+  id: number;
+  'List Name': string;
+  List: {
+    'First Name'?: string | null;
+    'Last Name'?: string | null;
+    email: string;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

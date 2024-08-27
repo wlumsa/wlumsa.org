@@ -2,6 +2,5 @@
 module.exports = {
     siteUrl: process.env.SITE_URL || 'https://wlumsa.org',
     generateRobotsTxt: true, // (optional)
-    // ...other options
   }
   

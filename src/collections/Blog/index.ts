@@ -7,10 +7,18 @@ import {
 import { lexicalToPlainTextFieldHook } from '@/Utils/converter';
 export const Posts: CollectionConfig = {
   slug: "Posts",
-  admin: {
-    useAsTitle: "Title",
-    group: "Admin",
+  labels:{
+    singular: "Blog Post",
+    plural: "Blog Posts",
   },
+  admin: {
+
+    group: "Marketing",
+    livePreview: {
+      url: 'http://localhost:3000', 
+    },
+  },
+ 
 
   fields: [
     {
@@ -36,10 +44,6 @@ export const Posts: CollectionConfig = {
       editor: lexicalEditor({
        
       }),
-    },
-    {
-      name: "plaintext",
-      type: "text",
     },
     {
       name: "categories",

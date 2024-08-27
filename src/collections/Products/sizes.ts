@@ -16,8 +16,7 @@ quantity
 export const Sizes: CollectionConfig = {
     slug: 'Sizes',
     admin: {
-        useAsTitle: 'Title',
-        group: 'Admin',
+        group: 'Products',
     },
     fields: [
         {

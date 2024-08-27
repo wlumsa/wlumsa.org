@@ -1,7 +1,6 @@
 
 import { Block } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { lexicalToMarkdownFieldHook } from '@/Utils/converter'
 export const GeneralBlock: Block = {
   slug: 'General', // required
   imageURL: 'https://google.com/path/to/image.jpg',
@@ -28,9 +27,7 @@ export const GeneralBlock: Block = {
         name: 'Content',
         type: 'richText',
         editor: lexicalEditor({}),
-        hooks: {
-          afterChange: [lexicalToMarkdownFieldHook],
-        },
+        
        
       },
 

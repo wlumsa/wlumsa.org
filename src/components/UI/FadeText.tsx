@@ -1,21 +1,22 @@
-"use client";
+import React, { useMemo } from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 
-import { motion, Variants } from "framer-motion";
-import { useMemo } from "react";
-
-type FadeTextProps = {
+interface FadeTextProps extends HTMLMotionProps<'div'> {
+  direction?: 'up' | 'down' | 'left' | 'right';
   className?: string;
-  direction?: "up" | "down" | "left" | "right";
-  framerProps?: Variants;
+  framerProps?: {
+    hidden?: { opacity?: number; [key: string]: any };
+    show?: { opacity?: number; [key: string]: any };
+  };
   text: string;
-};
+}
 
 export function FadeText({
-  direction = "up",
+  direction = 'up',
   className,
   framerProps = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { type: "spring", duration: 5} },
+    show: { opacity: 1, transition: { type: 'spring' } },
   },
   text,
 }: FadeTextProps) {
@@ -24,7 +25,7 @@ export function FadeText({
     return map[direction];
   }, [direction]);
 
-  const axis = direction === "up" || direction === "down" ? "y" : "x";
+  const axis = direction === 'up' || direction === 'down' ? 'y' : 'x';
 
   const FADE_ANIMATION_VARIANTS = useMemo(() => {
     const { hidden, show, ...rest } = framerProps as {

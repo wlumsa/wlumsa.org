@@ -1,7 +1,5 @@
 import React from "react";
-
 import { getResources } from "@/Utils/datafetcher";
-export const revalidate = 600
 /**
  * Renders the Resources page component.
  * Fetches the resources data and renders the appropriate JSX based on the resource group type.
@@ -12,8 +10,7 @@ export const revalidate = 600
 export default async function ResourcesPage() {
   const res = await getResources();
   const resourcesData= res;
-  const id=resourcesData[0]?.id;
-  console.log("resources - ", resourcesData)
+  
 
   return (
     <div className="flex min-h-screen flex-col">

@@ -10,27 +10,14 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
- 
-  reactCompiler:false,
-
+  experimental: {
+    reactCompiler: false,
+  },
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "firebasestorage.googleapis.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: process.env.S3_HOSTNAME || '',
+        hostname: process.env.S3_HOSTNAME || "http://localhost:3000",
         port: "",
         pathname: "/**",
       }
@@ -39,4 +26,4 @@ const config = {
   },
   domains: [process.env.NEXT_PUBLIC_SUPABASE_URL],
 };
-export default withPayload((config));
+export default withPayload(config);

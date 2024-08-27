@@ -20,7 +20,6 @@ import Products from './collections/Products';
 import { Posts } from './collections/Blog';
 import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
-
 import { resendAdapter } from '@payloadcms/email-resend'
 import {seoPlugin} from '@payloadcms/plugin-seo'
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
@@ -30,7 +29,8 @@ import PrayerTimings from './collections/UI/PrayerInfo/PrayerTimings';
 import Jummah from './collections/UI/PrayerInfo/JummahTimings';
 import PrayerRooms from './collections/UI/PrayerInfo/PrayerRoom';
 import { EmailCollection } from './collections/EmailCollection';
-
+import DistributionList from './collections/Newsletter/Distribution-List';
+import sharp from 'sharp';
 const generateTitle: GenerateTitle = () => {
   return 'Laurier\'s Muslim Students Association'
 }
@@ -49,7 +49,7 @@ export default buildConfig({
     Resources,
     Media,
     Emails,
-    Members,
+   Members,
     Socials,
     Products,
     Posts,
@@ -59,12 +59,13 @@ export default buildConfig({
     WeeklyEvents,
     Jummah,
     PrayerRooms,
-    EmailCollection
+    EmailCollection,
+    DistributionList
   ],
   globals: [Nav, Footer,PrayerTimings],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
-  secret: process.env.PAYLOAD_SECRET || '',
+  
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
@@ -107,10 +108,11 @@ export default buildConfig({
     }),
   ],
   email: resendAdapter({
-    defaultFromAddress: 'dev@payloadcms.com',
+    defaultFromAddress: 'onboarding@resend.dev',
     defaultFromName: 'WLU MSA',
-    apiKey: process.env.RESEND_API_KEY || '',
+    apiKey: "re_a4Chuui1_5MzcEdVbdi5d626LGU3gWVyr" || '',
   }),
+  
 
 
 
@@ -120,6 +122,6 @@ export default buildConfig({
 
   // This is temporary - we may make an adapter pattern
   // for this before reaching 3.0 stable
-
-  // sharp,
+  secret: process.env.PAYLOAD_SECRET || '',
+  sharp,
 })

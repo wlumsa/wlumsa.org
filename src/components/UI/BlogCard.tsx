@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { PostProps } from "@/Utils/types";
+import { Post } from "@/payload-types";
 import { format } from 'date-fns';
 
 /**
@@ -10,7 +10,9 @@ import { format } from 'date-fns';
  * @param {string} description - The description of the blog.
  * @returns {JSX.Element} The rendered blog card component.
  */
-
+interface PostProps {
+  post: Post;
+}
 
 const BlogCard: React.FC<PostProps> = ({post}) => {
 

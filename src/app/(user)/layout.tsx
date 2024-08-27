@@ -4,8 +4,8 @@ import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import { fetchNavData,fetchFooterData,fetchSocialData } from "@/Utils/datafetcher";
-
+import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetcher";
+import { Providers } from "@/redux/Provider";
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -28,7 +28,6 @@ export const metadata: Metadata = {
 More information on nextjs caching, and best pratices can be found here: 
 https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 */
-export const revalidate = 3600;
 
 /**
  * Renders the root layout of the application using Nextjs Page layouts.
@@ -52,10 +51,13 @@ export default async function RootLayout({
       <body>
         <SpeedInsights />
         <Analytics />
-          <Navbar navbarData={navbarData} /> 
+        <Providers>
+          <Navbar navbarData={navbarData} />
           {children}
           <Footer footerGroups={footerData} socialData={socialData} />
+        </Providers>
       </body>
-    </html>
+
+    </html >
   );
 }

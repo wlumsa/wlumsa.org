@@ -163,11 +163,6 @@ export async function fetchBlogPostsByQuery(query: string) {
            },
          },
          {
-          "plaintext": {
-            like: `${query}`,
-           },
-         },
-         {
           "description": {
             like: `${query}`,
            },
@@ -175,7 +170,6 @@ export async function fetchBlogPostsByQuery(query: string) {
         
       ],
     },
-    //sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
   });
   return posts.docs;
@@ -230,6 +224,18 @@ export async function getJummahTimings() {
   return resources.docs
  }
 
+ export const getDistributionList = async (id:string) => {
+  const group = await payload.find({
+    collection: "distribution-list",
+    where: {
+      "id": {
+        equals: id,
+      },
+    }
+  })
+ }
+
+
 export async function uploadFile(file: File) {
   const client = createClient();
     const { data, error } = await client.storage.from('wlumsa_storage_bucket_testbucket_name').upload('photos', file)
@@ -239,3 +245,4 @@ export async function uploadFile(file: File) {
     console.log(data);
   }
 }
+

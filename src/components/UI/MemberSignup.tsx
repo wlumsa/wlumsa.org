@@ -29,7 +29,7 @@ const MemberSignup: React.FC = () => {
 
     try {
      
-      await fetch("/api/send", { method: "POST",
+     /*  await fetch("/api/send", { method: "POST",
         body: JSON.stringify({
           first:firstName,
           last: lastName,
@@ -37,8 +37,8 @@ const MemberSignup: React.FC = () => {
           studentId: studentId,
           newsLetter: newsLetter
         })
-       });  //change this
-       const req = await fetch('http://localhost:3000/api/Members', {
+       });  */ //change this
+       const req = await fetch('http://localhost:3000/api/members', {
         method: "POST", 
         credentials: "include",
         headers: {

@@ -20,13 +20,14 @@ import {
     lastName: string;
   }
   
-  interface EmailEntry extends MemberInfo {
-    title: string; 
-    subject:string
+  interface EmailEntryo extends MemberInfo {
     formLink?: string; // Optional
-    content: EmailEntryText
+   // content: EmailEntryText
   }
-  
+  interface EmailEntry  {
+    formLink?: string; // Optional
+    content: string
+  }
   interface EmailEntryImages {
     type: "images";
     value: string[];
@@ -41,9 +42,9 @@ import {
     type: "attachments";
     value: string[];
   } */
-  const Email = ({ firstName, title, subject, formLink, content }: EmailEntry) => {
+  const Email = ({ formLink,content }: EmailEntry) => {
     const previewText = `The MSA Admin Team`;
-    const renderContent = () => {
+     const renderContent = () => {
         if (!content) {
             return <Text>No content available</Text>;
         }
@@ -58,16 +59,16 @@ import {
           padding: "12px",
           border: "solid 1px black",
         }}
-      >{content.value}</Markdown>
+      >{content}</Markdown>
             );
           
-    };
+    }; 
     return (
       <Html>
         <Head>
-          <title>{title}</title>
+          <title>hi</title>
         </Head>
-        <Preview>{previewText}</Preview>
+        <Preview>hi</Preview>
         <Body
           style={{
             margin: "auto",
@@ -101,10 +102,10 @@ import {
   
             <Text style={{ color: "black" }}>
               <Heading style={{ fontSize: "18px" }}>
-                Salam {`${firstName}`}
+                Salam 
               </Heading>
-              {renderContent()}
-            </Text>
+               {renderContent()}
+             </Text>
   
             <Hr
               style={{ width: "100%", border: "solid #eaeaea", margin: "10px 0" }}

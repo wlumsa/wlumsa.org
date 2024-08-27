@@ -2,6 +2,9 @@ import { CollectionConfig } from "payload";
 
 const PrayerRooms: CollectionConfig = {
     slug: 'prayer-rooms',
+    admin: {
+        group: "Prayer Info",
+      },
     fields: [
         {
             name: 'building',
