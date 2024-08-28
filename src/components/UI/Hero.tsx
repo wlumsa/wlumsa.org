@@ -3,17 +3,17 @@ import React from "react";
 import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
 import { FadeText } from "./FadeText";
-import { Social,Media } from "@/payload-types";
+import { Social, Media } from "@/payload-types";
 
 interface HeroProps {
   socialLinks: Social[];
   mediaDocs: Media[];
 }
-const Hero: React.FC<HeroProps> = ({ mediaDocs,socialLinks }) => {
- 
+const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
+
   return (
     <div id="hero" className="hero min-h-screen">
-      <Image
+      <Image fill={true}
         src={mediaDocs[0]?.url || ''}
         alt={mediaDocs[0]?.alt || "Hero Image"}
         className="object-cover w-full h-full"
@@ -50,5 +50,5 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs,socialLinks }) => {
     </div>
   );
 };
-  
+
 export default Hero;

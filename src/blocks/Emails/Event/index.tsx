@@ -28,7 +28,10 @@ export const EventBlock: Block = {
         name: 'Event Information',
         type: 'richText',
         editor: lexicalEditor({}),
+        
       },
 
   ],
+ 
+  
 }

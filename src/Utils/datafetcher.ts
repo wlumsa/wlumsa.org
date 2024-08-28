@@ -1,4 +1,4 @@
-import { Markdown } from '@react-email/markdown';
+import { Markdown } from "@react-email/markdown";
 import "server-only";
 import { createClient } from "./client";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
@@ -152,6 +152,27 @@ export async function fetchBlogPostsBytag(tag: string) {
   return posts.docs;
 }
 
+export async function fetchBlogPostsByQuery(query: string) {
+  const posts = await payload.find({
+    collection: "Posts",
+    where: {
+      or: [
+        {
+          "title": {
+            like: `${query}`,
+          },
+        },
+        {
+          "description": {
+            like: `${query}`,
+          },
+        },
+      ],
+    },
+    limit: 10,
+  });
+  return posts.docs;
+}
 export async function fetchEmailData(id: string) {
   const email = await payload.find({
     collection: "Emails",
@@ -194,23 +215,38 @@ export async function getJummahTimings() {
   });
   return timings.docs;
 }
- export async function getResources() {
+export async function getResources() {
   const resources = await payload.find({
     collection: "resources",
-    limit:10,
+    limit: 10,
   });
-  return resources.docs
- }
+  return resources.docs;
+}
+
+export async function getDistributionList(id: string) {
+  const distributionList = await payload.findByID({
+    collection: "distribution-list",
+    id: id,
+  });
+  return distributionList.list;
+}
+
+export async function getImageByID(id: string) {
+  const media = await payload.findByID({
+    collection: "media",
+    id: id,
+  });
+  return media;
+}
 
 export async function uploadFile(file: File) {
   const client = createClient();
-    const { data, error } = await client.storage.from('wlumsa_storage_bucket_testbucket_name').upload('photos', file)
+  const { data, error } = await client.storage.from(
+    "wlumsa_storage_bucket_testbucket_name",
+  ).upload("photos", file);
   if (error) {
     console.log(error);
   } else {
     console.log(data);
   }
 }
-
-
-

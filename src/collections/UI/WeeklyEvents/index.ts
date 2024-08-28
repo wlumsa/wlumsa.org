@@ -5,7 +5,7 @@ import { CollectionConfig } from 'payload';
 export const WeeklyEvents: CollectionConfig = {
     slug: 'WeeklyEvents',
     admin: {
-        useAsTitle: 'Title',
+        useAsTitle: 'name',
         group: 'UI',
     },
     fields: [

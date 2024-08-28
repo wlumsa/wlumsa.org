@@ -4,6 +4,7 @@ import {
   lexicalEditor,
 
 } from "@payloadcms/richtext-lexical";
+import { lexicalToPlainTextFieldHook } from '@/Utils/converter';
 export const Posts: CollectionConfig = {
   slug: "Posts",
   labels:{
@@ -13,7 +14,11 @@ export const Posts: CollectionConfig = {
   admin: {
 
     group: "Marketing",
+    livePreview: {
+      url: 'http://localhost:3000', 
+    },
   },
+ 
 
   fields: [
     {
@@ -39,11 +44,7 @@ export const Posts: CollectionConfig = {
       editor: lexicalEditor({
        
       }),
-    
     },
-    
-   
-    
     {
       name: "categories",
       type: "relationship",

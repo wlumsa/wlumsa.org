@@ -20,7 +20,6 @@ import Products from './collections/Products';
 import { Posts } from './collections/Blog';
 import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
-
 import { resendAdapter } from '@payloadcms/email-resend'
 import {seoPlugin} from '@payloadcms/plugin-seo'
 import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
@@ -50,7 +49,7 @@ export default buildConfig({
     Resources,
     Media,
     Emails,
-    Members,
+   Members,
     Socials,
     Products,
     Posts,
@@ -109,10 +108,11 @@ export default buildConfig({
     }),
   ],
   email: resendAdapter({
-    defaultFromAddress: 'dev@payloadcms.com',
+    defaultFromAddress: 'onboarding@resend.dev',
     defaultFromName: 'WLU MSA',
-    apiKey: process.env.RESEND_API_KEY || '',
+    apiKey: "re_a4Chuui1_5MzcEdVbdi5d626LGU3gWVyr" || '',
   }),
+  
 
 
 

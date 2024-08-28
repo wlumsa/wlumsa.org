@@ -41,6 +41,7 @@
     "@payloadcms/ui": "3.0.0-beta.87",
     "@react-email/components": "0.0.23-canary.2",
     "@react-email/markdown": "^0.0.11",
+    "@react-email/render": "^0.0.17",
     "@reduxjs/toolkit": "^2.2.7",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "latest",
@@ -81,6 +82,7 @@
     "sharp": "^0.33.4",
     "supabase": "^1.187.10",
     "tailwind-merge": "^2.4.0",
+    "use-debounce": "^10.0.3",
     "withPayload": "link:@payloadcms\\next\\withPayload",
     "zod": "^3.23.8"
   },
