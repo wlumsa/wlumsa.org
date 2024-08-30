@@ -7,17 +7,16 @@ import React from 'react'
  */
 
 interface FilterButtonsProps {
-    items:string[];
-    activeTag:string;
+  items: string[];
+  activeTag: string;
 }
-const FilterButtons: React.FC<FilterButtonsProps>  = ({items, activeTag}) => {
+const FilterButtons: React.FC<FilterButtonsProps> = ({ items, activeTag }) => {
 
   return (
     <div>
-        {items.map((item, index) => (
-            
-            <div key={index} className={`btn text-primary m-4`}>{item}</div>
-          ))}
+      {items.map((item, index) => (
+        <div key={index} className={`btn text-primary m-4`}>{item}</div>
+      ))}
     </div>
   )
 }

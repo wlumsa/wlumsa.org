@@ -4,10 +4,10 @@ import Email from 'emails/test';
 import EventEmail from 'emails/event';
 //converts JSX Emails to HTML
 
-// Membership Email
-export const getEmailHtml = (firstName: string, lastName: string, email:string, studentId: string, newsletter:boolean ): string => {
-    return render(<WelcomeEmail firstName={firstName}  lastName={lastName} email={email} studentId={studentId} newsletter={newsletter} />);
-};
+
+// export const getEmailHtml = (firstName: string, lastName: string, email:string, studentId: string, newsletter:boolean ): string => {
+//     return render(<WelcomeEmail firstName={firstName}  lastName={lastName} email={email} studentId={studentId} newsletter={newsletter} />);
+// };
 //Newsletter email
 
 //Event email
@@ -16,6 +16,6 @@ export const getEmailHtmlEvent = (formLink:string, content: string): string => {
 };
 
 
-//General
+
 
 

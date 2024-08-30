@@ -3,7 +3,7 @@ import { $convertToMarkdownString, TRANSFORMERS } from '@lexical/markdown';
 import  buildConfig from '../payload.config'; 
 import { $getRoot } from 'lexical'
 import type { FieldHook } from 'payload';
-import { defaultEditorConfig, defaultEditorFeatures, getEnabledNodes, sanitizeServerEditorConfig } from '@payloadcms/richtext-lexical';
+import { defaultEditorConfig, defaultEditorFeatures, getEnabledNodes, sanitizeServerEditorConfig,SerializedUploadNode } from '@payloadcms/richtext-lexical';
 
 
 
@@ -69,3 +69,4 @@ import { defaultEditorConfig, defaultEditorFeatures, getEnabledNodes, sanitizeSe
         return markdown;
     } 
 }
+

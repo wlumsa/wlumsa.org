@@ -179,7 +179,6 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -234,11 +233,11 @@ export interface Email {
  */
 export interface Member {
   id: number;
-  'First Name'?: string | null;
-  'Last Name'?: string | null;
-  'mylaurier email': string;
-  'Student Id'?: string | null;
-  Newsletter?: boolean | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  mylaurierEmail: string;
+  studentId?: string | null;
+  newsletter?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -387,7 +386,24 @@ export interface EmailCollection {
   id: number;
   title?: string | null;
   subject?: string | null;
-  layout?: (NewsletterBlock | EventBlock | GeneralBlock)[] | null;
+  attachments?: (number | Media)[] | null;
+  headerImage?: (number | null) | Media;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  content_html?: string | null;
   status?: ('draft' | 'published') | null;
   publishedAt?: string | null;
   distributionList?: (number | null) | DistributionList;
@@ -397,94 +413,14 @@ export interface EmailCollection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "NewsletterBlock".
- */
-export interface NewsletterBlock {
-  Days: {
-    Day?: ('Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday') | null;
-    Content?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    id?: string | null;
-  }[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'Newsletter';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventBlock".
- */
-export interface EventBlock {
-  'Form Link'?: string | null;
-  'Event Date'?: string | null;
-  'Event Information'?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'Event';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GeneralBlock".
- */
-export interface GeneralBlock {
-  'Form Link'?: string | null;
-  Date?: string | null;
-  Content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'General';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "distribution-list".
  */
 export interface DistributionList {
   id: number;
-  'List Name': string;
-  List: {
-    'First Name'?: string | null;
-    'Last Name'?: string | null;
+  listName: string;
+  list: {
+    firstName?: string | null;
+    lastName?: string | null;
     email: string;
     id?: string | null;
   }[];

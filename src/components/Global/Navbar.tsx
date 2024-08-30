@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
   // }, [productData]);
 
   return (
-    <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full ">
+    <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full mb-16 ">
       {/* Mobile */}
       <div className="navbar-start text-base-100">
         <div className="dropdown dropdown-hover ">

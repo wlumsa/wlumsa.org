@@ -1,15 +1,32 @@
 
 import { Block } from 'payload'
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import {
+  HTMLConverterFeature,
+  lexicalEditor,
+  lexicalHTML
+} from '@payloadcms/richtext-lexical'
 export const NewsletterBlock: Block = {
   slug: 'Newsletter', // required
   imageURL: 'https://google.com/path/to/image.jpg',
   imageAltText: 'A nice thumbnail image to show what this block looks like',
   interfaceName: 'NewsletterBlock', // optional
   fields: [
-    // required
     {
-      name: 'Days',
+      name: "introContent",
+      label: "Intro Content",
+      type: "richText",
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          // The HTMLConverter Feature is the feature which manages the HTML serializers.
+          // If you do not pass any arguments to it, it will use the default serializers.
+          HTMLConverterFeature({}),
+        ],
+      }),
+      required: true,
+    },
+    {
+      name: 'days',
       type: 'array',
       fields: [
         {
@@ -18,15 +35,25 @@ export const NewsletterBlock: Block = {
           options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         },
         {
-          name: 'Content',
+          name: 'content',
           type: 'richText',
-          editor: lexicalEditor({}),
-        },
-      ],
-      minRows: 1,
-      maxRows: 7,
-      required: true,
+          editor: lexicalEditor({
+            features: ({ defaultFeatures }) => [
+              ...defaultFeatures,
+              // The HTMLConverter Feature is the feature which manages the HTML serializers.
+              // If you do not pass any arguments to it, it will use the default serializers.
+              HTMLConverterFeature({}),
+            ],
+          }),
 
+        },
+        lexicalHTML('content', { name: 'content_html' }),
+      ],
+      maxRows: 7,
     },
+
+    lexicalHTML('introContent', { name: 'introContent_html' }),
+
   ],
+
 }

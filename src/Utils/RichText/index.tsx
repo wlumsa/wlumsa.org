@@ -23,11 +23,7 @@ const RichText: React.FC<Props> = ({
   return (
     <div
       className={cn(
-        {
-          'container ': enableGutter,
-          'max-w-none': !enableGutter,
-          'mx-auto prose dark:prose-invert ': enableProse,
-        },
+        "RichText",
         className,
       )}
     >

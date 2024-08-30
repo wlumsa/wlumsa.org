@@ -3,28 +3,30 @@ import { CollectionConfig } from "payload";
 export const DistributionList: CollectionConfig = {
   slug: "distribution-list",
   admin: {
-    useAsTitle: "List Name",
+    useAsTitle: "listName",
     group: "Marketing",
     hidden: false,
   },
   fields: [
     {
-        name:"List Name",
+        name:"listName",
+        label:"List Name",
         type:"text",
         required:true,
     },
     {
-      name: "List",
-      type: "array",
-     
       label: "Individual",
+      name: "list",
+      type: "array",
       fields: [
         {
-          name: "First Name",
+          name: "firstName",
+          label: "First Name",
           type: "text",
         },
         {
-          name: "Last Name",
+          name: "lastName",
+          label: "Last Name",
           type: "text",
         },
         {

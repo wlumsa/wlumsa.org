@@ -10,6 +10,7 @@ export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
     group:'Miscellaneous',
+    
   },
   access: {
     read: () => true,
@@ -31,4 +32,5 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: true,
+
 }

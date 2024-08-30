@@ -1,7 +1,19 @@
+import { Markdown } from "@react-email/markdown";
 import "server-only";
 import { createClient } from "./client";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
+const supabase = createClient();
+
+export async function getPublicURL(folder: string | null | undefined, fileName: string | null | undefined) {
+  const path = `${folder}/${fileName}`;
+  const { data } = supabase
+    .storage
+    .from(process.env.S3_BUCKET || "default_bucket")
+    .getPublicUrl(path|| "");
+  return data;
+}
+
 const payload = await getPayloadHMR({ config: configPromise });
 
 export async function getMedia(alt: string) {
@@ -151,7 +163,6 @@ export async function fetchBlogPostsBytag(tag: string) {
   return posts.docs;
 }
 
-
 export async function fetchBlogPostsByQuery(query: string) {
   const posts = await payload.find({
     collection: "Posts",
@@ -160,14 +171,13 @@ export async function fetchBlogPostsByQuery(query: string) {
         {
           "title": {
             like: `${query}`,
-           },
-         },
-         {
+          },
+        },
+        {
           "description": {
             like: `${query}`,
-           },
-         },
-        
+          },
+        },
       ],
     },
     limit: 10,
@@ -216,33 +226,38 @@ export async function getJummahTimings() {
   });
   return timings.docs;
 }
- export async function getResources() {
+export async function getResources() {
   const resources = await payload.find({
     collection: "resources",
-    limit:10,
+    limit: 10,
   });
-  return resources.docs
- }
+  return resources.docs;
+}
 
- export const getDistributionList = async (id:string) => {
-  const group = await payload.find({
+export async function getDistributionList(id: string) {
+  const distributionList = await payload.findByID({
     collection: "distribution-list",
-    where: {
-      "id": {
-        equals: id,
-      },
-    }
-  })
- }
+    id: id,
+  });
+  return distributionList.list;
+}
 
+export async function getImageByID(id: string) {
+  const media = await payload.findByID({
+    collection: "media",
+    id: id,
+  });
+  return media;
+}
 
 export async function uploadFile(file: File) {
   const client = createClient();
-    const { data, error } = await client.storage.from('wlumsa_storage_bucket_testbucket_name').upload('photos', file)
+  const { data, error } = await client.storage.from(
+    "wlumsa_storage_bucket_testbucket_name",
+  ).upload("photos", file);
   if (error) {
     console.log(error);
   } else {
     console.log(data);
   }
 }
-

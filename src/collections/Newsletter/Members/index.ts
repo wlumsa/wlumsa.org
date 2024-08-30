@@ -1,65 +1,74 @@
+import { CollectionConfig } from "payload";
 
-import { CollectionConfig } from 'payload';
-
-import { getEmailHtml } from '@/app/email/generateEmailHTML';
+// import { getEmailHtml } from "@/app/email/generateEmailHTML";
 export const Members: CollectionConfig = {
-  slug: 'members',
+  slug: "members",
   admin: {
-    useAsTitle: 'mylaurier email',
-    group: 'Admin',
-    defaultColumns: ['First Name', 'Last Name', 'mylaurier email', 'Student Id', 'Newsletter']
-},  access: {
-    create: () => true, 
+    useAsTitle: "mylaurier email",
+    group: "Admin",
+    defaultColumns: [
+      "firstName",
+      "lastName",
+      "mylaurierEmail",
+      "studentId",
+      "newsletter",
+    ],
+  },
+  access: {
+    create: () => true,
     update: () => true,
-},
-  hooks: {
-    afterChange: [ ({doc, operation,req}) => {
-        const htmlContent = getEmailHtml(doc['First Name'], doc['Last Name'], doc['mylaurier email'], doc['Student Id'], doc['Newsletter']);
+  },
+  // hooks: {
+  //   afterChange: [({ doc, operation, req }) => {
+  //     const htmlContent = getEmailHtml(
+  //       doc["firstName"],
+  //       doc["lastName"],
+  //       doc["mylaurierEmail"],
+  //       doc["studentId"],
+  //       doc["newsletter"],
+  //     );
 
-        console.log(doc['mylaurier email'])
-        if(operation === 'create') {
-            console.log("sending...")
-            try {
-                req.payload.sendEmail({
-                    from: 'onboarding@resend.dev',
-                    to: doc['mylaurier email'],
-                    subject: 'welcome to the msa!!',
-                    html: htmlContent
-                })
-            } catch(e) {
-                console.log("an error occurred :( ")
-            }
-            
-        }
-    }]  
-},
+  //     console.log(doc["mylaurier email"]);
+  //     if (operation === "create") {
+  //       console.log("sending...");
+  //       try {
+  //         req.payload.sendEmail({
+  //           from: "onboarding@resend.dev",
+  //           to: doc["mylaurier email"],
+  //           subject: "welcome to the msa!!",
+  //           html: htmlContent,
+  //         });
+  //       } catch (e) {
+  //         console.log("an error occurred :( ");
+  //       }
+  //     }
+  //   }],
+  // },
   fields: [
     {
-      name: 'First Name',
-      type: 'text',
-  },
-  {
-    name: 'Last Name',
-    type: 'text',
-},
+      name: "firstName",
+      label: "First Name",
+      type: "text",
+    },
     {
-      name:'mylaurier email',
-      type: 'email',
+      name: "lastName",
+      label: "Last Name",
+      type: "text",
+    },
+    {
+      name: "mylaurierEmail",
+      type: "email",
       required: true,
     },
-    
-    
+
     {
-      name:'Student Id',
-      type:'text',
+      name: "studentId",
+      type: "text",
     },
     {
-      name: 'Newsletter',
-      type: 'checkbox',
-  },
-    
-    
-  
+      name: "newsletter",
+      type: "checkbox",
+    },
   ],
-}
+};
 export default Members;

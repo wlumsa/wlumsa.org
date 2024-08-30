@@ -1,38 +1,25 @@
 import { CollectionConfig } from "payload";
-import { NewsletterBlock } from "@/blocks/Emails/Newsletter";
-import { EventBlock } from "@/blocks/Emails/Event";
-import { GeneralBlock } from "@/blocks/Emails/General";
-import { getEmailHtmlEvent } from "@/app/email/generateEmailHTML";
-import { convertRichTextToMarkdown } from "@/Utils/converter";
-import DistributionList from "../Newsletter/Distribution-List";
-import { sendEmail } from "./utils";
-import payload from 'payload';
-import { getDistributionList } from "@/Utils/datafetcher";
-
-interface Person {
-  id:string,
-  first:string,
-}
-
-interface EventBlock {
-  blockType: 'Event';
-}
-
+import {
+  HTMLConverterFeature,
+  lexicalEditor,
+  lexicalHTML,
+} from "@payloadcms/richtext-lexical";
+import type { HTMLConverter } from '@payloadcms/richtext-lexical'
 
 export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
   labels: {
     singular: "Email Collection",
     plural: "Email Collection",
+    
   },
   admin: {
     group: "Marketing",
     description: "Collection of emails for marketing purposes",
-    
-  }, 
+  },
   access: {
-    update: () => true, 
-},
+    update: () => true,
+  },
   fields: [
     {
       name: "title",
@@ -44,18 +31,36 @@ export const EmailCollection: CollectionConfig = {
       //  maxLength: 100,
     },
     {
-      name: "layout", // required
-      type: "blocks", // required
-      minRows: 1,
-      maxRows: 20,
-      blocks: [
-        // required
-        NewsletterBlock,
-        EventBlock,
-        GeneralBlock,
-      ],
-    }, 
-    
+      name: "attachments",
+      type: "relationship",
+      relationTo: "media",
+      hasMany: true,
+    },
+    {
+      name: "headerImage",
+      label: "Header Image",
+      type: "relationship",
+      relationTo: "media",
+      hasMany: false,
+    },
+    {
+      name: "content",
+      type: "richText",
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          // The HTMLConverter Feature is the feature which manages the HTML serializers.
+          // If you do not pass any arguments to it, it will use the default serializers.
+          HTMLConverterFeature({
+            
+          }),
+        ],
+      }),
+    },
+    lexicalHTML("content", {
+      name: "content_html",
+    }),
+
     {
       name: "status",
       type: "select",
@@ -89,6 +94,7 @@ export const EmailCollection: CollectionConfig = {
         },
       },
     },
+
     {
       name: "distributionList",
       label: "Distribution List(s)",
@@ -113,26 +119,28 @@ export const EmailCollection: CollectionConfig = {
       type: "checkbox",
       hooks: {
         afterChange: [
-         async ({ req, originalDoc, siblingData }) => {
-          if (siblingData.Send === true) {
-           // console.log("Event");
-          
-           /*  let htmlContent = '';
-                const markdown = await convertRichTextToMarkdown(siblingData["Event Information"]);
-                console.log(`Conversion: ${markdown}`);
-                if (markdown) {
-                    htmlContent = getEmailHtmlEvent(siblingData['Form Link'], markdown);                    
-                } */
-                /* const distributionListId = siblingData.distributionList;
-                
-                const list = await payload.findByID({
-                  collection: "distribution-list",
-                  id: distributionListId,
-                });
-                console.log(list); */
-                
+          async ({ req, originalDoc, siblingData }) => {
+            if (siblingData.Send === true) {
+              const req = await fetch(
+                "http://localhost:3000/api/sendByDistributionList",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    title: siblingData.title,
+                    subject: siblingData.subject,
+                    headerImage: siblingData.headerImage,
+                    publishedAt: siblingData.publishedAt,
+                    content: siblingData.content,
+                    distributionListId: siblingData.distributionList,
+                    content_html: siblingData.content_html,
+                  }),
+                },
+              );
             }
-      }
+          },
         ],
       },
       admin: {
@@ -147,7 +155,4 @@ export const EmailCollection: CollectionConfig = {
       },
     },
   ],
-   
-
 };
-
