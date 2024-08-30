@@ -8,7 +8,7 @@
 
 // export const POST = async (req: Request) => {
 //   try {
-  
+
 //     const { first, last, email, studentId, newsLetter} = await req.json();
 
 //     //const res = await fetchEmailData("1"); //get email from cms
@@ -18,7 +18,7 @@
 //     console.log("First name", first)
 //     console.log("newsletter", newsLetter)
 
-    
+
 //     //const email_subject = res[0]?.Subject; 
 //     const email_subject = "WLUMSA Member Signup Confirmation"
 //     const response = await resend.emails.send({
@@ -42,3 +42,19 @@
 //     });
 //   }
 // };
+import { Resend } from 'resend';
+
+
+export const POST = async (req: Request) => {
+    try {
+
+        return new Response("Success!", {
+            status: 200,
+        });
+    } catch (error) {
+        console.error("Error sending email:", error);
+        return new Response(`Internal server error ${error}`, {
+            status: 500,
+        });
+    }
+};

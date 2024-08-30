@@ -26,26 +26,19 @@ export const POST = async (req: Request) => {
   try {
     const response = await req.json();
     const { title, subject, headerImage, publishedAt, content, distributionListId,content_html} = response;
-    
-    
+    console.log(content_html)
     const distributionList: DistributionList['list'] = await getDistributionList(distributionListId);
-    const image = await getImageByID(headerImage);
-    console.log(image)
- 
-   
-    const {publicUrl} = await getPublicURL(image.prefix,image.filename);
- 
-    //Check if this works on 
-    
-   
-    // Split distributionList into chunks of 100 and use resend.batch.send to send emails at once, instead of one by one
+    // const image = await getImageByID(headerImage);
+    // const {publicUrl} = await getPublicURL(image.prefix,image.filename);
+    // console.log(publicUrl)
     const chunks = chunkArray(distributionList, 100);
     chunks.forEach(async (chunk) => {
       const batch = chunk.map((user) => ({
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        react: WelcomeEmail({ firstName: user.firstName, url: publicUrl}),
+        html:content_html
+        // react: WelcomeEmail({ firstName: user.firstName, url: publicUrl}),
       }));
       const res = await resend.batch.send(batch);
       console.log(res)

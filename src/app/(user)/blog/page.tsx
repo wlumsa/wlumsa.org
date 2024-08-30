@@ -39,7 +39,7 @@ export default async function Blog({
         <SearchBar/>
         
         <div className="flex flex-row items-center justify-center">
-       <FilterButtons items={categories}/>
+       <FilterButtons items={categories} activeTag={""}/>
         </div>
       </div>
       <div className="flex justify-center">
