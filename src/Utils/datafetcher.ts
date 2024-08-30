@@ -3,6 +3,17 @@ import "server-only";
 import { createClient } from "./client";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
+const supabase = createClient();
+
+export async function getPublicURL(folder: string | null | undefined, fileName: string | null | undefined) {
+  const path = `${folder}/${fileName}`;
+  const { data } = supabase
+    .storage
+    .from(process.env.S3_BUCKET || "default_bucket")
+    .getPublicUrl(path|| "");
+  return data;
+}
+
 const payload = await getPayloadHMR({ config: configPromise });
 
 export async function getMedia(alt: string) {

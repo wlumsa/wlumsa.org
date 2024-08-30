@@ -20,17 +20,18 @@ const baseUrl = process.env.VERCEL_URL
   : "";
 interface WelcomeEmailProps {
   firstName: string | null | undefined;
+  url: string | null | undefined;
 }
 
 
-export const WelcomeEmail = ({firstName}:WelcomeEmailProps) => (
+export const WelcomeEmail = ({firstName,url}:WelcomeEmailProps) => (
   <Html>
     <Head />
     <Preview>Salam, {firstName || ""} , Thank you for subscribing to our newsletter.</Preview>
     <Body style={main}>
       <Container style={container}>
         <Img
-          src={"src/logo.png"}
+          src={url || ""}
           width="170"
           height="50"
           alt="logo"

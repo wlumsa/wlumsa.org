@@ -93,18 +93,21 @@ export default buildConfig({
       collections: {
         media: {
           prefix: 'media',
+          
         }
       },
       bucket: process.env.S3_BUCKET || 'default_bucket',
       config: {
-        forcePathStyle: true,
         credentials: {
           accessKeyId: process.env.S3_ACCESS_KEY_ID || 'default_access_key_id',
           secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || 'default_secret_access_key',
+          
         },
         region: process.env.S3_REGION || 'default_region',
         endpoint: process.env.S3_ENDPOINT || 'default_endpoint',
+        
       },
+      
     }),
   ],
   email: resendAdapter({
