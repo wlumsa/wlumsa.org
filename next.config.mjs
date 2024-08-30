@@ -20,7 +20,8 @@ const config = {
         hostname: process.env.S3_HOSTNAME || "http://localhost:3000",
         port: "",
         pathname: "/**",
-      }
+      },
+      
       
     ],
   },

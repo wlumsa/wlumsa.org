@@ -90,10 +90,14 @@ export default buildConfig({
     s3Storage({
       collections: {
         media: {
-          generateFileURL: ({filename }) => {
-            return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.S3_BUCKET}/media/${filename}`;
+          prefix: "media",
+          generateFileURL: ({prefix,filename }) => {
+            console.log(prefix);
+            if (prefix !== undefined) {
+              return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.S3_BUCKET}/${prefix}/${filename}`;
+            }
+            return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.S3_BUCKET}/${filename}`;
           },
-        
         },
       },
       bucket: process.env.S3_BUCKET || "default_bucket",
