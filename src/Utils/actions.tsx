@@ -1,9 +1,10 @@
 'use server'
 
 import { z } from 'zod'
-import { addIndividualToList } from './datafetcher'
+import { addIndividualToList, addMember } from './datafetcher'
 import { createClient } from './server'
-const supabase = createClient()
+import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
@@ -11,7 +12,7 @@ const schema = z.object({
     studentId: z.string().regex(/^\d+$/, "Student ID must be a number").length(9, "Student ID must be 9 digits"),
     newsLetter: z.boolean(),
 })
-
+import WelcomeEmail from 'emails/signup';
 export type State = {
     errors?: {
         firstName?: string[]
@@ -40,30 +41,24 @@ export async function memberSignup(prevState: State, formData: FormData) {
     }
 
     const { firstName, lastName, email, studentId, newsLetter } = validatedFields.data
-
+    //TODO: Add error checking logi for each fetcchw
     try {
-        const response = await fetch('http://localhost:3000/api/members', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "First Name": firstName,
-                "Last Name": lastName,
-                "mylaurier email": email,
-                "Student Id": studentId,
-                "Newsletter": newsLetter,
-            }),
-        })
 
+        // TODO, perform check to make sure member is not already in the database
+        const response = await addMember(firstName, lastName, email, studentId, newsLetter)
 
-        const res = await addIndividualToList("Newsletter", {
-            email: email,
-            first_name: firstName,
-            last_name: lastName,
+        if (newsLetter) {
+            await addIndividualToList("Newsletter", {email: email,first_name: firstName,last_name: lastName,});
+        }
+        const data = await resend.emails.send({
+            from: `WLUMSA <admin@wlumsa.org>`,
+            to: email,
+            subject: "Here is a free gift!",
+            react: WelcomeEmail({ firstName: firstName, url: "https://wlumsa.org" }),
         });
-        
-        if (!response.ok) {
+        console.log(data)
+
+        if (!response) {
             return { message: 'Failed to sign up. Please try again.' }
         }
 

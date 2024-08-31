@@ -287,6 +287,20 @@ type individualSchema = {
 //   return result;
 // }
 
+export async function addMember(firstName: string, lastName: string, email: string,studentID: string,newsletter:boolean) {
+  const result = await payload.create({
+    collection: "members",
+    data: {
+      firstName: firstName,
+      lastName: lastName,
+      mylaurierEmail: email,
+      studentId: studentID,
+      newsletter: newsletter,
+    },
+  });
+  return result;
+}
+
 export async function addIndividualToList(listName:string, individualData:individualSchema) {
   try {
     // Step 1: Insert the new individual into the individuals table
