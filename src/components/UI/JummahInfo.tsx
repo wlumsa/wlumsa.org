@@ -1,5 +1,6 @@
 import React from "react";
 import { JummahTiming } from "@/payload-types";
+import { formatJummahTiming } from "@/Utils/dateFormater";
 interface JummahProps {
   jummahInfo : JummahTiming[],
 }
@@ -21,7 +22,7 @@ const JummahInfo: React.FC<JummahProps> = ({ jummahInfo }) => {
         <tbody>
           {jummahInfo.map((item, index) => (
             <tr key={index}>
-              <td>{item.timing}</td>
+              <td>{formatJummahTiming(item.timing)}</td>
               <td>{item.building} {item.room_number}</td>
             </tr>
           ))}

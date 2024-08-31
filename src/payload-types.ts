@@ -9,7 +9,6 @@
 export interface Config {
   auth: {
     execs: ExecAuthOperations;
-    Emails: EmailAuthOperations;
   };
   collections: {
     execs: Exec;
@@ -17,7 +16,6 @@ export interface Config {
     Instagram: Instagram;
     resources: Resource;
     media: Media;
-    Emails: Email;
     members: Member;
     Socials: Social;
     Products: Product;
@@ -30,6 +28,7 @@ export interface Config {
     'prayer-rooms': PrayerRoom;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
+    individuals: Individual;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -42,33 +41,11 @@ export interface Config {
     'prayer-timings': PrayerTiming;
   };
   locale: null;
-  user:
-    | (Exec & {
-        collection: 'execs';
-      })
-    | (Email & {
-        collection: 'Emails';
-      });
+  user: Exec & {
+    collection: 'execs';
+  };
 }
 export interface ExecAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
-export interface EmailAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -191,42 +168,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Emails".
- */
-export interface Email {
-  id: number;
-  Title?: string | null;
-  Subject?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  attachments?: (number | Media)[] | null;
-  published?: ('Yes' | 'No') | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -419,12 +360,19 @@ export interface EmailCollection {
 export interface DistributionList {
   id: number;
   listName: string;
-  list: {
-    firstName?: string | null;
-    lastName?: string | null;
-    email: string;
-    id?: string | null;
-  }[];
+  emails: (number | Individual)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "individuals".
+ */
+export interface Individual {
+  id: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  email: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -434,15 +382,10 @@ export interface DistributionList {
  */
 export interface PayloadPreference {
   id: number;
-  user:
-    | {
-        relationTo: 'execs';
-        value: number | Exec;
-      }
-    | {
-        relationTo: 'Emails';
-        value: number | Email;
-      };
+  user: {
+    relationTo: 'execs';
+    value: number | Exec;
+  };
   key?: string | null;
   value?:
     | {

@@ -4,7 +4,7 @@ import { CollectionConfig } from "payload";
 export const Members: CollectionConfig = {
   slug: "members",
   admin: {
-    useAsTitle: "mylaurier email",
+    useAsTitle: "mylaurierEmail",
     group: "Admin",
     defaultColumns: [
       "firstName",

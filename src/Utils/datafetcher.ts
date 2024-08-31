@@ -5,12 +5,15 @@ import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
 const supabase = createClient();
 
-export async function getPublicURL(folder: string | null | undefined, fileName: string | null | undefined) {
+export async function getPublicURL(
+  folder: string | null | undefined,
+  fileName: string | null | undefined,
+) {
   const path = `${folder}/${fileName}`;
   const { data } = supabase
     .storage
     .from(process.env.S3_BUCKET || "default_bucket")
-    .getPublicUrl(path|| "");
+    .getPublicUrl(path || "");
   return data;
 }
 
@@ -184,17 +187,6 @@ export async function fetchBlogPostsByQuery(query: string) {
   });
   return posts.docs;
 }
-export async function fetchEmailData(id: string) {
-  const email = await payload.find({
-    collection: "Emails",
-    where: {
-      "id": {
-        equals: id,
-      },
-    },
-  });
-  return email.docs;
-}
 
 export async function fetchInstagramPosts() {
   const posts = await payload.find({
@@ -239,7 +231,7 @@ export async function getDistributionList(id: string) {
     collection: "distribution-list",
     id: id,
   });
-  return distributionList.list;
+  return distributionList.emails;
 }
 
 export async function getImageByID(id: string) {
@@ -261,3 +253,90 @@ export async function uploadFile(file: File) {
     console.log(data);
   }
 }
+
+type individualSchema = {
+  email: string;
+  first_name: string;
+  last_name: string;
+};
+
+// export async function updateDistributionList(
+//   list: string,
+//   data: individualSchema,
+// ) {
+//   const result = await payload.create({
+//     collection: "distribution-list",
+//     where: {
+//       "listName": {
+//         equals: list,
+//       },
+//     },
+
+//     data: {
+//       emails: [
+//         {
+//          email: data.email,
+//          firstName: data.firstName,
+//          lastName: data.lastName,
+
+//         },
+
+//       ],
+//     },
+//   });
+//   return result;
+// }
+
+export async function addIndividualToList(listName:string, individualData:individualSchema) {
+  try {
+    // Step 1: Insert the new individual into the individuals table
+    const { data: individual, error: individualError } = await supabase
+      .from("individuals")
+      .insert([individualData])
+      .select();
+
+    if (individualError) {
+      throw new Error(`Error inserting individual: ${individualError.message}`);
+    }
+
+    // Step 2: Get the id of the specified list
+    const { data: newsletterList, error: listError } = await supabase
+      .from("distribution_list")
+      .select("id")
+      .eq("list_name", listName)
+      .single();
+
+    if (listError) throw new Error(`Error fetching list: ${listError.message}`);
+
+    // Step 3: Insert the relationship into the distribution_list_rels table
+    const { data: relation, error: relationError } = await supabase
+      .from("distribution_list_rels")
+      .insert([
+        {
+          order: 1,
+          parent_id: newsletterList.id,
+          individuals_id: individual[0].id,
+          path: `emails`,
+        },
+      ]);
+
+    if (relationError) {
+      throw new Error(`Error creating relation: ${relationError.message}`);
+    }
+
+    return {
+      success: true,
+      individual: individual[0],
+      list: newsletterList,
+    };
+  } catch (error) {
+    console.error("Error in addIndividualToList:", error);
+    return {
+      success: false,
+      message: error,
+    };
+  }
+}
+
+// Example usage:
+

@@ -1,20 +1,20 @@
 "use client"
-import { useState } from "react";
 
-import axios from "axios";
+
 import { toast } from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
 
+import { useActionState } from 'react'
 
+import { memberSignup,State } from '@/Utils/actions';
+import { useState, useEffect } from 'react'
+
+const initialState: State = { errors: {}, message: null }
 /**
  * Component for member signup form.
  */
 const MemberSignup: React.FC = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [studentId, setStudentId] = useState("");
-  const [newsLetter, setNewsLetter] = useState(true);
+
   /**
    * Handles form submission.
    * @param e - The form event.
@@ -22,100 +22,88 @@ const MemberSignup: React.FC = () => {
 
 
 
-//make sure to query the collection before adding members
+  //make sure to query the collection before adding members
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  const [state, formAction] = useActionState(memberSignup, initialState)
+  const [pending, setPending] = useState(false)
 
-    try {
-     
-     /*  await fetch("/api/send", { method: "POST",
-        body: JSON.stringify({
-          first:firstName,
-          last: lastName,
-          email: email,
-          studentId: studentId,
-          newsLetter: newsLetter
-        })
-       });  */ //change this
-       const req = await fetch('http://localhost:3000/api/members', {
-        method: "POST", 
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "First Name":firstName,
-          "Last Name": lastName,
-          "mylaurier email": email,
-          "Student Id": studentId,
-          "Newsletter": newsLetter
-        }),
-      })
-      const data = await req.json()
-
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setStudentId("");
-      setNewsLetter(true);
-      toast.success("Thanks for signing up.");
-    } catch (e) {
-      console.error("Error adding document: ", e);
-      toast.error("An error occurred.");
+  useEffect(() => {
+    if (state.message) {
+      if (state.errors) {
+        toast.error(state.message)
+      } else {
+        toast.success(state.message)
+      }
     }
-  };
+  }, [state])
 
   return (
     <div className="flex w-full items-center justify-center bg-base-100 py-2">
       <div className="max-w-xl px-2">
-        <form className="card-body" onSubmit={handleSubmit}>
-          <h3 className="card-title text-3xl text-primary duration-200 hover:scale-105 lg:text-4xl">
-            Become a member!
-          </h3>
-          <p className="text-neutral lg:text-lg">
-            You'll receive all the latest news and information.
-          </p>
+        <h3 className="card-title text-3xl text-primary duration-200 hover:scale-105 lg:text-4xl">
+          Become a member!
+        </h3>
+        <p className="text-neutral lg:text-lg">
+          You'll receive all the latest news and information.
+        </p>
+        <form className="card-body" action={formAction}>
+
           <div className="flex flex-col gap-2 py-2">
-            <input
+          <input
               type="text"
               required
+              name="firstName"
               placeholder="First Name"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              onChange={(e) => setFirstName(e.target.value)}
-              value={firstName}
+              aria-invalid={!!state.errors?.firstName}
+              aria-describedby="firstName-error"
             />
+            {state.errors?.firstName && (
+              <p id="firstName-error" className="text-sm text-red-500">{state.errors.firstName}</p>
+            )}
             <input
               type="text"
               required
+              name="lastName"
               placeholder="Last Name"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              onChange={(e) => setLastName(e.target.value)}
-              value={lastName}
+              aria-invalid={!!state.errors?.lastName}
+              aria-describedby="lastName-error"
             />
+            {state.errors?.lastName && (
+              <p id="lastName-error" className="text-sm text-red-500">{state.errors.lastName}</p>
+            )}
             <input
               type="email"
               required
+              name="email"
               placeholder="MyLaurier Email"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              aria-invalid={!!state.errors?.email}
+              aria-describedby="email-error"
             />
+            {state.errors?.email && (
+              <p id="email-error" className="text-sm text-red-500">{state.errors.email}</p>
+            )}
             <input
-              type="number"
+              type="text"
               required
+              name="studentId"
               placeholder="Student ID"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              onChange={(e) => setStudentId(e.target.value.toString())}
-              value={studentId}
+              aria-invalid={!!state.errors?.studentId}
+              aria-describedby="studentId-error"
             />
+            {state.errors?.studentId && (
+              <p id="studentId-error" className="text-sm text-red-500">{state.errors.studentId}</p>
+            )}
             <label className="label cursor-pointer">
               <span className="label-text">Newsletter Signup</span>
               <input
                 type="checkbox"
+                name="newsLetter"
                 className="toggle"
-                checked={newsLetter}
-                onChange={(e) => setNewsLetter(e.target.checked)}
+                defaultChecked={true}
               />
             </label>
           </div>

@@ -9,11 +9,11 @@ import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
 import Nav from "./globals/Navbar";
+import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
 import { Instagram } from "./collections/UI/Instagram";
 import Resources from "./collections/UI/Resources";
 import { Media } from "./collections/Media";
-import Emails from "./collections/Newsletter/Emails";
 import Members from "./collections/Newsletter/Members";
 import Socials from "./collections/UI/Socials";
 import Products from "./collections/Products";
@@ -48,7 +48,6 @@ export default buildConfig({
     Instagram,
     Resources,
     Media,
-    Emails,
     Members,
     Socials,
     Products,
@@ -61,6 +60,7 @@ export default buildConfig({
     PrayerRooms,
     EmailCollection,
     DistributionList,
+    individuals,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -91,8 +91,7 @@ export default buildConfig({
       collections: {
         media: {
           prefix: "media",
-          generateFileURL: ({prefix,filename }) => {
-            console.log(prefix);
+          generateFileURL: ({ prefix, filename }) => {
             if (prefix !== undefined) {
               return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.S3_BUCKET}/${prefix}/${filename}`;
             }

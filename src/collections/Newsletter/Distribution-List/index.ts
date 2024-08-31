@@ -15,28 +15,12 @@ export const DistributionList: CollectionConfig = {
         required:true,
     },
     {
-      label: "Individual",
-      name: "list",
-      type: "array",
-      fields: [
-        {
-          name: "firstName",
-          label: "First Name",
-          type: "text",
-        },
-        {
-          name: "lastName",
-          label: "Last Name",
-          type: "text",
-        },
-        {
-          name: "email",
-          type: "email",
-          required: true,
-        },
-      ],
-      required: true,
-      
+      name: "emails",
+      label: "emails",
+      type: "relationship",
+      relationTo:"individuals",
+      hasMany:true,
+      required:true,
     },
   ],
 };
