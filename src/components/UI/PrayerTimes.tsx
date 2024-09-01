@@ -28,12 +28,18 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
   }
 
   const today = new Date();
-  const todaysTimings = getTodaysTimings(today, timingsData)!;
 
-  const timesToShow: TimingKey[] = ["fajr", "dhuhr", "asr", "maghrib", "isha",];
+  const todaysTimings = getTodaysTimings(today, timingsData);
+
+  if (!todaysTimings) {
+    return <div>Error fetching prayer timings, <br/>
+    please contact msa@wlu.ca</div>;
+  }
+
+  const timesToShow: TimingKey[] = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 
   return (
-    <div className="mb-4 stats stats-vertical shadow lg:stats-horizontal ">
+    <div className="mb-4 stats stats-vertical shadow lg:stats-horizontal">
       <table className="table">
         <thead>
           <tr>
@@ -44,7 +50,6 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
         </thead>
         <tbody>
           {timesToShow.map((key) => {
-
             const iqamahKey = `${key}_iqamah` as TimingKey;
             const formattedTiming = todaysTimings[key] + " " + timingDictonary[key];
             let iqamahTime = "N/A";
@@ -58,7 +63,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
                 <td>{iqamahTime}</td>
               </tr>
             );
-          })} 
+          })}
         </tbody>
       </table>
     </div>

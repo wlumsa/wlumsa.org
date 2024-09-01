@@ -28,6 +28,7 @@ import WeeklyEvents from "./collections/UI/WeeklyEvents";
 import PrayerTimings from "./collections/UI/PrayerInfo/PrayerTimings";
 import Jummah from "./collections/UI/PrayerInfo/JummahTimings";
 import PrayerRooms from "./collections/UI/PrayerInfo/PrayerRoom";
+import Services from "./collections/UI/Services";
 import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
 import sharp from "sharp";
@@ -58,6 +59,7 @@ export default buildConfig({
     WeeklyEvents,
     Jummah,
     PrayerRooms,
+    Services,
     EmailCollection,
     DistributionList,
     individuals,

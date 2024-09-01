@@ -26,6 +26,7 @@ export interface Config {
     WeeklyEvents: WeeklyEvent;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
+    services: Service;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
     individuals: Individual;
@@ -317,6 +318,18 @@ export interface PrayerRoom {
   building: string;
   description: string;
   room_number: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  description: string;
+  link: number | Link;
   updatedAt: string;
   createdAt: string;
 }

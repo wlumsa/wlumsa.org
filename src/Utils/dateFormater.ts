@@ -18,8 +18,9 @@ const monthNames = [
 ];
 
 export function getTodaysTimings(date: Date, timings: PrayerTiming) {
+  
   const currMonth = timings.month[date.getMonth()];
-  const currDay = currMonth?.days[date.getDate()];
+  const currDay = currMonth?.days[date.getDate()-1];
   return currDay;
 }
 
