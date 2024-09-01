@@ -47,7 +47,7 @@ export default  async function ResourcesPage({
       </div>
   
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center">
-        <div className=" max-w-5xl "></div>
+        <div className=" "></div>
         <ButtonGroup categories={categories} />
 
       <div className="container space-y-4   py-4">
