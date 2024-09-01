@@ -340,3 +340,11 @@ export async function addIndividualToList(listName:string, individualData:indivi
 
 // Example usage:
 
+export async function getResourceById(id:string) {
+  const resource = await payload.findByID({
+    collection: "resources",
+    id: id,
+  });
+  return resource;
+}
+

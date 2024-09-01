@@ -1,151 +1,73 @@
+
 import React from "react";
-import { getResources } from "@/Utils/datafetcher";
-// /**
-//  * Renders the Resources page component.
-//  * Fetches the resources data and renders the appropriate JSX based on the resource group type.
-//  * @returns The JSX for the Resources page.
-//  */
+import ButtonGroup from "@/components/UI/ButtonGroup";
+import { getResourceById } from "@/Utils/datafetcher";
 
-
-// export default async function ResourcesPage() {
-//   const res = await getResources();
-//   const resourcesData= res;
-
-
-//   return (
-//     <div className="flex min-h-screen flex-col">
-//       <main className="mt-20 flex-grow px-20">
-//         <h1 className="my-10 text-4xl font-bold text-primary">Resources</h1>
-//         {resourcesData.map((resourceGroup , index) => {
-//           // Check if the group is "Single Link" and render a different JSX
-//           if (resourceGroup.link.length == 1 ) {
-//             return resourceGroup.link.map((item, index) => (
-//               <a
-//                 key = {index}
-//                 href={typeof item === 'object' ? item.url : '#'}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 className="block p-2 text-xl font-medium"
-//               >
-//                 {typeof item === 'object' ? item.title : ''}
-//               </a>
-//             ));
-//           } else {
-//             // Render the collapsible group for other types of resources
-//             return (
-//               <details
-//                 key={index}
-//                 className="collapse collapse-arrow border bg-secondary text-base-content"
-//               >
-//                 <summary className="collapse-title text-xl font-medium text-primary">
-//                   {resourceGroup.title} Resources
-//                 </summary>
-//                 <ul className="collapse-content">
-//                   {resourceGroup.link.map((item, linkIndex) => (
-//                     <li key={linkIndex}>
-//                       <a
-//                         href={typeof item === 'object' ? item.url : '#'}
-//                         target="_blank"
-//                         rel="noopener noreferrer"
-//                       >
-//                         - {typeof item === 'object' ? item.title : ''}
-//                       </a>
-//                     </li>
-//                   ))}
-//                 </ul>
-//               </details>
-//             );
-//           }
-//         })}
-//       </main>
-//     </div>
-//   );
-// }
-
-export default async function ResourcesPage() {
-  const resourcesData = await getResources()
+interface Category {
+  id:string,
+  title:string
+  }
+export default  async function ResourcesPage({
+  searchParams,
+}: {
+  searchParams?: {
+    category?: string;
+  };
+}) {
+  //const query = searchParams?.query || '';
+  const categoryId = searchParams?.category || '1';
+  console.log(`here: ${categoryId}`)
+  const resourcesData = await getResourceById(categoryId);
+  console.log(resourcesData)
+  const categories:Category[] = [
+    {
+      id:"1",
+      title:"Event Forms"
+    },
+    {
+       id:"2",
+      title:"Campus Resources"
+    },
+    { id:"3",
+      title:"Religious Resources"
+    }, 
+    { 
+      id:"4",
+      title:"Other"
+    }
+  ]
 
 
   return (
     <div className="py-14 mt-16">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="mx-auto max-w-5xl text-center">
-          <h1 className="text-4xl font-bold text-primary">
-            Resources
-          </h1>
-          <h4 className="mt-8 text-xl text-accent">
-            Looking for something? Here are all the resources the Laurier MSA has to provide!
-          </h4>
-        </div>
+      <div className="mx-auto max-w-screen-md px-4 py-4 lg:px-6 lg:py-12">
+        <h1 className="mb-4 text-center text-4xl font-bold text-primary">Resources</h1>
+        <h1 className="text-center">Your one-stop hub for all MSA and Campus Resources</h1>
+         {/* <SearchBar/>  */}
+      </div>
+  
+      <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center">
+        <div className=" max-w-5xl "></div>
+        <ButtonGroup categories={categories} />
 
-        <div className="container mx-auto my-12 space-y-4">
-          {resourcesData.map((resourceGroup, index) => {
-            // Check if the group is "Single Link" and render a different JSX
-            if (resourceGroup.link.length == 1) {
-              return resourceGroup.link.map((item, index) => (
-                <a
-                  key={index}
-                  href={typeof item === 'object' ? item.url : '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block p-2 text-xl font-medium"
-                >
-                  {typeof item === 'object' ? item.title : ''}
-                </a>
-              ));
-            } else {
-              // Render the collapsible group for other types of resources
-              return (
-                <details
-                  key={index}
-                  className="collapse collapse-arrow border bg-secondary text-base-content"
-                >
-                  <summary className="collapse-title text-xl font-medium text-primary">
-                    {resourceGroup.title} Resources
-                  </summary>
-                  <ul className="collapse-content">
-                    {resourceGroup.link.map((item, linkIndex) => (
-                      <li key={linkIndex}>
-                        <a
-                          href={typeof item === 'object' ? item.url : '#'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          - {typeof item === 'object' ? item.title : ''}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              );
-            }
-          })}
-        </div>
+      <div className="container space-y-4   py-4">
+        {resourcesData?.link?.map((item, index) => (
+          <div
+            key={index}
+            className="bg-primary rounded text-center p-2 hover:bg-secondary transition ease-in-out delay-150 hover:-translate-y-1"
+          >
+            <a
+              href={typeof item === 'object' ? item.url : '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-2 text-xl font-medium text-white"
+            >
+              {typeof item === 'object' ? item.title : ''}
+            </a>
+          </div>
+        ))}
+            </div>
       </div>
     </div>
-  )
+  );
 }
-
-/*
-<div className="collapse collapse-arrow bg-base-200">
-  <input type="radio" name="my-accordion-2" defaultChecked />
-  <div className="collapse-title text-xl font-medium">Click to open this one and close others</div>
-  <div className="collapse-content">
-    <p>hello</p>
-  </div>
-</div>
-<div className="collapse collapse-arrow bg-base-200">
-  <input type="radio" name="my-accordion-2" />
-  <div className="collapse-title text-xl font-medium">Click to open this one and close others</div>
-  <div className="collapse-content">
-    <p>hello</p>
-  </div>
-</div>
-<div className="collapse collapse-arrow bg-base-200">
-  <input type="radio" name="my-accordion-2" />
-  <div className="collapse-title text-xl font-medium">Click to open this one and close others</div>
-  <div className="collapse-content">
-    <p>hello</p>
-  </div>
-</div>
- */

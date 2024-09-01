@@ -4,6 +4,7 @@ export const link: CollectionConfig = {
   slug: 'link',
   admin: {
    hidden: true,
+   useAsTitle:'title',
   },
   fields: [
     {
