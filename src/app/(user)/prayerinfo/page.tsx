@@ -3,7 +3,6 @@ import PrayerTimesTable from "../../../components/PrayerTimeTable"; // assuming 
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import { getJummahTimings, getPrayerTimings } from "@/Utils/datafetcher";
 
-export const revalidate = 3600
 /**
  * Renders the Prayer Info page.
  * This page displays the prayer timings and videos guiding users to the prayer rooms.

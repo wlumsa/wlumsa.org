@@ -20,12 +20,6 @@ https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-cac
 
 export default async function Home() {
   // Fetch data from database for dynamic data
- 
-  // const instagramPosts = await fetchInstagramPosts();
-  // const prayerRoomsData = await fetchPrayerRooms()
-  // const jummahInfo = await fetchJummahInfo();
-  // const timingsData = await fetchTodaysTimings();
-  // const events = await fetchEvents();
   const events= await fetchWeeklyEventsData();
   const instagramPosts = await fetchInstagramPosts();
   const prayerRoomsData = await getPrayerRooms();
