@@ -36,7 +36,7 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
     };
 
     try {
-      const response = await axios.post("/api/sendemail", formData);
+      const response = await axios.post("/api/contact", formData);
       console.log(response.data);
       setFullName("");
       setEmail("");

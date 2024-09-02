@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetcher";
 import { Providers } from "@/redux/Provider";
+import { Toaster } from "react-hot-toast";
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -49,6 +50,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
+      <Toaster
+        position="top-center"
+      />
         <SpeedInsights />
         <Analytics />
         <Providers>

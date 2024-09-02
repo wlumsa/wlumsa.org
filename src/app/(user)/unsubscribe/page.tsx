@@ -12,7 +12,10 @@ function DeleteDocumentPage() {
   const handleDelete = async () => {
     try {
       //search, and update
-  
+      const res = await fetch(`/api/deleteDocument?email=${email}`, {
+        method: "DELETE",
+      });
+      if (email === "") {
         setMessage(`${email} unsubscribed from newsletter successfully.`);
       } else {
         setMessage(`No document with email ${email} found.`);

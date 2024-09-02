@@ -20,7 +20,7 @@ const Events: React.FC<WeeklyEventsProps> = ({ events }) => {
           >
             <div className="relative h-80 w-full lg:w-[500px] flex-grow">
               <Image
-                src={typeof image === 'object' ? image?.url || '/path/to/default/image.jpg' : ''}
+                src={typeof event.image[0] === 'object' ?  event.image[0].url || '/path/to/default/image.jpg' : ''}
                 alt="Event Image"
                 layout="fill"
                 objectFit="cover"

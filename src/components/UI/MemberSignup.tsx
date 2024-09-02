@@ -1,41 +1,24 @@
-"use client"
-
-
-import { toast } from 'react-hot-toast';
+'use client'
+import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { memberSignup } from '@/Utils/actions';
+import { useFormStatus } from 'react-dom';
+import { useTransition } from "react";
 
-import { useActionState } from 'react'
-
-import { memberSignup,State } from '@/Utils/actions';
-import { useState, useEffect } from 'react'
-
-const initialState: State = { errors: {}, message: null }
-/**
- * Component for member signup form.
- */
 const MemberSignup: React.FC = () => {
+  const { pending } = useFormStatus();
+  const [isPending, startTransition] = useTransition();
 
-  /**
-   * Handles form submission.
-   * @param e - The form event.
-   */
-
-
-
-  //make sure to query the collection before adding members
-
-  const [state, formAction] = useActionState(memberSignup, initialState)
-  const [pending, setPending] = useState(false)
-
-  useEffect(() => {
-    if (state.message) {
-      if (state.errors) {
-        toast.error(state.message)
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      const res = await memberSignup(formData);
+      if (res?.errors) {
+        toast.error(res.message || "Failed to sign up");
       } else {
-        toast.success(state.message)
+        toast.success(res?.message || "Successfully signed up!");
       }
-    }
-  }, [state])
+    });
+  };
 
   return (
     <div className="flex w-full items-center justify-center bg-base-100 py-2">
@@ -44,59 +27,42 @@ const MemberSignup: React.FC = () => {
           Become a member!
         </h3>
         <p className="text-neutral lg:text-lg">
-          You'll receive all the latest news and information.
+          You'll receive all the latest news and information as well as a free MSA resource guide.
         </p>
-        <form className="card-body" action={formAction}>
-
+        <form className="card-body" action={handleSubmit}>
           <div className="flex flex-col gap-2 py-2">
-          <input
+            <input
               type="text"
               required
               name="firstName"
               placeholder="First Name"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              aria-invalid={!!state.errors?.firstName}
               aria-describedby="firstName-error"
             />
-            {state.errors?.firstName && (
-              <p id="firstName-error" className="text-sm text-red-500">{state.errors.firstName}</p>
-            )}
             <input
               type="text"
               required
               name="lastName"
               placeholder="Last Name"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              aria-invalid={!!state.errors?.lastName}
               aria-describedby="lastName-error"
             />
-            {state.errors?.lastName && (
-              <p id="lastName-error" className="text-sm text-red-500">{state.errors.lastName}</p>
-            )}
             <input
               type="email"
               required
               name="email"
               placeholder="MyLaurier Email"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              aria-invalid={!!state.errors?.email}
               aria-describedby="email-error"
             />
-            {state.errors?.email && (
-              <p id="email-error" className="text-sm text-red-500">{state.errors.email}</p>
-            )}
             <input
               type="text"
               required
               name="studentId"
               placeholder="Student ID"
               className="input input-bordered w-full text-neutral focus:border-secondary"
-              aria-invalid={!!state.errors?.studentId}
               aria-describedby="studentId-error"
             />
-            {state.errors?.studentId && (
-              <p id="studentId-error" className="text-sm text-red-500">{state.errors.studentId}</p>
-            )}
             <label className="label cursor-pointer">
               <span className="label-text">Newsletter Signup</span>
               <input
@@ -107,28 +73,17 @@ const MemberSignup: React.FC = () => {
               />
             </label>
           </div>
-
           <div className="card-actions justify-end">
             <button
               type="submit"
               className="btn border-0 bg-primary text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"
+              disabled={isPending}
             >
-              Submit ➜
+              {isPending ? 'Submitting...' : 'Submit ➜'}
             </button>
           </div>
         </form>
       </div>
-      <Toaster
-        reverseOrder={false}
-        position="top-center"
-        toastOptions={{
-          style: {
-            borderRadius: "8px",
-            background: "#333",
-            color: "white",
-          },
-        }}
-      />
     </div>
   );
 };

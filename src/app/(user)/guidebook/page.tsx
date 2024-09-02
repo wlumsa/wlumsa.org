@@ -2,6 +2,7 @@ import React from "react";
 import MemberSignup from "@/components/UI/MemberSignup";
 import { getMedia } from '@/Utils/datafetcher';
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function page() {
   const mediaDocs = await getMedia("GuideBook");
@@ -15,12 +16,7 @@ export default async function page() {
           <p>How to stay in the loop on campus events?</p>
           <p>What accommodations are available for Muslims?</p>
           <p>We have been there, that's why we decided to create the MSA Guidebook</p>
-          <button
-            type="submit"
-            className="btn mt-4 md:mt-6 px-6 py-2 border-0 bg-primary text-white shadow duration-200 hover:scale-105 hover:bg-secondary rounded-md"
-          >
-            Get my free Guidebook
-          </button>
+          
         </div>
         <div className="mx-auto mt-6 md:mt-0 md:ml-40">
           <Image 

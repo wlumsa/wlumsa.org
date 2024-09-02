@@ -287,7 +287,13 @@ type individualSchema = {
 //   return result;
 // }
 
-export async function addMember(firstName: string, lastName: string, email: string,studentID: string,newsletter:boolean) {
+export async function addMember(
+  firstName: string,
+  lastName: string,
+  email: string,
+  studentID: string,
+  newsletter: boolean,
+) {
   const result = await payload.create({
     collection: "members",
     data: {
@@ -301,7 +307,22 @@ export async function addMember(firstName: string, lastName: string, email: stri
   return result;
 }
 
-export async function addIndividualToList(listName:string, individualData:individualSchema) {
+export async function isMember(studentId: string) {
+  const { data, error } = await supabase
+    .from("members")
+    .select("student_id, newsletter")
+    .eq("student_id", studentId)
+    .eq("newsletter", true);
+  if (error) {
+    return error;
+  }
+  return data.length > 0;
+}
+
+export async function addIndividualToList(
+  listName: string,
+  individualData: individualSchema,
+) {
   try {
     // Step 1: Insert the new individual into the individuals table
     const { data: individual, error: individualError } = await supabase
@@ -354,7 +375,7 @@ export async function addIndividualToList(listName:string, individualData:indivi
 
 // Example usage:
 
-export async function getResourceById(id:string) {
+export async function getResourceById(id: string) {
   const resource = await payload.findByID({
     collection: "resources",
     id: id,
@@ -362,11 +383,9 @@ export async function getResourceById(id:string) {
   return resource;
 }
 
-
 export async function fetchServices() {
   const services = await payload.find({
     collection: "services",
   });
   return services.docs;
 }
-
