@@ -116,7 +116,7 @@ export default buildConfig({
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",
     defaultFromName: "WLU MSA",
-    apiKey: "re_a4Chuui1_5MzcEdVbdi5d626LGU3gWVyr" || "",
+    apiKey:  process.env.RESEND_API_KEY || "",
   }),
 
   // Sharp is now an optional dependency -
