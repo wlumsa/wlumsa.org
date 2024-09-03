@@ -11,7 +11,7 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   experimental: {
-    reactCompiler: false,
+    reactCompiler: true,
   },
   images: {
     remotePatterns: [

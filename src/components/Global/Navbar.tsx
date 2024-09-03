@@ -30,10 +30,10 @@ interface CartItem {
 import { Nav } from "@/payload-types";
 
 type NavbarProps = {
-  navbarData: Nav; 
+  navbarData: Nav;
 };
-const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
-  
+const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
+
   // const productData = useSelector((state: RootState) => state.shopper.cart);
   // const [totalAmt, setTotalAmt] = useState("");
   // useEffect(() => {
@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full mb-16 p-0 px-2 ">
       {/* Mobile */}
       <div className="navbar-start text-base-100">
-        <div className="dropdown dropdown-hover ">
+        <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -74,12 +74,12 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-sm z-[1] w-52 rounded-box bg-primary shadow"
+            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-primary p-2 shadow"
           >
-            {navbarData.items.map((item,index) => {
+            {navbarData.items.map((item, index) => {
               return (
                 <li className="menu-item" key={index}>
-                  {item.links && item.links.length > 0 ? (
+                  {item.links && item.links.length === 1 ? (
                     <Link
                       className="min-w-0 flex-shrink"
                       href={item.links[0]?.url || "#"}
@@ -91,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
                       <summary>{item.label}</summary>
                       {item.links && (
                         <ul className="w-fit rounded-t-none bg-primary">
-                          {item.links.map((link,index) => {
+                          {item.links.map((link, index) => {
                             return (
                               <li key={index}>
                                 <Link
@@ -117,79 +117,80 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
         </Link>
       </div>
 
-      {/* Desktop */}
-      <div className="navbar-center hidden text-base-100 lg:flex">
-        <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-          {navbarData.items.map((item,index) => {
-            return (
-              <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0} key={index}>
-                {item.links && item.links.length === 1 ? (
-                  <li>
-                    <Link
-                      className="min-w-0 flex-shrink"
-                      href={item.links[0]?.url || "#"}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ) : (
-                  <li className="dropdown dropdown-hover">
-                    <div className="">{item.label}</div>
-                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-                      {item.links?.map((link) => {
-                        return (
-                          <li key={link.title}>
-                            <Link
-                              className="min-w-0 flex-shrink"
-                              href={link.url || "#"}
-                            >
-                              {link.title}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </li>
-                )}
-              </ul>
-            );
-          })}
-        </ul>
+
+        {/* Desktop */}
+        <div className="navbar-center hidden text-base-100 lg:flex">
+          <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+            {navbarData.items.map((item, index) => {
+              return (
+                <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0} key={index}>
+                  {item.links && item.links.length === 1 ? (
+                    <li>
+                      <Link
+                        className="min-w-0 flex-shrink"
+                        href={item.links[0]?.url || "#"}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ) : (
+                    <li className="dropdown dropdown-hover">
+                      <div className="">{item.label}</div>
+                      <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                        {item.links?.map((link) => {
+                          return (
+                            <li key={link.title}>
+                              <Link
+                                className="min-w-0 flex-shrink"
+                                href={link.url || "#"}
+                              >
+                                {link.title}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </li>
+                  )}
+                </ul>
+              );
+            })}
+          </ul>
 
 
-      </div>
-      <div className="navbar-end">
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-circle btn-secondary"
-          >
-            <div className="indicator">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              {/* <span className="badge indicator-item badge-sm">
+        </div>
+        <div className="navbar-end">
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-circle btn-secondary"
+            >
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {/* <span className="badge indicator-item badge-sm">
                 {productData.length > 0 ? productData.length : 0}
               </span> */}
+              </div>
             </div>
-          </div>
-          <div
-            tabIndex={0}
-            className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
-          >
-            {/* <div className="card-body">
+            <div
+              tabIndex={0}
+              className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
+            >
+              {/* <div className="card-body">
               <span className="text-lg font-bold text-secondary">
                 {productData.length > 0 ? productData.length : 0} Items
               </span>
@@ -202,10 +203,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData}) => {
                 </Link>
               </div>
             </div> */}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+      );
 };
-export default Navbar;
+      export default Navbar;

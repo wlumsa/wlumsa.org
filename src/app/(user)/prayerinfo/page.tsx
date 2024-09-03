@@ -8,6 +8,7 @@ import { getJummahTimings, getPrayerTimings } from "@/Utils/datafetcher";
  * This page displays the prayer timings and videos guiding users to the prayer rooms.
  * @returns The JSX element representing the Prayer Info page.
  */
+export const revalidate = 6000;
 
 export default async function PrayerInfo() {
   const timingsData = await getPrayerTimings()

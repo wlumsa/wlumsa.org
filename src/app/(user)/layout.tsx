@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 More information on nextjs caching, and best pratices can be found here: 
 https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 */
-
+export const revalidate = 600;
 /**
  * Renders the root layout of the application using Nextjs Page layouts.
  * This layout is consistent across the entire route group (user), more information on layouts can be found using the link below

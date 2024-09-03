@@ -46,7 +46,7 @@ export const WelcomeEmail = ({ firstName, content }: WelcomeEmailProps) => (
         <Section style={paragraph}>
           Thank you for signing up as a general member for the Laurier Muslim Students Association (MSA) newsletter.<br/>
           We are excited to have you on board and look forward to sharing our events, updates, and more with you.<br/>
-          Here is a free guidebook to help you get started with University<br/>
+          Here is a free guidebook to help you<br/>
           <Text style={{color:"#FFFFFF",fontSize: "16px",margin:"0px 0px"}}>Download our <Link target="_blank" href="https://qxhgmdhdnavuvrexvjhw.supabase.co/storage/v1/object/public/wlumsa_storage_bucket_test/MSA%20GUIDEBOOK.pdf?t=2024-09-02T19%3A58%3A46.792Z">Guidebook</Link></Text>
         </Section>
         <Section style={paragraph}>

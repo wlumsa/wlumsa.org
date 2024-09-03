@@ -14,7 +14,7 @@ interface PostProps {
   post: Post;
 }
 
-const BlogCard: React.FC<PostProps> = ({post}) => {
+const BlogCard: React.FC<PostProps> = ({ post }) => {
 
 
   const date = new Date(post.createdAt)
@@ -28,24 +28,28 @@ const BlogCard: React.FC<PostProps> = ({post}) => {
   return (
     <div className=" card cursor-pointer text-start items-center w-72 rounded-lg  bg-base-100 border duration-500 hover:scale-105 hover:shadow-xl ">
       <figure className="w-full">
-       <img src={image?.toString()} className="object-cover h-48 w-full"/>
+        <img src={image?.toString()} className="object-cover h-48 w-full" />
       </figure>
-      <div className="card-body w-72 px-6 py-3">
-        <div className="flex flex-row  text-slate-500">
-         <p>{formattedDate}</p> 
-         {post?.tags?.map((item, index) => {
-        if (typeof item === 'object' && item != null) {
-          return (
-            <div key={index} className="badge badge-secondary text-primary font-semibold rounded-lg">
-              {item.title}
-            </div>
-          );
-        }
-        return null;
-      })}
+      <div className="card-body w-72 px-6 py-4">
+
+        <div className=" text-slate-500">
+          <p>{formattedDate}</p>
+        </div>
+        <div>
+          {post?.tags?.map((item, index) => {
+            if (typeof item === 'object' && item != null) {
+              return (
+                <div key={index} className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
+                  {item.title}
+                </div>
+              );
+            }
+            return null;
+          })}
+
         </div>
         <h2 className="card-title  text-primary">{post.title}</h2>
-        <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description: "" }</p>
+        <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p>
         <div className="card-actions justify-end">
           <Link href={`/blog/${post.id}`}>
             <button className="btn btn-primary text-secondary">Read More →</button>
