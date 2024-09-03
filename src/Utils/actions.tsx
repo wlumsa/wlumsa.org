@@ -42,6 +42,13 @@ export async function memberSignup(formData: FormData) {
         }
         if (newsLetter) {
             await addIndividualToList("Newsletter", { email: email, first_name: firstName, last_name: lastName, });
+            await resend.contacts.create({
+                email:email,
+                first_name:firstName,
+                last_name:lastName,
+                audience_id:"151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                unsubscribed:true
+            })
         }
         await resend.emails.send({
             from: `WLUMSA <admin@wlumsa.org>`,

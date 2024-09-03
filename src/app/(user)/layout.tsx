@@ -22,7 +22,7 @@ import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: "WLU MSA",
   description:
-    "The Muslim Students Association is an organization that aims to create a welcoming, supportive, and inclusive community for Muslim students at Wilfrid Laurier University, enouraging religious, academic and professional growth,  through various events, and services.",
+    "The Muslim Students Association is an organization that aims to create a welcoming, supportive, and inclusive community for Muslim students at Wilfrid Laurier University, enouraging religious, academic and professional growth, through various events, and services.",
 };
 
 /*  Nextjs timebased revalidation function for cache, set to 1 hour
