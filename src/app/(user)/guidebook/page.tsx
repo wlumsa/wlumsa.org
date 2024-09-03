@@ -16,6 +16,7 @@ export default async function page() {
           <p>How to stay in the loop on campus events?</p>
           <p>What accommodations are available for Muslims?</p>
           <p>We have been there, that's why we decided to create the MSA Guidebook</p>
+          <p>Signup to recieve a free guidebook below</p>
           
         </div>
         <div className="mx-auto mt-6 md:mt-0 md:ml-40">

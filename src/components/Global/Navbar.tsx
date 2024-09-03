@@ -118,79 +118,85 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       </div>
 
 
-        {/* Desktop */}
-        <div className="navbar-center hidden text-base-100 lg:flex">
-          <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
-            {navbarData.items.map((item, index) => {
-              return (
-                <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0} key={index}>
-                  {item.links && item.links.length === 1 ? (
-                    <li>
-                      <Link
-                        className="min-w-0 flex-shrink"
-                        href={item.links[0]?.url || "#"}
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ) : (
-                    <li className="dropdown dropdown-hover">
-                      <div className="">{item.label}</div>
-                      <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
-                        {item.links?.map((link) => {
-                          return (
-                            <li key={link.title}>
-                              <Link
-                                className="min-w-0 flex-shrink"
-                                href={link.url || "#"}
-                              >
-                                {link.title}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </li>
-                  )}
-                </ul>
-              );
-            })}
-          </ul>
+      {/* Desktop */}
+      <div className="navbar-center hidden text-base-100 lg:flex">
+        <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
+          {navbarData.items.map((item, index) => {
+            return (
+              <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0} key={index}>
+                {item.links && item.links.length === 1 ? (
+                  <li>
+                    <Link
+                      className="min-w-0 flex-shrink"
+                      href={item.links[0]?.url || "#"}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ) : (
+                  <li className="dropdown dropdown-hover">
+                    <div className="">{item.label}</div>
+                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                      {item.links?.map((link) => {
+                        return (
+                          <li key={link.title}>
+                            <Link
+                              className="min-w-0 flex-shrink"
+                              href={link.url || "#"}
+                            >
+                              {link.title}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                )}
+              </ul>
+            );
+          })}
+        </ul>
 
 
-        </div>
-        <div className="navbar-end">
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-circle btn-secondary"
-            >
-              <div className="indicator">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                {/* <span className="badge indicator-item badge-sm">
+      </div>
+      <div className="navbar-end">
+        <Link
+          href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
+          className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
+        >
+          Donate
+        </Link>
+        <div className="dropdown dropdown-end">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-circle btn-secondary"
+          >
+            <div className="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              {/* <span className="badge indicator-item badge-sm">
                 {productData.length > 0 ? productData.length : 0}
               </span> */}
-              </div>
             </div>
-            <div
-              tabIndex={0}
-              className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
-            >
-              {/* <div className="card-body">
+          </div>
+          <div
+            tabIndex={0}
+            className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
+          >
+            {/* <div className="card-body">
               <span className="text-lg font-bold text-secondary">
                 {productData.length > 0 ? productData.length : 0} Items
               </span>
@@ -203,10 +209,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 </Link>
               </div>
             </div> */}
-            </div>
           </div>
         </div>
       </div>
-      );
+    </div>
+  );
 };
-      export default Navbar;
+export default Navbar;
