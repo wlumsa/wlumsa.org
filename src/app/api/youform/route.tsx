@@ -21,11 +21,13 @@ export async function POST(request: NextRequest) {
 
         const isMemberRes = await isMember(company);
         if (isMemberRes) {
+            console.log('User is already a member')
             return NextResponse.json({ message: 'You are already a member!', errors: true }, { status: 400 })
         }
 
         const addMemberRes = await addMember(first_name, last_name, email, company, newsletter)
         if (!addMemberRes) {
+            console.log('Failed to sign up. Please try again.')
             return NextResponse.json({ message: 'Failed to sign up. Please try again.', errors: true }, { status: 400 })
         }
 
