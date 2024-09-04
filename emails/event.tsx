@@ -16,7 +16,7 @@ import {
   
   interface MemberInfo {
     firstName: string;
-  }
+}
   interface EventInfo  {
     formLink: string;
     content: string;
