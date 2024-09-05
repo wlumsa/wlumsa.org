@@ -10,13 +10,13 @@ export default async function page() {
     <div>
       <div className="mx-auto mt-32 flex flex-col md:flex-row items-center md:items-start">
         <div className="mx-auto md:max-w-sm text-center md:text-left md:mr-40">
-          <h1 className="mb-3 text-xl font-bold">MSA Guidebook</h1>
+          <h1 className="mb-3 text-xl font-bold">MSA Resource Guide</h1>
           <p>Ever wondered where the prayer rooms are?</p>
           <p>What foods are Halal on and around campus?</p>
           <p>How to stay in the loop on campus events?</p>
           <p>What accommodations are available for Muslims?</p>
-          <p>We have been there, that's why we decided to create the MSA Guidebook</p>
-          <p>Signup to recieve a free guidebook below</p>
+          <p>We have been there, that's why we decided to create the MSA Resource Guide</p>
+          <p>Signup to recieve a free resource guide below</p>
           
         </div>
         <div className="mx-auto mt-6 md:mt-0 md:ml-40">

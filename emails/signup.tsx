@@ -44,10 +44,17 @@ export const WelcomeEmail = ({ firstName, content }: WelcomeEmailProps) => (
         />
         <Text style={header}>Salam, {firstName} </Text>
         <Section style={paragraph}>
-          Thank you for signing up as a general member for the Laurier Muslim Students Association (MSA) newsletter.<br/>
-          We are excited to have you on board and look forward to sharing our events, updates, and more with you.<br/>
-          Here is a free guidebook to help you<br/>
-          <Text style={{color:"#FFFFFF",fontSize: "16px",margin:"0px 0px"}}>Download our <Link target="_blank" href="https://qxhgmdhdnavuvrexvjhw.supabase.co/storage/v1/object/public/wlumsa_storage_bucket_test/MSA%20GUIDEBOOK.pdf?t=2024-09-02T19%3A58%3A46.792Z">Guidebook</Link></Text>
+          Thank you for signing up as a general member for the Laurier Muslim Students Association (MSA) newsletter.<br />
+          We are excited to have you on board and look forward to sharing our events, updates, and more with you.<br />
+          Here is a free guidebook to help you<br />
+        </Section>
+        <Section style={CTAbuttonContainer}>
+
+          <Button style={CTAbutton}target="_blank" href="https://qxhgmdhdnavuvrexvjhw.supabase.co/storage/v1/object/public/wlumsa_storage_bucket_test/MSA%20GUIDEBOOK.pdf?t=2024-09-02T19%3A58%3A46.792Z">
+            <Row>
+              Download our <b>Guidebook</b>
+            </Row>
+          </Button>
         </Section>
         <Section style={paragraph}>
           <Row>Addtionally here is a link to useful resources on our website</Row>
@@ -69,7 +76,7 @@ export const WelcomeEmail = ({ firstName, content }: WelcomeEmailProps) => (
           This is an automated email, please do not reply. If you would like to unsubscribe from this newsletter, you can do so here        </Text>
       </Container>
     </Body>
-  </Html>
+  </Html >
 );
 
 
@@ -108,6 +115,7 @@ const paragraph = {
 
 const btnContainer = {
   textAlign: "center" as const,
+  
 };
 
 const button = {
@@ -120,7 +128,23 @@ const button = {
   display: "block",
   padding: "12px",
 };
+const CTAbuttonContainer = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+}
 
+const CTAbutton = {
+  backgroundColor: "#e7ac3b",
+  borderRadius: "3px",
+  color: "#000000   ",
+  fontSize: "16px",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  display: "block",
+  padding: "12px",
+  width:"100%"
+};
 const hr = {
   borderColor: "#cccccc",
   margin: "20px 0",
