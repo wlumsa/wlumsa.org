@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
+
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
-import WelcomeEmail from 'emails/signup';
+import Newsletter from 'emails/general';
 import {  Individual } from '@/payload-types';
 const resend = new Resend(process.env.RESEND_API_KEY);
 import { getPublicURL } from '@/Utils/datafetcher';
@@ -16,7 +17,7 @@ function chunkArray(array: Individual[], chunkSize: number) {
   }
   return chunks;
 }
-
+import {render} from "@react-email/render"
 
 export const POST = async (req: Request) => {
   try {
@@ -31,14 +32,15 @@ export const POST = async (req: Request) => {
     const validDistributionList: Individual[] = distributionList.filter((item): item is Individual=> {
       return typeof item === 'object' && 'email' in item;
     });
+  
     const chunks = chunkArray(validDistributionList, 100);
     chunks.forEach(async (chunk) => {
+      
       const batch = chunk.map((user) => ({
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        html: content_html
-        // react: WelcomeEmail({ firstName: user.firstName, url: publicUrl}),
+        react: Newsletter({ firstName: user.firstName, content: content_html}),
       }));
       const res = await resend.batch.send(batch);
       console.log(res)
