@@ -17,7 +17,6 @@ function chunkArray(array: Individual[], chunkSize: number) {
   }
   return chunks;
 }
-import {render} from "@react-email/render"
 
 export const POST = async (req: Request) => {
   try {

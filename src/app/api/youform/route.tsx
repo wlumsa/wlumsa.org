@@ -7,9 +7,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
     try {
+        console.log(request)
         const body = await request.json()
         const headers = Object.fromEntries(request.headers.entries())
-
+        
         console.log('Webhook received:')
         console.log('Headers:', JSON.stringify(headers, null, 2))
         console.log('Body:', JSON.stringify(body, null, 2))
