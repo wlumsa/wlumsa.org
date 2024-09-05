@@ -122,7 +122,7 @@ export const EmailCollection: CollectionConfig = {
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
               const req = await fetch(
-                "http://wlumsa.org/api/sendByDistributionList",
+                "http:localhost:3000/api/sendByDistributionList",
                 {
                   method: "POST",
                   headers: {
