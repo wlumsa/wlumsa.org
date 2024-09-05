@@ -44,6 +44,7 @@ export function formatJummahTiming(jummahTiming: string) {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
+    timeZone: "America/Toronto", // Set to Toronto time
   };
   return date.toLocaleTimeString("en-US", options);
 }
