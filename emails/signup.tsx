@@ -52,15 +52,18 @@ export const WelcomeEmail = ({ firstName, content }: WelcomeEmailProps) => (
 
           <Button style={CTAbutton}target="_blank" href="https://qxhgmdhdnavuvrexvjhw.supabase.co/storage/v1/object/public/wlumsa_storage_bucket_test/MSA%20GUIDEBOOK.pdf?t=2024-09-02T19%3A58%3A46.792Z">
             <Row>
-              Download our <b>Guidebook</b>
+             <b> Download our Guidebook</b>
             </Row>
           </Button>
         </Section>
         <Section style={paragraph}>
-          <Row>Addtionally here is a link to useful resources on our website</Row>
+          <Row>Addtionally here is a link to useful resources</Row>
           Prayer timings & videos to prayer rooms: <Link target="_blank" href="https://wlumsa.org/prayerinfo">Link</Link><br />
           Resources & links to signup for events: <Link target="_blank" href="https://wlumsa.org/resources">Link</Link><br />
           A bit about us and the services we offer: <Link target="_blank" href="https://wlumsa.org/about">Link</Link><br />
+          Here is an invite to our WhatsApp community chat: <Link target="_blank" href="https://chat.whatsapp.com/IEuLYIHNhwR0hshc24GaPf">Link</Link><br />
+          Finally is an invite to our WhatsApp announcements chat: <Link target="_blank" href="https://chat.whatsapp.com/BslJGlMMnAM7TRss3Y1Va0">Link</Link><br />
+
         </Section>
 
         <Section style={btnContainer}>

@@ -10,22 +10,17 @@ export async function POST(request: NextRequest) {
         console.log(request)
         const body = await request.json()
         const headers = Object.fromEntries(request.headers.entries())
-        
-        console.log('Webhook received:')
+        console.log('Webhook received:')    
         console.log('Headers:', JSON.stringify(headers, null, 2))
         console.log('Body:', JSON.stringify(body, null, 2))
-
         const { email, company, last_name, first_name } = body['Please fill the following']
         const newsletter = body['Would you like to signup to our newsletter?'] === 'Yes of course!'
-
         console.log('Email:', email)
-
         const isMemberRes = await isMember(company);
         if (isMemberRes) {
             console.log('User is already a member')
             return NextResponse.json({ message: 'You are already a member!', errors: true }, { status: 400 })
         }
-
         const addMemberRes = await addMember(first_name, last_name, email, company, newsletter)
         if (!addMemberRes) {
             console.log('Failed to sign up. Please try again.')
