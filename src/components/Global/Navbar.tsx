@@ -78,10 +78,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           >
             {navbarData.items.map((item, index) => {
               return (
-                <li className="menu-item" key={index}>
+                <li className="" key={index}>
                   {item.links && item.links.length === 1 ? (
                     <Link
-                      className="min-w-0 flex-shrink"
+                      className="active:bg-secondary min-w-0 flex-shrink"
                       href={item.links[0]?.url || "#"}
                     >
                       {item.label}

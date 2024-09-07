@@ -12,12 +12,12 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
 
   return (
-    <div id="hero" className="hero min-h-screen relative">
+    <div id="hero" className="hero min-h-screen relative overflow-hidden">
       <Image
         fill
         src={mediaDocs[0]?.url || ''}
         alt={mediaDocs[0]?.alt || "Hero Image"}
-        className="object-cover w-full  blur-sm "
+        className="object-cover w-full h-fit blur-sm scale-105"
 
       />
       <div className="hero-overlay bg-neutral bg-opacity-50" />

@@ -1,9 +1,10 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
-import { fetchBlogPosts, fetchBlogPostsByQuery } from "@/Utils/datafetcher";
+import { fetchBlogPosts, fetchBlogPostsByQuery, fetchBlogPostsByQueryAndCategory } from "@/Utils/datafetcher";
 import { Media } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
-import FilterButtons from "@/components/UI/FilterButtons";
+import ButtonGroup from "@/components/UI/ButtonGroup";
+
 /**
  * Renders the Blog component.
  * Fetches blog data and displays a list of blog cards.
@@ -15,19 +16,46 @@ export default async function Blog({
   searchParams?: {
     query?: string;
     page?: string;
+    category?:string;
   };
 }) {
   const query = searchParams?.query || '';
-
-  const categories:string[] = ["Professional", "Education", "Academic", "Tech"];
+  const categoryId = searchParams?.category || '1';
+  //const resourcesData = await fetchBlogPostsByCategory(categoryId);
+  //const categories:string[] = ["Professional", "Education", "Academic", "Tech"];
+  interface Category {
+    id: string,
+    title: string
+  }
+  const categories: Category[] = [
+    {
+      id: "1",
+      title: "All"
+    },
+   
+    {
+      id: "2",
+      title: "Religious Affairs"
+    },
+    {
+      id: "3",
+      title: "Technology"
+    },
+    {
+      id: "4",
+      title: "Professional Development"
+    }
+  ]
 
   //const res = await fetchBlogPosts();
-  const res = await fetchBlogPostsByQuery(query);
+  const res = categoryId === '1'
+  ? await fetchBlogPostsByQuery(query)
+  : await fetchBlogPostsByQueryAndCategory(query, categoryId);
+ 
   const posts = res;
   const id=posts[0]?.id;
+  console.log("HELLOOOOOO")
   console.log(res);
-  
- 
 
   return (
     <section className="mt-10 bg-base-100 ">
@@ -39,7 +67,9 @@ export default async function Blog({
         <SearchBar/>
         
         <div className="flex flex-row items-center justify-center">
-       <FilterButtons items={categories} activeTag={""}/>
+        <ButtonGroup categories={categories} />
+
+       {/* <FilterButtons items={categories} activeTag={""}/> */}
         </div>
       </div>
       <div className="flex justify-center">

@@ -6,7 +6,6 @@ import Head from "next/head";
 import { Metadata } from "next";
 
 
-
 export default async function BlogPost({
   params,
 }: {
@@ -34,6 +33,7 @@ export default async function BlogPost({
   const title = post?.meta?.title;
   const description = post?.meta?.description || "";
 
+   
 
   return (
 
