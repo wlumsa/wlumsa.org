@@ -165,7 +165,6 @@ export async function fetchBlogPostsBytag(tag: string) {
   });
   return posts.docs;
 }
-
 export async function fetchBlogPostsByQuery(query: string) {
   const posts = await payload.find({
     collection: "Posts",
@@ -181,7 +180,38 @@ export async function fetchBlogPostsByQuery(query: string) {
             like: `${query}`,
           },
         },
+
       ],
+      
+    },
+    limit: 10,
+  });
+  return posts.docs;
+}
+export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId:string) {
+  const posts = await payload.find({
+    collection: "Posts",
+    where: {
+      or: [
+        {
+          "title": {
+            like: `${query}`,
+          },
+        },
+        {
+          "description": {
+            like: `${query}`,
+          },
+        },
+
+      ],
+      and: [
+        {
+          "categories.id": {
+            equals: `${categoryId}`
+          },
+        },
+      ]
     },
     limit: 10,
   });

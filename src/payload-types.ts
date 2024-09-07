@@ -258,7 +258,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  categories?: (number | Category)[] | null;
+  categories?: (number | null) | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
   status?: ('draft' | 'published') | null;
@@ -266,7 +266,7 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (number | null) | Media;
+    image?: number | Media | null;
   };
   updatedAt: string;
   createdAt: string;
