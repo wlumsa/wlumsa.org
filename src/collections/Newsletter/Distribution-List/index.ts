@@ -13,7 +13,7 @@ export const DistributionList: CollectionConfig = {
         label:"List Name",
         type:"text",
         required:true,
-    },
+    }, 
     {
       name: "emails",
       label: "emails",
