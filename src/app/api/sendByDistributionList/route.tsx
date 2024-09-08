@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
 import Newsletter from 'emails/general';
 import { Individual } from '@/payload-types';
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 import { getPublicURL } from '@/Utils/datafetcher';
 
 //const resend = new Resend("re4Chuui1_5MzcEdVbdi5d626LGU3gWVyr" );
