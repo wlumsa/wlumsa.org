@@ -116,12 +116,10 @@ export const EmailCollection: CollectionConfig = {
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
               const req = await fetch(
-                "https://wlumsa.org/api/sendByDistributionList",
+                "https://www.wlumsa.org/api/sendByDistributionList",
                 {
                   method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
+                  
                   body: JSON.stringify({
                     title: siblingData.title,
                     subject: siblingData.subject,
