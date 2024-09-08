@@ -40,12 +40,12 @@ export const POST = async (req: Request) => {
         react: Newsletter({ firstName: user.firstName, content: content_html }),
       }));
       console.log(batch)
-      const res = await resend.batch.send(batch);
-      
-    });
-
-    return new Response("Success!", {
-      status: 200,
+      const { data, error } = await resend.batch.send(batch)
+      if (error) {
+        return Response.json({ error }, { status: 500 });
+      }
+  
+      return Response.json(data);
     });
   } catch (error) {
     console.error("Error sending email:", error);
