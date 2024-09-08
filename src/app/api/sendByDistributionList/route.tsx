@@ -1,14 +1,11 @@
-import { Resend } from 'resend';
-
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
 import Newsletter from 'emails/general';
 import { Individual } from '@/payload-types';
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+import { resend } from '@/Utils/resend';
 import { getPublicURL } from '@/Utils/datafetcher';
 
 //const resend = new Resend("re4Chuui1_5MzcEdVbdi5d626LGU3gWVyr" );
 import { convertRichTextToMarkdown } from '@/Utils/converter';
-import { render } from '@react-email/render';
 
 
 function chunkArray(array: Individual[], chunkSize: number) {
@@ -40,17 +37,11 @@ export const POST = async (req: Request) => {
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        html:render(Newsletter({ firstName: user.firstName, content: content_html }), {
-          pretty: true,
-        })
+        react: Newsletter({ firstName: user.firstName, content: content_html }),
       }));
       console.log(batch)
-      try {
-        const res = await resend.batch.send(batch);
-        console.log(res);
-      } catch (error) {
-        console.error("Error sending batch:", error);
-      }
+      const res = await resend.batch.send(batch);
+      
     });
 
     return new Response("Success!", {

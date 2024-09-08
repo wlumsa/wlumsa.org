@@ -2,8 +2,7 @@
 
 import { z } from 'zod'
 import { addIndividualToList, addMember, isMember } from './datafetcher'
-import { Resend } from 'resend';
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { resend } from './resend';
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
