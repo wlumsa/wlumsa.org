@@ -42,8 +42,12 @@ export const POST = async (req: Request) => {
         react: Newsletter({ firstName: user.firstName, content: content_html }),
       }));
       console.log(batch)
-      const res = await resend.batch.send(batch);
-      console.log(res)
+      try {
+        const res = await resend.batch.send(batch);
+        console.log(res);
+      } catch (error) {
+        console.error("Error sending batch:", error);
+      }
     });
 
     return new Response("Success!", {
