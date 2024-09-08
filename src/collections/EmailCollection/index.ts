@@ -116,7 +116,7 @@ export const EmailCollection: CollectionConfig = {
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
               const req = await fetch(
-                "wlumsa.org/api/sendByDistributionList",
+                "https://www.wlumsa.org/api/sendByDistributionList",
                 {
                   method: "POST",
                   headers: {
