@@ -8,6 +8,7 @@ import { getPublicURL } from '@/Utils/datafetcher';
 
 //const resend = new Resend("re4Chuui1_5MzcEdVbdi5d626LGU3gWVyr" );
 import { convertRichTextToMarkdown } from '@/Utils/converter';
+import { render } from '@react-email/render';
 
 
 function chunkArray(array: Individual[], chunkSize: number) {
@@ -39,7 +40,9 @@ export const POST = async (req: Request) => {
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        react: Newsletter({ firstName: user.firstName, content: content_html }),
+        html:render(Newsletter({ firstName: user.firstName, content: content_html }), {
+          pretty: true,
+        })
       }));
       console.log(batch)
       try {
