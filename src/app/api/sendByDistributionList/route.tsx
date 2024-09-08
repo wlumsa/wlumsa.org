@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
 import Newsletter from 'emails/general';
-import {  Individual } from '@/payload-types';
+import { Individual } from '@/payload-types';
 const resend = new Resend(process.env.RESEND_API_KEY);
 import { getPublicURL } from '@/Utils/datafetcher';
 
@@ -28,19 +28,20 @@ export const POST = async (req: Request) => {
     if (!distributionList || !Array.isArray(distributionList)) {
       throw new Error('Invalid distribution list');
     }
-    const validDistributionList: Individual[] = distributionList.filter((item): item is Individual=> {
+    const validDistributionList: Individual[] = distributionList.filter((item): item is Individual => {
       return typeof item === 'object' && 'email' in item;
     });
-  
+    console.log(validDistributionList)
     const chunks = chunkArray(validDistributionList, 100);
     chunks.forEach(async (chunk) => {
-      
+
       const batch = chunk.map((user) => ({
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        react: Newsletter({ firstName: user.firstName, content: content_html}),
+        react: Newsletter({ firstName: user.firstName, content: content_html }),
       }));
+      console.log(batch)
       const res = await resend.batch.send(batch);
       console.log(res)
     });
