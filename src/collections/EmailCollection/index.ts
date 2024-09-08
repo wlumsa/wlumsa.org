@@ -36,13 +36,7 @@ export const EmailCollection: CollectionConfig = {
       relationTo: "media",
       hasMany: true,
     },
-    {
-      name: "headerImage",
-      label: "Header Image",
-      type: "relationship",
-      relationTo: "media",
-      hasMany: false,
-    },
+
     {
       name: "content",
       type: "richText",

@@ -21,8 +21,6 @@ export default async function Blog({
 }) {
   const query = searchParams?.query || '';
   const categoryId = searchParams?.category || '1';
-  //const resourcesData = await fetchBlogPostsByCategory(categoryId);
-  //const categories:string[] = ["Professional", "Education", "Academic", "Tech"];
   interface Category {
     id: string,
     title: string
@@ -54,11 +52,10 @@ export default async function Blog({
  
   const posts = res;
   const id=posts[0]?.id;
-  console.log("HELLOOOOOO")
   console.log(res);
 
   return (
-    <section className="mt-10 bg-base-100 ">
+    <section className="mt-16 bg-base-100 ">
       <div className="mx-auto max-w-screen-md px-4 py-4 lg:px-6 lg:py-16">
         <div className="mb-4 text-center text-4xl font-bold text-primary">Blog </div>
         <h1 className="text-center">
@@ -69,7 +66,6 @@ export default async function Blog({
         <div className="flex flex-row items-center justify-center">
         <ButtonGroup categories={categories} />
 
-       {/* <FilterButtons items={categories} activeTag={""}/> */}
         </div>
       </div>
       <div className="flex justify-center">
