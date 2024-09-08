@@ -5,12 +5,12 @@ import WelcomeEmail from 'emails/signup';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(request: NextRequest, { title }: { title: string }) {
+export async function POST(request:NextRequest, { params }: { params: { title: string } }) {
     try {
         const body = await request.json()
         const headers = Object.fromEntries(request.headers.entries())
 
-        console.log('Title:', title)
+        console.log('Title:', params.title)
 
         console.log('Webhook received:')
         console.log('Headers:', JSON.stringify(headers, null, 2))
