@@ -364,14 +364,35 @@ export async function addIndividualToList(
       throw new Error(`Error inserting individual: ${individualError.message}`);
     }
 
-    // Step 2: Get the id of the specified list
-    const { data: newsletterList, error: listError } = await supabase
+    // Step 2: Get the id of the specified list or create a new one
+    let newsletterList;
+    const { data: existingList, error: listError } = await supabase
       .from("distribution_list")
       .select("id")
       .eq("list_name", listName)
       .single();
 
-    if (listError) throw new Error(`Error fetching list: ${listError.message}`);
+    if (listError && listError.code !== 'PGRST116') {
+      // PGRST116 is the error code for "Results contain 0 rows"
+      throw new Error(`Error fetching list: ${listError.message}`);
+    }
+
+    if (!existingList) {
+      // List doesn't exist, create a new one
+      const { data: newList, error: createListError } = await supabase
+        .from("distribution_list")
+        .insert([{ list_name: listName }])
+        .select()
+        .single();
+
+      if (createListError) {
+        throw new Error(`Error creating new list: ${createListError.message}`);
+      }
+
+      newsletterList = newList;
+    } else {
+      newsletterList = existingList;
+    }
 
     // Step 3: Insert the relationship into the distribution_list_rels table
     const { data: relation, error: relationError } = await supabase

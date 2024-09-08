@@ -342,7 +342,6 @@ export interface EmailCollection {
   title?: string | null;
   subject?: string | null;
   attachments?: (number | Media)[] | null;
-  headerImage?: (number | null) | Media;
   content?: {
     root: {
       type: string;
