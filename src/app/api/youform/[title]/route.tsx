@@ -9,18 +9,8 @@ export async function POST(request:NextRequest, { params }: { params: { title: s
     try {
         const body = await request.json()
         const headers = Object.fromEntries(request.headers.entries())
-
-        console.log('Title:', params.title)
-
-        console.log('Webhook received:')
-        console.log('Headers:', JSON.stringify(headers, null, 2))
-        console.log('Body:', JSON.stringify(body, null, 2))
-
         const { email, company, last_name, first_name } = body['Please fill the following']
         const newsletter = body['Would you like to signup to our newsletter?'] === 'Yes of course!'
-
-        console.log('Email:', email)
-
         const isMemberRes = await isMember(company);
         if (isMemberRes) {
             console.log('User is already a member')
@@ -32,7 +22,12 @@ export async function POST(request:NextRequest, { params }: { params: { title: s
             console.log('Failed to sign up. Please try again.')
             return NextResponse.json({ message: 'Failed to sign up. Please try again.', errors: true }, { status: 400 })
         }
-
+        const addDLRes= await addIndividualToList(params.title, { email, first_name, last_name });
+        console.log(addDLRes)
+        if (!addDLRes) {
+            console.log(`Failed to add to DL ${params.title}. Please try again.`)
+            return NextResponse.json({ message: 'Failed to sign up. Please try again.', errors: true }, { status: 400 })
+        }
         if (newsletter) {
             await addIndividualToList("Newsletter", { email, first_name, last_name });
             await resend.contacts.create({
