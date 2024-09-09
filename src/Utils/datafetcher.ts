@@ -440,3 +440,16 @@ export async function fetchServices() {
   });
   return services.docs;
 }
+
+export async function fetchIIAServices() {
+  const services = await payload.find({
+    collection: "iia-services",
+  });
+  return services.docs;
+}
+export async function fetchFAQ() {
+  const faq = await payload.find({
+    collection: "faq",
+  });
+  return faq.docs;
+}

@@ -31,6 +31,8 @@ import PrayerRooms from "./collections/UI/PrayerInfo/PrayerRoom";
 import Services from "./collections/UI/Services";
 import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
+import IIAServices from "./collections/IIA";
+import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
@@ -63,6 +65,8 @@ export default buildConfig({
     EmailCollection,
     DistributionList,
     individuals,
+    IIAServices,
+    FrequentlyAskedQuestions
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
