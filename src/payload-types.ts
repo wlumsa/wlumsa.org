@@ -266,7 +266,7 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (number | null) | Media;
+    image?: number | Media | null;
   };
   updatedAt: string;
   createdAt: string;
