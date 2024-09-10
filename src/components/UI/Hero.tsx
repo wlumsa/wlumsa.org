@@ -1,8 +1,8 @@
 "use client"
 import React from "react";
-import { TextGenerateEffect } from "./text-generate-effect";
+import { TextEffect } from "../Animations/text-effect";
 import Image from "next/image";
-import { FadeText } from "./FadeText";
+import { FadeText } from "../Animations/FadeText";
 import { Social, Media } from "@/payload-types";
 
 interface HeroProps {
@@ -25,7 +25,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
         <div className="max-w-md">
           <FadeText className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" direction="right" text="Salam!" />
 
-          <TextGenerateEffect className="mb-5 text-white " words={" \"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy.\" (Quran 49:10)"} />
+          <TextEffect   className="mb-5 text-white" per="char" as="h2">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</TextEffect>
           <div className="flex flex-row items-center justify-center gap-4">
             {socialLinks.map((social, index) => (
               <a
