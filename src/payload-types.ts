@@ -30,6 +30,8 @@ export interface Config {
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
     individuals: Individual;
+    'iia-services': IiaService;
+    faq: Faq;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -385,6 +387,29 @@ export interface Individual {
   firstName?: string | null;
   lastName?: string | null;
   email: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iia-services".
+ */
+export interface IiaService {
+  id: number;
+  name: string;
+  caption: string;
+  image: (number | Media)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  Question: string;
+  Answer: string;
   updatedAt: string;
   createdAt: string;
 }
