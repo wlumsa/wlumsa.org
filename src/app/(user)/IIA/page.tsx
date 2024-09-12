@@ -8,9 +8,9 @@ import Service from "@/components/UI/ServiceCard";
 
 
 const IIA: React.FC = async () => {
-  const mediaDocs = await getMedia("Mosque");
-  const services= await fetchIIAServices();
-  const questions = await fetchFAQ();
+  // const mediaDocs = await getMedia("Mosque");
+  // const services= await fetchIIAServices();
+  // const questions = await fetchFAQ();
   
   return (
     // <div data-theme="IIA">
