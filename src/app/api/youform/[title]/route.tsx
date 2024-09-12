@@ -12,7 +12,6 @@ export async function POST(request:NextRequest, { params }: { params: { title: s
         const { email, company, last_name, first_name } = body['Please fill the following']
         const newsletter = body['Would you like to signup to our newsletter?'] === 'Yes of course!'
         const addDLRes= await addIndividualToList(params.title, { email, first_name, last_name });
-        console.log(addDLRes)
         if (!addDLRes) {
             console.log(`Failed to add to DL ${params.title}. Please try again.`)
             return NextResponse.json({ message: 'Failed to sign up. Please try again.', errors: true }, { status: 400 })
