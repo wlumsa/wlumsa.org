@@ -31,6 +31,6 @@ const config = {
       
     ],
   },
-  domains: [process.env.NEXT_PUBLIC_SUPABASE_URL],
+  //domains: [process.env.NEXT_PUBLIC_SUPABASE_URL],
 };
 export default withPayload(config);
