@@ -11,9 +11,9 @@ const Service: React.FC<ServicesProps> = ({ services }) => {
   const image = services[0]?.image[0];
 
   return (
-    <div id="services"  data-theme="IIA" className="flex-grow">
+    <div id="services"  data-theme="IIA" className="flex-grow  min-h-screen px-6 items-center ">
       {services.map((service, index) => (
-        <div className="hero h-fit bg-base-100 px-4" key={index}>
+        <div className="hero h-fit bg-base-100 " key={index}>
           <div
             className={`hero-content flex-col ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
               } lg:gap-32`}
