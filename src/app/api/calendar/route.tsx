@@ -2,7 +2,7 @@
  import { NextResponse } from "next/server";
  export async function GET(request: Request) {
    const calendarId =
-     "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com";
+     "c_a7b0881ec9f4b1f326560c3e89616406d4b28318abca3a01a7bce0ab92aed3e1@group.calendar.google.com";
    const apiKey = process.env.GOOGLE_API_KEY;
 
    try {

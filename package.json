@@ -12,8 +12,8 @@
     "email": "email dev"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.649.0",
-    "@fontsource/libre-baskerville": "^5.0.15",
+    "@aws-sdk/client-s3": "^3.651.1",
+    "@fontsource/libre-baskerville": "^5.1.0",
     "@fullcalendar/common": "^5.11.5",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
@@ -47,7 +47,7 @@
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
-    "@swc/core": "^1.7.24",
+    "@swc/core": "^1.7.26",
     "@t3-oss/env-nextjs": "^0.2.2",
     "@vercel/analytics": "^1.3.1",
     "@vercel/speed-insights": "^1.0.12",
@@ -61,7 +61,7 @@
     "googleapi": "^1.0.2",
     "googleapis": "^128.0.0",
     "lexical": "0.17.0",
-    "mark@0.17.0": "link:lexical\\mark@0.17.0",
+    "mark@0.17.0": "link:lexical/mark@0.17.0",
     "next": "15.0.0-canary.139",
     "next-auth": "5.0.0-beta.18",
     "next-sitemap": "^4.2.3",
@@ -85,7 +85,7 @@
     "supabase": "^1.192.5",
     "tailwind-merge": "^2.5.2",
     "use-debounce": "^10.0.3",
-    "withPayload": "link:@payloadcms\\next\\withPayload",
+    "withPayload": "link:@payloadcms/next/withPayload",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -101,11 +101,11 @@
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.9",
-    "postcss": "^8.4.45",
+    "eslint-config-next": "^14.2.11",
+    "postcss": "^8.4.47",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "tailwindcss": "^3.4.10",
+    "tailwindcss": "^3.4.11",
     "typescript": "^5.6.2"
   },
   "ct3aMetadata": {
