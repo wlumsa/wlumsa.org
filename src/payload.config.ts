@@ -18,6 +18,7 @@ import Members from "./collections/Newsletter/Members";
 import Socials from "./collections/UI/Socials";
 import Products from "./collections/Products";
 import { Posts } from "./collections/Blog";
+import HalalFoodDirectory from "./collections/HalalFoodDirectory"; 
 import { Categories } from "./collections/Categories";
 import { Tags } from "./collections/Tags";
 import { resendAdapter } from "@payloadcms/email-resend";
@@ -38,6 +39,8 @@ const generateTitle: GenerateTitle = () => {
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+
 
 export default buildConfig({
   admin: {
@@ -62,6 +65,7 @@ export default buildConfig({
     Services,
     EmailCollection,
     DistributionList,
+    HalalFoodDirectory,
     individuals,
   ],
   globals: [Nav, Footer, PrayerTimings],
