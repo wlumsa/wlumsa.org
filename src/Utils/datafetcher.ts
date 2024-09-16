@@ -355,11 +355,11 @@ export async function addIndividualToList(
 ) {
   try {
     // Step 1: Check if the individual already exists
+    console.log("EMAIL",individualData.email);
     const { data: existingIndividual, error: existingIndividualError } = await supabase
       .from("individuals")
       .select("*")
-      .eq("email", individualData.email) // Assuming email is a unique identifier
-      .single();
+      .eq("email",individualData.email) // Assuming email is a unique identifier
     console.log("EXISITING INDIVIDUAL:",existingIndividual);
     if (existingIndividualError && existingIndividualError.code !== 'PGRST116') {
       // PGRST116 is the error code for "Results contain 0 rows"
