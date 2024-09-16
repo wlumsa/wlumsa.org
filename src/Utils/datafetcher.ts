@@ -360,7 +360,7 @@ export async function addIndividualToList(
       .select("id")
       .eq("email", individualData.email) // Assuming email is a unique identifier
       .single();
-
+    console.log("EXISITING INDIVIDUAL:",existingIndividual);
     if (existingIndividualError && existingIndividualError.code !== 'PGRST116') {
       // PGRST116 is the error code for "Results contain 0 rows"
       throw new Error(`Error checking individual: ${existingIndividualError.message}`);
@@ -383,6 +383,7 @@ export async function addIndividualToList(
       individual = existingIndividual;
     }
 
+    console.log("INDIVIDUAL:",individual);
     // Step 3: Get the id of the specified list or create a new one
     let newsletterList;
     const { data: existingList, error: listError } = await supabase
