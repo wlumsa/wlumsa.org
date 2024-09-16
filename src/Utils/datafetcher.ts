@@ -367,7 +367,7 @@ export async function addIndividualToList(
     }
 
     let individual;
-    if (!existingIndividual) {
+    if (existingIndividual?.length===0 || !existingIndividual) {
       // Step 2: Insert the new individual into the individuals table
       const { data: newIndividual, error: individualError } = await supabase
         .from("individuals")
