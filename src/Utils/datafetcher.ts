@@ -354,17 +354,36 @@ export async function addIndividualToList(
   individualData: individualSchema,
 ) {
   try {
-    // Step 1: Insert the new individual into the individuals table
-    const { data: individual, error: individualError } = await supabase
+    // Step 1: Check if the individual already exists
+    const { data: existingIndividual, error: existingIndividualError } = await supabase
       .from("individuals")
-      .insert([individualData])
-      .select();
+      .select("id")
+      .eq("email", individualData.email) // Assuming email is a unique identifier
+      .single();
 
-    if (individualError) {
-      throw new Error(`Error inserting individual: ${individualError.message}`);
+    if (existingIndividualError && existingIndividualError.code !== 'PGRST116') {
+      // PGRST116 is the error code for "Results contain 0 rows"
+      throw new Error(`Error checking individual: ${existingIndividualError.message}`);
     }
 
-    // Step 2: Get the id of the specified list or create a new one
+    let individual;
+    if (!existingIndividual) {
+      // Step 2: Insert the new individual into the individuals table
+      const { data: newIndividual, error: individualError } = await supabase
+        .from("individuals")
+        .insert([individualData])
+        .select();
+
+      if (individualError) {
+        throw new Error(`Error inserting individual: ${individualError.message}`);
+      }
+
+      individual = newIndividual[0];
+    } else {
+      individual = existingIndividual;
+    }
+
+    // Step 3: Get the id of the specified list or create a new one
     let newsletterList;
     const { data: existingList, error: listError } = await supabase
       .from("distribution_list")
@@ -394,14 +413,14 @@ export async function addIndividualToList(
       newsletterList = existingList;
     }
 
-    // Step 3: Insert the relationship into the distribution_list_rels table
+    // Step 4: Insert the relationship into the distribution_list_rels table
     const { data: relation, error: relationError } = await supabase
       .from("distribution_list_rels")
       .insert([
         {
           order: 1,
           parent_id: newsletterList.id,
-          individuals_id: individual[0].id,
+          individuals_id: individual.id,
           path: `emails`,
         },
       ]);
@@ -412,7 +431,7 @@ export async function addIndividualToList(
 
     return {
       success: true,
-      individual: individual[0],
+      individual: individual,
       list: newsletterList,
     };
   } catch (error) {
