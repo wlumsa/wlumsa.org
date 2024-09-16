@@ -360,6 +360,7 @@ export async function addIndividualToList(
       .from("individuals")
       .select("*")
       .eq("email",individualData.email) // Assuming email is a unique identifier
+      .single();
     console.log("EXISITING INDIVIDUAL:",existingIndividual);
     if (existingIndividualError && existingIndividualError.code !== 'PGRST116') {
       // PGRST116 is the error code for "Results contain 0 rows"
@@ -429,6 +430,8 @@ export async function addIndividualToList(
     if (relationError) {
       throw new Error(`Error creating relation: ${relationError.message}`);
     }
+
+    console.log("SUCCESS")
 
     return {
       success: true,
