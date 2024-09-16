@@ -357,7 +357,7 @@ export async function addIndividualToList(
     // Step 1: Check if the individual already exists
     const { data: existingIndividual, error: existingIndividualError } = await supabase
       .from("individuals")
-      .select("id")
+      .select("*")
       .eq("email", individualData.email) // Assuming email is a unique identifier
       .single();
     console.log("EXISITING INDIVIDUAL:",existingIndividual);
