@@ -56,7 +56,7 @@ export default async function RootLayout({
         position="top-center"
       />
         <SpeedInsights />
-        
+        <Analytics/>
         <Providers>
           <Navbar navbarData={navbarData} />
           {children}
