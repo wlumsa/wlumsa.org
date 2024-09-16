@@ -392,20 +392,20 @@ export async function addIndividualToList(
       .select("id")
       .eq("list_name", listName)
       .single();
-
+    console.log("EXISTING LIST:",existingList);
     if (listError && listError.code !== 'PGRST116') {
       // PGRST116 is the error code for "Results contain 0 rows"
       throw new Error(`Error fetching list: ${listError.message}`);
     }
 
-    if (!existingList) {
+    if (!existingList || existingList.id === undefined) {
       // List doesn't exist, create a new one
       const { data: newList, error: createListError } = await supabase
         .from("distribution_list")
         .insert([{ list_name: listName }])
         .select()
         .single();
-
+        console.log("NEW LIST:",newList);
       if (createListError) {
         throw new Error(`Error creating new list: ${createListError.message}`);
       }
