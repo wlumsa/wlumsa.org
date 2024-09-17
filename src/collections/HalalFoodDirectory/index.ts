@@ -38,7 +38,13 @@ export const HalalDirectory: CollectionConfig = {
     
     {
       name: 'slaughtered',
-      type: 'checkbox',
+      type: 'select',
+      options: [
+        { label: 'Hand', value: 'hand' },
+        { label: 'Machine', value: 'machine' },
+        {label: 'Both', value: 'both'},
+        {label: 'N/A', value: 'n/a'}
+      ],
       label: 'Slaughter',
     },
     {

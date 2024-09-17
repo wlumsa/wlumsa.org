@@ -410,7 +410,7 @@ export interface HalalDirectory {
     | 'chicken'
     | 'indian-fusion-food'
     | 'pizza';
-  slaughtered?: boolean | null;
+  slaughtered?: ('hand' | 'machine' | 'both' | 'n/a') | null;
   shortDescription: string;
   location: string;
   googleMapsLink: string;
