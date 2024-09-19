@@ -66,7 +66,13 @@ const IIA: React.FC = async () => {
     //   <h1 className="text-xl text-center">Book a Meeting with one of our members</h1>
     // </div>
     // </div>
-    <h1>COMING SOON INSHALLAH</h1>
+    <div className="flex min-h-screen flex-col">
+    <div className="mb-20 mt-40 flex flex-grow items-center justify-center">
+      <h1 className="font-sans text-4xl font-bold  text-primary ">
+        Coming Soon inshallah 👀
+      </h1>
+    </div>
+  </div>
   );
 };
 

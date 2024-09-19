@@ -82,9 +82,9 @@ if (Array.isArray(data)) {
   }, []);
 
   return (
-    <div className="container mx-auto p-10 text-xs">
+    <div className="container mt-8 mx-auto p-10 text-xs">
       <div>
-        <h3 className="text-xl font-bold">Upcoming Events</h3>
+        <h3 className="text-4xl font-bold text-primary">Upcoming Events</h3>
         <FullCalendar
           ref={calendarRef} // Set the reference here
           plugins={[dayGridPlugin, googleCalendarPlugin]}
@@ -106,8 +106,8 @@ const renderEventContent = (eventInfo: EventContentArg) => {
   const eventDate = new Date(eventInfo.event.startStr);
   const eventDateEnd = new Date(eventInfo.event.endStr);
   const isPastEvent = eventDate < now;
-
-  const bgColorClass = isPastEvent ? "bg-red-500" : "bg-[#5636a7]";
+  const bgColorClass = "bg-[#5636a7]"
+  // const bgColorClass = isPastEvent ? "bg-red-500" : "bg-[#5636a7]";
   const textColorClass = "text-white";
 
   const startTime = eventDate.toLocaleTimeString([], {
