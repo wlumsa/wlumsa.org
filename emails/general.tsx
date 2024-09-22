@@ -36,6 +36,9 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
           max-width: 100%;
           height: auto;
         }
+          a {
+          color: #e7ac3b;
+          }
 
       `}
 
