@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { PrayerTiming, JummahTiming } from "@/payload-types";
 import { getFullDate,isFriday,formatJummahTiming } from "@/Utils/dateFormater";
+import { current } from "@reduxjs/toolkit";
 interface PrayerTimesTableProps {
   timingsData: PrayerTiming;
   jummahTimes: JummahTiming[];
@@ -31,10 +32,20 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
 
   console.log(jummahTimes)
   //console.log(today.getDate())
+  
   const currentMonth = today.getMonth();
+  const daysInCurrentMonth = new Date(today.getFullYear(), currentMonth+1, 0).getDate();
+console.log(daysInCurrentMonth)
   console.log(typeof (currentMonth))
-  const currentMonthTimings = timingsData.month[currentMonth]?.days;
+  //const currentMonthTimings = timingsData.month[currentMonth]?.days;
   console.log(timingsData.month[currentMonth]?.days[today.getDate()])
+    let currentMonthTimings = timingsData.month[currentMonth]?.days;
+  
+    if (timingsData && timingsData.month[currentMonth + 1]) {
+   const nextMonthTimings = timingsData.month[currentMonth + 1]?.days || [];
+   currentMonthTimings  = currentMonthTimings?.concat(nextMonthTimings)
+}
+  
   
   return (
     <div className="overflow-x-auto">
@@ -44,14 +55,19 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
               Prayer
             </th>
-            {currentMonthTimings && currentMonthTimings.slice(today.getDate() - 1, sevenDays.getDate() - 1).map((day) => (
-              <th
-                key={day.day}
-                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-              >
-                {getFullDate(today.getFullYear(), currentMonth, day.day)}
-              </th>
-            ))}
+            {currentMonthTimings && currentMonthTimings.slice(today.getDate() - 1, today.getDate() + 7).map((day, index) => {
+              const dayDate = today.getDate()  + index;
+              const isNextMonth = dayDate > daysInCurrentMonth;
+
+              return (
+                <th
+                  key={day.day}
+                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                >
+                  {getFullDate(today.getFullYear(), isNextMonth ? currentMonth+1 : currentMonth, isNextMonth ? dayDate - daysInCurrentMonth : dayDate)}
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
@@ -62,7 +78,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
               </th>
               {currentMonthTimings &&
                 currentMonthTimings
-                  .slice(today.getDate() - 1, sevenDays.getDate() - 1)
+                  .slice(today.getDate()-1 , today.getDate() + 7)
                   .map((day, dayIndex) => {
                     const iqamahKey = `${key}_iqamah` as TimingKey;
                     const formattedTiming = day[key] + " " + timingDictonary[key];
