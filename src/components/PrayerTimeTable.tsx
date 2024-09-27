@@ -55,7 +55,7 @@ console.log(daysInCurrentMonth)
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
               Prayer
             </th>
-            {currentMonthTimings && currentMonthTimings.slice(today.getDate() - 1, today.getDate() + 7).map((day, index) => {
+            {currentMonthTimings && currentMonthTimings.slice(today.getDate() - 1, today.getDate() + 6).map((day, index) => {
               const dayDate = today.getDate()  + index;
               const isNextMonth = dayDate > daysInCurrentMonth;
 
@@ -78,7 +78,7 @@ console.log(daysInCurrentMonth)
               </th>
               {currentMonthTimings &&
                 currentMonthTimings
-                  .slice(today.getDate()-1 , today.getDate() + 7)
+                  .slice(today.getDate()-1 , today.getDate() + 6)
                   .map((day, dayIndex) => {
                     const iqamahKey = `${key}_iqamah` as TimingKey;
                     const formattedTiming = day[key] + " " + timingDictonary[key];
