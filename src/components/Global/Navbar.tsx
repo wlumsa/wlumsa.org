@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import logo from "../../logo.png";
-
+import LoginForm from "@/app/(user)/login/page";
 /* Readd donate button */
 interface Product {
   id: string;
@@ -100,6 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                                 >
                                   {link.title}
                                 </Link>
+                               
                               </li>
                             );
                           })}
@@ -160,6 +161,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
       </div>
       <div className="navbar-end">
+      <LoginForm/>
         <Link
           href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
           className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
