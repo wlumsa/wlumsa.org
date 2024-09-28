@@ -1,4 +1,5 @@
 import { FaSearch, FaChevronDown } from "react-icons/fa"; 
+import { fetchHalalDirectory } from '../utils/datafetcher'; 
 
 export default async function DirectoryPage() {
   return (

@@ -5,6 +5,7 @@ import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
+
 export async function getPublicURL(
   folder: string | null | undefined,
   fileName: string | null | undefined,
@@ -95,6 +96,7 @@ export async function fetchBlogPostsByCategory(category: string) {
   });
   return posts.docs;
 }
+
 export async function fetchBlogPostsByCategoryAndTag(
   category: string,
   tag: string,
@@ -188,7 +190,7 @@ export async function fetchBlogPostsByQuery(query: string) {
   });
   return posts.docs;
 }
-export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId:string) {
+export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId: string) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -208,10 +210,10 @@ export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId
       and: [
         {
           "categories.id": {
-            equals: `${categoryId}`
+            equals: `${categoryId}`,
           },
         },
-      ]
+      ],
     },
     limit: 10,
   });
@@ -234,6 +236,7 @@ export async function getPrayerTimings() {
   });
   return timings;
 }
+
 export async function getPrayerRooms() {
   const rooms = await payload.find({
     collection: "prayer-rooms",
@@ -439,4 +442,15 @@ export async function fetchServices() {
     collection: "services",
   });
   return services.docs;
+}
+
+// Halal Directory function added:
+export async function fetchHalalDirectory() {
+  const halalDirectory = await payload.find({
+    collection: "halal-directory",
+    limit: 50,
+  });
+
+  console.log('Halal Directory Data: ', halalDirectory.docs);
+  return halalDirectory.docs;
 }
