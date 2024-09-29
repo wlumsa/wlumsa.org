@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 
-// Define the structure of Halal Directory Data based on your Supabase table
+// Define the structure of Halal Directory Data based on Supabase table
 interface HalalDirectoryData {
   id: string;
   name: string;
@@ -51,7 +51,7 @@ export default function HalalDirectoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/fetchHalalDirectory"); // Fetch from your API
+        const response = await fetch("/api/fetchHalalDirectory"); // Fetch from API
         const result = await response.json();
 
         if (!result.data || !Array.isArray(result.data)) {

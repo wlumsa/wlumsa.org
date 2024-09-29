@@ -1,6 +1,6 @@
 // pages/api/fetchHalalDirectory.ts
 
-import { createClient } from "../../Utils/client"; // Make sure this path is correct
+import { createClient } from "../../Utils/client"; 
 const supabase = createClient();
 
 export default async function handler(req, res) {
