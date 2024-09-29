@@ -444,13 +444,18 @@ export async function fetchServices() {
   return services.docs;
 }
 
-// Halal Directory function added:
+// Function to fetch Halal Directory data
 export async function fetchHalalDirectory() {
-  const halalDirectory = await payload.find({
-    collection: "halal-directory",
-    limit: 50,
-  });
+  const { data, error } = await supabase
+    .from("halal-directory")
+    .select("id, name, category, price_range, slaughtered, shortDescription, location, googleMapsLink, website")
+    .limit(50);
 
-  console.log('Halal Directory Data: ', halalDirectory.docs);
-  return halalDirectory.docs;
+  if (error) {
+    console.error('Error fetching Halal Directory from Supabase:', error);
+    return [];
+  }
+
+  console.log('Halal Directory Data from Supabase:', data);
+  return data || [];
 }
