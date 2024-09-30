@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
+import { supabase } from "@/lib/supabaseClient"; 
 
 // Define the structure of Halal Directory Data based on Supabase table
 interface HalalDirectoryData {
@@ -41,24 +42,28 @@ const slaughterMethodOptions = [
 ];
 
 export default function HalalDirectoryPage() {
-  // Initialize halalDirectory as an empty array
   const [halalDirectory, setHalalDirectory] = useState<HalalDirectoryData[]>([]);
   const [selectedCuisine, setSelectedCuisine] = useState<string>('All Cuisines');
   const [selectedMethod, setSelectedMethod] = useState<string>('All Methods');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Fetch the Halal Directory data when component mounts
+  // Fetch the Halal Directory data from Supabase when component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/fetchHalalDirectory"); // Fetch from API
-        const result = await response.json();
+        const { data, error } = await supabase
+          .from('halal_directory') // The name of your table in Supabase
+          .select('*'); // Fetch all columns, you can specify which columns if needed
 
-        if (!result.data || !Array.isArray(result.data)) {
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        if (!Array.isArray(data)) {
           throw new Error("Invalid data format"); // Error handling if the response is not an array
         }
 
-        setHalalDirectory(result.data); // Set the fetched data to the state
+        setHalalDirectory(data); // Set the fetched data to the state
       } catch (error) {
         console.error("Error fetching Halal Directory:", error);
         setHalalDirectory([]); // Ensure the state is always an array
