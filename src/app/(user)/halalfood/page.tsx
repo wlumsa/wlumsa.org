@@ -52,7 +52,7 @@ export default function HalalDirectoryPage() {
     const fetchData = async () => {
       try {
         const { data, error } = await supabase
-          .from('halal_directory') // The name of your table in Supabase
+          .from('halal_directory') // The name of our table in Supabase
           .select('*'); // Fetch all columns including image_url
 
         if (error) {

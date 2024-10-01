@@ -444,6 +444,12 @@ export async function fetchServices() {
   return services.docs;
 }
 
+export async function fetchFoodSpots() {
+  const services = await payload.find({
+    collection: "halal-directory",
+  });
+  return services.docs;
+}
 // Function to fetch Halal Directory data
 export async function fetchHalalDirectory() {
   const { data, error } = await supabase

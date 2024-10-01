@@ -70,6 +70,12 @@ export const HalalDirectory: CollectionConfig = {
       type: 'text',
       label: 'Website', // Matches 'website' from spreadsheet
     },
+    {
+      name:"image",
+      type:"relationship",
+      label:"Image",
+      relationTo:"media",
+    }
   ],
 };
 

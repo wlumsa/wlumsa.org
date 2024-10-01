@@ -415,6 +415,7 @@ export interface HalalDirectory {
   location: string;
   googleMapsLink: string;
   website?: string | null;
+  image?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
