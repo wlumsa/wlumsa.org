@@ -32,17 +32,17 @@ const IIA: React.FC = async () => {
              <h1 className="my-4">The Islamic Information Association (IIA)   aims to spread the message of Islam on the Laurier campus. We have weekly boothing, educational events, and create informational materials.</h1>
            </div>
            <div className="my-2 flex flex-row items-center justify-center gap-4 ">
-             <button className="btn border-none text-white bg-primary hover:bg-primary">Learn More</button>
+             <button className="btn border-none text-white bg-primary hover:bg-primary" ><a href="#services">Learn More</a></button>
              <button className="btn bg-[#050B07] opacity-50 text-white border-primary">Ask a question</button>
            </div>
          </div>
        </div>
      </div>
-     <div className="mt-8 px-10 ">
+     <div className="mt-8 px-10" id="services">
        <h1 className="text-4xl text-center font-semibold py-8">Our Services</h1>
        <Service services={services}/>
      </div>
-     <div className=" px-24 items-center ">
+     <div className=" px-24 items-center mb-16 ">
        <h1 className="text-4xl text-center py-12 font-semibold">Frequently Asked Questions</h1>
        <div className="bg-primary rounded p-4 items-center">
        {questions.map((question, index) => ( 
@@ -61,19 +61,8 @@ const IIA: React.FC = async () => {
        </div>
     
      </div>
-    {/*  <div className="">
-     <h1 className="my-12 text-4xl text-center font-semibold">Still Have Questions?</h1>
-       <h1 className="text-xl text-center">Contact Us</h1>
-     </div> */}
+   
      </div>
-
-    /* <div className="flex min-h-screen flex-col">
-    <div className="mb-20 mt-40 flex flex-grow items-center justify-center">
-      <h1 className="font-sans text-4xl font-bold  text-primary ">
-        Coming Soon inshallah 👀
-      </h1>
-    </div>
-  </div> */
   );
 };
 
