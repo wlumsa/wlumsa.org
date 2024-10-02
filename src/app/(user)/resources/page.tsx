@@ -20,7 +20,7 @@ export default async function ResourcesPage({
   const categories: Category[] = [
     {
       id: "1",
-      title: "Event Forms"
+      title: "General Forms"
     },
     {
       id: "2",
