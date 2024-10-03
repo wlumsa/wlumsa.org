@@ -5,6 +5,7 @@ import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
+
 export async function getPublicURL(
   folder: string | null | undefined,
   fileName: string | null | undefined,
@@ -16,6 +17,10 @@ export async function getPublicURL(
     .getPublicUrl(path || "");
   return data;
 }
+
+
+
+
 
 const payload = await getPayloadHMR({ config: configPromise });
 
@@ -95,6 +100,7 @@ export async function fetchBlogPostsByCategory(category: string) {
   });
   return posts.docs;
 }
+
 export async function fetchBlogPostsByCategoryAndTag(
   category: string,
   tag: string,
@@ -188,7 +194,7 @@ export async function fetchBlogPostsByQuery(query: string) {
   });
   return posts.docs;
 }
-export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId:string) {
+export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId: string) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -208,10 +214,10 @@ export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId
       and: [
         {
           "categories.id": {
-            equals: `${categoryId}`
+            equals: `${categoryId}`,
           },
         },
-      ]
+      ],
     },
     limit: 10,
   });
@@ -234,6 +240,7 @@ export async function getPrayerTimings() {
   });
   return timings;
 }
+
 export async function getPrayerRooms() {
   const rooms = await payload.find({
     collection: "prayer-rooms",
@@ -462,6 +469,28 @@ export async function fetchServices() {
     collection: "services",
   });
   return services.docs;
+}
+
+export async function fetchFoodSpots() {
+  const services = await payload.find({
+    collection: "halal-directory",
+  });
+  return services.docs;
+}
+// Function to fetch Halal Directory data
+export async function fetchHalalDirectory() {
+  const { data, error } = await supabase
+    .from("halal-directory")
+    .select("id, name, category, price_range, slaughtered, shortDescription, location, googleMapsLink, website")
+    .limit(50);
+
+  if (error) {
+    console.error('Error fetching Halal Directory from Supabase:', error);
+    return [];
+  }
+
+  console.log('Halal Directory Data from Supabase:', data);
+  return data || [];
 }
 
 export async function fetchIIAServices() {

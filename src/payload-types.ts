@@ -29,6 +29,7 @@ export interface Config {
     services: Service;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
+    'halal-directory': HalalDirectory;
     individuals: Individual;
     'iia-services': IiaService;
     faq: Faq;
@@ -387,6 +388,36 @@ export interface Individual {
   firstName?: string | null;
   lastName?: string | null;
   email: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "halal-directory".
+ */
+export interface HalalDirectory {
+  id: number;
+  name: string;
+  category:
+    | 'chinese'
+    | 'persian'
+    | 'shawarma'
+    | 'burgers'
+    | 'bangladeshi'
+    | 'chinese-indo-fusion'
+    | 'pakistani-food'
+    | 'chicken-and-waffles'
+    | 'kabob'
+    | 'uyghur'
+    | 'chicken'
+    | 'indian-fusion-food'
+    | 'pizza';
+  slaughtered?: ('hand' | 'machine' | 'both' | 'n/a') | null;
+  shortDescription: string;
+  location: string;
+  googleMapsLink: string;
+  website?: string | null;
+  image?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
