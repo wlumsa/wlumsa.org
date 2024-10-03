@@ -23,7 +23,7 @@ import Members from "./collections/Newsletter/Members";
 import Socials from "./collections/UI/Socials";
 import Products from "./collections/Products";
 import { Posts } from "./collections/Blog";
-import HalalDirectory from './collections/HalalFoodDirectory';
+import { HalalDirectory } from './collections/HalalFoodDirectory';
 import { Categories } from "./collections/Categories";
 import { Tags } from "./collections/Tags";
 import { resendAdapter } from "@payloadcms/email-resend";
