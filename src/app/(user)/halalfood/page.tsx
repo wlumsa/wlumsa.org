@@ -22,13 +22,13 @@ const cuisineOptions = [
   'Shawarma',
   'Burgers',
   'Bangladeshi',
-  'Chinese Indo Fusion',
-  'Pakistani Food',
-  'Chicken and Waffles',
+  'Chinese-Indo-Fusion',
+  'Pakistani-Food',
+  'Chicken-and-Waffles',
   'Kabob',
   'Uyghur',
   'Chicken',
-  'Indian Fusion Food',
+  'Indian-Fusion-Food',
   'Pizza'
 ];
 

@@ -23,7 +23,7 @@ import Members from "./collections/Newsletter/Members";
 import Socials from "./collections/UI/Socials";
 import Products from "./collections/Products";
 import { Posts } from "./collections/Blog";
-import HalalFoodDirectory from "./collections/HalalFoodDirectory"; 
+import HalalDirectory from './collections/HalalFoodDirectory';
 import { Categories } from "./collections/Categories";
 import { Tags } from "./collections/Tags";
 import { resendAdapter } from "@payloadcms/email-resend";
@@ -74,7 +74,7 @@ export default buildConfig({
     Services,
     EmailCollection,
     DistributionList,
-    HalalFoodDirectory,
+    HalalDirectory,
     individuals,
     IIAServices,
     FrequentlyAskedQuestions
