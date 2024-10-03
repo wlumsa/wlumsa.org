@@ -6,7 +6,6 @@ export const HalalDirectory: CollectionConfig = {
   slug: "halal-directory",
   admin: {
     useAsTitle: "name",
-
     group: "Admin",
   },
   fields: [

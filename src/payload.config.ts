@@ -37,7 +37,7 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
-
+import { HalalDirectory } from "./collections/HalalFoodDirectory";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -71,6 +71,7 @@ export default buildConfig({
     individuals,
     IIAServices,
     FrequentlyAskedQuestions,
+    HalalDirectory,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
