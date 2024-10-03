@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import config from '@payload-config'
 /* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import { RootPage, generatePageMetadata } from '@payloadcms/next/views'
-import { importMap } from "../importMap.js"
+import { importMap } from '../importMap'
 
 type Args = {
   params: {
@@ -19,6 +19,6 @@ export const generateMetadata = ({ params, searchParams }: Args): Promise<Metada
   generatePageMetadata({ config, params, searchParams })
 
 const Page = ({ params, searchParams }: Args) =>
-  RootPage({ config, importMap, params, searchParams })
+  RootPage({ config, params, searchParams, importMap })
 
 export default Page

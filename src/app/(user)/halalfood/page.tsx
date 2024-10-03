@@ -50,7 +50,7 @@ export default function HalalDirectoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data, error } = await supabase.from('halal_directory').select('*');
+        const { data, error } = await supabase.from('halal-directory').select('*');
         if (error) throw new Error(error.message);
         setHalalDirectory(data);
 
