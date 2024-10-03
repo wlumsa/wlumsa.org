@@ -361,37 +361,58 @@ export async function addIndividualToList(
   individualData: individualSchema,
 ) {
   try {
-    // Step 1: Insert the new individual into the individuals table
-    const { data: individual, error: individualError } = await supabase
+    // Step 1: Check if the individual already exists
+    console.log("EMAIL",individualData.email);
+    const { data: existingIndividual, error: existingIndividualError } = await supabase
       .from("individuals")
-      .insert([individualData])
-      .select();
-
-    if (individualError) {
-      throw new Error(`Error inserting individual: ${individualError.message}`);
+      .select("*")
+      .eq("email",individualData.email) // Assuming email is a unique identifier
+      .single();
+    console.log("EXISITING INDIVIDUAL:",existingIndividual);
+    if (existingIndividualError && existingIndividualError.code !== 'PGRST116') {
+      // PGRST116 is the error code for "Results contain 0 rows"
+      throw new Error(`Error checking individual: ${existingIndividualError.message}`);
     }
 
-    // Step 2: Get the id of the specified list or create a new one
+    let individual;
+    if (existingIndividual?.length===0 || !existingIndividual) {
+      // Step 2: Insert the new individual into the individuals table
+      const { data: newIndividual, error: individualError } = await supabase
+        .from("individuals")
+        .insert([individualData])
+        .select();
+
+      if (individualError) {
+        throw new Error(`Error inserting individual: ${individualError.message}`);
+      }
+
+      individual = newIndividual[0];
+    } else {
+      individual = existingIndividual;
+    }
+
+    console.log("INDIVIDUAL:",individual);
+    // Step 3: Get the id of the specified list or create a new one
     let newsletterList;
     const { data: existingList, error: listError } = await supabase
       .from("distribution_list")
       .select("id")
       .eq("list_name", listName)
       .single();
-
+    console.log("EXISTING LIST:",existingList);
     if (listError && listError.code !== 'PGRST116') {
       // PGRST116 is the error code for "Results contain 0 rows"
       throw new Error(`Error fetching list: ${listError.message}`);
     }
 
-    if (!existingList) {
+    if (!existingList || existingList.id === undefined) {
       // List doesn't exist, create a new one
       const { data: newList, error: createListError } = await supabase
         .from("distribution_list")
         .insert([{ list_name: listName }])
         .select()
         .single();
-
+        console.log("NEW LIST:",newList);
       if (createListError) {
         throw new Error(`Error creating new list: ${createListError.message}`);
       }
@@ -401,14 +422,14 @@ export async function addIndividualToList(
       newsletterList = existingList;
     }
 
-    // Step 3: Insert the relationship into the distribution_list_rels table
+    // Step 4: Insert the relationship into the distribution_list_rels table
     const { data: relation, error: relationError } = await supabase
       .from("distribution_list_rels")
       .insert([
         {
           order: 1,
           parent_id: newsletterList.id,
-          individuals_id: individual[0].id,
+          individuals_id: individual.id,
           path: `emails`,
         },
       ]);
@@ -417,9 +438,11 @@ export async function addIndividualToList(
       throw new Error(`Error creating relation: ${relationError.message}`);
     }
 
+    console.log("SUCCESS")
+
     return {
       success: true,
-      individual: individual[0],
+      individual: individual,
       list: newsletterList,
     };
   } catch (error) {
@@ -468,4 +491,17 @@ export async function fetchHalalDirectory() {
 
   console.log('Halal Directory Data from Supabase:', data);
   return data || [];
+}
+
+export async function fetchIIAServices() {
+  const services = await payload.find({
+    collection: "iia-services",
+  });
+  return services.docs;
+}
+export async function fetchFAQ() {
+  const faq = await payload.find({
+    collection: "faq",
+  });
+  return faq.docs;
 }

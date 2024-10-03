@@ -31,17 +31,14 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
   <Html>
     <Head>
       <style>{`
-        
-
-        p{
-          font-size: 16px;
-          line-height: 12px;
-          }
 
         img {
           max-width: 100%;
           height: auto;
         }
+          a {
+          color: #e7ac3b;
+          }
 
       `}
 

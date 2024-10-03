@@ -31,6 +31,8 @@ export interface Config {
     'distribution-list': DistributionList;
     'halal-directory': HalalDirectory;
     individuals: Individual;
+    'iia-services': IiaService;
+    faq: Faq;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -416,6 +418,29 @@ export interface HalalDirectory {
   googleMapsLink: string;
   website?: string | null;
   image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iia-services".
+ */
+export interface IiaService {
+  id: number;
+  name: string;
+  caption: string;
+  image: (number | Media)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  Question: string;
+  Answer: string;
   updatedAt: string;
   createdAt: string;
 }

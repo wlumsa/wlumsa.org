@@ -22,6 +22,7 @@ type FetchedEvent = {
   id: string;
   summary: string;
   start: { dateTime: string };
+  end: { dateTime: string };
   recurring?: boolean;
 };
 
@@ -61,15 +62,18 @@ const CalendarComponent = () => {
       const res = await fetch("/api/calendar");
       const data: FetchedEvent[] = await res.json();
 
-      const formattedEvents: Event[] = data.map((event: FetchedEvent) => ({
-        id: event.id,
-        title: event.summary,
-        start: event.start ? event.start.dateTime : 'default-date',
-      }));
+if (Array.isArray(data)) {
+  const formattedEvents: Event[] = data.map((event: FetchedEvent) => ({
+    id: event.id,
+    title: event.summary,
+    start: event.start ? event.start.dateTime : 'default-date',
+    end: event.end ? event.end.dateTime : 'default-date',
+  }));
+  setEvents(formattedEvents);
+  fetchEvents();
+} 
 
-      setEvents(formattedEvents);
-    };
-    fetchEvents();
+};
 
     // Cleanup the event listener on component unmount
     return () => {
@@ -78,9 +82,9 @@ const CalendarComponent = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-10 text-xs">
+    <div className="container mt-8 mx-auto p-10 text-xs">
       <div>
-        <h3 className="text-xl font-bold">Upcoming Events</h3>
+        <h3 className="text-4xl font-bold text-primary">Upcoming Events</h3>
         <FullCalendar
           ref={calendarRef} // Set the reference here
           plugins={[dayGridPlugin, googleCalendarPlugin]}
@@ -88,7 +92,7 @@ const CalendarComponent = () => {
           googleCalendarApiKey="AIzaSyAD66ZFXJgMoKiZTkZUOCG9pFS459R40SI"
           events={{
             googleCalendarId:
-              "ffaee011120fab396c40cef55e2b049696a3a50bca3229a50002368451799595@group.calendar.google.com",
+              "c_a7b0881ec9f4b1f326560c3e89616406d4b28318abca3a01a7bce0ab92aed3e1@group.calendar.google.com",
           }}
           eventContent={renderEventContent}
         />
@@ -100,12 +104,18 @@ const CalendarComponent = () => {
 const renderEventContent = (eventInfo: EventContentArg) => {
   const now = new Date();
   const eventDate = new Date(eventInfo.event.startStr);
+  const eventDateEnd = new Date(eventInfo.event.endStr);
   const isPastEvent = eventDate < now;
-
-  const bgColorClass = isPastEvent ? "bg-red-500" : "bg-green-500";
+  const bgColorClass = "bg-[#5636a7]"
+  // const bgColorClass = isPastEvent ? "bg-red-500" : "bg-[#5636a7]";
   const textColorClass = "text-white";
 
   const startTime = eventDate.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const endTime = eventDateEnd.toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
@@ -117,6 +127,8 @@ const renderEventContent = (eventInfo: EventContentArg) => {
     <div className={`p-1 ${bgColorClass} ${textColorClass} min-w-0 flex-shrink-1`}>
       <div className="text-sm">
         <b>{startTime}</b>
+        <b>-</b>
+        <b>{endTime}</b>
       </div>{" "}
       {/* Adjusted text size */}
       <div

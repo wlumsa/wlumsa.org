@@ -1,3 +1,4 @@
+import { stripePlugin } from '@payloadcms/plugin-stripe';
 import { s3Storage } from "@payloadcms/storage-s3";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
@@ -5,9 +6,13 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
 // import sharp from 'sharp'
+
 import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
+
+
+
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
@@ -32,7 +37,11 @@ import PrayerRooms from "./collections/UI/PrayerInfo/PrayerRoom";
 import Services from "./collections/UI/Services";
 import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
+import IIAServices from "./collections/IIA";
+import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
+
+
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -67,6 +76,8 @@ export default buildConfig({
     DistributionList,
     HalalFoodDirectory,
     individuals,
+    IIAServices,
+    FrequentlyAskedQuestions
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -92,6 +103,9 @@ export default buildConfig({
           localized: true,
         },
       },
+    }),
+    stripePlugin({
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
     }),
     s3Storage({
       collections: {
