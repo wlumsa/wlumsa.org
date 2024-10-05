@@ -1,5 +1,3 @@
-// collections/HalalDirectory.ts
-
 import { CollectionConfig } from "payload";
 
 export const HalalDirectory: CollectionConfig = {
@@ -13,7 +11,7 @@ export const HalalDirectory: CollectionConfig = {
       name: "name",
       type: "text",
       required: true,
-      label: "Name", // Matches 'name' from spreadsheet
+      label: "Name", 
     },
     {
       name: "category",
@@ -79,3 +77,4 @@ export const HalalDirectory: CollectionConfig = {
     },
   ],
 };
+
