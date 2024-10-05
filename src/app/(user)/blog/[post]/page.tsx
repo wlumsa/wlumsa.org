@@ -38,20 +38,20 @@ export default async function BlogPost({
   return (
 
     <div className="mt-28">
-      <div className="mx-auto max-w-screen-lg">
+      <div className="mx-auto md:max-w-screen-lg p-4 ">
         <main className="mt-10 flex flex-col justify-center items-center text-gray-700">
           <div className="relative mx-auto mb-4 md:mb-0">
             <div className="px-4 lg:px-0">
-              <h2 className=" text-left my-6 text-4xl font-bold leading-tight text-primary  ">
+              <h2 className=" my-6 text-4xl font-bold leading-tight text-primary text-center  ">
                 {post?.title} </h2>
-              <div className="flexjustify-start text-lg">
-                <p className="">
-                  Published - {formattedDate}
+              <div className="flex text-lg text-center ">
+                <p className="text-center">
+                   {formattedDate}
                 </p>
               </div>
               <div>
                 {post?.authors?.map((author, index) => (
-                  <p  className = "text-lg" key={index}>{typeof author === 'object' ? `   Author - ${author.name}` : ''}
+                  <p  className = "text-lg" key={index}>{typeof author === 'object' ? `   Written by ${author.name}` : ''}
                   </p>))}
               </div>
               <p className="flex mb-2 py-2 text-gray-700 text-lg">
