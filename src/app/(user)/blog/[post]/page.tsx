@@ -1,9 +1,10 @@
 import React from "react";
-import { fetchBlogPostById, fetchBlogPostByTitle } from "@/Utils/datafetcher";
+import { fetchBlogPostById, fetchBlogPostByTitle, fetchBlogPostsByCategory } from "@/Utils/datafetcher";
 import RichText from "@/Utils/RichText";
 import { format } from 'date-fns';
 import Head from "next/head";
 import { Metadata } from "next";
+import BlogCard from "@/components/UI/BlogCard";
 
 
 export default async function BlogPost({
@@ -16,9 +17,10 @@ export default async function BlogPost({
   const id = decodeURIComponent(params.post)
   const res = await fetchBlogPostById(id);
 
-
   console.log(res)
   const post = res[0]
+  const categories = await fetchBlogPostsByCategory(post?.categories[0]?.title);
+
 
   const image = post?.header_image?.map((item) => {
     if (typeof item === 'object' && item !== null) {
@@ -28,8 +30,9 @@ export default async function BlogPost({
   });
 
   const content = post?.content || [];
-  const date = new Date(post?.createdAt || "")
-  const formattedDate = format(date, 'MMMM dd, yyyy');
+  const date = post?.createdAt ? new Date(post?.createdAt) : null;
+  const formattedDate = date ? format(date, 'MMMM dd, yyyy'): null;
+
   const title = post?.meta?.title;
   const description = post?.meta?.description || "";
 
@@ -46,7 +49,7 @@ export default async function BlogPost({
                 {post?.title} </h2>
               <div className="flex text-lg text-center ">
                 <p className="text-center">
-                   {formattedDate}
+                   {formattedDate ? formattedDate: ""}
                 </p>
               </div>
               <div>
@@ -75,6 +78,14 @@ export default async function BlogPost({
               </div>
             </div>
           </div>
+          <div className="flex justify-center">
+        <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
+        {posts.map((post) => (
+              <BlogCard key={post.id} post={post}  />
+            ))}
+          
+        </div>
+      </div>
         </main>
       </div>
     </div>

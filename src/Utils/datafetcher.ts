@@ -194,6 +194,13 @@ export async function fetchBlogPostsByQuery(query: string) {
   });
   return posts.docs;
 }
+export async function getCategories() {
+  const categories = await payload.find({
+    collection: "categories",
+    limit: 10,
+  });
+  return categories.docs;
+}
 export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId: string) {
   const posts = await payload.find({
     collection: "Posts",

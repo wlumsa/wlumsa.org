@@ -1,6 +1,6 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
-import { fetchBlogPosts, fetchBlogPostsByQuery, fetchBlogPostsByQueryAndCategory } from "@/Utils/datafetcher";
+import { fetchBlogPosts, fetchBlogPostsByQuery, fetchBlogPostsByQueryAndCategory, getCategories } from "@/Utils/datafetcher";
 import { Media } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import ButtonGroup from "@/components/UI/ButtonGroup";
@@ -25,7 +25,7 @@ export default async function Blog({
     id: string,
     title: string
   }
-  const categories: Category[] = [
+/*   const categories: Category[] = [
     {
       id: "1",
       title: "All"
@@ -43,9 +43,10 @@ export default async function Blog({
       id: "4",
       title: "Professional Development"
     }
-  ]
+  ] */
 
   //const res = await fetchBlogPosts();
+  const categoriesData = await getCategories();
   const res = categoryId === '1'
   ? await fetchBlogPostsByQuery(query)
   : await fetchBlogPostsByQueryAndCategory(query, categoryId);
@@ -64,7 +65,7 @@ export default async function Blog({
         <SearchBar/>
         
         <div className="flex flex-row items-center justify-center">
-        <ButtonGroup categories={categories} />
+        <ButtonGroup categories={categoriesData} />
 
         </div>
       </div>
