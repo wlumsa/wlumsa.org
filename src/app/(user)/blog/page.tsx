@@ -65,8 +65,8 @@ export default async function Blog({
         <SearchBar/>
         
         <div className="flex flex-row items-center justify-center">
-        <ButtonGroup categories={categoriesData} />
-
+{/*          <ButtonGroup categories={categoriesData} />
+ */}
         </div>
       </div>
       <div className="flex justify-center">

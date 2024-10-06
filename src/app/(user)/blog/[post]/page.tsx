@@ -19,8 +19,9 @@ export default async function BlogPost({
 
   console.log(res)
   const post = res[0]
-  const categories = await fetchBlogPostsByCategory(post?.categories[0]?.title);
-
+  //console.log(post?.categories?.title)
+const relatedPosts = await fetchBlogPostsByCategory(post?.categories?.id, post?.id);
+//console.log(categories)
 
   const image = post?.header_image?.map((item) => {
     if (typeof item === 'object' && item !== null) {
@@ -78,14 +79,20 @@ export default async function BlogPost({
               </div>
             </div>
           </div>
+          {/* UNCOMMENT RELATED POSTS HERE WHEN WE HAVE CONTENT */}
+         {/*  <div>
+            <h2 className="text-4xl font-bold text-primary py-8">Related Posts</h2>
+          </div>
           <div className="flex justify-center">
+            
         <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
-        {posts.map((post) => (
-              <BlogCard key={post.id} post={post}  />
-            ))}
           
+         {relatedPosts.map((relatedPost) => (
+              <BlogCard key={relatedPost.id} post={relatedPost} />
+            ))}
+           
         </div>
-      </div>
+      </div>  */}
         </main>
       </div>
     </div>

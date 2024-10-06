@@ -84,16 +84,19 @@ export async function fetchBlogPosts() {
   return posts.docs;
 }
 
-export async function fetchBlogPostsByCategory(category: string) {
+export async function fetchBlogPostsByCategory(category: string, postId: string) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
       "status": {
         equals: "published",
       },
-      "category": {
+      "categories": {
         equals: category,
       },
+      "id": {
+        not_equals: postId,
+      }
     },
     sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
@@ -138,6 +141,7 @@ export async function fetchBlogPostById(id: string) {
   });
   return post.docs;
 }
+
 
 export async function fetchBlogPostByTitle(title: string) {
   const post = await payload.find({
