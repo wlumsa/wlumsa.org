@@ -50,7 +50,7 @@ export default function HalalDirectoryPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data, error } = await supabase.from('halal-directory').select('*');
+        const { data, error } = await supabase.from('halal_directory').select('*');
         if (error) throw new Error(error.message);
         setHalalDirectory(data);
 
@@ -91,7 +91,7 @@ export default function HalalDirectoryPage() {
   return (
     <div className="w-full flex flex-col items-center mt-32 px-4">
       <div className="text-center w-full mb-10">
-        <h1 className="font-bold text-3xl md:text-4xl text-gray-800">Discover Best Halal Restaurants</h1>
+        <h1 className="font-bold text-3xl md:text-4xl text-primary">Discover Best Halal Restaurants</h1>
         <p className="text-gray-500 mt-4 text-md md:text-lg">
           {filterData().length} restaurants available nearby
         </p>
@@ -145,8 +145,8 @@ export default function HalalDirectoryPage() {
                 <div className="flex-grow">
                   <h2 className="text-xl md:text-2xl font-bold text-primary mb-2">{item.name}</h2>
                   <p className="text-gray-600 mb-3">{item.short_description}</p>
-                  <p className="text-gray-500 mb-1"><strong>Category:</strong> {item.category}</p>
-                  <p className="text-gray-500 mb-1"><strong>Slaughter Method:</strong> {item.slaughtered}</p>
+                  <p className="text-gray-500 mb-1 capitalize"><strong>Category:</strong> {item.category}</p>
+                  <p className="text-gray-500 mb-1 capitalize"><strong>Slaughter Method:</strong> {item.slaughtered}</p>
                   <p className="text-gray-500 mb-3"><strong>Location:</strong> {item.location}</p>
                   <a href={item.google_maps_link} target="_blank" className="text-blue-600 hover:underline">View on Google Maps</a>
                 </div>

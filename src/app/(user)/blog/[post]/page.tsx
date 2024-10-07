@@ -20,7 +20,7 @@ export default async function BlogPost({
   console.log(res)
   const post = res[0]
   //console.log(post?.categories?.title)
-const relatedPosts = await fetchBlogPostsByCategory(post?.categories?.id, post?.id);
+//const relatedPosts = await fetchBlogPostsByCategory(  typeof post?.categories === 'number' ? post.categories.id.toString() : '1', , typeof post === 'object' ? post.id : '1');
 //console.log(categories)
 
   const image = post?.header_image?.map((item) => {
