@@ -262,7 +262,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  categories?: (number | null) | Category;
+  categories: number | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
   status?: ('draft' | 'published') | null;
@@ -281,7 +281,7 @@ export interface Post {
  */
 export interface Category {
   id: number;
-  title?: string | null;
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
