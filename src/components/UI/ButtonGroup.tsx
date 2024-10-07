@@ -100,9 +100,9 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories, type }) =>
                         </ul>
                     </div>
                 </div>
-                <div className="navbar-center hidden lg:flex">
+                <div className="navbar-center hidden lg:flex w-full">
                     <div className=" text-center">
-                        <ul className="menu menu-horizontal text-lg text-primary">
+                        <ul className="menu menu-horizontal text-lg text-primary w-full">
                             <li key={0} className={`rounded m-2 ${selectBtn?.title === 'All' ? 'bg-secondary text-primary font-semibold ' : ' '}   `}  onClick={() => getAllPosts() }><a>All</a></li>
                             {categories.map((category, index) => (
                                 <li key={index+1} className={`rounded m-2 ${selectBtn?.title === category.title ? 'bg-secondary text-primary font-semibold ' : ' '}   `}

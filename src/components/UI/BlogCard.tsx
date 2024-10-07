@@ -38,7 +38,7 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
         </div>
         <div>
         <div className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
-                  {post?.categories?.title}
+                  {typeof post?.categories === 'object' ? post?.categories?.title: ""}
                 </div>
           {/* {post?.categories?.map((item, index) => {
             if (typeof item === 'object' && item != null) {
