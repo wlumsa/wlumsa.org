@@ -7,7 +7,7 @@ import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 
-// Import existing collections and globals
+// Import collections and globals
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
 import Nav from "./globals/Navbar";
@@ -27,7 +27,8 @@ import { seoPlugin } from "@payloadcms/plugin-seo";
 import type { GenerateTitle } from "@payloadcms/plugin-seo/types";
 import { Sizes } from "./collections/Products/sizes";
 import WeeklyEvents from "./collections/UI/WeeklyEvents";
-import PrayerTimings from "./collections/UI/PrayerInfo/PrayerTimings";import Jummah from "./collections/UI/PrayerInfo/JummahTimings";
+import PrayerTimings from "./collections/UI/PrayerInfo/PrayerTimings";
+import Jummah from "./collections/UI/PrayerInfo/JummahTimings";
 import PrayerRooms from "./collections/UI/PrayerInfo/PrayerRoom";
 import Services from "./collections/UI/Services";
 import { EmailCollection } from "./collections/EmailCollection";
@@ -35,9 +36,7 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
-
-// Import the new RoommatePosts collection
-import RoommatePosts from "./collections/RoommatePosts";
+import RoommatePosts from "./collections/RoommatePosts"; // Import the new RoommatePosts collection
 
 // Function to generate the SEO title
 const generateTitle: GenerateTitle = () => {

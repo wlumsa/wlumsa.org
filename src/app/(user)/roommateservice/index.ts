@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabaseClient"; // Ensure you have the Supabase client set up
+import { supabase } from "@/lib/supabaseClient"; 
 
 interface RoommatePostData {
   id: string;
