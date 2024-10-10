@@ -418,7 +418,7 @@ export interface HalalDirectory {
   googleMapsLink: string;
   website?: string | null;
   image?: (number | null) | Media;
-  campusLocation: 'on-campus' | 'off-campus';
+  on_campus: boolean;
   updatedAt: string;
   createdAt: string;
 }
