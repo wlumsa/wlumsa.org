@@ -29,10 +29,11 @@ export interface Config {
     services: Service;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
-    'halal-directory': HalalDirectory;
     individuals: Individual;
     'iia-services': IiaService;
     faq: Faq;
+    'halal-directory': HalalDirectory;
+    'roommate-posts': RoommatePost;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -393,6 +394,29 @@ export interface Individual {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iia-services".
+ */
+export interface IiaService {
+  id: number;
+  name: string;
+  caption: string;
+  image: (number | Media)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  Question: string;
+  Answer: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "halal-directory".
  */
 export interface HalalDirectory {
@@ -424,24 +448,15 @@ export interface HalalDirectory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "iia-services".
+ * via the `definition` "roommate-posts".
  */
-export interface IiaService {
+export interface RoommatePost {
   id: number;
-  name: string;
-  caption: string;
-  image: (number | Media)[];
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq".
- */
-export interface Faq {
-  id: number;
-  Question: string;
-  Answer: string;
+  title: string;
+  description: string;
+  location: string;
+  contactEmail: string;
+  status?: ('pending' | 'approved') | null;
   updatedAt: string;
   createdAt: string;
 }
