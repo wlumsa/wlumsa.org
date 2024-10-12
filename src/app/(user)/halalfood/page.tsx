@@ -3,197 +3,198 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-// Define the structure for Roommate Profiles
-interface RoommateProfile {
+interface HalalDirectoryData {
   id: string;
   name: string;
-  age: number;
-  gender: string;
-  bio: string;
+  short_description: string;
+  category: string;
+  slaughtered: string;
   location: string;
+  google_maps_link: string;
+  website?: string;
   image_id?: string;
-  interests: string[];
-  rent: number;
 }
 
-// Options for filter dropdowns
-const genderOptions = ["All", "Male", "Female", "Other"];
-const locationOptions = ["All Locations", "Downtown", "Suburb", "Campus"];
-const rentOptions = ["All Ranges", "< $500", "$500 - $1000", "> $1000"];
+const cuisineOptions = [
+  'All Cuisines',
+  'Chinese',
+  'Persian',
+  'Shawarma',
+  'Burgers',
+  'Bangladeshi',
+  'Chinese-Indo-Fusion',
+  'Pakistani-Food',
+  'Chicken-and-Waffles',
+  'Kabob',
+  'Uyghur',
+  'Chicken',
+  'Indian-Fusion-Food',
+  'Pizza'
+];
 
-export default function RoommateServicePage() {
-  const [profiles, setProfiles] = useState<RoommateProfile[]>([]);
+const slaughterMethodOptions = [
+  'All Methods',
+  'Hand',
+  'Machine',
+  'Both',
+  'N/A'
+];
+
+export default function HalalDirectoryPage() {
+  const [halalDirectory, setHalalDirectory] = useState<HalalDirectoryData[]>([]);
   const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
-  const [selectedGender, setSelectedGender] = useState("All");
-  const [selectedLocation, setSelectedLocation] = useState("All Locations");
-  const [selectedRent, setSelectedRent] = useState("All Ranges");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCuisine, setSelectedCuisine] = useState<string>('All Cuisines');
+  const [selectedMethod, setSelectedMethod] = useState<string>('All Methods');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Fetch roommate profiles from the database
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data, error } = await supabase.from("roommates").select("*");
+        const { data, error } = await supabase.from('halal_directory').select('*');
         if (error) throw new Error(error.message);
-        setProfiles(data);
+        setHalalDirectory(data);
 
-        const imagePromises = data.map(async (profile) => {
-          if (profile.image_id) {
-            const image = await getImageByID(profile.image_id);
-            if (image && "publicUrl" in image) {
-              return { [profile.image_id]: image.publicUrl };
+        const imagePromises = data.map(async (item) => {
+          if (item.image_id) {
+            const image = await getImageByID(item.image_id);
+
+            // Check if image is not an empty string and has the publicUrl property
+            if (typeof image === 'object' && 'publicUrl' in image) {
+
+              return { [item.image_id]: image.publicUrl };
             }
           }
-          return { [profile.image_id]: "" };
+          return { [item.image_id]: '' };
         });
-
         const imageResults = await Promise.all(imagePromises);
-        setImageUrls(Object.assign({}, ...imageResults));
+        const imagesObject = Object.assign({}, ...imageResults);
+        setImageUrls(imagesObject);
       } catch (error) {
-        console.error("Error fetching profiles:", error);
-        setProfiles([]);
+        console.error("Error fetching Halal Directory:", error);
+        setHalalDirectory([]);
       }
     };
     fetchData();
   }, []);
 
-  // Filter function for profiles
-  const filterProfiles = () => {
-    return profiles
-      .filter((profile) => {
-        const matchesGender =
-          selectedGender === "All" || profile.gender === selectedGender;
-        const matchesLocation =
-          selectedLocation === "All Locations" ||
-          profile.location === selectedLocation;
-        const matchesRent =
-          selectedRent === "All Ranges" ||
-          (selectedRent === "< $500" && profile.rent < 500) ||
-          (selectedRent === "$500 - $1000" &&
-            profile.rent >= 500 &&
-            profile.rent <= 1000) ||
-          (selectedRent === "> $1000" && profile.rent > 1000);
-        const matchesSearch = profile.name
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-        return matchesGender && matchesLocation && matchesRent && matchesSearch;
+  const filterData = () => {
+    return halalDirectory
+      .filter(item => {
+        const matchesCategory = selectedCuisine === 'All Cuisines' || item.category.toLowerCase() === selectedCuisine.toLowerCase();
+        const matchesMethod = selectedMethod === 'All Methods' || item.slaughtered.toLowerCase() === selectedMethod.toLowerCase();
+        const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesMethod && matchesSearch;
       })
       .sort((a, b) => a.name.localeCompare(b.name));
   };
 
   return (
-    <div className="w-full flex flex-col items-center mt-20 px-4 sm:px-8">
-      {/* Header */}
-      <div className="text-center w-full mb-8">
-        <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-gray-800">
-          Find Your Perfect Roommate
-        </h1>
-        <p className="text-gray-500 mt-2 text-sm sm:text-md md:text-lg">
-          {filterProfiles().length} roommates available
+    <div className="w-full flex flex-col items-center mt-32 px-4">
+      <div className="text-center w-full mb-10">
+        <h1 className="font-bold text-3xl md:text-4xl text-primary">Discover Best Halal Restaurants</h1>
+        <p className="text-gray-500 mt-4 text-md md:text-lg">
+          {filterData().length} restaurants available nearby
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white p-4 rounded-lg shadow-md w-full mb-8">
-        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <input
-            type="text"
-            placeholder="Search by name"
-            className="border rounded-lg p-3 sm:p-4 w-full sm:w-80"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <select
-            value={selectedGender}
-            onChange={(e) => setSelectedGender(e.target.value)}
-            className="border rounded-lg p-3 sm:w-56"
-          >
-            {genderOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedLocation}
-            onChange={(e) => setSelectedLocation(e.target.value)}
-            className="border rounded-lg p-3 sm:w-56"
-          >
-            {locationOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedRent}
-            onChange={(e) => setSelectedRent(e.target.value)}
-            className="border rounded-lg p-3 sm:w-56"
-          >
-            {rentOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="flex flex-col md:flex-row justify-center w-full space-y-4 md:space-y-0 md:space-x-6 mb-8">
+        <input
+          type="text"
+          placeholder="Search by name"
+          className="border border-gray-300 rounded-lg p-4 w-full md:w-96 h-12 text-md focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <select
+          value={selectedCuisine}
+          onChange={(e) => setSelectedCuisine(e.target.value)}
+          className="border border-gray-300 rounded-lg p-4 w-full md:w-56 h-12 text-md focus:ring-2 focus:ring-purple-500 transition "
+        >
+          {cuisineOptions.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedMethod}
+          onChange={(e) => setSelectedMethod(e.target.value)}
+          className="border border-gray-300 rounded-lg p-4 w-full md:w-56 h-12 text-md focus:ring-2 focus:ring-purple-500 transition"
+        >
+          {slaughterMethodOptions.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Profiles */}
-      <div className="flex flex-wrap justify-center w-full space-y-6">
-        {filterProfiles().map((profile) => (
-          <div
-            key={profile.id}
-            className="bg-white shadow-lg rounded-lg p-6 w-full sm:w-1/2 lg:w-1/3 flex flex-col items-center"
-          >
-            <div className="w-32 h-32 rounded-full overflow-hidden">
-              {profile.image_id && imageUrls[profile.image_id] ? (
-                <img
-                  src={imageUrls[profile.image_id]}
-                  alt={profile.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <p className="text-gray-500">No Image</p>
-              )}
-            </div>
-            <h2 className="text-xl font-bold mt-4">{profile.name}</h2>
-            <p className="text-gray-600">Age: {profile.age}</p>
-            <p className="text-gray-600">Gender: {profile.gender}</p>
-            <p className="text-gray-600">Location: {profile.location}</p>
-            <p className="text-gray-600">Rent: ${profile.rent}/month</p>
-            <p className="text-center mt-2">{profile.bio}</p>
-            <div className="flex flex-wrap justify-center mt-4">
-              {profile.interests.map((interest) => (
-                <span
-                  key={interest}
-                  className="bg-purple-500 text-white px-2 py-1 rounded-full text-xs mx-1"
-                >
-                  {interest}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="flex flex-col md:flex-row w-full md:space-x-8">
+        <div className="w-full md:w-2/3">
+          {filterData().length > 0 ? (
+            filterData().map((item) => (
+              <div key={item.id} className="bg-white mb-8 shadow-md rounded-lg p-6 flex flex-col md:flex-row space-y-6 md:space-y-0 space-x-0 md:space-x-6 hover:shadow-xl transition-shadow duration-300">
+                <div className="w-full md:w-32 h-32 bg-gray-200 flex items-center justify-center rounded-lg overflow-hidden">
+                  {item.image_id && imageUrls[item.image_id] ? (
+                    <img src={imageUrls[item.image_id]} alt={item.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <p className="text-gray-500">No Image</p>
+                  )}
+                </div>
+
+                <div className="flex-grow">
+                  <h2 className="text-xl md:text-2xl font-bold text-primary mb-2">{item.name}</h2>
+                  <p className="text-gray-600 mb-3">{item.short_description}</p>
+                  <p className="text-gray-500 mb-1 capitalize"><strong>Category:</strong> {item.category}</p>
+                  <p className="text-gray-500 mb-1 capitalize"><strong>Slaughter Method:</strong> {item.slaughtered}</p>
+                  <p className="text-gray-500 mb-3"><strong>Location:</strong> {item.location}</p>
+                  <a href={item.google_maps_link} target="_blank" className="text-blue-600 hover:underline">View on Google Maps</a>
+                </div>
+
+                {item.website && (
+                  <a
+                    href={item.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white bg-primary hover:bg-opacity-75 transition-colors rounded-lg w-full md:w-32 h-12 flex items-center justify-center font-semibold"
+                  >
+                    Book Now
+                  </a>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-600 text-md md:text-lg">No restaurants found matching your criteria.</p>
+          )}
+        </div>
+
+        <div className="w-full md:w-1/3 sticky top-0 h-96 md:h-screen mt-8 md:mt-0 bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+          <iframe
+            src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen={true}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
       </div>
     </div>
   );
 }
 
-// Fetch image by ID
 async function getImageByID(id: string) {
-  const { data: filename, error } = await supabase
-    .from("media")
-    .select("filename")
-    .eq("id", id)
-    .single();
+  const { data: filename, error } = await supabase.from('media').select('filename').eq("id", id).single();
   if (error) {
     console.error("Error fetching image:", error);
-    return "";
+    return '';
   }
+
   const path = `media/${filename.filename}`;
-  const { data } = supabase.storage
-    .from(process.env.NEXT_PUBLIC_S3_BUCKET || "default_bucket")
+  const { data } = supabase
+    .storage
+    .from(process.env.NEXT_PUBLIC_S3_BUCKET|| "default_bucket")
     .getPublicUrl(path || "");
   return data;
 }

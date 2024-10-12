@@ -10,6 +10,8 @@ import { fileURLToPath } from "url";
 // Import collections and globals
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
+
+
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
@@ -35,10 +37,13 @@ import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
+<<<<<<< HEAD
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import RoommatePosts from "./collections/RoommatePosts";
 
 // Function to generate the SEO title
+import sharp from "sharp";
+import { HalalDirectory } from "./collections/HalalFoodDirectory";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -74,7 +79,9 @@ export default buildConfig({
     IIAServices,
     FrequentlyAskedQuestions,
     HalalDirectory,
+
     RoommatePosts, 
+
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),

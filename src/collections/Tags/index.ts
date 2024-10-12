@@ -4,6 +4,7 @@ export const Tags: CollectionConfig = {
   slug: 'tags',
   admin: {
     hidden:true,
+    useAsTitle:'title'
   },
   access: {
     read: () => true,

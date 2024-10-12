@@ -119,7 +119,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
        {
           switch (node.type) {
             case 'linebreak': {
-              return <br className="" key={index} />
+              return <div><br className="" key={index} /></div>
             }
             case 'paragraph': {
               return (

@@ -33,7 +33,11 @@ export interface Config {
     'iia-services': IiaService;
     faq: Faq;
     'halal-directory': HalalDirectory;
+<<<<<<< HEAD
     'roommate-posts': RoommatePost;
+=======
+    'payload-locked-documents': PayloadLockedDocument;
+>>>>>>> 5b507b9c7e3a436df0c683af3dc5b8dae08dfd32
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -262,7 +266,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  categories?: (number | null) | Category;
+  categories: number | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
   status?: ('draft' | 'published') | null;
@@ -281,7 +285,7 @@ export interface Post {
  */
 export interface Category {
   id: number;
-  title?: string | null;
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -448,6 +452,7 @@ export interface HalalDirectory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+<<<<<<< HEAD
  * via the `definition` "roommate-posts".
  */
 export interface RoommatePost {
@@ -457,6 +462,106 @@ export interface RoommatePost {
   location: string;
   contactEmail: string;
   status?: ('pending' | 'approved') | null;
+=======
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: number;
+  document?:
+    | ({
+        relationTo: 'execs';
+        value: number | Exec;
+      } | null)
+    | ({
+        relationTo: 'link';
+        value: number | Link;
+      } | null)
+    | ({
+        relationTo: 'Instagram';
+        value: number | Instagram;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: number | Resource;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'members';
+        value: number | Member;
+      } | null)
+    | ({
+        relationTo: 'Socials';
+        value: number | Social;
+      } | null)
+    | ({
+        relationTo: 'Products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'Posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'Sizes';
+        value: number | Size;
+      } | null)
+    | ({
+        relationTo: 'WeeklyEvents';
+        value: number | WeeklyEvent;
+      } | null)
+    | ({
+        relationTo: 'jummah-timings';
+        value: number | JummahTiming;
+      } | null)
+    | ({
+        relationTo: 'prayer-rooms';
+        value: number | PrayerRoom;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'email-collection';
+        value: number | EmailCollection;
+      } | null)
+    | ({
+        relationTo: 'distribution-list';
+        value: number | DistributionList;
+      } | null)
+    | ({
+        relationTo: 'individuals';
+        value: number | Individual;
+      } | null)
+    | ({
+        relationTo: 'iia-services';
+        value: number | IiaService;
+      } | null)
+    | ({
+        relationTo: 'faq';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'halal-directory';
+        value: number | HalalDirectory;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'execs';
+    value: number | Exec;
+  };
+>>>>>>> 5b507b9c7e3a436df0c683af3dc5b8dae08dfd32
   updatedAt: string;
   createdAt: string;
 }
