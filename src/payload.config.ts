@@ -1,16 +1,15 @@
 import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+// import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
-import sharp from "sharp";
-import { fileURLToPath } from "url";
+// import sharp from 'sharp'
 
-// Import collections and globals
+import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
-
 
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
@@ -37,18 +36,12 @@ import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
-<<<<<<< HEAD
-import { HalalDirectory } from "./collections/HalalFoodDirectory";
-import RoommatePosts from "./collections/RoommatePosts";
-
-// Function to generate the SEO title
 import sharp from "sharp";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
 
-// Get the current directory path
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -79,12 +72,11 @@ export default buildConfig({
     IIAServices,
     FrequentlyAskedQuestions,
     HalalDirectory,
-
-    RoommatePosts, 
-
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
+  // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
+
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
@@ -99,6 +91,7 @@ export default buildConfig({
       generateTitle,
       generateDescription: ({ doc }) => doc.description,
       uploadsCollection: "media",
+
       fieldOverrides: {
         description: {
           localized: true,
@@ -124,7 +117,8 @@ export default buildConfig({
       config: {
         credentials: {
           accessKeyId: process.env.S3_ACCESS_KEY_ID || "default_access_key_id",
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "default_secret_access_key",
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ||
+            "default_secret_access_key",
         },
         region: process.env.S3_REGION || "default_region",
         endpoint: process.env.S3_ENDPOINT || "default_endpoint",
@@ -136,6 +130,13 @@ export default buildConfig({
     defaultFromName: "WLU MSA",
     apiKey: process.env.RESEND_API_KEY || "",
   }),
+
+  // Sharp is now an optional dependency -
+  // if you want to resize images, crop, set focal point, etc.
+  // make sure to install it and pass it to the config.
+
+  // This is temporary - we may make an adapter pattern
+  // for this before reaching 3.0 stable
   secret: process.env.PAYLOAD_SECRET || "",
   sharp,
 });
