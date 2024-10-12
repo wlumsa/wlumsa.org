@@ -36,7 +36,7 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
-import RoommatePosts from "./collections/RoommatePosts"; // Import the new RoommatePosts collection
+import RoommatePosts from "./collections/RoommatePosts";
 
 // Function to generate the SEO title
 const generateTitle: GenerateTitle = () => {
@@ -74,7 +74,7 @@ export default buildConfig({
     IIAServices,
     FrequentlyAskedQuestions,
     HalalDirectory,
-    RoommatePosts, // Add the RoommatePosts collection here
+    RoommatePosts, 
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
