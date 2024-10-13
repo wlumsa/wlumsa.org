@@ -1,5 +1,7 @@
-// ./collections/RoommatePosts.ts
 import { CollectionConfig } from 'payload/types';
+import React, { FC } from 'react'; 
+
+const DescriptionField: FC<{ value: string }> = ({ value }) => <div>{value}</div>;
 
 const RoommatePosts: CollectionConfig = {
   slug: 'roommate-posts',
@@ -22,6 +24,11 @@ const RoommatePosts: CollectionConfig = {
       type: 'textarea',
       required: true,
       label: 'Description',
+      admin: {
+        components: {
+          Field: DescriptionField,
+        },
+      },
     },
     {
       name: 'location',
@@ -39,14 +46,8 @@ const RoommatePosts: CollectionConfig = {
       name: 'status',
       type: 'select',
       options: [
-        {
-          label: 'Pending',
-          value: 'pending',
-        },
-        {
-          label: 'Approved',
-          value: 'approved',
-        },
+        { label: 'Pending', value: 'pending' },
+        { label: 'Approved', value: 'approved' },
       ],
       defaultValue: 'pending',
       label: 'Status',

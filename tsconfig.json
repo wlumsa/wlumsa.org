@@ -14,7 +14,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve", // Use react-jsx to correctly parse JSX
@@ -27,6 +27,9 @@
       ],
       "@payload-config": [
         "./src/payload.config.ts"
+      ],
+      "payload/types": [
+        "./node_modules/payload/types"
       ]
     },
     "plugins": [
@@ -42,7 +45,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "node_modules/payload/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"
