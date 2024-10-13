@@ -3,12 +3,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import RoommateCard from "@/components/UI/RoommateCard";
+import { RoommateProfile } from "@/lib/types";
 
 /**
  * Renders the Roommate Service Page component.
  * @returns The rendered Roommate Service page component.
  */
-export default async function RoommateServicePage() {
+export default function RoommateServicePage() {
   const [profiles, setProfiles] = useState<RoommateProfile[]>([]);
   const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
   const [selectedGender, setSelectedGender] = useState("All");
@@ -16,12 +17,17 @@ export default async function RoommateServicePage() {
   const [selectedRent, setSelectedRent] = useState("All Ranges");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch roommate profiles from Supabase
+  // Options for dropdown filters
+  const genderOptions = ["All", "Male", "Female", "Other"];
+  const locationOptions = ["All Locations", "Downtown", "Suburb", "Campus"];
+  const rentOptions = ["All Ranges", "< $500", "$500 - $1000", "> $1000"];
+
+  // Fetch roommate profiles from Supabase on mount
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProfiles = async () => {
       try {
         const { data, error } = await supabase.from("roommates").select("*");
-        if (error) throw new Error(error.message);
+        if (error) throw error;
         setProfiles(data || []);
         const imageResults = await fetchImages(data || []);
         setImageUrls(imageResults);
@@ -29,7 +35,7 @@ export default async function RoommateServicePage() {
         console.error("Error fetching profiles:", error);
       }
     };
-    fetchData();
+    fetchProfiles();
   }, []);
 
   // Fetch images associated with profiles
@@ -45,7 +51,7 @@ export default async function RoommateServicePage() {
     return Object.assign({}, ...imageResults);
   };
 
-  // Memoized filtered profiles for performance
+  // Memoize filtered profiles for better performance
   const filteredProfiles = useMemo(() => {
     return profiles
       .filter((profile) => {
@@ -64,15 +70,16 @@ export default async function RoommateServicePage() {
         const matchesSearch = profile.name
           .toLowerCase()
           .includes(searchQuery.toLowerCase());
+
         return matchesGender && matchesLocation && matchesRent && matchesSearch;
       })
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [profiles, selectedGender, selectedLocation, selectedRent, searchQuery]);
 
   return (
-    <div className="flex-grow">
+    <div className="flex-grow px-4 py-10">
       {/* Header */}
-      <div className="text-center py-10">
+      <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-gray-800">
           Find Your Perfect Roommate
         </h1>
@@ -97,7 +104,7 @@ export default async function RoommateServicePage() {
         </div>
       </div>
 
-      {/* Profiles */}
+      {/* Roommate Profiles */}
       <div className="flex flex-wrap justify-center gap-6">
         {filteredProfiles.length > 0 ? (
           filteredProfiles.map((profile) => (
@@ -147,7 +154,7 @@ const renderDropdown = (
   </div>
 );
 
-// Fetch image by ID
+// Fetch image by ID from Supabase storage
 async function getImageByID(id: string) {
   try {
     const { data, error } = await supabase
@@ -156,6 +163,7 @@ async function getImageByID(id: string) {
       .eq("id", id)
       .single();
     if (error) throw error;
+
     const path = `media/${data?.filename}`;
     const { data: urlData } = supabase.storage
       .from(process.env.NEXT_PUBLIC_S3_BUCKET || "default_bucket")
