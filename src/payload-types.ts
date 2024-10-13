@@ -33,11 +33,7 @@ export interface Config {
     'iia-services': IiaService;
     faq: Faq;
     'halal-directory': HalalDirectory;
-<<<<<<< HEAD
-    'roommate-posts': RoommatePost;
-=======
     'payload-locked-documents': PayloadLockedDocument;
->>>>>>> 5b507b9c7e3a436df0c683af3dc5b8dae08dfd32
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -446,23 +442,11 @@ export interface HalalDirectory {
   googleMapsLink: string;
   website?: string | null;
   image?: (number | null) | Media;
-  campusLocation: 'on-campus' | 'off-campus';
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
-<<<<<<< HEAD
- * via the `definition` "roommate-posts".
- */
-export interface RoommatePost {
-  id: number;
-  title: string;
-  description: string;
-  location: string;
-  contactEmail: string;
-  status?: ('pending' | 'approved') | null;
-=======
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -561,7 +545,6 @@ export interface PayloadLockedDocument {
     relationTo: 'execs';
     value: number | Exec;
   };
->>>>>>> 5b507b9c7e3a436df0c683af3dc5b8dae08dfd32
   updatedAt: string;
   createdAt: string;
 }
