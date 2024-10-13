@@ -6,8 +6,7 @@ import RoommateCard from "@/components/UI/RoommateCard";
 import { RoommateProfile } from "@/lib/types";
 
 /**
- * Renders the Roommate Service Page component.
- * @returns The rendered Roommate Service page component.
+ * Roommate Service Page
  */
 export default function RoommateServicePage() {
   const [profiles, setProfiles] = useState<RoommateProfile[]>([]);
@@ -17,20 +16,20 @@ export default function RoommateServicePage() {
   const [selectedRent, setSelectedRent] = useState("All Ranges");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Options for dropdown filters
   const genderOptions = ["All", "Male", "Female", "Other"];
   const locationOptions = ["All Locations", "Downtown", "Suburb", "Campus"];
-  const rentOptions = ["All Ranges", "< $500", "$500 - $1000", "> $1000"];
+  const rentOptions = ["All Ranges", "< $500", "$500 - $700", "$700 - $900", "> $1000"];
 
-  // Fetch roommate profiles from Supabase on mount
+  // Fetch roommate profiles when the component mounts
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
         const { data, error } = await supabase.from("roommates").select("*");
         if (error) throw error;
-        setProfiles(data || []);
-        const imageResults = await fetchImages(data || []);
-        setImageUrls(imageResults);
+        if (data) setProfiles(data);
+
+        const images = await fetchImages(data || []);
+        setImageUrls(images);
       } catch (error) {
         console.error("Error fetching profiles:", error);
       }
@@ -38,34 +37,32 @@ export default function RoommateServicePage() {
     fetchProfiles();
   }, []);
 
-  // Fetch images associated with profiles
-  const fetchImages = async (data: RoommateProfile[]) => {
-    const imagePromises = data.map(async (profile) => {
+  // Fetch images by profile IDs
+  const fetchImages = async (profiles: RoommateProfile[]) => {
+    const imagePromises = profiles.map(async (profile) => {
       if (profile.image_id) {
         const image = await getImageByID(profile.image_id);
         return { [profile.image_id]: image?.publicUrl || "" };
       }
       return {};
     });
+
     const imageResults = await Promise.all(imagePromises);
     return Object.assign({}, ...imageResults);
   };
 
-  // Memoize filtered profiles for better performance
+  // Memoized filtered profiles for performance optimization
   const filteredProfiles = useMemo(() => {
     return profiles
       .filter((profile) => {
-        const matchesGender =
-          selectedGender === "All" || profile.gender === selectedGender;
+        const matchesGender = selectedGender === "All" || profile.gender === selectedGender;
         const matchesLocation =
-          selectedLocation === "All Locations" ||
-          profile.location === selectedLocation;
+          selectedLocation === "All Locations" || profile.location === selectedLocation;
         const matchesRent =
           selectedRent === "All Ranges" ||
           (selectedRent === "< $500" && profile.rent < 500) ||
-          (selectedRent === "$500 - $1000" &&
-            profile.rent >= 500 &&
-            profile.rent <= 1000) ||
+          (selectedRent === "$500 - $700" && profile.rent >= 500 && profile.rent <= 700) ||
+          (selectedRent === "$700 - $900" && profile.rent > 700 && profile.rent <= 900) ||
           (selectedRent === "> $1000" && profile.rent > 1000);
         const matchesSearch = profile.name
           .toLowerCase()
@@ -78,14 +75,10 @@ export default function RoommateServicePage() {
 
   return (
     <div className="flex-grow px-4 py-10">
-      {/* Header */}
+      {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">
-          Find Your Perfect Roommate
-        </h1>
-        <p className="text-gray-600 mt-2">
-          {filteredProfiles.length} roommates available
-        </p>
+        <h1 className="text-4xl font-bold text-gray-800">Find Your Perfect Roommate</h1>
+        <p className="text-gray-600 mt-2">{filteredProfiles.length} roommates available</p>
       </div>
 
       {/* Filters */}
@@ -111,7 +104,9 @@ export default function RoommateServicePage() {
             <RoommateCard key={profile.id} profile={profile} imageUrls={imageUrls} />
           ))
         ) : (
-          <p className="text-gray-600">No roommates found matching your criteria.</p>
+          <p className="text-gray-600">
+            No roommates found matching your criteria. Try expanding your filters! 🤷‍♂️
+          </p>
         )}
       </div>
 
