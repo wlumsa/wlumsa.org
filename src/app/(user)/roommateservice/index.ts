@@ -1,5 +1,5 @@
 "use client";
-
+import React from 'react';
 import React, { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import RoommateCard from "@/components/UI/RoommateCard";

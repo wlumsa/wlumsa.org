@@ -9,19 +9,22 @@ import { unstable_cache } from "next/cache";
 export async function fetchRoommateProfiles() {
   const { data, error } = await supabase
     .from("roommates")
-    .select("id, name, gender, location, rent, image_id");
+    .select("*");
 
   if (error) {
     console.error("Error fetching roommate profiles:", error);
     return [];
   }
 
-  console.log("Roommate profiles:", data);
-  return data || [];
+  return data;
 }
 
-/** Fetch a specific roommate profile by ID. */
-export async function fetchRoommateById(id: string) {
+/** 
+ * Fetch a roommate profile by ID. 
+ * @param {number} id - The ID of the roommate.
+ * @returns {Promise<any | null>} The roommate profile or null if not found.
+ */
+export async function fetchRoommateById(id: number) {
   const { data, error } = await supabase
     .from("roommates")
     .select("*")
@@ -36,8 +39,12 @@ export async function fetchRoommateById(id: string) {
   return data;
 }
 
-/** Get a public URL for a roommate's image from Supabase storage. */
-export async function getRoommateImageURL(imageId: string) {
+/** 
+ * Get the public URL for a roommate's image from Supabase storage.
+ * @param {string} imageId - The ID of the image in storage.
+ * @returns {Promise<string>} Public URL of the image.
+ */
+export async function getRoommateImageURL(imageId: string): Promise<string> {
   const { data } = supabase.storage
     .from(process.env.S3_BUCKET || "default_bucket")
     .getPublicUrl(`photos/${imageId}`);
@@ -45,7 +52,15 @@ export async function getRoommateImageURL(imageId: string) {
   return data?.publicUrl || "";
 }
 
-/** Add a new roommate profile. */
+/** 
+ * Add a new roommate profile to the 'roommates' table. 
+ * @param {string} name - Name of the roommate.
+ * @param {string} gender - Gender of the roommate (e.g., Male, Female, Other).
+ * @param {string} location - Location (e.g., Downtown, Campus).
+ * @param {number} rent - Monthly rent.
+ * @param {string} [imageId] - Optional image ID.
+ * @returns {Promise<any | null>} The newly added profile or null on error.
+ */
 export async function addRoommateProfile(
   name: string,
   gender: string,
@@ -58,17 +73,21 @@ export async function addRoommateProfile(
     .insert([{ name, gender, location, rent, image_id: imageId }]);
 
   if (error) {
-    console.error("Error adding new roommate profile:", error);
+    console.error("Error adding roommate profile:", error);
     return null;
   }
 
-  console.log("New roommate profile added:", data);
   return data;
 }
 
-/** Update a roommate profile by ID. */
+/** 
+ * Update an existing roommate profile by ID. 
+ * @param {number} id - The ID of the roommate profile to update.
+ * @param {Partial<{name: string; gender: string; location: string; rent: number; image_id: string}>} updatedData - Fields to update.
+ * @returns {Promise<any | null>} The updated profile or null on error.
+ */
 export async function updateRoommateProfile(
-  id: string,
+  id: number,
   updatedData: Partial<{
     name: string;
     gender: string;
@@ -87,12 +106,15 @@ export async function updateRoommateProfile(
     return null;
   }
 
-  console.log(`Roommate profile with ID ${id} updated:`, data);
   return data;
 }
 
-/** Delete a roommate profile from the 'roommates' table. */
-export async function deleteRoommateProfile(id: string) {
+/** 
+ * Delete a roommate profile by ID. 
+ * @param {number} id - The ID of the roommate profile to delete.
+ * @returns {Promise<any | null>} The deleted profile data or null on error.
+ */
+export async function deleteRoommateProfile(id: number) {
   const { data, error } = await supabase
     .from("roommates")
     .delete()
