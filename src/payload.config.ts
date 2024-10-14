@@ -1,4 +1,4 @@
-import { stripePlugin } from '@payloadcms/plugin-stripe';
+import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
@@ -10,8 +10,6 @@ import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
-
-
 
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
@@ -39,8 +37,7 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
-
-
+import { HalalDirectory } from "./collections/HalalFoodDirectory";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -73,7 +70,8 @@ export default buildConfig({
     DistributionList,
     individuals,
     IIAServices,
-    FrequentlyAskedQuestions
+    FrequentlyAskedQuestions,
+    HalalDirectory,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -130,7 +128,7 @@ export default buildConfig({
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",
     defaultFromName: "WLU MSA",
-    apiKey:  process.env.RESEND_API_KEY || "",
+    apiKey: process.env.RESEND_API_KEY || "",
   }),
 
   // Sharp is now an optional dependency -

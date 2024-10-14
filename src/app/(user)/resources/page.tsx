@@ -20,7 +20,7 @@ export default async function ResourcesPage({
   const categories: Category[] = [
     {
       id: "1",
-      title: "Event Forms"
+      title: "General Forms"
     },
     {
       id: "2",
@@ -47,7 +47,7 @@ export default async function ResourcesPage({
 
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center h-screen">
         <div className=""></div>
-        <ButtonGroup categories={categories} />
+        <ButtonGroup categories={categories} type="resources"  />
 
         <div className="container space-y-4   py-4">
           {resourcesData?.link?.map((item, index) => (
