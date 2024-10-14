@@ -28,11 +28,11 @@ const Service: React.FC<ServicesProps> = ({ services }) => {
                 key={index}
               />
             </div>
-            <div className="max-w-md px-8 lg:max-w-xl flex-grow">
+            <div className="max-w-md md:px-8 lg:max-w-xl flex-grow">
               <h3 className="pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0" key={index}>
                 {service.name}
               </h3>
-              <p className="py-6 text-neutral " key={index}>{service.caption}</p>
+              <p className="py-6 text-neutral text-center" key={index}>{service.caption}</p>
               
             </div>
           </div>
