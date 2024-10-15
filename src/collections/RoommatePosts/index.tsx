@@ -1,7 +1,9 @@
-import { CollectionConfig } from 'payload/types';
-import React, { FC } from 'react'; 
+import { CollectionConfig } from 'payload';
+import React from 'react';
 
-const DescriptionField: FC<{ value: string }> = ({ value }) => <div>{value}</div>;
+const DescriptionField: React.FC<{ value?: string }> = ({ value }) => (
+  <div>{value || 'No description provided'}</div>
+);
 
 const RoommatePosts: CollectionConfig = {
   slug: 'roommate-posts',
