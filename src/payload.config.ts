@@ -1,4 +1,4 @@
-import { stripePlugin } from '@payloadcms/plugin-stripe';
+import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
@@ -11,8 +11,6 @@ import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
 
-
-
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
@@ -23,7 +21,6 @@ import Members from "./collections/Newsletter/Members";
 import Socials from "./collections/UI/Socials";
 import Products from "./collections/Products";
 import { Posts } from "./collections/Blog";
-import HalalFoodDirectory from "./collections/HalalFoodDirectory"; 
 import { Categories } from "./collections/Categories";
 import { Tags } from "./collections/Tags";
 import { resendAdapter } from "@payloadcms/email-resend";
@@ -40,16 +37,13 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
-
-
+import { HalalDirectory } from "./collections/HalalFoodDirectory";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
-
-
 
 export default buildConfig({
   admin: {
@@ -74,10 +68,10 @@ export default buildConfig({
     Services,
     EmailCollection,
     DistributionList,
-    HalalFoodDirectory,
     individuals,
     IIAServices,
-    FrequentlyAskedQuestions
+    FrequentlyAskedQuestions,
+    HalalDirectory,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -134,7 +128,7 @@ export default buildConfig({
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",
     defaultFromName: "WLU MSA",
-    apiKey:  process.env.RESEND_API_KEY || "",
+    apiKey: process.env.RESEND_API_KEY || "",
   }),
 
   // Sharp is now an optional dependency -

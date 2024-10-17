@@ -29,10 +29,11 @@ export interface Config {
     services: Service;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
-    'halal-directory': HalalDirectory;
     individuals: Individual;
     'iia-services': IiaService;
     faq: Faq;
+    'halal-directory': HalalDirectory;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -261,7 +262,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  categories?: (number | null) | Category;
+  categories: number | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
   status?: ('draft' | 'published') | null;
@@ -280,7 +281,7 @@ export interface Post {
  */
 export interface Category {
   id: number;
-  title?: string | null;
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -393,6 +394,29 @@ export interface Individual {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iia-services".
+ */
+export interface IiaService {
+  id: number;
+  name: string;
+  caption: string;
+  image: (number | Media)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  Question: string;
+  Answer: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "halal-directory".
  */
 export interface HalalDirectory {
@@ -424,24 +448,104 @@ export interface HalalDirectory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "iia-services".
+ * via the `definition` "payload-locked-documents".
  */
-export interface IiaService {
+export interface PayloadLockedDocument {
   id: number;
-  name: string;
-  caption: string;
-  image: (number | Media)[];
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq".
- */
-export interface Faq {
-  id: number;
-  Question: string;
-  Answer: string;
+  document?:
+    | ({
+        relationTo: 'execs';
+        value: number | Exec;
+      } | null)
+    | ({
+        relationTo: 'link';
+        value: number | Link;
+      } | null)
+    | ({
+        relationTo: 'Instagram';
+        value: number | Instagram;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: number | Resource;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'members';
+        value: number | Member;
+      } | null)
+    | ({
+        relationTo: 'Socials';
+        value: number | Social;
+      } | null)
+    | ({
+        relationTo: 'Products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'Posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'Sizes';
+        value: number | Size;
+      } | null)
+    | ({
+        relationTo: 'WeeklyEvents';
+        value: number | WeeklyEvent;
+      } | null)
+    | ({
+        relationTo: 'jummah-timings';
+        value: number | JummahTiming;
+      } | null)
+    | ({
+        relationTo: 'prayer-rooms';
+        value: number | PrayerRoom;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'email-collection';
+        value: number | EmailCollection;
+      } | null)
+    | ({
+        relationTo: 'distribution-list';
+        value: number | DistributionList;
+      } | null)
+    | ({
+        relationTo: 'individuals';
+        value: number | Individual;
+      } | null)
+    | ({
+        relationTo: 'iia-services';
+        value: number | IiaService;
+      } | null)
+    | ({
+        relationTo: 'faq';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'halal-directory';
+        value: number | HalalDirectory;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'execs';
+    value: number | Exec;
+  };
   updatedAt: string;
   createdAt: string;
 }

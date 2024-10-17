@@ -16,37 +16,37 @@ export const HalalDirectory: CollectionConfig = {
     },
     // Category field with predefined options
     {
-      name: 'category',
-      type: 'select',
+      name: "category",
+      type: "select",
       options: [
-        { label: 'Chinese', value: 'chinese' },
-        { label: 'Persian', value: 'persian' },
-        { label: 'Shawarma', value: 'shawarma' },
-        { label: 'Burgers', value: 'burgers' },
-        { label: 'Bangladeshi', value: 'bangladeshi' },
-        { label: 'Chinese Indo Fusion', value: 'chinese-indo-fusion' },
-        { label: 'Pakistani Food', value: 'pakistani-food' },
-        { label: 'Chicken and Waffles', value: 'chicken-and-waffles' },
-        { label: 'Kabob', value: 'kabob' },
-        { label: 'Uyghur', value: 'uyghur' },
-        { label: 'Chicken', value: 'chicken' },
-        { label: 'Indian Fusion Food', value: 'indian-fusion-food' },
-        { label: 'Pizza', value: 'pizza' }
+        { label: "Chinese", value: "chinese" },
+        { label: "Persian", value: "persian" },
+        { label: "Shawarma", value: "shawarma" },
+        { label: "Burgers", value: "burgers" },
+        { label: "Bangladeshi", value: "bangladeshi" },
+        { label: "Chinese Indo Fusion", value: "chinese-indo-fusion" },
+        { label: "Pakistani Food", value: "pakistani-food" },
+        { label: "Chicken and Waffles", value: "chicken-and-waffles" },
+        { label: "Kabob", value: "kabob" },
+        { label: "Uyghur", value: "uyghur" },
+        { label: "Chicken", value: "chicken" },
+        { label: "Indian Fusion Food", value: "indian-fusion-food" },
+        { label: "Pizza", value: "pizza" },
       ],
       required: true, // This field is mandatory
       label: 'Category',
     },
     // Slaughter method field with select options
     {
-      name: 'slaughtered',
-      type: 'select',
+      name: "slaughtered",
+      type: "select",
       options: [
         { label: 'Hand', value: 'hand' },
         { label: 'Machine', value: 'machine' },
         { label: 'Both', value: 'both' },
         { label: 'N/A', value: 'n/a' }
       ],
-      label: 'Slaughter',
+      label: "Slaughter",
     },
     // Short description field for additional details
     {
@@ -93,4 +93,3 @@ export const HalalDirectory: CollectionConfig = {
   ],
 };
 
-export default HalalDirectory;

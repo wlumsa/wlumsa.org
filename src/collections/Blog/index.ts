@@ -14,9 +14,9 @@ export const Posts: CollectionConfig = {
   admin: {
 
     group: "Marketing",
-    livePreview: {
-      url: 'http://localhost:3000', 
-    },
+   /*  livePreview: {
+      url: 'www.wlumsa.org/blog', 
+    }, */
   },
  
 
@@ -48,6 +48,7 @@ export const Posts: CollectionConfig = {
     {
       name: "categories",
       type: "relationship",
+      required: true,
       relationTo: "categories",
       hasMany: false,
       admin: {

@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Post } from "@/payload-types";
 import { format } from 'date-fns';
+import { Categories } from "@/collections/Categories";
 
 /**
  * Represents a blog card component.
@@ -36,7 +37,10 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
           <p>{formattedDate}</p>
         </div>
         <div>
-          {post?.tags?.map((item, index) => {
+        <div className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
+                  {typeof post?.categories === 'object' ? post?.categories?.title: ""}
+                </div>
+          {/* {post?.categories?.map((item, index) => {
             if (typeof item === 'object' && item != null) {
               return (
                 <div key={index} className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
@@ -45,7 +49,7 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
               );
             }
             return null;
-          })}
+          })} */}
 
         </div>
         <h2 className="card-title  text-primary">{post.title}</h2>
