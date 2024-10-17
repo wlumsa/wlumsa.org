@@ -39,14 +39,14 @@ export async function POST(request: NextRequest, { params }: { params: { title: 
                 unsubscribed: false
             })
         }
-        if (!isMemberRes) {
-            await resend.emails.send({
-                from: `WLUMSA <admin@wlumsa.org>`,
-                to: email,
-                subject: "Here is a free gift!",
-                react: WelcomeEmail({ firstName: first_name, content: "" }),
-            });
-        }
+        // if (!isMemberRes) {
+        //     await resend.emails.send({
+        //         from: `WLUMSA <admin@wlumsa.org>`,
+        //         to: email,
+        //         subject: "Here is a free gift!",
+        //         react: WelcomeEmail({ firstName: first_name, content: "" }),
+        //     });
+        // }
 
         return NextResponse.json({ message: 'Webhook received successfully' }, { status: 200 })
     } catch (error) {
