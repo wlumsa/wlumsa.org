@@ -1,10 +1,9 @@
 import React from "react";
-import { fetchBlogPostById, fetchBlogPostByTitle, fetchBlogPostsByCategory } from "@/Utils/datafetcher";
+import { fetchBlogPostById, fetchBlogPostByTitle } from "@/Utils/datafetcher";
 import RichText from "@/Utils/RichText";
 import { format } from 'date-fns';
 import Head from "next/head";
 import { Metadata } from "next";
-import BlogCard from "@/components/UI/BlogCard";
 
 
 export default async function BlogPost({
@@ -17,11 +16,9 @@ export default async function BlogPost({
   const id = decodeURIComponent(params.post)
   const res = await fetchBlogPostById(id);
 
+
   console.log(res)
   const post = res[0]
-  //console.log(post?.categories?.title)
-//const relatedPosts = await fetchBlogPostsByCategory(  typeof post?.categories === 'number' ? post.categories.id.toString() : '1', , typeof post === 'object' ? post.id : '1');
-//console.log(categories)
 
   const image = post?.header_image?.map((item) => {
     if (typeof item === 'object' && item !== null) {
@@ -31,9 +28,8 @@ export default async function BlogPost({
   });
 
   const content = post?.content || [];
-  const date = post?.createdAt ? new Date(post?.createdAt) : null;
-  const formattedDate = date ? format(date, 'MMMM dd, yyyy'): null;
-
+  const date = new Date(post?.createdAt || "")
+  const formattedDate = format(date, 'MMMM dd, yyyy');
   const title = post?.meta?.title;
   const description = post?.meta?.description || "";
 
@@ -42,20 +38,20 @@ export default async function BlogPost({
   return (
 
     <div className="mt-28">
-      <div className="mx-auto md:max-w-screen-lg p-4 ">
+      <div className="mx-auto max-w-screen-lg">
         <main className="mt-10 flex flex-col justify-center items-center text-gray-700">
           <div className="relative mx-auto mb-4 md:mb-0">
             <div className="px-4 lg:px-0">
-              <h2 className=" my-6 text-4xl font-bold leading-tight text-primary text-center  ">
+              <h2 className=" text-left my-6 text-4xl font-bold leading-tight text-primary  ">
                 {post?.title} </h2>
-              <div className="flex text-lg text-center ">
-                <p className="text-center">
-                   {formattedDate ? formattedDate: ""}
+              <div className="flexjustify-start text-lg">
+                <p className="">
+                  Published - {formattedDate}
                 </p>
               </div>
               <div>
                 {post?.authors?.map((author, index) => (
-                  <p  className = "text-lg" key={index}>{typeof author === 'object' ? `   Written by ${author.name}` : ''}
+                  <p  className = "text-lg" key={index}>{typeof author === 'object' ? `   Author - ${author.name}` : ''}
                   </p>))}
               </div>
               <p className="flex mb-2 py-2 text-gray-700 text-lg">
@@ -79,20 +75,6 @@ export default async function BlogPost({
               </div>
             </div>
           </div>
-          {/* UNCOMMENT RELATED POSTS HERE WHEN WE HAVE CONTENT */}
-         {/*  <div>
-            <h2 className="text-4xl font-bold text-primary py-8">Related Posts</h2>
-          </div>
-          <div className="flex justify-center">
-            
-        <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
-          
-         {relatedPosts.map((relatedPost) => (
-              <BlogCard key={relatedPost.id} post={relatedPost} />
-            ))}
-           
-        </div>
-      </div>  */}
         </main>
       </div>
     </div>
