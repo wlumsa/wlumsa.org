@@ -178,7 +178,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"description" varchar,
   	"content" jsonb,
-  	"categories_id" integer,
+  	"categories_id" integer NOT NULL,
   	"status" "enum_posts_status" DEFAULT 'draft',
   	"published_at" timestamp(3) with time zone,
   	"meta_title" varchar,
@@ -200,7 +200,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE IF NOT EXISTS "categories" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar,
+  	"title" varchar NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
@@ -348,6 +348,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"google_maps_link" varchar NOT NULL,
   	"website" varchar,
   	"image_id" integer,
+  	"is_on_campus" boolean DEFAULT false NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );

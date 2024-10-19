@@ -152,8 +152,8 @@ export default function HalalDirectoryPage() {
             className="border border-gray-300 rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-purple-500 transition"
           >
             <option value="All Locations">All Locations</option>
-            <option value="on-campus">On Campus</option>
-            <option value="off-campus">Off Campus</option>
+            <option value="TRUE">On Campus</option>
+            <option value="FALSE">Off Campus</option>
           </select>
         </div>
       </div>

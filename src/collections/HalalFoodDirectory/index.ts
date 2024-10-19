@@ -84,7 +84,7 @@ export const HalalDirectory: CollectionConfig = {
     },
     // Campus location field to specify whether the restaurant is on or off-campus
     {
-      name:"on_campus",
+      name:"is_on_campus",
       label:"On Campus?",
       type:"checkbox",
       defaultValue: false,
