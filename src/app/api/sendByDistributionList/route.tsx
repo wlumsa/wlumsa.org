@@ -1,5 +1,6 @@
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
 import Newsletter from 'emails/general';
+import CharityWeek from 'emails/charity_week';
 import { Individual } from '@/payload-types';
 import { resend } from '@/Utils/resend';
 import { getPublicURL } from '@/Utils/datafetcher';
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        react: Newsletter({ firstName: user.firstName, content: content_html }),
+        react: CharityWeek({ firstName: user.firstName, content: content_html }),
       }));
       
       console.log(batch);
