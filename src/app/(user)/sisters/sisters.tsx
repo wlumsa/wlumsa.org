@@ -19,16 +19,32 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#f9f9f9',
+    padding: '20px',
+    textAlign: 'center' as const,
+    animation: 'fadeIn 1s ease-in-out',
   },
   header: {
     color: '#d23669',
-    fontSize: '2rem',
-    marginBottom: '1rem',
+    fontSize: '3rem',
+    fontWeight: 'bold' as const,
+    marginBottom: '1.5rem',
+    animation: 'slideDown 0.5s ease-in-out',
   },
   text: {
-    fontSize: '1.25rem',
-    color: '#333',
+    fontSize: '1.5rem',
+    color: '#444',
+    maxWidth: '600px',
+    lineHeight: '1.6',
+    animation: 'fadeIn 1.5s ease-in-out',
+  },
+  '@keyframes fadeIn': {
+    '0%': { opacity: 0 },
+    '100%': { opacity: 1 },
+  },
+  '@keyframes slideDown': {
+    '0%': { transform: 'translateY(-20px)', opacity: 0 },
+    '100%': { transform: 'translateY(0)', opacity: 1 },
   },
 };
 
