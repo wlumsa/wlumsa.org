@@ -1,19 +1,13 @@
-import { CollectionConfig } from 'payload';
+import { Field } from 'payload/types'; // Import Field type
 import React from 'react';
+/**import { FieldTypeProps } from 'payload/dist/admin/components/forms';
 
-const DescriptionField: React.FC<{ value?: string }> = ({ value }) => (
-  <div>{value || 'No description provided'}</div>
+const DescriptionField: React.FC<FieldTypeProps> = ({ value }) => (
+  <div>{value?.toString().trim() || 'No description provided'}</div>
 );
 
-const RoommatePosts: CollectionConfig = {
-  slug: 'roommate-posts',
-  labels: {
-    singular: 'Roommate Post',
-    plural: 'Roommate Posts',
-  },
-  admin: {
-    useAsTitle: 'title',
-  },
+const RoommatePosts: Field = {
+  name: 'roommate-posts',
   fields: [
     {
       name: 'title',
@@ -27,11 +21,12 @@ const RoommatePosts: CollectionConfig = {
       required: true,
       label: 'Description',
       admin: {
+        description: 'Provide a detailed description about the roommate post',
         components: {
-          Field: DescriptionField,
+          Field: DescriptionField, // Attach custom field component
         },
       },
-    },
+    },**/
     {
       name: 'location',
       type: 'text',
