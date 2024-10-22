@@ -166,34 +166,34 @@ export default function HalalDirectoryPage() {
             filterData().map((item) => (
               <div key={item.id} className="bg-white mb-6 shadow-lg rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 hover:shadow-xl transition-shadow duration-300">
                 {/* Image Section */}
-                <div className="w-full sm:w-32 h-32 bg-gray-200 flex items-center justify-center rounded-lg overflow-hidden">
+                <div className="w-full sm:w-32 h-36 bg-gray-200 flex items-center justify-center rounded-lg overflow-hidden">
                   {item.image_id && imageUrls[item.image_id] ? (
-                    <img src={imageUrls[item.image_id]} alt={item.name} className="w-full h-full object-cover" />
+                    <img src={imageUrls[item.image_id]} alt={item.name}  className="w-full h-full object-cover" />
                   ) : (
                     <p className="text-gray-500">No Image</p>
                   )}
                 </div>
 
                 {/* Restaurant Details Section */}
-                <div className="flex-grow">
+                <div className="flex flex-col w-3/4 ">
                   <h2 className="text-lg sm:text-xl font-bold text-primary mb-1">{item.name}</h2>
                   <p className="text-gray-600 mb-2 text-sm sm:text-md">{item.short_description}</p>
-                  <p className="text-gray-500 text-sm"><strong>Category:</strong> {item.category}</p>
-                  <p className="text-gray-500 text-sm"><strong>Slaughter Method:</strong> {item.slaughtered}</p>
+                  <p className="text-gray-500 text-sm capitalize"><strong>Category:</strong> {item.category}</p>
+                  <p className="text-gray-500 text-sm capitalize"><strong>Slaughter Method:</strong> {item.slaughtered}</p>
                   <p className="text-gray-500 text-sm"><strong>Location:</strong> {item.location}</p>
                   <a href={item.google_maps_link} target="_blank" className="text-blue-600 hover:underline text-sm">View on Google Maps</a>
                 </div>
 
                 {/* Optional Booking Button */}
                 {item.website && (
-                  <a
-                    href={item.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white bg-purple-600 hover:bg-purple-700 transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold"
-                  >
-                    Book Now
-                  </a>
+                 <button className="text-white bg-purple-600 hover:bg-purple-700 transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold"> 
+                    <a
+                      href={item.website}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      Book Now
+                    </a>
+                  </button>
                 )}
               </div>
             ))
