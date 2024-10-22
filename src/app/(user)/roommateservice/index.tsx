@@ -18,24 +18,33 @@ interface RoommateProfile {
 const RoommateServicePage: React.FC = () => {
   const [profiles, setProfiles] = useState<RoommateProfile[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
 
-  useEffect(() => {
-    const fetchProfiles = async () => {
+  const fetchProfiles = async () => {
+    try {
       const { data, error } = await supabase.from("roommate_posts").select("*");
 
       if (error) {
-        console.error("Error fetching profiles:", error);
-      } else {
-        console.log("Fetched profiles:", data); // Verify the fetched data
-        setProfiles(data || []);
+        throw new Error("Error fetching profiles");
       }
-      setLoading(false); // Stop loading
-    };
 
+      console.log("Fetched profiles:", data); // Verify the fetched data
+      setProfiles(data || []);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch roommate profiles. Please try again later.");
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  useEffect(() => {
     fetchProfiles();
   }, []);
 
   if (loading) return <p>Loading profiles...</p>; // Loading indicator
+
+  if (error) return <p>{error}</p>; // Display error message
 
   return (
     <div className="flex flex-wrap justify-center gap-6 p-6">
