@@ -5,19 +5,18 @@ import { format } from 'date-fns';
 import Head from "next/head";
 import { Metadata } from "next";
 
+type Params = Promise<{ slug: string }>
 
-export default async function BlogPost({
-  params,
-}: {
-  params: { post: string };
+
+export default async function BlogPost(props: {
+  params: Params
 }) {
-
-  // const id = params.post
-  const id = decodeURIComponent(params.post)
+  const params = await props.params
+  const slug = params.slug
+  const id = decodeURIComponent(slug)
   const res = await fetchBlogPostById(id);
 
 
-  console.log(res)
   const post = res[0]
 
   const image = post?.header_image?.map((item) => {
@@ -70,7 +69,7 @@ export default async function BlogPost({
 
           <div className="flex flex-col lg:flex-row lg:space-x-12 items-center justify-center min-h-screen">
             <div className="mt-12 w-full px-4 text-lg leading-loose  lg:w-3/4 lg:px-0 mx-auto">
-              <div key={0} className="  mb-10 items-center">
+              <div key={0} className="mb-10 items-center">
                 <RichText content={content} />
               </div>
             </div>
@@ -80,32 +79,4 @@ export default async function BlogPost({
     </div>
 
   );
-}
-export async function generateMetadata({
-  params,
-}: {
-  params: { post: string };
-}): Promise<Metadata> {
-  // const { isEnabled: isDraftMode } = draftMode()
-
-  const id = decodeURIComponent(params.post)
-  const res = await fetchBlogPostById(id);
-  const post = res[0]
-
-  return {
-    title: post?.meta?.title,
-    description: post?.meta?.description,
-    openGraph: {
-      title: post?.meta?.title || "WLU MSA ",
-      description: post?.meta?.description || "Blog post",
-      // images: [post.header_image],
-      type: "article",
-      locale: "en_US",
-      //  publishedTime: ,
-      //     authors: post?.authors ,
-      siteName: "WLU MSA",
-      //image
-      //url
-    },
-  }
 }

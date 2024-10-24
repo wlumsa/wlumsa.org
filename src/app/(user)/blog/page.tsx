@@ -9,17 +9,20 @@ import ButtonGroup from "@/components/UI/ButtonGroup";
  * Renders the Blog component.
  * Fetches blog data and displays a list of blog cards.
  * @returns The rendered Blog component.
+ * 
  */
-export default async function Blog({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    category?:string;
-  };
+
+type Params = Promise<{ slug: string }>
+type SearchParams = Promise<{ [key: string]: string  | undefined }>
+
+export default async function Page(props: {
+  params: Params
+  searchParams: SearchParams
 }) {
-  const query = searchParams?.query || '';
+  const params = await props.params
+  const searchParams = await props.searchParams
+  const slug = params.slug
+  const query = searchParams.query || '';
   const categoryId = searchParams?.category || '1';
   interface Category {
     id: string,
