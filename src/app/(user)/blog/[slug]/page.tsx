@@ -69,11 +69,12 @@ export default async function BlogPost(props: {
 
           <div className="flex flex-col lg:flex-row lg:space-x-12 items-center justify-center min-h-screen">
             <div className="mt-12 w-full px-4 text-lg leading-loose  lg:w-3/4 lg:px-0 mx-auto">
-              <div key={0} className="mb-10 items-center">
-                <RichText content={content} />
+              <div className="mb-10 items-center">
+                <RichText content={content} className="mt-4" />
               </div>
             </div>
           </div>
+          
         </main>
       </div>
     </div>

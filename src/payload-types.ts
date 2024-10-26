@@ -247,7 +247,7 @@ export interface Post {
   title?: string | null;
   description?: string | null;
   header_image?: (number | Media)[] | null;
-  content?: {
+  content: {
     root: {
       type: string;
       children: {
@@ -261,7 +261,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
+  };
   categories: number | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
