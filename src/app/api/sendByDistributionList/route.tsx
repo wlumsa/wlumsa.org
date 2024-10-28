@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         from: 'admin@wlumsa.org',
         to: [user.email],
         subject: subject,
-        react: CharityWeek({ firstName: user.firstName, content: content_html }),
+        react: Newsletter({ firstName: user.firstName, content: content_html }),
       }));
       
       console.log(batch);
