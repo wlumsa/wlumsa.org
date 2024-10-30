@@ -5,6 +5,8 @@ import { getPayloadHMR } from "@payloadcms/next/utilities";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
+export const revalidate = 3600;
+
 
 export async function getPublicURL(
   folder: string | null | undefined,
