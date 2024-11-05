@@ -144,21 +144,21 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               </blockquote>
             )
           }
-          // case 'link': {
-          //   const fields = node.fields
+           case 'link': {
+            const fields = node.fields
 
-          //   return (
-          //     <CMSLink
-          //       key={index}
-          //       newTab={Boolean(fields?.newTab)}
-          //       reference={fields.doc as any}
-          //       type={fields.linkType === 'internal' ? 'reference' : 'custom'}
-          //       url={fields.url}
-          //     >
-          //       {serializedChildren}
-          //     </CMSLink>
-          //   )
-          // }
+            return (
+              <a
+                key={index}
+                target="_blank" 
+                rel="noopener noreferrer"
+                href={fields.url}
+                className='text-primary hover:text-secondary'
+              >
+                {serializedChildren}
+              </a>
+            )
+          }
 
           default:
             return null
