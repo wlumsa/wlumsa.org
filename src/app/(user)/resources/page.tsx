@@ -53,7 +53,7 @@ export default async function Page(props: {
 
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center h-screen">
         <div className=""></div>
-        <ButtonGroup categories={categories} type="resources"  />
+        <ButtonGroup categories={categories}   />
 
         <div className="container space-y-4   py-4">
           {resourcesData?.link?.map((item, index) => (
