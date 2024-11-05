@@ -23,6 +23,7 @@ type Props = {
 export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
     <Fragment>
+      <div style={{ lineHeight: '2.0' }}>
       {nodes?.map((node, index): JSX.Element | null => {
         if (node == null) {
           return null
@@ -62,6 +63,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
 
           return text
         }
+       
 
         // NOTE: Hacky fix for
         // https://github.com/facebook/lexical/blob/d10c4e6e55261b2fdd7d1845aed46151d0f06a8c/packages/lexical-list/src/LexicalListItemNode.ts#L133
@@ -165,6 +167,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
         }
 
       })}
+       </div>
     </Fragment>
   )
 }

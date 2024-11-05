@@ -60,15 +60,15 @@ export default async function BlogPost(props: {
             <div className="flex justify-center items-center ">
               <img
                 src={image?.toString()}
-                className="object-cover lg:rounded "
-                style={{ height: "26em", width: "48em" }}
+                className="object-fit lg:rounded "
+                style={{ height: "26em", width: "42em" }}
               />
             </div>
 
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:space-x-12 items-center justify-center min-h-screen">
-            <div className="mt-12 w-full px-4 text-lg leading-loose  lg:w-3/4 lg:px-0 mx-auto">
+          <div className="flex flex-col lg:flex-row lg:space-x-14 items-center justify-center min-h-screen">
+            <div className="mt-12 w-full px-4 text-lg  lg:w-[70%] lg:px-0 mx-auto">
               <div className="mb-10 items-center">
                 <RichText content={content} className="mt-4" />
               </div>
