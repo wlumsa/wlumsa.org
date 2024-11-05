@@ -23,7 +23,7 @@ export default async function Page(props: {
   const searchParams = await props.searchParams
   const slug = params.slug
   const query = searchParams.query || '';
-  const categoryId = searchParams?.category || '1';
+  const categoryId = searchParams?.category || '0';
   interface Category {
     id: string,
     title: string

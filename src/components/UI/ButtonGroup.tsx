@@ -24,7 +24,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
         replace(`${pathname}?${params.toString()}`);
     };
     const getAllPosts = () => {
-        setSelectBtn({ title: 'All', id: '0' });
+      //  setSelectBtn({ title: 'All', id: '0' });
         const params = new URLSearchParams(searchParams);
         //params.set('');
         replace(`${pathname}`);
