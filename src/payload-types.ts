@@ -247,7 +247,7 @@ export interface Post {
   title?: string | null;
   description?: string | null;
   header_image?: (number | Media)[] | null;
-  content?: {
+  content: {
     root: {
       type: string;
       children: {
@@ -261,7 +261,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
+  };
   categories: number | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
@@ -442,7 +442,7 @@ export interface HalalDirectory {
   googleMapsLink: string;
   website?: string | null;
   image?: (number | null) | Media;
-  on_campus: boolean;
+  is_on_campus: boolean;
   updatedAt: string;
   createdAt: string;
 }

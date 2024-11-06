@@ -85,6 +85,7 @@ if (Array.isArray(data)) {
     <div className="container mt-8 mx-auto p-10 text-xs">
       <div>
         <h3 className="text-4xl font-bold text-primary">Upcoming Events</h3>
+        <div className=" justify-center items-center">
         <FullCalendar
           ref={calendarRef} // Set the reference here
           plugins={[dayGridPlugin, googleCalendarPlugin]}
@@ -96,6 +97,8 @@ if (Array.isArray(data)) {
           }}
           eventContent={renderEventContent}
         />
+        </div>
+       
       </div>
     </div>
   );
@@ -120,22 +123,19 @@ const renderEventContent = (eventInfo: EventContentArg) => {
     minute: "2-digit",
     hour12: true,
   });
+  const location = eventInfo.event.extendedProps.location;
 
   const formattedTitle = eventInfo.event.title.split("-").join("<br />");
 
   return (
-    <div className={`p-1 ${bgColorClass} ${textColorClass} min-w-0 flex-shrink-1`}>
-      <div className="text-sm">
-        <b>{startTime}</b>
-        <b>-</b>
-        <b>{endTime}</b>
-      </div>{" "}
-      {/* Adjusted text size */}
+    <div className={`p-1 rounded-lg ${bgColorClass} ${textColorClass} w-full flex-shrink-1`}>
       <div
-        className="flex-shrink-1"
+        className=" text-sm flex-shrink-1 font-bold"
         dangerouslySetInnerHTML={{ __html: formattedTitle }}
       ></div>
-      {/* Adjusted text size */}
+      <div className="">
+        <p>{`${startTime} - ${endTime} `} </p>
+      </div>
     </div>
   );
 };

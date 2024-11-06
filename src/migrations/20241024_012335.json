@@ -1,5 +1,5 @@
 {
-  "id": "9f00216b-8691-40fc-bb93-dfde69a565ef",
+  "id": "74013c4e-95d9-4295-9af4-3cc3a41d86a6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1003,7 +1003,7 @@
           "name": "categories_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "status": {
           "name": "status",
@@ -1265,7 +1265,7 @@
           "name": "title",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
@@ -2563,6 +2563,13 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false
+        },
+        "is_on_campus": {
+          "name": "is_on_campus",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "updated_at": {
           "name": "updated_at",

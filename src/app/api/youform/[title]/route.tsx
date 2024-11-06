@@ -4,8 +4,10 @@ import { Resend } from 'resend';
 import WelcomeEmail from 'emails/signup';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-export async function POST(request: NextRequest, { params }: { params: { title: string } }) {
+type Params = Promise<{ title: string }>
+ 
+export async function POST(request: Request, segmentData: { params: Params }) {
+  const params = await segmentData.params
     try {
         const body = await request.json()
         const headers = Object.fromEntries(request.headers.entries())

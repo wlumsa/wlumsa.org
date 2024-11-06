@@ -1,5 +1,5 @@
 {
-  "id": "35a280ef-5193-4ff1-a969-992cf0b831a6",
+  "id": "d29222d8-b38c-475e-8a92-cbc74fc8a1b1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -2563,6 +2563,13 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false
+        },
+        "is_on_campus": {
+          "name": "is_on_campus",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         },
         "updated_at": {
           "name": "updated_at",
