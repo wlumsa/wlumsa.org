@@ -1,6 +1,6 @@
 import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
-import { postgresAdapter } from "@payloadcms/db-postgres";
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -80,7 +80,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: postgresAdapter({
+  db: vercelPostgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
@@ -91,12 +91,6 @@ export default buildConfig({
       generateTitle,
       generateDescription: ({ doc }) => doc.description,
       uploadsCollection: "media",
-
-      fieldOverrides: {
-        description: {
-          localized: true,
-        },
-      },
     }),
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
