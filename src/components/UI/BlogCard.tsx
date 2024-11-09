@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { Post } from "@/payload-types";
 import { format } from 'date-fns';
-import { Categories } from "@/collections/Categories";
 
 /**
  * Represents a blog card component.
@@ -16,7 +15,14 @@ interface PostProps {
 }
 
 const BlogCard: React.FC<PostProps> = ({ post }) => {
-
+function slugify(postTitle: string) {
+  //trim whitespace, convert to lowercase, remove non-alphanumeric chars, replace spaces with hyphens, remove consecutive hyphens
+  postTitle.replace(/^\s+|\s+$/g, ''); 
+  postTitle = postTitle.toLowerCase(); 
+  postTitle = postTitle.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+  return postTitle; 
+}
+const title = post?.title ? slugify(post.title) : "";
 
   const date = new Date(post.createdAt)
   const formattedDate = format(date, 'MMMM dd, yyyy');
@@ -40,22 +46,11 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
         <div className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
                   {typeof post?.categories === 'object' ? post?.categories?.title: ""}
                 </div>
-          {/* {post?.categories?.map((item, index) => {
-            if (typeof item === 'object' && item != null) {
-              return (
-                <div key={index} className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
-                  {item.title}
-                </div>
-              );
-            }
-            return null;
-          })} */}
-
         </div>
         <h2 className="card-title  text-primary">{post.title}</h2>
         <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p>
         <div className="card-actions justify-end">
-          <Link href={`/blog/${post.id}`}>
+          <Link href={`/blog/${title}-${post.id}`}>
             <button className="btn btn-primary text-secondary">Read More →</button>
           </Link>
         </div>

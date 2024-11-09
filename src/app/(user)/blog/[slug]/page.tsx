@@ -13,8 +13,8 @@ export default async function BlogPost(props: {
 }) {
   const params = await props.params
   const slug = params.slug
-  const id = decodeURIComponent(slug)
-  const res = await fetchBlogPostById(id);
+  const id = slug.split('-').pop();
+  const res = await fetchBlogPostById(id? id : "");
 
 
   const post = res[0]
