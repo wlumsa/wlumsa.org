@@ -1,5 +1,5 @@
 {
-  "id": "d79698bd-5d7c-4175-9a75-2d61908f5167",
+  "id": "99299322-a893-49cf-b085-d3f0e7d6cef3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -136,6 +136,21 @@
         }
       },
       "indexes": {
+        "execs_updated_at_idx": {
+          "name": "execs_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "execs_created_at_idx": {
           "name": "execs_created_at_idx",
           "columns": [
@@ -225,6 +240,21 @@
           "method": "btree",
           "with": {}
         },
+        "link_updated_at_idx": {
+          "name": "link_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "link_created_at_idx": {
           "name": "link_created_at_idx",
           "columns": [
@@ -278,6 +308,21 @@
         }
       },
       "indexes": {
+        "instagram_updated_at_idx": {
+          "name": "instagram_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "instagram_created_at_idx": {
           "name": "instagram_created_at_idx",
           "columns": [
@@ -331,6 +376,21 @@
         }
       },
       "indexes": {
+        "resources_updated_at_idx": {
+          "name": "resources_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "resources_created_at_idx": {
           "name": "resources_created_at_idx",
           "columns": [
@@ -580,6 +640,21 @@
         }
       },
       "indexes": {
+        "media_updated_at_idx": {
+          "name": "media_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "media_created_at_idx": {
           "name": "media_created_at_idx",
           "columns": [
@@ -672,6 +747,21 @@
         }
       },
       "indexes": {
+        "members_updated_at_idx": {
+          "name": "members_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "members_created_at_idx": {
           "name": "members_created_at_idx",
           "columns": [
@@ -742,6 +832,21 @@
           "columns": [
             {
               "expression": "link_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "socials_updated_at_idx": {
+          "name": "socials_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -869,6 +974,21 @@
           "columns": [
             {
               "expression": "sizes_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "products_updated_at_idx": {
+          "name": "products_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1168,6 +1288,21 @@
           "method": "btree",
           "with": {}
         },
+        "posts_updated_at_idx": {
+          "name": "posts_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "posts_created_at_idx": {
           "name": "posts_created_at_idx",
           "columns": [
@@ -1445,6 +1580,21 @@
         }
       },
       "indexes": {
+        "categories_updated_at_idx": {
+          "name": "categories_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "categories_created_at_idx": {
           "name": "categories_created_at_idx",
           "columns": [
@@ -1505,6 +1655,21 @@
         }
       },
       "indexes": {
+        "tags_updated_at_idx": {
+          "name": "tags_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "tags_created_at_idx": {
           "name": "tags_created_at_idx",
           "columns": [
@@ -1565,6 +1730,21 @@
         }
       },
       "indexes": {
+        "sizes_updated_at_idx": {
+          "name": "sizes_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "sizes_created_at_idx": {
           "name": "sizes_created_at_idx",
           "columns": [
@@ -1649,6 +1829,21 @@
         }
       },
       "indexes": {
+        "weekly_events_updated_at_idx": {
+          "name": "weekly_events_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "weekly_events_created_at_idx": {
           "name": "weekly_events_created_at_idx",
           "columns": [
@@ -1843,6 +2038,21 @@
         }
       },
       "indexes": {
+        "jummah_timings_updated_at_idx": {
+          "name": "jummah_timings_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "jummah_timings_created_at_idx": {
           "name": "jummah_timings_created_at_idx",
           "columns": [
@@ -1908,6 +2118,21 @@
         }
       },
       "indexes": {
+        "prayer_rooms_updated_at_idx": {
+          "name": "prayer_rooms_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "prayer_rooms_created_at_idx": {
           "name": "prayer_rooms_created_at_idx",
           "columns": [
@@ -1978,6 +2203,21 @@
           "columns": [
             {
               "expression": "link_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "services_updated_at_idx": {
+          "name": "services_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -2104,6 +2344,21 @@
           "columns": [
             {
               "expression": "distribution_list_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "email_collection_updated_at_idx": {
+          "name": "email_collection_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -2310,6 +2565,21 @@
         }
       },
       "indexes": {
+        "distribution_list_updated_at_idx": {
+          "name": "distribution_list_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "distribution_list_created_at_idx": {
           "name": "distribution_list_created_at_idx",
           "columns": [
@@ -2504,6 +2774,21 @@
         }
       },
       "indexes": {
+        "individuals_updated_at_idx": {
+          "name": "individuals_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "individuals_created_at_idx": {
           "name": "individuals_created_at_idx",
           "columns": [
@@ -2563,6 +2848,21 @@
         }
       },
       "indexes": {
+        "iia_services_updated_at_idx": {
+          "name": "iia_services_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "iia_services_created_at_idx": {
           "name": "iia_services_created_at_idx",
           "columns": [
@@ -2751,6 +3051,21 @@
         }
       },
       "indexes": {
+        "faq_updated_at_idx": {
+          "name": "faq_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "faq_created_at_idx": {
           "name": "faq_created_at_idx",
           "columns": [
@@ -2870,6 +3185,21 @@
           "method": "btree",
           "with": {}
         },
+        "halal_directory_updated_at_idx": {
+          "name": "halal_directory_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "halal_directory_created_at_idx": {
           "name": "halal_directory_created_at_idx",
           "columns": [
@@ -2942,6 +3272,21 @@
           "columns": [
             {
               "expression": "global_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_updated_at_idx": {
+          "name": "payload_locked_documents_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -3869,6 +4214,21 @@
           "method": "btree",
           "with": {}
         },
+        "payload_preferences_updated_at_idx": {
+          "name": "payload_preferences_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "payload_preferences_created_at_idx": {
           "name": "payload_preferences_created_at_idx",
           "columns": [
@@ -4057,6 +4417,21 @@
         }
       },
       "indexes": {
+        "payload_migrations_updated_at_idx": {
+          "name": "payload_migrations_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "payload_migrations_created_at_idx": {
           "name": "payload_migrations_created_at_idx",
           "columns": [
