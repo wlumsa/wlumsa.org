@@ -37,6 +37,34 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
+  collectionsJoins: {};
+  collectionsSelect: {
+    execs: ExecsSelect<false> | ExecsSelect<true>;
+    link: LinkSelect<false> | LinkSelect<true>;
+    Instagram: InstagramSelect<false> | InstagramSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    members: MembersSelect<false> | MembersSelect<true>;
+    Socials: SocialsSelect<false> | SocialsSelect<true>;
+    Products: ProductsSelect<false> | ProductsSelect<true>;
+    Posts: PostsSelect<false> | PostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    Sizes: SizesSelect<false> | SizesSelect<true>;
+    WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
+    'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
+    'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    'email-collection': EmailCollectionSelect<false> | EmailCollectionSelect<true>;
+    'distribution-list': DistributionListSelect<false> | DistributionListSelect<true>;
+    individuals: IndividualsSelect<false> | IndividualsSelect<true>;
+    'iia-services': IiaServicesSelect<false> | IiaServicesSelect<true>;
+    faq: FaqSelect<false> | FaqSelect<true>;
+    'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
     defaultIDType: number;
   };
@@ -45,9 +73,18 @@ export interface Config {
     footer: Footer;
     'prayer-timings': PrayerTiming;
   };
+  globalsSelect: {
+    nav: NavSelect<false> | NavSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    'prayer-timings': PrayerTimingsSelect<false> | PrayerTimingsSelect<true>;
+  };
   locale: null;
   user: Exec & {
     collection: 'execs';
+  };
+  jobs?: {
+    tasks: unknown;
+    workflows?: unknown;
   };
 }
 export interface ExecAuthOperations {
@@ -585,6 +622,330 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "execs_select".
+ */
+export interface ExecsSelect<T extends boolean = true> {
+  name?: T;
+  department?: T;
+  position?: T;
+  'student id'?: T;
+  major?: T;
+  year?: T;
+  'phone number'?: T;
+  'mylaurier email'?: T;
+  city?: T;
+  roles?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "link_select".
+ */
+export interface LinkSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Instagram_select".
+ */
+export interface InstagramSelect<T extends boolean = true> {
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
+  title?: T;
+  link?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members_select".
+ */
+export interface MembersSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  mylaurierEmail?: T;
+  studentId?: T;
+  newsletter?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Socials_select".
+ */
+export interface SocialsSelect<T extends boolean = true> {
+  title?: T;
+  link?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  price?: T;
+  desc?: T;
+  image?: T;
+  tags?: T;
+  sizes?: T;
+  quantity?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  header_image?: T;
+  content?: T;
+  categories?: T;
+  tags?: T;
+  authors?: T;
+  status?: T;
+  publishedAt?: T;
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        description?: T;
+        image?: T;
+        preview?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  title?: T;
+  color?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sizes_select".
+ */
+export interface SizesSelect<T extends boolean = true> {
+  size?: T;
+  quantity?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WeeklyEvents_select".
+ */
+export interface WeeklyEventsSelect<T extends boolean = true> {
+  name?: T;
+  day?: T;
+  timeStart?: T;
+  timeEnd?: T;
+  location?: T;
+  caption?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jummah-timings_select".
+ */
+export interface JummahTimingsSelect<T extends boolean = true> {
+  building?: T;
+  room_number?: T;
+  timing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-rooms_select".
+ */
+export interface PrayerRoomsSelect<T extends boolean = true> {
+  building?: T;
+  description?: T;
+  room_number?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  link?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-collection_select".
+ */
+export interface EmailCollectionSelect<T extends boolean = true> {
+  title?: T;
+  subject?: T;
+  attachments?: T;
+  content?: T;
+  content_html?: T;
+  status?: T;
+  publishedAt?: T;
+  distributionList?: T;
+  Send?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "distribution-list_select".
+ */
+export interface DistributionListSelect<T extends boolean = true> {
+  listName?: T;
+  emails?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "individuals_select".
+ */
+export interface IndividualsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iia-services_select".
+ */
+export interface IiaServicesSelect<T extends boolean = true> {
+  name?: T;
+  caption?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  Question?: T;
+  Answer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "halal-directory_select".
+ */
+export interface HalalDirectorySelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  slaughtered?: T;
+  shortDescription?: T;
+  location?: T;
+  googleMapsLink?: T;
+  website?: T;
+  image?: T;
+  is_on_campus?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nav".
  */
 export interface Nav {
@@ -658,6 +1019,82 @@ export interface PrayerTiming {
   }[];
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nav_select".
+ */
+export interface NavSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        links?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        links?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-timings_select".
+ */
+export interface PrayerTimingsSelect<T extends boolean = true> {
+  month?:
+    | T
+    | {
+        month?: T;
+        days?:
+          | T
+          | {
+              day?: T;
+              fajr?: T;
+              fajr_iqamah?: T;
+              sunrise?: T;
+              dhuhr?: T;
+              dhuhr_iqamah?: T;
+              asr?: T;
+              asr_iqamah?: T;
+              maghrib?: T;
+              maghrib_iqamah?: T;
+              isha?: T;
+              isha_iqamah?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
