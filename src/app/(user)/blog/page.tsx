@@ -9,47 +9,33 @@ import ButtonGroup from "@/components/UI/ButtonGroup";
  * Renders the Blog component.
  * Fetches blog data and displays a list of blog cards.
  * @returns The rendered Blog component.
+ * 
  */
-export default async function Blog({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    category?:string;
-  };
+
+type Params = Promise<{ slug: string }>
+type SearchParams = Promise<{ [key: string]: string  | undefined }>
+
+export default async function Page(props: {
+  params: Params
+  searchParams: SearchParams
 }) {
-  const query = searchParams?.query || '';
-  const categoryId = searchParams?.category || '1';
+  const params = await props.params
+  const searchParams = await props.searchParams
+  const slug = params.slug
+  const query = searchParams.query || '';
+  const categoryId = searchParams?.category || '0';
   interface Category {
     id: string,
     title: string
   }
-  const categories: Category[] = [
-   
-   
-    {
-      id: "1",
-      title: "Religious Affairs"
-    },
-    {
-      id: "2",
-      title: "Academic"
-    },
-    {
-      id: "3",
-      title: "Professional Development"
-    },
-    {
-      id: "4",
-      title: "Tech"
-    }
-  ] 
 
-  //const res = await fetchBlogPosts();
   const categoriesData = await getCategories();
   console.log(categoriesData)
-  const res = categoryId === '1'
+  let categoryArray: Category[] = [];
+  categoryArray.push({id: "0", title: "All"});
+  categoryArray = categoryArray.concat(categoriesData.map(category => ({id: category.id.toString(), title: category.title}))); 
+  console.log("categoryarray,", categoryArray);
+  const res = categoryId === '0'
   ? await fetchBlogPostsByQuery(query)
   : await fetchBlogPostsByQueryAndCategory(query, categoryId);
  
@@ -59,18 +45,18 @@ export default async function Blog({
 
   return (
     <section className="mt-16 bg-base-100 ">
-      <div className="mx-auto  px-4 py-4 lg:px-6 lg:py-16">
-        <div className="mb-4 text-center text-4xl font-bold text-primary ">Blog </div>
-        <h1 className="text-center">
+      <div className="mx-auto  px-4 py-4 lg:px-24 lg:py-16 w-[70%]">
+        <h1 className="mb-4 text-center text-4xl font-bold text-primary  ">Blog </h1>
+        <h1 className="text-center ">
           Welcome to our blog. Learn more about Islam, and how to excel spiritually as well as academically. View and search articles related to different topics.
         </h1>
-        <div className="mx-auto max-w-screen-md items-center text-center">
+        <div className="mx-auto max-w-screen-md items-center text-center py-4">
              <SearchBar />
         </div>
        
         
         <div className="flex flex-row items-center justify-center">
-          <ButtonGroup categories={categories}  type="blog"/>
+          <ButtonGroup categories={categoryArray}  />
  
         </div>
       </div>
