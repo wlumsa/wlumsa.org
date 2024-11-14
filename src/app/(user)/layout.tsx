@@ -8,6 +8,7 @@ import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetc
 import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from './GoogleAnalytics';
+import DarkModeToggle from "@/components/UI/DarkModeToggle";
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -38,6 +39,7 @@ export const revalidate = 3600;
  * @param children - The child components to render within the layout.
  * @returns The JSX element representing the root layout.
  */
+
 export default async function RootLayout({
   children,
 }: {
@@ -60,6 +62,7 @@ export default async function RootLayout({
         <Providers>
           <Navbar navbarData={navbarData} />
           {children}
+          <DarkModeToggle />
           <Footer footerGroups={footerData} socialData={socialData} />
         </Providers>
       </body>

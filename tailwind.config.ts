@@ -45,8 +45,6 @@ export default {
         
       },
     ],
-    base: true,
-    styled: true,
-    utils: true, 
+    darkMode: ['darkTheme'],
   },
 } satisfies Config;
