@@ -1,67 +1,17 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postgres'
 
 export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.execute(sql`
-   DO $$ BEGIN
    CREATE TYPE "public"."enum_execs_department" AS ENUM('marketing', 'events_brothers', 'events_sisters', 'religious_affairs_brothers', 'religious_affairs_sisters', 'finance', 'community_engagement', 'operations', 'technology');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_execs_position" AS ENUM('vice_president', 'head_director', 'director');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_execs_roles" AS ENUM('admin', 'editor');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_sizes_size" AS ENUM('Small', 'Medium', 'Large');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_weekly_events_day" AS ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_email_collection_status" AS ENUM('draft', 'published');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_halal_directory_category" AS ENUM('chinese', 'persian', 'shawarma', 'burgers', 'bangladeshi', 'chinese-indo-fusion', 'pakistani-food', 'chicken-and-waffles', 'kabob', 'uyghur', 'chicken', 'indian-fusion-food', 'pizza');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_halal_directory_slaughtered" AS ENUM('hand', 'machine', 'both', 'n/a');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_prayer_timings_month_month" AS ENUM('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
+  CREATE TYPE "public"."enum_execs_position" AS ENUM('vice_president', 'head_director', 'director');
+  CREATE TYPE "public"."enum_execs_roles" AS ENUM('admin', 'editor');
+  CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
+  CREATE TYPE "public"."enum_sizes_size" AS ENUM('Small', 'Medium', 'Large');
+  CREATE TYPE "public"."enum_weekly_events_day" AS ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+  CREATE TYPE "public"."enum_email_collection_status" AS ENUM('draft', 'published');
+  CREATE TYPE "public"."enum_halal_directory_category" AS ENUM('chinese', 'persian', 'shawarma', 'burgers', 'bangladeshi', 'chinese-indo-fusion', 'pakistani-food', 'chicken-and-waffles', 'kabob', 'uyghur', 'chicken', 'indian-fusion-food', 'pizza');
+  CREATE TYPE "public"."enum_halal_directory_slaughtered" AS ENUM('hand', 'machine', 'both', 'n/a');
+  CREATE TYPE "public"."enum_prayer_timings_month_month" AS ENUM('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
   CREATE TABLE IF NOT EXISTS "execs" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"name" varchar,
@@ -177,7 +127,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar,
   	"description" varchar,
-  	"content" jsonb,
+  	"content" jsonb NOT NULL,
   	"categories_id" integer NOT NULL,
   	"status" "enum_posts_status" DEFAULT 'draft',
   	"published_at" timestamp(3) with time zone,
@@ -825,18 +775,28 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "resources_rels_order_idx" ON "resources_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "resources_rels_parent_idx" ON "resources_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "resources_rels_path_idx" ON "resources_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "resources_rels_link_id_idx" ON "resources_rels" USING btree ("link_id");
   CREATE INDEX IF NOT EXISTS "media_created_at_idx" ON "media" USING btree ("created_at");
   CREATE UNIQUE INDEX IF NOT EXISTS "media_filename_idx" ON "media" USING btree ("filename");
   CREATE INDEX IF NOT EXISTS "members_created_at_idx" ON "members" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "socials_link_idx" ON "socials" USING btree ("link_id");
   CREATE INDEX IF NOT EXISTS "socials_created_at_idx" ON "socials" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "products_tags_idx" ON "products" USING btree ("tags_id");
+  CREATE INDEX IF NOT EXISTS "products_sizes_idx" ON "products" USING btree ("sizes_id");
   CREATE INDEX IF NOT EXISTS "products_created_at_idx" ON "products" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "products_rels_order_idx" ON "products_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "products_rels_parent_idx" ON "products_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "products_rels_path_idx" ON "products_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "products_rels_media_id_idx" ON "products_rels" USING btree ("media_id");
+  CREATE INDEX IF NOT EXISTS "posts_categories_idx" ON "posts" USING btree ("categories_id");
+  CREATE INDEX IF NOT EXISTS "posts_meta_meta_image_idx" ON "posts" USING btree ("meta_image_id");
   CREATE INDEX IF NOT EXISTS "posts_created_at_idx" ON "posts" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "posts_rels_order_idx" ON "posts_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "posts_rels_parent_idx" ON "posts_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "posts_rels_path_idx" ON "posts_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "posts_rels_media_id_idx" ON "posts_rels" USING btree ("media_id");
+  CREATE INDEX IF NOT EXISTS "posts_rels_tags_id_idx" ON "posts_rels" USING btree ("tags_id");
+  CREATE INDEX IF NOT EXISTS "posts_rels_execs_id_idx" ON "posts_rels" USING btree ("execs_id");
   CREATE INDEX IF NOT EXISTS "categories_created_at_idx" ON "categories" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "tags_created_at_idx" ON "tags" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "sizes_created_at_idx" ON "sizes" USING btree ("created_at");
@@ -844,34 +804,64 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "weekly_events_rels_order_idx" ON "weekly_events_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "weekly_events_rels_parent_idx" ON "weekly_events_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "weekly_events_rels_path_idx" ON "weekly_events_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "weekly_events_rels_media_id_idx" ON "weekly_events_rels" USING btree ("media_id");
   CREATE INDEX IF NOT EXISTS "jummah_timings_created_at_idx" ON "jummah_timings" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "prayer_rooms_created_at_idx" ON "prayer_rooms" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "services_link_idx" ON "services" USING btree ("link_id");
   CREATE INDEX IF NOT EXISTS "services_created_at_idx" ON "services" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "email_collection_distribution_list_idx" ON "email_collection" USING btree ("distribution_list_id");
   CREATE INDEX IF NOT EXISTS "email_collection_created_at_idx" ON "email_collection" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "email_collection_rels_order_idx" ON "email_collection_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "email_collection_rels_parent_idx" ON "email_collection_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "email_collection_rels_path_idx" ON "email_collection_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "email_collection_rels_media_id_idx" ON "email_collection_rels" USING btree ("media_id");
   CREATE INDEX IF NOT EXISTS "distribution_list_created_at_idx" ON "distribution_list" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "distribution_list_rels_order_idx" ON "distribution_list_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "distribution_list_rels_parent_idx" ON "distribution_list_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "distribution_list_rels_path_idx" ON "distribution_list_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "distribution_list_rels_individuals_id_idx" ON "distribution_list_rels" USING btree ("individuals_id");
   CREATE INDEX IF NOT EXISTS "individuals_created_at_idx" ON "individuals" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "iia_services_created_at_idx" ON "iia_services" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "iia_services_rels_order_idx" ON "iia_services_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "iia_services_rels_parent_idx" ON "iia_services_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "iia_services_rels_path_idx" ON "iia_services_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "iia_services_rels_media_id_idx" ON "iia_services_rels" USING btree ("media_id");
   CREATE INDEX IF NOT EXISTS "faq_created_at_idx" ON "faq" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "halal_directory_image_idx" ON "halal_directory" USING btree ("image_id");
   CREATE INDEX IF NOT EXISTS "halal_directory_created_at_idx" ON "halal_directory" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_global_slug_idx" ON "payload_locked_documents" USING btree ("global_slug");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_created_at_idx" ON "payload_locked_documents" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_order_idx" ON "payload_locked_documents_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_parent_idx" ON "payload_locked_documents_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_path_idx" ON "payload_locked_documents_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_execs_id_idx" ON "payload_locked_documents_rels" USING btree ("execs_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_link_id_idx" ON "payload_locked_documents_rels" USING btree ("link_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_instagram_id_idx" ON "payload_locked_documents_rels" USING btree ("instagram_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_resources_id_idx" ON "payload_locked_documents_rels" USING btree ("resources_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_media_id_idx" ON "payload_locked_documents_rels" USING btree ("media_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_members_id_idx" ON "payload_locked_documents_rels" USING btree ("members_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_socials_id_idx" ON "payload_locked_documents_rels" USING btree ("socials_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_products_id_idx" ON "payload_locked_documents_rels" USING btree ("products_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_posts_id_idx" ON "payload_locked_documents_rels" USING btree ("posts_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_categories_id_idx" ON "payload_locked_documents_rels" USING btree ("categories_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_tags_id_idx" ON "payload_locked_documents_rels" USING btree ("tags_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_sizes_id_idx" ON "payload_locked_documents_rels" USING btree ("sizes_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_weekly_events_id_idx" ON "payload_locked_documents_rels" USING btree ("weekly_events_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_jummah_timings_id_idx" ON "payload_locked_documents_rels" USING btree ("jummah_timings_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_prayer_rooms_id_idx" ON "payload_locked_documents_rels" USING btree ("prayer_rooms_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_services_id_idx" ON "payload_locked_documents_rels" USING btree ("services_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_email_collection_id_idx" ON "payload_locked_documents_rels" USING btree ("email_collection_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_distribution_list_id_idx" ON "payload_locked_documents_rels" USING btree ("distribution_list_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_individuals_id_idx" ON "payload_locked_documents_rels" USING btree ("individuals_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_iia_services_id_idx" ON "payload_locked_documents_rels" USING btree ("iia_services_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_faq_id_idx" ON "payload_locked_documents_rels" USING btree ("faq_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_halal_directory_id_idx" ON "payload_locked_documents_rels" USING btree ("halal_directory_id");
   CREATE INDEX IF NOT EXISTS "payload_preferences_key_idx" ON "payload_preferences" USING btree ("key");
   CREATE INDEX IF NOT EXISTS "payload_preferences_created_at_idx" ON "payload_preferences" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "payload_preferences_rels_order_idx" ON "payload_preferences_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "payload_preferences_rels_parent_idx" ON "payload_preferences_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "payload_preferences_rels_path_idx" ON "payload_preferences_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "payload_preferences_rels_execs_id_idx" ON "payload_preferences_rels" USING btree ("execs_id");
   CREATE INDEX IF NOT EXISTS "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "nav_items_links_order_idx" ON "nav_items_links" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "nav_items_links_parent_id_idx" ON "nav_items_links" USING btree ("_parent_id");
@@ -936,5 +926,15 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TABLE "footer";
   DROP TABLE "prayer_timings_month_days";
   DROP TABLE "prayer_timings_month";
-  DROP TABLE "prayer_timings";`)
+  DROP TABLE "prayer_timings";
+  DROP TYPE "public"."enum_execs_department";
+  DROP TYPE "public"."enum_execs_position";
+  DROP TYPE "public"."enum_execs_roles";
+  DROP TYPE "public"."enum_posts_status";
+  DROP TYPE "public"."enum_sizes_size";
+  DROP TYPE "public"."enum_weekly_events_day";
+  DROP TYPE "public"."enum_email_collection_status";
+  DROP TYPE "public"."enum_halal_directory_category";
+  DROP TYPE "public"."enum_halal_directory_slaughtered";
+  DROP TYPE "public"."enum_prayer_timings_month_month";`)
 }
