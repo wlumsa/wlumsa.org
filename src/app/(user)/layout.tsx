@@ -54,19 +54,18 @@ export default async function RootLayout({
     <html lang="en">
       <GoogleAnalytics />
       <body>
-      <Toaster
-        position="top-center"
-      />
+        <Toaster position="top-center" />
         <SpeedInsights />
-        <Analytics/>
+        <Analytics />
         <Providers>
           <Navbar navbarData={navbarData} />
+          <div className="fixed bottom-4 right-4 z-50">
+            <DarkModeToggle />
+          </div>
           {children}
-          <DarkModeToggle />
           <Footer footerGroups={footerData} socialData={socialData} />
         </Providers>
       </body>
-
-    </html >
+    </html>
   );
 }
