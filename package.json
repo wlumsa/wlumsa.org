@@ -31,7 +31,7 @@
     "@lexical/selection": "0.18.0",
     "@lexical/table": "0.18.0",
     "@lexical/utils": "0.18.0",
-    "@payloadcms/db-vercel-postgres": "3.0.0-beta.126",
+    "@payloadcms/db-postgres": "3.0.0-beta.126",
     "@payloadcms/email-resend": "3.0.0-beta.126",
     "@payloadcms/next": "3.0.0-beta.126",
     "@payloadcms/plugin-seo": "3.0.0-beta.126",

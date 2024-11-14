@@ -65,9 +65,9 @@ importers:
       '@lexical/utils':
         specifier: 0.18.0
         version: 0.18.0
-      '@payloadcms/db-vercel-postgres':
+      '@payloadcms/db-postgres':
         specifier: 3.0.0-beta.126
-        version: 3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
+        version: 3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@vercel/postgres@0.9.0)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
       '@payloadcms/email-resend':
         specifier: 3.0.0-beta.126
         version: 3.0.0-beta.126(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))
@@ -1673,8 +1673,8 @@ packages:
   '@panva/hkdf@1.2.1':
     resolution: {integrity: sha512-6oclG6Y3PiDFcoyk8srjLfVKyMfVCKJ27JwNPViuXziFpmdz+MZnZN/aKY0JGXgYuO/VghU0jcOAZgWXZ1Dmrw==}
 
-  '@payloadcms/db-vercel-postgres@3.0.0-beta.126':
-    resolution: {integrity: sha512-yVepZop+Yo7Fldmu87wT9XjkcQQh1o67v+a4d+7BHuiVhc/Yj8ONghGH7tjdqhU9tSJzTATLH8UHwbucG2UxgQ==}
+  '@payloadcms/db-postgres@3.0.0-beta.126':
+    resolution: {integrity: sha512-e+nrgEMkXXiTxl7TozBIb39UvsqEOTf22BoE5KaUQB6mm4oyUW8xK+jUGlQQ1InFRBXGp2jyLo/t1OdfIYIyng==}
     peerDependencies:
       payload: 3.0.0-beta.126
 
@@ -2334,6 +2334,9 @@ packages:
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
+
+  '@types/pg@8.10.2':
+    resolution: {integrity: sha512-MKFs9P6nJ+LAeHLU3V0cODEOgyThJ3OAnmOlsZsxux6sfQs3HRXR5bBn7xG5DjckEFhTAxsXi7k7cd0pCMxpJw==}
 
   '@types/pg@8.11.6':
     resolution: {integrity: sha512-/2WmmBXHLsfRqzfHW7BNZ8SbYzE8OSk7i3WjFYvfgRHj7S1xj+16Je5fUKv3lVdVzk/zn9TXOqf+avFCFIE0yQ==}
@@ -7120,6 +7123,7 @@ snapshots:
   '@neondatabase/serverless@0.9.5':
     dependencies:
       '@types/pg': 8.11.6
+    optional: true
 
   '@next/env@13.5.7': {}
 
@@ -7200,13 +7204,13 @@ snapshots:
 
   '@panva/hkdf@1.2.1': {}
 
-  '@payloadcms/db-vercel-postgres@3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)':
+  '@payloadcms/db-postgres@3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@vercel/postgres@0.9.0)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)':
     dependencies:
-      '@payloadcms/drizzle': 3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@vercel/postgres@0.9.0)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
-      '@vercel/postgres': 0.9.0
+      '@payloadcms/drizzle': 3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@types/pg@8.10.2)(@vercel/postgres@0.9.0)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
+      '@types/pg': 8.10.2
       console-table-printer: 2.11.2
       drizzle-kit: 0.26.2
-      drizzle-orm: 0.35.1(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@vercel/postgres@0.9.0)(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
+      drizzle-orm: 0.35.1(@neondatabase/serverless@0.9.5)(@types/pg@8.10.2)(@vercel/postgres@0.9.0)(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
       payload: 3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3)
       pg: 8.11.3
       prompts: 2.4.2
@@ -7224,9 +7228,9 @@ snapshots:
       - '@prisma/client'
       - '@tidbcloud/serverless'
       - '@types/better-sqlite3'
-      - '@types/pg'
       - '@types/react'
       - '@types/sql.js'
+      - '@vercel/postgres'
       - '@xata.io/client'
       - better-sqlite3
       - bun-types
@@ -7242,10 +7246,10 @@ snapshots:
       - sqlite3
       - supports-color
 
-  '@payloadcms/drizzle@3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@vercel/postgres@0.9.0)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)':
+  '@payloadcms/drizzle@3.0.0-beta.126(@neondatabase/serverless@0.9.5)(@types/pg@8.10.2)(@vercel/postgres@0.9.0)(payload@3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3))(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)':
     dependencies:
       console-table-printer: 2.11.2
-      drizzle-orm: 0.35.1(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@vercel/postgres@0.9.0)(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
+      drizzle-orm: 0.35.1(@neondatabase/serverless@0.9.5)(@types/pg@8.10.2)(@vercel/postgres@0.9.0)(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1)
       payload: 3.0.0-beta.126(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(typescript@5.6.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
@@ -8128,11 +8132,18 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
+  '@types/pg@8.10.2':
+    dependencies:
+      '@types/node': 18.19.59
+      pg-protocol: 1.7.0
+      pg-types: 4.0.2
+
   '@types/pg@8.11.6':
     dependencies:
       '@types/node': 18.19.59
       pg-protocol: 1.7.0
       pg-types: 4.0.2
+    optional: true
 
   '@types/phoenix@1.6.5': {}
 
@@ -8276,6 +8287,7 @@ snapshots:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.5
       ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.5)
+    optional: true
 
   '@vercel/speed-insights@1.0.13(next@15.0.1(@babel/core@7.24.5)(babel-plugin-react-compiler@0.0.0-experimental-7d62301-20240819)(react-dom@19.0.0-rc-1631855f-20241023(react@19.0.0-rc-1631855f-20241023))(react@19.0.0-rc-1631855f-20241023)(sass@1.77.4))(react@19.0.0-rc-1631855f-20241023)':
     optionalDependencies:
@@ -8556,6 +8568,7 @@ snapshots:
   bufferutil@4.0.8:
     dependencies:
       node-gyp-build: 4.8.2
+    optional: true
 
   busboy@1.6.0:
     dependencies:
@@ -8854,10 +8867,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.35.1(@neondatabase/serverless@0.9.5)(@types/pg@8.11.6)(@vercel/postgres@0.9.0)(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1):
+  drizzle-orm@0.35.1(@neondatabase/serverless@0.9.5)(@types/pg@8.10.2)(@vercel/postgres@0.9.0)(pg@8.11.3)(react@19.0.0-rc-1631855f-20241023)(types-react@19.0.0-rc.1):
     optionalDependencies:
       '@neondatabase/serverless': 0.9.5
-      '@types/pg': 8.11.6
+      '@types/pg': 8.10.2
       '@types/react': types-react@19.0.0-rc.1
       '@vercel/postgres': 0.9.0
       pg: 8.11.3
@@ -10291,7 +10304,8 @@ snapshots:
       fetch-blob: 3.2.0
       formdata-polyfill: 4.0.10
 
-  node-gyp-build@4.8.2: {}
+  node-gyp-build@4.8.2:
+    optional: true
 
   node-releases@2.0.18: {}
 
@@ -11599,6 +11613,7 @@ snapshots:
   utf-8-validate@6.0.5:
     dependencies:
       node-gyp-build: 4.8.2
+    optional: true
 
   utf8-byte-length@1.0.5: {}
 
