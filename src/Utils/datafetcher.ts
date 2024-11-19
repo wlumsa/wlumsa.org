@@ -1,7 +1,7 @@
 import { Markdown } from "@react-email/markdown";
 import "server-only";
 import { createClient } from "./client";
-import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
@@ -24,7 +24,7 @@ export async function getPublicURL(
 
 
 
-const payload = await getPayloadHMR({ config: configPromise });
+const payload = await getPayload({ config: configPromise });
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
