@@ -1,3 +1,4 @@
+//authentication testing
 "use client"
 import React from 'react'
 import { useEffect, useState} from 'react'
@@ -85,24 +86,24 @@ console.log('listings', listings)
        <h1 className='text-4xl font-bold'> Laurier Roommate Service</h1>
     {/* LIST ALL LISTINGS */}
     <div >
-    <div className='text-2xl'>  {loggedIn ? <h1>Yay! You are logged in </h1> : <h1>You are not logged in</h1>} </div>
+    <div className='text-xl'>  {loggedIn ? <h1>Yay! You are logged in {userId} </h1> : <h1>You are not logged in</h1>} </div>
     </div>
    <div>
-      <h1>Current Listings -- All</h1>
-      <div className='flex flex-row gap-4'>
+      <h1 className='text-xl font-bold'>Current Listings (All)</h1>
+      <div className='flex flex-col gap-4'>
         {listings.map((listing: any) => (
-          <div key={listing.id} className='rounded-lg border  border-primary bg-secondary p-4'>
-            <h2>Title: {listing?.title}</h2>
+          <div key={listing.id} className='rounded-lg border border-gray-300  p-4'>
+            <h2 className='font-bold'>Title: {listing?.title}</h2>
             <p>Description: {listing?.description}</p>
           </div>
         ))}
       </div>
     </div>
     <div>
-      <h1>Created By Me</h1>
-      <div className='flex flex-row gap-4'>
+      <h1 className='text-xl font-bold text-left'>Created By Me</h1>
+      <div className='flex flex-col gap-4'>
         {userListings.map((listing: any) => (
-          <div key={listing.id} className='rounded-lg border  border-primary bg-secondary p-4'>
+          <div key={listing.id} className='rounded-lg border  border-primary p-4'>
             <h2>Title: {listing?.title}</h2>
             <p>Description: {listing?.description}</p>
           </div>
@@ -111,8 +112,9 @@ console.log('listings', listings)
     </div>
 {/* FORM  */}
         <div className="flex w-full items-center justify-center bg-base-100 py-2">
-          <p>Create a listing</p>
+    
       <div className="max-w-xl px-2">
+      <h1>Create a listing</h1>
         <form className="card-body" >
           <div className="flex flex-col gap-2 py-2">
             <input
