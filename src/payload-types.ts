@@ -82,9 +82,9 @@ export interface Config {
   user: Exec & {
     collection: 'execs';
   };
-  jobs?: {
+  jobs: {
     tasks: unknown;
-    workflows?: unknown;
+    workflows: unknown;
   };
 }
 export interface ExecAuthOperations {
