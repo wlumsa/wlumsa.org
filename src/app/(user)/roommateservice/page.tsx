@@ -11,7 +11,7 @@ interface RoommateData {
   name: string;
   age: number;
   gender: string;
-  campusLocation: string;
+  proximity_to_campus: string;
   is_on_campus: boolean;
   budget_range: string;
   description: string;
@@ -43,10 +43,12 @@ export default function RoommateFinderPage() {
   const [selectedGender, setSelectedGender] = useState<string>("Any");
   const [selectedBudget, setSelectedBudget] = useState<string>("All Budgets");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Fetch data from Supabase when the component mounts
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const { data, error } = await supabase.from("roommate_finder").select("*");
         if (error) throw new Error(error.message);
@@ -54,7 +56,8 @@ export default function RoommateFinderPage() {
         setRoommateData(data);
       } catch (error) {
         console.error("Error fetching Roommate Finder data:", error);
-        setRoommateData([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -63,22 +66,27 @@ export default function RoommateFinderPage() {
 
   // Filter data based on user-selected criteria
   const filterData = () => {
-    return roommateData
-      .filter((item) => {
-        const matchesCampus =
-          selectedCampus === "All Locations" ||
-          String(item.is_on_campus) === (selectedCampus === "On Campus" ? "true" : "false");
-        const matchesGender = selectedGender === "Any" || item.gender.toLowerCase() === selectedGender.toLowerCase();
-        const matchesBudget = selectedBudget === "All Budgets" || item.budget_range === selectedBudget;
-        const matchesSearch = item.name?.toLowerCase().includes(query.toLowerCase());
-
-        // Filter for selected amenities
-        const matchesAmenities =
-          selectedAmenities.length === 0 || selectedAmenities.every((amenity) => item.amenities.includes(amenity));
-
-        return matchesCampus && matchesGender && matchesBudget && matchesSearch && matchesAmenities;
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
+    let filtered = [...roommateData];
+    if (selectedCampus !== "All Locations") {
+      filtered = filtered.filter((item) =>
+        String(item.is_on_campus) === (selectedCampus === "On Campus" ? "true" : "false")
+      );
+    }
+    if (selectedGender !== "Any") {
+      filtered = filtered.filter((item) => item.gender.toLowerCase() === selectedGender.toLowerCase());
+    }
+    if (selectedBudget !== "All Budgets") {
+      filtered = filtered.filter((item) => item.budget_range === selectedBudget);
+    }
+    if (query) {
+      filtered = filtered.filter((item) => item.name?.toLowerCase().includes(query.toLowerCase()));
+    }
+    if (selectedAmenities.length > 0) {
+      filtered = filtered.filter((item) =>
+        selectedAmenities.every((amenity) => item.amenities.includes(amenity))
+      );
+    }
+    return filtered.sort((a, b) => a.name.localeCompare(b.name));
   };
 
   return (
@@ -90,70 +98,109 @@ export default function RoommateFinderPage() {
           {filterData().length} potential roommates found
         </p>
         <p className="text-gray-600 mt-4 text-sm sm:text-md md:text-lg">
-          Looking to find accommodation in Waterloo? Trying to lease your apartment? 
-          Whatever the case, check out our directory of postings!
+          Looking to find accommodation in Waterloo? Trying to lease your apartment? Whatever the case, check out our
+          directory of postings!
         </p>
       </div>
 
       {/* Filter Section */}
-      <div className="bg-white p-4 rounded-lg shadow-md w-full mb-8">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full mb-8">
         <SearchBar />
 
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
-          <select
-            value={selectedCampus}
-            onChange={(e) => setSelectedCampus(e.target.value)}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-48 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            {campusOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          {/* Campus Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Location</label>
+            <select
+              value={selectedCampus}
+              onChange={(e) => setSelectedCampus(e.target.value)}
+              className="border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary hover:shadow-md transition-shadow"
+            >
+              {campusOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <select
-            value={selectedGender}
-            onChange={(e) => setSelectedGender(e.target.value)}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-48 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            {genderOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          {/* Gender Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Gender</label>
+            <select
+              value={selectedGender}
+              onChange={(e) => setSelectedGender(e.target.value)}
+              className="border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary hover:shadow-md transition-shadow"
+            >
+              {genderOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <select
-            value={selectedBudget}
-            onChange={(e) => setSelectedBudget(e.target.value)}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-48 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            {budgetOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          {/* Budget Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Budget</label>
+            <select
+              value={selectedBudget}
+              onChange={(e) => setSelectedBudget(e.target.value)}
+              className="border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary hover:shadow-md transition-shadow"
+            >
+              {budgetOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <select
-            value={selectedAmenities[0] || "All Amenities"}
-            onChange={(e) => setSelectedAmenities([e.target.value])}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-48 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            <option value="All Amenities">All Amenities</option>
-            {amenitiesOptions.map((amenity, index) => (
-              <option key={index} value={amenity}>
-                {amenity}
-              </option>
-            ))}
-          </select>
+          {/* Amenities Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Amenities</label>
+            <div className="border border-gray-300 rounded-lg p-3">
+              {amenitiesOptions.map((amenity, index) => (
+                <label key={index} className="flex items-center space-x-2 mb-2">
+                  <input
+                    type="checkbox"
+                    value={amenity}
+                    checked={selectedAmenities.includes(amenity)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedAmenities([...selectedAmenities, amenity]);
+                      } else {
+                        setSelectedAmenities(selectedAmenities.filter((a) => a !== amenity));
+                      }
+                    }}
+                    className="form-checkbox text-primary focus:ring-primary"
+                  />
+                  <span className="text-sm">{amenity}</span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
+
+        {/* Clear All Filters Button */}
+        <button
+          onClick={() => {
+            setSelectedCampus("All Locations");
+            setSelectedGender("Any");
+            setSelectedBudget("All Budgets");
+            setSelectedAmenities([]);
+          }}
+          className="bg-gray-200 text-sm px-4 py-2 rounded-lg hover:bg-gray-300 transition mt-4"
+        >
+          Clear All Filters
+        </button>
       </div>
 
       {/* Listings Section */}
-      <div className="flex flex-col w-full">
-        {filterData().length > 0 ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        {loading ? (
+          <p className="text-center text-gray-500">Loading...</p>
+        ) : filterData().length > 0 ? (
           filterData().map((item) => (
             <div
               key={item.id}
@@ -168,7 +215,7 @@ export default function RoommateFinderPage() {
                 <strong>Budget Range:</strong> {item.budget_range}
               </p>
               <p className="text-neutral text-sm">
-                <strong>Location:</strong> {item.campusLocation}
+                <strong>Location:</strong> {item.proximity_to_campus}
               </p>
               <p className="text-neutral text-sm">
                 <strong>Amenities:</strong> {item.amenities.join(", ")}
