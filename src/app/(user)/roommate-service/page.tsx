@@ -1,156 +1,237 @@
-//authentication testing
-"use client"
-import React from 'react'
-import { useEffect, useState} from 'react'
-import { useSession, useUser } from '@clerk/nextjs'
-import createClerkSupabaseClient from '@/lib/supabaseClient'
+"use client";
 
-const initialValues = {
-  title: '',
-  description: '',
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { useSearchParams } from "next/navigation";
+import SearchBar from "@/components/UI/SearchBar";
+
+// Define the structure for Roommate Finder data
+interface RoommateData {
+  id: string;
+  name: string;
+  age: number;
+  gender: string;
+  proximity_to_campus: string;
+  is_on_campus: boolean;
+  budget_range: string;
+  description: string;
+  amenities: string[];
+  contact_email: string;
 }
-const page = () => {
-  const { user } = useUser()
-  const userId= user?.id
-  const { session } = useSession()
-  const [listings, setListings] = useState<any[]>([])
-  const [userListings, setUserListings] = useState<any[]>([])
-  const [formValues, setFormValues] = useState(initialValues)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [name, setName] = useState('')  
-  const [loggedIn, setLoggedIn] = useState(false)
-  const client = createClerkSupabaseClient()
 
-  const handleInputChange = (e:any) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+// Options for filtering
+const campusOptions = ["All Locations", "On Campus", "Off Campus"];
+const genderOptions = ["Any", "Brother", "Sister"];
+const budgetOptions = ["All Budgets", "$500-$750", "$750-$1000", "$1000+"];
+const amenitiesOptions = [
+  "WiFi",
+  "Parking",
+  "Gym",
+  "Laundry",
+  "Air Conditioning",
+  "Private Bathroom",
+  "Kitchen Access",
+];
+
+export default function RoommateFinderPage() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query") || "";
+
+  // State variables for storing roommate data and filters
+  const [roommateData, setRoommateData] = useState<RoommateData[]>([]);
+  const [selectedCampus, setSelectedCampus] = useState<string>("All Locations");
+  const [selectedGender, setSelectedGender] = useState<string>("Any");
+  const [selectedBudget, setSelectedBudget] = useState<string>("All Budgets");
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Fetch data from Supabase when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase.from("roommate_finder").select("*");
+        if (error) throw new Error(error.message);
+
+        setRoommateData(data);
+      } catch (error) {
+        console.error("Error fetching Roommate Finder data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Filter data based on user-selected criteria
+  const filterData = () => {
+    let filtered = [...roommateData];
+    if (selectedCampus !== "All Locations") {
+      filtered = filtered.filter((item) =>
+        String(item.is_on_campus) === (selectedCampus === "On Campus" ? "true" : "false")
+      );
+    }
+    if (selectedGender !== "Any") {
+      filtered = filtered.filter((item) => item.gender.toLowerCase() === selectedGender.toLowerCase());
+    }
+    if (selectedBudget !== "All Budgets") {
+      filtered = filtered.filter((item) => item.budget_range === selectedBudget);
+    }
+    if (query) {
+      filtered = filtered.filter((item) => item.name?.toLowerCase().includes(query.toLowerCase()));
+    }
+    if (selectedAmenities.length > 0) {
+      filtered = filtered.filter((item) =>
+        selectedAmenities.every((amenity) => item.amenities.includes(amenity))
+      );
+    }
+    return filtered.sort((a, b) => a.name.localeCompare(b.name));
   };
 
-  useEffect(() => {
-    if (user) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  }, [user]);
-  useEffect(() => {
-    async function loadListings() {
-      console.log('loading listings')
-      const { data, error } = await client.schema('custom_schema').from('listings').select('*')
-      if (!error) setListings(data)
-    } 
-    async function loadMyListings() {
-      console.log('loading listings')
-      const { data, error } = await client.schema('custom_schema').from('listings').select('*').eq("user_id", userId)
-      if (!error) setUserListings(data)
-    } 
-  
-    
-    loadListings()
-    if(user) {
-      loadMyListings()
-    }
-  }, [user])
-
-  //submit a listing
-  const handleSubmit = async (e: any) => {
-    e.preventDefault()
-
-    if (!user) {
-      console.log('You must be signed in to submit a listing')
-      return
-    } else {
-      console.log('You are signed in as')
-      console.log(user)
-      console.log('data', title, description)
-      const { data, error } = await client.schema('custom_schema').from('listings').insert({ title: formValues.title, description: formValues.description })
-      if (!error) {
-        setListings([...listings, data])
-        // setTitle('')
-        // setDescription('')
-      } else{
-        console.log('error', error)
-      }
-    }
-    
-  }
-//fetch all listings
-console.log('listings', listings)
-//fetch  listings
   return (
-    <div className='flex flex-col items-center mt-20 px-4  text-primary '>
-       <h1 className='text-4xl font-bold'> Laurier Roommate Service</h1>
-    {/* LIST ALL LISTINGS */}
-    <div >
-    <div className='text-xl'>  {loggedIn ? <h1>Yay! You are logged in {userId} </h1> : <h1>You are not logged in</h1>} </div>
-    </div>
-   <div>
-      <h1 className='text-xl font-bold'>Current Listings (All)</h1>
-      <div className='flex flex-col gap-4'>
-        {listings.map((listing: any) => (
-          <div key={listing.id} className='rounded-lg border border-gray-300  p-4'>
-            <h2 className='font-bold'>Title: {listing?.title}</h2>
-            <p>Description: {listing?.description}</p>
-          </div>
-        ))}
+    <div className="w-full flex flex-col items-center mt-20 px-4 sm:px-8 bg-base-100 text-neutral">
+      {/* Header Section */}
+      <div className="text-center w-full mb-8">
+        <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-primary">Find Your Perfect Roommate</h1>
+        <p className="text-gray-500 mt-2 text-sm sm:text-md md:text-lg">
+          {filterData().length} potential roommates found
+        </p>
+        <p className="text-gray-600 mt-4 text-sm sm:text-md md:text-lg">
+          Looking to find accommodation in Waterloo? Trying to lease your apartment? Whatever the case, check out our
+          directory of postings!
+        </p>
       </div>
-    </div>
-    <div>
-      <h1 className='text-xl font-bold text-left'>Created By Me</h1>
-      <div className='flex flex-col gap-4'>
-        {userListings.map((listing: any) => (
-          <div key={listing.id} className='rounded-lg border  border-primary p-4'>
-            <h2>Title: {listing?.title}</h2>
-            <p>Description: {listing?.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-{/* FORM  */}
-        <div className="flex w-full items-center justify-center bg-base-100 py-2">
-    
-      <div className="max-w-xl px-2">
-      <h1>Create a listing</h1>
-        <form className="card-body" >
-          <div className="flex flex-col gap-2 py-2">
-            <input
-              type="text"
-              required
-              value={formValues.title}
-              onChange={handleInputChange}
-              name="title"
-              placeholder="Listing Title"
-              className="input input-bordered w-full text-neutral focus:border-secondary"
-            />
-            <input
-              type="text"
-              value={formValues.description}
-              onChange={handleInputChange}
-              required
-              name="description"
-              placeholder="Description of Listing"
-              className="input input-bordered w-full text-neutral focus:border-secondary"
-            />
-          </div>
-          <div className="card-actions justify-end">
-            <button
-              type="submit"
-              onChange={handleInputChange}
-              onClick={handleSubmit}
-              className="btn border-0 bg-primary text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"   
-            >
-             submit
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    </div>
-  )
-}
 
-export default page
+      {/* Filter Section */}
+      <div className="bg-white p-6 rounded-lg shadow-md w-full mb-8">
+        <SearchBar />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          {/* Campus Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Location</label>
+            <select
+              value={selectedCampus}
+              onChange={(e) => setSelectedCampus(e.target.value)}
+              className="border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary hover:shadow-md transition-shadow"
+            >
+              {campusOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Gender Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Gender</label>
+            <select
+              value={selectedGender}
+              onChange={(e) => setSelectedGender(e.target.value)}
+              className="border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary hover:shadow-md transition-shadow"
+            >
+              {genderOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Budget Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Budget</label>
+            <select
+              value={selectedBudget}
+              onChange={(e) => setSelectedBudget(e.target.value)}
+              className="border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary hover:shadow-md transition-shadow"
+            >
+              {budgetOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Amenities Filter */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-gray-600 mb-2">Amenities</label>
+            <div className="border border-gray-300 rounded-lg p-3">
+              {amenitiesOptions.map((amenity, index) => (
+                <label key={index} className="flex items-center space-x-2 mb-2">
+                  <input
+                    type="checkbox"
+                    value={amenity}
+                    checked={selectedAmenities.includes(amenity)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedAmenities([...selectedAmenities, amenity]);
+                      } else {
+                        setSelectedAmenities(selectedAmenities.filter((a) => a !== amenity));
+                      }
+                    }}
+                    className="form-checkbox text-primary focus:ring-primary"
+                  />
+                  <span className="text-sm">{amenity}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Clear All Filters Button */}
+        <button
+          onClick={() => {
+            setSelectedCampus("All Locations");
+            setSelectedGender("Any");
+            setSelectedBudget("All Budgets");
+            setSelectedAmenities([]);
+          }}
+          className="bg-gray-200 text-sm px-4 py-2 rounded-lg hover:bg-gray-300 transition mt-4"
+        >
+          Clear All Filters
+        </button>
+      </div>
+
+      {/* Listings Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        {loading ? (
+          <p className="text-center text-gray-500">Loading...</p>
+        ) : filterData().length > 0 ? (
+          filterData().map((item) => (
+            <div
+              key={item.id}
+              className="bg-base-100 border border-neutral mb-6 shadow-lg rounded-lg p-4 sm:p-6 hover:shadow-xl transition-shadow duration-300"
+            >
+              <h2 className="text-lg sm:text-xl font-bold text-primary mb-1">{item.name}</h2>
+              <p className="text-neutral mb-2 text-sm sm:text-md">{item.description}</p>
+              <p className="text-neutral text-sm">
+                <strong>Gender:</strong> {item.gender}
+              </p>
+              <p className="text-neutral text-sm">
+                <strong>Budget Range:</strong> {item.budget_range}
+              </p>
+              <p className="text-neutral text-sm">
+                <strong>Location:</strong> {item.proximity_to_campus}
+              </p>
+              <p className="text-neutral text-sm">
+                <strong>Amenities:</strong> {item.amenities.join(", ")}
+              </p>
+              <a
+                href={`mailto:${item.contact_email}`}
+                className="text-primary hover:text-secondary hover:underline text-sm font-medium"
+              >
+                Contact {item.name}
+              </a>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No roommates found matching the selected filters.</p>
+        )}
+      </div>
+    </div>
+  );
+}
