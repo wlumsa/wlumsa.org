@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import logo from "../../logo.png";
-import LoginForm from "@/app/(user)/login/page";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 
@@ -104,7 +103,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                                 >
                                   {link.title}
                                 </Link>
-                               
+
                               </li>
                             );
                           })}
@@ -165,7 +164,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
       </div>
       <div className="navbar-end">
-      
+
         <Link
           href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
           className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
@@ -174,30 +173,33 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </Link>
         <div className="dropdown dropdown-end">
           <div
-            
+
           >
             <SignedOut>
-      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton mode='modal' appearance={{
-            elements: {
-              formButtonPrimary: "btn btn-secondary text-primary p-2 mr-2",
-                       },
-          }}/></div>
-          </SignedOut>
-          <SignedIn  
-        >
-          <div className="mx-2 "> <UserButton
-          appearance={{
-            elements: {
-              userButtonAvatarBox: "w-10 h-10", 
-              userButtonPopoverCard: "bg-blue-100", // Custom background for the popover card
-              userButtonPopoverActionButton: "text-primary"
-                       },
-          }}
-         
-          /> </div> 
-          </SignedIn>
+              <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 ">
+                 {/* <SignInButton mode='modal' appearance={{
+                elements: {
+                  formButtonPrimary: "btn btn-secondary text-primary p-2 mr-2",
+                },
+              }} /></div> */}
+              <SignInButton mode="modal"></SignInButton>
+              </div>
+            </SignedOut>
+            <SignedIn
+            >
+              <div className="mx-2 "> <UserButton
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox: "w-10 h-10",
+                    userButtonPopoverCard: "bg-blue-100", // Custom background for the popover card
+                    userButtonPopoverActionButton: "text-primary"
+                  },
+                }}
+
+              /> </div>
+            </SignedIn>
             {/* <div className="indicator"> */}
-              {/* <svg
+            {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
                 fill="none"
@@ -211,12 +213,12 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg> */}
-              {/* <span className="badge indicator-item badge-sm">
+            {/* <span className="badge indicator-item badge-sm">
                 {productData.length > 0 ? productData.length : 0}
               </span> */}
             {/* </div> */}
-          {/* </div> */}
-          {/* <div
+            {/* </div> */}
+            {/* <div
             tabIndex={0}
             className="card dropdown-content card-compact z-[1] mt-3 w-52 bg-primary shadow"
           > */}
