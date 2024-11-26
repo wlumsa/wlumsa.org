@@ -39,7 +39,7 @@ import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import RoommatePosts from "./collections/RoommatePosts";
-
+import { Comments } from "./collections/Comment";
 
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
@@ -76,6 +76,7 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     RoommatePosts,
+    Comments
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -96,11 +97,7 @@ export default buildConfig({
       generateDescription: ({ doc }) => doc.description,
       uploadsCollection: "media",
 
-      fieldOverrides: {
-        description: {
-          localized: true,
-        },
-      },
+    
     }),
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",

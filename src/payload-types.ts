@@ -24,12 +24,14 @@ export interface Config {
     tags: Tag;
     Sizes: Size;
     WeeklyEvents: WeeklyEvent;
+    RoommatePosts: RoommatePost;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
     services: Service;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
     individuals: Individual;
+    Comments: Comment;
     'iia-services': IiaService;
     faq: Faq;
     'halal-directory': HalalDirectory;
@@ -284,6 +286,37 @@ export interface Category {
   title: string;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RoommatePosts".
+ */
+export interface RoommatePost {
+  id: number;
+  title: string;
+  description: string;
+  updatedAt: string;
+  createdAt: string;
+  address: string;
+  name: string;
+  contactEmail: string;
+  rent: string;
+  PropertyType: string;
+  roomfurnishing: string;
+  deposit: string;
+  availableDate: string;
+  images: (number | Media)[];
+  status: ('approved' | 'pending') | null;
+  comments: (number | Comment)[];
+}
+
+export interface Comment {
+  id: number;
+  author: string;
+  comment: string;
+  updatedAt: string;
+  createdAt: string;
+  postId: number | RoommatePost;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

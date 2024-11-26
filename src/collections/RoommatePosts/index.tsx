@@ -1,18 +1,14 @@
 import { CollectionConfig } from 'payload';
-import React from 'react';
 
-const DescriptionField: React.FC<{ value?: string }> = ({ value }) => (
-  <div>{value || 'No description provided'}</div>
-);
-
-const RoommatePosts: CollectionConfig = {
-  slug: 'roommate-posts',
+export const RoommatePosts: CollectionConfig = {
+  slug: 'RoommatePosts',
   labels: {
     singular: 'Roommate Post',
     plural: 'Roommate Posts',
   },
   admin: {
     useAsTitle: 'title',
+    group: 'Roommate Services',
   },
   fields: [
     {
@@ -26,17 +22,18 @@ const RoommatePosts: CollectionConfig = {
       type: 'textarea',
       required: true,
       label: 'Description',
-      admin: {
-        components: {
-          Field: DescriptionField,
-        },
-      },
     },
     {
-      name: 'location',
+      name: 'address',
       type: 'text',
       required: true,
-      label: 'Location',
+      label: 'Address',
+    },
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      label: 'Name',
     },
     {
       name: 'contactEmail',
@@ -44,6 +41,44 @@ const RoommatePosts: CollectionConfig = {
       required: true,
       label: 'Contact Email',
     },
+    {
+      name: 'rent',
+      type: 'text',
+      required: true,
+      label: 'Deposit',
+    },
+    {
+      name: 'PropertyType',
+      type: 'text',
+      required: true,
+      label: 'Property Type',
+    },
+    {
+      name: 'roomfurnishing',
+      type: 'text',
+      required: true,
+      label: 'Room Furnishing',
+    },
+    {
+      name: 'availableDate',
+      type: 'date',
+      required: true,
+      label: 'Available Date',
+    },
+    {
+      name: 'images',
+      type: 'relationship',
+      relationTo: 'media',
+      hasMany: true,
+    },
+
+    {
+      name: 'comments',
+      type: 'relationship',
+      relationTo: 'Comments',
+      hasMany: true,
+    }
+    ,
     {
       name: 'status',
       type: 'select',

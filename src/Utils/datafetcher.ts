@@ -639,3 +639,32 @@ export async function fetchFAQ() {
   });
   return faq.docs;
 }
+
+export async function fetchRoommatePostById(id: string) {
+  const post = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      // "status": {
+      //   equals: "published",
+      // },
+      "id": {
+        equals: id,
+      },
+    },
+    limit: 1,
+  });
+  return post.docs;
+}
+
+export async function fetchCommentsByPostId(id: string) {
+  const comments = await payload.find({
+    collection: "Comments",
+    where: {
+      "postId": {
+        equals: id,
+      },
+    },
+  });
+  return comments.docs;
+
+}
