@@ -1,7 +1,7 @@
 import { Markdown } from "@react-email/markdown";
 import "server-only";
 import { createClient } from "./client";
-import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
@@ -24,7 +24,7 @@ export async function getPublicURL(
 
 
 
-const payload = await getPayloadHMR({ config: configPromise });
+const payload = await getPayload({ config: configPromise });
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
@@ -484,27 +484,27 @@ export async function fetchServices() {
   return services.docs;
 }
 
-export async function fetchFoodSpots() {
-  const services = await payload.find({
-    collection: "halal-directory",
-  });
-  return services.docs;
+export async function fetchHalalDirectory() {
+  const foodSpots = await payload.find({
+    collection: "halal-directory"
+  })
+  return foodSpots.docs;
 }
 // Function to fetch Halal Directory data
-export async function fetchHalalDirectory() {
-  const { data, error } = await supabase
-    .from("halal-directory")
-    .select("id, name, category, price_range, slaughtered, shortDescription, location, googleMapsLink, website")
-    .limit(50);
+// export async function fetchHalalDirectory() {
+//   const { data, error } = await supabase
+//     .from("halal-directory")
+//     .select("id, name, category, price_range, slaughtered, shortDescription, location, googleMapsLink, website")
+//     .limit(50);
 
-  if (error) {
-    console.error('Error fetching Halal Directory from Supabase:', error);
-    return [];
-  }
+//   if (error) {
+//     console.error('Error fetching Halal Directory from Supabase:', error);
+//     return [];
+//   }
 
-  console.log('Halal Directory Data from Supabase:', data);
-  return data || [];
-}
+//   console.log('Halal Directory Data from Supabase:', data);
+//   return data || [];
+// }
 
 export async function fetchIIAServices() {
   const services = await payload.find({

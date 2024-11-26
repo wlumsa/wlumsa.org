@@ -45,7 +45,7 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts"
-  ],
+, "src/app/(user)/[...not-found]"  ],
   "exclude": [
     "node_modules"
   ]
