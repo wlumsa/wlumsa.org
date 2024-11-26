@@ -117,7 +117,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 className="bg-base-100 border border-neutral mb-6 shadow-lg rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Image Section */}
-                <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden">
+                <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden h-36">
                   {item.image && typeof item.image !== 'number' && item.image.url ? (
                     <img src={item.image.url} alt={item.image.alt} className="w-full h-full object-cover" />
                   ) : (
@@ -126,13 +126,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 </div>
 
                 {/* Restaurant Details Section */}
-                <div className="flex-grow">
+                <div className="flex flex-col w-3/4 ">
                   <h2 className="text-lg sm:text-xl font-bold text-primary mb-1">{item.name}</h2>
                   <p className="text-neutral mb-2 text-sm sm:text-md">{item.shortDescription}</p>
-                  <p className="text-neutral text-sm">
+                  <p className="text-neutral text-sm capitalize">
                     <strong>Category:</strong> {item.category}
                   </p>
-                  <p className="text-neutral text-sm">
+                  <p className="text-neutral text-sm capitalize">
                     <strong>Slaughter Method:</strong> {item.slaughtered}
                   </p>
                   <p className="text-neutral text-sm">
@@ -149,14 +149,16 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
                 {/* Optional Booking Button */}
                 {item.website && (
+                  <button className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold">
                   <a
                     href={item.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold"
+                    className=""
                   >
                     Book Now
                   </a>
+                  </button>
                 )}
               </div>
             ))
