@@ -750,11 +750,9 @@ export interface PostsSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         description?: T;
         image?: T;
-        preview?: T;
       };
   updatedAt?: T;
   createdAt?: T;

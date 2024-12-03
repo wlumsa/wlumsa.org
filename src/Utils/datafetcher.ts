@@ -474,7 +474,7 @@ export async function getResourceById(id: string) {
     collection: "resources",
     id: id,
   });
-  return resource;
+return resource;
 }
 
 export async function fetchServices() {
@@ -486,7 +486,8 @@ export async function fetchServices() {
 
 export async function fetchHalalDirectory() {
   const foodSpots = await payload.find({
-    collection: "halal-directory"
+    collection: "halal-directory",
+    limit: 50,
   })
   return foodSpots.docs;
 }
