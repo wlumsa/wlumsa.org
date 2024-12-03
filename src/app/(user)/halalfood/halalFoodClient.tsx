@@ -4,6 +4,8 @@ import { useState } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
+import { FaMapMarkerAlt, FaUtensils, FaHandPaper } from "react-icons/fa";
+
 const cuisineOptions = [
   "All Cuisines",
   "Chinese",
@@ -49,7 +51,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       .sort((a, b) => a.name.localeCompare(b.name));
   };
 
-
   return (
     <div className="w-full flex flex-col items-center mt-20 px-4 sm:px-8 bg-base-100 text-neutral">
       {/* Header Section */}
@@ -68,42 +69,63 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         {/* Additional Filters */}
         <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4">
           {/* Cuisine Dropdown */}
-          <select
-            value={selectedCuisine}
-            onChange={(e) => setSelectedCuisine(e.target.value)}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            {cuisineOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center">
+            <FaUtensils className="mr-2 text-neutral" />
+            <select
+              value={selectedCuisine}
+              onChange={(e) => setSelectedCuisine(e.target.value)}
+              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+            >
+              {cuisineOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Slaughter Method Dropdown */}
-          <select
-            value={selectedMethod}
-            onChange={(e) => setSelectedMethod(e.target.value)}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            {slaughterMethodOptions.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center">
+            <FaHandPaper className="mr-2 text-neutral" />
+            <select
+              value={selectedMethod}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+            >
+              {slaughterMethodOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Campus Location Dropdown */}
-          <select
-            value={selectedCampusLocation}
-            onChange={(e) => setSelectedCampusLocation(e.target.value)}
-            className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-          >
-            <option value="All Locations">All Locations</option>
-            <option value="true">On Campus</option>
-            <option value="false">Off Campus</option>
-          </select>
+          <div className="flex items-center">
+            <FaMapMarkerAlt className="mr-2 text-neutral" />
+            <select
+              value={selectedCampusLocation}
+              onChange={(e) => setSelectedCampusLocation(e.target.value)}
+              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+            >
+              <option value="All Locations">All Locations</option>
+              <option value="true">On Campus</option>
+              <option value="false">Off Campus</option>
+            </select>
+          </div>
         </div>
+
+        {/* Clear Filters Button */}
+        <button
+          onClick={() => {
+            setSelectedCuisine("All Cuisines");
+            setSelectedMethod("All Methods");
+            setSelectedCampusLocation("All Locations");
+          }}
+          className="text-neutral hover:text-primary text-sm font-medium mt-4 sm:mt-0"
+        >
+          Clear Filters
+        </button>
       </div>
 
       {/* Main Content Section */}
