@@ -6,8 +6,8 @@ import { Building } from 'lucide-react';
 import { CalendarDays } from 'lucide-react';
 import Tag from "@/components/UI/Tag";
 import { Banknote, Users, House, Armchair, Phone, Mail } from "lucide-react";
-import { useState } from "react";
-export default async function BlogPost({
+import ImageCarousel from "@/components/UI/ImageCarousel";
+export default async function RoommatePost({
   params,
 }: {
   params: { post: string };
@@ -22,16 +22,13 @@ export default async function BlogPost({
       return item.url;
     } 
     return null;
-  });
+  }).filter((url): url is string => url !== null && url !== undefined);
 
   const date = post?.createdAt ? new Date(post?.createdAt) : null;
   const formattedDate = date ? format(date, 'MMMM dd, yyyy'): null;
   const formattedAvailableDate =  post?.availableDate ? format(new Date(post?.availableDate), 'MMMM dd' ) : null;
-  const imageCount = image?.length || 0;
-  //const title = post?.meta?.title;
- // const description = post?.meta?.description || "";
+
 const comments = await fetchCommentsByPostId(id);
-console.log(comments)
    
 
   return (
@@ -40,22 +37,9 @@ console.log(comments)
       <div className="mx-auto md:max-w-screen-lg p-4 ">
         <main className="flex flex-col items-center text-gray-700">
           <div className="">
-               <img
-                src={image? image[0]?.toString() : ""}
-                className="object-cover lg:rounded "
-                style={{ height: "26em", width: "48em" }}/> 
-        <div>
-        <div className="flex w-full justify-center gap-2 pt-4">
-          {Array.from({length: imageCount }, (_, index) => (
-            <button
-              className="btn btn-xs border-primary bg-base-100 text-primary duration-200 hover:scale-105 hover:bg-base-200"
-              key={index}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-         </div>   
+            <ImageCarousel images={image || []} />
+            
+        
             <div className="px-4 lg:px-0 flex flex-row justify-between max-w-[48em]">
                 <div className=" flex flex-col">
                     <h1 className=" mt-4 text-4xl font-bold text-primary ">{post?.title} </h1>
@@ -100,9 +84,9 @@ console.log(comments)
               <div className="my-8">
                 <h1 className="text-2xl text-primary font-bold my-2">Comments</h1>
                 <div className="">
-                    <div className="flex flex-row gap-4 w-full"> 
-                        <input type="text" placeholder="Write a comment..." className="border-2 border-gray-300 rounded-lg px-4 py-2 bg-gray-100 w-3/4"/>
-                        <button className="bg-primary font-bold text-white rounded-lg px-4 py-2">Post</button>
+                    <div className="flex flex-row gap-4 w-full">
+                    <input type="text" placeholder="Type here" className="input input-bordered px-4 py-2   w-3/4" /> 
+                      <button className="bg-primary font-bold text-white rounded-lg px-4 py-2">Post</button>
                     </div>
                 </div>
                 <div className="my-8">

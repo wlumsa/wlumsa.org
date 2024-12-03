@@ -655,6 +655,14 @@ export async function fetchRoommatePostById(id: string) {
   });
   return post.docs;
 }
+export async function fetchRoommatePosts() {
+  const posts = await payload.find({
+    collection: "RoommatePosts",
+    sort: "-createdAt", 
+    limit: 10,
+  });
+  return posts.docs;
+}
 
 export async function fetchCommentsByPostId(id: string) {
   const comments = await payload.find({

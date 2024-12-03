@@ -12,6 +12,13 @@ export const RoommatePosts: CollectionConfig = {
   },
   fields: [
     {
+      name: 'user_id',
+      type:'text',
+      required: true,
+      label: 'User ID',
+
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
