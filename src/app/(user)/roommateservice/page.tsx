@@ -1,26 +1,19 @@
 "use server";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { supabase } from "@/lib/supabaseClient";
 import RoommateCard from "@/components/UI/RoommateCard";
 import Listing from "@/components/Forms/Listing";
 import RoommatePostCard from "@/components/UI/RoommatePostCard";
 import { fetchRoommatePosts } from "@/Utils/datafetcher";
-import ListingPopup from "@/components/UI/ListingPopup";
-// Define the structure of a RoommateProfile
-interface RoommateProfile {
-  id: number;
-  name: string;
-  age?: number;
-  gender?: string;
-  bio?: string;
-  location?: string;
-  interests?: string;
-  created_at?: string;
-}
+import { currentUser } from '@clerk/nextjs/server'
+import Link from "next/link";
 
-  const RoommateServicePage = async () => {
+
+const RoommateServicePage = async () => {
+
 
 const posts = await fetchRoommatePosts();
+const user = await currentUser()
 console.log(posts);
   return (
     <div className="flex flex-col items-center justify-center gap-6 p-6 mt-16 ">
@@ -29,7 +22,8 @@ console.log(posts);
         <p className="w-fit">Looking to find accommodation in Waterloo? Trying to lease your apartment? Whatever the case is checkout our directory of postings  </p>
       </div>
       <div>
-        <ListingPopup />
+       { user && <Link href='/create-post'><button className="btn btn-primary " >New Post</button></Link> }
+        {/* <ListingPopup /> */}
       </div>
      
  <div className="flex justify-center">

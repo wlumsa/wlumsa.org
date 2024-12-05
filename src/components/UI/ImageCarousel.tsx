@@ -30,7 +30,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   return (
     <div>
       <div className='flex flex-row items-center'>
-      <ChevronLeft size={32} color="#2e046d" onClick={handlePrevImage} className='cursor-pointer' />
+     {imageCount > 1 && <ChevronLeft size={32} color="#2e046d" onClick={handlePrevImage} className='cursor-pointer' /> }
         {images.length > 0 && (
           <img
             src={images[currentIndex] ? images[currentIndex].toString() : ""}
@@ -38,13 +38,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             style={{ height: "26em", width: "48em" }}
           />
         )}
-        { currentIndex <= imageCount-1 &&
+        { (currentIndex <= imageCount-1 && imageCount > 1 ) &&
                       <ChevronRight size={32} color="#2e046d" onClick={handleNextImage} className='cursor-pointer' />
 
         }
 
       </div>
-      <div className="flex w-full justify-center gap-2 pt-4">
+      {imageCount > 1 && <div className="flex w-full justify-center gap-2 pt-4">
         {Array.from({ length: imageCount }, (_, index) => (
           <button 
             onClick={() => getIndex(index)}
@@ -54,7 +54,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             {index + 1}
           </button>
         ))}
-      </div>
+      </div>}
     </div>
   );
 };
