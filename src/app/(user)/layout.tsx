@@ -45,6 +45,7 @@ export const revalidate = 3600;
  * @param children - The child components to render within the layout.
  * @returns The JSX element representing the root layout.
  */
+
 export default async function RootLayout({
   children,
 }: {

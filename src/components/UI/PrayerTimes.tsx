@@ -32,7 +32,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
   const todaysTimings = getTodaysTimings(today, timingsData);
 
   if (!todaysTimings) {
-    return <div>Error fetching prayer timings, <br/>
+    return <div className="text-neutral">Error fetching prayer timings, <br/>
     please contact msa@wlu.ca</div>;
   }
 

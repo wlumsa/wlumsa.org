@@ -55,13 +55,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       {/* Header Section */}
       <div className="text-center w-full mb-8">
         <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-primary">Discover Best Halal Restaurants</h1>
-        <p className="text-gray-500 mt-2 text-sm sm:text-md md:text-lg">
+        <p className="text-base-300 mt-2 text-sm sm:text-md md:text-lg">
           {filterData().length} restaurants available nearby
         </p>
       </div>
 
       {/* Filter Section */}
-      <div className="bg-white p-4 rounded-lg shadow-md w-full mb-8">
+      <div className="bg-base=100 p-4 rounded-lg shadow-md w-full mb-8">
         {/* Use SearchBar component */}
         <SearchBar />
 
@@ -170,7 +170,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
                 {/* Optional Booking Button */}
                 {item.website && (
-                  <button className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold">
+                  <button className="btn btn-secondary hover:bg-scale-105 text-primary transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold">
                   <a
                     href={item.website}
                     target="_blank"
