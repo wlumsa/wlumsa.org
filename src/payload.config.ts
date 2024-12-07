@@ -1,6 +1,6 @@
 import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
-import { postgresAdapter } from '@payloadcms/db-postgres'; // Updated to Postgres adapter
+import { postgresAdapter } from "@payloadcms/db-postgres"; // Updated to Postgres adapter
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -38,6 +38,9 @@ import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
+import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
+import RoommatePosts from "./collections/RoommatePosts";
+import { Comments } from "./collections/Comment";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -72,6 +75,8 @@ export default buildConfig({
     IIAServices,
     FrequentlyAskedQuestions,
     HalalDirectory,
+    RoommatePosts,
+    Comments
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -118,6 +123,38 @@ export default buildConfig({
         endpoint: process.env.S3_ENDPOINT || "default_endpoint",
       },
     }),
+    formBuilderPlugin(
+      {
+        formOverrides:{
+          slug:"forms",
+          admin:{
+            group:"Admin",
+          },
+          fields: ({ defaultFields }) => {
+            return [
+              ...defaultFields,
+              {
+                name: 'submission-limit',
+                label: "Submission Limit",
+                type: 'number',
+              },
+            ]
+          },
+        },
+        fields: {
+          text: true,
+          textarea: true,
+          select: true,
+          email: true,
+          state: true,
+          country: true,
+          checkbox: true,
+          number: true,
+          message: true,
+          payment: false,
+        },
+      },
+    ),
   ],
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",

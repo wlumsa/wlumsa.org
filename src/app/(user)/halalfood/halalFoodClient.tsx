@@ -4,8 +4,7 @@ import { useState } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
-import { FaMapMarkerAlt, FaUtensils, FaHandPaper } from "react-icons/fa";
-
+import { MapPin,Utensils,Hand } from "lucide-react";
 const cuisineOptions = [
   "All Cuisines",
   "Chinese",
@@ -70,7 +69,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4">
           {/* Cuisine Dropdown */}
           <div className="flex items-center">
-            <FaUtensils className="mr-2 text-neutral" />
+            <Utensils className="mr-2 text-neutral" />
             <select
               value={selectedCuisine}
               onChange={(e) => setSelectedCuisine(e.target.value)}
@@ -86,7 +85,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
           {/* Slaughter Method Dropdown */}
           <div className="flex items-center">
-            <FaHandPaper className="mr-2 text-neutral" />
+            <Hand className="mr-2 text-neutral" />
             <select
               value={selectedMethod}
               onChange={(e) => setSelectedMethod(e.target.value)}
@@ -102,7 +101,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
           {/* Campus Location Dropdown */}
           <div className="flex items-center">
-            <FaMapMarkerAlt className="mr-2 text-neutral" />
+            <MapPin className="mr-2 text-neutral" />
             <select
               value={selectedCampusLocation}
               onChange={(e) => setSelectedCampusLocation(e.target.value)}
