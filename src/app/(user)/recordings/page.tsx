@@ -1,32 +1,51 @@
 
 import React from "react";
-import RecordingCard from "@/components/UI/RecordingCard";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import Carousel from "@/components/UI/Carousel";
+import { fetchRecordingsbyCategorory } from "@/Utils/datafetcher";
 /**
  * Renders the page component for displaying recordings.
  * @returns The JSX element representing the page component.
  */
-const categories = [
+
+type Params = Promise<{ slug: string }>
+type SearchParams = Promise<{ [key: string]: string | undefined }>
+
+
+interface Category {
+  id: string,
+  title: string
+}
+const categories: Category[] = [
   {
-    title: "Jummah Kutbahs",
-    description: "View recordings of previous Kutbahs on Campus",
-    playlistUrl: "https://www.youtube.com/playlist?list=PLDk3wfLWI2WgOZn-RKW9s97KfORA3G4YN",
+    id: "1",
+    title: "Halaqah"
   },
   {
-    title: "Halaqa",
-    description: "Missed a Halaqa? No problem you can view the recordings here",
-    playlistUrl: "https://www.youtube.com/playlist?list=PLDk3wfLWI2WgS1x45kBt8yFVXapKtjDD9",
+    id: "2",
+    title: "Khutbah"
   },
   {
-    title: "Guest Speakers",
-    description: "View all the recordings of the guest speakers which have came to Laurier in the past",
-    playlistUrl: "https://www.youtube.com/playlist?list=PLDk3wfLWI2Wi_R3R3lNZ9AuHVRfp6acEP",
+    id: "3",
+    title: "Guest Speaker"
   },
+ 
 ]
 
-const page = () => {
-
+const page = async (props: {
+  params: Params
+  searchParams: SearchParams
+}) => {
+  const params = await props.params
+  const searchParams = await props.searchParams
+  const slug = params.slug
+  const query = searchParams.query
+  //const query = searchParams?.query || '';
+  const categoryId = searchParams?.category || '1';
+  const recordingsData = await fetchRecordingsbyCategorory(categoryId);
+  console.log(recordingsData);
+  let recordingArray = recordingsData.map(recording => (recording.url));
+  console.log(recordingArray);
   return (
     <div className="flex relative min-h-screen flex-col m-16 items-center justify-center" >
        <div>
@@ -36,7 +55,7 @@ const page = () => {
        <div className="mx-auto mt-0">
          <ButtonGroup categories={categories}/>
        </div>
-        <Carousel/>
+         <Carousel recordings={recordingArray} /> 
        <div>
           <button className="btn btn-primary text-white  "><a href="https://www.youtube.com/@WLUMSA">View on Youtube</a></button>
        </div>

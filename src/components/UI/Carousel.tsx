@@ -1,35 +1,16 @@
 'use client'
 import React from 'react'
-import RecordingCard from './RecordingCard'
 import { useState } from 'react'
 import { useRef } from 'react'
-import { current } from '@reduxjs/toolkit'
-const recordings = [
-    {
-      videoId: "Esnqdy0rqiY",
-      title: "Turret (Jumu'ah)",
-      thumbnailUrl: "https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg",
-    },
-    {
-      videoId: "Esnqdy0rqiY",
-      title: "Turret (Jumu'ah)",
-      thumbnailUrl: "https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg",
-    },
-    {
-      videoId: "Esnqdy0rqiY",
-      title: "Turret (Jumu'ah)",
-      thumbnailUrl: "https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg",
-    },
-    {
-      videoId: "Esnqdy0rqiY",
-      title: "Turret (Jumu'ah)",
-      thumbnailUrl: "https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg",
-    }
-  ]
 
-const Carousel = () => {
+
+interface RecordingProps {
+  recordings: string[];
+}
+const Carousel:React.FC<RecordingProps> = ({recordings} ) => {
     const carouselRef =  useRef<HTMLDivElement | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const length = recordings.length;
 
     const handleNext = () => {
         if (carouselRef.current?.firstChild && currentIndex < recordings.length - 1) {
@@ -58,24 +39,27 @@ const Carousel = () => {
       };
     
   return (
-    <div className='flex flex-row items-center justify-center gap-4'>
-            <button onClick={handlePrev} className="btn btn-circle btn-primary"  disabled={currentIndex === 0}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg></button>
-        <div className="carousel relative h-96 gap-12 max-w-[22rem] overflow-x-auto rounded-box py-2 sm:max-w-[20rem] md:max-w-2xl lg:max-w-4xl xl:max-w-6xl"  ref={carouselRef}>
-       
-       { recordings.length > 0 && recordings.map((recording, index) => (
-         <div className=" carousel-item w-[20rem] md:w-[24rem]" key={index}  id={`item${(index + 1).toString()}`}  >
-           <RecordingCard  
-           videoId={recording.videoId}
-           title={recording.title}
-           thumbnailUrl={recording.thumbnailUrl}
-           />
-         </div>
-       ))}
-        </div>
-        <button onClick={handleNext} className="btn btn-circle btn-primary"   disabled={currentIndex === recordings.length - 1} ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg></button>
-
+     <div className='flex flex-col md:flex-row items-center justify-center md:gap-4'>
         
-    </div>
+          {length > 1 && <button onClick={handlePrev} className="btn btn-circle btn-primary  hidden md:flex justify-center items-center"  disabled={currentIndex === 0}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg></button>}
+        <div className="carousel relative md:h-96 gap-12 max-w-[23rem] overflow-x-auto rounded-box py-2 sm:max-w-[20rem] md:max-w-2xl lg:max-w-4xl xl:max-w-6xl"  ref={carouselRef}>
+            {recordings.map((recording, index) => (
+              <div className='carousel-item w-full md:w-[24rem] bg-primary md:p-2 rounded-xl flex justify-center items-center h-[270px] ' key={index}>
+              <iframe  className=' w-80 h-60 md:w-[360px] md:h-[215px] ' src={recording} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>     
+          </div>
+          ))}
+        </div>
+       { length > 1 && <button onClick={handleNext} className="btn btn-circle btn-primary hidden md:flex justify-center items-center "   disabled={currentIndex === recordings.length - 1} ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg></button>}
+        <div className=' flex-row flex md:hidden gap-8 py-4 '>
+       { length > 1 && (
+        <div className='flex flex-row gap-8'>
+          <button onClick={handlePrev} className="btn btn-circle btn-primary  justify-center items-center"  disabled={currentIndex === 0}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button onClick={handleNext} className="btn btn-circle btn-primary justify-center items-center"   disabled={currentIndex === recordings.length - 1} ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+       )}
+        </div>
+
+    </div> 
   )
 }
 

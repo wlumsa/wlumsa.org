@@ -31,6 +31,7 @@ export interface Config {
     'distribution-list': DistributionList;
     individuals: Individual;
     'iia-services': IiaService;
+    'recording': Recording;
     faq: Faq;
     'halal-directory': HalalDirectory;
     'payload-locked-documents': PayloadLockedDocument;
@@ -162,6 +163,14 @@ export interface Link {
 export interface Instagram {
   id: number;
   url: string;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Recording {
+  id: number;
+  title?: string | null;
+  url: string;
+  category: 'halaqah' | 'khutbah' | 'guest-speaker';
   updatedAt: string;
   createdAt: string;
 }

@@ -519,3 +519,17 @@ export async function fetchFAQ() {
   });
   return faq.docs;
 }
+
+export async function fetchRecordingsbyCategorory(category:string) {
+
+  const recordings = await payload.find({
+    collection: "recording",
+    where: {
+      "category": {
+        equals: category,
+      },
+    },
+    limit: 10,
+  });
+  return recordings.docs;
+}
