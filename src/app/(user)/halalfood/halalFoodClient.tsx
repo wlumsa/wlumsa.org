@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
@@ -35,8 +35,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   const [selectedCuisine, setSelectedCuisine] = useState<string>("All Cuisines");
   const [selectedMethod, setSelectedMethod] = useState<string>("All Methods");
   const [selectedCampusLocation, setSelectedCampusLocation] = useState<string>("All Locations");
+  const [showFilters, setShowFilters] = useState<boolean>(true);
 
-  const filterData = () => {
+  const filteredData = useMemo(() => {
     return halalDirectory
       .filter((item) => {
         const matchesCategory =
@@ -49,7 +50,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         return matchesCategory && matchesMethod && matchesSearch && matchesLocation;
       })
       .sort((a, b) => a.name.localeCompare(b.name));
-  };
+  }, [halalDirectory, selectedCuisine, selectedMethod, selectedCampusLocation, query]);
 
   return (
     <div className="w-full flex flex-col items-center mt-20 px-4 sm:px-8 bg-base-100 text-neutral">
@@ -57,97 +58,108 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       <div className="text-center w-full mb-8">
         <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-primary">Discover Best Halal Restaurants</h1>
         <p className="text-gray-500 mt-2 text-sm sm:text-md md:text-lg">
-          {filterData().length} restaurants available nearby
+          {filteredData.length} restaurants available nearby
         </p>
       </div>
 
-      {/* Filter Section */}
+      {/* Collapsible Filter Section */}
       <div className="bg-white p-4 rounded-lg shadow-md w-full mb-8">
-        {/* Use SearchBar component */}
-        <SearchBar />
-
-        {/* Additional Filters */}
-        <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4">
-          {/* Cuisine Dropdown */}
-          <div className="flex items-center">
-            <FaUtensils className="mr-2 text-neutral" />
-            <select
-              value={selectedCuisine}
-              onChange={(e) => setSelectedCuisine(e.target.value)}
-              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-            >
-              {cuisineOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Slaughter Method Dropdown */}
-          <div className="flex items-center">
-            <FaHandPaper className="mr-2 text-neutral" />
-            <select
-              value={selectedMethod}
-              onChange={(e) => setSelectedMethod(e.target.value)}
-              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-            >
-              {slaughterMethodOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Campus Location Dropdown */}
-          <div className="flex items-center">
-            <FaMapMarkerAlt className="mr-2 text-neutral" />
-            <select
-              value={selectedCampusLocation}
-              onChange={(e) => setSelectedCampusLocation(e.target.value)}
-              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-            >
-              <option value="All Locations">All Locations</option>
-              <option value="true">On Campus</option>
-              <option value="false">Off Campus</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Clear Filters Button */}
         <button
-          onClick={() => {
-            setSelectedCuisine("All Cuisines");
-            setSelectedMethod("All Methods");
-            setSelectedCampusLocation("All Locations");
-          }}
-          className="text-neutral hover:text-primary text-sm font-medium mt-4 sm:mt-0"
+          onClick={() => setShowFilters((prev) => !prev)}
+          className="text-primary font-bold text-lg sm:text-xl w-full text-left"
         >
-          Clear Filters
+          {showFilters ? "Hide Filters" : "Show Filters"}
         </button>
+        {showFilters && (
+          <div className="mt-4">
+            <SearchBar />
+
+            {/* Additional Filters */}
+            <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
+              {/* Cuisine Dropdown */}
+              <div className="flex items-center">
+                <FaUtensils className="mr-2 text-neutral" />
+                <select
+                  value={selectedCuisine}
+                  onChange={(e) => setSelectedCuisine(e.target.value)}
+                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+                >
+                  {cuisineOptions.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Slaughter Method Dropdown */}
+              <div className="flex items-center">
+                <FaHandPaper className="mr-2 text-neutral" />
+                <select
+                  value={selectedMethod}
+                  onChange={(e) => setSelectedMethod(e.target.value)}
+                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+                >
+                  {slaughterMethodOptions.map((option, index) => (
+                    <option key={index} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Campus Location Dropdown */}
+              <div className="flex items-center">
+                <FaMapMarkerAlt className="mr-2 text-neutral" />
+                <select
+                  value={selectedCampusLocation}
+                  onChange={(e) => setSelectedCampusLocation(e.target.value)}
+                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+                >
+                  <option value="All Locations">All Locations</option>
+                  <option value="true">On Campus</option>
+                  <option value="false">Off Campus</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Clear Filters Button */}
+            <button
+              onClick={() => {
+                setSelectedCuisine("All Cuisines");
+                setSelectedMethod("All Methods");
+                setSelectedCampusLocation("All Locations");
+              }}
+              className="text-neutral hover:text-primary text-sm font-medium mt-4"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Main Content Section */}
       <div className="flex flex-col md:flex-row w-full md:space-x-6">
+        {/* Restaurant List */}
         <div className="w-full md:w-2/3">
-          {/* Render filtered restaurant cards */}
-          {filterData().length > 0 ? (
-            filterData().map((item) => (
+          {filteredData.length > 0 ? (
+            filteredData.map((item) => (
               <div
                 key={item.id}
                 className="bg-base-100 border border-neutral mb-6 shadow-lg rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 hover:shadow-xl transition-shadow duration-300"
               >
-                {/* Image Section */}
                 <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden">
-                  {item.image && typeof item.image !== 'number' && item.image.url ? (
-                    <img src={item.image.url} alt={item.image.alt} className="w-full h-full object-cover" />
+                  {item.image && typeof item.image !== "number" && item.image.url ? (
+                    <img
+                      src={item.image.url}
+                      alt={item.image.alt}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   ) : (
                     <p className="text-neutral">No Image</p>
                   )}
                 </div>
-
-                {/* Restaurant Details Section */}
                 <div className="flex-grow">
                   <h2 className="text-lg sm:text-xl font-bold text-primary mb-1">{item.name}</h2>
                   <p className="text-neutral mb-2 text-sm sm:text-md">{item.shortDescription}</p>
@@ -168,8 +180,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                     View on Google Maps
                   </a>
                 </div>
-
-                {/* Optional Booking Button */}
                 {item.website && (
                   <a
                     href={item.website}
