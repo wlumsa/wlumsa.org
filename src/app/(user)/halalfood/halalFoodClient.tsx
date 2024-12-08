@@ -62,6 +62,20 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         </p>
       </div>
 
+      {/* Active Filters Section */}
+      <div className="bg-gray-100 text-gray-700 rounded-lg p-3 mb-4 w-full">
+        <p className="text-sm sm:text-md">
+          <strong>Active Filters:</strong>{" "}
+          {selectedCuisine !== "All Cuisines" && `Cuisine: ${selectedCuisine}`}
+          {selectedMethod !== "All Methods" && ` | Method: ${selectedMethod}`}
+          {selectedCampusLocation !== "All Locations" && ` | Location: ${selectedCampusLocation}`}
+          {(selectedCuisine === "All Cuisines" &&
+            selectedMethod === "All Methods" &&
+            selectedCampusLocation === "All Locations") &&
+            "None"}
+        </p>
+      </div>
+
       {/* Collapsible Filter Section */}
       <div className="bg-white p-4 rounded-lg shadow-md w-full mb-8">
         <button
@@ -72,7 +86,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         </button>
         {showFilters && (
           <div className="mt-4">
-            <SearchBar />
+            <SearchBar className="border border-gray-300 shadow-lg rounded-lg p-4 mb-4" />
 
             {/* Additional Filters */}
             <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
@@ -166,9 +180,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                   <p className="text-neutral text-sm">
                     <strong>Category:</strong> {item.category}
                   </p>
-                  <p className="text-neutral text-sm">
-                    <strong>Slaughter Method:</strong> {item.slaughtered}
-                  </p>
+                  {item.slaughtered && (
+                    <p className="text-neutral text-sm">
+                      <strong>Slaughter Method:</strong> {item.slaughtered}
+                    </p>
+                  )}
                   <p className="text-neutral text-sm">
                     <strong>Location:</strong> {item.location}
                   </p>
@@ -193,7 +209,19 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               </div>
             ))
           ) : (
-            <p className="text-neutral text-md sm:text-lg">No restaurants found matching your criteria.</p>
+            <div className="text-center mt-8">
+              <p className="text-gray-500 text-lg">No results found matching your criteria.</p>
+              <button
+                onClick={() => {
+                  setSelectedCuisine("All Cuisines");
+                  setSelectedMethod("All Methods");
+                  setSelectedCampusLocation("All Locations");
+                }}
+                className="mt-4 bg-primary text-white px-4 py-2 rounded-lg"
+              >
+                Clear Filters
+              </button>
+            </div>
           )}
         </div>
 
