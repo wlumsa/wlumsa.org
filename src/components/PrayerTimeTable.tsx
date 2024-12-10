@@ -70,7 +70,7 @@ console.log(daysInCurrentMonth)
             })}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-200 bg-base-100">
           {timesToShow.map((key, keyIndex) => (
             <tr key={keyIndex}>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
@@ -227,7 +227,7 @@ export default PrayerTimesTable;
 //             ))}
 //           </tr>
 //         </thead>
-//         <tbody className="divide-y divide-gray-200 bg-white">
+//         <tbody className="divide-y divide-gray-200 bg-base-100">
 //           {prayerRows.map(({ key, iqamahKey }) => (
 //             <tr key={key} className="bg-gray-50">
 //               <td className="text-md whitespace-nowrap px-6 py-4 font-medium text-gray-900">

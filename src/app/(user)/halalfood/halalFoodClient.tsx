@@ -4,8 +4,7 @@ import { useState, useMemo } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
-import { FaMapMarkerAlt, FaUtensils, FaHandPaper } from "react-icons/fa";
-
+import { MapPin,Utensils,Hand } from "lucide-react";
 const cuisineOptions = [
   "All Cuisines",
   "Chinese",
@@ -57,85 +56,64 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       {/* Header Section */}
       <div className="text-center w-full mb-8">
         <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-primary">Discover Best Halal Restaurants</h1>
-        <p className="text-gray-500 mt-2 text-sm sm:text-md md:text-lg">
-          {filteredData.length} restaurants available nearby
+        <p className="text-base-300 mt-2 text-sm sm:text-md md:text-lg">
+          {filterData().length} restaurants available nearby
         </p>
       </div>
 
-      {/* Active Filters Section */}
-      <div className="bg-gray-100 text-gray-700 rounded-lg p-3 mb-4 w-full">
-        <p className="text-sm sm:text-md">
-          <strong>Active Filters:</strong>{" "}
-          {selectedCuisine !== "All Cuisines" && `Cuisine: ${selectedCuisine}`}
-          {selectedMethod !== "All Methods" && ` | Method: ${selectedMethod}`}
-          {selectedCampusLocation !== "All Locations" && ` | Location: ${selectedCampusLocation}`}
-          {(selectedCuisine === "All Cuisines" &&
-            selectedMethod === "All Methods" &&
-            selectedCampusLocation === "All Locations") &&
-            "None"}
-        </p>
-      </div>
+      {/* Filter Section */}
+      <div className="bg-base=100 p-4 rounded-lg shadow-md w-full mb-8">
+        {/* Use SearchBar component */}
+        <SearchBar />
 
-      {/* Collapsible Filter Section */}
-      <div className="bg-white p-4 rounded-lg shadow-md w-full mb-8">
-        <button
-          onClick={() => setShowFilters((prev) => !prev)}
-          className="text-primary font-bold text-lg sm:text-xl w-full text-left"
-        >
-          {showFilters ? "Hide Filters" : "Show Filters"}
-        </button>
-        {showFilters && (
-          <div className="mt-4">
-            <SearchBar className="border border-gray-300 shadow-lg rounded-lg p-4 mb-4" />
+        {/* Additional Filters */}
+        <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4">
+          {/* Cuisine Dropdown */}
+          <div className="flex items-center">
+            <Utensils className="mr-2 text-neutral" />
+            <select
+              value={selectedCuisine}
+              onChange={(e) => setSelectedCuisine(e.target.value)}
+              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+            >
+              {cuisineOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* Additional Filters */}
-            <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
-              {/* Cuisine Dropdown */}
-              <div className="flex items-center">
-                <FaUtensils className="mr-2 text-neutral" />
-                <select
-                  value={selectedCuisine}
-                  onChange={(e) => setSelectedCuisine(e.target.value)}
-                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-                >
-                  {cuisineOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
+          {/* Slaughter Method Dropdown */}
+          <div className="flex items-center">
+            <Hand className="mr-2 text-neutral" />
+            <select
+              value={selectedMethod}
+              onChange={(e) => setSelectedMethod(e.target.value)}
+              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+            >
+              {slaughterMethodOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
-              {/* Slaughter Method Dropdown */}
-              <div className="flex items-center">
-                <FaHandPaper className="mr-2 text-neutral" />
-                <select
-                  value={selectedMethod}
-                  onChange={(e) => setSelectedMethod(e.target.value)}
-                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-                >
-                  {slaughterMethodOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Campus Location Dropdown */}
-              <div className="flex items-center">
-                <FaMapMarkerAlt className="mr-2 text-neutral" />
-                <select
-                  value={selectedCampusLocation}
-                  onChange={(e) => setSelectedCampusLocation(e.target.value)}
-                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
-                >
-                  <option value="All Locations">All Locations</option>
-                  <option value="true">On Campus</option>
-                  <option value="false">Off Campus</option>
-                </select>
-              </div>
-            </div>
+          {/* Campus Location Dropdown */}
+          <div className="flex items-center">
+            <MapPin className="mr-2 text-neutral" />
+            <select
+              value={selectedCampusLocation}
+              onChange={(e) => setSelectedCampusLocation(e.target.value)}
+              className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56 text-sm sm:text-md focus:ring-2 focus:ring-primary transition"
+            >
+              <option value="All Locations">All Locations</option>
+              <option value="true">On Campus</option>
+              <option value="false">Off Campus</option>
+            </select>
+          </div>
+        </div>
 
             {/* Clear Filters Button */}
             <button
@@ -162,29 +140,25 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 key={item.id}
                 className="bg-base-100 border border-neutral mb-6 shadow-lg rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden">
-                  {item.image && typeof item.image !== "number" && item.image.url ? (
-                    <img
-                      src={item.image.url}
-                      alt={item.image.alt}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+                {/* Image Section */}
+                <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden h-36">
+                  {item.image && typeof item.image !== 'number' && item.image.url ? (
+                    <img src={item.image.url} alt={item.image.alt} className="w-full h-full object-cover" />
                   ) : (
                     <p className="text-neutral">No Image</p>
                   )}
                 </div>
-                <div className="flex-grow">
+
+                {/* Restaurant Details Section */}
+                <div className="flex flex-col w-3/4 ">
                   <h2 className="text-lg sm:text-xl font-bold text-primary mb-1">{item.name}</h2>
                   <p className="text-neutral mb-2 text-sm sm:text-md">{item.shortDescription}</p>
-                  <p className="text-neutral text-sm">
+                  <p className="text-neutral text-sm capitalize">
                     <strong>Category:</strong> {item.category}
                   </p>
-                  {item.slaughtered && (
-                    <p className="text-neutral text-sm">
-                      <strong>Slaughter Method:</strong> {item.slaughtered}
-                    </p>
-                  )}
+                  <p className="text-neutral text-sm capitalize">
+                    <strong>Slaughter Method:</strong> {item.slaughtered}
+                  </p>
                   <p className="text-neutral text-sm">
                     <strong>Location:</strong> {item.location}
                   </p>
@@ -197,14 +171,16 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                   </a>
                 </div>
                 {item.website && (
+                  <button className="btn btn-secondary hover:bg-scale-105 text-primary transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold">
                   <a
                     href={item.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold"
+                    className=""
                   >
                     Book Now
                   </a>
+                  </button>
                 )}
               </div>
             ))
