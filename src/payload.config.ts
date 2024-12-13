@@ -41,6 +41,7 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
+import {selectField,textField} from "./collections/Forms";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -76,7 +77,7 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     RoommatePosts,
-    Comments
+    Comments,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -125,26 +126,28 @@ export default buildConfig({
     }),
     formBuilderPlugin(
       {
-        formOverrides:{
-          slug:"forms",
-          admin:{
-            group:"Admin",
+        formOverrides: {
+          slug: "forms",
+          admin: {
+            group: "Admin",
           },
           fields: ({ defaultFields }) => {
             return [
               ...defaultFields,
               {
-                name: 'submission-limit',
+                name: "submission-limit",
                 label: "Submission Limit",
-                type: 'number',
+                type: "number",
               },
-            ]
+            ];
           },
         },
         fields: {
           text: true,
           textarea: true,
-          select: true,
+          select:  {
+            fields: selectField,
+          },
           email: true,
           state: true,
           country: true,

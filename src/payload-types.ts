@@ -596,11 +596,12 @@ export interface Form {
             name: string;
             label?: string | null;
             width?: number | null;
-            defaultValue?: string | null;
+            default_value?: string | null;
             options?:
               | {
-                  label: string;
-                  value: string;
+                  label?: string | null;
+                  value?: string | null;
+                  limit?: number | null;
                   id?: string | null;
                 }[]
               | null;
@@ -1246,12 +1247,13 @@ export interface FormsSelect<T extends boolean = true> {
               name?: T;
               label?: T;
               width?: T;
-              defaultValue?: T;
+              default_value?: T;
               options?:
                 | T
                 | {
                     label?: T;
                     value?: T;
+                    limit?: T;
                     id?: T;
                   };
               required?: T;
