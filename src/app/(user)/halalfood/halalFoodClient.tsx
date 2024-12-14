@@ -4,8 +4,7 @@ import { useState, useMemo } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
-import { FaMapMarkerAlt, FaUtensils, FaHandPaper } from "react-icons/fa";
-
+import { MapPin, Utensils, Hand } from "lucide-react";
 const cuisineOptions = [
   "All Cuisines",
   "Chinese",
@@ -86,13 +85,14 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         </button>
         {showFilters && (
           <div className="mt-4">
-            <SearchBar className="border border-gray-300 shadow-lg rounded-lg p-4 mb-4" />
-
+            <div className="border border-gray-300 shadow-lg rounded-lg p-4 mb-4">
+              <SearchBar />
+            </div>
             {/* Additional Filters */}
             <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
               {/* Cuisine Dropdown */}
               <div className="flex items-center">
-                <FaUtensils className="mr-2 text-neutral" />
+                <Utensils className="mr-2 text-neutral" />
                 <select
                   value={selectedCuisine}
                   onChange={(e) => setSelectedCuisine(e.target.value)}
@@ -108,7 +108,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
               {/* Slaughter Method Dropdown */}
               <div className="flex items-center">
-                <FaHandPaper className="mr-2 text-neutral" />
+                <Hand className="mr-2 text-neutral" />
                 <select
                   value={selectedMethod}
                   onChange={(e) => setSelectedMethod(e.target.value)}
@@ -124,7 +124,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
               {/* Campus Location Dropdown */}
               <div className="flex items-center">
-                <FaMapMarkerAlt className="mr-2 text-neutral" />
+                <MapPin className="mr-2 text-neutral" />
                 <select
                   value={selectedCampusLocation}
                   onChange={(e) => setSelectedCampusLocation(e.target.value)}
@@ -177,7 +177,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 <div className="flex-grow">
                   <h2 className="text-lg sm:text-xl font-bold text-primary mb-1">{item.name}</h2>
                   <p className="text-neutral mb-2 text-sm sm:text-md">{item.shortDescription}</p>
-                  <p className="text-neutral text-sm">
+                  <p className="text-neutral text-sm capitalize">
                     <strong>Category:</strong> {item.category}
                   </p>
                   {item.slaughtered && (
@@ -197,14 +197,16 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                   </a>
                 </div>
                 {item.website && (
-                  <a
-                    href={item.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold"
-                  >
-                    Book Now
-                  </a>
+                  <button className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg w-full sm:w-32 h-10 sm:h-12 flex items-center justify-center font-semibold">
+                    <a
+                      href={item.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=""
+                    >
+                      Book Now
+                    </a>
+                  </button>
                 )}
               </div>
             ))

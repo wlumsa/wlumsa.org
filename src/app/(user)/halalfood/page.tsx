@@ -3,7 +3,6 @@ import FilterComponent from "./halalFoodClient";
 // Define the structure for the Halal Directory data
 import { fetchHalalDirectory } from "@/Utils/datafetcher";
 
-// Function to get the public URL of an image based on its ID
 async function getImageByID(id: string) {
   const { data: filename, error } = await supabase.from("media").select("filename").eq("id", id).single();
   if (error) {

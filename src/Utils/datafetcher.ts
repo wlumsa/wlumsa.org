@@ -8,6 +8,129 @@ import { unstable_cache } from "next/cache";
 export const revalidate = 3600;
 
 
+export async function fetchRoommateProfiles() {
+  const { data, error } = await supabase
+    .from("roommates")
+    .select("*");
+
+  if (error) {
+    console.error("Error fetching roommate profiles:", error);
+    return [];
+  }
+
+  return data;
+}
+
+/** 
+ * Fetch a roommate profile by ID. 
+ * @param {number} id - The ID of the roommate.
+ * @returns {Promise<any | null>} The roommate profile or null if not found.
+ */
+export async function fetchRoommateById(id: number) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching roommate with ID ${id}:`, error);
+    return null;
+  }
+
+  return data;
+}
+
+/** 
+ * Get the public URL for a roommate's image from Supabase storage.
+ * @param {string} imageId - The ID of the image in storage.
+ * @returns {Promise<string>} Public URL of the image.
+ */
+export async function getRoommateImageURL(imageId: string): Promise<string> {
+  const { data } = supabase.storage
+    .from(process.env.S3_BUCKET || "default_bucket")
+    .getPublicUrl(`photos/${imageId}`);
+
+  return data?.publicUrl || "";
+}
+
+/** 
+ * Add a new roommate profile to the 'roommates' table. 
+ * @param {string} name - Name of the roommate.
+ * @param {string} gender - Gender of the roommate (e.g., Male, Female, Other).
+ * @param {string} location - Location (e.g., Downtown, Campus).
+ * @param {number} rent - Monthly rent.
+ * @param {string} [imageId] - Optional image ID.
+ * @returns {Promise<any | null>} The newly added profile or null on error.
+ */
+export async function addRoommateProfile(
+  name: string,
+  gender: string,
+  location: string,
+  rent: number,
+  imageId?: string
+) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .insert([{ name, gender, location, rent, image_id: imageId }]);
+
+  if (error) {
+    console.error("Error adding roommate profile:", error);
+    return null;
+  }
+
+  return data;
+}
+
+/** 
+ * Update an existing roommate profile by ID. 
+ * @param {number} id - The ID of the roommate profile to update.
+ * @param {Partial<{name: string; gender: string; location: string; rent: number; image_id: string}>} updatedData - Fields to update.
+ * @returns {Promise<any | null>} The updated profile or null on error.
+ */
+export async function updateRoommateProfile(
+  id: number,
+  updatedData: Partial<{
+    name: string;
+    gender: string;
+    location: string;
+    rent: number;
+    image_id: string;
+  }>
+) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .update(updatedData)
+    .eq("id", id);
+
+  if (error) {
+    console.error(`Error updating roommate profile with ID ${id}:`, error);
+    return null;
+  }
+
+  return data;
+}
+
+/** 
+ * Delete a roommate profile by ID. 
+ * @param {number} id - The ID of the roommate profile to delete.
+ * @returns {Promise<any | null>} The deleted profile data or null on error.
+ */
+export async function deleteRoommateProfile(id: number) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(`Error deleting roommate profile with ID ${id}:`, error);
+    return null;
+  }
+
+  console.log(`Roommate profile with ID ${id} deleted.`);
+  return data;
+}
+
 export async function getPublicURL(
   folder: string | null | undefined,
   fileName: string | null | undefined,
@@ -474,7 +597,7 @@ export async function getResourceById(id: string) {
     collection: "resources",
     id: id,
   });
-  return resource;
+return resource;
 }
 
 export async function fetchServices() {
@@ -486,7 +609,8 @@ export async function fetchServices() {
 
 export async function fetchHalalDirectory() {
   const foodSpots = await payload.find({
-    collection: "halal-directory"
+    collection: "halal-directory",
+    limit: 50,
   })
   return foodSpots.docs;
 }
@@ -517,4 +641,41 @@ export async function fetchFAQ() {
     collection: "faq",
   });
   return faq.docs;
+}
+
+export async function fetchRoommatePostById(id: string) {
+  const post = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      // "status": {
+      //   equals: "published",
+      // },
+      "id": {
+        equals: id,
+      },
+    },
+    limit: 1,
+  });
+  return post.docs;
+}
+export async function fetchRoommatePosts() {
+  const posts = await payload.find({
+    collection: "RoommatePosts",
+    sort: "-createdAt", 
+    limit: 10,
+  });
+  return posts.docs;
+}
+
+export async function fetchCommentsByPostId(id: string) {
+  const comments = await payload.find({
+    collection: "Comments",
+    where: {
+      "postId": {
+        equals: id,
+      },
+    },
+  });
+  return comments.docs;
+
 }
