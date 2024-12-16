@@ -41,7 +41,8 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
-import {selectField,textField} from "./collections/Forms";
+import { selectField } from "./collections/forms";
+
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -156,6 +157,11 @@ export default buildConfig({
           message: true,
           payment: false,
         },
+        // handlePayment: async ({ form, submissionData }) => {
+        //   // first calculate the price
+        //   const paymentField = form.fields.payment
+        //   // then asynchronously process the payment here
+        // },
       },
     ),
   ],

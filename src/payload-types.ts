@@ -601,7 +601,6 @@ export interface Form {
               | {
                   label?: string | null;
                   value?: string | null;
-                  limit?: number | null;
                   id?: string | null;
                 }[]
               | null;
@@ -1253,7 +1252,6 @@ export interface FormsSelect<T extends boolean = true> {
                 | {
                     label?: T;
                     value?: T;
-                    limit?: T;
                     id?: T;
                   };
               required?: T;
