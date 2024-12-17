@@ -14,7 +14,7 @@ const IIA: React.FC = async () => {
   
   return (
    <div data-theme="IIA">
-     <div id="hero"  className="hero min-h-screen relative overflow-hidden">
+     <div id="hero"  className="hero min-h-[70vh] relative overflow-hidden">
        <Image
          fill
          src={mediaDocs[0]?.url || ''}
@@ -38,11 +38,11 @@ const IIA: React.FC = async () => {
          </div>
        </div>
      </div>
-     <div className="mt-8 px-10" id="services">
+     <div className="mt-8 md:px-10" id="services">
        <h1 className="text-4xl text-center font-semibold py-8">Our Services</h1>
        <Service services={services}/>
      </div>
-     <div className=" px-24 items-center mb-16 ">
+     <div className=" md:px-24 px-8 items-center mb-16 ">
        <h1 className="text-4xl text-center py-12 font-semibold">Frequently Asked Questions</h1>
        <div className="bg-primary rounded p-4 items-center">
        {questions.map((question, index) => ( 

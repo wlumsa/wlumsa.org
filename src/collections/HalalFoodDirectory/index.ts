@@ -11,7 +11,7 @@ export const HalalDirectory: CollectionConfig = {
       name: "name",
       type: "text",
       required: true,
-      label: "Name", 
+      label: "Name",
     },
     {
       name: "category",
@@ -74,6 +74,14 @@ export const HalalDirectory: CollectionConfig = {
       type: "relationship",
       label: "Image",
       relationTo: "media",
+    },
+    // Campus location field to specify whether the restaurant is on or off-campus
+    {
+      name: "is_on_campus",
+      label: "On Campus?",
+      type: "checkbox",
+      defaultValue: false,
+      required: true,
     },
   ],
 };
