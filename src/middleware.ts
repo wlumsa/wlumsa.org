@@ -1,9 +1,9 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { clerkMiddleware } from "@clerk/nextjs/server";
+// import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+// export default clerkMiddleware();
 
 export const config = {
   matcher: [
