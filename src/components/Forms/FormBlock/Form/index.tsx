@@ -126,42 +126,55 @@ export const FormBlock: React.FC<
   )
 
   return (
-      <div
-        className=""
-      >
+    /*
+        <div>
+      <div className="flex items-center">
+        <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
+    */
+    <div className="mt-20 flex flex-grow flex-col items-center">
+      <div className="flex items-center">
         {!isLoading && hasSubmitted && confirmationType === 'message' && (
           <RichText className="" content={confirmationMessage} />
         )}
         {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
         {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
         {!hasSubmitted && (
-          <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-            <div className="mt-24">
-              {formFromProps &&
-                formFromProps.fields &&
-                formFromProps.fields.map((field, index) => {
-                  const Field: React.FC<any> = fields?.[field.blockType]
-                  if (Field) {
-                    return (
-                      <React.Fragment key={index}>
-                        <Field
-                          form={formFromProps}
-                          {...field}
-                          {...formMethods}
-                          control={control}
-                          errors={errors}
-                          register={register}
-                        />
-                      </React.Fragment>
-                    )
-                  }
-                  return null
-                })}
-            </div>
-            <button className='btn btn-primary'form={formID}  />
-          </form>
+          <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
+
+            <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
+              <div className="">
+                {formFromProps &&
+                  formFromProps.fields &&
+                  formFromProps.fields.map((field, index) => {
+                    const Field: React.FC<any> = fields?.[field.blockType]
+                    if (Field) {
+                      return (
+                        <React.Fragment key={index}>
+                          <Field
+                            form={formFromProps}
+                            {...field}
+                            {...formMethods}
+                            control={control}
+                            errors={errors}
+                            register={register}
+                          />
+                        </React.Fragment>
+                      )
+                    }
+                    return null
+                  })}
+              </div>
+              <button
+                type="submit"
+                className="btn border-0 bg-secondary text-primary shadow duration-200 hover:scale-105 hover:text-base-100"
+                form={formID}
+              >
+                Submit ➜
+              </button>
+            </form>
+          </div>
         )}
       </div>
-  
+    </div>
   )
 }
