@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import logo from "../../logo.png";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { SignInButton, UserButton } from "@clerk/nextjs";
+import { usePathname } from 'next/navigation'
 /* Readd donate button */
 interface Product {
   id: string;
@@ -34,6 +35,8 @@ type NavbarProps = {
   navbarData: Nav;
 };
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
+  const pathname = usePathname()
+
 
   // const productData = useSelector((state: RootState) => state.shopper.cart);
   // const [totalAmt, setTotalAmt] = useState("");
@@ -172,7 +175,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             <div
             className="">
             <SignedOut>
-      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton mode='modal'/></div>
+      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton mode='modal' fallbackRedirectUrl={pathname}  /></div>
           </SignedOut>
           <SignedIn  >
           <div className="mx-2 "> <UserButton

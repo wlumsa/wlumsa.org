@@ -25,7 +25,7 @@ const page = () => {
       {loggedIn ? <Listing/> : 
       <div>
        <h1>You must log in or create an account to create a post</h1> 
-       <div className='btn text-primary font-bold' ><SignInButton mode='modal'/></div>
+       <div className='btn text-primary font-bold' ><SignInButton mode='modal' fallbackRedirectUrl={"/create-post"} /></div>
         </div>}
     </div>
   )
