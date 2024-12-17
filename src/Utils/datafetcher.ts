@@ -647,9 +647,6 @@ export async function fetchRoommatePostById(id: string) {
   const post = await payload.find({
     collection: "RoommatePosts",
     where: {
-      // "status": {
-      //   equals: "published",
-      // },
       "id": {
         equals: id,
       },
