@@ -1,4 +1,4 @@
-import type { SelectField } from '@payloadcms/plugin-form-builder/types'
+import type { CountryField } from '@payloadcms/plugin-form-builder/types'
 import type { Control, FieldErrorsImpl, FieldValues } from 'react-hook-form'
 
 import React from 'react'
@@ -7,9 +7,9 @@ import ReactSelect from 'react-select'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
-import classes from './index.module.scss'
+import { countryOptions } from './options'
 
-export const Select: React.FC<
+export const Country: React.FC<
   {
     control: Control<FieldValues, any>
     errors: Partial<
@@ -17,12 +17,12 @@ export const Select: React.FC<
         [x: string]: any
       }>
     >
-  } & SelectField
-> = ({ name, control, errors, label, options, required, width }) => {
+  } & CountryField
+> = ({ name, control, errors, label, required, width }) => {
   return (
     <Width width={width}>
-      <div className={classes.select}>
-        <label className={classes.label} htmlFor={name}>
+      <div className="">
+        <label className="" htmlFor={name}>
           {label}
         </label>
         <Controller
@@ -31,13 +31,13 @@ export const Select: React.FC<
           name={name}
           render={({ field: { onChange, value } }) => (
             <ReactSelect
-              className={classes.reactSelect}
+              className=""
               classNamePrefix="rs"
               inputId={name}
               instanceId={name}
               onChange={(val) => onChange(val ? val.value : '')}
-              options={options}
-              value={options.find((s) => s.value === value)}
+              options={countryOptions}
+              value={countryOptions.find((c) => c.value === value)}
             />
           )}
           rules={{ required }}

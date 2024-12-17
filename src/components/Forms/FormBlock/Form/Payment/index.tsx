@@ -5,9 +5,8 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
-import classes from './index.module.scss'
 
-export const Number: React.FC<
+export const PaymentField:React.FC<
   {
     errors: Partial<
       FieldErrorsImpl<{
@@ -15,18 +14,19 @@ export const Number: React.FC<
       }>
     >
     register: UseFormRegister<any & FieldValues>
+    rows?: number
   } & TextField
-> = ({ name, errors, label, register, required: requiredFromProps, width }) => {
+> = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width }) => {
   return (
     <Width width={width}>
-      <div className={classes.wrap}>
-        <label className={classes.label} htmlFor={name}>
+      <div className="">
+        <label className="" htmlFor={name}>
           {label}
         </label>
-        <input
-          className={classes.input}
+        <textarea
+          className=""
           id={name}
-          type="number"
+          rows={rows}
           {...register(name, { required: requiredFromProps })}
         />
         {requiredFromProps && errors[name] && <Error />}

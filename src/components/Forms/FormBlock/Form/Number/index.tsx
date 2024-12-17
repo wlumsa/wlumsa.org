@@ -5,9 +5,8 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
-import classes from './index.module.scss'
 
-export const Textarea: React.FC<
+export const Number: React.FC<
   {
     errors: Partial<
       FieldErrorsImpl<{
@@ -15,19 +14,18 @@ export const Textarea: React.FC<
       }>
     >
     register: UseFormRegister<any & FieldValues>
-    rows?: number
   } & TextField
-> = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width }) => {
+> = ({ name, errors, label, register, required: requiredFromProps, width }) => {
   return (
     <Width width={width}>
-      <div className={classes.wrap}>
-        <label className={classes.label} htmlFor={name}>
+      <div className="">
+        <label className="" htmlFor={name}>
           {label}
         </label>
-        <textarea
-          className={classes.textarea}
+        <input
+          className=""
           id={name}
-          rows={rows}
+          type="number"
           {...register(name, { required: requiredFromProps })}
         />
         {requiredFromProps && errors[name] && <Error />}

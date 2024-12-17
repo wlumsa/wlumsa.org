@@ -5,7 +5,6 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
-import classes from './index.module.scss'
 
 export const Text: React.FC<
   {
@@ -19,12 +18,12 @@ export const Text: React.FC<
 > = ({ name, errors, label, register, required: requiredFromProps, width }) => {
   return (
     <Width width={width}>
-      <div className={classes.wrap}>
-        <label className={classes.label} htmlFor={name}>
+      <div className="">
+        <label className="" htmlFor={name}>
           {label}
         </label>
         <input
-          className={classes.input}
+         className=""
           id={name}
           type="text"
           {...register(name, { required: requiredFromProps })}

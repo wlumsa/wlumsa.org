@@ -6,7 +6,6 @@ import React, { useState } from 'react'
 import { Check } from 'lucide-react'
 import { Error } from '../Error'
 import { Width } from '../Width'
-import classes from './index.module.scss'
 
 export const Checkbox: React.FC<
   {
@@ -35,8 +34,8 @@ export const Checkbox: React.FC<
 
   return (
     <Width width={width}>
-      <div className={[classes.checkbox, checked && classes.checked].filter(Boolean).join(' ')}>
-        <div className={classes.container}>
+      <div className="">
+        <div className="">
           <input
             type="checkbox"
             {...register(name, { required: requiredFromProps })}
@@ -49,11 +48,11 @@ export const Checkbox: React.FC<
             }}
             type="button"
           >
-            <span className={classes.input}>
+            <span className="">
               <Check />
             </span>
           </button>
-          <span className={classes.label}>{label}</span>
+          <span className="">{label}</span>
         </div>
         {requiredFromProps && errors[name] && checked === false && <Error />}
       </div>

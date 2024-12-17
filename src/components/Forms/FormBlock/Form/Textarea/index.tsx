@@ -5,9 +5,8 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
-import classes from './index.module.scss'
 
-export const PaymentField:React.FC<
+export const Textarea: React.FC<
   {
     errors: Partial<
       FieldErrorsImpl<{
@@ -20,12 +19,12 @@ export const PaymentField:React.FC<
 > = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width }) => {
   return (
     <Width width={width}>
-      <div className={classes.wrap}>
-        <label className={classes.label} htmlFor={name}>
+      <div className="">
+        <label className="" htmlFor={name}>
           {label}
         </label>
         <textarea
-          className={classes.textarea}
+          className=""
           id={name}
           rows={rows}
           {...register(name, { required: requiredFromProps })}
