@@ -4,8 +4,7 @@ import { useState } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
-import { FaMapMarkerAlt, FaUtensils, FaHandPaper } from "react-icons/fa";
-
+import { MapPin,Utensils,Hand } from "lucide-react";
 const cuisineOptions = [
   "All Cuisines",
   "Chinese",
@@ -70,7 +69,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4">
           {/* Cuisine Dropdown */}
           <div className="flex items-center">
-            <FaUtensils className="mr-2 text-neutral" />
+            <Utensils className="mr-2 text-neutral" />
             <select
               value={selectedCuisine}
               onChange={(e) => setSelectedCuisine(e.target.value)}
@@ -86,7 +85,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
           {/* Slaughter Method Dropdown */}
           <div className="flex items-center">
-            <FaHandPaper className="mr-2 text-neutral" />
+            <Hand className="mr-2 text-neutral" />
             <select
               value={selectedMethod}
               onChange={(e) => setSelectedMethod(e.target.value)}
@@ -102,7 +101,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
           {/* Campus Location Dropdown */}
           <div className="flex items-center">
-            <FaMapMarkerAlt className="mr-2 text-neutral" />
+            <MapPin className="mr-2 text-neutral" />
             <select
               value={selectedCampusLocation}
               onChange={(e) => setSelectedCampusLocation(e.target.value)}
@@ -139,7 +138,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 className="bg-base-100 border border-neutral mb-6 shadow-lg rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Image Section */}
-                <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden h-36">
+                <div className="w-full sm:w-32  bg-neutral flex items-center justify-center rounded-lg overflow-hidden h-36">
                   {item.image && typeof item.image !== 'number' && item.image.url ? (
                     <img src={item.image.url} alt={item.image.alt} className="w-full h-full object-cover" />
                   ) : (
