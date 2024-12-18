@@ -138,7 +138,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 className="bg-base-100 border border-neutral mb-6 shadow-lg rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Image Section */}
-                <div className="w-full sm:w-32 h-32 bg-neutral flex items-center justify-center rounded-lg overflow-hidden h-36">
+                <div className="w-full sm:w-32  bg-neutral flex items-center justify-center rounded-lg overflow-hidden h-36">
                   {item.image && typeof item.image !== 'number' && item.image.url ? (
                     <img src={item.image.url} alt={item.image.alt} className="w-full h-full object-cover" />
                   ) : (

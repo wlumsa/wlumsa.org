@@ -37,6 +37,7 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
+import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
@@ -67,6 +68,7 @@ export default buildConfig({
     Categories,
     Tags,
     Sizes,
+    Recording,
     WeeklyEvents,
     Jummah,
     PrayerRooms,
