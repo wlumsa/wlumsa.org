@@ -643,6 +643,21 @@ export async function fetchFAQ() {
   return faq.docs;
 }
 
+export async function fetchRecordingsbyCategory(category:string) {
+
+  const recordings = await payload.find({
+    collection: "recording",
+    where: {
+      "category": {
+        equals: category,
+      },
+    },
+    limit: 50,
+  });
+  return recordings.docs;
+}
+
+
 export async function fetchRoommatePostById(id: string) {
   const post = await payload.find({
     collection: "RoommatePosts",
