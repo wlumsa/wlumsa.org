@@ -2,7 +2,7 @@
 import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import Carousel from "@/components/UI/Carousel";
-import { fetchRecordingsbyCategorory } from "@/Utils/datafetcher";
+import { fetchRecordingsbyCategory } from "@/Utils/datafetcher";
 /**
  * Renders the page component for displaying recordings.
  * @returns The JSX element representing the page component.
@@ -42,7 +42,7 @@ const categories: Category[] = [
 //   const query = searchParams.query
 //   //const query = searchParams?.query || '';
 //   const categoryId = searchParams?.category || '1';
-//   const recordingsData = await fetchRecordingsbyCategorory(categoryId);
+//   const recordingsData = await fetchRecordingsbyCategory(categoryId);
 //   console.log(recordingsData);
 //   let recordingArray = recordingsData.map(recording => (recording.url));
 //   console.log(recordingArray);

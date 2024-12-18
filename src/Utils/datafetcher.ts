@@ -643,7 +643,7 @@ export async function fetchFAQ() {
   return faq.docs;
 }
 
-export async function fetchRecordingsbyCategorory(category:string) {
+export async function fetchRecordingsbyCategory(category:string) {
 
   const recordings = await payload.find({
     collection: "recording",
@@ -652,7 +652,6 @@ export async function fetchRecordingsbyCategorory(category:string) {
         equals: category,
       },
     },
-    limit: 10,
   });
   return recordings.docs;
 }
