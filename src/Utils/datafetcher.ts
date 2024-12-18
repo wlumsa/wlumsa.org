@@ -652,6 +652,7 @@ export async function fetchRecordingsbyCategory(category:string) {
         equals: category,
       },
     },
+    limit: 50,
   });
   return recordings.docs;
 }
