@@ -23,6 +23,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     Sizes: Size;
+    recording: Recording;
     WeeklyEvents: WeeklyEvent;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
@@ -31,7 +32,6 @@ export interface Config {
     'distribution-list': DistributionList;
     individuals: Individual;
     'iia-services': IiaService;
-    'recording': Recording;
     faq: Faq;
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
@@ -56,6 +56,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     Sizes: SizesSelect<false> | SizesSelect<true>;
+    recording: RecordingSelect<false> | RecordingSelect<true>;
     WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
     'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
     'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
@@ -171,14 +172,6 @@ export interface Link {
 export interface Instagram {
   id: number;
   url: string;
-  updatedAt: string;
-  createdAt: string;
-}
-export interface Recording {
-  id: number;
-  title?: string | null;
-  url: string;
-  category: 'halaqah' | 'khutbah' | 'guest-speaker';
   updatedAt: string;
   createdAt: string;
 }
@@ -336,6 +329,18 @@ export interface Post {
 export interface Category {
   id: number;
   title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recording".
+ */
+export interface Recording {
+  id: number;
+  title?: string | null;
+  url: string;
+  category: '1' | '2' | '3';
   updatedAt: string;
   createdAt: string;
 }
@@ -772,6 +777,10 @@ export interface PayloadLockedDocument {
         value: number | Size;
       } | null)
     | ({
+        relationTo: 'recording';
+        value: number | Recording;
+      } | null)
+    | ({
         relationTo: 'WeeklyEvents';
         value: number | WeeklyEvent;
       } | null)
@@ -1032,6 +1041,17 @@ export interface TagsSelect<T extends boolean = true> {
 export interface SizesSelect<T extends boolean = true> {
   size?: T;
   quantity?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recording_select".
+ */
+export interface RecordingSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
 }
