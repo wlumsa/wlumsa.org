@@ -109,8 +109,10 @@ const selectField: Field[] = [
         name: "value",
         type: "text",
       },
-     
-      
+      {
+        name: "limit",
+        type: "number",
+      }
     ],
   },
   {
@@ -120,5 +122,40 @@ const selectField: Field[] = [
   },
 ];
 
-
-export { textField, textAreaField, stateField, selectField };
+const checkboxField: Field[] = [
+  {
+    name: "name",
+    label: "Name (lowercase, no special characters)*",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "label",
+    label: "Label",
+    type: "text",
+    required: true,
+  },
+  {
+    name: "width",
+    label: "Field Width (percentage)",
+    type: "number",
+    required: false,
+  },
+  {
+    name: "default_value",
+    label: "Default Value",
+    type: "checkbox",
+    required: false,
+  },
+  {
+    name: "limit",
+    label:"Limit of times this can be checked",
+    type: "number",
+  },
+  {
+    name: "required",
+    label: "required?",
+    type: "checkbox",
+  },
+]
+export { selectField,checkboxField };

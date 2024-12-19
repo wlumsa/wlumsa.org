@@ -42,7 +42,7 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
-import { selectField } from "./collections/forms";
+import { selectField,checkboxField } from "./collections/Forms";
 
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
@@ -154,7 +154,9 @@ export default buildConfig({
           email: true,
           state: true,
           country: true,
-          checkbox: true,
+          checkbox: {
+            fields:checkboxField,
+          },
           number: true,
           message: true,
           payment: false,
