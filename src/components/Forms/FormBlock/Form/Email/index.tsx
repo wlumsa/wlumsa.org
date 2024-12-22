@@ -18,12 +18,12 @@ export const Email: React.FC<
 > = ({ name, errors, label, register, required: requiredFromProps, width }) => {
   return (
     <Width width={width}>
-      <div className=" text-base-300">
-        <label className="" htmlFor={name}>
+      <div className="">
+        <label className="label text-base-100 text-md" htmlFor={name}>
           {label}
         </label>
         <input
-          className="input input-bordered w-full text-neutral focus:border-secondary"
+          className="input input-bordered w-full  focus:border-secondary"
           id={name}
           placeholder="Email"
           type="text"

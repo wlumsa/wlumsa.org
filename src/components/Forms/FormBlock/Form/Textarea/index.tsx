@@ -16,19 +16,22 @@ export const Textarea: React.FC<
     register: UseFormRegister<any & FieldValues>
     rows?: number
   } & TextField
-> = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width }) => {
+> = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width, }) => {
   return (
     <Width width={width}>
       <div className="">
-        <label className="" htmlFor={name}>
+
+        <label className="label text-base-100 text-md" htmlFor={name}>
           {label}
         </label>
+
         <textarea
-          className=""
+          className="textarea textarea-bordered w-full focus:border-secondary  "
+          placeholder={label}
           id={name}
           rows={rows}
-          {...register(name, { required: requiredFromProps })}
-        />
+          {...register(name, { required: requiredFromProps })} />
+
         {requiredFromProps && errors[name] && <Error />}
       </div>
     </Width>

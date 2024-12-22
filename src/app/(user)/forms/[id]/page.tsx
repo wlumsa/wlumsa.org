@@ -25,6 +25,8 @@ export default async function Page(props: {
         overrideAccess: false,
     
     })
+    console.log(pageRes)
+    console.log(slug)
 
     const page = pageRes?.docs?.[0] as unknown as null | FormType
     console.log(page)
