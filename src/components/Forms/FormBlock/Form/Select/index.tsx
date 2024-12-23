@@ -8,16 +8,23 @@ import ReactSelect from 'react-select'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
-export const Select: React.FC<
-  {
-    control: Control<FieldValues, any>
-    errors: Partial<
-      FieldErrorsImpl<{
-        [x: string]: any
-      }>
-    >
-  } & SelectField
-> = ({ name, control, errors, label, options = [], required = false, width }) => {
+export const Select: React.FC<{
+  control: Control<FieldValues, any>
+  errors: Partial<FieldErrorsImpl<{[x: string]: any}>>
+} & SelectField> = ({ name, control, errors, label, options = [], required = false, width }) => {
+  // Add console.log to debug options
+  console.log('Original options:', options);
+  
+  const validOptions = React.useMemo(() => {
+    const filtered = options?.filter(opt => {
+      // Convert limit to number to ensure proper comparison
+      const limit = Number(opt.limit);
+      return opt.limit===null || limit > 0;
+    });
+    console.log('Filtered options:', filtered);
+    return filtered;
+  }, [options]);
+
   return (
     <Width width={width || 100}>
       <div className="">
@@ -28,21 +35,42 @@ export const Select: React.FC<
           control={control}
           defaultValue=""
           name={name}
-          render={({ field: { onChange, value } }) => (
-            <ReactSelect
-              className=""
-              classNamePrefix="rs"
-              inputId={name}
-              instanceId={name}
+          render={({ field: { onChange, value } }) => {
+            // Debug current value
+            console.log('Current value:', value);
             
-              onChange={(val) => onChange(val ? val.value : '')}
-              options={options || []}
-              value={options?.find((s) => s.value === value) || null}
-            />
-          )}
-          rules={{ required: required || undefined }}  // Ensure required is not null
-        />
+            return (
+              <ReactSelect
+                className=""
+                classNamePrefix="rs"
+                inputId={name}
+                instanceId={name}
+                onChange={(val) => {
+                  // Debug onChange value
+                  console.log('onChange val:', val);
+                  
+                  if (!val || val.value === null || val.value === undefined) {
+                    onChange('');
+                    return;
+                  }
 
+                  const selectedOption = validOptions?.find(opt => opt.value === val.value);
+                  console.log('Selected option:', selectedOption);
+
+                  if (selectedOption) {
+                    onChange(val.value);
+                  } else {
+                    onChange('');
+                  }
+                }}
+                options={validOptions}
+                value={validOptions?.find((s) => s.value === value) || null}
+                
+              />
+            );
+          }}
+          rules={{ required: required || undefined }}
+        />
         
         {required && errors[name] && <Error />}
       </div>
