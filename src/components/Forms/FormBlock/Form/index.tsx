@@ -63,12 +63,12 @@ export const FormBlock: React.FC<
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
-
+        console.log("Data",data)
         const dataToSend = Object.entries(data).map(([name, value]) => ({
           field: name,
           value,
         }))
-
+        console.log(dataToSend)
         // delay loading indicator by 1s
         loadingTimerID = setTimeout(() => {
           setIsLoading(true)

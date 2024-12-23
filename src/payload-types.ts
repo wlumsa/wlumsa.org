@@ -548,17 +548,7 @@ export interface Form {
   title: string;
   fields?:
     | (
-        | {
-            name: string;
-            label: string;
-            width?: number | null;
-            default_value?: boolean | null;
-            limit?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'checkbox';
-          }
+        | CheckboxField
         | {
             name: string;
             label?: string | null;
@@ -607,24 +597,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'number';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            default_value?: string | null;
-            options?:
-              | {
-                  label?: string | null;
-                  value?: string | null;
-                  limit?: number | null;
-                  id?: string | null;
-                }[]
-              | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'select';
-          }
+        | SelectField
         | {
             name: string;
             label?: string | null;
@@ -705,6 +678,43 @@ export interface Form {
   'submission-limit'?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxField".
+ */
+export interface CheckboxField {
+  name: string;
+  label: string;
+  width?: number | null;
+  default_value?: boolean | null;
+  limit?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'checkbox';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectField".
+ */
+export interface SelectField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  default_value?: string | null;
+  options?:
+    | {
+        label?: string | null;
+        value?: string | null;
+        limit?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'select';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

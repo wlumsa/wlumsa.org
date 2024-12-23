@@ -2,5 +2,5 @@ import * as React from 'react'
 
 
 export const Error: React.FC = () => {
-  return <div className="">This field is required</div>
+  return <div className="text-md text-warning">This field is required</div>
 }

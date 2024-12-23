@@ -19,10 +19,12 @@ export const Text: React.FC<
   return (
     <Width width={width}>
       <div className="">
-        <span className="label text-base-100 text-md">{label}</span>
+        <label className="label text-base-100 text-md" htmlFor={name}>
+          {label}
+        </label>
         <input
           type="text"
-          className="input w-full"
+          className="input w-full focus:border-secondary input-bordered"
           placeholder={label}
           id={name}
           {...register(name, { required: requiredFromProps })} />

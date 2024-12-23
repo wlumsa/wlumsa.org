@@ -1,4 +1,4 @@
-import type { SelectField } from '@payloadcms/plugin-form-builder/types'
+import type { SelectField } from '@/payload-types'
 import type { Control, FieldErrorsImpl, FieldValues } from 'react-hook-form'
 
 import React from 'react'
@@ -17,11 +17,11 @@ export const Select: React.FC<
       }>
     >
   } & SelectField
-> = ({ name, control, errors, label, options, required, width }) => {
+> = ({ name, control, errors, label, options = [], required = false, width }) => {
   return (
-    <Width width={width}>
+    <Width width={width || 100}>
       <div className="">
-        <label className="" htmlFor={name}>
+        <label className="label text-base-100 text-md" htmlFor={name}>
           {label}
         </label>
         <Controller
@@ -34,13 +34,16 @@ export const Select: React.FC<
               classNamePrefix="rs"
               inputId={name}
               instanceId={name}
+            
               onChange={(val) => onChange(val ? val.value : '')}
-              options={options}
-              value={options.find((s) => s.value === value)}
+              options={options || []}
+              value={options?.find((s) => s.value === value) || null}
             />
           )}
-          rules={{ required }}
+          rules={{ required: required || undefined }}  // Ensure required is not null
         />
+
+        
         {required && errors[name] && <Error />}
       </div>
     </Width>

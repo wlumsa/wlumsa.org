@@ -19,15 +19,16 @@ export const Number: React.FC<
   return (
     <Width width={width}>
       <div className="">
-        <label className="" htmlFor={name}>
+        <label className="label text-base-100 text-md" htmlFor={name}>
           {label}
         </label>
         <input
-          className=""
-          id={name}
           type="number"
-          {...register(name, { required: requiredFromProps })}
-        />
+          className="input w-full focus:border-secondary input-bordered"
+          placeholder={label}
+          id={name}
+          {...register(name, { required: requiredFromProps })} />
+
         {requiredFromProps && errors[name] && <Error />}
       </div>
     </Width>
