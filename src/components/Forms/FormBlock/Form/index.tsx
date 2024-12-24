@@ -1,7 +1,6 @@
 
 'use client'
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
-
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -63,7 +62,7 @@ export const FormBlock: React.FC<
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
-        console.log("Data",data)
+        console.log(data)
         const dataToSend = Object.entries(data).map(([name, value]) => ({
           field: name,
           value,
