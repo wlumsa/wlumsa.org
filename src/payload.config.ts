@@ -47,6 +47,7 @@ import { SelectField,CheckboxField } from "./collections/forms";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
+import { GeneralUser } from "./collections/Users/Users";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -81,6 +82,7 @@ export default buildConfig({
     HalalDirectory,
     RoommatePosts,
     Comments,
+    GeneralUser
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
