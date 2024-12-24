@@ -45,6 +45,7 @@ import { Comments } from "./collections/Comment";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
+import { GeneralUser } from "./collections/Users/Users";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -78,7 +79,8 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     RoommatePosts,
-    Comments
+    Comments,
+    GeneralUser
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
