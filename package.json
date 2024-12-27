@@ -62,6 +62,7 @@
     "google-auth-library": "^9.14.2",
     "googleapi": "^1.0.2",
     "googleapis": "^128.0.0",
+    "install": "^0.13.0",
     "lexical": "0.20.0",
     "lucide-react": "^0.468.0",
     "mark@0.18.0": "link:lexical\\mark@0.18.0",

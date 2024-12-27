@@ -41,6 +41,7 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
+import GeneralUser from "./collections/UI/GeneralUser";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -76,7 +77,8 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     RoommatePosts,
-    Comments
+    Comments,
+    GeneralUser,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -85,10 +87,12 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: postgresAdapter({
+  db:
+   postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
+
   }),
   plugins: [
     seoPlugin({

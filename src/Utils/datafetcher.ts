@@ -664,15 +664,95 @@ export async function fetchRoommatePosts() {
   return posts.docs;
 }
 
+
+// export async function createPost(postData: any) {
+//   const post = await payload.create({
+//     collection: "RoommatePosts",
+//     data: {
+//       title: postData.title,
+//       description: postData.description,
+//       price: postData.price,
+//       location: postData.location,
+//       contact_email: postData.contact_email, 
+//       contact_phone: postData.contact_phone,
+//       address: postData.address,
+//       rent: postData.rent,
+
+
+//     },
+    
+//   })
+// }
+//update a post 
+
+//delete a post
+export async function deletePost(id: string) {
+  const post = await payload.delete({
+    collection: "RoommatePosts",
+    id: id,
+  });
+}
+
+export async function createUser( clerkId: string, email: string ) {
+  const newUser = await payload.create({
+    collection: "general-user",
+    data: {
+      clerkId:clerkId,
+      email: email,
+    },
+  });
+  return newUser;
+}
+export async function findUser(id:string) {
+  const user = await payload.find({
+    collection: "general-user",
+    where: {
+      clerkId: {
+        equals: id,
+      },
+    },
+  });
+  return user.docs;
+}
+
+//USER COMMENT FEATURE FUNCTIONS 
+
 export async function fetchCommentsByPostId(id: string) {
   const comments = await payload.find({
-    collection: "Comments",
+    collection: "comments",
     where: {
       "postId": {
         equals: id,
       },
     },
   });
-  return comments.docs;
+ return comments.docs;
 
 }
+
+
+export async function createComment( comment: string, postId: number,) {
+
+  const commentdata = await payload.create({
+    collection: "comments",
+    data: {
+      comment: comment,
+      postId: postId,
+    },
+    overrideAccess: false,
+   
+  
+  });
+  return commentdata;
+}
+
+
+export async function deleteCommentById(commentId:string) {
+
+  const res = await payload.delete({
+    collection: "comments",
+    id: commentId,
+  }); 
+  return res;
+  }
+

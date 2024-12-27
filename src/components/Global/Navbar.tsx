@@ -175,7 +175,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             <div
             className="">
             <SignedOut>
-      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton mode='modal' fallbackRedirectUrl={pathname}  /></div>
+      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton fallbackRedirectUrl={pathname}  /></div>
           </SignedOut>
           <SignedIn  >
           <div className="mx-2 "> <UserButton

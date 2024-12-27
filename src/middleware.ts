@@ -1,10 +1,12 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
-
+export default clerkMiddleware(async (auth, req) => { ;
+const isProtectedRoute = createRouteMatcher(['/create-post', '/dashboard']);
+  if (isProtectedRoute(req)) await auth.protect()
+  });
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
@@ -13,6 +15,7 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 };
+
 export const updateSession = async (request: NextRequest) => {
   // This `try/catch` block is only here for the interactive tutorial.
   // Feel free to remove once you have Supabase connected.

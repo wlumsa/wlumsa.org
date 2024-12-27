@@ -34,7 +34,8 @@ export interface Config {
     faq: Faq;
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
-    Comments: Comment;
+    comments: Comment;
+    'general-user': GeneralUser;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -66,7 +67,8 @@ export interface Config {
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
-    Comments: CommentsSelect<false> | CommentsSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -508,20 +510,31 @@ export interface RoommatePost {
   roomfurnishing: string;
   availableDate: string;
   images?: (number | Media)[] | null;
-  comments?: (number | Comment)[] | null;
   status?: ('pending' | 'approved') | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments".
+ * via the `definition` "comments".
  */
 export interface Comment {
   id: number;
+  clerkId?: string | null;
   comment: string;
-  author: string;
-  postId?: (number | RoommatePost)[] | null;
+  author?: string | null;
+  postId?: number | RoommatePost| null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-user".
+ */
+export interface GeneralUser {
+  id: number;
+  clerkId: string;
+  email: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -807,8 +820,12 @@ export interface PayloadLockedDocument {
         value: number | RoommatePost;
       } | null)
     | ({
-        relationTo: 'Comments';
+        relationTo: 'comments';
         value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'general-user';
+        value: number | GeneralUser;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1166,19 +1183,29 @@ export interface RoommatePostsSelect<T extends boolean = true> {
   roomfurnishing?: T;
   availableDate?: T;
   images?: T;
-  comments?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments_select".
+ * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
+  clerkId?: T;
   comment?: T;
   author?: T;
   postId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-user_select".
+ */
+export interface GeneralUserSelect<T extends boolean = true> {
+  clerkId?: T;
+  email?: T;
   updatedAt?: T;
   createdAt?: T;
 }

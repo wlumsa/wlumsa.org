@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { addIndividualToList, addMember, isMember } from './datafetcher'
+import { addIndividualToList, addMember, isMember, createComment, deleteCommentById } from './datafetcher'
 import { resend } from './resend';
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -58,6 +58,29 @@ export async function memberSignup(formData: FormData) {
        
 
         return { message: 'Thanks for signing up!' }
+    } catch (error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}
+
+//Roommate service functions
+
+export async function postComment(comment: string, postId: number) {
+    try {
+        const res = await createComment(comment, postId);
+        if (!res) {
+            return { message: 'Failed to post comment. Please try again.', errors: true }
+        }
+        return { res, message: 'Comment posted!' }
+    } catch (error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}
+
+export async function deleteComment(commentId:string) {
+    try {
+         const res = await deleteCommentById(commentId);
+        return { res, message: 'Comment deleted!' }
     } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }

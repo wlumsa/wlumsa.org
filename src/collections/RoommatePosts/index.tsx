@@ -79,13 +79,13 @@ export const RoommatePosts: CollectionConfig = {
       hasMany: true,
     },
 
-    {
-      name: 'comments',
-      type: 'relationship',
-      relationTo: 'Comments',
-      hasMany: true,
-    }
-    ,
+    // {
+    //   name: 'comments',
+    //   type: 'relationship',
+    //   relationTo: 'Comments',
+    //   hasMany: true,
+    // }
+    //,
     {
       name: 'status',
       type: 'select',
