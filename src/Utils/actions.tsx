@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { addIndividualToList, addMember, isMember, createComment, deleteCommentById } from './datafetcher'
+import { addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, getRoommateImageURL } from './datafetcher'
 import { resend } from './resend';
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -11,6 +11,7 @@ const schema = z.object({
     newsLetter: z.boolean(),
 })
 import WelcomeEmail from 'emails/signup';
+import { supabase } from '@/lib/supabaseClient';
 
 export async function memberSignup(formData: FormData) {
     const validatedFields = schema.safeParse({
@@ -85,3 +86,38 @@ export async function deleteComment(commentId:string) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
 }
+
+//Roommate service functions
+
+    interface RoommatePost {
+        title: string;
+        address: string;
+        propertyType: string;
+        furnishingType: string;
+        deposit: string;
+        rent: string;
+        gender: string;
+        availableDate: string;
+        description: string
+        images:  string[];
+        firstName: string;
+        lastName: string;
+        contactEmail: string;
+        phone: string;
+        facebook: string;
+        instagram: string;
+        discord: string;
+        whatsapp: string;
+    }
+
+export async function createPost(formData: RoommatePost) {
+    try {
+        const res = await createRoommatePost(formData);
+        return { res, message: 'Post created!' }
+    } catch (error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}
+
+
+

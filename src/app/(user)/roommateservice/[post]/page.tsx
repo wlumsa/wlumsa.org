@@ -33,12 +33,7 @@ export default async function BlogPost(props: {
 
   console.log(res)
   const post = res[0]
-  const image = post?.images?.map((item) => {
-    if (typeof item === 'object' && item !== null) {
-      return item.url;
-    }
-    return null;
-  }).filter((url): url is string => url !== null && url !== undefined);
+ 
 
   const date = post?.createdAt ? new Date(post?.createdAt) : null;
   const formattedDate = date ? format(date, 'MMMM dd, yyyy') : null;
@@ -48,7 +43,6 @@ export default async function BlogPost(props: {
     const comments = await fetchCommentsByPostId(id);
     let commentArray: Comment[] = [];
     commentArray = commentArray.concat(comments.map(comment => ({id: comment.id  ,  message: comment.comment, author: comment.author? comment.author : "" , date: comment.createdAt}))); 
-
     console.log("comments", comments) 
 
 
@@ -59,7 +53,7 @@ export default async function BlogPost(props: {
       <div className="mx-auto md:max-w-screen-lg p-4 ">
         <main className="flex flex-col items-center text-gray-700">
           <div className="">
-            <ImageCarousel images={image || []} />
+            <ImageCarousel images={post?.images || []} />
 
 
             <div className="px-4 lg:px-0 flex flex-row justify-between max-w-[48em]">

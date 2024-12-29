@@ -2,18 +2,15 @@ import type { Access, CollectionConfig } from "payload";
 import { auth as fetchAuth } from "@clerk/nextjs/server";
 import { currentUser } from '@clerk/nextjs/server'
 import payload from 'payload'
+import { isUser } from '@/Utils/accessControl';
 
- export const isUser: Access = async ({ req }) => {
 
-    const user = await fetchAuth();
-    console.log('user', user)
-    if(!user.userId){
-      return false;
-    }
-   return user.userId != null;
-   };
 export const isAuthor: Access = async ({ req, id }) => {
+
   const user = await fetchAuth();
+  if( req.user?.roles?.includes('admin')) {
+    return true;
+  }
   if(!user.userId){
     return false;
   }
@@ -45,10 +42,10 @@ export const Comments: CollectionConfig = {
     useAsTitle: 'comment',
   },
   access: {
-    read: async ({ req }) => await isUser({ req }),
+   // read: async ({ req }) => await isUser({ req }),
     create: async ({ req }) => await isUser({ req }),
-    update: async ({ req, id }) => await isAuthor({ req, id }),
-    delete: async ({ req, id }) => await isAuthor({ req, id }),
+    update: async ({ req, id }) => await isAuthor({ req, id, }),
+    delete: async ({ req, id }) => await isAuthor({ req, id,  }),
   
   },
   hooks: {

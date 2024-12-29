@@ -1,15 +1,49 @@
 import { CollectionConfig } from 'payload';
+import {isUser } from '@/Utils/accessControl';
+import { Access } from 'payload';
+import {auth as fetchAuth} from "@clerk/nextjs/server";
+import payload from 'payload';
+export const isAuthor: Access = async ({ req, id }) => {
+  if( req.user?.roles?.includes('admin')) {
+    return true;
+  }
+  const user = await fetchAuth();
+  if(!user.userId){
+    return false;
+  }
+  const post = await payload.find({
+    collection: 'RoommatePosts',
+    where: {
+      "clerkId": {
+        equals: id,
+      },
+    },
+   
+  });
+  if(!post) {
+    return false;
+  }
 
+  return Boolean(post);  ;
+}
 export const RoommatePosts: CollectionConfig = {
   slug: 'RoommatePosts',
   labels: {
     singular: 'Roommate Post',
     plural: 'Roommate Posts',
   },
+
   admin: {
     useAsTitle: 'title',
     group: 'Roommate Services',
   },
+   access: {
+      read: async ({ req }) => await isUser({ req }),
+      create: async ({ req }) => await isUser({ req }),
+      update: async ({ req, id }) => await isAuthor({ req, id }),
+      delete: async ({ req, id }) => await isAuthor({ req, id }),
+    
+    },
   fields: [
     {
       name: 'user_id',
@@ -25,22 +59,16 @@ export const RoommatePosts: CollectionConfig = {
       label: 'Title',
     },
     {
-      name: 'description',
-      type: 'textarea',
-      required: true,
-      label: 'Description',
-    },
-    {
       name: 'address',
       type: 'text',
       required: true,
       label: 'Address',
     },
     {
-      name: 'name',
-      type: 'text',
+      name: 'description',
+      type: 'textarea',
       required: true,
-      label: 'Name',
+      label: 'Description',
     },
     {
       name: 'contactEmail',
@@ -52,40 +80,86 @@ export const RoommatePosts: CollectionConfig = {
       name: 'rent',
       type: 'text',
       required: true,
-      label: 'Deposit',
+      label: 'Monthly Rent',
     },
     {
-      name: 'PropertyType',
+      name: 'deposit',
       type: 'text',
-      required: true,
+      label: 'Deposit Amount',
+    },
+    {
+      name: 'gender',
+      type: 'select',
+      options: [
+        { label: 'Sisters', value: '1' },
+        { label: 'Brothers', value: 'brother' },
+      ],
+    },
+    {
+      name: 'propertyType',
+      type: 'select',
+      options: [
+        { label: 'Unfurnished', value: '1' },
+        { label: 'Partially Furnished', value: '2' },
+        { label: 'Furnished', value: '3' },
+      ],
       label: 'Property Type',
     },
     {
-      name: 'roomfurnishing',
+      name: 'furnishingType',
+      type: 'select',
+      options: [
+        { label: 'Unfurnished', value: '1' },
+        { label: 'Partially Furnished', value: '2' },
+        { label: 'Furnished', value: '3' },
+      ],
+      required: true,
+    },
+    {
+      name: 'images',
       type: 'text',
       required: true,
-      label: 'Room Furnishing',
-    },
+      hasMany: true,
+      label: 'Images',
+    }, 
     {
       name: 'availableDate',
       type: 'date',
       required: true,
       label: 'Available Date',
     },
+  
     {
-      name: 'images',
-      type: 'relationship',
-      relationTo: 'media',
-      hasMany: true,
+      name:'facebook',
+      type:'text',
+      label:'Facebook',
+
+    }
+    ,
+    {
+      name:'phoneNumber',
+      type:'text',
+      label:'Phone Number',
+    },
+    {
+      name:'instagram',
+      type:'text',
+      label:'Instagram',
+
+    }
+    ,
+    {
+      name:'discord',
+      type:'text',
+      label:'Discord',
+
+    },
+    {
+      name:'whatsapp',
+      type:'text',
+      label:'Whatsapp',
     },
 
-    // {
-    //   name: 'comments',
-    //   type: 'relationship',
-    //   relationTo: 'Comments',
-    //   hasMany: true,
-    // }
-    //,
     {
       name: 'status',
       type: 'select',

@@ -9,6 +9,8 @@ const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as cons
 const depositOptions = ["Yes", "No"] as const
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
 const contactOptions = ["Email", "Phone", "Instagram", "Facebook", "Discord"]
+import { createPost } from '@/Utils/actions'
+import { supabase } from '@/lib/supabaseClient'
 ////for form validation
 type Gender = typeof genderOptions[number]
 type PropertyType = typeof propertyTypeOptions[number]
@@ -21,13 +23,13 @@ const listingSchema = z.object({
     propertyType: z.enum(propertyTypeOptions, { errorMap: () => ({ message: "Please select a property type" }) }),
     furnishingOptions: z.enum(furnishingOptions, { errorMap: () => ({ message: "Please select a furnishing option" }) }),
     deposit: z.enum(depositOptions, { errorMap: () => ({ message: "Please select a deposit option" }) }),
-    monthlyRent: z.string().min(1, "Monthly rent is required"),
+    rent: z.string().min(1, "Monthly rent is required"),
     gender: z.enum(genderOptions, { errorMap: () => ({ message: "Please select a gender" }) }),
-    dateAvailable: z.string().min(1, "Date available is required"),
+    availableDate: z.string().min(1, "Date available is required"),
     description: z.string().min(1, "Description is required"),
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Invalid email"),
+    contactEmail: z.string().email("Invalid email"),
     phone: z.string().min(10, "Phone number is required"),
 })
 const Listing = () => {
@@ -38,14 +40,14 @@ const Listing = () => {
         propertyType: '',
         furnishingType: '',
         deposit: '',
-        monthlyRent: '',
+        rent: '',
         gender: '',
-        dateAvailable: '',
+        availableDate: '',
         description: '',
         images: [] as string[],
         firstName: '',
         lastName: '',
-        email: '',
+        contactEmail: '',
         phone: '',
         facebook: '',
         instagram: '',
@@ -55,10 +57,10 @@ const Listing = () => {
     const [currentStep, setCurrentStep] = useState(0)
     const removeImage = (index: number) => {
         setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-        setFormData(prevData => ({
-            ...prevData,
-            images: prevData.images.filter((_, i) => i !== index),
-        }));
+        // setFormData(prevData => ({
+        //     ...prevData,
+        //     images: prevData.images.filter((_, i) => i !== index),
+        // }));
     }
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -72,10 +74,10 @@ const Listing = () => {
 
             // Update the state with uploaded files
             setFiles(prevFiles => [...prevFiles, ...selectedFiles]);
-            setFormData(prevData => ({
-                ...prevData,
-                images: [...prevData.images, ...selectedFiles.map(file => URL.createObjectURL(file))], // Generate preview URLs
-            }));
+            // setFormData(prevData => ({
+            //     ...prevData,
+            //     images: [...prevData.images, ...selectedFiles.map(file => URL.createObjectURL(file))], // Generate preview URLs
+            // }));
         }
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -94,13 +96,47 @@ const Listing = () => {
             setCurrentStep(currentStep - 1)
         }
     }
-    const handleSubmit = () => {
+
+    const handleSubmit = async () => {
+
+        //upload an image to supabase storage -- for rooomate service
+ const uploadImage = async (image: File, folderName:string) => {
+    const filePath = `${folderName}/${Date.now()}_${image.name}`;
+     const { data, error } = await supabase.storage
+    .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
+    .upload(`${filePath}`, image);
+    
+     
+  if (error) {
+    console.error("Error uploading image to Supabase storage:", error);
+    return null;
+  }
+  //get image url
+  const imageData = supabase.storage.from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test").getPublicUrl(`${filePath}`);
+  console.log(imageData)
+  setFormData(prevData => ({
+    ...prevData,
+    images: [...prevData.images, imageData.data.publicUrl], //append to images array
+}));
+  return imageData.data.publicUrl;
+  
+  }
+        //upload files to supabase storage
+        await Promise.all(files.map(file => uploadImage(file, "RoommateService")));
+       const res =  await createPost(formData)
+       if(res.res) {
+           toast.success('Post created!')
+       } else {
+              toast.error('Failed to create post')
+              console.log(res.message)
+       }
         console.log(formData)
+
 
 
         //send the data to the backend
         //validate the form
-        toast.success("Submitted")
+       
 
     }
     return (
@@ -126,8 +162,8 @@ const Listing = () => {
                             <label htmlFor="propertyType" className='font-semibold'>Property Type</label>
                             <select name="propertyType" value={formData.propertyType} onChange={handleInputChange} className="select select-bordered w-full max-w-xs min-h-[2rem] h-[2rem] bg-[#F2F2F2]  border-none ">
                                 <option value="" disabled>Select a Property Type</option>
-                                {propertyTypeOptions.map((option) => (
-                                    <option key={option} value={option}>{option}</option>
+                                {propertyTypeOptions.map((option, index) => (
+                                    <option key={index+1} value={index+1}>{option}</option>
                                 ))}
                             </select>
                         </div>
@@ -135,8 +171,8 @@ const Listing = () => {
                             <label className='font-semibold' >Furnishing</label>
                             <select name="furnishingType" value={formData.furnishingType} onChange={handleInputChange} className="select select-bordered w-full max-w-xs min-h-[2rem] h-[2rem] bg-[#F2F2F2] border-none " >
                                 <option value="" disabled > Select an option</option>
-                                {furnishingOptions.map((option) => (
-                                    <option key={option} value={option}>{option}</option>
+                                {furnishingOptions.map((option,index) => (
+                                    <option key={index+1} value={index+1}>{option}</option>
                                 ))}
 
                             </select>
@@ -149,15 +185,15 @@ const Listing = () => {
                             <label className='font-semibold' >Gender</label>
                             <select name="gender" value={formData.gender} onChange={handleInputChange} className="select select-bordered min-h-[2rem] h-[2rem] bg-[#F2F2F2]  border-none max-w-xs" >
                                 <option value="" disabled  > Select a Gender</option>
-                                {genderOptions.map((option) => (
-                                    <option key={option} value={option}>{option}</option>
+                                {genderOptions.map((option,index) => (
+                                    <option key={index+1} value={index+1}>{option}</option>
                                 ))}
 
                             </select>
                         </div>
                         <div className='md:w-1/2'>
                             <label className='font-semibold'>Date Available</label>
-                            <input name="dateAvailable" value={formData.dateAvailable} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
+                            <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
                         </div>
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
@@ -169,7 +205,7 @@ const Listing = () => {
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
                             <label className='font-semibold'>Monthly Rent price</label>
-                            <input type="text" name="monthlyRent" value={formData.monthlyRent} onChange={handleInputChange} placeholder="$1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            <input type="text" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="$1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                         </div>
 
                     </div>
@@ -226,7 +262,7 @@ const Listing = () => {
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div className='flex flex-col md:w-1/2'>
                             <label htmlFor="email" className='font-semibold'>Email</label>
-                            <input type="text" name="email" value={formData.email} onChange={handleInputChange} placeholder="example@mylaurier.ca" className="input input-bordered max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
+                            <input type="text" name="contactEmail" value={formData.contactEmail} onChange={handleInputChange} placeholder="example@mylaurier.ca" className="input input-bordered max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
                         </div>
                         <div className='flex flex-col md:w-1/2'>
                             <label htmlFor="name" className='font-semibold'>Phone number</label>

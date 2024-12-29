@@ -1,7 +1,6 @@
 "use server";
 import React from "react";
 import { supabase } from "@/lib/supabaseClient";
-import RoommateCard from "@/components/UI/RoommateCard";
 import Listing from "@/components/Forms/Listing";
 import RoommatePostCard from "@/components/UI/RoommatePostCard";
 import { fetchRoommatePosts } from "@/Utils/datafetcher";

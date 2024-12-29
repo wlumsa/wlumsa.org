@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Post, RoommatePost } from "@/payload-types";
+import { RoommatePost } from "@/payload-types";
 import { format } from 'date-fns';
 
 /**
@@ -8,7 +8,7 @@ import { format } from 'date-fns';
  * @param {string} id - The unique identifier of the blog.
  * @param {string} title - The title of the post.
  * @param {string} description - The description of the blog.
- * @returns {JSX.Element} The rendered blog card component.
+ * @returns {JSX.Element} The rendered roommate card card component.
  */
 interface PostProps {
   post: RoommatePost;
@@ -18,12 +18,7 @@ const RoommatePostCard: React.FC<PostProps> = ({ post }) => {
 
   const date = new Date(post.createdAt)
   const formattedDate = format(date, 'MMMM dd, yyyy');
-  const image = post?.images?.map((item) => {
-    if (typeof item === 'object' && item !== null) {
-      return item.url;
-    } 
-    return null;
-  }).filter((url): url is string => url !== null && url !== undefined)
+  const image = post?.images;
   return (
     <div className=" card cursor-pointer text-start items-center w-72 rounded-lg  bg-base-100 border duration-500 hover:scale-105 hover:shadow-xl ">
       <figure className="w-full">
