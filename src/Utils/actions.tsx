@@ -106,7 +106,6 @@ export async function deleteComment(commentId:string) {
         phone: string;
         facebook: string;
         instagram: string;
-        discord: string;
         whatsapp: string;
     }
 

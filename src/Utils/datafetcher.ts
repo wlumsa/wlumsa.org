@@ -573,12 +573,14 @@ export async function deletePost(id: string) {
   });
 }
 
-export async function createUser( clerkId: string, email: string ) {
+export async function createUser( clerkId: string, email: string, firstName: string, lastName: string) {
   const newUser = await payload.create({
     collection: "general-user",
     data: {
       clerkId:clerkId,
       email: email,
+      firstName: firstName,
+      lastName: lastName,
     },
   });
   return newUser;
@@ -646,6 +648,7 @@ export async function deleteCommentById(commentId:string) {
         title: postData.title,
         description: postData.description,
         rent: postData.rent,
+        deposit: postData.deposit,
         address: postData.address,
         availableDate: postData.availableDate,
         propertyType: postData.propertyType,
@@ -656,7 +659,6 @@ export async function deleteCommentById(commentId:string) {
         phoneNumber: postData.phone,
         facebook: postData.facebook,
         instagram: postData.instagram,
-        discord: postData.whatsapp,
         whatsapp: postData.whatsapp,
 
   

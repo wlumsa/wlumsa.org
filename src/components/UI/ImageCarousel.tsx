@@ -28,13 +28,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   }
 
   return (
-    <div>
+    <div className='px-4 w-3/4 md:w-full mx-auto'>
       <div className='flex flex-row items-center'>
         {imageCount > 1 && <ChevronLeft size={32} color="#2e046d" onClick={handlePrevImage} className='cursor-pointer' />}
         {images.length > 0 && (
           <img
             src={images[currentIndex] ? images[currentIndex].toString() : ""}
-            className="object-cover lg:rounded"
+            className="object-cover lg:rounded  "
             style={{ height: "26em", width: "48em" }}
           />
         )}

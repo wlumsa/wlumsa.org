@@ -22,6 +22,18 @@ interface Comment
   date: string;
 }
 
+const furnishingOptions: { [key: string]: string } = {
+  1: "Furnished",
+  2: "Unfurnished",
+  3: "Partially Furnished"
+}
+const propertyTypeOptions: { [key: string]: string }  = {
+  1: "House",
+  2: "Apartment",
+  3: "Condo",
+  4: "Townhouse"
+}
+
 export default async function BlogPost(props: {
   params: Params
 }) {
@@ -50,18 +62,18 @@ export default async function BlogPost(props: {
   return (
 
     <div className="mt-28">
-      <div className="mx-auto md:max-w-screen-lg p-4 ">
+      <div className="mx-auto md:max-w-screen-lg max-w-96 ">
         <main className="flex flex-col items-center text-gray-700">
           <div className="">
             <ImageCarousel images={post?.images || []} />
 
-
-            <div className="px-4 lg:px-0 flex flex-row justify-between max-w-[48em]">
+            <div className="px-4 lg:px-0 flex md:flex-row flex-col  md:justify-between max-w-[48em]">
               <div className=" flex flex-col">
-                <h1 className=" mt-4 text-4xl font-bold text-primary ">{post?.title} </h1>
-                <p className="">Posted by {post?.name} on  {formattedDate ? formattedDate : ""}</p>
+                <h1 className=" mt-4 text-4xl font-bold text-primary text-center md:text-left">{post?.title} </h1>
+                <p className="text-center md:text-left">Posted by {post?.name} on  {formattedDate ? formattedDate : ""}</p>
               </div>
-              <div className="flex flex-col text-xl my-6 gap-2 ">
+            
+              <div className="flex flex-col text-xl my-6 gap-2 text-center ">
                 <div className="flex flex-row gap-2">
                   <Building size={24} color="#2e046d" />
                   <p> {post?.address} </p>
@@ -76,10 +88,10 @@ export default async function BlogPost(props: {
             </div>
             <div className="flex flex-row">
               <Tag text={"Sisters"} icon={<Users size={24} color="#2e046d" />} />
-              <Tag text={post?.rent + '/month'} icon={<Banknote size={24} color="#2e046d" />} />
-              <Tag text={3211 + " deposit"} icon={<Banknote size={24} color="#2e046d" />} />
-              <Tag text={post?.PropertyType} icon={<House size={24} color="#2e046d" />} />
-              <Tag text={post?.roomfurnishing} icon={<Armchair size={24} color="#2e046d" />} />
+              <Tag text={'$'+ post?.rent + '/month'} icon={<Banknote size={24} color="#2e046d" />} />
+              <Tag text={'$'+ post?.rent + " deposit"} icon={<Banknote size={24} color="#2e046d" />} />
+              <Tag text={propertyTypeOptions[post.propertyType]} icon={<House size={24} color="#2e046d" />} />
+              <Tag text={furnishingOptions[post.furnishingType]} icon={<Armchair size={24} color="#2e046d" />} />
 
             </div>
             <div className=" my-8 max-w-[48em] ">
@@ -89,12 +101,13 @@ export default async function BlogPost(props: {
             <div className="my-8 flex flex-row justify-between">
               <h1 className="text-2xl text-primary font-bold" >Get in Touch</h1>
               <div className="flex flex-row">
-                <div className='p-2 m-2 bg-secondary text-primary font-bold rounded-full max-w-fit'>
-                  <Mail size={24} color="#2e046d" />
-                </div>
-                <div className=' p-2 m-2 bg-secondary text-primary font-bold rounded-full max-w-fit'>
-                  <Phone size={24} color="#2e046d" />
-                </div>
+              <Tag text={post?.contactEmail} icon={<Mail size={24} color="#2e046d" />} />
+              <Tag text={post?.phoneNumber} icon={<Phone size={24} color="#2e046d" />} />
+              <Tag text={post?.whatsapp} icon={<Phone size={24} color="#2e046d" />} />
+              <Tag text={post?.facebook} icon={<Phone size={24} color="#2e046d" />} />
+              <Tag text={post?.instagram} icon={<Phone size={24} color="#2e046d" />} />
+
+               
               </div>
               </div>
 

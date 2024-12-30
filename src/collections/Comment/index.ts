@@ -14,20 +14,20 @@ export const isAuthor: Access = async ({ req, id }) => {
   if(!user.userId){
     return false;
   }
-  const comment = await payload.find({
-    collection: 'comments',
-    where: {
-      "clerkId": {
-        equals: id,
-      },
-    },
+  // const comment = await payload.find({
+  //   collection: 'comments',
+  //   where: {
+  //     "clerkId": {
+  //       equals: id,
+  //     },
+  //   },
    
-  });
-  if(!comment) {
-    return false;
-  }
+  // });
+  // if(!comment) {
+  //   return false;
+  // }
 
-  return Boolean(comment);  ;
+  return Boolean(true);  ;
 }
 
 
@@ -96,3 +96,4 @@ export const Comments: CollectionConfig = {
   ],
 };
 
+export default Comments;

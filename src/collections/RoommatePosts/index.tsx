@@ -11,20 +11,20 @@ export const isAuthor: Access = async ({ req, id }) => {
   if(!user.userId){
     return false;
   }
-  const post = await payload.find({
-    collection: 'RoommatePosts',
-    where: {
-      "clerkId": {
-        equals: id,
-      },
-    },
+  // const post = await payload.find({
+  //   collection: 'RoommatePosts',
+  //   where: {
+  //     "clerkId": {
+  //       equals: id,
+  //     },
+  //   },
    
-  });
-  if(!post) {
-    return false;
-  }
+  // });
+  // if(!post) {
+  //   return false;
+  // }
 
-  return Boolean(post);  ;
+  return Boolean(true);  ;
 }
 export const RoommatePosts: CollectionConfig = {
   slug: 'RoommatePosts',
@@ -89,6 +89,7 @@ export const RoommatePosts: CollectionConfig = {
     },
     {
       name: 'gender',
+      required: true,
       type: 'select',
       options: [
         { label: 'Sisters', value: '1' },
@@ -97,6 +98,7 @@ export const RoommatePosts: CollectionConfig = {
     },
     {
       name: 'propertyType',
+      required: true,
       type: 'select',
       options: [
         { label: 'Unfurnished', value: '1' },
@@ -107,13 +109,14 @@ export const RoommatePosts: CollectionConfig = {
     },
     {
       name: 'furnishingType',
+      required: true,
       type: 'select',
       options: [
         { label: 'Unfurnished', value: '1' },
         { label: 'Partially Furnished', value: '2' },
         { label: 'Furnished', value: '3' },
       ],
-      required: true,
+      
     },
     {
       name: 'images',
@@ -148,12 +151,7 @@ export const RoommatePosts: CollectionConfig = {
 
     }
     ,
-    {
-      name:'discord',
-      type:'text',
-      label:'Discord',
-
-    },
+   
     {
       name:'whatsapp',
       type:'text',
@@ -167,7 +165,7 @@ export const RoommatePosts: CollectionConfig = {
         { label: 'Pending', value: 'pending' },
         { label: 'Approved', value: 'approved' },
       ],
-      defaultValue: 'pending',
+      defaultValue: 'approved',
       label: 'Status',
     },
   ],

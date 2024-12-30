@@ -80,6 +80,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId }) => 
 
     const handlePostComment = async () => {
         const comment = await postComment(commentInput, parseInt(postId));
+   
         if(comment.res) {
             toast.success('Comment posted');
             setNewComments([...newComments, { id:comment.res.id, author: comment.res.author ? comment.res.author : '' , message: comment.res.comment, date: comment.res.createdAt}]);
@@ -100,13 +101,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId }) => 
     <div className="my-8">
       <div className="">
           <div className="flex flex-row gap-4 w-full">
-            <input type="text" placeholder="Write a comment" className="w-full border-2 border-primary rounded-lg px-4 py-2" onChange={handleInputChange}  />
+            <input type="text" placeholder="Write a comment" className="w-full border-2 border-primary rounded-lg px-4 py-2" value={commentInput} onChange={handleInputChange}  />
           <button className="bg-primary font-bold text-white rounded-lg px-4 py-2" onClick={() => handlePostComment() }  > Post</button>
             </div>
               </div>
               <div className="my-8">
       </div>
-      <div>
+      <div className='flex flex-col-reverse'>
 
       {newComments.map((comment, index) => (
         <Comment key={comment.id} id={comment.id} author={comment.author || ''} message={comment.message} date={format(new Date(comment.date), 'MMMM dd')} />
