@@ -42,8 +42,7 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
-import { SelectField,CheckboxField } from "./collections/forms";
-
+import { CheckboxField, SelectField } from "./collections/forms";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -82,7 +81,7 @@ export default buildConfig({
     HalalDirectory,
     RoommatePosts,
     Comments,
-    GeneralUser
+    GeneralUser,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -147,19 +146,54 @@ export default buildConfig({
             ];
           },
         },
+        formSubmissionOverrides: {
+          hooks: {
+            afterChange: [
+              async ({ doc, req, context}) => {
+                try {
+                  // Get the form ID and current submission limit
+                  const formId = doc.form.id;
+                  const currentLimit = doc.form['submission-limit'];
+        
+                  // Update the form's submission limit
+                  if (currentLimit > 0) {
+                    await req.payload.update({
+                      collection: 'forms',
+                      id: formId,
+                      data: {
+                        'submission-limit': currentLimit - 1
+                      },
+                      context: {
+                        // set a flag to prevent from running again
+                        triggerAfterChange: false,
+                      },
+                    });
+                  }
+                } catch (error) {
+                  console.error('Error updating submission limit:', error);
+                }
+              },
+            ],
+          },
+          fields: ({ defaultFields }) => {
+            return [
+              ...defaultFields,
+            ];
+          },
+        },
         fields: {
           text: true,
           textarea: true,
-          select:  {
+          select: {
             fields: SelectField,
-            interfaceName:"SelectField"
+            interfaceName: "SelectField",
           },
           email: true,
           state: true,
           country: true,
           checkbox: {
-            fields:CheckboxField,
-            interfaceName:"CheckboxField"
+            fields: CheckboxField,
+            interfaceName: "CheckboxField",
           },
           number: true,
           message: true,
@@ -188,3 +222,5 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "",
   sharp,
 });
+
+

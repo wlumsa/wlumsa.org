@@ -74,7 +74,7 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/form-submissions`, {
+          const req = await fetch(`http://localhost:3000/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
               submissionData: dataToSend,
@@ -85,20 +85,13 @@ export const FormBlock: React.FC<
             method: 'POST',
           })
 
+          console.log("Data",dataToSend)
+
+
           const res = await req.json()
 
           clearTimeout(loadingTimerID)
 
-          if (req.status >= 400) {
-            setIsLoading(false)
-
-            setError({
-              message: res.errors?.[0]?.message || 'Internal Server Error',
-              status: res.status,
-            })
-
-            return
-          }
 
           setIsLoading(false)
           setHasSubmitted(true)
@@ -143,6 +136,7 @@ export const FormBlock: React.FC<
             <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
               <div className="">
                 {formFromProps &&
+                  
                   formFromProps.fields &&
                   formFromProps.fields.map((field, index) => {
                     const Field: React.FC<any> = fields?.[field.blockType]
@@ -176,4 +170,19 @@ export const FormBlock: React.FC<
       </div>
     </div>
   )
+}
+import { createClient } from '@/Utils/client'
+
+const supabase = createClient();
+
+export async function updateFormLimit(id: string, currentLimit: number) {
+  const { data, error } = await supabase
+    .from("forms")
+    .update({ "submission_limit": currentLimit-1 })
+    .eq("id", id)
+    .gt("submission_limit", 0)
+    .select();
+  console.log(data)
+  console.log(error)
+  return;
 }
