@@ -9,7 +9,7 @@ const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as cons
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
 import { createPost } from '@/Utils/actions'
 import { supabase } from '@/lib/supabaseClient'
-////for form validation
+//for form validation
 type Gender = typeof genderOptions[number]
 type PropertyType = typeof propertyTypeOptions[number]
 type furnishingOptions = typeof furnishingOptions[number]
@@ -78,10 +78,7 @@ const Listing = () => {
     const [currentStep, setCurrentStep] = useState(0)
     const removeImage = (index: number) => {
         setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-        // setFormData(prevData => ({
-        //     ...prevData,
-        //     images: prevData.images.filter((_, i) => i !== index),
-        // }));
+    
     }
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -97,10 +94,7 @@ const Listing = () => {
             }
             // Update the state with uploaded files
             setFiles(prevFiles => [...prevFiles, ...newFiles]);
-            // setFormData(prevData => ({
-            //     ...prevData,
-            //     images: [...prevData.images, ...selectedFiles.map(file => URL.createObjectURL(file))], // Generate preview URLs
-            // }));
+         
         }
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -112,14 +106,15 @@ const Listing = () => {
     }
 
     const handleNextStep = () => {
-       const validatedFields =  Step1Schema.safeParse(formData);
-       if (!validatedFields.success) {
+   //     e.preventDefault();
+    //    const validatedFields =  Step1Schema.safeParse(formData);
+    //    if (!validatedFields.success) {
 
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: `Failed to sign up. ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`,
-        }
-    }
+    //     return {
+    //         errors: validatedFields.error.flatten().fieldErrors,
+    //         message: `Failed to sign up. ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`,
+    //     }
+    // }
        // FileSchema.parse({ files });
         
         setCurrentStep(currentStep + 1)
@@ -167,12 +162,6 @@ const Listing = () => {
               console.log(res.message)
        }
         console.log(formData)
-
-
-
-        //send the data to the backend
-        //validate the form
-       
 
     }
     return (
@@ -252,12 +241,6 @@ const Listing = () => {
                     <div className='py-2 flex flex-col'>
                         <label className='font-semibold'>Upload Supporting Images - png, jpeg, jpg files only</label>
                         <div className="flex items-center gap-2">
-                            {/* <input type="file" multiple onChange={handleImageUpload}  className="file-input file-input-md file-input-primary w-full h-[2rem] bg-[#F2F2F2] border-none"
-                                accept="image/png, image/jpeg, image/jpg"
-                            />
-                            <span className="text-sm">
-                                {files.length > 0 ? `${files.length} file(s) selected` : 'No files chosen'}
-                            </span> */}
                             <div className='btn btn-primary cursor-pointer'>
                                 <input type="file" id="files" className="hidden"   multiple onChange={handleImageUpload} accept="image/png, image/jpeg, image/jpg" />
                                 <label htmlFor="files">Upload file</label>
