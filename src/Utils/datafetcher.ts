@@ -693,13 +693,15 @@ export async function fetchCommentsByPostId(id: string) {
   return comments.docs;
 }
 
-export async function updateFormLimit(id: string, currentLimit: number) {
-  const { data, error } = await supabase
-    .from("forms")
-    .update({ "submission_limit": currentLimit-1 })
-    .eq("id", id)
-    .gt("submission_limit", 0)
-    .select();
+// export async function updateFormLimit(id: string, currentLimit: number) {
+//   const { data, error } = await supabase
+//     .from("forms")
+//     .update({ "submission_limit": currentLimit-1 })
+//     .eq("id", id)
+//     .gt("submission_limit", 0)
+//     .select();
 
-  return;
-}
+//   return;
+// }
+
+

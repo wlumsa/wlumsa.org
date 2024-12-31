@@ -42,18 +42,3 @@ export default async function Page(props: {
     )
 }
 
-export async function generateStaticParams() {
-    const payload = await getPayload({ config: configPromise });
-    const pagesRes = await payload.find({
-        collection: 'forms',
-        draft: false,
-        limit: 100,
-        overrideAccess: false,
-    });
-
-    const pages = pagesRes?.docs;
-
-    return pages.map(({ id }) => ({
-        id: id.toString(),
-    }));
-}

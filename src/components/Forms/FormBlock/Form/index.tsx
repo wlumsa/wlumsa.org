@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import RichText from '@/Utils/RichText'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
+import { updateFormLimit } from '@/payload.config'
 
 export type Value = unknown
 
@@ -85,13 +86,13 @@ export const FormBlock: React.FC<
             method: 'POST',
           })
 
-          console.log("Data",dataToSend)
+          console.log("Data", dataToSend)
 
 
           const res = await req.json()
-
+         
           clearTimeout(loadingTimerID)
-
+          // await updateFormLimit(id:formID)
 
           setIsLoading(false)
           setHasSubmitted(true)
@@ -136,7 +137,7 @@ export const FormBlock: React.FC<
             <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
               <div className="">
                 {formFromProps &&
-                  
+
                   formFromProps.fields &&
                   formFromProps.fields.map((field, index) => {
                     const Field: React.FC<any> = fields?.[field.blockType]
@@ -171,18 +172,12 @@ export const FormBlock: React.FC<
     </div>
   )
 }
-import { createClient } from '@/Utils/client'
 
-const supabase = createClient();
 
-export async function updateFormLimit(id: string, currentLimit: number) {
-  const { data, error } = await supabase
-    .from("forms")
-    .update({ "submission_limit": currentLimit-1 })
-    .eq("id", id)
-    .gt("submission_limit", 0)
-    .select();
-  console.log(data)
-  console.log(error)
-  return;
-}
+// import { getPayload } from 'payload'
+// import config from '@payload-config'
+// const payload = await getPayload({ config })
+
+// export async function updateFormLimitPayload(id:string){
+
+// }

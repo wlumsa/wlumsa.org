@@ -135,6 +135,12 @@ export default buildConfig({
           admin: {
             group: "Admin",
           },
+          access: {
+            read: () => true,
+            create: () => true,
+            update: () => true,
+            delete: () => true,
+          },
           fields: ({ defaultFields }) => {
             return [
               ...defaultFields,
@@ -148,37 +154,32 @@ export default buildConfig({
         },
         formSubmissionOverrides: {
           hooks: {
-            afterChange: [
-              async ({ doc, req, context}) => {
-                try {
-                  // Get the form ID and current submission limit
-                  const formId = doc.form.id;
-                  const currentLimit = doc.form['submission-limit'];
-        
-                  // Update the form's submission limit
-                  if (currentLimit > 0) {
-                    await req.payload.update({
-                      collection: 'forms',
-                      id: formId,
-                      data: {
-                        'submission-limit': currentLimit - 1
-                      },
-                      context: {
-                        // set a flag to prevent from running again
-                        triggerAfterChange: false,
-                      },
-                    });
-                  }
-                } catch (error) {
-                  console.error('Error updating submission limit:', error);
+            beforeChange: [
+              async ({ data, req, context }) => {
+                // Get the form ID and current submission limit
+                const formId = typeof data.form === "object"
+                  ? data.form.id
+                  : data.form;
+                console.log("DATA", data);
+                const form = await req.payload.findByID({
+                  collection: "forms",
+                  id: formId,
+                });
+
+                if (!form || typeof form["submission-limit"] === "undefined") {
+                  throw new Error("Form not found or missing submission limit");
                 }
+                const currentLimit = form["submission-limit"];
+
+                await req.payload.update({
+                  collection: "forms",
+                  id: formId,
+                  data: {
+                    "submission-limit": currentLimit! - 1,
+                  },
+                });
               },
             ],
-          },
-          fields: ({ defaultFields }) => {
-            return [
-              ...defaultFields,
-            ];
           },
         },
         fields: {
@@ -223,4 +224,41 @@ export default buildConfig({
   sharp,
 });
 
+export async function updateFormLimit(id: string) {
+  try {
+    const req = await fetch(`http://localhost:3000/api/forms/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "submission-limit": {
+          decrement: 1,
+        },
+      }),
+    });
+    const data = await req.json();
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
 
+export async function getCurrentSubmissionLimit(id: string) {
+  try {
+    const req = await fetch(`http://localhost:3000/api/forms/${id}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = req.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+}
