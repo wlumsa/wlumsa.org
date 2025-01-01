@@ -560,7 +560,17 @@ export interface Form {
   title: string;
   fields?:
     | (
-        | CheckboxField
+        | {
+            name: string;
+            label: string;
+            width?: number | null;
+            default_value?: boolean | null;
+            limit?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'CheckBoxField';
+          }
         | {
             name: string;
             label?: string | null;
@@ -609,7 +619,6 @@ export interface Form {
             blockName?: string | null;
             blockType: 'number';
           }
-        | SelectField
         | {
             name: string;
             label?: string | null;
@@ -638,6 +647,24 @@ export interface Form {
             id?: string | null;
             blockName?: string | null;
             blockType: 'textarea';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            default_value?: string | null;
+            options?:
+              | {
+                  label?: string | null;
+                  value?: string | null;
+                  limit?: number | null;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
           }
       )[]
     | null;
@@ -690,43 +717,6 @@ export interface Form {
   'submission-limit'?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CheckboxField".
- */
-export interface CheckboxField {
-  name: string;
-  label: string;
-  width?: number | null;
-  default_value?: boolean | null;
-  limit?: number | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'checkbox';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SelectField".
- */
-export interface SelectField {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  default_value?: string | null;
-  options?:
-    | {
-        label?: string | null;
-        value?: string | null;
-        limit?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'select';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1257,7 +1247,7 @@ export interface FormsSelect<T extends boolean = true> {
   fields?:
     | T
     | {
-        checkbox?:
+        CheckBoxField?:
           | T
           | {
               name?: T;
@@ -1307,25 +1297,6 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        select?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              default_value?: T;
-              options?:
-                | T
-                | {
-                    label?: T;
-                    value?: T;
-                    limit?: T;
-                    id?: T;
-                  };
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
         state?:
           | T
           | {
@@ -1354,6 +1325,25 @@ export interface FormsSelect<T extends boolean = true> {
               label?: T;
               width?: T;
               defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        select?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              default_value?: T;
+              options?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    limit?: T;
+                    id?: T;
+                  };
               required?: T;
               id?: T;
               blockName?: T;

@@ -1,7 +1,10 @@
 import type { FormFieldBlock } from '@payloadcms/plugin-form-builder/types'
+import type { SelectField } from './Select/types'
 
-export const buildInitialFormState = (fields: FormFieldBlock[]) => {
-  return fields.reduce((initialSchema, field) => {
+
+export const buildInitialFormState = (fields: (FormFieldBlock | SelectField)[]) => {
+    return fields.reduce((initialSchema, field) => {
+    
     if (field.blockType === 'checkbox') {
       return {
         ...initialSchema,
@@ -29,7 +32,7 @@ export const buildInitialFormState = (fields: FormFieldBlock[]) => {
     if (field.blockType === 'select') {
       return {
         ...initialSchema,
-        [field.name]: '',
+        [field.name]: ''
       }
     }
     if (field.blockType === 'state') {

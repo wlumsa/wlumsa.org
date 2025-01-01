@@ -1,6 +1,5 @@
-
 'use client'
-import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import type { FormFieldBlock,Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -9,7 +8,6 @@ import { useForm } from 'react-hook-form'
 import RichText from '@/Utils/RichText'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
-import { updateFormLimit } from '@/payload.config'
 
 export type Value = unknown
 
@@ -37,7 +35,7 @@ export const FormBlock: React.FC<
 > = (props) => {
   const {
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
+    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel, } = {},
     introContent,
   } = props
 
@@ -90,7 +88,7 @@ export const FormBlock: React.FC<
 
 
           const res = await req.json()
-         
+
           clearTimeout(loadingTimerID)
           // await updateFormLimit(id:formID)
 
@@ -137,13 +135,14 @@ export const FormBlock: React.FC<
             <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
               <div className="">
                 {formFromProps &&
-
-                  formFromProps.fields &&
-                  formFromProps.fields.map((field, index) => {
-                    const Field: React.FC<any> = fields?.[field.blockType]
+                  formFromProps.fields?.map((field:FormFieldBlock, index) => {
+                    console.log('Full field object:', field)
+                    console.log('Field type:', field.blockType)
+                    const Field:React.FC<any> = fields[field.blockType]
                     if (Field) {
+                      console.log('Rendering field:', field.blockType)
                       return (
-                        <React.Fragment key={index}>
+                        <div className="w-full" key={index}>
                           <Field
                             form={formFromProps}
                             {...field}
@@ -152,9 +151,10 @@ export const FormBlock: React.FC<
                             errors={errors}
                             register={register}
                           />
-                        </React.Fragment>
+                        </div>
                       )
                     }
+                    console.log('Field not found for type:', field.blockType)
                     return null
                   })}
               </div>

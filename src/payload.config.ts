@@ -42,15 +42,16 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
-import { CheckboxField, SelectField } from "./collections/forms";
-const generateTitle: GenerateTitle = () => {
-  return "Laurier's Muslim Students Association";
-};
+
 import { GeneralUser } from "./collections/Users/Users";
+import { CheckboxBlock, SelectBlock } from "./blocks/forms";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+const generateTitle: GenerateTitle = () => {
+  return "Laurier's Muslim Students Association";
+};
 export default buildConfig({
   admin: {
     user: Execs.slug,
@@ -185,17 +186,12 @@ export default buildConfig({
         fields: {
           text: true,
           textarea: true,
-          select: {
-            fields: SelectField,
-            interfaceName: "SelectField",
-          },
+          CustomSelect:SelectBlock,
+          select:false,
           email: true,
           state: true,
           country: true,
-          checkbox: {
-            fields: CheckboxField,
-            interfaceName: "CheckboxField",
-          },
+          checkbox:CheckboxBlock,
           number: true,
           message: true,
           payment: false,
@@ -224,41 +220,3 @@ export default buildConfig({
   sharp,
 });
 
-export async function updateFormLimit(id: string) {
-  try {
-    const req = await fetch(`http://localhost:3000/api/forms/${id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "submission-limit": {
-          decrement: 1,
-        },
-      }),
-    });
-    const data = await req.json();
-    console.log(data);
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-export async function getCurrentSubmissionLimit(id: string) {
-  try {
-    const req = await fetch(`http://localhost:3000/api/forms/${id}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = req.json();
-    console.log(data);
-    return data;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-}

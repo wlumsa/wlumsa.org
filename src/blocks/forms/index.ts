@@ -1,4 +1,4 @@
-import { State } from "./../../components/Forms/FormBlock/Form/State/index";
+import { State } from "../../components/Forms/FormBlock/Form/State/index";
 import type { Block, Field } from "payload";
 
 import type {
@@ -76,94 +76,91 @@ const stateField: Field[] = [
     type: "checkbox",
   },
 ];
-const SelectField: Field[] = [
-  {
-    name: "name",
-    label: "Name (lowercase, no special characters)*",
-    type: "text",
-    required: true,
-  },
-  {
-    name: "label",
-    label: "Label",
-    type: "text",
-    required: false,
-  },
-  {
-    name: "width",
-    label: "Field Width (percentage)",
-    type: "number",
-    defaultValue: 0,
-    required: false,
-  },
-  {
-    name: "default_value",
-    label: "Default Value",
-    type: "text",
-    required: false,
-  },
-  {
-    name: "options",
-    label: "Select Attribute Options",
-    type: "array",
-    fields: [
-      {
-        name: "label",
-        type: "text",
-      },
-      {
-        name: "value",
-        type: "text",
-      },
-      {
-        name: "limit",
-        type: "number",
-      },
-    ],
-  },
-  {
-    name: "required",
-    label: "required?",
-    type: "checkbox",
-  },
-];
+export const SelectBlock: Block = {
+  slug: "select",
+  fields: [
+    {
+      name: "name",
+      label: "Name (lowercase, no special characters)*", 
+      type: "text",
+      required: true,
+    },
+    {
+      name: "label",
+      label: "Label",
+      type: "text", 
+      required: false,
+    },
+    {
+      name: "width",
+      label: "Field Width (percentage)",
+      type: "number",
+      defaultValue: 0,
+      required: false,
+    },
+    {
+      name: "default_value",
+      label: "Default Value",
+      type: "text",
+      required: false,
+    },
+    {
+      name: "options",
+      label: "Select Attribute Options",
+      type: "array",
+      fields: [
+        {
+          name: "label",
+          type: "text",
+        },
+        {
+          name: "value",
+          type: "text",
+        },
+        {
+          name: "limit",
+          type: "number",
+        },
+      ],
+    },
+    {
+      name: "required",
+      label: "required?",
+      type: "checkbox",
+    },
+  ],
+};
 
-const CheckboxField: Field[] = [
-  {
+export const CheckboxBlock: Block = {
+  slug:"CheckBoxField", 
+  fields: [{
     name: "name",
     label: "Name (lowercase, no special characters)*",
     type: "text",
     required: true,
-  },
-  {
+  }, {
     name: "label",
     label: "Label",
     type: "text",
     required: true,
-  },
-  {
+  }, {
     name: "width",
     label: "Field Width (percentage)",
     type: "number",
     defaultValue: 0,
     required: false,
-  },
-  {
+  }, {
     name: "default_value",
     label: "Default Value",
     type: "checkbox",
     required: false,
-  },
-  {
+  }, {
     name: "limit",
     label: "Limit of times this can be checked",
     type: "number",
-  },
-  {
+  }, {
     name: "required",
     label: "required?",
     type: "checkbox",
-  },
-];
-
-export { CheckboxField, SelectField, stateField };
+  }],
+};

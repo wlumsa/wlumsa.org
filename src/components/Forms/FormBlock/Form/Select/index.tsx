@@ -1,4 +1,4 @@
-import type { SelectField } from '@/payload-types'
+import { SelectField } from './types'
 import type { Control, FieldErrorsImpl, FieldValues } from 'react-hook-form'
 
 import React from 'react'
