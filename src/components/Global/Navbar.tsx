@@ -172,7 +172,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </Link>
         <div className="dropdown dropdown-end">
 
-          {/* <div
+           <div
             className="">
             <SignedOut>
       <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton fallbackRedirectUrl={pathname}  /></div>
@@ -195,4 +195,4 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
     </div>
   );
 };
-export default Navbar;
+export default Navbar 

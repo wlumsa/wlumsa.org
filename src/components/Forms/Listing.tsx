@@ -1,52 +1,42 @@
-import React from 'react'
+import React, { ReactEventHandler } from 'react'
 import { date, z } from 'zod'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { X } from 'lucide-react'
-import { preventDefault } from '@fullcalendar/core/internal'
+
 const genderOptions = ["Sister", "Brother"] as const
 const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
 import { createPost } from '@/Utils/actions'
 import { supabase } from '@/lib/supabaseClient'
-//for form validation
-type Gender = typeof genderOptions[number]
-type PropertyType = typeof propertyTypeOptions[number]
-type furnishingOptions = typeof furnishingOptions[number]
-const listingSchema = z.object({
+
+
+//Form validation
+const StepOneSchema = z.object({
     title: z.string().min(1, "Title is required").max(120, "Title is too long"),
     address: z.string().min(1, "Address is required"),
-    propertyType: z.enum(propertyTypeOptions, { errorMap: () => ({ message: "Please select a property type" }) }),
-    furnishingOptions: z.enum(furnishingOptions, { errorMap: () => ({ message: "Please select a furnishing option" }) }),
-    rent: z.string().min(1, "Monthly rent is required"),
-    gender: z.enum(genderOptions, { errorMap: () => ({ message: "Please select a gender" }) }),
-    availableDate: z.string().min(1, "Date available is required"),
     description: z.string().min(1, "Description is required"),
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
+    gender: z.string().min(1, "Gender is required"),
+    propertyType: z.string().min(1, "Property type is required"),
+    furnishingType: z.string().min(1, "Furnishing type is required"),
+    rent: z.string().min(1, "Monthly rent is required"),
+   // deposit: z.string().min(1, "Deposit is required"),
+    availableDate: z.string().min(1, "Date available is required"),
+
+    })
+const StepTwoSchema = z.object({
+    // firstName: z.string().min(1, "First name is required"),
+    // lastName: z.string().min(1, "Last name is required"),
     contactEmail: z.string().email("Invalid email"),
     phone: z.string().min(10, "Phone number is required"),
+
 })
 
-const Step1Schema = z.object({
-    title: z.string().min(1, "Title is required").max(120, "Title is too long"),
-    address: z.string().min(1, "Address is required"),
-    description: z.string().min(1, "Description is required"),
-    propertyType: z.enum(propertyTypeOptions, { errorMap: () => ({ message: "Please select a property type" }) }),
-    furnishingOptions: z.enum(furnishingOptions, { errorMap: () => ({ message: "Please select a furnishing option" }) }),
-    rent: z.string().min(1, "Monthly rent is required"),
-    availableDate: z.string().min(1, "Date available is required"),
-    })
-    const FileSchema = z.object({
-        files: z.array(
-            z.object({
-                file: z.instanceof(File),
-                preview: z.string().url(),
-            })
-        ).min(1, 'At least one file must be uploaded'),
-    });
-
-    const FormSchema = Step1Schema.merge(FileSchema);
+   
+const UploadedFileSchema = z.array(z.object({
+    file: z.instanceof(File, { message: "Must be a valid file" }),
+    preview: z.string().url("Preview must be a valid URL"),
+}),
+).min(1, "At least one image is required");
 
 
 interface UploadedFile {
@@ -83,7 +73,7 @@ const Listing = () => {
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const selectedFiles = Array.from(e.target.files); // Convert FileList to an array
-            const oversizedFiles = selectedFiles.some(file => file.size / (1024 * 1024) > 200);
+            const oversizedFiles = selectedFiles.some(file => file.size / (1024 * 1024) > 100);
             const newFiles = selectedFiles.map(file => ({
                 file: file,
                 preview: URL.createObjectURL(file),
@@ -92,7 +82,6 @@ const Listing = () => {
                 alert(`One or more files exceed 200MB. Please select smaller files.`);
                 return;
             }
-            // Update the state with uploaded files
             setFiles(prevFiles => [...prevFiles, ...newFiles]);
          
         }
@@ -105,19 +94,25 @@ const Listing = () => {
 
     }
 
-    const handleNextStep = () => {
-   //     e.preventDefault();
-    //    const validatedFields =  Step1Schema.safeParse(formData);
-    //    if (!validatedFields.success) {
-
-    //     return {
-    //         errors: validatedFields.error.flatten().fieldErrors,
-    //         message: `Failed to sign up. ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`,
-    //     }
-    // }
-       // FileSchema.parse({ files });
-        
+    const handleNextStep = (e: React.FormEvent) => {
+        e.preventDefault();
+       const validatedFields =  StepOneSchema.safeParse(formData );
+       const validatedFiles = UploadedFileSchema.safeParse(files);
+        if(!validatedFields.success && !validatedFiles.success) {
+            toast.error(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
+            return;
+         }
+        if (validatedFields.error) {
+            toast.error(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+            return;
+            }
+        if (validatedFiles.error) {
+            toast.error(`Upload at least one image`);
+            return;
+            }
+         
         setCurrentStep(currentStep + 1)
+         
         
     }
     const handlePreviousStep = () => {
@@ -127,43 +122,62 @@ const Listing = () => {
     }
 
     const handleSubmit = async () => {
-
-        //upload an image to supabase storage -- for rooomate service
- const uploadImage = async (image: File, folderName:string) => {
-    const filePath = `${folderName}/${Date.now()}_${image.name}`;
-     const { data, error } = await supabase.storage
-    .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
-    .upload(`${filePath}`, image);
+        // Validate
+        const validatedFields = StepTwoSchema.safeParse(formData);
+        if (!validatedFields.success) {
+            toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+            return;
+        }
     
-     
-  if (error) {
-    console.error("Error uploading image to Supabase storage:", error);
-    return null;
-  }
-  //get image url
-  const imageData = supabase.storage.from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test").getPublicUrl(`${filePath}`);
-  console.log(imageData)
-  setFormData(prevData => ({
-    ...prevData,
-    images: [...prevData.images, imageData.data.publicUrl], //append to images array
-}));
-  return imageData.data.publicUrl;
-  
-  }
-        //upload files to supabase storage
-        await Promise.all(files.map(file => uploadImage(file.file, "RoommateService")));
-       const res =  await createPost(formData)
-       if(res.res) {
-
-           toast.success('Post created!')
-       } else {
-                console.log(formData.images)
-              toast.error('Failed to create post')
-              console.log(res.message)
-       }
-        console.log(formData)
-
-    }
+        // upload image to database , retreive image url
+        const uploadImage = async (image: File, folderName: string) => {
+            const filePath = `${folderName}/${Date.now()}_${image.name}`;
+            const { data, error } = await supabase.storage
+                .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
+                .upload(`${filePath}`, image);
+    
+            if (error) {
+                console.error("Error uploading image to Supabase storage:", error);
+                return null;
+            }
+                const imageData = supabase.storage
+                .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
+                .getPublicUrl(`${filePath}`);
+    
+            console.log(imageData);
+            return imageData.data.publicUrl;
+        };
+    
+        try {
+            // Upload all images and gather URLs
+            const imageUrls = await Promise.all(
+                files.map(file => uploadImage(file.file, "RoommateService"))
+            );
+    
+            const validImageUrls = imageUrls.filter(url => url !== null);
+    
+            setFormData(prevData => ({
+                ...prevData,
+                images: [...prevData.images, ...validImageUrls],
+            }));
+    
+            const res = await createPost({
+                ...formData,
+                images: [...formData.images, ...validImageUrls],
+            });
+    
+            if (res.res) {
+                toast.success("Post created successfully!");
+            } else {
+                console.error("Error creating post:", res.message);
+                toast.error("Failed to create post.");
+            }
+        } catch (error) {
+            console.error("Error during submission:", error);
+            toast.error("Failed to create post..");
+        }
+    };
+    
     return (
         <div className=' flex flex-col items-center justify-center w-full px-8 '>
 
@@ -175,7 +189,7 @@ const Listing = () => {
                     <div className='flex flex-col md:flex-row gap-4 py-2'>
                         <div className='flex flex-col py-2 md:w-1/2'>
                             <label htmlFor="listingTitle" className='font-semibold' >Listing Title</label>
-                            <input id="title" name="title" value={formData.title} onChange={handleInputChange} type="text" placeholder="ex: 2 Rooms at Lazardis Hall " className="input input-bordered h-[2rem]   bg-[#F2F2F2] border-none" />
+                            <input id="title" name="title" value={formData.title} onChange={handleInputChange} type="text" placeholder="ex: 2 Rooms at Lazardis Hall " className="input input-bordered h-[2rem]   bg-[#F2F2F2] border-none" aria-describedby="title-error" />
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
                             <label className='font-semibold'>Address</label>
@@ -226,11 +240,17 @@ const Listing = () => {
 
                         <div className='flex flex-col py-2 md:w-1/2'>
                             <label className='font-semibold'>Deposit</label>
-                            <input type="text" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="$1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            <div className='flex flex-row items-center'>
+                                <span className='mr-2'>$</span>
+                                <input type="text" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            </div>
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
-                            <label className='font-semibold'>Monthly Rent price</label>
-                            <input type="text" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="$1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                             <label className='font-semibold'>Monthly Rent price</label>
+                        <div className='flex flex-row items-center'>
+                              <span className='mr-2'>$</span>
+                            <input type="text" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                        </div>
                         </div>
 
                     </div>
@@ -241,9 +261,9 @@ const Listing = () => {
                     <div className='py-2 flex flex-col'>
                         <label className='font-semibold'>Upload Supporting Images - png, jpeg, jpg files only</label>
                         <div className="flex items-center gap-2">
-                            <div className='btn btn-primary cursor-pointer'>
+                            <div className=''>
                                 <input type="file" id="files" className="hidden"   multiple onChange={handleImageUpload} accept="image/png, image/jpeg, image/jpg" />
-                                <label htmlFor="files">Upload file</label>
+                                <label htmlFor="files" className='btn btn-primary cursor-pointer'>Upload file</label>
                             </div> 
                        
                             <span className="text-sm">
@@ -304,7 +324,7 @@ const Listing = () => {
                         </div>
                     </div>
 
-                    <h1 className='font-semibold text-primary'>Social Media username (optional)</h1>
+                    <h1 className='font-semibold text-primary'>Social Media  (optional)</h1>
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div>
                             <label className="input input-bordered flex items-center gap-2 h-[2rem] w-fit bg-[#F2F2F2] border-none">

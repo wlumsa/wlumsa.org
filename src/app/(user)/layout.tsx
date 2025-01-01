@@ -8,13 +8,10 @@ import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetc
 import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from './GoogleAnalytics';
-// import {
-//   ClerkProvider,
-//   SignInButton,
-//   SignedIn,
-//   SignedOut,
-//   UserButton
-// } from '@clerk/nextjs'
+import {
+  ClerkProvider,
+ 
+} from '@clerk/nextjs'
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -56,7 +53,7 @@ export default async function RootLayout({
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
   return (
-    // <ClerkProvider>
+     <ClerkProvider>
       <html lang="en">
         <GoogleAnalytics />
         <body>
@@ -73,6 +70,6 @@ export default async function RootLayout({
         </body>
 
       </html >
-    // </ClerkProvider>
+     </ClerkProvider>
   );
 }

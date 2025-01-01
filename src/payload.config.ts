@@ -46,7 +46,6 @@ import GeneralUser from "./collections/UI/GeneralUser";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
-import { GeneralUser } from "./collections/Users/Users";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

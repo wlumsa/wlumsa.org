@@ -93,7 +93,7 @@ export const RoommatePosts: CollectionConfig = {
       type: 'select',
       options: [
         { label: 'Sisters', value: '1' },
-        { label: 'Brothers', value: 'brother' },
+        { label: 'Brothers', value: '2' },
       ],
     },
     {
