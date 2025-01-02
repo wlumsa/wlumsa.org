@@ -23,6 +23,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     Sizes: Size;
+    recording: Recording;
     WeeklyEvents: WeeklyEvent;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
@@ -35,6 +36,7 @@ export interface Config {
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
     Comments: Comment;
+    'general-user': GeneralUser;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -55,6 +57,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     Sizes: SizesSelect<false> | SizesSelect<true>;
+    recording: RecordingSelect<false> | RecordingSelect<true>;
     WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
     'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
     'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
@@ -67,6 +70,7 @@ export interface Config {
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
     Comments: CommentsSelect<false> | CommentsSelect<true>;
+    'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -332,6 +336,18 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recording".
+ */
+export interface Recording {
+  id: number;
+  title?: string | null;
+  url: string;
+  category: '1' | '2' | '3';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "WeeklyEvents".
  */
 export interface WeeklyEvent {
@@ -522,6 +538,16 @@ export interface Comment {
   comment: string;
   author: string;
   postId?: (number | RoommatePost)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-user".
+ */
+export interface GeneralUser {
+  id: number;
+  user_id: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -763,6 +789,10 @@ export interface PayloadLockedDocument {
         value: number | Size;
       } | null)
     | ({
+        relationTo: 'recording';
+        value: number | Recording;
+      } | null)
+    | ({
         relationTo: 'WeeklyEvents';
         value: number | WeeklyEvent;
       } | null)
@@ -809,6 +839,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'Comments';
         value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'general-user';
+        value: number | GeneralUser;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1028,6 +1062,17 @@ export interface SizesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recording_select".
+ */
+export interface RecordingSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "WeeklyEvents_select".
  */
 export interface WeeklyEventsSelect<T extends boolean = true> {
@@ -1179,6 +1224,15 @@ export interface CommentsSelect<T extends boolean = true> {
   comment?: T;
   author?: T;
   postId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-user_select".
+ */
+export interface GeneralUserSelect<T extends boolean = true> {
+  user_id?: T;
   updatedAt?: T;
   createdAt?: T;
 }
