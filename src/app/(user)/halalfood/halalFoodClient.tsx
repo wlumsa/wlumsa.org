@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
@@ -36,6 +36,25 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   const [selectedMethod, setSelectedMethod] = useState<string>("All Methods");
   const [selectedCampusLocation, setSelectedCampusLocation] = useState<string>("All Locations");
   const [showFilters, setShowFilters] = useState<boolean>(true);
+  const [isStickyVisible, setIsStickyVisible] = useState<boolean>(true);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY) {
+        setIsStickyVisible(false); // Hide on scroll down
+      } else {
+        setIsStickyVisible(true); // Show on scroll up
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   const clearFilter = (filterType: string) => {
     if (filterType === "cuisine") setSelectedCuisine("All Cuisines");
@@ -103,7 +122,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       </div>
 
       {/* Sticky Collapsible Filter Section */}
-      <div className="sticky top-[80px] z-50 bg-white p-4 rounded-b-lg shadow-md">
+      <div
+        className={`sticky top-[80px] z-50 bg-white p-4 rounded-b-lg shadow-md transition-transform duration-300 ${
+          isStickyVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <div className="flex items-center justify-between">
           <button
             onClick={() => setShowFilters(!showFilters)}
