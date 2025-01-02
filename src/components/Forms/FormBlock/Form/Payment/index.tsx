@@ -1,36 +1,95 @@
-import type { TextField } from '@payloadcms/plugin-form-builder/types'
-import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
+import type { PaymentField } from '@payloadcms/plugin-form-builder/types'
+import {
+  useFormContext,
+  useWatch,
+  type FieldErrorsImpl,
+  type FieldValues,
+  type UseFormRegister,
+  type UseFormWatch,
+  Control,
+} from 'react-hook-form'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { getPaymentPrice } from './actions/getPaymentPrice'
+// Create a new component for watching arrays and calculating price
+const PriceWatcher: React.FC<{
+  control: Control<FieldValues>
+  basePrice: number
+  priceConditions: any
+  name: string
+  setValue: any
+}> = ({ control, basePrice, priceConditions, name, setValue }) => {
+  const arrayFields = useWatch({
+    control,
+    name: ['parents', 'players'],
+  })
 
-export const PaymentField:React.FC<
-  {
-    errors: Partial<
-      FieldErrorsImpl<{
-        [x: string]: any
-      }>
-    >
-    register: UseFormRegister<any & FieldValues>
-    rows?: number
-  } & TextField
-> = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width }) => {
-  return (
-    <Width width={width}>
-      <div className="">
-        <label className="" htmlFor={name}>
-          {label}
-        </label>
-        <textarea
-          className=""
-          id={name}
-          rows={rows}
-          {...register(name, { required: requiredFromProps })}
-        />
-        {requiredFromProps && errors[name] && <Error />}
-      </div>
-    </Width>
-  )
+  React.useEffect(() => {
+    const updatePrice = async () => {
+      const calculatedPrice = await getPaymentPrice({
+        basePrice,
+        priceConditions,
+        fieldValues: {
+          parents: arrayFields[0],
+          players: arrayFields[1],
+        },
+      })
+      setValue(name, calculatedPrice)
+    }
+    updatePrice()
+  }, [basePrice, priceConditions, name, setValue, arrayFields])
+
+  return null
 }
+
+// Main Payment component
+export const Payment: React.FC<
+  PaymentField & {
+    errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
+    register: UseFormRegister<FieldValues>
+    watch: UseFormWatch<FieldValues>
+    setValue: any
+  }
+> = ({
+  name,
+  basePrice,
+  errors,
+  label,
+  register,
+  required: requiredFromProps,
+  width,
+  watch,
+  priceConditions,
+  setValue,
+}) => {
+    const { control } = useFormContext()
+
+    // Watch only the price field for display
+    const price = useWatch({
+      control,
+      name,
+      defaultValue: basePrice,
+    })
+
+    return (
+      <div className=''>
+        <Width width={width}>
+          <label htmlFor={name} className='text-xl font-semibold'>{label}</label>
+          <div className="text-base">${price}</div>
+
+          <PriceWatcher
+            control={control}
+            basePrice={basePrice}
+            priceConditions={priceConditions}
+            name={name}
+            setValue={setValue}
+          />
+
+          {requiredFromProps && errors[name] && <Error />}
+        </Width>
+      </div>
+    )
+  }

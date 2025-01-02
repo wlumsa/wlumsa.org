@@ -86,6 +86,7 @@
     "resend": "^2.1.0",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
+    "stripe": "^17.5.0",
     "supabase": "^1.207.9",
     "tailwind-merge": "^2.5.4",
     "use-debounce": "^10.0.4",

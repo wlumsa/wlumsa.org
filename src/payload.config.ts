@@ -6,7 +6,6 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
 // import sharp from 'sharp'
-
 import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
@@ -45,7 +44,7 @@ import { Comments } from "./collections/Comment";
 
 import { GeneralUser } from "./collections/Users/Users";
 import { CheckboxBlock, SelectBlock } from "./blocks/forms";
-
+import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -104,7 +103,13 @@ export default buildConfig({
       uploadsCollection: "media",
     }),
     stripePlugin({
-      stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test') ?? true,
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
+      webhooks: {
+        'checkout.session.completed': checkoutSessionCompleted,
+      },
+      logs: false,
     }),
     s3Storage({
       collections: {
@@ -142,6 +147,7 @@ export default buildConfig({
             update: () => true,
             delete: () => true,
           },
+          
           fields: ({ defaultFields }) => {
             return [
               ...defaultFields,
@@ -154,53 +160,64 @@ export default buildConfig({
           },
         },
         formSubmissionOverrides: {
-          hooks: {
-            beforeChange: [
-              async ({ data, req, context }) => {
-                // Get the form ID and current submission limit
-                const formId = typeof data.form === "object"
-                  ? data.form.id
-                  : data.form;
-                console.log("DATA", data);
-                const form = await req.payload.findByID({
-                  collection: "forms",
-                  id: formId,
-                });
-
-                if (!form || typeof form["submission-limit"] === "undefined") {
-                  throw new Error("Form not found or missing submission limit");
-                }
-                const currentLimit = form["submission-limit"];
-
-                await req.payload.update({
-                  collection: "forms",
-                  id: formId,
-                  data: {
-                    "submission-limit": currentLimit! - 1,
-                  },
-                });
+          fields: ({ defaultFields }) => {
+            const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
+            return [
+              ...(formField ? [formField] : []),
+              {
+                name: 'title',
+                type: 'text',
               },
-            ],
-          },
+              {
+                name: 'submissionData',
+                type: 'json',
+                admin: {
+                  components: {
+                    Field: '@/plugins/form-builder/FormData',
+                  },
+                },
+              },
+              {
+                name: 'payment',
+                type: 'group',
+                admin: {
+                  position: 'sidebar',
+                },
+                fields: [
+                  {
+                    name: 'amount',
+                    type: 'number',
+                  },
+                  {
+                    name: 'status',
+                    type: 'select',
+                    defaultValue: 'pending',
+                    options: [
+                      { label: 'Pending', value: 'pending' },
+                      { label: 'Paid', value: 'paid' },
+                      { label: 'Cancelled', value: 'cancelled' },
+                      { label: 'Refunded', value: 'refunded' },
+                    ],
+                  },
+                ],
+              },
+            ]
+          }
+
         },
         fields: {
           text: true,
           textarea: true,
-          CustomSelect:SelectBlock,
-          select:false,
+          CustomSelect: SelectBlock,
+          select: false,
           email: true,
           state: true,
           country: true,
-          checkbox:CheckboxBlock,
+          checkbox: CheckboxBlock,
           number: true,
           message: true,
-          payment: false,
+          payment: true,
         },
-        // handlePayment: async ({ form, submissionData }) => {
-        //   // first calculate the price
-        //   const paymentField = form.fields.payment
-        //   // then asynchronously process the payment here
-        // },
       },
     ),
   ],
@@ -219,4 +236,3 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "",
   sharp,
 });
-

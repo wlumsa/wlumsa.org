@@ -7,8 +7,8 @@ import { Select } from './Select'
 import { State } from './State'
 import { Text } from './Text'
 import { Textarea } from './Textarea'
-import { PaymentField } from './Payment'
-
+import { Payment } from './Payment'
+import { Price } from './Price'
 export const fields = {
   checkbox: Checkbox,
   country: Country,
@@ -19,7 +19,6 @@ export const fields = {
   state: State,
   text: Text,
   textarea: Textarea,
-
-  //Payment field functionality not implemented
-  payment: PaymentField,
+  price: Price,
+  payment: Payment,
 }

@@ -6,6 +6,7 @@ import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
 export const revalidate = 3600;
+export const payload = await getPayload({ config: configPromise });
 
 export async function fetchRoommateProfiles() {
   const { data, error } = await supabase
@@ -142,7 +143,7 @@ export async function getPublicURL(
   return data;
 }
 
-const payload = await getPayload({ config: configPromise });
+
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({

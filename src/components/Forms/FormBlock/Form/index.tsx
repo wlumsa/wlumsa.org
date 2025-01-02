@@ -1,13 +1,14 @@
 'use client'
-import type { FormFieldBlock,Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
-import { useForm } from 'react-hook-form'
-
+import { useForm, FormProvider } from 'react-hook-form'
 
 import RichText from '@/Utils/RichText'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
+import { SelectField, Options } from './Select/types'
+import { createCheckoutSession } from '@/plugins/stripe/actions'
 
 export type Value = unknown
 
@@ -28,14 +29,18 @@ export type FormBlockType = {
   }[]
 }
 
-export const FormBlock: React.FC<
-  FormBlockType & {
-    id?: string
-  }
-> = (props) => {
+// Update the type to include name
+type ExtendedFormFieldBlock = FormFieldBlock & {
+  name: string
+}
+type FormField = SelectField & {
+  id: string;
+}
+
+export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const {
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel, } = {},
+    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
 
@@ -45,7 +50,6 @@ export const FormBlock: React.FC<
   const {
     control,
     formState: { errors },
-    getValues,
     handleSubmit,
     register,
     setValue,
@@ -57,90 +61,154 @@ export const FormBlock: React.FC<
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: Data) => {
-      let loadingTimerID: ReturnType<typeof setTimeout>
-      const submitForm = async () => {
-        setError(undefined)
-        console.log(data)
-        const dataToSend = Object.entries(data).map(([name, value]) => ({
-          field: name,
-          value,
-        }))
-        console.log(dataToSend)
-        // delay loading indicator by 1s
-        loadingTimerID = setTimeout(() => {
-          setIsLoading(true)
-        }, 1000)
+    async (data: Data) => {
+      setError(undefined)
+      setIsLoading(true)
 
-        try {
-          const req = await fetch(`http://localhost:3000/api/form-submissions`, {
-            body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
+      try {
+        // Format the submission data
+        const submissionData = Object.entries(data)
+          .filter(([name]) => !['price', 'paymentStatus'].includes(name))
+          .reduce(
+            (acc, [name, value]) => ({
+              ...acc,
+              [name]: value,
             }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'POST',
-          })
+            {} as FormData,
+          )
 
-          console.log("Data", dataToSend)
+        // Get current form data for limits
+        const formResponse = await fetch(`http://localhost:3000/api/forms/${formID}`)
+        const formData = await formResponse.json()
 
+        // Handle select field limits
+        const selectFields = formData.fields.filter(
+          (field: FormField) => field.blockType === 'select'
+        )
 
-          const res = await req.json()
+        // Update select field limits
+        for (const field of selectFields) {
+          const selectedValue = data[field.name]?.toString()
+          if (!selectedValue) continue
 
-          clearTimeout(loadingTimerID)
-          // await updateFormLimit(id:formID)
+          const selectedOption = field.options?.find(
+            (option: Options) => option.value === selectedValue
+          )
 
-          setIsLoading(false)
-          setHasSubmitted(true)
-
-          if (confirmationType === 'redirect' && redirect) {
-            const { url } = redirect
-
-            const redirectUrl = url
-
-            if (redirectUrl) router.push(redirectUrl)
+          if (selectedOption?.limit) {
+            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                fields: formData.fields.map((f: FormField) =>
+                  f.id === field.id
+                    ? {
+                      ...f,
+                      options: f.options.map(opt =>
+                        opt.value === selectedValue
+                          ? { ...opt, limit: opt.limit! - 1 }
+                          : opt
+                      )
+                    }
+                    : f
+                )
+              }),
+            })
           }
-        } catch (err) {
-          console.warn(err)
-          setIsLoading(false)
-          setError({
-            message: 'Something went wrong.',
+        }
+
+        // Update submission limit if exists
+        if (formData['submission-limit']) {
+          await fetch(`http://localhost:3000/api/forms/${formID}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              'submission-limit': formData['submission-limit'] - 1,
+            }),
           })
         }
-      }
 
-      void submitForm()
+        // Create the submission
+        const req = await fetch(`http://localhost:3000/api/form-submissions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            form: formID,
+            submissionData,
+            payment: {
+              amount: data.price,
+              status: 'pending',
+            },
+          }),
+        })
+
+        const res = await req.json()
+        
+        if (req.status >= 400) {
+          throw new Error(res.errors?.[0]?.message || 'Failed to create submission')
+        }
+
+        const { doc: submission } = res
+        const submissionId: string = submission.id
+
+        if (!submissionId) {
+          throw new Error('No submission ID received from the server')
+        }
+
+        // Set success state before handling payment
+        setIsLoading(false)
+        setHasSubmitted(true)
+
+        // Handle payment if needed
+        if (data.price && Number(data.price) > 0) {
+          try {
+            const session = await createCheckoutSession(submissionId, Number(data.price))
+
+            if (!session?.url) {
+              throw new Error('No session URL returned from createCheckoutSession')
+            }
+
+            router.push(session.url)
+            return
+          } catch (err) {
+            console.error('Payment session creation failed:', err)
+            setError({
+              message: 'Failed to create payment session. Please try again.',
+              status: '500',
+            })
+          }
+        } else if (confirmationType === 'redirect' && redirect?.url) {
+          router.push(redirect.url)
+        }
+
+      } catch (err) {
+        console.error(err)
+        setIsLoading(false)
+        setError({
+          message: err instanceof Error ? err.message : 'Something went wrong.',
+          status: '500',
+        })
+      }
     },
     [router, formID, redirect, confirmationType],
   )
 
   return (
-    /*
-        <div>
-      <div className="flex items-center">
-        <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
-    */
     <div className="mt-20 flex flex-grow flex-col items-center">
       <div className="flex items-center">
         {!isLoading && hasSubmitted && confirmationType === 'message' && (
           <RichText className="" content={confirmationMessage} />
         )}
-        {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+        {isLoading && <p>Loading, please wait...</p>}
         {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
         {!hasSubmitted && (
           <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
-
-            <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
-              <div className="">
-                {formFromProps &&
-                  formFromProps.fields?.map((field:FormFieldBlock, index) => {
-                    console.log('Full field object:', field)
-                    console.log('Field type:', field.blockType)
-                    const Field:React.FC<any> = fields[field.blockType]
+            <FormProvider {...formMethods}>
+              <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
+                <div className="">
+                  {formFromProps?.fields?.map((field: FormFieldBlock, index) => {
+                    const Field: React.FC<any> = fields[field.blockType]
                     if (Field) {
-                      console.log('Rendering field:', field.blockType)
                       return (
                         <div className="w-full" key={index}>
                           <Field
@@ -154,25 +222,24 @@ export const FormBlock: React.FC<
                         </div>
                       )
                     }
-                    console.log('Field not found for type:', field.blockType)
                     return null
                   })}
-              </div>
-              <button
-                type="submit"
-                className="btn border-0 bg-secondary text-primary shadow duration-200 hover:scale-105 hover:text-base-100"
-                form={formID}
-              >
-                Submit ➜
-              </button>
-            </form>
+                </div>
+                <button
+                  type="submit"
+                  className="btn border-0 bg-secondary text-primary shadow duration-200 hover:scale-105 hover:text-base-100"
+                  form={formID}
+                >
+                  {submitButtonLabel || 'Submit'} ➜
+                </button>
+              </form>
+            </FormProvider>
           </div>
         )}
       </div>
     </div>
   )
 }
-
 
 // import { getPayload } from 'payload'
 // import config from '@payload-config'
