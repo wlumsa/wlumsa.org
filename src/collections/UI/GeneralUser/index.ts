@@ -18,13 +18,44 @@ export const GeneralUser: CollectionConfig = {
     {
       name: 'firstName',
       type: 'text',
-      required: true,
     },
     {
       name: 'lastName',
       type: 'text',
-      required: true,
     },
+    {
+      name: 'category',
+      type: 'select',
+      options: [
+        { label: 'Student', value: 'student' },
+        { label: 'Landlord', value: 'landlord' },
+        { label: 'Parent', value: 'parent' },
+        { label: 'Business', value: 'business' },
+        { label: 'Alumni', value: 'alumni' },
+      ],
+    },
+    {
+      name: 'laurierEmail',
+      type: 'text',
+    },
+    {
+      name: 'studentId',
+      type: 'text',
+    },
+     {
+      name: 'year',
+      type: 'text',
+
+     },
+    {
+      name: 'program',
+      type: 'text',
+    },
+    {
+      name: 'newsletter',
+      type: 'checkbox',
+    },
+
    
     
   ],

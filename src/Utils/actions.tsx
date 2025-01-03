@@ -1,8 +1,9 @@
 'use server'
 
 import { z } from 'zod'
-import { addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, getRoommateImageURL } from './datafetcher'
+import { addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, updateUserInfo } from './datafetcher'
 import { resend } from './resend';
+import { currentUser } from '@clerk/nextjs/server';
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
@@ -119,4 +120,40 @@ export async function createPost(formData: RoommatePost) {
 }
 
 
+interface userData {
+    isStudent: string;
+    firstName: string;
+    lastName: string;
+    studentId: string;
+    laurier_email: string;
+    newsletter: boolean;
+    program: string;
+    year: string;
+    category: string;
+}
+export async function userOnboarding(formData: userData) {
+    if(formData.isStudent === 'Yes') {
+        formData.category = 'student';
+    }
 
+
+    try {
+    
+        const user = await currentUser();
+        if (!user) {
+            return { message: 'User not found', errors: true }
+        }
+        const userId = user.id;
+        console.log(formData)
+        const res = await updateUserInfo(userId, formData);
+        console.log(res)
+        if(res.docs) {
+            return { message: 'User info updated!' }
+        } else {
+            return { message: 'Failed to update user info', errors: true}
+        }
+        
+    } catch(error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}

@@ -46,10 +46,10 @@ export const RoommatePosts: CollectionConfig = {
     },
   fields: [
     {
-      name: 'user_id',
-      type:'text',
+      name: 'clerkId',
+      type: 'relationship',
+      relationTo: 'general-user',
       required: true,
-      label: 'User ID',
 
     },
     {

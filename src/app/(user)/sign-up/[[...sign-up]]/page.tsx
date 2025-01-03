@@ -4,7 +4,10 @@ import { SignUp } from '@clerk/nextjs'
 const page = () => {
   return (
     <div className='mt-16 flex justify-center items-center'> 
-        <SignUp appearance={{
+        
+
+        <SignUp
+         appearance={{
               elements: {
                 formButtonPrimary: ' btn btn-primary text-white',
               },

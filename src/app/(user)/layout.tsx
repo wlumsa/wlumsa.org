@@ -53,7 +53,9 @@ export default async function RootLayout({
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
   return (
-     <ClerkProvider>
+     <ClerkProvider
+     signUpFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL}
+     >
       <html lang="en">
         <GoogleAnalytics />
         <body>

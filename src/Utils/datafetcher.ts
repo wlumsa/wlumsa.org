@@ -682,4 +682,25 @@ export async function deleteCommentById(commentId:string) {
     })
     return post;
   }
-
+export async function updateUserInfo(clerkId:string, data: any) {
+  const user = await payload.update({
+    collection: "general-user",
+   where:
+    {
+      clerkId: {
+        equals: clerkId,
+      },
+    },
+    data: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      laurierEmail: data.laurier_email,
+      studentId: data.studentId,
+      category: data.category,
+      program: data.program,
+      year: data.year,
+      newsletter: data.newsletter,
+    },
+  });
+  return user;
+}

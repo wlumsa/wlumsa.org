@@ -42,7 +42,7 @@ export const Comments: CollectionConfig = {
     useAsTitle: 'comment',
   },
   access: {
-   // read: async ({ req }) => await isUser({ req }),
+    read: async ({ req }) => await isUser({ req }),
     create: async ({ req }) => await isUser({ req }),
     update: async ({ req, id }) => await isAuthor({ req, id, }),
     delete: async ({ req, id }) => await isAuthor({ req, id,  }),
@@ -50,13 +50,25 @@ export const Comments: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
-      async ({ req, operation, data }) => {
+      async ({ operation, data }) => {
         if (operation === 'create') {
-       
+       //get current user
           const user = await currentUser();
           if (user) {
-            data.author = `${user.firstName} ${user.lastName}`
-            data.clerkId = user.id
+            
+            //find the user in general user collection
+            const generalUser = await payload.find({
+              collection: 'general-user',
+              where: {
+                "clerkId": {
+                  equals: user.id,
+                },
+              },
+              limit: 1,
+            });
+            //set the clerkId field to the user's clerkId
+            data.clerkId = generalUser.docs[0]?.clerkId ;
+
             return data;
           }
         }
@@ -67,31 +79,31 @@ export const Comments: CollectionConfig = {
   fields: [
     {
       name: 'clerkId',
-      type: 'text',
-      admin: {
-        readOnly: true,
+      type: 'relationship',
+      relationTo: 'general-user',
+      required: true,
+      access: {
+        read: async ({ req }) => {
+          const result = await isUser({ req });
+          return result === true;
+        },
       },
+      
+
     },
     {
       name: 'comment',
       type: 'text',
-      admin: {
-        readOnly: true,
-      },
+      
     },
-    {
-      name: 'author',
-      type: 'text',
-      admin: {
-        readOnly: true,
-      },
-    },
+   
     {
       name: 'postId',
       type: 'relationship',
       required: true,
       relationTo: 'RoommatePosts',
       hasMany: false,
+      
     },
   ],
 };
