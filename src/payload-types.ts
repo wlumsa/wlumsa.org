@@ -569,7 +569,7 @@ export interface Form {
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'CheckBoxField';
+            blockType: 'checkbox';
           }
         | {
             name: string;
@@ -735,7 +735,7 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
-  'submission-limit'?: number | null;
+  submissionLimit?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -746,7 +746,6 @@ export interface Form {
 export interface FormSubmission {
   id: number;
   form: number | Form;
-  title?: string | null;
   submissionData?:
     | {
         [k: string]: unknown;
@@ -1275,7 +1274,7 @@ export interface FormsSelect<T extends boolean = true> {
   fields?:
     | T
     | {
-        CheckBoxField?:
+        checkbox?:
           | T
           | {
               name?: T;
@@ -1419,7 +1418,7 @@ export interface FormsSelect<T extends boolean = true> {
         message?: T;
         id?: T;
       };
-  'submission-limit'?: T;
+  submissionLimit?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1429,7 +1428,6 @@ export interface FormsSelect<T extends boolean = true> {
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
   form?: T;
-  title?: T;
   submissionData?: T;
   payment?:
     | T

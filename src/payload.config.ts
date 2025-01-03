@@ -103,13 +103,14 @@ export default buildConfig({
       uploadsCollection: "media",
     }),
     stripePlugin({
-      isTestKey: process.env.STRIPE_SECRET_KEY?.includes('sk_test') ?? true,
-      stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes("sk_test") ?? true,
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
       webhooks: {
-        'checkout.session.completed': checkoutSessionCompleted,
+        "checkout.session.completed": checkoutSessionCompleted,
       },
-      logs: false,
+     
+      logs: true,
     }),
     s3Storage({
       collections: {
@@ -147,12 +148,12 @@ export default buildConfig({
             update: () => true,
             delete: () => true,
           },
-          
+
           fields: ({ defaultFields }) => {
             return [
               ...defaultFields,
               {
-                name: "submission-limit",
+                name: "submissionLimit",
                 label: "Submission Limit",
                 type: "number",
               },
@@ -161,49 +162,47 @@ export default buildConfig({
         },
         formSubmissionOverrides: {
           fields: ({ defaultFields }) => {
-            const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
+            const formField = defaultFields.find((field) =>
+              "name" in field && field.name === "form"
+            );
+
             return [
               ...(formField ? [formField] : []),
               {
-                name: 'title',
-                type: 'text',
-              },
-              {
-                name: 'submissionData',
-                type: 'json',
+                name: "submissionData",
+                type: "json",
                 admin: {
                   components: {
-                    Field: '@/plugins/form-builder/FormData',
+                    Field: "@/plugins/form-builder/FormData",
                   },
                 },
               },
               {
-                name: 'payment',
-                type: 'group',
+                name: "payment",
+                type: "group",
                 admin: {
-                  position: 'sidebar',
+                  position: "sidebar",
                 },
                 fields: [
                   {
-                    name: 'amount',
-                    type: 'number',
+                    name: "amount",
+                    type: "number",
                   },
                   {
-                    name: 'status',
-                    type: 'select',
-                    defaultValue: 'pending',
+                    name: "status",
+                    type: "select",
+                    defaultValue: "pending",
                     options: [
-                      { label: 'Pending', value: 'pending' },
-                      { label: 'Paid', value: 'paid' },
-                      { label: 'Cancelled', value: 'cancelled' },
-                      { label: 'Refunded', value: 'refunded' },
+                      { label: "Pending", value: "pending" },
+                      { label: "Paid", value: "paid" },
+                      { label: "Cancelled", value: "cancelled" },
+                      { label: "Refunded", value: "refunded" },
                     ],
                   },
                 ],
               },
-            ]
-          }
-
+            ];
+          },
         },
         fields: {
           text: true,

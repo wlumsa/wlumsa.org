@@ -132,7 +132,7 @@ export const SelectBlock: Block = {
 };
 
 export const CheckboxBlock: Block = {
-  slug:"CheckBoxField", 
+  slug:"checkbox", 
   fields: [{
     name: "name",
     label: "Name (lowercase, no special characters)*",

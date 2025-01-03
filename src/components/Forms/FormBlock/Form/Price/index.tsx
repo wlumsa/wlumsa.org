@@ -52,7 +52,7 @@ export const Price: React.FC<
 
     return (
       <Width width={width}>
-        <div className="py-4 text-right">
+        <div className="py-4 text-right text-white">
           <div className='mb-4' />
           <label htmlFor={name} className='font-semibold'>{label}:</label>
           <p>({items.length}) {items.length === 1 ? 'Player' : 'Players'} - <span className="font-bold">${totalPrice}</span></p>

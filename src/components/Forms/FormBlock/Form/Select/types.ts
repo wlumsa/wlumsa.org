@@ -7,7 +7,7 @@ export interface Options {
 }
 
 
-export type SelectField = {
+export interface SelectField extends BlockConfig {
     blockType: 'select',
     name: string,
     label?:string,

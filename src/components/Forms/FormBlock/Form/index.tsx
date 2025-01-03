@@ -23,7 +23,9 @@ export interface Data {
 export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
-  form: FormType
+  form: FormType & {
+    submissionLimit?: number
+  }
   introContent?: {
     [k: string]: unknown
   }[]
@@ -67,8 +69,14 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
       try {
         // Format the submission data
+        const paymentField = formFromProps.fields.find(
+          field => field.blockType === 'payment'
+        )
+        const paymentFieldName = paymentField?.name
+        const paymentAmount = paymentFieldName ? data[paymentFieldName] : 0
+
         const submissionData = Object.entries(data)
-          .filter(([name]) => !['price', 'paymentStatus'].includes(name))
+          .filter(([name]) => name !== paymentFieldName)
           .reduce(
             (acc, [name, value]) => ({
               ...acc,
@@ -76,7 +84,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             }),
             {} as FormData,
           )
-
+        console.log("Data", data)
+        console.log("submissionData", submissionData)
         // Get current form data for limits
         const formResponse = await fetch(`http://localhost:3000/api/forms/${formID}`)
         const formData = await formResponse.json()
@@ -118,12 +127,12 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         }
 
         // Update submission limit if exists
-        if (formData['submission-limit']) {
+        if (formData.submissionLimit) {
           await fetch(`http://localhost:3000/api/forms/${formID}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              'submission-limit': formData['submission-limit'] - 1,
+              'submissionLimit': formData.submissionLimit - 1,
             }),
           })
         }
@@ -136,14 +145,14 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             form: formID,
             submissionData,
             payment: {
-              amount: data.price,
+              amount: Number(paymentAmount),
               status: 'pending',
             },
           }),
         })
 
         const res = await req.json()
-        
+
         if (req.status >= 400) {
           throw new Error(res.errors?.[0]?.message || 'Failed to create submission')
         }
@@ -157,12 +166,17 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
         // Set success state before handling payment
         setIsLoading(false)
-        setHasSubmitted(true)
+
 
         // Handle payment if needed
-        if (data.price && Number(data.price) > 0) {
+        console.log("Price", data.price)
+        console.log("Number", Number(data.price))
+        if (paymentFieldName && data[paymentFieldName] && Number(data[paymentFieldName]) > 0) {
           try {
-            const session = await createCheckoutSession(submissionId, Number(data.price))
+            const session = await createCheckoutSession(
+              submissionId,
+              Number(data[paymentFieldName])
+            )
 
             if (!session?.url) {
               throw new Error('No session URL returned from createCheckoutSession')
@@ -180,6 +194,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         } else if (confirmationType === 'redirect' && redirect?.url) {
           router.push(redirect.url)
         }
+        setHasSubmitted(true)
 
       } catch (err) {
         console.error(err)
@@ -196,45 +211,47 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   return (
     <div className="mt-20 flex flex-grow flex-col items-center">
       <div className="flex items-center">
-        {!isLoading && hasSubmitted && confirmationType === 'message' && (
-          <RichText className="" content={confirmationMessage} />
-        )}
-        {isLoading && <p>Loading, please wait...</p>}
-        {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
-        {!hasSubmitted && (
-          <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
-            <FormProvider {...formMethods}>
-              <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
-                <div className="">
-                  {formFromProps?.fields?.map((field: FormFieldBlock, index) => {
-                    const Field: React.FC<any> = fields[field.blockType]
-                    if (Field) {
-                      return (
-                        <div className="w-full" key={index}>
-                          <Field
-                            form={formFromProps}
-                            {...field}
-                            {...formMethods}
-                            control={control}
-                            errors={errors}
-                            register={register}
-                          />
-                        </div>
-                      )
-                    }
-                    return null
-                  })}
-                </div>
-                <button
-                  type="submit"
-                  className="btn border-0 bg-secondary text-primary shadow duration-200 hover:scale-105 hover:text-base-100"
-                  form={formID}
-                >
-                  {submitButtonLabel || 'Submit'} ➜
-                </button>
-              </form>
-            </FormProvider>
+        {formFromProps.submissionLimit === 0 ? (
+          <div className="text-center p-4">
+            <h2 className="text-xl font-bold">This form has reached its limit</h2>
           </div>
+        ) : (
+          <>
+            {!isLoading && hasSubmitted && confirmationType === 'message' && (
+              <RichText className="" content={confirmationMessage} />
+            )}
+            {isLoading && <p>Loading, please wait...</p>}
+            {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
+            {!hasSubmitted && (
+              <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
+                <FormProvider {...formMethods}>
+                  <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
+                    {formFromProps?.fields?.map((field: FormFieldBlock, index) => {
+                      const Field: React.FC<any> = fields[field.blockType]
+                      if (Field) {
+                        return (
+                          <div className="w-full" key={index}>
+                            <Field
+                              form={formFromProps}
+                              {...field}
+                              {...formMethods}
+                              control={control}
+                              errors={errors}
+                              register={register}
+                            />
+                          </div>
+                        )
+                      }
+                      return null
+                    })}
+                    <button type="submit" className="btn btn-secondary">
+                      {submitButtonLabel || 'Submit'}
+                    </button>
+                  </form>
+                </FormProvider>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

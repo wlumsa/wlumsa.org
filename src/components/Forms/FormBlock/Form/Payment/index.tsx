@@ -77,8 +77,8 @@ export const Payment: React.FC<
     return (
       <div className=''>
         <Width width={width}>
-          <label htmlFor={name} className='text-xl font-semibold'>{label}</label>
-          <div className="text-base">${price}</div>
+          <label htmlFor={name} className='text-xl font-semibold text-white'>{label}</label>
+          <div className="text-base text-white">${price}</div>
 
           <PriceWatcher
             control={control}

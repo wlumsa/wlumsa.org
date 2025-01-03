@@ -1,19 +1,12 @@
-import type { CheckboxField } from '@payloadcms/plugin-form-builder/types'
+import { CheckboxField } from './types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-
 import React, { useState } from 'react'
-
-import { Check } from 'lucide-react'
 import { Error } from '../Error'
 import { Width } from '../Width'
 
 export const Checkbox: React.FC<
   {
-    errors: Partial<
-      FieldErrorsImpl<{
-        [x: string]: any
-      }>
-    >
+    errors: Partial<FieldErrorsImpl<{[x: string]: any}>>
     getValues: any
     register: UseFormRegister<any & FieldValues>
     setValue: any
@@ -27,34 +20,30 @@ export const Checkbox: React.FC<
   required: requiredFromProps,
   setValue,
   width,
+  limit,
 }) => {
-  const [checked, setChecked] = useState(false)
-
   const isCheckboxChecked = getValues(name)
+
+  if (limit === 0) {
+    return null;
+  }
 
   return (
     <Width width={width}>
-      <div className="">
-        <div className="">
+      <div className="form-control">
+        <label className="label cursor-pointer">
+          <span className="label-text text-base-100">{label}</span>
           <input
             type="checkbox"
+            className="checkbox checkbox-primary"
             {...register(name, { required: requiredFromProps })}
             checked={isCheckboxChecked}
-          />
-          <button
-            onClick={() => {
-              setValue(name, !checked)
-              setChecked(!checked)
+            onChange={(e) => {
+              setValue(name, e.target.checked);
             }}
-            type="button"
-          >
-            <span className="">
-              <Check />
-            </span>
-          </button>
-          <span className="">{label}</span>
-        </div>
-        {requiredFromProps && errors[name] && checked === false && <Error />}
+          />
+        </label>
+        {requiredFromProps && errors[name] && !isCheckboxChecked && <Error />}
       </div>
     </Width>
   )

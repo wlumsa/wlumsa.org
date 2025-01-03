@@ -17,9 +17,9 @@ export const createCheckoutSession = async (submissionId: string, price: number)
       line_items: [
         {
           price_data: {
-            currency: 'usd',
+            currency: 'cad',
             product_data: {
-              name: 'CVX Jr Golf Registration - 2025',
+              name: 'MSA Donation',
             },
             unit_amount: price * 100,
           },

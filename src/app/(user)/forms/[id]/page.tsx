@@ -5,7 +5,7 @@ import React from 'react'
 import { FormBlock } from '@/components/Forms/FormBlock/Form'
 import configPromise from "@payload-config";
 
-type Params = Promise<{ slug: string }>
+type Params = Promise<{ id: string }>
 
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
@@ -17,23 +17,26 @@ export default async function Page(props: {
    const payload = await getPayload({ config: configPromise });
     const params = await props.params
 
-    const slug = params.slug
-    const pageRes = await payload.find({
+    const slug = params.id
+    console.log(slug)
+    const pageRes = await payload.findByID({
+        id:slug,
         collection: 'forms',
         draft: false,
-        limit: 1,
         overrideAccess: false,
     
     })
     console.log(pageRes)
     console.log(slug)
 
-    const page = pageRes?.docs?.[0] as unknown as null | FormType
+    const page = pageRes as unknown as null | FormType
     console.log(page)
 
     if (page === null) {
         return notFound()
     }
+
+
 
     return (
         <React.Fragment>
