@@ -9,7 +9,7 @@ import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
-
+import { CheckboxField } from './Checkbox/types'
 export type Value = unknown
 
 export interface Property {
@@ -35,7 +35,10 @@ export type FormBlockType = {
 type ExtendedFormFieldBlock = FormFieldBlock & {
   name: string
 }
-type FormField = SelectField & {
+type SelectFieldExtended = SelectField & {
+  id: string;
+}
+type CheckboxFieldExtended = CheckboxField & {
   id: string;
 }
 
@@ -92,7 +95,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
         // Handle select field limits
         const selectFields = formData.fields.filter(
-          (field: FormField) => field.blockType === 'select'
+          (field: SelectFieldExtended) => field.blockType === 'select'
         )
 
         // Update select field limits
@@ -109,7 +112,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                fields: formData.fields.map((f: FormField) =>
+                fields: formData.fields.map((f: SelectFieldExtended) =>
                   f.id === field.id
                     ? {
                       ...f,
@@ -125,6 +128,37 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             })
           }
         }
+
+        // Handle checkbox field limits
+        const checkboxFields = formData.fields.filter(
+          (field: CheckboxFieldExtended) => field.blockType === 'checkbox'
+        )
+
+        // Prepare updates for checkboxes
+        const updatedFields = formData.fields.map((f: CheckboxFieldExtended) => {
+          if (f.blockType === 'checkbox') {
+            const selectedValues = data[f.name] as string[]; // Cast to string array
+            if (!selectedValues) return f;
+
+            // Update limits for selected checkboxes
+            const updatedCheckboxes = f.checkboxes.map(opt => {
+              if (selectedValues.includes(opt.label) && opt.limit) {
+                return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
+              }
+              return opt;
+            });
+
+            return { ...f, checkboxes: updatedCheckboxes };
+          }
+          return f;
+        });
+
+        // Send a single fetch request to update all checkbox limits
+        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: updatedFields }),
+        });
 
         // Update submission limit if exists
         if (formData.submissionLimit) {

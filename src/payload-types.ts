@@ -564,8 +564,15 @@ export interface Form {
             name: string;
             label: string;
             width?: number | null;
-            default_value?: boolean | null;
-            limit?: number | null;
+            isMultipleChoice?: boolean | null;
+            checkboxes?:
+              | {
+                  label?: string | null;
+                  limit?: number | null;
+                  value?: boolean | null;
+                  id?: string | null;
+                }[]
+              | null;
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
@@ -1280,8 +1287,15 @@ export interface FormsSelect<T extends boolean = true> {
               name?: T;
               label?: T;
               width?: T;
-              default_value?: T;
-              limit?: T;
+              isMultipleChoice?: T;
+              checkboxes?:
+                | T
+                | {
+                    label?: T;
+                    limit?: T;
+                    value?: T;
+                    id?: T;
+                  };
               required?: T;
               id?: T;
               blockName?: T;

@@ -81,14 +81,14 @@ export const SelectBlock: Block = {
   fields: [
     {
       name: "name",
-      label: "Name (lowercase, no special characters)*", 
+      label: "Name (lowercase, no special characters)*",
       type: "text",
       required: true,
     },
     {
       name: "label",
       label: "Label",
-      type: "text", 
+      type: "text",
       required: false,
     },
     {
@@ -132,7 +132,7 @@ export const SelectBlock: Block = {
 };
 
 export const CheckboxBlock: Block = {
-  slug:"checkbox", 
+  slug: "checkbox",
   fields: [{
     name: "name",
     label: "Name (lowercase, no special characters)*",
@@ -150,17 +150,41 @@ export const CheckboxBlock: Block = {
     defaultValue: 0,
     required: false,
   }, {
-    name: "default_value",
-    label: "Default Value",
+    name: "isMultipleChoice",
     type: "checkbox",
-    required: false,
+    defaultValue: "false",
   }, {
-    name: "limit",
-    label: "Limit of times this can be checked",
-    type: "number",
+    name: "checkboxes",
+    label: "Checkbox options",
+    type: "array",
+    fields: [
+      {
+        name: "label",
+        type: "text",
+        admin:{
+          width:"50",
+        }
+      },
+      {
+        name: "limit",
+        type: "number",
+        admin:{
+          width:"50",
+        }
+      },
+      {
+        name: "value",
+        type: "checkbox",
+        admin:{
+          hidden:true,
+        }
+      },
+    ],
   }, {
     name: "required",
     label: "required?",
     type: "checkbox",
   }],
 };
+
+
