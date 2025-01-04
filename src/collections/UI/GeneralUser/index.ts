@@ -2,6 +2,12 @@ import { CollectionConfig } from 'payload';
 
 export const GeneralUser: CollectionConfig = {
   slug: 'general-user',
+  access: {
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
+  },
   fields: [
     {
       name: 'clerkId',

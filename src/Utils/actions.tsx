@@ -103,7 +103,6 @@ export async function deleteComment(commentId:string) {
         images:  string[];
         firstName: string;
         lastName: string;
-        contactEmail: string;
         phone: string;
         facebook: string;
         instagram: string;

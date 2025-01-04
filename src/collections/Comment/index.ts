@@ -50,26 +50,37 @@ export const Comments: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
-      async ({ operation, data }) => {
+      async ({ operation, data, req }) => {
         if (operation === 'create') {
-       //get current user
-          const user = await currentUser();
-          if (user) {
-            
-            //find the user in general user collection
-            const generalUser = await payload.find({
-              collection: 'general-user',
-              where: {
-                "clerkId": {
-                  equals: user.id,
-                },
-              },
-              limit: 1,
-            });
-            //set the clerkId field to the user's clerkId
-            data.clerkId = generalUser.docs[0]?.clerkId ;
+          try {
+            const clerkUser =  await fetchAuth();
 
+  
+            if (clerkUser) {
+              // Find the user in the general-user collection by clerkId
+              const generalUser = await req.payload.find({
+                collection: 'general-user',
+                where: {
+                  clerkId: {
+                    equals: clerkUser.userId,
+                  },
+                },
+                limit: 1,
+              });
+  
+              // if a user was found
+              if (generalUser?.docs?.length > 0) {
+                data.userId = generalUser.docs[0]?.id;
+                data.author = `${generalUser.docs[0]?.firstName} ${generalUser.docs[0]?.lastName}`;
+              } else {
+                throw new Error('No matching user found in general-user collection');
+              }
+            }
+  
             return data;
+          } catch (error) {
+            console.error('Error in beforeChange hook:', error);
+            throw new Error('Failed');
           }
         }
       },
@@ -78,18 +89,15 @@ export const Comments: CollectionConfig = {
  
   fields: [
     {
-      name: 'clerkId',
+      name: 'userId',
       type: 'relationship',
       relationTo: 'general-user',
       required: true,
-      access: {
-        read: async ({ req }) => {
-          const result = await isUser({ req });
-          return result === true;
-        },
-      },
       
-
+    },
+    {
+      name: 'author',
+      type: 'text',
     },
     {
       name: 'comment',

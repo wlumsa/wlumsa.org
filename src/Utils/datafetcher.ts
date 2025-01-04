@@ -617,11 +617,13 @@ export async function findUser(id:string) {
 export async function fetchCommentsByPostId(id: string) {
   const comments = await payload.find({
     collection: "comments",
+    
     where: {
       "postId": {
         equals: id,
       },
     },
+    
   });
  return comments.docs;
 
@@ -659,7 +661,7 @@ export async function deleteCommentById(commentId:string) {
     const post = await payload.create({
       collection: "RoommatePosts",
       data: {
-        user_id: "1",
+       
         title: postData.title,
         description: postData.description,
         rent: postData.rent,
@@ -670,7 +672,6 @@ export async function deleteCommentById(commentId:string) {
         images: postData.images,
         furnishingType: postData.furnishingType,
         gender:  postData.gender,
-        contactEmail: postData.contactEmail, 
         phoneNumber: postData.phone,
         facebook: postData.facebook,
         instagram: postData.instagram,

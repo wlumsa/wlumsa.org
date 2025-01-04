@@ -518,8 +518,8 @@ export interface RoommatePost {
   description: string;
   address: string;
   name: string;
-  contactEmail: string;
   rent: string;
+  email: string;
   PropertyType: string;
   roomfurnishing: string;
   availableDate: string;
@@ -548,6 +548,8 @@ export interface Comment {
 export interface GeneralUser {
   id: number;
   clerkId: string;
+  firstName: string;
+  lastName: string;
   email: string;
   updatedAt: string;
   createdAt: string;
@@ -1210,7 +1212,7 @@ export interface RoommatePostsSelect<T extends boolean = true> {
   description?: T;
   address?: T;
   name?: T;
-  contactEmail?: T;
+  email?: T;
   rent?: T;
   PropertyType?: T;
   roomfurnishing?: T;

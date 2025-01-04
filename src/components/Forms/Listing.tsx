@@ -26,7 +26,6 @@ const StepOneSchema = z.object({
 const StepTwoSchema = z.object({
     // firstName: z.string().min(1, "First name is required"),
     // lastName: z.string().min(1, "Last name is required"),
-    contactEmail: z.string().email("Invalid email"),
     phone: z.string().min(10, "Phone number is required"),
 
 })
@@ -314,10 +313,10 @@ const Listing = () => {
                         </div>
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
-                        <div className='flex flex-col md:w-1/2'>
+                        {/* <div className='flex flex-col md:w-1/2'>
                             <label htmlFor="email" className='font-semibold'>Email</label>
                             <input type="text" name="contactEmail" value={formData.contactEmail} onChange={handleInputChange} placeholder="example@mylaurier.ca" className="input input-bordered max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div>
+                        </div> */}
                         <div className='flex flex-col md:w-1/2'>
                             <label htmlFor="name" className='font-semibold'>Phone number</label>
                             <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="519-123-3456" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { toast } from "react-hot-toast";
 import { EllipsisVertical } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
+import axios from 'axios';
 interface CommentProps {
     id: number;
     author: string;
@@ -15,6 +16,8 @@ interface CommentProps {
 interface CommentSectionProps {
     comments: CommentProps[];
     postId: string;
+    postTitle: string;
+    postAuthorEmail: string;
 }
 
 
@@ -68,7 +71,7 @@ const handleDeleteComment = async (commentId: number) => {
   )
 }
 
-const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId }) => {
+const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId, postTitle, postAuthorEmail }) => {
     const [commentInput, setCommentInput] = useState('');
     const [newComments, setNewComments] = useState<CommentProps[]>(comments);
     const [deleted, setDeleted] = useState<number | null>(null);
@@ -84,7 +87,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId }) => 
         if(comment.res) {
             toast.success('Comment posted');
             setNewComments([...newComments, { id:comment.res.id, author: comment.res.author ? comment.res.author : '' , message: comment.res.comment, date: comment.res.createdAt}]);
+            //send an email to the post author
+             try{
+              //get post author email
+              //get post title
+              await axios.post("/api/sendComment", 
+              { postAuthorEmail: postAuthorEmail, name: `${comment.res.author}`, postTitle: postTitle, message: comment.res.comment}
+              )
+              
+             } catch {
 
+             }
+             
         } else {
             toast.error('Failed to post comment');
         }

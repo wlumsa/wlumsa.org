@@ -3,6 +3,8 @@ import {isUser } from '@/Utils/accessControl';
 import { Access } from 'payload';
 import {auth as fetchAuth} from "@clerk/nextjs/server";
 import payload from 'payload';
+import { currentUser } from '@clerk/nextjs/server'
+
 export const isAuthor: Access = async ({ req, id }) => {
   if( req.user?.roles?.includes('admin')) {
     return true;
@@ -44,13 +46,61 @@ export const RoommatePosts: CollectionConfig = {
       delete: async ({ req, id }) => await isAuthor({ req, id }),
     
     },
+    hooks: {
+      beforeChange: [
+        async ({ operation, data, req }) => {
+          if (operation === 'create') {
+            try {
+              const clerkUser =  await fetchAuth();
+
+    
+              if (clerkUser) {
+                // Find the user in the general-user collection by clerkId
+                const generalUser = await req.payload.find({
+                  collection: 'general-user',
+                  where: {
+                    clerkId: {
+                      equals: clerkUser.userId,
+                    },
+                  },
+                  limit: 1,
+                });
+    
+                // if a user was found
+                if (generalUser?.docs?.length > 0) {
+                  data.userId = generalUser.docs[0]?.id;
+                  data.email = generalUser.docs[0]?.email;
+                  data.author = `${generalUser.docs[0]?.firstName} ${generalUser.docs[0]?.lastName}`;
+                } else {
+                  throw new Error('No matching user found in general-user collection');
+                }
+              }
+    
+              return data;
+            } catch (error) {
+              console.error('Error in beforeChange hook:', error);
+              throw new Error('Failed');
+            }
+          }
+        },
+      ],
+    },
+    
   fields: [
     {
-      name: 'clerkId',
+      name: 'userId',
       type: 'relationship',
       relationTo: 'general-user',
       required: true,
 
+    }, {
+      name: 'author',
+      type: 'text',
+
+    },
+    {
+      name: 'email',
+      type: 'text',
     },
     {
       name: 'title',
@@ -70,12 +120,7 @@ export const RoommatePosts: CollectionConfig = {
       required: true,
       label: 'Description',
     },
-    {
-      name: 'contactEmail',
-      type: 'email',
-      required: true,
-      label: 'Contact Email',
-    },
+ 
     {
       name: 'rent',
       type: 'text',

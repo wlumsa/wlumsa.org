@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware(async (auth, req) => { ;
+export default clerkMiddleware(async (auth , req) => { ;
 const isProtectedRoute = createRouteMatcher(['/create-post', '/dashboard']);
   if (isProtectedRoute(req)) await auth.protect()
   });

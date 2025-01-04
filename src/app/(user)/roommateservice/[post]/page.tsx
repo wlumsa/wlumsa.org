@@ -61,8 +61,59 @@ export default async function BlogPost(props: {
 
   return (
 
-    <div className="mt-28">
-      <div className="mx-auto md:max-w-screen-lg max-w-96 ">
+    <div className="mt-28  max-w-screen-lg  mx-auto">
+          <div className="flex flex-col items-center justify-center ">
+        <main className=" ">
+          <div className="w-[3/4] md:w-full " >
+             <ImageCarousel images={post?.images?.map((image: any) => image) || []} />
+
+           </div> 
+
+        <div className="flex md:flex-row flex-col  md:justify-between max-w-[48em]">
+          <div className=" flex flex-col">
+            <h1 className=" mt-4 text-4xl font-bold text-primary text-center md:text-left">{post?.title} </h1>
+            <p className="text-center md:text-left">Posted by {post?.name} on  {formattedDate ? formattedDate : ""}</p>
+          </div>
+
+          <div className="flex flex-col text-xl my-6 gap-2 text-center justify-center md:justify-start items-center md:items-start  ">
+            <div className="flex flex-row gap-2">
+              <Building size={24} color="#2e046d" />
+              <p> {post?.address} </p>
+            </div>
+            <div className="flex flex-row gap-2">
+              <CalendarDays size={24} color="#2e046d" />
+              <p>Available on {formattedAvailableDate}</p>
+            </div>
+
+          </div>
+          </div>
+          <div className="relative px-4 mx-auto mb-4 md:mb-0">
+          
+    
+          </div>
+
+          <div className="flex flex-col lg:flex-row  items-center justify-center min-h-screen">
+            <div className="mt-12 w-full px-4 text-lg lg:px-0 mx-auto">
+            <div className=" my-8 max-w-[48em] ">
+              <h1 className="text-2xl text-primary font-bold my-2 ">Description</h1>
+              <p>{post?.description}</p>
+            </div>
+            <div>
+            <div className="my-8">
+              <h1 className="text-2xl text-primary font-bold my-2">Comments</h1>
+              <CommentSection comments={commentArray} postId={id} postTitle={post?.title} postAuthorEmail={post?.email} />
+
+
+          </div>
+             </div> 
+              
+            </div>
+          </div>
+          
+        </main>
+      </div>
+
+      {/* <div className=" mx-auto max-w-screen-lg  ">
         <main className="flex flex-col items-center text-gray-700">
           <div className="">
             <ImageCarousel images={post?.images || []} />
@@ -101,7 +152,6 @@ export default async function BlogPost(props: {
             <div className="my-8 flex flex-row justify-between">
               <h1 className="text-2xl text-primary font-bold" >Get in Touch</h1>
               <div className="flex flex-row">
-              <Tag text={post?.contactEmail} icon={<Mail size={24} color="#2e046d" />} />
               <Tag text={post?.phoneNumber} icon={<Phone size={24} color="#2e046d" />} />
               <Tag text={post?.whatsapp} icon={<Phone size={24} color="#2e046d" />} />
               <Tag text={post?.facebook} icon={<Phone size={24} color="#2e046d" />} />
@@ -122,7 +172,7 @@ export default async function BlogPost(props: {
 
           </div>
         </main>
-      </div>
+      </div> */}
     </div>
 
   );
