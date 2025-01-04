@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function CountdownPage() {
-  const ramadanStartDate = new Date("2024-03-10T00:00:00"); 
+  const ramadanStartDate = new Date("2025-02-28T00:00:00"); 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   function calculateTimeLeft() {
     const now = new Date();
-    const difference = ramadanStartDate - now;
+    const difference = ramadanStartDate.getTime() - now.getTime();
 
     if (difference <= 0) {
       return { days: 0, hours: 0, minutes: 0, seconds: 0 };
