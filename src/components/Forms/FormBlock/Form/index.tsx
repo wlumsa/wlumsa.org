@@ -150,31 +150,34 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           (field: CheckboxFieldExtended) => field.blockType === 'checkbox'
         )
 
-        // Prepare updates for checkboxes
-        const updatedFields = formData.fields.map((f: CheckboxFieldExtended) => {
-          if (f.blockType === 'checkbox') {
-            const selectedValues = data[f.name] as string[]; // Cast to string array
-            if (!selectedValues) return f;
+        // Only proceed if there are checkbox fields
+        if (checkboxFields.length > 0) {
+          // Prepare updates for checkboxes
+          const updatedFields = formData.fields.map((f: CheckboxFieldExtended) => {
+            if (f.blockType === 'checkbox') {
+              const selectedValues = data[f.name] as string[]; // Cast to string array
+              if (!selectedValues) return f;
 
-            // Update limits for selected checkboxes
-            const updatedCheckboxes = f.checkboxes.map(opt => {
-              if (selectedValues.includes(opt.label) && opt.limit) {
-                return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
-              }
-              return opt;
-            });
+              // Update limits for selected checkboxes
+              const updatedCheckboxes = f.checkboxes.map(opt => {
+                if (selectedValues.includes(opt.label) && opt.limit) {
+                  return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
+                }
+                return opt;
+              });
 
-            return { ...f, checkboxes: updatedCheckboxes };
-          }
-          return f;
-        });
+              return { ...f, checkboxes: updatedCheckboxes };
+            }
+            return f;
+          });
 
-        // Send a single fetch request to update all checkbox limits
-        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fields: updatedFields }),
-        });
+          // Send a single fetch request to update all checkbox limits
+          await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fields: updatedFields }),
+          });
+        }
 
         // Update submission limit if exists
         if (formData.submissionLimit) {
