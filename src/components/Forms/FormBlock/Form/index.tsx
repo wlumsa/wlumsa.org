@@ -106,7 +106,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           )
 
         // Get current form data for limits
-        const formResponse = await fetch(`{process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
+        const formResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
         const formData = await formResponse.json()
 
         // Handle select field limits
@@ -163,7 +163,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                 if (selectedValues.includes(opt.label) && opt.limit) {
                   return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
                 }
-                return opt;
+                return opt; 
               });
 
               return { ...f, checkboxes: updatedCheckboxes };
@@ -181,7 +181,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
         // Update submission limit if exists
         if (formData.submissionLimit) {
-          await fetch(`{process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+          await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -191,7 +191,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         }
 
         // Create the submission
-        const req = await fetch(`{process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
+        const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -202,9 +202,22 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               status: 'pending',
             },
           }),
-        })
+        });
 
-        const res = await req.json()
+        const textResponse = await req.text(); // Get the raw response as text
+        console.log('Raw Response:', textResponse); // Log the raw response
+
+        if (!req.ok) {
+          throw new Error(textResponse); // Throw an error with the raw response
+        }
+
+        const contentType = req.headers.get('Content-Type');
+        let res;
+        if (contentType && contentType.includes('application/json')) {
+          res = JSON.parse(textResponse); // Parse as JSON if the content type is JSON
+        } else {
+          throw new Error('Received non-JSON response from server');
+        }
 
         if (req.status >= 400) {
           throw new Error(res.errors?.[0]?.message || 'Failed to create submission')
@@ -248,12 +261,13 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         setHasSubmitted(true)
 
       } catch (err) {
-        console.error(err)
-        setIsLoading(false)
+        console.error('Submission error:', err);
         setError({
           message: err instanceof Error ? err.message : 'Something went wrong.',
           status: '500',
-        })
+        });
+      } finally {
+        setIsLoading(false);
       }
     },
     [router, formID, redirect, confirmationType],
