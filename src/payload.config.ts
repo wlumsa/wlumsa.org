@@ -140,7 +140,7 @@ export default buildConfig({
         formOverrides: {
           slug: "forms",
           admin: {
-            group: "Admin",
+            group: "Forms",
             livePreview: {
               url: ({ data }) => {
                 const isHomePage = data.title === ''
@@ -197,6 +197,10 @@ export default buildConfig({
           return emailsToSend;
         },
         formSubmissionOverrides: {
+          admin: {
+            group: "Forms",
+            hidden:true,
+          },
           fields: ({ defaultFields }) => {
             const formField = defaultFields.find((field) =>
               "name" in field && field.name === "form"
