@@ -205,7 +205,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         });
 
         const textResponse = await req.text(); // Get the raw response as text
-        console.log('Raw Response:', textResponse); // Log the raw response
 
         if (!req.ok) {
           throw new Error(textResponse); // Throw an error with the raw response
