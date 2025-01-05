@@ -289,7 +289,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
+              <div className="w-full mx-4 rounded-xl bg-primary px-2 md:w-[30rem]">
                 <FormProvider {...formMethods}>
                   <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
                     {formFromProps?.fields?.map((field: FormFieldBlock, index) => {
