@@ -46,11 +46,14 @@ export const Checkbox: React.FC<
     setValue(name, newValues);
   };
 
+  // Check if at least one checkbox is selected when required
+  const isError = requiredFromProps && errors[name] && !checkedValues.length;
+
   return (
     <Width width={width}>
       <div className="flex flex-col">
         <label className="label cursor-pointer">
-          <span className="label-text text-base-100">{label}</span>
+          <span className="label-text text-base-100 text-md">{label}</span>
         </label>
         {checkboxes.map((option) => {
           // Check if the limit is greater than 0
@@ -75,14 +78,14 @@ export const Checkbox: React.FC<
                 className={`w-5 h-5 border-2 rounded flex items-center justify-center 
                   ${isChecked ? 'bg-secondary border-secondary' : 'border-gray-300 bg-white'}`}
               >
-                {isChecked && <Check className="w-4 h-4 text-white" />}
+                {isChecked && <Check className="w-4 h-4 text-base-100" />}
               </button>
               <span className="label-text text-secondary">{option.label}</span>
             </div>
           );
         })}
         {requiredFromProps && errors[name] && !checkedValues.length && <Error />}
-      </div>
+        </div>
     </Width>
   )
 }

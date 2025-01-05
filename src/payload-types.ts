@@ -565,14 +565,12 @@ export interface Form {
             label: string;
             width?: number | null;
             isMultipleChoice?: boolean | null;
-            checkboxes?:
-              | {
-                  label?: string | null;
-                  limit?: number | null;
-                  value?: boolean | null;
-                  id?: string | null;
-                }[]
-              | null;
+            checkboxes: {
+              label?: string | null;
+              limit?: number | null;
+              value?: boolean | null;
+              id?: string | null;
+            }[];
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
@@ -743,6 +741,8 @@ export interface Form {
       }[]
     | null;
   submissionLimit?: number | null;
+  releaseDate?: string | null;
+  closeDate?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1433,6 +1433,8 @@ export interface FormsSelect<T extends boolean = true> {
         id?: T;
       };
   submissionLimit?: T;
+  releaseDate?: T;
+  closeDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }

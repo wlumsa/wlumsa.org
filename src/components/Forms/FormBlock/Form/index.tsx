@@ -25,6 +25,8 @@ export type FormBlockType = {
   blockType?: 'formBlock'
   form: FormType & {
     submissionLimit?: number
+    closeDate?: Date,
+    releaseDate?: Date,
   }
   introContent?: {
     [k: string]: unknown
@@ -45,7 +47,7 @@ type CheckboxFieldExtended = CheckboxField & {
 export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const {
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
+    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel, releaseDate, closeDate } = {},
     introContent,
   } = props
 
@@ -59,6 +61,21 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
     register,
     setValue,
   } = formMethods
+
+  const currentTime = new Date(); // Get the current date and time
+
+  // Check if the form is open or closed
+  const isBeforeReleaseDate = releaseDate && currentTime < new Date(releaseDate);
+  const isAfterCloseDate = closeDate && currentTime > new Date(closeDate);
+
+  // Render messages based on the date checks
+  if (isBeforeReleaseDate) {
+    return <div className="text-center p-4"><h2 className="mt-20 text-xl font-bold">Sorry, this form isn't open yet.</h2></div>;
+  }
+
+  if (isAfterCloseDate) {
+    return <div className="text-center p-4"><h2 className="mt-20 text-xl font-bold">Sorry, this form has been closed.</h2></div>;
+  }
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
@@ -87,8 +104,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             }),
             {} as FormData,
           )
-        console.log("Data", data)
-        console.log("submissionData", submissionData)
+
         // Get current form data for limits
         const formResponse = await fetch(`http://localhost:3000/api/forms/${formID}`)
         const formData = await formResponse.json()
@@ -203,8 +219,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
 
         // Handle payment if needed
-        console.log("Price", data.price)
-        console.log("Number", Number(data.price))
         if (paymentFieldName && data[paymentFieldName] && Number(data[paymentFieldName]) > 0) {
           try {
             const session = await createCheckoutSession(
@@ -243,7 +257,10 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   )
 
   return (
-    <div className="mt-20 flex flex-grow flex-col items-center">
+    <div className="mt-20 flex flex-grow flex-col items-center min-h-screen ">
+      <div className="text-center p-4">
+        <h1 className="text-2xl font-bold">{formFromProps.title} Form</h1>
+      </div>
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
@@ -254,7 +271,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
               <RichText className="" content={confirmationMessage} />
             )}
-            {isLoading && <p>Loading, please wait...</p>}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
               <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem]">
@@ -280,6 +296,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                     })}
                     <button type="submit" className="btn btn-secondary">
                       {submitButtonLabel || 'Submit'}
+                      {isLoading && <span className="loading loading-spinner"></span>}
                     </button>
                   </form>
                 </FormProvider>
@@ -292,10 +309,3 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   )
 }
 
-// import { getPayload } from 'payload'
-// import config from '@payload-config'
-// const payload = await getPayload({ config })
-
-// export async function updateFormLimitPayload(id:string){
-
-// }

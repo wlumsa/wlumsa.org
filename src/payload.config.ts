@@ -9,7 +9,6 @@ import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
-
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
@@ -55,6 +54,7 @@ export default buildConfig({
   admin: {
     user: Execs.slug,
   },
+
   collections: [
     Execs,
     link,
@@ -109,7 +109,7 @@ export default buildConfig({
       webhooks: {
         "checkout.session.completed": checkoutSessionCompleted,
       },
-     
+
       logs: true,
     }),
     s3Storage({
@@ -141,12 +141,15 @@ export default buildConfig({
           slug: "forms",
           admin: {
             group: "Admin",
+            livePreview: {
+              url: ({ data }) => {
+                const isHomePage = data.title === ''
+                return `${process.env.NEXT_PUBLIC_SERVER_URL}/forms${!isHomePage ? `/${data.title}` : ''}`
+              },
+            },
           },
           access: {
-            read: () => true,
-            create: () => true,
             update: () => true,
-            delete: () => true,
           },
 
           fields: ({ defaultFields }) => {
@@ -156,9 +159,42 @@ export default buildConfig({
                 name: "submissionLimit",
                 label: "Submission Limit",
                 type: "number",
+                admin:{
+                  position:"sidebar"
+                }
+              },
+
+              {
+                name: "releaseDate",
+                label: "Form Release Date",
+                type: "date",
+                admin: {
+                  position: "sidebar",
+                  date:{
+                    pickerAppearance:"dayAndTime",
+                  }
+                },
+              },
+              {
+                name: "closeDate",
+                label: "Form Auto Close Date (leave empty to never close)",
+                type: "date",
+                admin: {
+                  position: "sidebar",
+                  date:{
+                    pickerAppearance:"dayAndTime",
+                  }
+                },
               },
             ];
+            
           },
+          
+        },
+        beforeEmail: (emailsToSend, beforeChangeParams) => {
+          const { data } = beforeChangeParams;
+          console.log(data);
+          return emailsToSend;
         },
         formSubmissionOverrides: {
           fields: ({ defaultFields }) => {

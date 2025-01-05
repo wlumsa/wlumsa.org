@@ -130,6 +130,38 @@ export const SelectBlock: Block = {
     },
   ],
 };
+export const ContactInformation: Block = {
+  slug: "contact",
+  fields: [
+    {
+      name: "first_name_array",
+      label: "First Name",
+      type: "array",
+      required: true,
+      fields:[
+        {
+          name:"label",
+          label:"Label",
+          type:"text",
+          required:true,
+          defaultValue:"John"
+        },
+        {
+          name:"first_name",
+          label:"First Name",
+          type:"text",
+          required:true,
+          defaultValue:"John"
+        },
+      ]
+    },
+    {
+      name:"last_name",
+      label:"last name",
+      type:"text"
+    }
+  ],
+};
 
 export const CheckboxBlock: Block = {
   slug: "checkbox",
@@ -157,27 +189,28 @@ export const CheckboxBlock: Block = {
     name: "checkboxes",
     label: "Checkbox options",
     type: "array",
+    required: true,
     fields: [
       {
         name: "label",
         type: "text",
-        admin:{
-          width:"50",
-        }
+        admin: {
+          width: "50%",
+        },
       },
       {
         name: "limit",
         type: "number",
-        admin:{
-          width:"50",
-        }
+        admin: {
+          width: "50%",
+        },
       },
       {
         name: "value",
         type: "checkbox",
-        admin:{
-          hidden:true,
-        }
+        admin: {
+          hidden: true,
+        },
       },
     ],
   }, {
@@ -186,5 +219,3 @@ export const CheckboxBlock: Block = {
     type: "checkbox",
   }],
 };
-
-

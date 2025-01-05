@@ -22,7 +22,7 @@ export const State: React.FC<
   return (
     <Width width={width}>
       <div className="">
-        <label className="" htmlFor={name}>
+        <label className="text-base-100" htmlFor={name}>
           {label}
         </label>
         <Controller
