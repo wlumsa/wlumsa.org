@@ -73,7 +73,7 @@ importers:
         version: 3.6.0(@neondatabase/serverless@0.9.5)(@vercel/postgres@0.9.0)(payload@3.6.0(bufferutil@4.0.8)(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.6.3)(utf-8-validate@6.0.5))(react@19.0.0)(types-react@19.0.0-rc.1)
       '@payloadcms/email-resend':
         specifier: ~3.5.0
-        version: 3.5.0(payload@3.5.0(bufferutil@4.0.8)(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.6.3)(utf-8-validate@6.0.5))
+        version: 3.5.0(payload@3.6.0(bufferutil@4.0.8)(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.6.3)(utf-8-validate@6.0.5))
       '@payloadcms/live-preview-react':
         specifier: 3.5.0
         version: 3.5.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -5385,8 +5385,8 @@ packages:
   sonic-boom@4.2.0:
     resolution: {integrity: sha512-INb7TM37/mAcsGmc9hyyI6+QR3rR1zVRu36B0NeGXKnOOLiZOfER5SA+N7X7k3yUYRzLWafduTDvJAfDswwEww==}
 
-  sonner@1.7.0:
-    resolution: {integrity: sha512-W6dH7m5MujEPyug3lpI2l3TC3Pp1+LTgK0Efg+IHDrBbtEjyCmCHHo6yfNBOsf1tFZ6zf+jceWwB38baC8yO9g==}
+  sonner@1.7.1:
+    resolution: {integrity: sha512-b6LHBfH32SoVasRFECrdY8p8s7hXPDn3OHUFbZZbiB1ctLS9Gdh6rpX2dVrpQA0kiL5jcRzDDldwwLkSKk3+QQ==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
@@ -6506,7 +6506,7 @@ snapshots:
       '@babel/helper-compilation-targets': 7.25.9
       '@babel/helper-module-transforms': 7.25.9(@babel/core@7.24.5)
       '@babel/helpers': 7.25.9
-      '@babel/parser': 7.24.5
+      '@babel/parser': 7.25.9
       '@babel/template': 7.25.9
       '@babel/traverse': 7.25.9
       '@babel/types': 7.25.9
@@ -7638,7 +7638,7 @@ snapshots:
 
   '@payloadcms/live-preview@3.5.0': {}
 
-  '@payloadcms/next@3.5.0(graphql@16.9.0)(monaco-editor@0.38.0)(next@15.0.4(@babel/core@7.24.5)(babel-plugin-react-compiler@0.0.0-experimental-7d62301-20240819)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.5.0(bufferutil@4.0.8)(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.6.3)(utf-8-validate@6.0.5))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(types-react@19.0.0-rc.1)(typescript@5.6.3)':
+  '@payloadcms/next@3.5.0(graphql@16.9.0)(monaco-editor@0.38.0)(next@15.0.4(@babel/core@7.24.5)(babel-plugin-react-compiler@0.0.0-experimental-7d62301-20240819)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.6.0(bufferutil@4.0.8)(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.6.3)(utf-8-validate@6.0.5))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(types-react@19.0.0-rc.1)(typescript@5.6.3)':
     dependencies:
       '@dnd-kit/core': 6.0.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@payloadcms/graphql': 3.5.0(graphql@16.9.0)(payload@3.6.0(bufferutil@4.0.8)(graphql@16.9.0)(monaco-editor@0.38.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.6.3)(utf-8-validate@6.0.5))(typescript@5.6.3)

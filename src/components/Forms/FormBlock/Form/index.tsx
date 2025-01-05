@@ -106,7 +106,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           )
 
         // Get current form data for limits
-        const formResponse = await fetch(`http://localhost:3000/api/forms/${formID}`)
+        const formResponse = await fetch(`{process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
         const formData = await formResponse.json()
 
         // Handle select field limits
@@ -178,7 +178,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
         // Update submission limit if exists
         if (formData.submissionLimit) {
-          await fetch(`http://localhost:3000/api/forms/${formID}`, {
+          await fetch(`{process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -188,7 +188,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         }
 
         // Create the submission
-        const req = await fetch(`http://localhost:3000/api/form-submissions`, {
+        const req = await fetch(`{process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
