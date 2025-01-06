@@ -213,7 +213,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         });
 
         const textResponse = await req.text(); // Get the raw response as text
-        console.log('Raw Response:', textResponse); // Log the raw response
 
         if (!req.ok) {
           throw new Error(textResponse); // Throw an error with the raw response
@@ -303,10 +302,10 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="w-full rounded-xl bg-primary px-2 md:w-[30rem] min-h-56 ">
+              <div className="w-full mx-4 rounded-xl bg-primary px-2 md:w-[30rem] min-h-56 ">
                 <FormProvider {...formMethods}>
                   <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
-                    <div className='flex flex-col justify-between h-full min-h-40 '>
+                    <div className='flex flex-col justify-between h-full min-h-32 '>
                       {step} {/* Render the current step */}
                       <div className="flex justify-between">
                         <button type="button" className='btn btn-sm fixed-0' onClick={back} disabled={currStepIndex === 0}>
