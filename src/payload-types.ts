@@ -1548,9 +1548,10 @@ export interface PrayerTiming {
       fajr_iqamah?: string | null;
       sunrise: string;
       dhuhr: string;
-      dhuhr_iqamah: string;
+      dhuhr_iqamah_1: string;
+      dhuhr_iqamah_2?: string | null;
       asr: string;
-      asr_iqamah: string;
+      asr_iqamah_1: string;
       maghrib: string;
       maghrib_iqamah: string;
       isha: string;
@@ -1623,9 +1624,10 @@ export interface PrayerTimingsSelect<T extends boolean = true> {
               fajr_iqamah?: T;
               sunrise?: T;
               dhuhr?: T;
-              dhuhr_iqamah?: T;
+              dhuhr_iqamah_1?: T;
+              dhuhr_iqamah_2?: T;
               asr?: T;
-              asr_iqamah?: T;
+              asr_iqamah_1?: T;
               maghrib?: T;
               maghrib_iqamah?: T;
               isha?: T;
