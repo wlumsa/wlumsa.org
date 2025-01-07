@@ -3,13 +3,14 @@ import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-b
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-
+import { useMutlistepForm } from './useMultiStepForm'
 import RichText from '@/Utils/RichText'
 import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
 import { CheckboxField } from './Checkbox/types'
+
 export type Value = unknown
 
 export interface Property {
@@ -47,7 +48,7 @@ type CheckboxFieldExtended = CheckboxField & {
 export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const {
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel, releaseDate, closeDate } = {},
+    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
 
@@ -59,28 +60,35 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
     formState: { errors },
     handleSubmit,
     register,
-    setValue,
+    trigger,
   } = formMethods
-
-  const currentTime = new Date(); // Get the current date and time
-
-  // Check if the form is open or closed
-  const isBeforeReleaseDate = releaseDate && currentTime < new Date(releaseDate);
-  const isAfterCloseDate = closeDate && currentTime > new Date(closeDate);
-
-  // Render messages based on the date checks
-  if (isBeforeReleaseDate) {
-    return <div className="text-center p-4"><h2 className="mt-20 text-xl font-bold">Sorry, this form isn't open yet.</h2></div>;
-  }
-
-  if (isAfterCloseDate) {
-    return <div className="text-center p-4"><h2 className="mt-20 text-xl font-bold">Sorry, this form has been closed.</h2></div>;
-  }
 
   const [isLoading, setIsLoading] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState<boolean>()
   const [error, setError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
+
+  // Define steps based on form fields
+  const steps = formFromProps.fields.map((field: FormFieldBlock, index: number) => {
+    const Field: React.FC<any> = fields[field.blockType]
+    return (
+      <div className="w-full" key={index}>
+        {Field ? (
+          <Field
+            form={formFromProps}
+            {...field}
+            {...formMethods}
+            control={control}
+            errors={errors}
+            register={register}
+          />
+        ) : null}
+      </div>
+    )
+  });
+
+  // Use the multi-step form hook
+  const { currStepIndex, step, next, back } = useMutlistepForm(steps);
 
   const onSubmit = useCallback(
     async (data: Data) => {
@@ -163,7 +171,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                 if (selectedValues.includes(opt.label) && opt.limit) {
                   return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
                 }
-                return opt; 
+                return opt;
               });
 
               return { ...f, checkboxes: updatedCheckboxes };
@@ -272,11 +280,16 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
     [router, formID, redirect, confirmationType],
   )
 
+  // Function to handle the next step
+  const handleNext = async () => {
+    const isValid = await trigger(); // Trigger validation for all fields
+    if (isValid) {
+      next(); // Proceed to the next step if valid
+    }
+  };
+
   return (
-    <div className="mt-20 flex flex-grow flex-col items-center min-h-screen ">
-      <div className="text-center p-4">
-        <h1 className="text-2xl font-bold">{formFromProps.title} Form</h1>
-      </div>
+    <div className="mt-20 flex flex-grow flex-col items-center">
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
@@ -289,31 +302,27 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="w-full mx-4 rounded-xl bg-primary px-2 md:w-[30rem]">
+              <div className="w-full mx-4 rounded-xl bg-primary px-2 md:w-[30rem] min-h-56 ">
                 <FormProvider {...formMethods}>
                   <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
-                    {formFromProps?.fields?.map((field: FormFieldBlock, index) => {
-                      const Field: React.FC<any> = fields[field.blockType]
-                      if (Field) {
-                        return (
-                          <div className="w-full" key={index}>
-                            <Field
-                              form={formFromProps}
-                              {...field}
-                              {...formMethods}
-                              control={control}
-                              errors={errors}
-                              register={register}
-                            />
-                          </div>
-                        )
-                      }
-                      return null
-                    })}
-                    <button type="submit" className="btn btn-secondary">
-                      {submitButtonLabel || 'Submit'}
-                      {isLoading && <span className="loading loading-spinner"></span>}
-                    </button>
+                    <div className='flex flex-col justify-between h-full min-h-32 '>
+                      {step} {/* Render the current step */}
+                      <div className="flex justify-between">
+                        <button type="button" className='btn btn-sm fixed-0' onClick={back} disabled={currStepIndex === 0}>
+                          Back
+                        </button>
+                        {currStepIndex === steps.length - 1 ? ( // Check if it's the last step
+                          <button type="submit" className="btn btn-secondary">
+                            {submitButtonLabel || 'Submit'}
+                            {isLoading && <span className="loading loading-spinner"></span>}
+                          </button>
+                        ) : (
+                          <button type="button" className='btn btn-sm my-auto' onClick={handleNext} disabled={currStepIndex === steps.length - 1}>
+                            Next
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </form>
                 </FormProvider>
               </div>

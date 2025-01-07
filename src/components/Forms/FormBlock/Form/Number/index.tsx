@@ -27,9 +27,10 @@ export const Number: React.FC<
           className="input w-full focus:border-secondary input-bordered"
           placeholder={label}
           id={name}
-          {...register(name, { required: requiredFromProps })} />
+          {...register(name, { required: requiredFromProps ? `${label} is required` : false })}
+        />
 
-        {requiredFromProps && errors[name] && <Error />}
+        {requiredFromProps && errors[name] && <Error/>}
       </div>
     </Width>
   )
