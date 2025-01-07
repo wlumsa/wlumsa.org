@@ -286,6 +286,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   return (
     <div className="mt-20 flex min-h-screen flex-grow flex-col items-center">
+      <h1 className='my-4 text-3xl text-bold'>{formFromProps.title} Form</h1>
+
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
@@ -293,7 +295,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           </div>
         ) : (
           <>
-          
+
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
               <RichText className="" content={confirmationMessage} />
             )}
