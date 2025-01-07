@@ -16,6 +16,8 @@ export const Text: React.FC<
     register: UseFormRegister<any & FieldValues>
   } & TextField
 > = ({ name, errors, label, register, required: requiredFromProps, width, }) => {
+  
+
   return (
     <Width width={width}>
       <div className="">
@@ -27,7 +29,9 @@ export const Text: React.FC<
           className="input w-full focus:border-secondary input-bordered"
           placeholder={label}
           id={name}
-          {...register(name, { required: requiredFromProps })} />
+          {...register(name, { required: requiredFromProps })}
+ 
+        />
 
         {requiredFromProps && errors[name] && <Error />}
       </div>

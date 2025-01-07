@@ -1,7 +1,7 @@
 'use client'
 import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { useMutlistepForm } from './useMultiStepForm'
 import RichText from '@/Utils/RichText'
@@ -88,6 +88,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   const onSubmit = useCallback(
     async (data: Data) => {
+      console.log("Submit triggered")
       setError(undefined)
       setIsLoading(true)
 
@@ -284,6 +285,14 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
     }
   };
 
+  // Automatically trigger submission when on the last step
+  useEffect(() => {
+    if (currStepIndex === steps.length) {
+      handleSubmit(onSubmit)(); // Trigger the submit function
+    }
+  }, [currStepIndex, handleSubmit, onSubmit]);
+
+
   return (
     <div className="mt-20 flex min-h-screen flex-grow flex-col items-center">
       <h1 className='my-4 text-3xl text-bold'>{formFromProps.title} Form</h1>
@@ -295,30 +304,35 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           </div>
         ) : (
           <>
-
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
               <RichText className="" content={confirmationMessage} />
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="card w-96 h-72 max-h-fit mx-4 rounded-xl border-primary border flex flex-col justify-between">
+              <div className="card w-96 min-h-[18rem] mx-4 rounded-xl border-primary border flex flex-col justify-between">
                 <FormProvider {...formMethods}>
-                  <form className="flex flex-col h-full card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
-                    <div className='flex-grow'>
-                      {step}
-                    </div>
+                  <form className="flex flex-col h-full card-body" id={formID} onSubmit={handleSubmit(onSubmit)} >
+                    {currStepIndex === steps.length ? (
+                      <div className="flex items-center justify-center flex-grow">
+                        <span className="loading loading-spinner loading-lg"></span>
+                      </div>
+                    ) :
+                      <div className='flex-grow'>
+                        {step}
+                      </div>}
+
 
                     <div className="card-actions justify-between mt-4">
-                      <button type="button" className='btn btn-sm' onClick={back} disabled={currStepIndex === 0}>
+                      <button type="button" className='btn btn-sm' onClick={back} disabled={currStepIndex === 0 || currStepIndex === steps.length} >
                         Back
                       </button>
                       {currStepIndex === steps.length - 1 ? (
-                        <button type="submit" className="btn btn-sm btn-secondary">
-                          {submitButtonLabel || 'Submit'}
+                        <button type="button"  onClick={handleNext} className="btn btn-sm btn-secondary">
+                          {submitButtonLabel || "submit"}
                           {isLoading && <span className="loading loading-spinner"></span>}
                         </button>
                       ) : (
-                        <button type="button" className='btn btn-sm border border-neutral' onClick={handleNext} disabled={currStepIndex === steps.length - 1}>
+                        <button type="button" className='btn btn-sm border border-neutral' onClick={handleNext} disabled={currStepIndex === steps.length}>
                           Next
                         </button>
                       )}
