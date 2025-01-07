@@ -743,6 +743,7 @@ export interface Form {
   submissionLimit?: number | null;
   releaseDate?: string | null;
   closeDate?: string | null;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1435,6 +1436,7 @@ export interface FormsSelect<T extends boolean = true> {
   submissionLimit?: T;
   releaseDate?: T;
   closeDate?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -19,7 +19,7 @@ export const Text: React.FC<
   return (
     <Width width={width}>
       <div className="">
-        <label className="label text-base-100 text-md" htmlFor={name}>
+        <label className="label  text-md" htmlFor={name}>
           {label}
         </label>
         <input

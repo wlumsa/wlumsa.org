@@ -34,10 +34,6 @@ export type FormBlockType = {
   }[]
 }
 
-// Update the type to include name
-type ExtendedFormFieldBlock = FormFieldBlock & {
-  name: string
-}
 type SelectFieldExtended = SelectField & {
   id: string;
 }
@@ -72,7 +68,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const steps = formFromProps.fields.map((field: FormFieldBlock, index: number) => {
     const Field: React.FC<any> = fields[field.blockType]
     return (
-      <div className="w-full" key={index}>
+      <div className="w-full flex flex-grow" key={index}>
         {Field ? (
           <Field
             form={formFromProps}
@@ -289,7 +285,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   };
 
   return (
-    <div className="mt-20 flex flex-grow flex-col items-center">
+    <div className="mt-20 flex min-h-screen flex-grow flex-col items-center">
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
@@ -297,31 +293,33 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           </div>
         ) : (
           <>
+          
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
               <RichText className="" content={confirmationMessage} />
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="w-full mx-4 rounded-xl bg-primary px-2 md:w-[30rem] min-h-56 ">
+              <div className="card w-96 h-72 max-h-fit mx-4 rounded-xl border-primary border flex flex-col justify-between">
                 <FormProvider {...formMethods}>
-                  <form className="card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
-                    <div className='flex flex-col justify-between h-full min-h-32 '>
-                      {step} {/* Render the current step */}
-                      <div className="flex justify-between">
-                        <button type="button" className='btn btn-sm fixed-0' onClick={back} disabled={currStepIndex === 0}>
-                          Back
+                  <form className="flex flex-col h-full card-body" id={formID} onSubmit={handleSubmit(onSubmit)}>
+                    <div className='flex-grow'>
+                      {step}
+                    </div>
+
+                    <div className="card-actions justify-between mt-4">
+                      <button type="button" className='btn btn-sm' onClick={back} disabled={currStepIndex === 0}>
+                        Back
+                      </button>
+                      {currStepIndex === steps.length - 1 ? (
+                        <button type="submit" className="btn btn-sm btn-secondary">
+                          {submitButtonLabel || 'Submit'}
+                          {isLoading && <span className="loading loading-spinner"></span>}
                         </button>
-                        {currStepIndex === steps.length - 1 ? ( // Check if it's the last step
-                          <button type="submit" className="btn btn-secondary">
-                            {submitButtonLabel || 'Submit'}
-                            {isLoading && <span className="loading loading-spinner"></span>}
-                          </button>
-                        ) : (
-                          <button type="button" className='btn btn-sm my-auto' onClick={handleNext} disabled={currStepIndex === steps.length - 1}>
-                            Next
-                          </button>
-                        )}
-                      </div>
+                      ) : (
+                        <button type="button" className='btn btn-sm border border-neutral' onClick={handleNext} disabled={currStepIndex === steps.length - 1}>
+                          Next
+                        </button>
+                      )}
                     </div>
                   </form>
                 </FormProvider>

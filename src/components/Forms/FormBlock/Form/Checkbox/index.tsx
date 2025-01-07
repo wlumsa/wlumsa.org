@@ -53,7 +53,7 @@ export const Checkbox: React.FC<
     <Width width={width}>
       <div className="flex flex-col">
         <label className="label cursor-pointer">
-          <span className="label-text text-base-100 text-md">{label}</span>
+          <span className="label-text text-lg">{label} {requiredFromProps && <span className='text-red-900'>*</span> }</span>
         </label>
         {checkboxes.map((option) => {
           // Check if the limit is greater than 0
@@ -76,11 +76,11 @@ export const Checkbox: React.FC<
                 type="button"
                 onClick={() => handleCheckboxChange(option.label, !isChecked)}
                 className={`w-5 h-5 border-2 rounded flex items-center justify-center 
-                  ${isChecked ? 'bg-secondary border-secondary' : 'border-gray-300 bg-white'}`}
+                  ${isChecked ? 'bg-neutral border-neutral' : 'border-gray-300 bg-white'}`}
               >
                 {isChecked && <Check className="w-4 h-4 text-base-100" />}
               </button>
-              <span className="label-text text-secondary">{option.label}</span>
+              <span className="label-text ">{option.label}</span>
             </div>
           );
         })}
