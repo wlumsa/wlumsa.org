@@ -22,8 +22,8 @@ export const State: React.FC<
   return (
     <Width width={width}>
       <div className="">
-        <label className="text-base-100" htmlFor={name}>
-          {label}
+        <label className="" htmlFor={name}>
+          {label} {required && <span className='text-red-900'>*</span> }
         </label>
         <Controller
           control={control}

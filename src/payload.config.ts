@@ -186,6 +186,15 @@ export default buildConfig({
                   }
                 },
               },
+              {
+                name: "slug",
+                label: "slug",
+                type: "text",
+                admin: {
+                  position: "sidebar",
+                  
+                },
+              },
             ];
             
           },

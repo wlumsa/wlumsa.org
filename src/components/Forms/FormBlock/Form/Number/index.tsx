@@ -19,9 +19,9 @@ export const Number: React.FC<
   return (
     <Width width={width}>
       <div className="">
-        <label className="label text-base-100 text-md" htmlFor={name}>
-          {label}
-        </label>
+        <label className="label text-md" htmlFor={name}>
+          {label} {requiredFromProps && <span className='text-red-900'>*</span> }
+        </label> 
         <input
           type="number"
           className="input w-full focus:border-secondary input-bordered"

@@ -20,7 +20,7 @@ export default async function Page(props: {
     const pageRes = await payload.find({
         collection: 'forms',
         where: {
-            "title": {
+            "slug": {
                 equals: slug
             },
         },

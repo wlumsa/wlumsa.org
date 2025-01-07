@@ -28,8 +28,8 @@ export const Select: React.FC<{
   return (
     <Width width={width || 100}>
       <div className="">
-        <label className="label text-base-100 text-md" htmlFor={name}>
-          {label}
+        <label className="label  text-md" htmlFor={name}>
+          {label} {required&& <span className='text-red-900'>*</span> }
         </label>
         <Controller
           control={control}
