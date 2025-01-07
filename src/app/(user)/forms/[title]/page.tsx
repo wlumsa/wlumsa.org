@@ -27,13 +27,14 @@ export default async function Page(props: {
         draft: false,
         overrideAccess: false,
     })
- 
+    console.log(pageRes)
     const page = pageRes.docs[0] as unknown as null | FormType
-
+    console.log(page)
     if (page === null) {
         return notFound()
     }
     const id = pageRes.docs[0]?.id.toString()
+    console.log(id)
     return (
         <Fragment>
             <RefreshRouteOnSave />
