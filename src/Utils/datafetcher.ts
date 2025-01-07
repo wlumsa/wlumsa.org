@@ -576,16 +576,58 @@ export async function fetchRoommatePosts() {
   return posts.docs;
 }
 
+export async function deleteRoommatePostById(postId:number) {
 
+  const res = await payload.delete({
+    collection: "RoommatePosts",
+    id: postId,
+  }); 
+  return res;
+  }
 
 //update a post 
+export async function updateRoommatePostById(postId: number, postData: any) {
+  const post = await payload.update({
+    collection: "RoommatePosts",
+    where: {
+      id: {
+        equals: postId,
+      },
+    },
+    data: {
+        title: postData.title,
+        description: postData.description,
+        rent: postData.rent,
+        deposit: postData.deposit,
+        address: postData.address,
+        contactEmail: postData.contactEmail,
+        availableDate: postData.availableDate,
+        propertyType: postData.propertyType,
+        utilities: postData.selectedUtilities,
+        amenities: postData.selectedAmenities,
+        images: postData.images,
+        furnishingType: postData.furnishingType,
+        gender:  postData.gender,
+        phoneNumber: postData.phone,
+        facebook: postData.facebook,
+        instagram: postData.instagram,
+        whatsapp: postData.whatsapp,
+}
+  });
+  return post;
+}
 
 //delete a post
-export async function deletePost(id: string) {
+export async function deletePost(id: number) {
   const post = await payload.delete({
     collection: "RoommatePosts",
-    id: id,
+    where: {
+      id: {
+        equals: id,
+      },
+    },
   });
+  return post;
 }
 
 export async function createUser( clerkId: string, email: string, firstName: string, lastName: string) {
@@ -609,7 +651,7 @@ export async function findUser(id:string) {
       },
     },
   });
-  return user.docs;
+  return user;
 }
 
 //USER COMMENT FEATURE FUNCTIONS 
@@ -667,8 +709,11 @@ export async function deleteCommentById(commentId:string) {
         rent: postData.rent,
         deposit: postData.deposit,
         address: postData.address,
+        contactEmail: postData.contactEmail,
         availableDate: postData.availableDate,
         propertyType: postData.propertyType,
+        utilities: postData.selectedUtilities,
+        amenities: postData.selectedAmenities,
         images: postData.images,
         furnishingType: postData.furnishingType,
         gender:  postData.gender,
@@ -704,4 +749,18 @@ export async function updateUserInfo(clerkId:string, data: any) {
     },
   });
   return user;
+}
+
+
+//get roommate posts by user
+export async function fetchRoommatePostsByUser(clerkId: number) {
+  const posts = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      "userId": {
+        equals: clerkId,
+      },
+    },
+  });
+  return posts.docs;
 }

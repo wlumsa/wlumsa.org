@@ -13,18 +13,18 @@ export const isAuthor: Access = async ({ req, id }) => {
   if(!user.userId){
     return false;
   }
-  // const post = await payload.find({
-  //   collection: 'RoommatePosts',
-  //   where: {
-  //     "clerkId": {
-  //       equals: id,
-  //     },
-  //   },
+  const post = await payload.find({
+    collection: 'RoommatePosts',
+    where: {
+      "clerkId": {
+        equals: id,
+      },
+    },
    
-  // });
-  // if(!post) {
-  //   return false;
-  // }
+  });
+  if(!post) {
+    return false;
+  }
 
   return Boolean(true);  ;
 }
@@ -40,7 +40,7 @@ export const RoommatePosts: CollectionConfig = {
     group: 'Roommate Services',
   },
    access: {
-      read: async ({ req }) => await isUser({ req }),
+      read: async ({ req }) => true,
       create: async ({ req }) => await isUser({ req }),
       update: async ({ req, id }) => await isAuthor({ req, id }),
       delete: async ({ req, id }) => await isAuthor({ req, id }),
@@ -103,6 +103,11 @@ export const RoommatePosts: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'contactEmail',
+     type: "checkbox",
+      required: true,
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
@@ -162,6 +167,38 @@ export const RoommatePosts: CollectionConfig = {
         { label: 'Furnished', value: '3' },
       ],
       
+    },
+    {
+      name: 'utilities',
+      type: 'select',
+      options: [
+        { label: 'Wifi', value: '1' },
+        { label: 'Electricity, water, gas', value: '2' },
+        { label: 'Laundry (in unit)', value: '3' },
+        { label: 'Laundry (on site)', value: '4' },
+        { label: 'Heating', value: '5' },
+        { label: 'Air Conditioning', value: '6' },
+      ],
+      label: 'Utilities',
+      required: true,
+      hasMany: true,
+
+    },
+    {
+      name: 'amenities',
+      type: 'select',
+      options: [
+        { label: 'Parking available', value: '1' },
+        { label: 'Recreational spaces', value: '2' },
+        { label: 'Pets allowed', value: '3' },
+        { label: 'Private kitchen', value: '4' },
+        { label: 'Private bathroom', value: '5' },
+   
+   
+      ],      label: 'Amenities',
+      required: true,
+      hasMany: true,
+
     },
     {
       name: 'images',

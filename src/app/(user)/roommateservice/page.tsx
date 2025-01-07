@@ -5,9 +5,21 @@ import Listing from "@/components/Forms/Listing";
 import RoommatePostCard from "@/components/UI/RoommatePostCard";
 import { fetchRoommatePosts } from "@/Utils/datafetcher";
 import { currentUser } from '@clerk/nextjs/server'
+import { useSearchParams } from "next/navigation";
+import { RoommatePost } from "@/payload-types";
 import Link from "next/link";
 
-const RoommateServicePage = async () => {
+
+import RoommateFilter from "@/components/UI/RoommateFilters";
+interface SearchParams {
+  searchParams: {
+      gender?: string;
+      propertyType?: string;
+  };
+}
+
+const RoommateServicePage = async ({ searchParams }: SearchParams) => {
+  const { gender, propertyType } = searchParams;
 
   
 
@@ -21,9 +33,9 @@ const RoommateServicePage = async () => {
         <p className="w-fit">Looking to find accommodation in Waterloo? Trying to lease your apartment? Whatever the case is checkout our directory of postings  </p>
       </div>
       <div>
-        {user && <Link href='/create-post'><button className="btn btn-primary " >New Post</button></Link>}
-        {/* <ListingPopup /> */}
+        {user && <Link href='/create-post'><button className="btn btn-primary " >Create a Post</button></Link>}
       </div>
+      <RoommateFilter />
 
       <div className="flex justify-center">
         <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">

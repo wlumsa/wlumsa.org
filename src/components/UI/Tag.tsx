@@ -8,7 +8,7 @@ interface TagProps {
 }
 const Tag:React.FC<TagProps>  = ({ text, icon }) => {
   return (
-    <div className='flex flex-row gap-2 p-2 m-2 bg-secondary text-primary font-bold rounded-lg max-w-fit'>
+    <div className='flex flex-row gap-2 p-2 m-2 bg-secondary text-sm md:text-md text-primary md:font-bold rounded-lg max-w-fit items-center'>
         {icon}
         <div>
             <h1 className=''>{text}</h1>

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { toast } from "react-hot-toast";
 import { EllipsisVertical } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
+import { SignInButton } from '@clerk/nextjs';
 import axios from 'axios';
 interface CommentProps {
     id: number;
@@ -95,8 +96,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId, postT
               { postAuthorEmail: postAuthorEmail, name: `${comment.res.author}`, postTitle: postTitle, message: comment.res.comment}
               )
               
-             } catch {
-
+             } catch(error) {
+               console.log(error);
+              
              }
              
         } else {
@@ -109,18 +111,27 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId, postT
         setCommentInput(event.target.value);
       }
 
-   //reverse rows
+   const {isSignedIn} = useUser();
+
+
   
   return (
     <div className="my-8">
-      <div className="">
+     { isSignedIn && ( <div className="">
+         
           <div className="flex flex-row gap-4 w-full">
+            
             <input type="text" placeholder="Write a comment" className="w-full border-2 border-primary rounded-lg px-4 py-2" value={commentInput} onChange={handleInputChange}  />
           <button className="bg-primary font-bold text-white rounded-lg px-4 py-2" onClick={() => handlePostComment() }  > Post</button>
             </div>
-              </div>
-              <div className="my-8">
-      </div>
+          </div> )}
+      
+      { !isSignedIn && (<div className="my-8 bg-gray-100 rounded-lg flex gap-4 flex-row justify-between items-center">
+        <h1 className='text-primary font-bold p-4  '>Sign in to post a comment</h1>
+       <div className='btn btn-primary text-white'>
+        <SignInButton />
+        </div>
+      </div> )}
       <div className='flex flex-col-reverse'>
 
       {newComments.map((comment, index) => (

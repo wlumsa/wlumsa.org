@@ -2,10 +2,10 @@ import React from 'react'
 import { date, z } from 'zod'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { createPost } from '@/Utils/actions'
+import { updateRoommatePost } from '@/Utils/actions'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation';
-
+import { RoommatePost } from '@/payload-types';
 
 const genderOptions = ["Sister", "Brother"] as const
 const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
@@ -52,38 +52,67 @@ interface UploadedFile {
     file: File;
     preview: string;
 }
+interface PostProps {
+    post: RoommatePost;
+}
 
-const Listing = () => { 
+const UpdateListing:React.FC<PostProps> = ({post}) => { 
     const router = useRouter();
     const [selected, setSelected] = useState([]);
     const [selectedUtilities, setSelectedUtilities] = useState([]);
-
+    const [errors, setErrors] = useState(""); 
     const [files, setFiles] = useState<UploadedFile[]>([]);
+
     const [formData, setFormData] = useState({
-        title: '',
-        address: '',
-        propertyType: '',
-        furnishingType: '',
-        deposit: '',
-        rent: '',
-        gender: '',
-        availableDate: '',
-        description: '',
-        images: [] as string[],
-        selectedUtilities: [] as string[],
-        selectedAmenities: [] as string[],
-        firstName: '',
-        lastName: '',
-        contactEmail: false,
-        phone: '',
-        facebook: '',
-        instagram: '',
-        whatsapp: ''
-    })
+        title: post.title,
+        address: post.address,
+        gender: post.gender,
+        propertyType: post.PropertyType,
+        furnishingType: post.furnishingType,
+        deposit: post.deposit,
+        rent: post.rent,
+        description: post.description,
+        contactEmail: post.contactEmail,
+        availableDate: post.availableDate,
+        images: post.images,
+        selectedUtilities: post.selectedUtilities,
+        selectedAmenities: post.selectedAmenities,
+        facebook: post.facebook,
+        instagram: post.instagram,
+        phone: post.phoneNumber,
+        whatsapp: post.whatsapp,
+      })
     const [currentStep, setCurrentStep] = useState(0)
+
+    const removeImageFromSupabase = async (imageUrl: string) => {
+        const { data, error } = await supabase.storage
+            .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
+            .remove([imageUrl]);
+    
+        if (error) {
+            console.error("Error removing image from Supabase:", error);
+        } else {
+            console.log("Image removed from Supabase:", data);
+        }
+    };
+    
     const removeImage = (index: number) => {
         setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
     
+    }
+    const removeUploadedImage = (index: number) => {
+        setFormData((prevData) => {
+            const updatedImages = (prevData.images || []).filter((_, i) => i !== index);
+            return {
+                ...prevData,
+                images: updatedImages, // Update the images state without the removed image
+            };
+        });
+       
+            if (formData.images && formData.images[index]) {
+                removeImageFromSupabase(formData.images[index]);
+            }
+        
     }
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -108,22 +137,7 @@ const Listing = () => {
         });
     };
         
-    // const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     if(e.target.name === "amenitiesOptions") {
-    //         setFormData({
-    //             ...formData,
-    //             selectedAmenities: [...e.target.value]
-    //         })
-    
-    // } else if (e.target.name === "utilitiesOptions") {
-    //     setFormData({
-    //         ...formData,
-    //         selectedUtilities: [...e.target.value]
-    //     })
-        
-    // }
-
- //   }
+  
  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
 
@@ -154,22 +168,22 @@ const Listing = () => {
         const validatedFields =  StepOneSchema.safeParse(formData );
        const validatedFiles = UploadedFileSchema.safeParse(files);
         if(!validatedFields.success && !validatedFiles.success) {
-            toast.error(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
+            setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
             return;
          }
         if (validatedFields.error) {
-            toast.error(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+            setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
             return;
             }
         if (validatedFiles.error) {
-            toast.error(`Upload at least one image`);
+            setErrors(`Upload at least one image`);
             return;
             }
          
         } else if(currentStep === 1) {
             const validatedFields = StepTwoSchema.safeParse(formData);
             if (!validatedFields.success) {
-                toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+                setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
                 return;
             }
         }
@@ -188,7 +202,7 @@ const Listing = () => {
         // Validate
         const validatedFields = StepThreeSchema.safeParse(formData);
         if (!validatedFields.success) {
-            toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+            setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
             return;
         }
     
@@ -221,13 +235,13 @@ const Listing = () => {
     
             setFormData(prevData => ({
                 ...prevData,
-                images: [...prevData.images, ...validImageUrls],
+                images: [...(prevData.images || []), ...validImageUrls],
             }));
     
-            const res = await createPost({
+            const res = await updateRoommatePost(post.id, { 
                 ...formData,
-                images: [...formData.images, ...validImageUrls],
-            });
+                images: [...(formData.images || []), ...validImageUrls],
+       } );
     
             if (res.res) {
                 toast.success("Post created successfully!");
@@ -245,9 +259,10 @@ const Listing = () => {
     };
     
     return (
-        <div className=' flex flex-col items-center justify-center w-full px-8 md:w-[550px] mx-auto '>
+        <div className=' flex flex-col items-center justify-center w-full  md:w-[540px] mx-auto '>
 
-            <h1 className='font-bold text-primary text-xl text-center'>New Listing</h1>
+            <h1 className='font-bold text-primary text-xl text-center'>Update Listing</h1>
+            <button className="btn btn-secondary " >Save</button>
             <form className='flex flex-col'>
                 {/* Step 1 - Listing Information */}
                 {currentStep == 0 && <div>
@@ -325,6 +340,28 @@ const Listing = () => {
                         <label htmlFor="name" className='font-semibold' >Listing Description</label>
                         <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Write a detailed, informative description" className="textarea textarea-bordered h-[3rem] max-h-[12rem] w-full bg-[#F2F2F2]  border-none" />
                     </div>
+                    {/* Displaying Images */}
+            {formData.images && formData.images.length > 0 && (
+                <div className="mt-4">
+                    <h1 className="text-bold font-primary">Uploaded Images</h1>
+                    <div className='grid grid-cols-3 gap-2'>
+                        {formData.images.map((imageUrl, index) => (
+                            <div key={index} className="my-2 text-left overflow-scroll">
+                                <img
+                                    height={100}
+                                    width={100}
+                                    src={imageUrl}
+                                    alt={`Uploaded Image ${index}`}
+                                    className="rounded-md"
+                                />
+                                <button className='underline' onClick={() => removeImage(index)}>
+                                    Remove Image
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
                     <div className='py-2 flex flex-col'>
                         <label className='font-semibold'>Upload Supporting Images - png, jpeg, jpg files only</label>
                         <div className="flex items-center gap-2">
@@ -362,6 +399,7 @@ const Listing = () => {
                             </div>
                         )}
                     </div>
+                    {errors && <div className="text-red-600">{errors}</div>}
                     <div className=' flex py-2 justify-end'>
                         <button className='btn btn-secondary ' onClick={handleNextStep}>Next →</button>
                     </div>
@@ -395,6 +433,8 @@ const Listing = () => {
                         ))}
                         </div>
                         </div>
+                    {errors && <div className="text-red-600">{errors}</div>}
+                     
                     <div className=' flex py-2 justify-between'>
                         <button className='btn btn-secondary' onClick={handlePreviousStep}>← Previous</button>
                         <button className='btn btn-primary' onClick={handleNextStep}>Next → </button>
@@ -468,10 +508,11 @@ const Listing = () => {
                     />
             </label> 
                     </div>
+                    {errors && <div className=" text-red-600">{errors}</div>}
 
                     <div className=' flex py-2 justify-between'>
                         <button className='btn  ' onClick={handlePreviousStep}>← Back</button>
-                        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} className='btn btn-secondary '>Submit →</button>
+                        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} className='btn btn-secondary '>Save →</button>
                     </div>
 
                 </div>}
@@ -482,4 +523,4 @@ const Listing = () => {
     )
 }
 
-export default Listing
+export default UpdateListing

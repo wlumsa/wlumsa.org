@@ -1,8 +1,9 @@
 'use server'
 
 import { z } from 'zod'
-import { addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, updateUserInfo } from './datafetcher'
+import { fetchRoommatePosts, addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, updateUserInfo, deleteRoommatePostById, updateRoommatePostById } from './datafetcher'
 import { resend } from './resend';
+import axios from 'axios';
 import { currentUser } from '@clerk/nextjs/server';
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -98,11 +99,12 @@ export async function deleteComment(commentId:string) {
         deposit: string;
         rent: string;
         gender: string;
+        contactEmail: boolean;
         availableDate: string;
         description: string
         images:  string[];
-        firstName: string;
-        lastName: string;
+        selectedUtilities: string[];
+        selectedAmenities: string[];
         phone: string;
         facebook: string;
         instagram: string;
@@ -112,10 +114,19 @@ export async function deleteComment(commentId:string) {
 export async function createPost(formData: RoommatePost) {
     try {
         const res = await createRoommatePost(formData);
+        try {
+            await axios.post("http://localhost:3000/api/newPost", 
+                {  formData: res }
+                )
+        }
+        catch (error) {
+            console.log("Error sending email:", error);
+        }
         return { res, message: 'Post created!' }
     } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
+    
 }
 
 
@@ -153,6 +164,32 @@ export async function userOnboarding(formData: userData) {
         }
         
     } catch(error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}
+export async function getRoommatePosts() {
+    try {
+        const res = await fetchRoommatePosts();
+        return { res, message: 'Posts fetched!' }
+    } catch (error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}
+
+export async function deleteRoommatePost(postId: number) {
+    try {
+        const res = await deleteRoommatePostById(postId);
+        return { res, message: 'Post deleted!' }
+    } catch (error) {
+        return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
+    }
+}
+
+export async function updateRoommatePost(postId: number, formData: RoommatePost) {
+    try {
+        const res = await updateRoommatePostById(postId, formData);
+        return { res, message: 'Post updated!' }
+    } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
 }

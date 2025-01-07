@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     const response =  await resend.emails.send({
       from: `WLU MSA <admin@wlumsa.org>`,
-      to: [`${postAuthorEmail}`,"moha5150@mylaurier.ca"],
+      to: [`${postAuthorEmail}`,"moha5150@mylaurier.ca", "admin@wlumsa.org"],
       subject: subject,
       text: textContent,
       headers: {
