@@ -567,14 +567,66 @@ export async function fetchRoommatePostById(id: string) {
   });
   return post.docs;
 }
-export async function fetchRoommatePosts() {
+// export async function fetchRoommatePosts() {
+//   const posts = await payload.find({
+//     collection: "RoommatePosts",
+//     sort: "-createdAt", 
+//     limit: 10,
+//   });
+//   return posts.docs;
+// }
+
+export async function fetchRoommatePosts({
+  query = '',
+  gender,
+  price,
+  propertyType,
+  utilities,
+}: {
+  query?: string;
+  gender?: string;
+  price?: string;
+  propertyType?: string;
+  utilities?: string;
+}) {
+  const filters: any[] = [];
+
+  if (query) {
+    filters.push({
+      or: [
+        { "title": { like: `${query}` } },
+        { "description": { like: `${query}` } },
+      ],
+    });
+  }
+
+  if (gender) {
+    filters.push({ gender: { equals: gender } });
+  }
+
+  if (price) {
+    filters.push({ price: { less_than_equal: parseFloat(price) } });
+  }
+
+  if (propertyType) {
+    filters.push({ propertyType: { equals: propertyType } });
+  }
+
+  if (utilities) {
+    filters.push({ utilities: { contains: utilities } });
+  }
+
   const posts = await payload.find({
     collection: "RoommatePosts",
-    sort: "-createdAt", 
+    where: {
+      and: filters,
+    },
     limit: 10,
   });
+
   return posts.docs;
 }
+
 
 export async function deleteRoommatePostById(postId:number) {
 

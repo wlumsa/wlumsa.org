@@ -151,9 +151,10 @@ export const RoommatePosts: CollectionConfig = {
       required: true,
       type: 'select',
       options: [
-        { label: 'Unfurnished', value: '1' },
-        { label: 'Partially Furnished', value: '2' },
-        { label: 'Furnished', value: '3' },
+        { label: 'House', value: '1' },
+        { label: 'Apartment', value: '2' },
+        { label: 'Condo', value: '3' },
+        { label: 'Townhouse', value: '4' },
       ],
       label: 'Property Type',
     },

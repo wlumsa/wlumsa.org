@@ -11,19 +11,27 @@ import Link from "next/link";
 
 
 import RoommateFilter from "@/components/UI/RoommateFilters";
-interface SearchParams {
-  searchParams: {
-      gender?: string;
-      propertyType?: string;
-  };
-}
+ type Params = Promise<{post:string}>
+ type SearchParams = Promise<{[key:string]: string | undefined}>
 
-const RoommateServicePage = async ({ searchParams }: SearchParams) => {
-  const { gender, propertyType } = searchParams;
+const RoommateServicePage = async ( props: {params:Params, searchParams:SearchParams}) => {
+ const params = await props.params
+  const searchParams = await props.searchParams
+  const slug = params.post
+  const query = searchParams.query || '';
+  const gender = searchParams?.gender
+  const price = searchParams?.price
+  const propertyType = searchParams?.propertyType
+  const utilities = searchParams?.utilities
 
-  
 
-  const posts = await fetchRoommatePosts();
+  const posts = await fetchRoommatePosts({ 
+    query, 
+    gender, 
+    price, 
+    propertyType, 
+    utilities 
+  });
   const user = await currentUser()
   console.log(posts);
   return (
