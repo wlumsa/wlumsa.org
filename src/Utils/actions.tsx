@@ -97,7 +97,7 @@ export async function deleteComment(commentId:string) {
         propertyType: string;
         furnishingType: string;
         deposit: string;
-        rent: string;
+        rent: number;
         gender: string;
         contactEmail: boolean;
         availableDate: string;
@@ -169,7 +169,7 @@ export async function userOnboarding(formData: userData) {
 }
 export async function getRoommatePosts() {
     try {
-        const res = await fetchRoommatePosts();
+        const res = await fetchRoommatePosts({});
         return { res, message: 'Posts fetched!' }
     } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }

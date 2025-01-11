@@ -128,7 +128,7 @@ export const RoommatePosts: CollectionConfig = {
  
     {
       name: 'rent',
-      type: 'text',
+      type: 'number',
       required: true,
       label: 'Monthly Rent',
     },
@@ -142,8 +142,8 @@ export const RoommatePosts: CollectionConfig = {
       required: true,
       type: 'select',
       options: [
-        { label: 'Sisters', value: '1' },
-        { label: 'Brothers', value: '2' },
+        { label: 'Female', value: '1' },
+        { label: 'Male', value: '2' },
       ],
     },
     {

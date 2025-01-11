@@ -20,7 +20,7 @@ const RoommateServicePage = async ( props: {params:Params, searchParams:SearchPa
   const slug = params.post
   const query = searchParams.query || '';
   const gender = searchParams?.gender
-  const price = searchParams?.price
+  const rent = searchParams?.rent
   const propertyType = searchParams?.propertyType
   const utilities = searchParams?.utilities
 
@@ -28,7 +28,7 @@ const RoommateServicePage = async ( props: {params:Params, searchParams:SearchPa
   const posts = await fetchRoommatePosts({ 
     query, 
     gender, 
-    price, 
+    rent, 
     propertyType, 
     utilities 
   });

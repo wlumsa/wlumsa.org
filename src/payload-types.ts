@@ -518,7 +518,7 @@ export interface RoommatePost {
   description: string;
   address: string;
   name: string;
-  rent: string;
+  rent: number;
   email: string;
   contactEmail: boolean;
   phoneNumber: string;

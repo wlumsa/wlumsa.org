@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation';
 
 
-const genderOptions = ["Sister", "Brother"] as const
+const genderOptions = ["Female", "Male"] as const
 const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
 //const utilityOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning" ] as const
@@ -34,11 +34,11 @@ const StepTwoSchema = z.object({
     selectedUtilities: z.array(z.string(), { message: "At least one utility is required" }),
     selectedAmenities: z.array(z.string(), { message: "At least one amenity is required" }),
 })
-const StepThreeSchema = z.object({
+// const StepThreeSchema = z.object({
   
-    phone: z.string().min(10, "Phone number is required"),
+//     phone: z.string().min(10, "Phone number is required"),
 
-})
+// })
 
    
 const UploadedFileSchema = z.array(z.object({
@@ -65,7 +65,7 @@ const Listing = () => {
         propertyType: '',
         furnishingType: '',
         deposit: '',
-        rent: '',
+        rent: 0,
         gender: '',
         availableDate: '',
         description: '',
@@ -186,11 +186,11 @@ const Listing = () => {
     const handleSubmit = async () => {
         console.log(formData);
         // Validate
-        const validatedFields = StepThreeSchema.safeParse(formData);
-        if (!validatedFields.success) {
-            toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-            return;
-        }
+      //  const validatedFields = StepThreeSchema.safeParse(formData);
+        // if (!validatedFields.success) {
+        //     toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+        //     return;
+        // }
     
         // upload image to database , retreive image url
         const uploadImage = async (image: File, folderName: string) => {
@@ -315,7 +315,7 @@ const Listing = () => {
                              <label className='font-semibold'>Monthly Rent price</label>
                         <div className='flex flex-row items-center'>
                               <span className='mr-2'>$</span>
-                            <input type="text" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            <input type="number" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                         </div>
                         </div>
 

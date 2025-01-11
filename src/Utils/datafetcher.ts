@@ -579,16 +579,49 @@ export async function fetchRoommatePostById(id: string) {
 export async function fetchRoommatePosts({
   query = '',
   gender,
-  price,
+  rent,
   propertyType,
   utilities,
 }: {
   query?: string;
   gender?: string;
-  price?: string;
+  rent?: string;
   propertyType?: string;
   utilities?: string;
 }) {
+  let minPrice = 0;
+  let maxPrice = 0;
+
+  switch (rent) {
+    case "1": 
+      maxPrice = 800;
+      break;
+    case "2":
+      minPrice = 800;
+      maxPrice = 900;
+      break;
+    case "3": 
+      minPrice = 900;
+      maxPrice = 1000;
+      break;
+    case "4": 
+      minPrice = 1000;
+      maxPrice = 1100;
+      break;
+    case "5": 
+      minPrice = 1100;
+      maxPrice = 1200;
+      break;
+    case "6": 
+      minPrice = 1200;
+      maxPrice = 1300;
+      break;
+    case "7": 
+      minPrice = 1300;
+      break;
+  }
+
+
   const filters: any[] = [];
 
   if (query) {
@@ -604,8 +637,12 @@ export async function fetchRoommatePosts({
     filters.push({ gender: { equals: gender } });
   }
 
-  if (price) {
-    filters.push({ price: { less_than_equal: parseFloat(price) } });
+  if (minPrice) {
+    filters.push({ rent: { greater_than_equal: minPrice } });
+  }
+
+  if (maxPrice) {
+    filters.push({ rent: { less_than_equal: maxPrice } });
   }
 
   if (propertyType) {
@@ -615,6 +652,7 @@ export async function fetchRoommatePosts({
   if (utilities) {
     filters.push({ utilities: { contains: utilities } });
   }
+  console.log('filters:', filters);
 
   const posts = await payload.find({
     collection: "RoommatePosts",
@@ -626,6 +664,7 @@ export async function fetchRoommatePosts({
 
   return posts.docs;
 }
+
 
 
 export async function deleteRoommatePostById(postId:number) {
@@ -649,7 +688,7 @@ export async function updateRoommatePostById(postId: number, postData: any) {
     data: {
         title: postData.title,
         description: postData.description,
-        rent: postData.rent,
+        rent: parseInt(postData.rent),
         deposit: postData.deposit,
         address: postData.address,
         contactEmail: postData.contactEmail,
