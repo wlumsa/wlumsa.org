@@ -526,7 +526,7 @@ export interface RoommatePost {
   roomfurnishing: string;
   availableDate: string;
   whatsapp: string;
-  deposit: string;
+  deposit: number;
   utilities: string[];
   amenities: string[];
   facebook: string;

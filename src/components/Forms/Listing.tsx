@@ -64,7 +64,7 @@ const Listing = () => {
         address: '',
         propertyType: '',
         furnishingType: '',
-        deposit: '',
+        deposit: 0,
         rent: 0,
         gender: '',
         availableDate: '',
@@ -308,7 +308,7 @@ const Listing = () => {
                             <label className='font-semibold'>Deposit</label>
                             <div className='flex flex-row items-center'>
                                 <span className='mr-2'>$</span>
-                                <input type="text" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                                <input type="number" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                             </div>
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
@@ -404,7 +404,7 @@ const Listing = () => {
                 }
                 {/* Step 2 - Contact Information */}
                 {currentStep == 2 && <div className='flex flex-col gap-4'>
-                    <h1 className='font-bold font-primary text-primary' >Contact Info</h1>
+                    <h1 className='font-bold font-primary text-primary' >Contact Info (optional)</h1>
                     {/* <div className='flex flex-col md:flex-row gap-4'>
                         <div className='flex flex-col md:w-1/2'>
                             <label htmlFor="name" className='font-semibold'>First Name</label>
@@ -462,7 +462,7 @@ const Listing = () => {
                         type="checkbox"
                         name="contactEmail"
                         value={formData.contactEmail.toString()}
-                        onChange={handleInputChange}
+                        onChange={(e) => setFormData({ ...formData, contactEmail: e.target.checked })}
                         className="toggle"
                         defaultChecked={false}
                     />

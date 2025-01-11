@@ -20,8 +20,8 @@ interface PostProps {
 }
 
 const RoommatePostCard: React.FC<PostProps> = ({ post, type }) => {
-  const date = new Date(post.createdAt);
-  const formattedDate = format(date, 'MMMM dd, yyyy');
+  const date = new Date(post.availableDate);
+  const formattedDate = format(date, 'MMMM dd');
   const image = post?.images;
 
 
@@ -50,7 +50,7 @@ const RoommatePostCard: React.FC<PostProps> = ({ post, type }) => {
       </figure>
       <div className="card-body w-72 px-6 py-4">
         <div className=" text-slate-500">
-          <p>{formattedDate}</p>
+          <p>Available on {formattedDate}</p>
         </div>
      
         {/* <div className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
@@ -59,7 +59,7 @@ const RoommatePostCard: React.FC<PostProps> = ({ post, type }) => {
          
       
         <h2 className="card-title  text-primary">{post.title}</h2>
-        <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p>
+        {/* <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p> */}
         <div className="card-actions justify-end">
           <Link href={`/roommateservice/${post.id}`}>
             <button className="btn btn-primary text-secondary">Read More →</button>

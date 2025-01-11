@@ -96,7 +96,7 @@ export async function deleteComment(commentId:string) {
         address: string;
         propertyType: string;
         furnishingType: string;
-        deposit: string;
+        deposit: number;
         rent: number;
         gender: string;
         contactEmail: boolean;

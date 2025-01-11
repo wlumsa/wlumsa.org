@@ -134,7 +134,7 @@ export const RoommatePosts: CollectionConfig = {
     },
     {
       name: 'deposit',
-      type: 'text',
+      type: 'number',
       label: 'Deposit Amount',
     },
     {
