@@ -10,13 +10,9 @@ import { useRouter } from 'next/navigation';
 const genderOptions = ["Female", "Male"] as const
 const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
-//const utilityOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning" ] as const
 const utilitiesOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning"] as const 
 const amenitiesOptions = ["Parking available", "Recreational spaces (gym, pool, lounge)", "Pets allowed", "Private kitchen", "Private bathroom"] as const 
 
-
-    
-  
 //Form validation
 const StepOneSchema = z.object({
     title: z.string().min(1, "Title is required").max(120, "Title is too long"),
@@ -26,20 +22,9 @@ const StepOneSchema = z.object({
     propertyType: z.string().min(1, "Property type is required"),
     furnishingType: z.string().min(1, "Furnishing type is required"),
     rent: z.string().min(1, "Monthly rent is required"),
-   // deposit: z.string().min(1, "Deposit is required"),
     availableDate: z.string().min(1, "Date available is required"),
 
     })
-const StepTwoSchema = z.object({
-    selectedUtilities: z.array(z.string(), { message: "At least one utility is required" }),
-    selectedAmenities: z.array(z.string(), { message: "At least one amenity is required" }),
-})
-// const StepThreeSchema = z.object({
-  
-//     phone: z.string().min(10, "Phone number is required"),
-
-// })
-
    
 const UploadedFileSchema = z.array(z.object({
     file: z.instanceof(File, { message: "Must be a valid file" }),
@@ -55,8 +40,7 @@ interface UploadedFile {
 
 const Listing = () => { 
     const router = useRouter();
-    const [selected, setSelected] = useState([]);
-    const [selectedUtilities, setSelectedUtilities] = useState([]);
+
 
     const [files, setFiles] = useState<UploadedFile[]>([]);
     const [formData, setFormData] = useState({
@@ -166,13 +150,7 @@ const Listing = () => {
             return;
             }
          
-        } else if(currentStep === 1) {
-            const validatedFields = StepTwoSchema.safeParse(formData);
-            if (!validatedFields.success) {
-                toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-                return;
-            }
-        }
+        } 
         setCurrentStep(currentStep + 1)
          
         

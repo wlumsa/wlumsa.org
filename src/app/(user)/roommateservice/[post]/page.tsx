@@ -150,14 +150,18 @@ export default async function BlogPost(props: {
               <p>{post?.description}</p>
             </div>
             <div className=" my-8 max-w-[48em] ">
-              <h1 className="text-2xl text-primary font-bold my-2 ">Utilities</h1>
-                <p className="text-xl text-gray-700">
-                  {post?.utilities?.map((utility: string) => utilitiesOptions[utility]).join(' • ')}
+           { post?.utilities && post.utilities.length > 0 &&  <><h1 className="text-2xl text-primary font-bold my-2 ">Utilities</h1>
+                <p className="text-2xl text-gray-700">
+                  {post.utilities.map((utility: string) => utilitiesOptions[utility]).join(' • ')}
                 </p>
-              <h1 className="text-xl text-primary font-bold my-2">Amenities</h1>
+                </>
+}
+{ post?.amenities && post.amenities.length > 0 &&  <>   <h1 className="text-xl text-primary font-bold my-2">Amenities</h1>
                 <p className="text-xl text-gray-700">
                   {post?.amenities?.map((amenity: string) => amenitiesOptions[amenity]).join(' • ')}
                 </p>
+                </>
+                }
 
             </div>
             <div className="my-8 flex flex-col  max-w-[48em]">

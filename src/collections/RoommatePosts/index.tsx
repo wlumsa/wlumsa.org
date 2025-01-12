@@ -181,7 +181,6 @@ export const RoommatePosts: CollectionConfig = {
         { label: 'Air Conditioning', value: '6' },
       ],
       label: 'Utilities',
-      required: true,
       hasMany: true,
 
     },
@@ -197,7 +196,6 @@ export const RoommatePosts: CollectionConfig = {
    
    
       ],      label: 'Amenities',
-      required: true,
       hasMany: true,
 
     },

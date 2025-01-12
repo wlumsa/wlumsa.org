@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-
+import { format } from "date-fns";
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
 const furnishingOptions: { [key: string]: string } = {
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   
         Email: ${formData.email} \n
         Address: ${formData.address} \n
-        Available Date: ${formData.availableDate} \n
+        Available Date: ${format(formData.availableDate, "MMM dd")} \n
         Property Type: ${propertyTypeOptions[formData.propertyType]} \n
         Description: ${formData.description} \n
         Furnishing Type: ${furnishingOptions[formData.furnishingType]} \n
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
     const response =  await resend.emails.send({
       from: `WLU MSA <admin@wlumsa.org>`,
-      to: ["moha5150@mylaurier.ca"],
+      to: ["moha5150@mylaurier.ca", `${formData.email}`, "admin@wlumsa.org" ],
       subject: subject,
       text: textContent,
       headers: {
