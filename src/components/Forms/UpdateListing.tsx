@@ -6,11 +6,12 @@ import { updateRoommatePost } from '@/Utils/actions'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation';
 import { RoommatePost } from '@/payload-types';
+import { format } from 'date-fns';
 
-const genderOptions = ["Sister", "Brother"] as const
+
+const genderOptions = ["Female", "Male"] as const
 const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
-//const utilityOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning" ] as const
 const utilitiesOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning"] as const 
 const amenitiesOptions = ["Parking available", "Recreational spaces (gym, pool, lounge)", "Pets allowed", "Private kitchen", "Private bathroom"] as const 
 
@@ -75,14 +76,15 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
         contactEmail: post.contactEmail,
         availableDate: post.availableDate,
         images: post.images,
-        selectedUtilities: post.selectedUtilities,
-        selectedAmenities: post.selectedAmenities,
+        selectedUtilities: post.utilities,
+        selectedAmenities: post.amenities,
         facebook: post.facebook,
         instagram: post.instagram,
         phone: post.phoneNumber,
         whatsapp: post.whatsapp,
       })
     const [currentStep, setCurrentStep] = useState(0)
+    const currentDate = format(new Date(post.availableDate), "yyyy-MM-dd");
 
     const removeImageFromSupabase = async (imageUrl: string) => {
         const { data, error } = await supabase.storage
@@ -164,29 +166,29 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
 
     const handleNextStep = (e: React.FormEvent) => {
         e.preventDefault();
-       if(currentStep === 0) {
-        const validatedFields =  StepOneSchema.safeParse(formData );
-       const validatedFiles = UploadedFileSchema.safeParse(files);
-        if(!validatedFields.success && !validatedFiles.success) {
-            setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
-            return;
-         }
-        if (validatedFields.error) {
-            setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-            return;
-            }
-        if (validatedFiles.error) {
-            setErrors(`Upload at least one image`);
-            return;
-            }
+    //    if(currentStep === 0) {
+    //     const validatedFields =  StepOneSchema.safeParse(formData );
+    //    const validatedFiles = UploadedFileSchema.safeParse(files);
+    //     if(!validatedFields.success && !validatedFiles.success) {
+    //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
+    //         return;
+    //      }
+    //     if (validatedFields.error) {
+    //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+    //         return;
+    //         }
+    //     if (validatedFiles.error) {
+    //         setErrors(`Upload at least one image`);
+    //         return;
+    //         }
          
-        } else if(currentStep === 1) {
-            const validatedFields = StepTwoSchema.safeParse(formData);
-            if (!validatedFields.success) {
-                setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-                return;
-            }
-        }
+    //     } else if(currentStep === 1) {
+    //         const validatedFields = StepTwoSchema.safeParse(formData);
+    //         if (!validatedFields.success) {
+    //             setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+    //             return;
+    //         }
+     //   }
         setCurrentStep(currentStep + 1)
          
         
@@ -200,11 +202,11 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
     const handleSubmit = async () => {
         console.log(formData);
         // Validate
-        const validatedFields = StepThreeSchema.safeParse(formData);
-        if (!validatedFields.success) {
-            setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-            return;
-        }
+        // const validatedFields = StepThreeSchema.safeParse(formData);
+        // if (!validatedFields.success) {
+        //     setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+        //     return;
+        // }
     
         // upload image to database , retreive image url
         const uploadImage = async (image: File, folderName: string) => {
@@ -244,17 +246,17 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
        } );
     
             if (res.res) {
-                toast.success("Post created successfully!");
+                toast.success("Post saved successfully!");
                 router.push('/roommateservice');
 
                
             } else {
-                console.error("Error creating post:", res.message);
-                toast.error("Failed to create post.");
+                console.error("Error saving post:", res.message);
+                toast.error("Failed to save post.");
             }
         } catch (error) {
             console.error("Error during submission:", error);
-            toast.error("Failed to create post..");
+            toast.error("Failed to save post.");
         }
     };
     
@@ -262,7 +264,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
         <div className=' flex flex-col items-center justify-center w-full  md:w-[540px] mx-auto '>
 
             <h1 className='font-bold text-primary text-xl text-center'>Update Listing</h1>
-            <button className="btn btn-secondary " >Save</button>
+            <button className="btn btn-secondary "   onClick={(e) => { e.preventDefault(); handleSubmit(); }} >Save</button>
             <form className='flex flex-col'>
                 {/* Step 1 - Listing Information */}
                 {currentStep == 0 && <div>
@@ -313,7 +315,8 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                         </div>
                         <div className='md:w-1/2'>
                             <label className='font-semibold'>Date Available</label>
-                            <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
+                           <p> Currently set as: {currentDate} </p>
+                         <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
                         </div>
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
@@ -323,14 +326,14 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             <label className='font-semibold'>Deposit</label>
                             <div className='flex flex-row items-center'>
                                 <span className='mr-2'>$</span>
-                                <input type="text" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                                <input type="number" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                             </div>
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
                              <label className='font-semibold'>Monthly Rent price</label>
                         <div className='flex flex-row items-center'>
                               <span className='mr-2'>$</span>
-                            <input type="text" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            <input type="number" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                         </div>
                         </div>
 
@@ -391,7 +394,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                                                 alt={`Preview ${index}`}
                                                 className="rounded-md"
                                             />
-                                            <button className='underline' onClick={() => removeImage(index)} >Remove Image</button>
+                                            <button className='underline' onClick={  () => removeImage(index)} >Remove Image</button>
 
                                         </div>
                                     ))}
@@ -414,7 +417,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             <div key={index+1} className="form-control">
                             <label className="cursor-pointer label">
                                 <span className="label-text">{option}</span>
-                                <input type="checkbox"  name="utilitiesOptions"  className="checkbox  checkbox-primary "  onChange={handleCheckBoxChange}  value={index+1}/>
+                                <input type="checkbox"  name="utilitiesOptions"  className="checkbox  checkbox-primary "  onChange={handleCheckBoxChange}  value={index+1} checked={formData.selectedUtilities.includes((index+1).toString())}/>
                             </label>
                             </div>
                         ))}
@@ -427,7 +430,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             <div key={index+1} className="form-control">
                             <label className="cursor-pointer label">
                                 <span className="label-text">{option}</span>
-                                <input type="checkbox" name="amenitiesOptions"  className="checkbox  checkbox-primary " onChange={handleCheckBoxChange}  value={index+1} />
+                                <input type="checkbox" name="amenitiesOptions"  className="checkbox  checkbox-primary " onChange={handleCheckBoxChange}  value={index+1} checked={formData.selectedAmenities.includes((index+1).toString() )}  />
                             </label>
                             </div>
                         ))}
@@ -444,29 +447,12 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                 }
                 {/* Step 2 - Contact Information */}
                 {currentStep == 2 && <div className='flex flex-col gap-4'>
-                    <h1 className='font-bold font-primary text-primary' >Contact Info</h1>
-                    {/* <div className='flex flex-col md:flex-row gap-4'>
-                        <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="name" className='font-semibold'>First Name</label>
-                            <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First name" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none " />
-                        </div>
-                        <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="name" className='font-semibold'>Last Name</label>
-                            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last name" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div>
-                    </div> */}
+                    <h1 className='font-bold font-primary text-primary' >Contact Info (optional)</h1>
+                  
                     <div className='flex flex-col md:flex-row gap-4'>
-                        {/* <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="email" className='font-semibold'>Email</label>
-                            <input type="text" name="contactEmail" value={formData.contactEmail} onChange={handleInputChange} placeholder="example@mylaurier.ca" className="input input-bordered max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div> */}
-                        {/* <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="name" className='font-semibold'>Phone number</label>
-                            <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="519-123-3456" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div> */}
+                      
                     </div>
 
-                    <h1 className='font-semibold text-primary'>Contact Information</h1>
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div>
                             <label className="input input-bordered flex items-center gap-2 h-[2rem] w-fit bg-[#F2F2F2] border-none">
@@ -502,9 +488,9 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                         type="checkbox"
                         name="contactEmail"
                         value={formData.contactEmail.toString()}
-                        onChange={handleInputChange}
+                        onChange={(e) => setFormData({ ...formData, contactEmail: e.target.checked })}
                         className="toggle"
-                        defaultChecked={false}
+                        defaultChecked={formData.contactEmail}
                     />
             </label> 
                     </div>

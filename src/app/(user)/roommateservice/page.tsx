@@ -35,13 +35,15 @@ const RoommateServicePage = async ( props: {params:Params, searchParams:SearchPa
   const user = await currentUser()
   console.log(posts);
   return (
-    <div className="flex flex-col items-center justify-center gap-6 p-6 mt-16 ">
+    <div className="flex flex-col items-center justify-center gap-6 p-6 mt-16 max-w-screen-lg mx-auto h-screen">
       <div className="flex flex-col">
         <h1 className="text-primary text-3xl font-bold text-center " >Roommate Service</h1>
         <p className="w-fit">Looking to find accommodation in Waterloo? Trying to lease your apartment? Whatever the case is checkout our directory of postings  </p>
       </div>
-      <div>
-        {user && <Link href='/create-post'><button className="btn btn-primary " >Create a Post</button></Link>}
+      <div className="flex gap-4 justify-end  md:w-full ">
+        {user && <Link href='/create-post'><button className="btn btn-primary text-white  " >Create a Post</button></Link>}
+        {user && <Link href='/dashboard'><button className="btn btn-primary  text-white" >View my posts</button></Link>}
+
       </div>
       <RoommateFilter />
 
