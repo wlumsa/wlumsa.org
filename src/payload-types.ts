@@ -519,7 +519,9 @@ export interface RoommatePost {
   address: string;
   name: string;
   rent: number;
+  gender: string;
   email: string;
+  author: string;
   contactEmail: boolean;
   phoneNumber: string;
   PropertyType: string;
@@ -1219,9 +1221,11 @@ export interface RoommatePostsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   address?: T;
+  author?: T;
   name?: T;
   email?: T;
   rent?: T;
+  
   PropertyType?: T;
   roomfurnishing?: T;
   availableDate?: T;

@@ -113,7 +113,9 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
        
             if (formData.images && formData.images[index]) {
                 removeImageFromSupabase(formData.images[index]);
+
             }
+            toast.success("Image removed successfully!");
         
     }
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -356,8 +358,9 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                                     src={imageUrl}
                                     alt={`Uploaded Image ${index}`}
                                     className="rounded-md"
+                        
                                 />
-                                <button className='underline' onClick={() => removeImage(index)}>
+                                <button className='underline' onClick={(e) => { e.preventDefault(); removeUploadedImage(index)}} >
                                     Remove Image
                                 </button>
                             </div>
