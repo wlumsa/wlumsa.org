@@ -12,7 +12,6 @@ export interface RoommateProfile {
     interests: string[];        // List of interests or hobbies
     rent: number;               // Rent amount roommate is comfortable with
     availability: string;       // When the roommate is available (e.g., "Move-in: Oct 15, 2024")
-    contactEmail: string;       // Email address to contact the roommate
     phone?: string;             // Optional phone number for contact
     preferredRoommateGender: string; // Preferred gender of roommate (e.g.,"Male", "Female")
     isPetFriendly: boolean;     // Whether the roommate is comfortable with pets

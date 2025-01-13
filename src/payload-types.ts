@@ -23,6 +23,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     Sizes: Size;
+    recording: Recording;
     WeeklyEvents: WeeklyEvent;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
@@ -33,9 +34,48 @@ export interface Config {
     'iia-services': IiaService;
     faq: Faq;
     'halal-directory': HalalDirectory;
+    RoommatePosts: RoommatePost;
+    comments: Comment;
+    'general-user': GeneralUser;
+    forms: Form;
+    'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
+  };
+  collectionsJoins: {};
+  collectionsSelect: {
+    execs: ExecsSelect<false> | ExecsSelect<true>;
+    link: LinkSelect<false> | LinkSelect<true>;
+    Instagram: InstagramSelect<false> | InstagramSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    members: MembersSelect<false> | MembersSelect<true>;
+    Socials: SocialsSelect<false> | SocialsSelect<true>;
+    Products: ProductsSelect<false> | ProductsSelect<true>;
+    Posts: PostsSelect<false> | PostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    Sizes: SizesSelect<false> | SizesSelect<true>;
+    recording: RecordingSelect<false> | RecordingSelect<true>;
+    WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
+    'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
+    'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    'email-collection': EmailCollectionSelect<false> | EmailCollectionSelect<true>;
+    'distribution-list': DistributionListSelect<false> | DistributionListSelect<true>;
+    individuals: IndividualsSelect<false> | IndividualsSelect<true>;
+    'iia-services': IiaServicesSelect<false> | IiaServicesSelect<true>;
+    faq: FaqSelect<false> | FaqSelect<true>;
+    'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
+    RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
+    forms: FormsSelect<false> | FormsSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: number;
@@ -45,9 +85,18 @@ export interface Config {
     footer: Footer;
     'prayer-timings': PrayerTiming;
   };
+  globalsSelect: {
+    nav: NavSelect<false> | NavSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    'prayer-timings': PrayerTimingsSelect<false> | PrayerTimingsSelect<true>;
+  };
   locale: null;
   user: Exec & {
     collection: 'execs';
+  };
+  jobs: {
+    tasks: unknown;
+    workflows: unknown;
   };
 }
 export interface ExecAuthOperations {
@@ -247,7 +296,7 @@ export interface Post {
   title?: string | null;
   description?: string | null;
   header_image?: (number | Media)[] | null;
-  content?: {
+  content: {
     root: {
       type: string;
       children: {
@@ -261,7 +310,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
+  };
   categories: number | Category;
   tags?: (number | Tag)[] | null;
   authors?: (number | Exec)[] | null;
@@ -282,6 +331,18 @@ export interface Post {
 export interface Category {
   id: number;
   title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recording".
+ */
+export interface Recording {
+  id: number;
+  title?: string | null;
+  url: string;
+  category: '1' | '2' | '3';
   updatedAt: string;
   createdAt: string;
 }
@@ -442,6 +503,246 @@ export interface HalalDirectory {
   googleMapsLink: string;
   website?: string | null;
   image?: (number | null) | Media;
+  is_on_campus: boolean;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RoommatePosts".
+ */
+export interface RoommatePost {
+  id: number;
+  user_id: string;
+  title: string;
+  description: string;
+  address: string;
+  name: string;
+  rent: number;
+  gender: string;
+  email: string;
+  author: string;
+  contactEmail: boolean;
+  phoneNumber: string;
+  PropertyType: string;
+  roomfurnishing: string;
+  availableDate: string;
+  whatsapp: string;
+  deposit: number;
+  utilities: string[];
+  amenities: string[];
+  facebook: string;
+  instagram: string;
+  images?: string[];
+  status?: ('pending' | 'approved') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  clerkId?: string | null;
+  comment: string;
+  author?: string | null;
+  postId?: number | RoommatePost| null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-user".
+ */
+export interface GeneralUser {
+  id: number;
+  clerkId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms".
+ */
+export interface Form {
+  id: number;
+  title: string;
+  fields?:
+    | (
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            defaultValue?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'checkbox';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'country';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'email';
+          }
+        | {
+            message?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'message';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'number';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            options?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'state';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textarea';
+          }
+      )[]
+    | null;
+  submitButtonLabel?: string | null;
+  confirmationType?: ('message' | 'redirect') | null;
+  confirmationMessage?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  redirect?: {
+    url: string;
+  };
+  emails?:
+    | {
+        emailTo?: string | null;
+        cc?: string | null;
+        bcc?: string | null;
+        replyTo?: string | null;
+        emailFrom?: string | null;
+        subject: string;
+        message?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  'submission-limit'?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  form: number | Form;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -501,6 +802,10 @@ export interface PayloadLockedDocument {
         value: number | Size;
       } | null)
     | ({
+        relationTo: 'recording';
+        value: number | Recording;
+      } | null)
+    | ({
         relationTo: 'WeeklyEvents';
         value: number | WeeklyEvent;
       } | null)
@@ -539,6 +844,30 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'halal-directory';
         value: number | HalalDirectory;
+      } | null)
+    | ({
+        relationTo: 'RoommatePosts';
+        value: number | RoommatePost;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'general-user';
+        value: number | GeneralUser;
+      } | null)
+    | ({
+        relationTo: 'general-user';
+        value: number | GeneralUser;
+      } | null)
+    | ({
+        relationTo: 'forms';
+        value: number | Form;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: number | FormSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -581,6 +910,532 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "execs_select".
+ */
+export interface ExecsSelect<T extends boolean = true> {
+  name?: T;
+  department?: T;
+  position?: T;
+  'student id'?: T;
+  major?: T;
+  year?: T;
+  'phone number'?: T;
+  'mylaurier email'?: T;
+  city?: T;
+  roles?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "link_select".
+ */
+export interface LinkSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Instagram_select".
+ */
+export interface InstagramSelect<T extends boolean = true> {
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
+  title?: T;
+  link?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members_select".
+ */
+export interface MembersSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  mylaurierEmail?: T;
+  studentId?: T;
+  newsletter?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Socials_select".
+ */
+export interface SocialsSelect<T extends boolean = true> {
+  title?: T;
+  link?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  price?: T;
+  desc?: T;
+  image?: T;
+  tags?: T;
+  sizes?: T;
+  quantity?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  header_image?: T;
+  content?: T;
+  categories?: T;
+  tags?: T;
+  authors?: T;
+  status?: T;
+  publishedAt?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  title?: T;
+  color?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Sizes_select".
+ */
+export interface SizesSelect<T extends boolean = true> {
+  size?: T;
+  quantity?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recording_select".
+ */
+export interface RecordingSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WeeklyEvents_select".
+ */
+export interface WeeklyEventsSelect<T extends boolean = true> {
+  name?: T;
+  day?: T;
+  timeStart?: T;
+  timeEnd?: T;
+  location?: T;
+  caption?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jummah-timings_select".
+ */
+export interface JummahTimingsSelect<T extends boolean = true> {
+  building?: T;
+  room_number?: T;
+  timing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-rooms_select".
+ */
+export interface PrayerRoomsSelect<T extends boolean = true> {
+  building?: T;
+  description?: T;
+  room_number?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  link?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-collection_select".
+ */
+export interface EmailCollectionSelect<T extends boolean = true> {
+  title?: T;
+  subject?: T;
+  attachments?: T;
+  content?: T;
+  content_html?: T;
+  status?: T;
+  publishedAt?: T;
+  distributionList?: T;
+  Send?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "distribution-list_select".
+ */
+export interface DistributionListSelect<T extends boolean = true> {
+  listName?: T;
+  emails?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "individuals_select".
+ */
+export interface IndividualsSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iia-services_select".
+ */
+export interface IiaServicesSelect<T extends boolean = true> {
+  name?: T;
+  caption?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  Question?: T;
+  Answer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "halal-directory_select".
+ */
+export interface HalalDirectorySelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  slaughtered?: T;
+  shortDescription?: T;
+  location?: T;
+  googleMapsLink?: T;
+  website?: T;
+  image?: T;
+  is_on_campus?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "RoommatePosts_select".
+ */
+export interface RoommatePostsSelect<T extends boolean = true> {
+  user_id?: T;
+  title?: T;
+  description?: T;
+  address?: T;
+  author?: T;
+  name?: T;
+  email?: T;
+  rent?: T;
+  
+  PropertyType?: T;
+  roomfurnishing?: T;
+  availableDate?: T;
+  images?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  clerkId?: T;
+  comment?: T;
+  author?: T;
+  postId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general-user_select".
+ */
+export interface GeneralUserSelect<T extends boolean = true> {
+  clerkId?: T;
+  email?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms_select".
+ */
+export interface FormsSelect<T extends boolean = true> {
+  title?: T;
+  fields?:
+    | T
+    | {
+        checkbox?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              defaultValue?: T;
+              id?: T;
+              blockName?: T;
+            };
+        country?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        email?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        message?:
+          | T
+          | {
+              message?: T;
+              id?: T;
+              blockName?: T;
+            };
+        number?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        select?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              options?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        state?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        text?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        textarea?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  submitButtonLabel?: T;
+  confirmationType?: T;
+  confirmationMessage?: T;
+  redirect?:
+    | T
+    | {
+        url?: T;
+      };
+  emails?:
+    | T
+    | {
+        emailTo?: T;
+        cc?: T;
+        bcc?: T;
+        replyTo?: T;
+        emailFrom?: T;
+        subject?: T;
+        message?: T;
+        id?: T;
+      };
+  'submission-limit'?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  submissionData?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -657,6 +1512,82 @@ export interface PrayerTiming {
   }[];
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nav_select".
+ */
+export interface NavSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        links?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        links?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prayer-timings_select".
+ */
+export interface PrayerTimingsSelect<T extends boolean = true> {
+  month?:
+    | T
+    | {
+        month?: T;
+        days?:
+          | T
+          | {
+              day?: T;
+              fajr?: T;
+              fajr_iqamah?: T;
+              sunrise?: T;
+              dhuhr?: T;
+              dhuhr_iqamah?: T;
+              asr?: T;
+              asr_iqamah?: T;
+              maghrib?: T;
+              maghrib_iqamah?: T;
+              isha?: T;
+              isha_iqamah?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

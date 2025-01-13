@@ -1,6 +1,6 @@
 import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
-import { postgresAdapter } from "@payloadcms/db-postgres";
+import { postgresAdapter } from "@payloadcms/db-postgres"; // Updated to Postgres adapter
 // import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -37,10 +37,12 @@ import DistributionList from "./collections/Newsletter/Distribution-List";
 import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
+import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
+import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
-
-
+import { Comments } from "./collections/Comment";
+import GeneralUser from "./collections/UI/GeneralUser";
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
@@ -65,6 +67,7 @@ export default buildConfig({
     Categories,
     Tags,
     Sizes,
+    Recording,
     WeeklyEvents,
     Jummah,
     PrayerRooms,
@@ -76,6 +79,8 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     RoommatePosts,
+    Comments,
+    GeneralUser,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -84,10 +89,12 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: postgresAdapter({
+  db:
+   postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
+
   }),
   plugins: [
     seoPlugin({
@@ -95,12 +102,6 @@ export default buildConfig({
       generateTitle,
       generateDescription: ({ doc }) => doc.description,
       uploadsCollection: "media",
-
-      fieldOverrides: {
-        description: {
-          localized: true,
-        },
-      },
     }),
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
@@ -128,6 +129,38 @@ export default buildConfig({
         endpoint: process.env.S3_ENDPOINT || "default_endpoint",
       },
     }),
+    formBuilderPlugin(
+      {
+        formOverrides:{
+          slug:"forms",
+          admin:{
+            group:"Admin",
+          },
+          fields: ({ defaultFields }) => {
+            return [
+              ...defaultFields,
+              {
+                name: 'submission-limit',
+                label: "Submission Limit",
+                type: 'number',
+              },
+            ]
+          },
+        },
+        fields: {
+          text: true,
+          textarea: true,
+          select: true,
+          email: true,
+          state: true,
+          country: true,
+          checkbox: true,
+          number: true,
+          message: true,
+          payment: false,
+        },
+      },
+    ),
   ],
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",

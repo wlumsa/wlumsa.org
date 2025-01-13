@@ -7,13 +7,19 @@ interface Category {
   id: string,
   title: string
 }
-export default async function ResourcesPage({
-  searchParams,
-}: {
-  searchParams?: {
-    category?: string;
-  };
+
+type Params = Promise<{ slug: string }>
+type SearchParams = Promise<{ [key: string]: string | undefined }>
+
+
+export default async function Page(props: {
+  params: Params
+  searchParams: SearchParams
 }) {
+  const params = await props.params
+  const searchParams = await props.searchParams
+  const slug = params.slug
+  const query = searchParams.query
   //const query = searchParams?.query || '';
   const categoryId = searchParams?.category || '1';
   const resourcesData = await getResourceById(categoryId);
@@ -47,7 +53,7 @@ export default async function ResourcesPage({
 
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center h-screen">
         <div className=""></div>
-        <ButtonGroup categories={categories} type="resources"  />
+        <ButtonGroup categories={categories}   />
 
         <div className="container space-y-4   py-4">
           {resourcesData?.link?.map((item, index) => (

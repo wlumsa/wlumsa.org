@@ -8,6 +8,10 @@ import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetc
 import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from './GoogleAnalytics';
+import {
+  ClerkProvider,
+ 
+} from '@clerk/nextjs'
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -30,7 +34,7 @@ export const metadata: Metadata = {
 More information on nextjs caching, and best pratices can be found here: 
 https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 */
-export const revalidate = 600;
+export const revalidate = 3600;
 /**
  * Renders the root layout of the application using Nextjs Page layouts.
  * This layout is consistent across the entire route group (user), more information on layouts can be found using the link below
@@ -49,21 +53,25 @@ export default async function RootLayout({
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
   return (
-    <html lang="en">
-      <GoogleAnalytics />
-      <body>
-      <Toaster
-        position="top-center"
-      />
-        <SpeedInsights />
-        <Analytics/>
-        <Providers>
-          <Navbar navbarData={navbarData} />
-          {children}
-          <Footer footerGroups={footerData} socialData={socialData} />
-        </Providers>
-      </body>
+     <ClerkProvider
+     signUpFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL}
+     >
+      <html lang="en">
+        <GoogleAnalytics />
+        <body>
+          <Toaster
+            position="top-center"
+          />
+          <SpeedInsights />
+          <Analytics />
+          <Providers>
+            <Navbar navbarData={navbarData} />
+            {children}
+            <Footer footerGroups={footerData} socialData={socialData} />
+          </Providers>
+        </body>
 
-    </html >
+      </html >
+     </ClerkProvider>
   );
 }

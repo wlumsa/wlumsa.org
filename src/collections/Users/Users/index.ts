@@ -1,55 +1,16 @@
 // import { isAdminFieldLevel } from '@/access/isAdmin'
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
-export const Execs: CollectionConfig = {
-  slug: 'execs',
+export const GeneralUser: CollectionConfig = {
+  slug: "general-user",
   admin: {
-    useAsTitle: 'email',
-    group: 'Admin',
+    group: "users",
   },
-//   access : {
-//     create: isAdmin,
-//     read: isAdminOrSelf,
-//     update: isAdminOrSelf,
-//     delete: isAdmin,
-//   },
   fields: [
     {
-      name:'email',
-      type: 'email',
+      name: "user_id",
+      type: "text",
       required: true,
     },
-    {
-      name: 'name',
-      type: 'text',
-    },
-    {
-      name:'phone_number',
-      type:'number',
-    },
-    {
-      name:'mylaurier_email',
-      type: 'email'
-    },
-    {
-      name:"roles",
-      saveToJWT: true,
-      type:'select',
-      // access:{
-      //   create:isAdminFieldLevel,
-      //   update:isAdminFieldLevel,
-      // },
-      options:[
-        {
-          label: 'Admin',
-          value: 'admin',
-        },
-        {
-          label: 'Editor',
-          value: 'editor',
-        }
-      ]
-    }
-    // Add more fields as needed
   ],
-}
+};

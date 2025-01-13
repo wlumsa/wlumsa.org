@@ -1,43 +1,16 @@
 import { Markdown } from "@react-email/markdown";
 import "server-only";
 import { createClient } from "./client";
-import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
+export const revalidate = 3600;
 
-export async function fetchRoommateProfiles() {
-  const { data, error } = await supabase
-    .from("roommates")
-    .select("*");
 
-  if (error) {
-    console.error("Error fetching roommate profiles:", error);
-    return [];
-  }
 
-  return data;
-}
 
-/** 
- * Fetch a roommate profile by ID. 
- * @param {number} id - The ID of the roommate.
- * @returns {Promise<any | null>} The roommate profile or null if not found.
- */
-export async function fetchRoommateById(id: number) {
-  const { data, error } = await supabase
-    .from("roommates")
-    .select("*")
-    .eq("id", id)
-    .single();
 
-  if (error) {
-    console.error(`Error fetching roommate with ID ${id}:`, error);
-    return null;
-  }
-
-  return data;
-}
 
 /** 
  * Get the public URL for a roommate's image from Supabase storage.
@@ -47,87 +20,13 @@ export async function fetchRoommateById(id: number) {
 export async function getRoommateImageURL(imageId: string): Promise<string> {
   const { data } = supabase.storage
     .from(process.env.S3_BUCKET || "default_bucket")
-    .getPublicUrl(`photos/${imageId}`);
+    .getPublicUrl(`RoommateService/${imageId}`);
 
   return data?.publicUrl || "";
 }
 
-/** 
- * Add a new roommate profile to the 'roommates' table. 
- * @param {string} name - Name of the roommate.
- * @param {string} gender - Gender of the roommate (e.g., Male, Female, Other).
- * @param {string} location - Location (e.g., Downtown, Campus).
- * @param {number} rent - Monthly rent.
- * @param {string} [imageId] - Optional image ID.
- * @returns {Promise<any | null>} The newly added profile or null on error.
- */
-export async function addRoommateProfile(
-  name: string,
-  gender: string,
-  location: string,
-  rent: number,
-  imageId?: string
-) {
-  const { data, error } = await supabase
-    .from("roommates")
-    .insert([{ name, gender, location, rent, image_id: imageId }]);
 
-  if (error) {
-    console.error("Error adding roommate profile:", error);
-    return null;
-  }
 
-  return data;
-}
-
-/** 
- * Update an existing roommate profile by ID. 
- * @param {number} id - The ID of the roommate profile to update.
- * @param {Partial<{name: string; gender: string; location: string; rent: number; image_id: string}>} updatedData - Fields to update.
- * @returns {Promise<any | null>} The updated profile or null on error.
- */
-export async function updateRoommateProfile(
-  id: number,
-  updatedData: Partial<{
-    name: string;
-    gender: string;
-    location: string;
-    rent: number;
-    image_id: string;
-  }>
-) {
-  const { data, error } = await supabase
-    .from("roommates")
-    .update(updatedData)
-    .eq("id", id);
-
-  if (error) {
-    console.error(`Error updating roommate profile with ID ${id}:`, error);
-    return null;
-  }
-
-  return data;
-}
-
-/** 
- * Delete a roommate profile by ID. 
- * @param {number} id - The ID of the roommate profile to delete.
- * @returns {Promise<any | null>} The deleted profile data or null on error.
- */
-export async function deleteRoommateProfile(id: number) {
-  const { data, error } = await supabase
-    .from("roommates")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    console.error(`Error deleting roommate profile with ID ${id}:`, error);
-    return null;
-  }
-
-  console.log(`Roommate profile with ID ${id} deleted.`);
-  return data;
-}
 
 export async function getPublicURL(
   folder: string | null | undefined,
@@ -145,7 +44,7 @@ export async function getPublicURL(
 
 
 
-const payload = await getPayloadHMR({ config: configPromise });
+const payload = await getPayload({ config: configPromise });
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
@@ -595,7 +494,7 @@ export async function getResourceById(id: string) {
     collection: "resources",
     id: id,
   });
-  return resource;
+return resource;
 }
 
 export async function fetchServices() {
@@ -605,27 +504,28 @@ export async function fetchServices() {
   return services.docs;
 }
 
-export async function fetchFoodSpots() {
-  const services = await payload.find({
+export async function fetchHalalDirectory() {
+  const foodSpots = await payload.find({
     collection: "halal-directory",
-  });
-  return services.docs;
+    limit: 50,
+  })
+  return foodSpots.docs;
 }
 // Function to fetch Halal Directory data
-export async function fetchHalalDirectory() {
-  const { data, error } = await supabase
-    .from("halal-directory")
-    .select("id, name, category, price_range, slaughtered, shortDescription, location, googleMapsLink, website")
-    .limit(50);
+// export async function fetchHalalDirectory() {
+//   const { data, error } = await supabase
+//     .from("halal-directory")
+//     .select("id, name, category, price_range, slaughtered, shortDescription, location, googleMapsLink, website")
+//     .limit(50);
 
-  if (error) {
-    console.error('Error fetching Halal Directory from Supabase:', error);
-    return [];
-  }
+//   if (error) {
+//     console.error('Error fetching Halal Directory from Supabase:', error);
+//     return [];
+//   }
 
-  console.log('Halal Directory Data from Supabase:', data);
-  return data || [];
-}
+//   console.log('Halal Directory Data from Supabase:', data);
+//   return data || [];
+// }
 
 export async function fetchIIAServices() {
   const services = await payload.find({
@@ -638,4 +538,320 @@ export async function fetchFAQ() {
     collection: "faq",
   });
   return faq.docs;
+}
+
+export async function fetchRecordingsbyCategory(category:string) {
+
+  const recordings = await payload.find({
+    collection: "recording",
+    where: {
+      "category": {
+        equals: category,
+      },
+    },
+    limit: 50,
+  });
+  return recordings.docs;
+}
+
+
+export async function fetchRoommatePostById(id: string) {
+  const post = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      "id": {
+        equals: id,
+      },
+    },
+    limit: 1,
+  });
+  return post.docs;
+}
+// export async function fetchRoommatePosts() {
+//   const posts = await payload.find({
+//     collection: "RoommatePosts",
+//     sort: "-createdAt", 
+//     limit: 10,
+//   });
+//   return posts.docs;
+// }
+
+export async function fetchRoommatePosts({
+  query = '',
+  gender,
+  rent,
+  propertyType,
+  utilities,
+}: {
+  query?: string;
+  gender?: string;
+  rent?: string;
+  propertyType?: string;
+  utilities?: string;
+}) {
+  let minPrice = 0;
+  let maxPrice = 0;
+
+  switch (rent) {
+    case "1": 
+      maxPrice = 800;
+      break;
+    case "2":
+      minPrice = 800;
+      maxPrice = 900;
+      break;
+    case "3": 
+      minPrice = 900;
+      maxPrice = 1000;
+      break;
+    case "4": 
+      minPrice = 1000;
+      maxPrice = 1100;
+      break;
+    case "5": 
+      minPrice = 1100;
+      maxPrice = 1200;
+      break;
+    case "6": 
+      minPrice = 1200;
+      maxPrice = 1300;
+      break;
+    case "7": 
+      minPrice = 1300;
+      break;
+  }
+
+
+  const filters: any[] = [];
+
+  if (query) {
+    filters.push({
+      or: [
+        { "title": { like: `${query}` } },
+        { "description": { like: `${query}` } },
+      ],
+    });
+  }
+
+  if (gender) {
+    filters.push({ gender: { equals: gender } });
+  }
+
+  if (minPrice) {
+    filters.push({ rent: { greater_than_equal: minPrice } });
+  }
+
+  if (maxPrice) {
+    filters.push({ rent: { less_than_equal: maxPrice } });
+  }
+
+  if (propertyType) {
+    filters.push({ propertyType: { equals: propertyType } });
+  }
+
+  if (utilities) {
+    filters.push({ utilities: { contains: utilities } });
+  }
+  console.log('filters:', filters);
+
+  const posts = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      and: filters,
+    },
+    limit: 10,
+  });
+
+  return posts.docs;
+}
+
+
+
+export async function deleteRoommatePostById(postId:number) {
+
+  const res = await payload.delete({
+    collection: "RoommatePosts",
+    id: postId,
+  }); 
+  return res;
+  }
+
+//update a post 
+export async function updateRoommatePostById(postId: number, postData: any) {
+  const post = await payload.update({
+    collection: "RoommatePosts",
+    where: {
+      id: {
+        equals: postId,
+      },
+    },
+    data: {
+        title: postData.title,
+        description: postData.description,
+        rent: parseInt(postData.rent),
+        deposit: postData.deposit,
+        address: postData.address,
+        contactEmail: postData.contactEmail,
+        availableDate: postData.availableDate,
+        propertyType: postData.propertyType,
+        utilities: postData.selectedUtilities,
+        amenities: postData.selectedAmenities,
+        images: postData.images,
+        furnishingType: postData.furnishingType,
+        gender:  postData.gender,
+        phoneNumber: postData.phone,
+        facebook: postData.facebook,
+        instagram: postData.instagram,
+        whatsapp: postData.whatsapp,
+}
+  });
+  return post;
+}
+
+//delete a post
+export async function deletePost(id: number) {
+  const post = await payload.delete({
+    collection: "RoommatePosts",
+    where: {
+      id: {
+        equals: id,
+      },
+    },
+  });
+  return post;
+}
+
+export async function createUser( clerkId: string, email: string, firstName: string, lastName: string) {
+  const newUser = await payload.create({
+    collection: "general-user",
+    data: {
+      clerkId:clerkId,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+    },
+  });
+  return newUser;
+}
+export async function findUser(id:string) {
+  const user = await payload.find({
+    collection: "general-user",
+    where: {
+      clerkId: {
+        equals: id,
+      },
+    },
+  });
+  return user;
+}
+
+//USER COMMENT FEATURE FUNCTIONS 
+
+export async function fetchCommentsByPostId(id: string) {
+  const comments = await payload.find({
+    collection: "comments",
+    
+    where: {
+      "postId": {
+        equals: id,
+      },
+    },
+    
+  });
+ return comments.docs;
+
+}
+
+
+export async function createComment( comment: string, postId: number,) {
+
+  const commentdata = await payload.create({
+    collection: "comments",
+    data: {
+      comment: comment,
+      postId: postId,
+    },
+    overrideAccess: false,
+   
+  
+  });
+  return commentdata;
+}
+
+
+export async function deleteCommentById(commentId:string) {
+
+  const res = await payload.delete({
+    collection: "comments",
+    id: commentId,
+  }); 
+  return res;
+  }
+  
+
+  //roommmate post feature functions
+  export async function createRoommatePost( postData: any) {
+    const post = await payload.create({
+      collection: "RoommatePosts",
+      data: {
+       
+        title: postData.title,
+        description: postData.description,
+        rent: postData.rent,
+        deposit: postData.deposit,
+        address: postData.address,
+        contactEmail: postData.contactEmail,
+        availableDate: postData.availableDate,
+        propertyType: postData.propertyType,
+        utilities: postData.selectedUtilities,
+        amenities: postData.selectedAmenities,
+        images: postData.images,
+        furnishingType: postData.furnishingType,
+        gender:  postData.gender,
+        phoneNumber: postData.phone,
+        facebook: postData.facebook,
+        instagram: postData.instagram,
+        whatsapp: postData.whatsapp,
+
+  
+      },
+      
+    })
+    return post;
+  }
+export async function updateUserInfo(clerkId:string, data: any) {
+  const user = await payload.update({
+    collection: "general-user",
+   where:
+    {
+      clerkId: {
+        equals: clerkId,
+      },
+    },
+    data: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      laurierEmail: data.laurier_email,
+      studentId: data.studentId,
+      category: data.category,
+      program: data.program,
+      year: data.year,
+      newsletter: data.newsletter,
+    },
+  });
+  return user;
+}
+
+
+//get roommate posts by user
+export async function fetchRoommatePostsByUser(clerkId: number) {
+  const posts = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      "userId": {
+        equals: clerkId,
+      },
+    },
+  });
+  return posts.docs;
 }
