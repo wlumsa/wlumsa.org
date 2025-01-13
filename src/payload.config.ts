@@ -81,7 +81,7 @@ export default buildConfig({
     HalalDirectory,
     RoommatePosts,
     Comments,
-    GeneralUser,,
+    GeneralUser,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
