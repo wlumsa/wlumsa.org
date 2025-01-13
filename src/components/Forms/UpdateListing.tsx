@@ -2,9 +2,11 @@ import React from 'react'
 import { date, z } from 'zod'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { createPost } from '@/Utils/actions'
+import { updateRoommatePost } from '@/Utils/actions'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation';
+import { RoommatePost } from '@/payload-types';
+import { format } from 'date-fns';
 
 
 const genderOptions = ["Female", "Male"] as const
@@ -13,6 +15,9 @@ const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as
 const utilitiesOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning"] as const 
 const amenitiesOptions = ["Parking available", "Recreational spaces (gym, pool, lounge)", "Pets allowed", "Private kitchen", "Private bathroom"] as const 
 
+
+    
+  
 //Form validation
 const StepOneSchema = z.object({
     title: z.string().min(1, "Title is required").max(120, "Title is too long"),
@@ -22,9 +27,20 @@ const StepOneSchema = z.object({
     propertyType: z.string().min(1, "Property type is required"),
     furnishingType: z.string().min(1, "Furnishing type is required"),
     rent: z.string().min(1, "Monthly rent is required"),
+   // deposit: z.string().min(1, "Deposit is required"),
     availableDate: z.string().min(1, "Date available is required"),
 
     })
+const StepTwoSchema = z.object({
+    selectedUtilities: z.array(z.string(), { message: "At least one utility is required" }),
+    selectedAmenities: z.array(z.string(), { message: "At least one amenity is required" }),
+})
+const StepThreeSchema = z.object({
+  
+    phone: z.string().min(10, "Phone number is required"),
+
+})
+
    
 const UploadedFileSchema = z.array(z.object({
     file: z.instanceof(File, { message: "Must be a valid file" }),
@@ -37,37 +53,70 @@ interface UploadedFile {
     file: File;
     preview: string;
 }
+interface PostProps {
+    post: RoommatePost;
+}
 
-const Listing = () => { 
+const UpdateListing:React.FC<PostProps> = ({post}) => { 
     const router = useRouter();
-
-
+    const [selected, setSelected] = useState([]);
+    const [selectedUtilities, setSelectedUtilities] = useState([]);
+    const [errors, setErrors] = useState(""); 
     const [files, setFiles] = useState<UploadedFile[]>([]);
+
     const [formData, setFormData] = useState({
-        title: '',
-        address: '',
-        propertyType: '',
-        furnishingType: '',
-        deposit: 0,
-        rent: 0,
-        gender: '',
-        availableDate: '',
-        description: '',
-        images: [] as string[],
-        selectedUtilities: [] as string[],
-        selectedAmenities: [] as string[],
-        firstName: '',
-        lastName: '',
-        contactEmail: false,
-        phone: '',
-        facebook: '',
-        instagram: '',
-        whatsapp: ''
-    })
+        title: post.title,
+        address: post.address,
+        gender: post.gender,
+        propertyType: post.PropertyType,
+        furnishingType: post.furnishingType,
+        deposit: post.deposit,
+        rent: post.rent,
+        description: post.description,
+        contactEmail: post.contactEmail,
+        availableDate: post.availableDate,
+        images: post.images,
+        selectedUtilities: post.utilities,
+        selectedAmenities: post.amenities,
+        facebook: post.facebook,
+        instagram: post.instagram,
+        phone: post.phoneNumber,
+        whatsapp: post.whatsapp,
+      })
     const [currentStep, setCurrentStep] = useState(0)
+    const currentDate = format(new Date(post.availableDate), "yyyy-MM-dd");
+
+    const removeImageFromSupabase = async (imageUrl: string) => {
+        const { data, error } = await supabase.storage
+            .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
+            .remove([imageUrl]);
+    
+        if (error) {
+            console.error("Error removing image from Supabase:", error);
+        } else {
+            console.log("Image removed from Supabase:", data);
+        }
+    };
+    
     const removeImage = (index: number) => {
         setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
     
+    }
+    const removeUploadedImage = (index: number) => {
+        setFormData((prevData) => {
+            const updatedImages = (prevData.images || []).filter((_, i) => i !== index);
+            return {
+                ...prevData,
+                images: updatedImages, // Update the images state without the removed image
+            };
+        });
+       
+            if (formData.images && formData.images[index]) {
+                removeImageFromSupabase(formData.images[index]);
+
+            }
+            toast.success("Image removed successfully!");
+        
     }
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -92,22 +141,7 @@ const Listing = () => {
         });
     };
         
-    // const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     if(e.target.name === "amenitiesOptions") {
-    //         setFormData({
-    //             ...formData,
-    //             selectedAmenities: [...e.target.value]
-    //         })
-    
-    // } else if (e.target.name === "utilitiesOptions") {
-    //     setFormData({
-    //         ...formData,
-    //         selectedUtilities: [...e.target.value]
-    //     })
-        
-    // }
-
- //   }
+  
  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
 
@@ -134,23 +168,29 @@ const Listing = () => {
 
     const handleNextStep = (e: React.FormEvent) => {
         e.preventDefault();
-       if(currentStep === 0) {
-        const validatedFields =  StepOneSchema.safeParse(formData );
-       const validatedFiles = UploadedFileSchema.safeParse(files);
-        if(!validatedFields.success && !validatedFiles.success) {
-            toast.error(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
-            return;
-         }
-        if (validatedFields.error) {
-            toast.error(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-            return;
-            }
-        if (validatedFiles.error) {
-            toast.error(`Upload at least one image`);
-            return;
-            }
+    //    if(currentStep === 0) {
+    //     const validatedFields =  StepOneSchema.safeParse(formData );
+    //    const validatedFiles = UploadedFileSchema.safeParse(files);
+    //     if(!validatedFields.success && !validatedFiles.success) {
+    //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
+    //         return;
+    //      }
+    //     if (validatedFields.error) {
+    //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+    //         return;
+    //         }
+    //     if (validatedFiles.error) {
+    //         setErrors(`Upload at least one image`);
+    //         return;
+    //         }
          
-        } 
+    //     } else if(currentStep === 1) {
+    //         const validatedFields = StepTwoSchema.safeParse(formData);
+    //         if (!validatedFields.success) {
+    //             setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+    //             return;
+    //         }
+     //   }
         setCurrentStep(currentStep + 1)
          
         
@@ -164,9 +204,9 @@ const Listing = () => {
     const handleSubmit = async () => {
         console.log(formData);
         // Validate
-      //  const validatedFields = StepThreeSchema.safeParse(formData);
+        // const validatedFields = StepThreeSchema.safeParse(formData);
         // if (!validatedFields.success) {
-        //     toast.error(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+        //     setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
         //     return;
         // }
     
@@ -199,33 +239,34 @@ const Listing = () => {
     
             setFormData(prevData => ({
                 ...prevData,
-                images: [...prevData.images, ...validImageUrls],
+                images: [...(prevData.images || []), ...validImageUrls],
             }));
     
-            const res = await createPost({
+            const res = await updateRoommatePost(post.id, { 
                 ...formData,
-                images: [...formData.images, ...validImageUrls],
-            });
+                images: [...(formData.images || []), ...validImageUrls],
+       } );
     
             if (res.res) {
-                toast.success("Post created successfully!");
+                toast.success("Post saved successfully!");
                 router.push('/roommateservice');
 
                
             } else {
-                console.error("Error creating post:", res.message);
-                toast.error("Failed to create post.");
+                console.error("Error saving post:", res.message);
+                toast.error("Failed to save post.");
             }
         } catch (error) {
             console.error("Error during submission:", error);
-            toast.error("Failed to create post..");
+            toast.error("Failed to save post.");
         }
     };
     
     return (
-        <div className=' flex flex-col items-center justify-center w-full px-8 md:w-[550px] mx-auto '>
+        <div className=' flex flex-col items-center justify-center w-full  md:w-[540px] mx-auto '>
 
-            <h1 className='font-bold text-primary text-xl text-center'>New Listing</h1>
+            <h1 className='font-bold text-primary text-xl text-center'>Update Listing</h1>
+            <button className="btn btn-secondary "   onClick={(e) => { e.preventDefault(); handleSubmit(); }} >Save</button>
             <form className='flex flex-col'>
                 {/* Step 1 - Listing Information */}
                 {currentStep == 0 && <div>
@@ -276,7 +317,8 @@ const Listing = () => {
                         </div>
                         <div className='md:w-1/2'>
                             <label className='font-semibold'>Date Available</label>
-                            <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
+                           <p> Currently set as: {currentDate} </p>
+                         <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
                         </div>
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
@@ -286,14 +328,14 @@ const Listing = () => {
                             <label className='font-semibold'>Deposit</label>
                             <div className='flex flex-row items-center'>
                                 <span className='mr-2'>$</span>
-                                <input type="number" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                                <input type="number" name="deposit" value={formData.deposit} onChange={handleInputChange} placeholder="500.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                             </div>
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
                              <label className='font-semibold'>Monthly Rent price</label>
                         <div className='flex flex-row items-center'>
                               <span className='mr-2'>$</span>
-                            <input type="number" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            <input type="number" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
                         </div>
                         </div>
 
@@ -303,6 +345,29 @@ const Listing = () => {
                         <label htmlFor="name" className='font-semibold' >Listing Description</label>
                         <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Write a detailed, informative description" className="textarea textarea-bordered h-[3rem] max-h-[12rem] w-full bg-[#F2F2F2]  border-none" />
                     </div>
+                    {/* Displaying Images */}
+            {formData.images && formData.images.length > 0 && (
+                <div className="mt-4">
+                    <h1 className="text-bold font-primary">Uploaded Images</h1>
+                    <div className='grid grid-cols-3 gap-2'>
+                        {formData.images.map((imageUrl, index) => (
+                            <div key={index} className="my-2 text-left overflow-scroll">
+                                <img
+                                    height={100}
+                                    width={100}
+                                    src={imageUrl}
+                                    alt={`Uploaded Image ${index}`}
+                                    className="rounded-md"
+                        
+                                />
+                                <button className='underline' onClick={(e) => { e.preventDefault(); removeUploadedImage(index)}} >
+                                    Remove Image
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
                     <div className='py-2 flex flex-col'>
                         <label className='font-semibold'>Upload Supporting Images - png, jpeg, jpg files only</label>
                         <div className="flex items-center gap-2">
@@ -332,7 +397,7 @@ const Listing = () => {
                                                 alt={`Preview ${index}`}
                                                 className="rounded-md"
                                             />
-                                            <button className='underline' onClick={() => removeImage(index)} >Remove Image</button>
+                                            <button className='underline' onClick={  () => removeImage(index)} >Remove Image</button>
 
                                         </div>
                                     ))}
@@ -340,6 +405,7 @@ const Listing = () => {
                             </div>
                         )}
                     </div>
+                    {errors && <div className="text-red-600">{errors}</div>}
                     <div className=' flex py-2 justify-end'>
                         <button className='btn btn-secondary ' onClick={handleNextStep}>Next →</button>
                     </div>
@@ -354,7 +420,7 @@ const Listing = () => {
                             <div key={index+1} className="form-control">
                             <label className="cursor-pointer label">
                                 <span className="label-text">{option}</span>
-                                <input type="checkbox"  name="utilitiesOptions"  className="checkbox  checkbox-primary "  onChange={handleCheckBoxChange}  value={index+1}/>
+                                <input type="checkbox"  name="utilitiesOptions"  className="checkbox  checkbox-primary "  onChange={handleCheckBoxChange}  value={index+1} checked={formData.selectedUtilities.includes((index+1).toString())}/>
                             </label>
                             </div>
                         ))}
@@ -367,12 +433,14 @@ const Listing = () => {
                             <div key={index+1} className="form-control">
                             <label className="cursor-pointer label">
                                 <span className="label-text">{option}</span>
-                                <input type="checkbox" name="amenitiesOptions"  className="checkbox  checkbox-primary " onChange={handleCheckBoxChange}  value={index+1} />
+                                <input type="checkbox" name="amenitiesOptions"  className="checkbox  checkbox-primary " onChange={handleCheckBoxChange}  value={index+1} checked={formData.selectedAmenities.includes((index+1).toString() )}  />
                             </label>
                             </div>
                         ))}
                         </div>
                         </div>
+                    {errors && <div className="text-red-600">{errors}</div>}
+                     
                     <div className=' flex py-2 justify-between'>
                         <button className='btn btn-secondary' onClick={handlePreviousStep}>← Previous</button>
                         <button className='btn btn-primary' onClick={handleNextStep}>Next → </button>
@@ -383,28 +451,11 @@ const Listing = () => {
                 {/* Step 2 - Contact Information */}
                 {currentStep == 2 && <div className='flex flex-col gap-4'>
                     <h1 className='font-bold font-primary text-primary' >Contact Info (optional)</h1>
-                    {/* <div className='flex flex-col md:flex-row gap-4'>
-                        <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="name" className='font-semibold'>First Name</label>
-                            <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First name" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none " />
-                        </div>
-                        <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="name" className='font-semibold'>Last Name</label>
-                            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last name" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div>
-                    </div> */}
+                  
                     <div className='flex flex-col md:flex-row gap-4'>
-                        {/* <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="email" className='font-semibold'>Email</label>
-                            <input type="text" name="contactEmail" value={formData.contactEmail} onChange={handleInputChange} placeholder="example@mylaurier.ca" className="input input-bordered max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div> */}
-                        {/* <div className='flex flex-col md:w-1/2'>
-                            <label htmlFor="name" className='font-semibold'>Phone number</label>
-                            <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="519-123-3456" className="input input-bordered  max-w-xs  h-[2rem] w-full bg-[#F2F2F2] border-none" />
-                        </div> */}
+                      
                     </div>
 
-                    <h1 className='font-semibold text-primary'>Contact Information</h1>
                     <div className='flex flex-col md:flex-row gap-4'>
                         <div>
                             <label className="input input-bordered flex items-center gap-2 h-[2rem] w-fit bg-[#F2F2F2] border-none">
@@ -442,14 +493,15 @@ const Listing = () => {
                         value={formData.contactEmail.toString()}
                         onChange={(e) => setFormData({ ...formData, contactEmail: e.target.checked })}
                         className="toggle"
-                        defaultChecked={false}
+                        defaultChecked={formData.contactEmail}
                     />
             </label> 
                     </div>
+                    {errors && <div className=" text-red-600">{errors}</div>}
 
                     <div className=' flex py-2 justify-between'>
                         <button className='btn  ' onClick={handlePreviousStep}>← Back</button>
-                        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} className='btn btn-secondary '>Submit →</button>
+                        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} className='btn btn-secondary '>Save →</button>
                     </div>
 
                 </div>}
@@ -460,4 +512,4 @@ const Listing = () => {
     )
 }
 
-export default Listing
+export default UpdateListing

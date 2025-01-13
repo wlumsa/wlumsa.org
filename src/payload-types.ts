@@ -35,7 +35,7 @@ export interface Config {
     faq: Faq;
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
-    Comments: Comment;
+    comments: Comment;
     'general-user': GeneralUser;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -69,7 +69,7 @@ export interface Config {
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
-    Comments: CommentsSelect<false> | CommentsSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -518,26 +518,36 @@ export interface RoommatePost {
   description: string;
   address: string;
   name: string;
-  contactEmail: string;
-  rent: string;
+  rent: number;
+  gender: string;
+  email: string;
+  author: string;
+  contactEmail: boolean;
+  phoneNumber: string;
   PropertyType: string;
   roomfurnishing: string;
   availableDate: string;
-  images?: (number | Media)[] | null;
-  comments?: (number | Comment)[] | null;
+  whatsapp: string;
+  deposit: number;
+  utilities: string[];
+  amenities: string[];
+  facebook: string;
+  instagram: string;
+  images?: string[];
   status?: ('pending' | 'approved') | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments".
+ * via the `definition` "comments".
  */
 export interface Comment {
   id: number;
+  clerkId?: string | null;
   comment: string;
-  author: string;
-  postId?: (number | RoommatePost)[] | null;
+  author?: string | null;
+  postId?: number | RoommatePost| null;
   updatedAt: string;
   createdAt: string;
 }
@@ -547,7 +557,10 @@ export interface Comment {
  */
 export interface GeneralUser {
   id: number;
-  user_id: string;
+  clerkId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -874,8 +887,12 @@ export interface PayloadLockedDocument {
         value: number | RoommatePost;
       } | null)
     | ({
-        relationTo: 'Comments';
+        relationTo: 'comments';
         value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'general-user';
+        value: number | GeneralUser;
       } | null)
     | ({
         relationTo: 'general-user';
@@ -1241,23 +1258,25 @@ export interface RoommatePostsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   address?: T;
+  author?: T;
   name?: T;
-  contactEmail?: T;
+  email?: T;
   rent?: T;
+  
   PropertyType?: T;
   roomfurnishing?: T;
   availableDate?: T;
   images?: T;
-  comments?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments_select".
+ * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
+  clerkId?: T;
   comment?: T;
   author?: T;
   postId?: T;
@@ -1269,7 +1288,8 @@ export interface CommentsSelect<T extends boolean = true> {
  * via the `definition` "general-user_select".
  */
 export interface GeneralUserSelect<T extends boolean = true> {
-  user_id?: T;
+  clerkId?: T;
+  email?: T;
   updatedAt?: T;
   createdAt?: T;
 }
