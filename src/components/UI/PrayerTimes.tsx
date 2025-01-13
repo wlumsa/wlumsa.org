@@ -6,15 +6,16 @@ interface PrayerTimesProps {
   timingsData: PrayerTiming;
 }
 
-type TimingKey = "fajr" | "fajr_iqamah" | "sunrise" | "dhuhr" | "dhuhr_iqamah" | "asr" | "asr_iqamah" | "maghrib" | "maghrib_iqamah" | "isha" | "isha_iqamah";
+type TimingKey = "fajr" | "fajr_iqamah" | "sunrise" | "dhuhr" | "dhuhr_iqamah_1" |"dhuhr_iqamah_2" | "asr" | "asr_iqamah_1" | "maghrib" | "maghrib_iqamah" | "isha" | "isha_iqamah";
 const timingDictonary = {
   "fajr": "AM",
   "fajr_iqamah": "AM",
   "sunrise": "AM",
   "dhuhr": "PM",
-  "dhuhr_iqamah": "PM",
+  "dhuhr_iqamah_1": "PM",
+  "dhuhr_iqamah_2": "PM",
   "asr": "PM",
-  "asr_iqamah": "PM",
+  "asr_iqamah_1": "PM",
   "maghrib": "PM",
   "maghrib_iqamah": "PM",
   "isha": "PM",
@@ -32,7 +33,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
   const todaysTimings = getTodaysTimings(today, timingsData);
 
   if (!todaysTimings) {
-    return <div>Error fetching prayer timings, <br/>
+    return <div className="text-neutral">Error fetching prayer timings, <br/>
     please contact msa@wlu.ca</div>;
   }
 
@@ -50,11 +51,22 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
         </thead>
         <tbody>
           {timesToShow.map((key) => {
-            const iqamahKey = `${key}_iqamah` as TimingKey;
             const formattedTiming = todaysTimings[key] + " " + timingDictonary[key];
             let iqamahTime = "N/A";
-            if (key !== "fajr") {
-              iqamahTime = todaysTimings[iqamahKey] + " " + timingDictonary[iqamahKey];
+
+            if (key === "dhuhr") {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{formattedTiming}</td>
+                  <td>
+                    {todaysTimings["dhuhr_iqamah_1"]} {timingDictonary["dhuhr_iqamah_1"]}<br />
+                    {todaysTimings["dhuhr_iqamah_2"]} {timingDictonary["dhuhr_iqamah_2"]}
+                  </td>
+                </tr>
+              );
+            } else if (key === "asr") {
+              iqamahTime = todaysTimings["asr_iqamah_1"] + " " + timingDictonary["asr_iqamah_1"];
             }
             return (
               <tr key={key}>

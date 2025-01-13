@@ -139,7 +139,7 @@
 //                     parseInt(e.target.value)
 //                   )
 //                 }
-//                 className="h-10 w-16 border-gray-200 bg-white text-center"
+//                 className="h-10 w-16 border-gray-200 bg-base-100 text-center"
 //                 min="0"
 //                 max={qty}
 //               />
@@ -188,7 +188,7 @@
 //             type="number"
 //             value={quantity}
 //             onChange={(e) => handleQuantityChange(parseInt(e.target.value))}
-//             className="h-10 w-16 border-gray-200 bg-white text-center"
+//             className="h-10 w-16 border-gray-200 bg-base-100 text-center"
 //             min="0"
 //             max={product.quantity}
 //           />

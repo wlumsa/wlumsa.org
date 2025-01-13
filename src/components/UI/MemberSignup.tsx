@@ -29,7 +29,7 @@ const MemberSignup: React.FC = () => {
         <p className="text-neutral lg:text-lg">
           You'll receive all the latest news and information as well as a free MSA resource guide.
         </p>
-        <form className="card-body" action={handleSubmit}>
+        <form className="card-body text-neutral" action={handleSubmit}>
           <div className="flex flex-col gap-2 py-2">
             <input
               type="text"
@@ -64,7 +64,7 @@ const MemberSignup: React.FC = () => {
               aria-describedby="studentId-error"
             />
             <label className="label cursor-pointer">
-              <span className="label-text">Newsletter Signup</span>
+              <span className="label-text text-neutral">Newsletter Signup</span>
               <input
                 type="checkbox"
                 name="newsLetter"
@@ -76,7 +76,7 @@ const MemberSignup: React.FC = () => {
           <div className="card-actions justify-end">
             <button
               type="submit"
-              className="btn border-0 bg-primary text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"
+              className="btn border-0 btn-primary text-secondary shadow duration-200 hover:scale-105 "
               disabled={isPending}
             >
               {isPending ? 'Submitting...' : 'Submit ➜'}

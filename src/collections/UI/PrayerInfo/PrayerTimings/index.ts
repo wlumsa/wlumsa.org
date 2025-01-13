@@ -4,6 +4,12 @@ const PrayerTimings: GlobalConfig = {
   slug: "prayer-timings",
   admin: {
     group: "Prayer Info",
+    
+  }, 
+  access: {
+    update: () => true,
+    read:()=> true,
+    
   },
   fields: [
     {
@@ -57,10 +63,16 @@ const PrayerTimings: GlobalConfig = {
               required: true,
             },
             {
-              name: "dhuhr_iqamah",
-              label: "Dhuhr Iqamah",
+              name: "dhuhr_iqamah_1",
+              label: "Dhuhr Iqamah 1",
               type: "text",
               required: true,
+            },
+            {
+              name: "dhuhr_iqamah_2",
+              label: "Dhuhr Iqamah 2",
+              type: "text",
+              required: false,
             },
             {
               name: "asr",
@@ -69,11 +81,12 @@ const PrayerTimings: GlobalConfig = {
               required: true,
             },
             {
-              name: "asr_iqamah",
+              name: "asr_iqamah_1",
               label: "Asr Iqamah",
               type: "text",
               required: true,
             },
+         
             {
               name: "maghrib",
               label: "Maghrib",

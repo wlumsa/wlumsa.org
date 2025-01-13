@@ -4,7 +4,7 @@ import React from 'react'
 import { serializeLexical } from './searlize'
 type Props = {
   className?: string
-  content: Record<string, any>
+  content: any;
   enableGutter?: boolean
   enableProse?: boolean
 }

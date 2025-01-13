@@ -6,11 +6,9 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
 // import sharp from 'sharp'
-
 import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
-
 import Nav from "./globals/Navbar";
 import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
@@ -43,17 +41,20 @@ import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
 import GeneralUser from "./collections/UI/GeneralUser";
-const generateTitle: GenerateTitle = () => {
-  return "Laurier's Muslim Students Association";
-};
 
+import { CheckboxBlock, SelectBlock } from "./blocks/forms";
+import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+const generateTitle: GenerateTitle = () => {
+  return "Laurier's Muslim Students Association";
+};
 export default buildConfig({
   admin: {
     user: Execs.slug,
   },
+
   collections: [
     Execs,
     link,
@@ -80,7 +81,7 @@ export default buildConfig({
     HalalDirectory,
     RoommatePosts,
     Comments,
-    GeneralUser,
+    GeneralUser,,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -104,7 +105,14 @@ export default buildConfig({
       uploadsCollection: "media",
     }),
     stripePlugin({
+      isTestKey: process.env.STRIPE_SECRET_KEY?.includes("sk_test") ?? true,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
+      webhooks: {
+        "checkout.session.completed": checkoutSessionCompleted,
+      },
+
+      logs: true,
     }),
     s3Storage({
       collections: {
@@ -131,33 +139,134 @@ export default buildConfig({
     }),
     formBuilderPlugin(
       {
-        formOverrides:{
-          slug:"forms",
-          admin:{
-            group:"Admin",
+        formOverrides: {
+          slug: "forms",
+          admin: {
+            group: "Forms",
+            livePreview: {
+              url: ({ data }) => {
+                const isHomePage = data.title === ''
+                return `${process.env.NEXT_PUBLIC_SERVER_URL}/forms${!isHomePage ? `/${data.title}` : ''}`
+              },
+            },
           },
+          access: {
+            update: () => true,
+          },
+
           fields: ({ defaultFields }) => {
             return [
               ...defaultFields,
               {
-                name: 'submission-limit',
+                name: "submissionLimit",
                 label: "Submission Limit",
-                type: 'number',
+                type: "number",
+                admin:{
+                  position:"sidebar"
+                }
               },
-            ]
+
+              {
+                name: "releaseDate",
+                label: "Form Release Date",
+                type: "date",
+                admin: {
+                  position: "sidebar",
+                  date:{
+                    pickerAppearance:"dayAndTime",
+                  }
+                },
+              },
+              {
+                name: "closeDate",
+                label: "Form Auto Close Date (leave empty to never close)",
+                type: "date",
+                admin: {
+                  position: "sidebar",
+                  date:{
+                    pickerAppearance:"dayAndTime",
+                  }
+                },
+              },
+              {
+                name: "slug",
+                label: "slug",
+                type: "text",
+                admin: {
+                  position: "sidebar",
+                  
+                },
+              },
+            ];
+            
+          },
+          
+        },
+        beforeEmail: (emailsToSend, beforeChangeParams) => {
+          const { data } = beforeChangeParams;
+          console.log(data);
+          return emailsToSend;
+        },
+        formSubmissionOverrides: {
+          admin: {
+            group: "Forms",
+            hidden:true,
+          },
+          fields: ({ defaultFields }) => {
+            const formField = defaultFields.find((field) =>
+              "name" in field && field.name === "form"
+            );
+
+            return [
+              ...(formField ? [formField] : []),
+              {
+                name: "submissionData",
+                type: "json",
+                admin: {
+                  components: {
+                    Field: "@/plugins/form-builder/FormData",
+                  },
+                },
+              },
+              {
+                name: "payment",
+                type: "group",
+                admin: {
+                  position: "sidebar",
+                },
+                fields: [
+                  {
+                    name: "amount",
+                    type: "number",
+                  },
+                  {
+                    name: "status",
+                    type: "select",
+                    defaultValue: "pending",
+                    options: [
+                      { label: "Pending", value: "pending" },
+                      { label: "Paid", value: "paid" },
+                      { label: "Cancelled", value: "cancelled" },
+                      { label: "Refunded", value: "refunded" },
+                    ],
+                  },
+                ],
+              },
+            ];
           },
         },
         fields: {
           text: true,
           textarea: true,
-          select: true,
+          CustomSelect: SelectBlock,
+          select: false,
           email: true,
           state: true,
           country: true,
-          checkbox: true,
+          checkbox: CheckboxBlock,
           number: true,
           message: true,
-          payment: false,
+          payment: true,
         },
       },
     ),

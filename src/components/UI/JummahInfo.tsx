@@ -12,7 +12,7 @@ interface JummahProps {
 const JummahInfo: React.FC<JummahProps> = ({ jummahInfo }) => {
   return (
     <div className="stats stats-vertical shadow lg:stats-horizontal ">
-      <table className="table">
+      <table className="table text-neutral">
         <thead>
           <tr>
             <th>Time</th>

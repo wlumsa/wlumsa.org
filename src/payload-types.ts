@@ -575,10 +575,16 @@ export interface Form {
     | (
         | {
             name: string;
-            label?: string | null;
+            label: string;
             width?: number | null;
+            isMultipleChoice?: boolean | null;
+            checkboxes: {
+              label?: string | null;
+              limit?: number | null;
+              value?: boolean | null;
+              id?: string | null;
+            }[];
             required?: boolean | null;
-            defaultValue?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'checkbox';
@@ -635,18 +641,22 @@ export interface Form {
             name: string;
             label?: string | null;
             width?: number | null;
-            defaultValue?: string | null;
-            options?:
+            basePrice?: number | null;
+            priceConditions?:
               | {
-                  label: string;
-                  value: string;
+                  fieldToUse?: string | null;
+                  condition?: ('hasValue' | 'equals' | 'notEquals') | null;
+                  valueForCondition?: string | null;
+                  operator?: ('add' | 'subtract' | 'multiply' | 'divide') | null;
+                  valueType?: ('static' | 'valueOfField') | null;
+                  valueForOperator?: string | null;
                   id?: string | null;
                 }[]
               | null;
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'select';
+            blockType: 'payment';
           }
         | {
             name: string;
@@ -676,6 +686,24 @@ export interface Form {
             id?: string | null;
             blockName?: string | null;
             blockType: 'textarea';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            default_value?: string | null;
+            options?:
+              | {
+                  label?: string | null;
+                  value?: string | null;
+                  limit?: number | null;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
           }
       )[]
     | null;
@@ -725,7 +753,10 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
-  'submission-limit'?: number | null;
+  submissionLimit?: number | null;
+  releaseDate?: string | null;
+  closeDate?: string | null;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -738,11 +769,17 @@ export interface FormSubmission {
   form: number | Form;
   submissionData?:
     | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
+  payment?: {
+    amount?: number | null;
+    status?: ('pending' | 'paid' | 'cancelled' | 'refunded') | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1271,8 +1308,16 @@ export interface FormsSelect<T extends boolean = true> {
               name?: T;
               label?: T;
               width?: T;
+              isMultipleChoice?: T;
+              checkboxes?:
+                | T
+                | {
+                    label?: T;
+                    limit?: T;
+                    value?: T;
+                    id?: T;
+                  };
               required?: T;
-              defaultValue?: T;
               id?: T;
               blockName?: T;
             };
@@ -1314,18 +1359,22 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        select?:
+        payment?:
           | T
           | {
               name?: T;
               label?: T;
               width?: T;
-              defaultValue?: T;
-              options?:
+              basePrice?: T;
+              priceConditions?:
                 | T
                 | {
-                    label?: T;
-                    value?: T;
+                    fieldToUse?: T;
+                    condition?: T;
+                    valueForCondition?: T;
+                    operator?: T;
+                    valueType?: T;
+                    valueForOperator?: T;
                     id?: T;
                   };
               required?: T;
@@ -1364,6 +1413,25 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        select?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              default_value?: T;
+              options?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    limit?: T;
+                    id?: T;
+                  };
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1385,7 +1453,10 @@ export interface FormsSelect<T extends boolean = true> {
         message?: T;
         id?: T;
       };
-  'submission-limit'?: T;
+  submissionLimit?: T;
+  releaseDate?: T;
+  closeDate?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1395,12 +1466,12 @@ export interface FormsSelect<T extends boolean = true> {
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
   form?: T;
-  submissionData?:
+  submissionData?: T;
+  payment?:
     | T
     | {
-        field?: T;
-        value?: T;
-        id?: T;
+        amount?: T;
+        status?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1499,9 +1570,10 @@ export interface PrayerTiming {
       fajr_iqamah?: string | null;
       sunrise: string;
       dhuhr: string;
-      dhuhr_iqamah: string;
+      dhuhr_iqamah_1: string;
+      dhuhr_iqamah_2?: string | null;
       asr: string;
-      asr_iqamah: string;
+      asr_iqamah_1: string;
       maghrib: string;
       maghrib_iqamah: string;
       isha: string;
@@ -1574,9 +1646,10 @@ export interface PrayerTimingsSelect<T extends boolean = true> {
               fajr_iqamah?: T;
               sunrise?: T;
               dhuhr?: T;
-              dhuhr_iqamah?: T;
+              dhuhr_iqamah_1?: T;
+              dhuhr_iqamah_2?: T;
               asr?: T;
-              asr_iqamah?: T;
+              asr_iqamah_1?: T;
               maghrib?: T;
               maghrib_iqamah?: T;
               isha?: T;

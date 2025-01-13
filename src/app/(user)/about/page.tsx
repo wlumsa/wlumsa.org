@@ -115,7 +115,7 @@ export default async function About() {
           {/* About Us Section */}
           <div className="hero h-fit self-center">
             <div className="min-w-96 hero-content flex flex-col items-center justify-center gap-8 sm:max-w-[80%]">
-              <h1 className="text-center text-4xl font-bold text-primary">
+              <h1 className="text-center text-4xl font-bold text-primary mt-8">
                 About Us
               </h1>
               <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
@@ -124,7 +124,7 @@ export default async function About() {
                   className="h-64 w-64 rounded-lg shadow-2xl md:h-48 md:w-48"
                   alt="logo"
                 />
-                <p className="py-6 text-lg">
+                <p className="py-6 text-lg text-neutral">
                   The <strong>Laurier Muslim Student Association (MSA)</strong> is
                   a student-run organization at Laurier which was founded in 2010.
                   Its primary purpose is to provide a platform for Muslim students

@@ -1,9 +1,9 @@
-"use client"
 import React from "react";
 import { TextEffect } from "../Animations/text-effect";
 import Image from "next/image";
 import { FadeText } from "../Animations/FadeText";
 import { Social, Media } from "@/payload-types";
+import Link from "next/link";
 
 interface HeroProps {
   socialLinks: Social[];
@@ -24,15 +24,14 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <FadeText className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" direction="right" text="Salam!" />
-
-          <TextEffect   className="mb-5 text-white" per="char" as="h2">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</TextEffect>
+          <TextEffect className="mb-5 text-base-100" per="char" as="h2">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</TextEffect>
           <div className="flex flex-row m-4 justify-center mb-6" >
-            <button className="btn btn-primary text-white  mx-4"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</a></button>
-            <button className=" btn btn-secondary mx-4 "><a href="/guidebook">Become a Member</a></button>
+            <button className="btn btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</Link></button>
+            <button className="btn btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/guidebook">Become a Member</Link></button>
           </div>
           <div className="flex flex-row items-center justify-center gap-4">
             {socialLinks.map((social, index) => (
-              <a
+              <Link
                 href={typeof social.link === 'object' ? social.link.url : '#'}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -46,10 +45,9 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>
-              </a>
+              </Link>
             ))}
           </div>
-         
         </div>
       </div>
     </div>

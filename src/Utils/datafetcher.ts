@@ -6,13 +6,42 @@ import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
 export const revalidate = 3600;
+export const payload = await getPayload({ config: configPromise });
 
+export async function fetchRoommateProfiles() {
+  const { data, error } = await supabase
+    .from("roommates")
+    .select("*");
 
+  if (error) {
+    console.error("Error fetching roommate profiles:", error);
+    return [];
+  }
 
+  return data;
+}
 
+/**
+ * Fetch a roommate profile by ID.
+ * @param {number} id - The ID of the roommate.
+ * @returns {Promise<any | null>} The roommate profile or null if not found.
+ */
+export async function fetchRoommateById(id: number) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .select("*")
+    .eq("id", id)
+    .single();
 
+  if (error) {
+    console.error(`Error fetching roommate with ID ${id}:`, error);
+    return null;
+  }
 
-/** 
+  return data;
+}
+
+/**
  * Get the public URL for a roommate's image from Supabase storage.
  * @param {string} imageId - The ID of the image in storage.
  * @returns {Promise<string>} Public URL of the image.
@@ -25,8 +54,82 @@ export async function getRoommateImageURL(imageId: string): Promise<string> {
   return data?.publicUrl || "";
 }
 
+/**
+ * Add a new roommate profile to the 'roommates' table.
+ * @param {string} name - Name of the roommate.
+ * @param {string} gender - Gender of the roommate (e.g., Male, Female, Other).
+ * @param {string} location - Location (e.g., Downtown, Campus).
+ * @param {number} rent - Monthly rent.
+ * @param {string} [imageId] - Optional image ID.
+ * @returns {Promise<any | null>} The newly added profile or null on error.
+ */
+export async function addRoommateProfile(
+  name: string,
+  gender: string,
+  location: string,
+  rent: number,
+  imageId?: string,
+) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .insert([{ name, gender, location, rent, image_id: imageId }]);
 
+  if (error) {
+    console.error("Error adding roommate profile:", error);
+    return null;
+  }
 
+  return data;
+}
+
+/**
+ * Update an existing roommate profile by ID.
+ * @param {number} id - The ID of the roommate profile to update.
+ * @param {Partial<{name: string; gender: string; location: string; rent: number; image_id: string}>} updatedData - Fields to update.
+ * @returns {Promise<any | null>} The updated profile or null on error.
+ */
+export async function updateRoommateProfile(
+  id: number,
+  updatedData: Partial<{
+    name: string;
+    gender: string;
+    location: string;
+    rent: number;
+    image_id: string;
+  }>,
+) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .update(updatedData)
+    .eq("id", id);
+
+  if (error) {
+    console.error(`Error updating roommate profile with ID ${id}:`, error);
+    return null;
+  }
+
+  return data;
+}
+
+/**
+ * Delete a roommate profile by ID.
+ * @param {number} id - The ID of the roommate profile to delete.
+ * @returns {Promise<any | null>} The deleted profile data or null on error.
+ */
+export async function deleteRoommateProfile(id: number) {
+  const { data, error } = await supabase
+    .from("roommates")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(`Error deleting roommate profile with ID ${id}:`, error);
+    return null;
+  }
+
+  console.log(`Roommate profile with ID ${id} deleted.`);
+  return data;
+}
 
 export async function getPublicURL(
   folder: string | null | undefined,
@@ -41,10 +144,6 @@ export async function getPublicURL(
 }
 
 
-
-
-
-const payload = await getPayload({ config: configPromise });
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
@@ -106,7 +205,10 @@ export async function fetchBlogPosts() {
   return posts.docs;
 }
 
-export async function fetchBlogPostsByCategory(category: string, postId: string) {
+export async function fetchBlogPostsByCategory(
+  category: string,
+  postId: string,
+) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -118,7 +220,7 @@ export async function fetchBlogPostsByCategory(category: string, postId: string)
       },
       "id": {
         not_equals: postId,
-      }
+      },
     },
     sort: "-publishedAt", // Sort by 'publishedAt' in descending order
     limit: 10,
@@ -163,7 +265,6 @@ export async function fetchBlogPostById(id: string) {
   });
   return post.docs;
 }
-
 
 export async function fetchBlogPostByTitle(title: string) {
   const post = await payload.find({
@@ -212,9 +313,7 @@ export async function fetchBlogPostsByQuery(query: string) {
             like: `${query}`,
           },
         },
-
       ],
-      
     },
     limit: 10,
   });
@@ -227,7 +326,10 @@ export async function getCategories() {
   });
   return categories.docs;
 }
-export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId: string) {
+export async function fetchBlogPostsByQueryAndCategory(
+  query: string,
+  categoryId: string,
+) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -242,7 +344,6 @@ export async function fetchBlogPostsByQueryAndCategory(query: string, categoryId
             like: `${query}`,
           },
         },
-
       ],
       and: [
         {
@@ -395,20 +496,25 @@ export async function addIndividualToList(
 ) {
   try {
     // Step 1: Check if the individual already exists
-    console.log("EMAIL",individualData.email);
-    const { data: existingIndividual, error: existingIndividualError } = await supabase
-      .from("individuals")
-      .select("*")
-      .eq("email",individualData.email) // Assuming email is a unique identifier
-      .single();
-    console.log("EXISITING INDIVIDUAL:",existingIndividual);
-    if (existingIndividualError && existingIndividualError.code !== 'PGRST116') {
+    console.log("EMAIL", individualData.email);
+    const { data: existingIndividual, error: existingIndividualError } =
+      await supabase
+        .from("individuals")
+        .select("*")
+        .eq("email", individualData.email) // Assuming email is a unique identifier
+        .single();
+    console.log("EXISITING INDIVIDUAL:", existingIndividual);
+    if (
+      existingIndividualError && existingIndividualError.code !== "PGRST116"
+    ) {
       // PGRST116 is the error code for "Results contain 0 rows"
-      throw new Error(`Error checking individual: ${existingIndividualError.message}`);
+      throw new Error(
+        `Error checking individual: ${existingIndividualError.message}`,
+      );
     }
 
     let individual;
-    if (existingIndividual?.length===0 || !existingIndividual) {
+    if (existingIndividual?.length === 0 || !existingIndividual) {
       // Step 2: Insert the new individual into the individuals table
       const { data: newIndividual, error: individualError } = await supabase
         .from("individuals")
@@ -416,7 +522,9 @@ export async function addIndividualToList(
         .select();
 
       if (individualError) {
-        throw new Error(`Error inserting individual: ${individualError.message}`);
+        throw new Error(
+          `Error inserting individual: ${individualError.message}`,
+        );
       }
 
       individual = newIndividual[0];
@@ -424,7 +532,7 @@ export async function addIndividualToList(
       individual = existingIndividual;
     }
 
-    console.log("INDIVIDUAL:",individual);
+    console.log("INDIVIDUAL:", individual);
     // Step 3: Get the id of the specified list or create a new one
     let newsletterList;
     const { data: existingList, error: listError } = await supabase
@@ -432,8 +540,8 @@ export async function addIndividualToList(
       .select("id")
       .eq("list_name", listName)
       .single();
-    console.log("EXISTING LIST:",existingList);
-    if (listError && listError.code !== 'PGRST116') {
+    console.log("EXISTING LIST:", existingList);
+    if (listError && listError.code !== "PGRST116") {
       // PGRST116 is the error code for "Results contain 0 rows"
       throw new Error(`Error fetching list: ${listError.message}`);
     }
@@ -445,7 +553,7 @@ export async function addIndividualToList(
         .insert([{ list_name: listName }])
         .select()
         .single();
-        console.log("NEW LIST:",newList);
+      console.log("NEW LIST:", newList);
       if (createListError) {
         throw new Error(`Error creating new list: ${createListError.message}`);
       }
@@ -471,7 +579,7 @@ export async function addIndividualToList(
       throw new Error(`Error creating relation: ${relationError.message}`);
     }
 
-    console.log("SUCCESS")
+    console.log("SUCCESS");
 
     return {
       success: true,
@@ -494,7 +602,7 @@ export async function getResourceById(id: string) {
     collection: "resources",
     id: id,
   });
-return resource;
+  return resource;
 }
 
 export async function fetchServices() {
@@ -508,7 +616,7 @@ export async function fetchHalalDirectory() {
   const foodSpots = await payload.find({
     collection: "halal-directory",
     limit: 50,
-  })
+  });
   return foodSpots.docs;
 }
 // Function to fetch Halal Directory data
@@ -540,8 +648,7 @@ export async function fetchFAQ() {
   return faq.docs;
 }
 
-export async function fetchRecordingsbyCategory(category:string) {
-
+export async function fetchRecordingsbyCategory(category: string) {
   const recordings = await payload.find({
     collection: "recording",
     where: {
@@ -553,7 +660,6 @@ export async function fetchRecordingsbyCategory(category:string) {
   });
   return recordings.docs;
 }
-
 
 export async function fetchRoommatePostById(id: string) {
   const post = await payload.find({
@@ -656,9 +762,7 @@ export async function fetchRoommatePosts({
 
   const posts = await payload.find({
     collection: "RoommatePosts",
-    where: {
-      and: filters,
-    },
+    sort: "-createdAt",
     limit: 10,
   });
 
@@ -758,100 +862,18 @@ export async function fetchCommentsByPostId(id: string) {
     },
     
   });
- return comments.docs;
-
+  return comments.docs;
 }
 
+// export async function updateFormLimit(id: string, currentLimit: number) {
+//   const { data, error } = await supabase
+//     .from("forms")
+//     .update({ "submission_limit": currentLimit-1 })
+//     .eq("id", id)
+//     .gt("submission_limit", 0)
+//     .select();
 
-export async function createComment( comment: string, postId: number,) {
-
-  const commentdata = await payload.create({
-    collection: "comments",
-    data: {
-      comment: comment,
-      postId: postId,
-    },
-    overrideAccess: false,
-   
-  
-  });
-  return commentdata;
-}
+//   return;
+// }
 
 
-export async function deleteCommentById(commentId:string) {
-
-  const res = await payload.delete({
-    collection: "comments",
-    id: commentId,
-  }); 
-  return res;
-  }
-  
-
-  //roommmate post feature functions
-  export async function createRoommatePost( postData: any) {
-    const post = await payload.create({
-      collection: "RoommatePosts",
-      data: {
-       
-        title: postData.title,
-        description: postData.description,
-        rent: postData.rent,
-        deposit: postData.deposit,
-        address: postData.address,
-        contactEmail: postData.contactEmail,
-        availableDate: postData.availableDate,
-        propertyType: postData.propertyType,
-        utilities: postData.selectedUtilities,
-        amenities: postData.selectedAmenities,
-        images: postData.images,
-        furnishingType: postData.furnishingType,
-        gender:  postData.gender,
-        phoneNumber: postData.phone,
-        facebook: postData.facebook,
-        instagram: postData.instagram,
-        whatsapp: postData.whatsapp,
-
-  
-      },
-      
-    })
-    return post;
-  }
-export async function updateUserInfo(clerkId:string, data: any) {
-  const user = await payload.update({
-    collection: "general-user",
-   where:
-    {
-      clerkId: {
-        equals: clerkId,
-      },
-    },
-    data: {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      laurierEmail: data.laurier_email,
-      studentId: data.studentId,
-      category: data.category,
-      program: data.program,
-      year: data.year,
-      newsletter: data.newsletter,
-    },
-  });
-  return user;
-}
-
-
-//get roommate posts by user
-export async function fetchRoommatePostsByUser(clerkId: number) {
-  const posts = await payload.find({
-    collection: "RoommatePosts",
-    where: {
-      "userId": {
-        equals: clerkId,
-      },
-    },
-  });
-  return posts.docs;
-}
