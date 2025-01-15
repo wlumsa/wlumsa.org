@@ -5,6 +5,7 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
+import { RoommatePost } from "@/payload-types";
 export const revalidate = 3600;
 export const payload = await getPayload({ config: configPromise });
 
@@ -142,8 +143,6 @@ export async function getPublicURL(
     .getPublicUrl(path || "");
   return data;
 }
-
-
 
 export async function getMedia(alt: string) {
   const Media = await payload.find({
@@ -676,14 +675,14 @@ export async function fetchRoommatePostById(id: string) {
 // export async function fetchRoommatePosts() {
 //   const posts = await payload.find({
 //     collection: "RoommatePosts",
-//     sort: "-createdAt", 
+//     sort: "-createdAt",
 //     limit: 10,
 //   });
 //   return posts.docs;
 // }
 
 export async function fetchRoommatePosts({
-  query = '',
+  query = "",
   gender,
   rent,
   propertyType,
@@ -699,34 +698,33 @@ export async function fetchRoommatePosts({
   let maxPrice = 0;
 
   switch (rent) {
-    case "1": 
+    case "1":
       maxPrice = 800;
       break;
     case "2":
       minPrice = 800;
       maxPrice = 900;
       break;
-    case "3": 
+    case "3":
       minPrice = 900;
       maxPrice = 1000;
       break;
-    case "4": 
+    case "4":
       minPrice = 1000;
       maxPrice = 1100;
       break;
-    case "5": 
+    case "5":
       minPrice = 1100;
       maxPrice = 1200;
       break;
-    case "6": 
+    case "6":
       minPrice = 1200;
       maxPrice = 1300;
       break;
-    case "7": 
+    case "7":
       minPrice = 1300;
       break;
   }
-
 
   const filters: any[] = [];
 
@@ -758,7 +756,7 @@ export async function fetchRoommatePosts({
   if (utilities) {
     filters.push({ utilities: { contains: utilities } });
   }
-  console.log('filters:', filters);
+  console.log("filters:", filters);
 
   const posts = await payload.find({
     collection: "RoommatePosts",
@@ -769,18 +767,15 @@ export async function fetchRoommatePosts({
   return posts.docs;
 }
 
-
-
-export async function deleteRoommatePostById(postId:number) {
-
+export async function deleteRoommatePostById(postId: number) {
   const res = await payload.delete({
     collection: "RoommatePosts",
     id: postId,
-  }); 
+  });
   return res;
-  }
+}
 
-//update a post 
+//update a post
 export async function updateRoommatePostById(postId: number, postData: any) {
   const post = await payload.update({
     collection: "RoommatePosts",
@@ -790,24 +785,25 @@ export async function updateRoommatePostById(postId: number, postData: any) {
       },
     },
     data: {
-        title: postData.title,
-        description: postData.description,
-        rent: parseInt(postData.rent),
-        deposit: postData.deposit,
-        address: postData.address,
-        contactEmail: postData.contactEmail,
-        availableDate: postData.availableDate,
-        propertyType: postData.propertyType,
-        utilities: postData.selectedUtilities,
-        amenities: postData.selectedAmenities,
-        images: postData.images,
-        furnishingType: postData.furnishingType,
-        gender:  postData.gender,
-        phoneNumber: postData.phone,
-        facebook: postData.facebook,
-        instagram: postData.instagram,
-        whatsapp: postData.whatsapp,
-}
+      title: postData.title,
+      description: postData.description,
+      rent: parseInt(postData.rent),
+      deposit: postData.deposit,
+      address: postData.address,
+      contactEmail: Boolean(postData.contactEmail),
+      availableDate: postData.availableDate,
+      propertyType: postData.propertyType,
+      utilities: postData.selectedUtilities,
+      amenities: postData.selectedAmenities,
+      images: postData.images,
+      furnishingType: postData.furnishingType,
+      gender: postData.gender,
+      phoneNumber: postData.phone,
+      facebook: postData.facebook,
+      instagram: postData.instagram,
+      whatsapp: postData.whatsapp,
+      userId: postData.userId,
+    },
   });
   return post;
 }
@@ -825,11 +821,16 @@ export async function deletePost(id: number) {
   return post;
 }
 
-export async function createUser( clerkId: string, email: string, firstName: string, lastName: string) {
+export async function createUser(
+  clerkId: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+) {
   const newUser = await payload.create({
     collection: "general-user",
     data: {
-      clerkId:clerkId,
+      clerkId: clerkId,
       email: email,
       firstName: firstName,
       lastName: lastName,
@@ -837,7 +838,7 @@ export async function createUser( clerkId: string, email: string, firstName: str
   });
   return newUser;
 }
-export async function findUser(id:string) {
+export async function findUser(id: string) {
   const user = await payload.find({
     collection: "general-user",
     where: {
@@ -849,20 +850,100 @@ export async function findUser(id:string) {
   return user;
 }
 
-//USER COMMENT FEATURE FUNCTIONS 
+//USER COMMENT FEATURE FUNCTIONS
 
 export async function fetchCommentsByPostId(id: string) {
   const comments = await payload.find({
     collection: "comments",
-    
+
     where: {
       "postId": {
         equals: id,
       },
     },
-    
   });
   return comments.docs;
+}
+
+export async function createComment(comment: string, postId: number,) {
+  const commentdata = await payload.create({
+    collection: "comments",
+    data: {
+      comment: comment,
+      postId: postId,
+    },
+    overrideAccess: false,
+  });
+  return commentdata;
+}
+
+export async function deleteCommentById(commentId: string) {
+  const res = await payload.delete({
+    collection: "comments",
+    id: commentId,
+  });
+  return res;
+}
+
+export async function createRoommatePost(postData: RoommatePost) {
+  const post = await payload.create({
+    collection: "RoommatePosts",
+    data: {
+      title: postData.title,
+      description: postData.description,
+      rent: postData.rent,
+      deposit: postData.deposit,
+      address: postData.address,
+      contactEmail: postData.contactEmail,
+      availableDate: postData.availableDate,
+      propertyType: postData.propertyType,
+      utilities: postData.utilities, // Use the existing 'utilities' property
+      amenities: postData.amenities,
+      images: postData.images,
+      furnishingType: postData.furnishingType,
+      gender: postData.gender,
+      phoneNumber: postData.phoneNumber,
+      facebook: postData.facebook,
+      instagram: postData.instagram,
+      whatsapp: postData.whatsapp,
+      userId: postData.userId,
+    },
+  });
+  return post;
+}
+
+export async function updateUserInfo(clerkId: string, data: any) {
+  const user = await payload.update({
+    collection: "general-user",
+    where: {
+      clerkId: {
+        equals: clerkId,
+      },
+    },
+    data: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      laurierEmail: data.laurier_email,
+      studentId: data.studentId,
+      category: data.category,
+      program: data.program,
+      year: data.year,
+      newsletter: data.newsletter,
+    },
+  });
+  return user;
+}
+
+export async function fetchRoommatePostsByUser(clerkId: number) {
+  const posts = await payload.find({
+    collection: "RoommatePosts",
+    where: {
+      "userId": {
+        equals: clerkId,
+      },
+    },
+  });
+  return posts.docs;
 }
 
 // export async function updateFormLimit(id: string, currentLimit: number) {
@@ -875,5 +956,3 @@ export async function fetchCommentsByPostId(id: string) {
 
 //   return;
 // }
-
-

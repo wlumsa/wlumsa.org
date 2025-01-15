@@ -513,41 +513,27 @@ export interface HalalDirectory {
  */
 export interface RoommatePost {
   id: number;
-  user_id: string;
-  title: string;
-  description: string;
-  address: string;
-  name: string;
-  rent: number;
-  gender: string;
-  email: string;
-  author: string;
-  contactEmail: boolean;
-  phoneNumber: string;
-  PropertyType: string;
-  roomfurnishing: string;
-  availableDate: string;
-  whatsapp: string;
-  deposit: number;
-  utilities: string[];
-  amenities: string[];
-  facebook: string;
-  instagram: string;
-  images?: string[];
-  status?: ('pending' | 'approved') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments".
- */
-export interface Comment {
-  id: number;
-  clerkId?: string | null;
-  comment: string;
+  userId: number | GeneralUser;
   author?: string | null;
-  postId?: number | RoommatePost| null;
+  email?: string | null;
+  contactEmail: boolean;
+  title: string;
+  address: string;
+  description: string;
+  rent: number;
+  deposit?: number | null;
+  gender: '1' | '2';
+  propertyType: '1' | '2' | '3' | '4';
+  furnishingType: '1' | '2' | '3';
+  utilities?: ('1' | '2' | '3' | '4' | '5' | '6')[] | null;
+  amenities?: ('1' | '2' | '3' | '4' | '5')[] | null;
+  images: string[];
+  availableDate: string;
+  facebook?: string | null;
+  phoneNumber?: string | null;
+  instagram?: string | null;
+  whatsapp?: string | null;
+  status?: ('pending' | 'approved') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -558,9 +544,27 @@ export interface Comment {
 export interface GeneralUser {
   id: number;
   clerkId: string;
-  firstName: string;
-  lastName: string;
   email: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  category?: ('student' | 'landlord' | 'parent' | 'business' | 'alumni') | null;
+  laurierEmail?: string | null;
+  studentId?: string | null;
+  year?: string | null;
+  program?: string | null;
+  newsletter?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  author?: string | null;
+  comment?: string | null;
+  postId: number | RoommatePost;
   updatedAt: string;
   createdAt: string;
 }
@@ -889,10 +893,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'comments';
         value: number | Comment;
-      } | null)
-    | ({
-        relationTo: 'general-user';
-        value: number | GeneralUser;
       } | null)
     | ({
         relationTo: 'general-user';
@@ -1254,19 +1254,26 @@ export interface HalalDirectorySelect<T extends boolean = true> {
  * via the `definition` "RoommatePosts_select".
  */
 export interface RoommatePostsSelect<T extends boolean = true> {
-  user_id?: T;
-  title?: T;
-  description?: T;
-  address?: T;
+  userId?: T;
   author?: T;
-  name?: T;
   email?: T;
+  contactEmail?: T;
+  title?: T;
+  address?: T;
+  description?: T;
   rent?: T;
-  
-  PropertyType?: T;
-  roomfurnishing?: T;
-  availableDate?: T;
+  deposit?: T;
+  gender?: T;
+  propertyType?: T;
+  furnishingType?: T;
+  utilities?: T;
+  amenities?: T;
   images?: T;
+  availableDate?: T;
+  facebook?: T;
+  phoneNumber?: T;
+  instagram?: T;
+  whatsapp?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1276,9 +1283,8 @@ export interface RoommatePostsSelect<T extends boolean = true> {
  * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
-  clerkId?: T;
-  comment?: T;
   author?: T;
+  comment?: T;
   postId?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1290,6 +1296,14 @@ export interface CommentsSelect<T extends boolean = true> {
 export interface GeneralUserSelect<T extends boolean = true> {
   clerkId?: T;
   email?: T;
+  firstName?: T;
+  lastName?: T;
+  category?: T;
+  laurierEmail?: T;
+  studentId?: T;
+  year?: T;
+  program?: T;
+  newsletter?: T;
   updatedAt?: T;
   createdAt?: T;
 }
