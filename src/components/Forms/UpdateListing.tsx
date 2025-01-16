@@ -12,12 +12,12 @@ import { format } from 'date-fns';
 const genderOptions = ["Female", "Male"] as const
 const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
-const utilitiesOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning"] as const 
-const amenitiesOptions = ["Parking available", "Recreational spaces (gym, pool, lounge)", "Pets allowed", "Private kitchen", "Private bathroom"] as const 
+const utilitiesOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning"] as const
+const amenitiesOptions = ["Parking available", "Recreational spaces (gym, pool, lounge)", "Pets allowed", "Private kitchen", "Private bathroom"] as const
 
 
-    
-  
+
+
 //Form validation
 const StepOneSchema = z.object({
     title: z.string().min(1, "Title is required").max(120, "Title is too long"),
@@ -27,21 +27,21 @@ const StepOneSchema = z.object({
     propertyType: z.string().min(1, "Property type is required"),
     furnishingType: z.string().min(1, "Furnishing type is required"),
     rent: z.string().min(1, "Monthly rent is required"),
-   // deposit: z.string().min(1, "Deposit is required"),
+    // deposit: z.string().min(1, "Deposit is required"),
     availableDate: z.string().min(1, "Date available is required"),
 
-    })
+})
 const StepTwoSchema = z.object({
     selectedUtilities: z.array(z.string(), { message: "At least one utility is required" }),
     selectedAmenities: z.array(z.string(), { message: "At least one amenity is required" }),
 })
 const StepThreeSchema = z.object({
-  
+
     phone: z.string().min(10, "Phone number is required"),
 
 })
 
-   
+
 const UploadedFileSchema = z.array(z.object({
     file: z.instanceof(File, { message: "Must be a valid file" }),
     preview: z.string().url("Preview must be a valid URL"),
@@ -57,11 +57,11 @@ interface PostProps {
     post: RoommatePost;
 }
 
-const UpdateListing:React.FC<PostProps> = ({post}) => { 
+const UpdateListing: React.FC<PostProps> = ({ post }) => {
     const router = useRouter();
     const [selected, setSelected] = useState([]);
     const [selectedUtilities, setSelectedUtilities] = useState([]);
-    const [errors, setErrors] = useState(""); 
+    const [errors, setErrors] = useState("");
     const [files, setFiles] = useState<UploadedFile[]>([]);
 
     const [formData, setFormData] = useState<RoommatePost>({
@@ -87,7 +87,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     });
-      
+
     const [currentStep, setCurrentStep] = useState(0)
     const currentDate = format(new Date(post.availableDate), "yyyy-MM-dd");
 
@@ -95,17 +95,17 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
         const { data, error } = await supabase.storage
             .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
             .remove([imageUrl]);
-    
+
         if (error) {
             console.error("Error removing image from Supabase:", error);
         } else {
             console.log("Image removed from Supabase:", data);
         }
     };
-    
+
     const removeImage = (index: number) => {
         setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-    
+
     }
     const removeUploadedImage = (index: number) => {
         setFormData((prevData) => {
@@ -115,13 +115,13 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                 images: updatedImages, // Update the images state without the removed image
             };
         });
-       
-            if (formData.images && formData.images[index]) {
-                removeImageFromSupabase(formData.images[index]);
 
-            }
-            toast.success("Image removed successfully!");
-        
+        if (formData.images && formData.images[index]) {
+            removeImageFromSupabase(formData.images[index]);
+
+        }
+        toast.success("Image removed successfully!");
+
     }
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -136,7 +136,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                 return;
             }
             setFiles(prevFiles => [...prevFiles, ...newFiles]);
-         
+
         }
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -145,60 +145,60 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
             [e.target.name]: e.target.value
         });
     };
-        
-  
- const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
 
-    setFormData((prevData) => {
-        if (name === "amenitiesOptions") {
-            return {
-                ...prevData,
-                selectedAmenities: checked
-                    ? [...(prevData.amenities || []), value] 
-                    : (prevData.amenities || []).filter((item) => item !== value) 
-            };
-        } else if (name === "utilitiesOptions") {
-            return {
-                ...prevData,
-                selectedUtilities: checked
-                    ? [...(prevData.utilities || []), value]
-                    : (prevData.utilities || []).filter((item) => item !== value) 
-            };
-        }
-        return prevData;
-    });
-};
+
+    const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, checked } = e.target;
+
+        setFormData((prevData) => {
+            if (name === "amenitiesOptions") {
+                return {
+                    ...prevData,
+                    selectedAmenities: checked
+                        ? [...(prevData.amenities || []), value]
+                        : (prevData.amenities || []).filter((item) => item !== value)
+                };
+            } else if (name === "utilitiesOptions") {
+                return {
+                    ...prevData,
+                    selectedUtilities: checked
+                        ? [...(prevData.utilities || []), value]
+                        : (prevData.utilities || []).filter((item) => item !== value)
+                };
+            }
+            return prevData;
+        });
+    };
 
 
     const handleNextStep = (e: React.FormEvent) => {
         e.preventDefault();
-    //    if(currentStep === 0) {
-    //     const validatedFields =  StepOneSchema.safeParse(formData );
-    //    const validatedFiles = UploadedFileSchema.safeParse(files);
-    //     if(!validatedFields.success && !validatedFiles.success) {
-    //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
-    //         return;
-    //      }
-    //     if (validatedFields.error) {
-    //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-    //         return;
-    //         }
-    //     if (validatedFiles.error) {
-    //         setErrors(`Upload at least one image`);
-    //         return;
-    //         }
-         
-    //     } else if(currentStep === 1) {
-    //         const validatedFields = StepTwoSchema.safeParse(formData);
-    //         if (!validatedFields.success) {
-    //             setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
-    //             return;
-    //         }
-     //   }
+        //    if(currentStep === 0) {
+        //     const validatedFields =  StepOneSchema.safeParse(formData );
+        //    const validatedFiles = UploadedFileSchema.safeParse(files);
+        //     if(!validatedFields.success && !validatedFiles.success) {
+        //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}, Upload at least one image`);
+        //         return;
+        //      }
+        //     if (validatedFields.error) {
+        //         setErrors(` ${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+        //         return;
+        //         }
+        //     if (validatedFiles.error) {
+        //         setErrors(`Upload at least one image`);
+        //         return;
+        //         }
+
+        //     } else if(currentStep === 1) {
+        //         const validatedFields = StepTwoSchema.safeParse(formData);
+        //         if (!validatedFields.success) {
+        //             setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
+        //             return;
+        //         }
+        //   }
         setCurrentStep(currentStep + 1)
-         
-        
+
+
     }
     const handlePreviousStep = () => {
         if (currentStep > 0) {
@@ -214,49 +214,49 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
         //     setErrors(`${Object.values(validatedFields.error.flatten().fieldErrors).join(", ")}`);
         //     return;
         // }
-    
+
         // upload image to database , retreive image url
         const uploadImage = async (image: File, folderName: string) => {
             const filePath = `${folderName}/${Date.now()}_${image.name}`;
             const { data, error } = await supabase.storage
                 .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
                 .upload(`${filePath}`, image);
-    
+
             if (error) {
                 console.error("Error uploading image to Supabase storage:", error);
                 return null;
             }
-                const imageData = supabase.storage
+            const imageData = supabase.storage
                 .from(process.env.S3_BUCKET || "wlumsa_storage_bucket_test")
                 .getPublicUrl(`${filePath}`);
-    
+
             console.log(imageData);
             return imageData.data.publicUrl;
         };
-    
+
         try {
             // Upload all images and gather URLs
             const imageUrls = await Promise.all(
                 files.map(file => uploadImage(file.file, "RoommateService"))
             );
-    
+
             const validImageUrls = imageUrls.filter(url => url !== null);
-    
+
             setFormData(prevData => ({
                 ...prevData,
                 images: [...(prevData.images || []), ...validImageUrls],
             }));
-    
-            const res = await updateRoommatePost(post.id, { 
+
+            const res = await updateRoommatePost(post.id, {
                 ...formData,
                 images: [...(formData.images || []), ...validImageUrls],
-       } );
-    
+            });
+
             if (res.res) {
                 toast.success("Post saved successfully!");
                 router.push('/roommateservice');
 
-               
+
             } else {
                 console.error("Error saving post:", res.message);
                 toast.error("Failed to save post.");
@@ -266,12 +266,12 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
             toast.error("Failed to save post.");
         }
     };
-    
+
     return (
         <div className=' flex flex-col items-center justify-center w-full  md:w-[540px] mx-auto '>
 
             <h1 className='font-bold text-primary text-xl text-center'>Update Listing</h1>
-            <button className="btn btn-secondary "   onClick={(e) => { e.preventDefault(); handleSubmit(); }} >Save</button>
+            <button className="btn btn-secondary " onClick={(e) => { e.preventDefault(); handleSubmit(); }} >Save</button>
             <form className='flex flex-col'>
                 {/* Step 1 - Listing Information */}
                 {currentStep == 0 && <div>
@@ -292,7 +292,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             <select name="propertyType" value={formData.propertyType} onChange={handleInputChange} className="select select-bordered w-full max-w-xs min-h-[2rem] h-[2rem] bg-[#F2F2F2]  border-none ">
                                 <option value="" disabled>Select a Property Type</option>
                                 {propertyTypeOptions.map((option, index) => (
-                                    <option key={index+1} value={index+1}>{option}</option>
+                                    <option key={index + 1} value={index + 1}>{option}</option>
                                 ))}
                             </select>
                         </div>
@@ -300,8 +300,8 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             <label className='font-semibold' >Furnishing</label>
                             <select name="furnishingType" value={formData.furnishingType} onChange={handleInputChange} className="select select-bordered w-full max-w-xs min-h-[2rem] h-[2rem] bg-[#F2F2F2] border-none " >
                                 <option value="" disabled > Select an option</option>
-                                {furnishingOptions.map((option,index) => (
-                                    <option key={index+1} value={index+1}>{option}</option>
+                                {furnishingOptions.map((option, index) => (
+                                    <option key={index + 1} value={index + 1}>{option}</option>
                                 ))}
 
                             </select>
@@ -314,16 +314,16 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             <label className='font-semibold' >Gender</label>
                             <select name="gender" value={formData.gender} onChange={handleInputChange} className="select select-bordered min-h-[2rem] h-[2rem] bg-[#F2F2F2]  border-none max-w-xs" >
                                 <option value="" disabled  > Select a Gender</option>
-                                {genderOptions.map((option,index) => (
-                                    <option key={index+1} value={index+1}>{option}</option>
+                                {genderOptions.map((option, index) => (
+                                    <option key={index + 1} value={index + 1}>{option}</option>
                                 ))}
 
                             </select>
                         </div>
                         <div className='md:w-1/2'>
                             <label className='font-semibold'>Date Available</label>
-                           <p> Currently set as: {currentDate} </p>
-                         <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
+                            <p> Currently set as: {currentDate} </p>
+                            <input name="availableDate" value={formData.availableDate} onChange={handleInputChange} type="date" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2] border-none" />
                         </div>
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
@@ -344,50 +344,50 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                             </div>
                         </div>
                         <div className='flex flex-col py-2 md:w-1/2'>
-                             <label className='font-semibold'>Monthly Rent price</label>
-                        <div className='flex flex-row items-center'>
-                              <span className='mr-2'>$</span>
-                            <input type="number" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
-                        </div>
+                            <label className='font-semibold'>Monthly Rent price</label>
+                            <div className='flex flex-row items-center'>
+                                <span className='mr-2'>$</span>
+                                <input type="number" name="rent" value={formData.rent} onChange={handleInputChange} placeholder="1000.00" className="input input-bordered w-full max-w-xs h-[2rem]  bg-[#F2F2F2]  border-none" />
+                            </div>
                         </div>
 
                     </div>
-                   
+
                     <div className='py-2'>
                         <label htmlFor="name" className='font-semibold' >Listing Description</label>
                         <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Write a detailed, informative description" className="textarea textarea-bordered h-[3rem] max-h-[12rem] w-full bg-[#F2F2F2]  border-none" />
                     </div>
                     {/* Displaying Images */}
-            {formData.images && formData.images.length > 0 && (
-                <div className="mt-4">
-                    <h1 className="text-bold font-primary">Uploaded Images</h1>
-                    <div className='grid grid-cols-3 gap-2'>
-                        {formData.images.map((imageUrl, index) => (
-                            <div key={index} className="my-2 text-left overflow-scroll">
-                                <img
-                                    height={100}
-                                    width={100}
-                                    src={imageUrl}
-                                    alt={`Uploaded Image ${index}`}
-                                    className="rounded-md"
-                        
-                                />
-                                <button className='underline' onClick={(e) => { e.preventDefault(); removeUploadedImage(index)}} >
-                                    Remove Image
-                                </button>
+                    {formData.images && formData.images.length > 0 && (
+                        <div className="mt-4">
+                            <h1 className="text-bold font-primary">Uploaded Images</h1>
+                            <div className='grid grid-cols-3 gap-2'>
+                                {formData.images.map((imageUrl, index) => (
+                                    <div key={index} className="my-2 text-left overflow-scroll">
+                                        <img
+                                            height={100}
+                                            width={100}
+                                            src={imageUrl}
+                                            alt={`Uploaded Image ${index}`}
+                                            className="rounded-md"
+
+                                        />
+                                        <button className='underline' onClick={(e) => { e.preventDefault(); removeUploadedImage(index) }} >
+                                            Remove Image
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+                        </div>
+                    )}
                     <div className='py-2 flex flex-col'>
                         <label className='font-semibold'>Upload Supporting Images - png, jpeg, jpg files only</label>
                         <div className="flex items-center gap-2">
                             <div className=''>
-                                <input type="file" id="files" className="hidden"   multiple onChange={handleImageUpload} accept="image/png, image/jpeg, image/jpg" />
+                                <input type="file" id="files" className="hidden" multiple onChange={handleImageUpload} accept="image/png, image/jpeg, image/jpg" />
                                 <label htmlFor="files" className='btn btn-primary cursor-pointer'>Upload file</label>
-                            </div> 
-                       
+                            </div>
+
                             <span className="text-sm">
                                 {files.length > 0 ? `${files.length} file(s) selected` : 'No files chosen'}
                             </span>
@@ -409,7 +409,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                                                 alt={`Preview ${index}`}
                                                 className="rounded-md"
                                             />
-                                            <button className='underline' onClick={  () => removeImage(index)} >Remove Image</button>
+                                            <button className='underline' onClick={() => removeImage(index)} >Remove Image</button>
 
                                         </div>
                                     ))}
@@ -423,63 +423,63 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                     </div>
                 </div>
                 }
-            {currentStep == 1 && <div>
-                <div className='py-2'>
-                    <h1>Select available utilities</h1>
+                {currentStep == 1 && <div>
+                    <div className='py-2'>
+                        <h1>Select available utilities</h1>
 
                         <div className='grid grid-cols-2 gap-4 py-4'>
-                        {utilitiesOptions.map((option, index) => (
-                            <div key={index+1} className="form-control">
-                            <label className="cursor-pointer label">
-                                <span className="label-text">{option}</span>
-                                <input
-                                    type="checkbox"
-                                    name="utilitiesOptions"
-                                    className="checkbox checkbox-primary"
-                                    onChange={handleCheckBoxChange}
-                                    value={index + 1}
-                                    checked={(formData.utilities ?? []).includes((index + 1).toString() as "1" | "2" | "3" | "4" | "5" | "6")}
-                                />
-                            </label>
-                            </div>
-                        ))}
+                            {utilitiesOptions.map((option, index) => (
+                                <div key={index + 1} className="form-control">
+                                    <label className="cursor-pointer label">
+                                        <span className="label-text">{option}</span>
+                                        <input
+                                            type="checkbox"
+                                            name="utilitiesOptions"
+                                            className="checkbox checkbox-primary"
+                                            onChange={handleCheckBoxChange}
+                                            value={index + 1}
+                                            checked={(formData.utilities ?? []).includes((index + 1).toString() as "1" | "2" | "3" | "4" | "5" | "6")}
+                                        />
+                                    </label>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className='py-4 '>
                         <h1>Select other amenities</h1>
-                    <div className='grid grid-cols-2 gap-4 py-2'>
-                        {amenitiesOptions.map((option, index) => (
-                            <div key={index+1} className="form-control">
-                            <label className="cursor-pointer label">
-                                <span className="label-text">{option}</span>
-                                <input
-                                    type="checkbox"
-                                    name="amenitiesOptions"
-                                    className="checkbox checkbox-primary"
-                                    onChange={handleCheckBoxChange}
-                                    value={index + 1}
-                                    checked={(formData.amenities ?? []).includes((index + 1).toString() as "1" | "2" | "3" | "4" | "5")}
-                                />
-                            </label>
-                            </div>
-                        ))}
+                        <div className='grid grid-cols-2 gap-4 py-2'>
+                            {amenitiesOptions.map((option, index) => (
+                                <div key={index + 1} className="form-control">
+                                    <label className="cursor-pointer label">
+                                        <span className="label-text">{option}</span>
+                                        <input
+                                            type="checkbox"
+                                            name="amenitiesOptions"
+                                            className="checkbox checkbox-primary"
+                                            onChange={handleCheckBoxChange}
+                                            value={index + 1}
+                                            checked={(formData.amenities ?? []).includes((index + 1).toString() as "1" | "2" | "3" | "4" | "5")}
+                                        />
+                                    </label>
+                                </div>
+                            ))}
                         </div>
-                        </div>
+                    </div>
                     {errors && <div className="text-red-600">{errors}</div>}
-                     
+
                     <div className=' flex py-2 justify-between'>
                         <button className='btn btn-secondary' onClick={handlePreviousStep}>← Previous</button>
                         <button className='btn btn-primary' onClick={handleNextStep}>Next → </button>
                     </div>
                 </div>
-                
+
                 }
                 {/* Step 2 - Contact Information */}
                 {currentStep == 2 && <div className='flex flex-col gap-4'>
                     <h1 className='font-bold font-primary text-primary' >Contact Info (optional)</h1>
-                  
+
                     <div className='flex flex-col md:flex-row gap-4'>
-                      
+
                     </div>
 
                     <div className='flex flex-col md:flex-row gap-4'>
@@ -516,7 +516,7 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
 
                     </div>
                     <div className='flex flex-col md:flex-row gap-4'>
-                     
+
                         <div>
                             <label className="input input-bordered flex items-center gap-2 h-[2rem] w-fit bg-[#F2F2F2] border-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -544,28 +544,25 @@ const UpdateListing:React.FC<PostProps> = ({post}) => {
                         </div>
                     </div>
                     <div>
-                    <label className="label ">
-              <span className="label-text">Would you like your email to be displayed? </span>
-                    <input
+                        <label className="label ">
+                            <span className="label-text">Would you like your email to be displayed? </span>
+                            <input
 
-                        type="checkbox"
-                        name="contactEmail"
-                        value={formData.contactEmail.toString()}
-                        onChange={(e) => setFormData({ ...formData, contactEmail: e.target.checked })}
-                        className="toggle"
-                        defaultChecked={formData.contactEmail}
-                    />
-            </label> 
+                                type="checkbox"
+                                name="contactEmail"
+                    
+                                onChange={(e) => setFormData({ ...formData, contactEmail: e.target.checked })}
+                                className="toggle"
+                                defaultChecked={false}
+                            />
+                        </label>
                     </div>
                     {errors && <div className=" text-red-600">{errors}</div>}
-
-                    <div className=' flex py-2 justify-between'>
+                    <div className='flex py-2 justify-between'>
                         <button className='btn  ' onClick={handlePreviousStep}>← Back</button>
-                        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} className='btn btn-secondary '>Save →</button>
+                        <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} className='btn btn-secondary'>Save →</button>
                     </div>
-
                 </div>}
-
             </form>
 
         </div>

@@ -790,7 +790,7 @@ export async function updateRoommatePostById(postId: number, postData: any) {
       rent: parseInt(postData.rent),
       deposit: postData.deposit,
       address: postData.address,
-      contactEmail: Boolean(postData.contactEmail),
+      contactEmail: postData.contactEmail,
       availableDate: postData.availableDate,
       propertyType: postData.propertyType,
       utilities: postData.selectedUtilities,
