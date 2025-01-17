@@ -57,7 +57,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
             if (key === "dhuhr") {
               return (
                 <tr key={key}>
-                  <td>{key}</td>
+                  <td>{key.toUpperCase()}</td>
                   <td>{formattedTiming}</td>
                   <td>
                     {todaysTimings["dhuhr_iqamah_1"]} {timingDictonary["dhuhr_iqamah_1"]}<br />
@@ -70,7 +70,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({ timingsData }) => {
             }
             return (
               <tr key={key}>
-                <td>{key}</td>
+                <td>{key.toUpperCase()}</td>
                 <td>{formattedTiming}</td>
                 <td>{iqamahTime}</td>
               </tr>
