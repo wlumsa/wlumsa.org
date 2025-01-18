@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import logo from "../../logo.png";
-// import { SignedIn, SignedOut } from "@clerk/nextjs";
-// import { SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { usePathname } from 'next/navigation'
 /* Readd donate button */
 interface Product {
   id: string;
@@ -34,6 +35,8 @@ type NavbarProps = {
   navbarData: Nav;
 };
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
+  const pathname = usePathname()
+
 
   // const productData = useSelector((state: RootState) => state.shopper.cart);
   // const [totalAmt, setTotalAmt] = useState("");
@@ -169,27 +172,27 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </Link>
         <div className="dropdown dropdown-end">
 
-          {/* <div
+           <div
             className="">
             <SignedOut>
-              <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton mode='modal' /></div>
-            </SignedOut>
-            <SignedIn  >
-              <div className="mx-2 "> <UserButton
-                appearance={{
-                  elements: {
-                    userButtonAvatarBox: "w-10 h-10",
-                    userButtonPopoverCard: "bg-blue-100",
-                    userButtonPopoverActionButton: "text-primary"
-                  },
-                }}
-
-              /> </div>
-            </SignedIn>
-          </div> */}
+      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton  fallbackRedirectUrl={pathname}  signUpFallbackRedirectUrl={'/onboarding'}  /></div>
+          </SignedOut>
+          <SignedIn  >
+          <div className="mx-2 "> <UserButton
+          appearance={{
+            elements: {
+              userButtonAvatarBox: "w-10 h-10", 
+              userButtonPopoverCard: "bg-blue-100",
+              userButtonPopoverActionButton: "text-primary"
+                       },
+          }}
+         
+          /> </div> 
+          </SignedIn>
+          </div>
         </div>
       </div>
     </div>
   );
 };
-export default Navbar;
+export default Navbar 

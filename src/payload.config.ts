@@ -40,8 +40,8 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
+import GeneralUser from "./collections/UI/GeneralUser";
 
-import { GeneralUser } from "./collections/Users/Users";
 import { CheckboxBlock, SelectBlock } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 const filename = fileURLToPath(import.meta.url);
@@ -90,10 +90,12 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: postgresAdapter({
+  db:
+   postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
+
   }),
   plugins: [
     seoPlugin({

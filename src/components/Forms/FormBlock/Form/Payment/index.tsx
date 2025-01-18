@@ -33,8 +33,6 @@ const PriceWatcher: React.FC<{
         basePrice,
         priceConditions,
         fieldValues: {
-          parents: arrayFields[0],
-          players: arrayFields[1],
         },
       })
       setValue(name, calculatedPrice)
