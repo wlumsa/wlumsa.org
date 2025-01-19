@@ -35,7 +35,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   const [selectedCuisine, setSelectedCuisine] = useState<string>("All Cuisines");
   const [selectedMethod, setSelectedMethod] = useState<string>("All Methods");
   const [selectedCampusLocation, setSelectedCampusLocation] = useState<string>("All Locations");
-  const [showFilters, setShowFilters] = useState<boolean>(true);
+  const [showFilters, setShowFilters] = useState<boolean>(false); // Initially hidden
   const [isStickyVisible, setIsStickyVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
 
