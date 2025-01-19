@@ -71,6 +71,9 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
         <Hr style={hr} />
         <Text style={footer}>
           This is an automated email, please do not reply.</Text>
+        <Text style={footer}>
+          If you would like to unsubscribe from this newsletter, you can do so <Link href={`https://wlumsa.org/unsubscribe`}>here</Link>
+        </Text>
       </Container>
     </Body>
   </Html>
