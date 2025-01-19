@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     
     const results = await Promise.all(chunks.map(async (chunk) => {
       const batch = chunk.map((user) => ({
-        from: 'admin@wlumsa.org',
+        from: `WLU MSA <admin@wlumsa.org>`,
         to: [user.email],
         subject: subject,
         react: Newsletter({ firstName: user.firstName, content: content_html }),

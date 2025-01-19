@@ -66,7 +66,7 @@ export async function memberSignup(formData: FormData) {
             })
         }
         await resend.emails.send({
-            from: `WLUMSA <admin@wlumsa.org>`,
+            from: `WLU MSA <admin@wlumsa.org>`,
             to: email,
             subject: "Here is a free gift!",
             react: WelcomeEmail({ firstName: firstName, content: "" }),
