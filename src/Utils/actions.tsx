@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { addIndividualToList, addMember, isMember } from './datafetcher'
+import { addIndividualToList, addMember, isMember, removeIndividualFromList, updateNewsletterStatus } from './datafetcher'
 import { resend } from './resend';
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -11,6 +11,22 @@ const schema = z.object({
     newsLetter: z.boolean(),
 })
 import WelcomeEmail from 'emails/signup';
+
+export async function removeMemberFromNewsletter(email: string) {
+    //check if they are apart of newsletter collection
+const updateStatus = await updateNewsletterStatus(email);
+if (!updateStatus) {
+    return { message: 'You are not subscribed to the newsletter', errors: true }
+}
+
+    const remove = await removeIndividualFromList("Newsletter",  email );
+    if (!remove) {
+        return { message: 'You are not subscribed to the newsletter', errors: true }
+    } 
+   
+    return { message: 'You have been removed from the newsletter' }
+
+}
 
 export async function memberSignup(formData: FormData) {
     const validatedFields = schema.safeParse({
@@ -62,3 +78,5 @@ export async function memberSignup(formData: FormData) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
 }
+
+

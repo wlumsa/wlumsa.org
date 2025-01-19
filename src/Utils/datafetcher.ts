@@ -490,6 +490,95 @@ export async function isMember(studentId: string) {
   return data.length > 0;
 }
 
+export async function updateNewsletterStatus(email: string) {
+const exists = await payload.find({
+  collection: "members",
+  where: {
+    "mylaurierEmail": {
+      equals: email,
+    },
+  },
+  limit: 1,
+})
+if(exists.docs.length > 0) {
+  const result = await payload.update({
+    collection: "members",
+    where: {
+      "mylaurierEmail": {
+        equals: email,
+      },
+    },
+    data: {
+      newsletter: false,
+    },
+  });
+  return true;
+} else {
+  return false;
+}
+
+}
+//function to remove  a person from the newsletter list, given their email
+export async function removeIndividualFromList(
+  listName: string,
+  email: string,
+) {
+  try {
+    const { data: existingIndividual, error: existingIndividualError } =
+      await supabase
+        .from("individuals")
+        .select("*")
+        .eq("email", email) 
+        .single();
+    console.log("EXISITING INDIVIDUAL:", existingIndividual);
+    if (
+      existingIndividualError && existingIndividualError.code !== "PGRST116"
+    ) {
+      throw new Error(
+        `Error checking individual: ${existingIndividualError.message}`,
+      );
+    }
+
+    const { data: existingList, error: listError } = await supabase
+      .from("distribution_list")
+      .select("id")
+      .eq("list_name", listName)
+      .single();
+
+      if(listError) {
+        throw new Error(`Error fetching list: ${listError.message}`);
+      }
+
+      if (!existingList || existingList.id === undefined) {
+        throw new Error(`List does not exist`);
+      } 
+
+      const removeIndividual = await supabase
+      .from("distribution_list_rels")
+      .delete()
+      .eq("parent_id", existingList.id)
+      .eq("individuals_id", existingIndividual.id);
+
+      if(removeIndividual.error) {
+        throw new Error(`Error removing individual: ${removeIndividual.error.message}`);
+      }
+      if(removeIndividual)
+      {
+        return {
+          success: true,
+          message: "Individual removed from list",
+        };
+      }
+  } catch (error) {
+    console.error("Error :", error);
+    return {
+      success: false,
+      message: error,
+    };
+  }
+}
+
+
 export async function addIndividualToList(
   listName: string,
   individualData: individualSchema,
