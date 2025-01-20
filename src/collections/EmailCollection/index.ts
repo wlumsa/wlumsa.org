@@ -4,14 +4,13 @@ import {
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
-import type { HTMLConverter } from '@payloadcms/richtext-lexical'
-
+import type { HTMLConverter } from "@payloadcms/richtext-lexical";
+let isDatePicked = false;
 export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
   labels: {
     singular: "Email Collection",
     plural: "Email Collection",
-    
   },
   admin: {
     group: "Marketing",
@@ -45,9 +44,7 @@ export const EmailCollection: CollectionConfig = {
           ...defaultFeatures,
           // The HTMLConverter Feature is the feature which manages the HTML serializers.
           // If you do not pass any arguments to it, it will use the default serializers.
-          HTMLConverterFeature({
-            
-          }),
+          HTMLConverterFeature({}),
         ],
       }),
     },
@@ -73,14 +70,19 @@ export const EmailCollection: CollectionConfig = {
         position: "sidebar",
       },
     },
+
     {
       name: "publishedAt",
       type: "date",
       required: true,
+      label:"Published At Date (max allowed is 3 days from now)",
       admin: {
         position: "sidebar",
-        condition: (siblingData) => {
-          if (siblingData.status == "published") {
+        date: {
+          pickerAppearance: "dayAndTime",
+        },
+        condition: (siblingData, data) => {
+          if (siblingData.status == "published" && !data.publishedAt) {
             return true;
           } else {
             return false;
@@ -116,10 +118,9 @@ export const EmailCollection: CollectionConfig = {
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
               const req = await fetch(
-                "https://www.wlumsa.org/api/sendByDistributionList",
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/sendByDistributionList`,
                 {
                   method: "POST",
-                  
                   body: JSON.stringify({
                     title: siblingData.title,
                     subject: siblingData.subject,
@@ -128,6 +129,7 @@ export const EmailCollection: CollectionConfig = {
                     content: siblingData.content,
                     distributionListId: siblingData.distributionList,
                     content_html: siblingData.content_html,
+                    attachments:siblingData.attachments
                   }),
                 },
               );
