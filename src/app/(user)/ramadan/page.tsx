@@ -29,7 +29,7 @@ export default function CountdownPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-[#203B5D] mb-6">Countdown to Ramadan 2024</h1>
+      <h1 className="text-4xl font-bold text-[#203B5D] mb-6">Countdown to Ramadan 2025</h1>
       <p className="mb-4 text-lg text-gray-700">
         The blessed month of Ramadan is approaching! Countdown to its start:
       </p>
