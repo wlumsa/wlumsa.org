@@ -267,6 +267,7 @@ export default buildConfig({
           payment: true,
         },
       },
+      
     ),
   ],
   email: resendAdapter({
