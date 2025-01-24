@@ -3,10 +3,9 @@ import {isUser } from '@/Utils/accessControl';
 import { Access } from 'payload';
 import {auth as fetchAuth} from "@clerk/nextjs/server";
 import payload from 'payload';
-import { currentUser } from '@clerk/nextjs/server'
 
 export const isAuthor: Access = async ({ req, id }) => {
-  if( req.user?.roles?.includes('admin')) {
+  if( req.user) {
     return true;
   }
   const user = await fetchAuth();
@@ -17,16 +16,15 @@ export const isAuthor: Access = async ({ req, id }) => {
     collection: 'RoommatePosts',
     where: {
       "clerkId": {
-        equals: id,
+        equals: user.userId,
       },
     },
    
   });
-  if(!post) {
+  if (!post || post.docs.length === 0) {
     return false;
   }
-
-  return Boolean(true);  ;
+  return false;
 }
 export const RoommatePosts: CollectionConfig = {
   slug: 'RoommatePosts',

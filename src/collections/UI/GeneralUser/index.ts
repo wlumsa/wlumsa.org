@@ -1,12 +1,39 @@
 import { CollectionConfig } from 'payload';
+import {isUser } from '@/Utils/accessControl';
+import { Access } from 'payload';
+import {auth as fetchAuth} from "@clerk/nextjs/server";
+import payload from 'payload';
+
+export const isAuthor: Access = async ({ req }) => {
+  if( req.user) {
+    return true;
+  }
+  const user = await fetchAuth();
+  if(!user.userId){
+    return false;
+  }
+  const post = await payload.find({
+    collection: 'general-user',
+    where: {
+      "clerkId": {
+        equals: user.userId,
+      },
+    },
+   
+  });
+  if (!post || post.docs.length === 0) {
+    return false;
+  }
+  return false;
+}
 
 export const GeneralUser: CollectionConfig = {
   slug: 'general-user',
   access: {
     read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    create: ({req}) => isUser({req}),
+    update: ({req}) => isAuthor({ req }),
+    delete: ({ req }) => isAuthor({ req }),
   },
   fields: [
     {

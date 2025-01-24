@@ -8,7 +8,7 @@ import { isUser } from '@/Utils/accessControl';
 export const isAuthor: Access = async ({ req, id }) => {
 
   const user = await fetchAuth();
-  if( req.user?.roles?.includes('admin')) {
+  if( req.user) {
     return true;
   }
   if(!user.userId){

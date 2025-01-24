@@ -2,7 +2,7 @@
 
 import type { Access } from "payload";
  export const isUser: Access = async ({ req }) => {
-  if( req.user?.roles?.includes('admin')) {
+  if(req.user) {
     return true;
   }
     const user = await fetchAuth();
