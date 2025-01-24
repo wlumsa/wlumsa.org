@@ -6,30 +6,27 @@ import { isUser } from '@/Utils/accessControl';
 
 
 export const isAuthor: Access = async ({ req, id }) => {
-
-  const user = await fetchAuth();
   if( req.user) {
     return true;
   }
+  const user = await fetchAuth();
   if(!user.userId){
     return false;
   }
-  const comment = await payload.find({
+  const post = await payload.find({
     collection: 'comments',
     where: {
       "clerkId": {
-        equals: id,
+        equals: user.userId,
       },
     },
    
   });
-  if(!comment) {
+  if (!post || post.docs.length === 0) {
     return false;
   }
-
-  return Boolean(true);  ;
+  return false;
 }
-
 
 export const Comments: CollectionConfig = {
   slug: 'comments',
