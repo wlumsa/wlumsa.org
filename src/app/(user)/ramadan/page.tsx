@@ -62,17 +62,17 @@ export default function CountdownPage() {
   >
     Go to Ramadan 2024 Page
   </button>
-</Link>
+  </Link>
 
 <Link href="/prayerinfo">
   <button
-    className="px-8 py-3 bg-gradient-to-r from-primary to-success text-base-100 font-bold font-sans rounded-lg shadow-md hover:from-success hover:to-primary hover:text-base-100 transition-transform transform hover:scale-105 ease-in-out duration-300"
+    className="px-8 py-3 bg-gradient-to-r from-primary to-secondary text-base-100 font-bold font-sans rounded-lg shadow-md hover:bg-secondary hover:text-primary transition-transform transform hover:scale-105 ease-in-out duration-300 mt-6 mx-4"
   >
     Go to Prayer Information Page
   </button>
 </Link>
 
-      </div>
-    </div>
-  );
+</div>
+</div>
+);
 }
