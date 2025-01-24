@@ -1,3 +1,4 @@
+"use client"
 import React, { useMemo } from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 

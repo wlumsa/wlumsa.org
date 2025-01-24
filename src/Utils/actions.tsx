@@ -14,6 +14,7 @@ const schema = z.object({
 })
 import WelcomeEmail from 'emails/signup';
 import { supabase } from '@/lib/supabaseClient';
+import { RoommatePost } from '@/payload-types';
 
 export async function memberSignup(formData: FormData) {
     const validatedFields = schema.safeParse({
@@ -39,17 +40,17 @@ export async function memberSignup(formData: FormData) {
             return { message: 'You are already a member!', errors: true }
         }
         const addMemberRes = await addMember(firstName, lastName, email, studentId, newsLetter)
-        if(!addMemberRes) {
+        if (!addMemberRes) {
             return { message: 'Failed to sign up. Please try again.', errors: true }
         }
         if (newsLetter) {
             await addIndividualToList("Newsletter", { email: email, first_name: firstName, last_name: lastName, });
             await resend.contacts.create({
-                email:email,
-                first_name:firstName,
-                last_name:lastName,
-                audience_id:"151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
-                unsubscribed:false
+                email: email,
+                first_name: firstName,
+                last_name: lastName,
+                audience_id: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                unsubscribed: false
             })
         }
         await resend.emails.send({
@@ -58,7 +59,7 @@ export async function memberSignup(formData: FormData) {
             subject: "Here is a free gift!",
             react: WelcomeEmail({ firstName: firstName, content: "" }),
         });
-       
+
 
         return { message: 'Thanks for signing up!' }
     } catch (error) {
@@ -80,9 +81,9 @@ export async function postComment(comment: string, postId: number) {
     }
 }
 
-export async function deleteComment(commentId:string) {
+export async function deleteComment(commentId: string) {
     try {
-         const res = await deleteCommentById(commentId);
+        const res = await deleteCommentById(commentId);
         return { res, message: 'Comment deleted!' }
     } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
@@ -90,34 +91,33 @@ export async function deleteComment(commentId:string) {
 }
 
 //Roommate service functions
-
-    interface RoommatePost {
-        title: string;
-        address: string;
-        propertyType: string;
-        furnishingType: string;
-        deposit: number;
-        rent: number;
-        gender: string;
-        contactEmail: boolean;
-        availableDate: string;
-        description: string
-        images:  string[];
-        selectedUtilities: string[];
-        selectedAmenities: string[];
-        phone: string;
-        facebook: string;
-        instagram: string;
-        whatsapp: string;
-    }
+// export interface RoommatePost {
+//     title: string;
+//     address: string;
+//     propertyType: string;
+//     furnishingType: string;
+//     deposit: number;
+//     rent: number;
+//     gender: string;
+//     contactEmail: boolean;
+//     availableDate: string;
+//     description: string
+//     images: string[];
+//     selectedUtilities: string[];
+//     selectedAmenities: string[];
+//     phone: string;
+//     facebook: string;
+//     instagram: string;
+//     whatsapp: string;
+// }
 
 export async function createPost(formData: RoommatePost) {
     try {
         const res = await createRoommatePost(formData);
         try {
-            await axios.post("http://localhost:3000/api/newPost", 
-                {  formData: res }
-                )
+            await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/newPost`,
+                { formData: res }
+            )
         }
         catch (error) {
             console.log("Error sending email:", error);
@@ -126,7 +126,7 @@ export async function createPost(formData: RoommatePost) {
     } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
-    
+
 }
 
 
@@ -142,13 +142,13 @@ interface userData {
     category: string;
 }
 export async function userOnboarding(formData: userData) {
-    if(formData.isStudent === 'Yes') {
+    if (formData.isStudent === 'Yes') {
         formData.category = 'student';
     }
 
 
     try {
-    
+
         const user = await currentUser();
         if (!user) {
             return { message: 'User not found', errors: true }
@@ -157,13 +157,13 @@ export async function userOnboarding(formData: userData) {
         console.log(formData)
         const res = await updateUserInfo(userId, formData);
         console.log(res)
-        if(res.docs) {
+        if (res.docs) {
             return { message: 'User info updated!' }
         } else {
-            return { message: 'Failed to update user info', errors: true}
+            return { message: 'Failed to update user info', errors: true }
         }
-        
-    } catch(error) {
+
+    } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
 }

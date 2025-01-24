@@ -35,7 +35,7 @@ const Popup: React.FC = () => {
   return (
     <div
       tabIndex={-1}
-      className=" fixed left-1/2  top-1/2 z-50 w-4/5 -translate-x-1/2 -translate-y-1/2 transform  overflow-y-auto overflow-x-hidden rounded-lg border border-gray-300 bg-white p-4 shadow-md md:w-2/5 "
+      className=" fixed left-1/2  top-1/2 z-50 w-4/5 -translate-x-1/2 -translate-y-1/2 transform  overflow-y-auto overflow-x-hidden rounded-lg border border-gray-300 bg-base-100 p-4 shadow-md md:w-2/5 "
     >
       <div>
         <button

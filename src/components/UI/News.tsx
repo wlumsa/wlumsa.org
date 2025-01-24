@@ -2,6 +2,7 @@
 import { InstagramEmbed } from "react-social-media-embed";
 import React from "react";
 import { Instagram } from "@/payload-types";
+import Link from "next/link";
 
 interface InstagramPageProps {
   instagramPosts: Instagram[];
@@ -32,20 +33,20 @@ const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
               ))}
             </div>
           ): (
-            <div className="text-center text-primary">
+            <div className="text-center text-neutral">
               No news to display.
             </div>
           )}
         </div>
         <div className="flex w-full justify-center gap-2 pt-4">
           {Array.from({ length: queryLength }, (_, index) => (
-            <a
+            <Link
               href={`#item${index + 1}`}
               className="btn btn-xs border-primary bg-base-100 text-primary duration-200 hover:scale-105 hover:bg-base-200"
               key={index}
             >
               {index + 1}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

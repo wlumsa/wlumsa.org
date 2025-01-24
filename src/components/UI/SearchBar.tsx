@@ -26,7 +26,7 @@ const SearchBar = () => {
       }, 200 ) //this code runs 300ms after user stops typing
 
   return (
-    <div className="mx-2 rounded-xl bg-white px-4">
+    <div className="mx-2 rounded-xl bg-base-100 px-4">
           <label className="input input-bordered flex items-center my-2">
             <input type="text" className="grow" placeholder="Search" 
             onChange={(e) => {

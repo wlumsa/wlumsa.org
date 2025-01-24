@@ -87,9 +87,14 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, postId, postT
    
         if(comment.res) {
             toast.success('Comment posted');
-            setNewComments([...newComments, { id:comment.res.id, author: comment.res.author ? comment.res.author : '' , message: comment.res.comment, date: comment.res.createdAt}]);
+            setNewComments([...newComments, { 
+                id: comment.res.id, 
+                author: comment.res.author ? comment.res.author : '', 
+                message: comment.res.comment || '',
+                date: comment.res.createdAt 
+            }]);
             //send an email to the post author
-             try{
+            try {
               //get post author email
               //get post title
               await axios.post("/api/sendComment", 

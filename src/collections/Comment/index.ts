@@ -85,13 +85,7 @@ export const Comments: CollectionConfig = {
   },
  
   fields: [
-    {
-      name: 'userId',
-      type: 'relationship',
-      relationTo: 'general-user',
-      required: true,
-      
-    },
+   
     {
       name: 'author',
       type: 'text',
