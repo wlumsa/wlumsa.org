@@ -8,12 +8,12 @@ import {
   type UseFormWatch,
   Control,
 } from 'react-hook-form'
-
 import React, { useState } from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
 import { getPaymentPrice } from './actions/getPaymentPrice'
+
 // Create a new component for watching arrays and calculating price
 const PriceWatcher: React.FC<{
   control: Control<FieldValues>
@@ -22,10 +22,8 @@ const PriceWatcher: React.FC<{
   name: string
   setValue: any
 }> = ({ control, basePrice, priceConditions, name, setValue }) => {
-  const arrayFields = useWatch({
-    control,
-    name: ['parents', 'players'],
-  })
+  const paymentNum = useWatch({ control, name: 'paymentNum' })
+  const players = useWatch({ control, name: 'players' })
 
   React.useEffect(() => {
     const updatePrice = async () => {
@@ -33,14 +31,14 @@ const PriceWatcher: React.FC<{
         basePrice,
         priceConditions,
         fieldValues: {
-          parents: arrayFields[0],
-          players: arrayFields[1],
+          paymentNum,
+          players,
         },
       })
       setValue(name, calculatedPrice)
     }
     updatePrice()
-  }, [basePrice, priceConditions, name, setValue, arrayFields])
+  }, [basePrice, priceConditions, name, setValue, paymentNum, players])
 
   return null
 }
@@ -77,8 +75,8 @@ export const Payment: React.FC<
     return (
       <div className=''>
         <Width width={width}>
-          <label htmlFor={name} className='text-xl font-semibold '>{label}</label>
-          <div className="text-base ">${price}</div>
+          <label htmlFor={name} className='text-xl font-semibold'>{label}</label>
+          <div className="text-base">$Price - {price}</div>
 
           <PriceWatcher
             control={control}
@@ -87,8 +85,9 @@ export const Payment: React.FC<
             name={name}
             setValue={setValue}
           />
-
-          {requiredFromProps && errors[name] && <Error />}
+          <div className="min-h-[24px]">
+            {requiredFromProps && errors[name] && <Error />}
+          </div>
         </Width>
       </div>
     )
