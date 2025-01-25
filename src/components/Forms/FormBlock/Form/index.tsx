@@ -45,7 +45,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const {
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
-    introContent,
   } = props
 
   const formMethods = useForm({
@@ -294,7 +293,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
 
   return (
-    <div className="mt-20 flex min-h-screen flex-grow flex-col items-center">
+    <div className="flex  flex-col items-center">
       <h1 className='my-4 text-3xl text-bold'>{formFromProps.title} Form</h1>
 
       <div className="flex items-center">
