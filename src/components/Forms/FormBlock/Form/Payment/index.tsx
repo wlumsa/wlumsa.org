@@ -22,22 +22,23 @@ const PriceWatcher: React.FC<{
   name: string
   setValue: any
 }> = ({ control, basePrice, priceConditions, name, setValue }) => {
-  const arrayFields = useWatch({
-    control,
-    name: ['paymentNum', 'players'],
-  })
+  const paymentNum = useWatch({ control, name: 'paymentNum' })
+  const players = useWatch({ control, name: 'players' })
 
   React.useEffect(() => {
     const updatePrice = async () => {
       const calculatedPrice = await getPaymentPrice({
         basePrice,
         priceConditions,
-        fieldValues:arrayFields
+        fieldValues: {
+          paymentNum,
+          players,
+        },
       })
       setValue(name, calculatedPrice)
     }
     updatePrice()
-  }, [basePrice, priceConditions, name, setValue, arrayFields])
+  }, [basePrice, priceConditions, name, setValue, paymentNum, players])
 
   return null
 }
