@@ -8,6 +8,7 @@ import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetc
 import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from './GoogleAnalytics';
+import ThemeProvider from "./themeprovider";
 // import {
 //   ClerkProvider,
 //   SignInButton,
@@ -67,9 +68,11 @@ export default async function RootLayout({
           <SpeedInsights />
           <Analytics />
           <Providers>
+            <ThemeProvider>
             <Navbar navbarData={navbarData} />
             {children}
             <Footer footerGroups={footerData} socialData={socialData} />
+            </ThemeProvider>
           </Providers>
         </body>
 

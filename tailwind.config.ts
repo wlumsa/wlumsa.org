@@ -32,19 +32,18 @@ export default {
           "error": "#F2B6B5",
         }, 
         darkTheme: {
-          "primary": "#2e046d",   // Purple
-          "secondary": "#e7ac3b", // Yellow
+          "primary": "#5f3c8d",   // Purple
+          "secondary": "#ecb553", // Yellow
           "accent": "#6c703e",    // Green
-          "neutral": "#444444",   // Gray
+          "neutral": "#ffffff",   // White
           "info": "#C8E1E7",      
           "base-100": "#2A2929",  // Dark background
           "success": "#DEF29F",   
           "warning": "#F7E589",   
-          "error": "#F2B6B5",     
+          "error": "#F2B6B5",   
         },
         
       },
     ],
-    darkMode: ['darkTheme'],
   },
 } satisfies Config;
