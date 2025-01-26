@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2022-08-01',
 })
 
-export const createCheckoutSession = async (submissionId: string, price: number) => {
+export const createCheckoutSession = async (submissionId: string, price: number,formName:string) => {
   try {
     const session = await stripe.checkout.sessions.create({
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success`,
@@ -19,7 +19,7 @@ export const createCheckoutSession = async (submissionId: string, price: number)
           price_data: {
             currency: 'cad',
             product_data: {
-              name: 'MSA Donation',
+              name: formName,
             },
             unit_amount: price * 100,
           },

@@ -242,7 +242,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           try {
             const session = await createCheckoutSession(
               submissionId,
-              Number(data[paymentFieldName])
+              Number(data[paymentFieldName]),
+              formFromProps.title
             )
 
             if (!session?.url) {
