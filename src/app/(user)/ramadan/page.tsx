@@ -102,7 +102,7 @@ export default async function CountdownPage() {
       <div>
         <div className="hero container px-4 py-8 mx-auto">
           <div id="events" className="">
-            <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0 font-bold">
+            <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0 ">
               A bit about the project
             </h1>
             {content.map((event) => (
