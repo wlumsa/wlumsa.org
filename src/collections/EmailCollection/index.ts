@@ -117,10 +117,13 @@ export const EmailCollection: CollectionConfig = {
         afterChange: [
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
-              const req = await fetch(
+              const response = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/api/sendByDistributionList`,
                 {
                   method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
                   body: JSON.stringify({
                     title: siblingData.title,
                     subject: siblingData.subject,
@@ -130,9 +133,10 @@ export const EmailCollection: CollectionConfig = {
                     distributionListId: siblingData.distributionList,
                     content_html: siblingData.content_html,
                   }),
-                },
+                }
               );
-              console.log("API REQUEST:",req.status)
+
+              console.log("API REQUEST:", response.status);
             }
           },
         ],
