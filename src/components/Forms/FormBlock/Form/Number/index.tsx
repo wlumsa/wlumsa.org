@@ -27,6 +27,7 @@ export const Number: React.FC<
           className="input w-full focus:border-secondary input-bordered"
           placeholder="5"
           id={name}
+          min={0}
           {...register(name, { required: requiredFromProps ? `${label} is required` : false })}
         />
 

@@ -27,6 +27,12 @@ const config = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol:"https",
+        hostname:"mrucujpvbprmpznsgmfr.supabase.co",
+        port:"",
+        pathname:"/**"
+      }
       
       
     ],

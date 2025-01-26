@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
   return (
     <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full mb-16 p-0 px-2 ">
-      {/* Mobile */}
+\      {/* Mobile */}
       <div className="navbar-start text-base-100">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

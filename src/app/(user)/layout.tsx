@@ -8,6 +8,7 @@ import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetc
 import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from './GoogleAnalytics';
+import CountdownComponent from "./ramadan/CountdownComponent";
 // import {
 //   ClerkProvider,
 //   SignInButton,

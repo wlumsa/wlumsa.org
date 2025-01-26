@@ -25,25 +25,18 @@ const CountdownComponent = () => {
         return () => clearInterval(timer);
     }, []);
     return (
-        <div className="flex space-x-4 text-2xl font-bold text-[#2474A3]">
-            <div className="flex flex-col items-center">
-                <span>{timeLeft.days}</span>
-                <span className="text-sm text-gray-600">Days</span>
-            </div>
-            <div className="flex flex-col items-center">
-                <span>{timeLeft.hours}</span>
-                <span className="text-sm text-gray-600">Hours</span>
-            </div>
-            <div className="flex flex-col items-center">
-                <span>{timeLeft.minutes}</span>
-                <span className="text-sm text-gray-600">Minutes</span>
-            </div>
-            <div className="flex flex-col items-center">
-                <span>{timeLeft.seconds}</span>
-                <span className="text-sm text-gray-600">Seconds</span>
-            </div>
+        <div className='text-primary text-small'>{timeLeft.days} Days 
         </div>
     )
 }
 
 export default CountdownComponent
+
+/*
+ <span className="inline">
+                {timeLeft.days} <span className="text-xs text-base-100">Days</span>, 
+                {timeLeft.hours} <span className="text-xs text-base-100">Hours</span>, 
+                {timeLeft.minutes} <span className="text-xs text-base-100">Minutes</span>, 
+                {timeLeft.seconds} <span className="text-xs text-base-100">Seconds</span>
+            </span>
+            */
