@@ -117,22 +117,28 @@ export const EmailCollection: CollectionConfig = {
         afterChange: [
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
+              const body = {
+                title: siblingData.title,
+                subject: siblingData.subject,
+                headerImage: siblingData.headerImage,
+                publishedAt: siblingData.publishedAt,
+                content: siblingData.content,
+                distributionListId: siblingData.distributionList,
+                content_html: siblingData.content_html,
+              };
+
+              // Log the body to check its contents
+              console.log("Request Body:", JSON.stringify(body));
+
               const response = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/api/sendByDistributionList`,
                 {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
+                    "Content-Length": Buffer.byteLength(JSON.stringify(body)).toString(), // Set Content-Length manually
                   },
-                  body: JSON.stringify({
-                    title: siblingData.title,
-                    subject: siblingData.subject,
-                    headerImage: siblingData.headerImage,
-                    publishedAt: siblingData.publishedAt,
-                    content: siblingData.content,
-                    distributionListId: siblingData.distributionList,
-                    content_html: siblingData.content_html,
-                  }),
+                  body: JSON.stringify(body),
                 }
               );
 
