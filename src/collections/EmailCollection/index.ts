@@ -82,7 +82,7 @@ export const EmailCollection: CollectionConfig = {
           pickerAppearance: "dayAndTime",
         },
         condition: (siblingData, data) => {
-          if (siblingData.status == "published" && !data.publishedAt) {
+          if (siblingData.status == "published") {
             return true;
           } else {
             return false;
@@ -133,6 +133,7 @@ export const EmailCollection: CollectionConfig = {
                   }),
                 },
               );
+              console.log("API REQUEST:",req.body)
             }
           },
         ],
