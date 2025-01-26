@@ -3,6 +3,12 @@ import Newsletter from 'emails/general';
 import { Individual } from '@/payload-types';
 import { resend } from '@/Utils/resend';
 
+export const maxDuration = 60; // This function can run for a maximum of 60 seconds
+
+
+const EMAILS_PER_SECOND = 2; // Rate limit
+const DELAY_MS = 1000 / EMAILS_PER_SECOND; // Delay in milliseconds
+
 export async function POST(req: Request) {
   try {
     const response = await req.json();
@@ -22,8 +28,6 @@ export async function POST(req: Request) {
 
     console.log(validDistributionList);
 
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
     const results = [];
 
     for (const user of validDistributionList) {
@@ -32,7 +36,7 @@ export async function POST(req: Request) {
           from: `WLU MSA <admin@wlumsa.org>`,
           to: user.email,
           subject: subject,
-          react: Newsletter({ firstName: user.firstName, content: content_html}),
+          react: Newsletter({ firstName: user.firstName, content: content_html }),
           scheduled_at: publishedAt,
         };
         console.log(emailPayload)
@@ -50,7 +54,8 @@ export async function POST(req: Request) {
         results.push({ email: user.email, success: false, error: err });
       }
 
-      await delay(1000); // 1-second delay
+      // Delay to respect the rate limit
+      await new Promise(resolve => setTimeout(resolve, DELAY_MS));
     }
 
     const failedResults = results.filter(result => !result.success);
