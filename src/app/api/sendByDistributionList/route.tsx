@@ -6,7 +6,7 @@ import { resend } from '@/Utils/resend';
 export async function POST(req: Request) {
   try {
     const response = await req.json();
-    const { title, subject, headerImage, attachments, publishedAt, content, distributionListId, content_html } = response;
+    const { title, subject, headerImage, publishedAt, content, distributionListId, content_html } = response;
 
     console.log(content_html);
 
@@ -34,7 +34,6 @@ export async function POST(req: Request) {
           subject: subject,
           react: Newsletter({ firstName: user.firstName, content: content_html}),
           scheduled_at: publishedAt,
-          attachments:attachments,
         };
         console.log(emailPayload)
         const { data, error } = await resend.emails.send(emailPayload);

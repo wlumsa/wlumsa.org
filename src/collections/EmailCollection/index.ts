@@ -129,11 +129,10 @@ export const EmailCollection: CollectionConfig = {
                     content: siblingData.content,
                     distributionListId: siblingData.distributionList,
                     content_html: siblingData.content_html,
-                    attachments:siblingData.attachments
                   }),
                 },
               );
-              console.log("API REQUEST:",req.body)
+              console.log("API REQUEST:",req.status)
             }
           },
         ],
