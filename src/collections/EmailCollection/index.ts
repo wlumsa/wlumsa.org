@@ -4,13 +4,14 @@ import {
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
-import type { HTMLConverter } from "@payloadcms/richtext-lexical";
-let isDatePicked = false;
+import type { HTMLConverter } from '@payloadcms/richtext-lexical'
+
 export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
   labels: {
     singular: "Email Collection",
     plural: "Email Collection",
+    
   },
   admin: {
     group: "Marketing",
@@ -44,7 +45,9 @@ export const EmailCollection: CollectionConfig = {
           ...defaultFeatures,
           // The HTMLConverter Feature is the feature which manages the HTML serializers.
           // If you do not pass any arguments to it, it will use the default serializers.
-          HTMLConverterFeature({}),
+          HTMLConverterFeature({
+            
+          }),
         ],
       }),
     },
@@ -70,18 +73,13 @@ export const EmailCollection: CollectionConfig = {
         position: "sidebar",
       },
     },
-
     {
       name: "publishedAt",
       type: "date",
       required: true,
-      label:"Published At Date (max allowed is 3 days from now)",
       admin: {
         position: "sidebar",
-        date: {
-          pickerAppearance: "dayAndTime",
-        },
-        condition: (siblingData, data) => {
+        condition: (siblingData) => {
           if (siblingData.status == "published") {
             return true;
           } else {
@@ -117,32 +115,22 @@ export const EmailCollection: CollectionConfig = {
         afterChange: [
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
-              const body = {
-                title: siblingData.title,
-                subject: siblingData.subject,
-                headerImage: siblingData.headerImage,
-                publishedAt: siblingData.publishedAt,
-                content: siblingData.content,
-                distributionListId: siblingData.distributionList,
-                content_html: siblingData.content_html,
-              };
-
-              // Log the body to check its contents
-              console.log("Request Body:", JSON.stringify(body));
-
-              const response = await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/api/sendByDistributionList`,
+              const req = await fetch(
+                "https://www.wlumsa.org/api/sendByDistributionList",
                 {
                   method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Content-Length": Buffer.byteLength(JSON.stringify(body)).toString(), // Set Content-Length manually
-                  },
-                  body: JSON.stringify(body),
-                }
+                  
+                  body: JSON.stringify({
+                    title: siblingData.title,
+                    subject: siblingData.subject,
+                    headerImage: siblingData.headerImage,
+                    publishedAt: siblingData.publishedAt,
+                    content: siblingData.content,
+                    distributionListId: siblingData.distributionList,
+                    content_html: siblingData.content_html,
+                  }),
+                },
               );
-
-              console.log("API REQUEST:", response.status);
             }
           },
         ],
