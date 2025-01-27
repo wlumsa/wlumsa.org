@@ -11,31 +11,6 @@ import Image from "next/image";
 import { StatsSection } from "@/components/UI/Stats";
 import { DotPattern } from "@/components/UI/DotPatter";
 import { cn } from "@/Utils/cn";
-interface Content {
-  title: string;
-  caption: string;
-}
-
-const content: Content[] = [
-  {
-    title: "What is the WLU MSA and Chaplaincy's Ramadan Project?",
-    caption: "The Ramadan Project provides free iftaars (evening meals) to students and community members throughout the holy month. Since 2021, it has become a vital resource for the Laurier Muslim community. For students, these meals offer not only nourishment but also a sense of connection and support during a busy academic period, especially for those far away from home. Students come together to break their fasts with a meal, congregate in prayer, and build a sense of community. Thanks to the generosity of community donors, these iftaars are entirely free for students, relieving financial stress and allowing them to focus on their studies and spiritual growth."
-  },
-  {
-    title: "Why Support the Ramadan Project?",
-    caption: `Your donations directly fund these free iftaars and help the MSA’s and Chaplaincy’s Ramadan project. For many students, the Ramadan Project is a dependable source of support that eases the challenges of fasting while managing academic responsibilities. By contributing, you’re helping to foster a stronger, more connected community at Laurier.
-Every donation is an act of kindness that carries significant barakah (blessings) and can multiply your rewards during Ramadan. Together, we can ensure that this project continues to make a meaningful impact.
-`
-  },
-  {
-    title: "How You Can Help",
-    caption: "We encourage everyone in the Laurier community and beyond to support the WLU MSA’s and Chaplaincy’s Ramadan Project. Your contribution, no matter the size, is a form of sadaqah that benefits others and enriches your own spiritual journey. Together, we can continue to provide these meals, support students, and uphold the blessings of Ramadan."
-  }
-];
-
-
-
-
 
 export default async function CountdownPage() {
 
@@ -75,13 +50,12 @@ export default async function CountdownPage() {
               </BlurFade>
               <BlurFade delay={0.25}>
                 <h2 className="py-4 text-xl md:text-3xl">
-                  We need your help to provide critical Iftars services to busy Muslim University Students!
+                  and get the reward of their fast
                 </h2>
               </BlurFade>
               <BlurFade delay={0.5}>
                 <p className="py-4 text-md md:text-xl text-center ">
-                  The Laurier Muslim Students Association and Muslim Chaplanicy needs your help to provide crucial services this Ramadan for busy university students this Ramadan. Projects include free iftar meals, taraweeh prayers, and suhoor kits
-                </p>
+                  The Messenger of Allah Peace be upon him said "Whoever helps break the fast of a fasting person, he will have the same reward as him without decreasing anything from the reward of the fasting person.” (Tirmidhī 807)                </p>
               </BlurFade>
               <BlurFade delay={0.75}>
                 <div className="flex flex-row  justify-center mb-6" >
@@ -101,22 +75,51 @@ export default async function CountdownPage() {
       </div>
       <div>
         <div className="hero container px-4 py-8 mx-auto">
-          <div id="events" className="">
-            <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0 ">
-              A bit about the project
-            </h1>
-            {content.map((event) => (
-              <div className=" " >
+          <BlurFade delay={1.25}>
+            <div id="events" className="">
+              <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0">
+                About the project
+              </h1>
+              <div className="space-y-4">
                 <div className="max-w-md lg:max-w-5xl flex-grow py-4">
-                  <h3 className="text-xl font-bold duration-200 hover:scale-105 lg:pt-0" >
-                    {event.title}
+                  <h3 className="text-xl font-bold duration-200 hover:scale-105 lg:pt-0">
+                    WLU MSA and Laurier Chaplaincy's Ramadan Project
                   </h3>
-                  <p className="text-neutral">{event.caption}</p>
+                  <p className="text-neutral">
+                    Ramadan is a time of giving, community, and reflection. However, many university students, due to the struggles of academic life and living away from home, often feel stressed, isolated, and unable to focus on their faith. This is exactly why the Laurier MSA and Chaplaincy partnered in 2021—to provide not only free iftars but also a space for students to sit and pray Tarawih. The Ramadan Project has been a source of comfort and connection for university students over the years, and we need your support to continue this initiative.
+                  </p>
+                </div>
+                <div className="max-w-md lg:max-w-5xl flex-grow py-4">
+                  <h3 className="text-xl font-bold duration-200 hover:scale-105 lg:pt-0">
+                    Why Your Support Matters
+                  </h3>
+                  <p className="text-neutral">
+                    Fasting while managing academic responsibilities can be a significant challenge for many students. The Messenger of Allah (peace be upon him) said: <i>"Whoever relieves the hardship of a believer in this world, Allah will relieve his hardship on the Day of Resurrection."</i> (Muslim, 2699).
+                    <br /><br />
+                    Your donations help provide:
+                    <ul className="list-disc pl-5">
+                      <li><strong>Stress Relief:</strong> Alleviating financial burdens so students can focus on their academics and faith.</li>
+                      <li><strong>Nutritious Meals:</strong> Ensuring students have the energy to excel academically and spiritually.</li>
+                      <li><strong>Community Connection:</strong> Fostering a sense of belonging through shared meals.</li>
+                    </ul>
+                    Every meal funded is an act of kindness that helps ease the hardships of students. In the blessed month of Ramadan, your generosity brings not only immediate relief but also immense rewards.
+                  </p>
+                </div>
+                <div className="max-w-md lg:max-w-5xl flex-grow py-4">
+                  <h3 className="text-xl font-bold duration-200 hover:scale-105 lg:pt-0">
+                    How You Can Help
+                  </h3>
+                  <p className="text-neutral">
+                    Your contribution ensures that no student goes hungry this Ramadan. With just $10, you can provide iftar for a student and share in the reward of their fast. Imagine the impact you could make with $50, $100, or even more. Every contribution—big or small—brings smiles, gratitude, and heartfelt duas from those you've supported.
+                    <br /><br />
+                    What are you waiting for? Donate now and make a difference!
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          </BlurFade>
         </div>
+
       </div>
       <div className=" container mx-auto px-4 py-8" id="donate">
         <FormBlock id={id || ""} form={page} />
