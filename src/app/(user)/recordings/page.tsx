@@ -1,7 +1,7 @@
 
 import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
-import Carousel from "@/components/UI/Carousel";
+import { RecordingsCarousel } from "@/components/UI/Carousel";
 import { fetchRecordingsbyCategory } from "@/Utils/datafetcher";
 /**
  * Renders the page component for displaying recordings.
@@ -49,7 +49,7 @@ const page = async (props: {
        <div className="mx-auto mt-0">
          <ButtonGroup categories={categories}/>
        </div>
-         <Carousel recordings={recordingArray} /> 
+         <RecordingsCarousel recordings={recordingArray} /> 
        <div>
           <button className="btn btn-primary text-white  "><a href="https://www.youtube.com/@WLUMSA">View on Youtube</a></button>
        </div>
