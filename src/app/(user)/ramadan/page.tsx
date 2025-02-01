@@ -11,6 +11,35 @@ import Image from "next/image";
 import { StatsSection } from "@/components/UI/Stats";
 import { DotPattern } from "@/components/UI/DotPatter";
 import { cn } from "@/Utils/cn";
+import { Testimonials } from "@/components/UI/Carousel";
+const testimonials = [
+  {
+    name: "Maaid Abdullah",
+    role: "3rd year Health Sci",
+    quote:
+      "Ramadan with the brothers was amazing. The iftars and company made it a memory that I will cherish for many years to come.",
+  },
+  {
+    name: "Mahrukh Majeed",
+    role: "3rd year BBA",
+    quote:
+      "It was helpful and nice to have meals provided by MSA during Ramadan. With how busy Ramadan can get, having one less thing to worry about and knowing you could rely on that support was really nice.",
+  },
+  {
+    name: "Mohammed Maruf",
+    role: "3rd year CS & Math",
+    quote:
+      "As an international student living alone, Ramadan had a massive impact on me. The Laurier Muslim community felt like my second family and encouraged me to get more involved on campus!",
+  },
+  {
+    name: "Shermeen Syeda",
+    role: "3rd year CS",
+    quote:
+      "These MSA iftaars are such a blessing! They provided me with a chance to connect with wonderful sisters while breaking our fasts, creating a warm sense of community that reminds me of home.",
+  },
+
+  // Add more testimonials as needed
+];
 
 export default async function CountdownPage() {
 
@@ -58,9 +87,9 @@ export default async function CountdownPage() {
                   The Messenger of Allah Peace be upon him said "Whoever helps break the fast of a fasting person, he will have the same reward as him without decreasing anything from the reward of the fasting person.” (Tirmidhī 807)                </p>
               </BlurFade>
               <BlurFade delay={0.75}>
-                <div className="flex flex-row  justify-center mb-6" >
-                  <button className="btn btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="#donate">Donate now!</Link></button>
-                  <button className="btn btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/ramadan/2024">Ramadan 2024 Page</Link></button>
+                <div className="flex flex-row  justify-center my-6" >
+                  <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="#donate">Donate now!</Link></button>
+                  <button className="btn btn-sm md:btn-md btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/ramadan/2024">Ramadan 2024 Page</Link></button>
                 </div>
               </BlurFade>
             </div>
@@ -112,21 +141,27 @@ export default async function CountdownPage() {
                   <p className="text-neutral">
                     Your contribution ensures that no student goes hungry this Ramadan. With just $10, you can provide iftar for a student and share in the reward of their fast. Imagine the impact you could make with $50, $100, or even more. Every contribution—big or small—brings smiles, gratitude, and heartfelt duas from those you've supported.
                     <br /><br />
-                    What are you waiting for? Donate now and make a difference!
+                    What are you waiting for? <Link href="#donate">Donate now</Link> and make a difference!
                   </p>
                 </div>
               </div>
             </div>
           </BlurFade>
         </div>
+        <div>
+          <div>
+            <h4 className="text-[42px] font-medium  text-primary text-balance max-w-3xl mx-auto tracking-tighter text-center mb-8 space-y-4 py-6 ">
+              What the Students are saying
+            </h4>
+            <Testimonials testimonials={testimonials} />
+          </div>
+        </div>
+        <div className=" container mx-auto px-4 py-8" id="donate">
+          <FormBlock id={id || ""} form={page} />
+
+        </div>
 
       </div>
-      <div className=" container mx-auto px-4 py-8" id="donate">
-        <FormBlock id={id || ""} form={page} />
-
-      </div>
-
-
     </div>
   );
 }
