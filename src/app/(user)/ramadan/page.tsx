@@ -29,7 +29,7 @@ const testimonials = [
     name: "Mohammed Maruf",
     role: "3rd year CS & Math",
     quote:
-      "As an international student living alone, Ramadan had a massive impact on me. The Laurier Muslim community felt like my second family and encouraged me to get more involved on campus!",
+      "Last year, Ramadan with the MSA was truly a blessing. As an international student, being away from family during such a special time was difficult, but the MSA created a warm and supportive community that felt like home. The nightly iftars, prayers, and inspiring talks made me feel connected and uplifted. It wasn’t just about food, it was about faith, friendship, and belonging. I’ll always be grateful for how they made Ramadan unforgettable.",
   },
   {
     name: "Shermeen Syeda",
