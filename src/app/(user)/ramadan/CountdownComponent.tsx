@@ -30,9 +30,9 @@ const CountdownComponent = () => {
         <div className='text-primary text-xs  py-2 text-center'>
             <Link href="/ramadan" className="text-primary ml-2">
                 <span>
-                    {timeLeft.days} <span className="text-xs text-primary">Days</span>,
-                    {timeLeft.hours} <span className="text-xs text-primary">Hours</span>,
-                    {timeLeft.minutes} <span className="text-xs text-primary">Minutes</span>,
+                    {timeLeft.days} <span className="text-xs text-primary">Days, </span>
+                    {timeLeft.hours} <span className="text-xs text-primary">Hours, </span>
+                    {timeLeft.minutes} <span className="text-xs text-primary">Minutes, </span> 
                     {timeLeft.seconds} <span className="text-xs text-primary">Seconds </span>
                 </span>
                 <span className="block mt-1 md:inline md:mt-0">
