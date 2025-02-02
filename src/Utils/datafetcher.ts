@@ -362,7 +362,7 @@ export async function fetchInstagramPosts() {
   const posts = await payload.find({
     collection: "Instagram",
     limit: 10,
-    sort: "-CreatedAt",
+    sort: "-createdAt",
   });
 
   return posts.docs;
