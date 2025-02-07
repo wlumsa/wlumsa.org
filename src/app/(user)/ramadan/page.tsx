@@ -156,9 +156,9 @@ export default async function CountdownPage() {
             <Testimonials testimonials={testimonials} />
           </div>
         </div>
-        <div className=" container mx-auto px-4 py-8" id="donate">
-          <FormBlock id={id || ""} form={page} />
-
+        <div className=" container mx-auto px-4 py-8 text-2xl text-center" id="donate">
+          {/* <FormBlock id={id || ""} form={page} /> */}
+          Coming Soon
         </div>
 
       </div>
