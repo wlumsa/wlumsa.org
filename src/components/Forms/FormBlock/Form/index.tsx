@@ -10,7 +10,8 @@ import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
 import { CheckboxField } from './Checkbox/types'
-
+import { ContactInfoField } from './ContactInfo/types'
+import {MoveLeft} from 'lucide-react'
 export type Value = unknown
 
 export interface Property {
@@ -38,6 +39,9 @@ type SelectFieldExtended = SelectField & {
   id: string;
 }
 type CheckboxFieldExtended = CheckboxField & {
+  id: string;
+}
+type ContactInfoFieldExtended = ContactInfoField & {
   id: string;
 }
 
@@ -295,7 +299,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   return (
     <div className="flex  flex-col items-center">
-      <h1 className='my-4 text-3xl text-bold'>{formFromProps.title} Form</h1>
+      <h1 className='my-4 text-xl text-bold text-left'>{formFromProps.title}</h1>
 
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
@@ -309,11 +313,12 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="card w-96 min-h-[18rem] mx-4 rounded-xl border-primary border flex flex-col justify-between">
+              <div className="  w-screen h-[18rem]   rounded-xl flex flex-col justify-between ">
                 <FormProvider {...formMethods}>
-                  <form className="flex flex-col h-full card-body" id={formID} onSubmit={handleSubmit(onSubmit)} >
+
+                    <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
                     {currStepIndex === steps.length ? (
-                      <div className="flex items-center justify-center flex-grow">
+                      <div className="flex flex-grow">
                         <span className="loading loading-spinner loading-lg"></span>
                       </div>
                     ) :
@@ -322,17 +327,17 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                       </div>}
 
 
-                    <div className="card-actions justify-between mt-4">
-                      <button type="button" className='btn btn-sm' onClick={back} disabled={currStepIndex === 0 || currStepIndex === steps.length} >
-                        Back
+                    <div className="card-actions justify-between mt-4 w-full flex flex-row px-8  ">
+                      <button type="button" className='btn btn-md text-lg ' onClick={back} disabled={currStepIndex === 0 || currStepIndex === steps.length} >
+                        <MoveLeft className='w-6 h-6' />  
                       </button>
                       {currStepIndex === steps.length - 1 ? (
-                        <button type="button"  onClick={handleNext} className="btn btn-sm btn-secondary">
+                        <button type="button"  onClick={handleNext} className="btn btn-secondary">
                           {submitButtonLabel || "submit"}
                           {isLoading && <span className="loading loading-spinner"></span>}
                         </button>
                       ) : (
-                        <button type="button" className='btn btn-sm border border-neutral' onClick={handleNext} disabled={currStepIndex === steps.length}>
+                        <button type="button" className=' btn  btn-secondary text-lg  ' onClick={handleNext} disabled={currStepIndex === steps.length}>
                           Next
                         </button>
                       )}
