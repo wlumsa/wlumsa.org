@@ -88,7 +88,7 @@ export default async function CountdownPage() {
               </BlurFade>
               <BlurFade delay={0.75}>
                 <div className="flex flex-row  justify-center my-6" >
-                  <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="#donate">Donate now!</Link></button>
+                  <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="https://secureca.imodules.com/s/1681/giving/19/form.aspx?sid=1681&gid=2&pgid=1015&cid=3655&bledit=1&dids=370.373]&_gl=1*6zquji*_gcl_au*MTAyMjYwNTc2MS4xNzMzMzUyMDQzLjEyMjE0MjY1NzUuMTczMzM1MjA1MC4xNzMzMzUyMDQ5*_ga*MTEyMTUzNjYyLjE3MzMzNTIwNDM.*_ga_12JPNCWPLJ*MTczOTQwOTE5OS4zLjAuMTczOTQwOTE5OS42MC4wLjA." target="_blank">Donate now!</Link></button>
                   <button className="btn btn-sm md:btn-md btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/ramadan/2024">Ramadan 2024 Page</Link></button>
                 </div>
               </BlurFade>
@@ -141,8 +141,9 @@ export default async function CountdownPage() {
                   <p className="text-neutral">
                     Your contribution ensures that no student goes hungry this Ramadan. With just $10, you can provide iftar for a student and share in the reward of their fast. Imagine the impact you could make with $50, $100, or even more. Every contribution—big or small—brings smiles, gratitude, and heartfelt duas from those you've supported.
                     <br /><br />
-                    What are you waiting for? <Link href="#donate">Donate now</Link> and make a difference!
+                    What are you waiting for? <Link href="https://secureca.imodules.com/s/1681/giving/19/form.aspx?sid=1681&gid=2&pgid=1015&cid=3655&bledit=1&dids=370.373]&_gl=1*6zquji*_gcl_au*MTAyMjYwNTc2MS4xNzMzMzUyMDQzLjEyMjE0MjY1NzUuMTczMzM1MjA1MC4xNzMzMzUyMDQ5*_ga*MTEyMTUzNjYyLjE3MzMzNTIwNDM.*_ga_12JPNCWPLJ*MTczOTQwOTE5OS4zLjAuMTczOTQwOTE5OS42MC4wLjA." className=" underline" target="_blank">Donate now!</Link> and make a difference!
                   </p>
+
                 </div>
               </div>
             </div>
@@ -158,7 +159,7 @@ export default async function CountdownPage() {
         </div>
         <div className=" container mx-auto px-4 py-8 text-2xl text-center" id="donate">
           {/* <FormBlock id={id || ""} form={page} /> */}
-          Coming Soon
+          <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="https://secureca.imodules.com/s/1681/giving/19/form.aspx?sid=1681&gid=2&pgid=1015&cid=3655&bledit=1&dids=370.373]&_gl=1*6zquji*_gcl_au*MTAyMjYwNTc2MS4xNzMzMzUyMDQzLjEyMjE0MjY1NzUuMTczMzM1MjA1MC4xNzMzMzUyMDQ5*_ga*MTEyMTUzNjYyLjE3MzMzNTIwNDM.*_ga_12JPNCWPLJ*MTczOTQwOTE5OS4zLjAuMTczOTQwOTE5OS42MC4wLjA." target="_blank">Donate now!</Link></button>
         </div>
 
       </div>
