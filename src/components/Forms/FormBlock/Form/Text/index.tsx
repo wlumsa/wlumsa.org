@@ -1,8 +1,6 @@
 import type { TextField } from '@payloadcms/plugin-form-builder/types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-import { CircleAlert } from 'lucide-react'
 import React from 'react'
-
 import { Error } from '../Error'
 import { Width } from '../Width'
 

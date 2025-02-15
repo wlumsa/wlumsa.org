@@ -22,7 +22,7 @@ export const Textarea: React.FC<
     <Width width={width}>
      
 
-        <label className="label text-3xl min-w-96 font-semibold text-gray-600" htmlFor={name}>
+        <label className=" text-3xl min-w-96 font-semibold text-gray-600" htmlFor={name}>
           {label} {requiredFromProps && <span className='text-red-900'>*</span> }
         </label>
 

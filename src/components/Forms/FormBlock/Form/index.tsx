@@ -13,7 +13,6 @@ import { CheckboxField } from './Checkbox/types'
 import { ContactInfoField } from './ContactInfo/types'
 import {MoveLeft} from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-
 export type Value = unknown
 
 export interface Property {
@@ -48,7 +47,7 @@ type ContactInfoFieldExtended = ContactInfoField & {
 }
 const containerVariants = {
   hidden: { opacity: 0, x: -50 }, 
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5, type: "spring", stiffness: 100 } }, 
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, type: "spring", stiffness: 50 } }, 
   exit: { opacity: 0, x: 50, transition: { duration: 0.3 } } 
 };
 export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
@@ -87,7 +86,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                 className="w-screen h-[18rem] rounded-xl flex flex-col justify-between"
               >
         {Field ? (
-          <Field
+            <Field
             form={formFromProps}
             {...field}
             {...formMethods}
@@ -361,7 +360,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                         </button>
                       ) : (
                         <button type="button" className=' btn  btn-secondary text-lg  ' onClick={handleNext} disabled={currStepIndex === steps.length}>
-                          {currStepIndex === steps.length  ? 'Submit' : 'Next'}
+                          {currStepIndex === steps.length  ? (submitButtonLabel || "Submit") : 'Next'}
                         </button>
                       )}
                     </div>

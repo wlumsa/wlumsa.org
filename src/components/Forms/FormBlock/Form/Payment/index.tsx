@@ -73,10 +73,10 @@ export const Payment: React.FC<
     })
 
     return (
-      <div className=''>
-        <Width width={width}>
-          <label htmlFor={name} className='text-xl font-semibold'>{label}</label>
-          <div className="text-base">Price - ${price}</div>
+      <div className='mx-auto  min-h-[18rem]'>
+        <Width width={width||100}>
+          <label htmlFor={name} className=' min-w-96 text-3xl font-semibold text-gray-600 text-center'>{label}</label>
+          <div className="text-xl my-8 text-center">Price - ${price}</div>
 
           <PriceWatcher
             control={control}
