@@ -16,6 +16,7 @@ export const Text: React.FC<
     register: UseFormRegister<any & FieldValues>
   } & TextField
 > = ({ name, errors, label, register, required: requiredFromProps, width, }) => {
+  console.log(errors[name]?.type)
   
 
   return (
@@ -34,8 +35,9 @@ export const Text: React.FC<
           {...register(name, { required: requiredFromProps })}
  
         />
+       
 
-        {requiredFromProps && errors[name] && 
+        {requiredFromProps && errors[name]  && errors[name].type &&
           <Error />
         }
       </div>

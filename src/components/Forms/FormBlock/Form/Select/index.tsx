@@ -73,7 +73,7 @@ export const Select: React.FC<{
           rules={{ required: required || undefined }}
         />
         
-        {required && errors[name] && <Error />}
+        { errors[name] && <Error />}
    
     </Width>
     </div>

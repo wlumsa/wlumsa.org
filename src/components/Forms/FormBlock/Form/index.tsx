@@ -12,6 +12,8 @@ import { createCheckoutSession } from '@/plugins/stripe/actions'
 import { CheckboxField } from './Checkbox/types'
 import { ContactInfoField } from './ContactInfo/types'
 import {MoveLeft} from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+
 export type Value = unknown
 
 export interface Property {
@@ -44,7 +46,11 @@ type CheckboxFieldExtended = CheckboxField & {
 type ContactInfoFieldExtended = ContactInfoField & {
   id: string;
 }
-
+const containerVariants = {
+  hidden: { opacity: 0, x: -50 }, 
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, type: "spring", stiffness: 100 } }, 
+  exit: { opacity: 0, x: 50, transition: { duration: 0.3 } } 
+};
 export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const {
     form: formFromProps,
@@ -72,6 +78,14 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
     const Field: React.FC<any> = fields[field.blockType]
     return (
       <div className="w-full flex flex-grow" key={index}>
+          <AnimatePresence> 
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="w-screen h-[18rem] rounded-xl flex flex-col justify-between"
+              >
         {Field ? (
           <Field
             form={formFromProps}
@@ -82,6 +96,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             register={register}
           />
         ) : null}
+        </motion.div>
+        </AnimatePresence>
       </div>
     )
   });
@@ -295,7 +311,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
       handleSubmit(onSubmit)(); // Trigger the submit function
     }
   }, [currStepIndex, handleSubmit, onSubmit]);
-
+  
+  
 
   return (
     <div className="flex  flex-col items-center">
@@ -309,12 +326,17 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         ) : (
           <>
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
-              <RichText className="" content={confirmationMessage} />
+              <div>
+                <RichText className="" content={confirmationMessage} />
+              </div>             
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
               <div className="  w-screen h-[18rem]   rounded-xl flex flex-col justify-between ">
+           
+          
                 <FormProvider {...formMethods}>
+                
 
                     <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
                     {currStepIndex === steps.length ? (
@@ -332,18 +354,20 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                         <MoveLeft className='w-6 h-6' />  
                       </button>
                       {currStepIndex === steps.length - 1 ? (
+                 
                         <button type="button"  onClick={handleNext} className="btn btn-secondary">
-                          {submitButtonLabel || "submit"}
-                          {isLoading && <span className="loading loading-spinner"></span>}
+                          {submitButtonLabel || "Submit"}
+                          {isLoading  && <span className="loading loading-spinner items-center justify-center"></span>}
                         </button>
                       ) : (
                         <button type="button" className=' btn  btn-secondary text-lg  ' onClick={handleNext} disabled={currStepIndex === steps.length}>
-                          Next
+                          {currStepIndex === steps.length  ? 'Submit' : 'Next'}
                         </button>
                       )}
                     </div>
                   </form>
                 </FormProvider>
+                
               </div>
             )}
           </>
