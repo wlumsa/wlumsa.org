@@ -13,6 +13,7 @@ import { CheckboxField } from './Checkbox/types'
 import { ContactInfoField } from './ContactInfo/types'
 import {MoveLeft} from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { updateSheetData } from '@/plugins/form-builder/google-sheets/actions'
 export type Value = unknown
 
 export interface Property {
@@ -128,6 +129,9 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             {} as FormData,
           )
 
+        console.log("Submission data", submissionData)
+        console.log("FormId", formID)
+
         // Get current form data for limits
         const formResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
         const formData = await formResponse.json()
@@ -137,6 +141,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           (field: SelectFieldExtended) => field.blockType === 'select'
         )
 
+        
         // Update select field limits
         for (const field of selectFields) {
           const selectedValue = data[field.name]?.toString()

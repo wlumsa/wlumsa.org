@@ -1,11 +1,9 @@
 import { stripePlugin } from "@payloadcms/plugin-stripe";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { postgresAdapter } from "@payloadcms/db-postgres"; // Updated to Postgres adapter
-// import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
-// import sharp from 'sharp'
 import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
@@ -42,8 +40,9 @@ import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
 
 import { GeneralUser } from "./collections/Users/Users";
-import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
+import { CheckboxBlock, ContactInfoBlock, SelectBlock } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
+import { updateSheetData } from "./plugins/form-builder/google-sheets/actions";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -143,8 +142,10 @@ export default buildConfig({
             group: "Forms",
             livePreview: {
               url: ({ data }) => {
-                const isHomePage = data.title === ''
-                return `${process.env.NEXT_PUBLIC_SERVER_URL}/forms${!isHomePage ? `/${data.title}` : ''}`
+                const isHomePage = data.title === "";
+                return `${process.env.NEXT_PUBLIC_SERVER_URL}/forms${
+                  !isHomePage ? `/${data.slug}` : ""
+                }`;
               },
             },
           },
@@ -159,20 +160,19 @@ export default buildConfig({
                 name: "submissionLimit",
                 label: "Submission Limit",
                 type: "number",
-                admin:{
-                  position:"sidebar"
-                }
+                admin: {
+                  position: "sidebar",
+                },
               },
-
               {
                 name: "releaseDate",
                 label: "Form Release Date",
                 type: "date",
                 admin: {
                   position: "sidebar",
-                  date:{
-                    pickerAppearance:"dayAndTime",
-                  }
+                  date: {
+                    pickerAppearance: "dayAndTime",
+                  },
                 },
               },
               {
@@ -181,9 +181,9 @@ export default buildConfig({
                 type: "date",
                 admin: {
                   position: "sidebar",
-                  date:{
-                    pickerAppearance:"dayAndTime",
-                  }
+                  date: {
+                    pickerAppearance: "dayAndTime",
+                  },
                 },
               },
               {
@@ -192,13 +192,19 @@ export default buildConfig({
                 type: "text",
                 admin: {
                   position: "sidebar",
-                  
                 },
               },
+              {
+                name: "googleSheet",
+                label: "Google Sheet ID (Must be shared with admin@wlumsa.org)",
+                type: "text",
+                admin: {
+                  position: "sidebar",
+                },
+                required: false,
+              },
             ];
-            
           },
-          
         },
         beforeEmail: (emailsToSend, beforeChangeParams) => {
           const { data } = beforeChangeParams;
@@ -208,13 +214,24 @@ export default buildConfig({
         formSubmissionOverrides: {
           admin: {
             group: "Forms",
-            hidden:true,
+          },
+          hooks: {
+            afterChange: [
+              async ({ doc, operation }) => {
+                if (operation === "update") {
+                  console.log("Updated Doc", doc);
+                } else {
+                  console.log("Created Doc", doc);
+                }
+                const res = await updateSheetData(doc)
+                console.log(res)
+              },
+            ],
           },
           fields: ({ defaultFields }) => {
             const formField = defaultFields.find((field) =>
               "name" in field && field.name === "form"
             );
-
             return [
               ...(formField ? [formField] : []),
               {
@@ -268,12 +285,11 @@ export default buildConfig({
           payment: true,
         },
       },
-      
     ),
   ],
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",
-    defaultFromName: "WLU MSA",
+    defaultFromName: "WLUMSA",
     apiKey: process.env.RESEND_API_KEY || "",
   }),
 
