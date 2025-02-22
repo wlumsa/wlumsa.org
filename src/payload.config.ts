@@ -196,7 +196,8 @@ export default buildConfig({
               },
               {
                 name: "googleSheet",
-                label: "Google Sheet ID (Must be shared with admin@wlumsa.org)",
+                label: `Google Sheet ID ( Must be shared with 
+                payloadcms-sync@wlumsa.iam.gserviceaccount.com )`,
                 type: "text",
                 admin: {
                   position: "sidebar",
@@ -218,13 +219,14 @@ export default buildConfig({
           hooks: {
             afterChange: [
               async ({ doc, operation }) => {
-                if (operation === "update") {
-                  console.log("Updated Doc", doc);
-                } else {
-                  console.log("Created Doc", doc);
+                if (operation === "create") {
+                  const id = doc.form?.googleSheet;
+                  if (id) {
+                    const res = await updateSheetData(doc, id);
+                    console.log("res", res);
+
+                  }
                 }
-                const res = await updateSheetData(doc)
-                console.log(res)
               },
             ],
           },

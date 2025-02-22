@@ -19,7 +19,7 @@ export const googleAuth = async () => {
   });
 };
 
-export const updateSheetData = async (data: any) => {
+export const updateSheetData = async (data: any,spreadsheetId:string) => {
   if (typeof window !== "undefined") {
     throw new Error("This function can only be run on the server side.");
   }
@@ -36,7 +36,6 @@ export const updateSheetData = async (data: any) => {
       auth: await googleAuth(),
       version: "v4",
     });
-    const spreadsheetId = "12rCBD5DvHisi5f3j7wx0tPr4dY4WCRZw0ftxdaDpLtg";
 
     // Extract values from submissionData
     const submissionData = data.submissionData;
