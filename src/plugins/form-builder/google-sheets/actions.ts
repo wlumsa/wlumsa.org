@@ -40,6 +40,7 @@ export const updateSheetData = async (data: any,spreadsheetId:string) => {
     // Extract values from submissionData
     const submissionData = data.submissionData;
     const values = Object.values(submissionData).flat();
+    console.log(values)
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,

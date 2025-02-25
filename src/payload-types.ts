@@ -693,6 +693,7 @@ export interface Form {
             blockType: 'select';
           }
         | {
+            name: string;
             label?: string | null;
             width?: number | null;
             first_name?: string | null;
@@ -759,7 +760,7 @@ export interface Form {
   releaseDate?: string | null;
   closeDate?: string | null;
   slug?: string | null;
-  googleSheet?: string | null;
+  webhook?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1431,6 +1432,7 @@ export interface FormsSelect<T extends boolean = true> {
         contactInfo?:
           | T
           | {
+              name?: T;
               label?: T;
               width?: T;
               first_name?: T;
@@ -1469,7 +1471,7 @@ export interface FormsSelect<T extends boolean = true> {
   releaseDate?: T;
   closeDate?: T;
   slug?: T;
-  googleSheet?: T;
+  webhook?: T;
   updatedAt?: T;
   createdAt?: T;
 }

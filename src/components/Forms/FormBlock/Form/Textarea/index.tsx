@@ -18,16 +18,16 @@ export const Textarea: React.FC<
   } & TextField
 > = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width, }) => {
   return (
-    <div className="mx-auto  min-h-[18rem] ">
+    <div className=" ">
     <Width width={width}>
      
 
-        <label className=" text-3xl min-w-96 font-semibold text-gray-600" htmlFor={name}>
+        <label className=" text-3xl  font-semibold text-gray-600" htmlFor={name}>
           {label} {requiredFromProps && <span className='text-red-900'>*</span> }
         </label>
 
         <textarea
-          className="textarea textarea-bordered min-w-96 focus:border-secondary text-lg "
+          className="textarea textarea-bordered w-full focus:border-secondary text-lg "
           placeholder={label}
           id={name}
           rows={rows}
