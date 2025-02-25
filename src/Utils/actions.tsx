@@ -14,16 +14,16 @@ import WelcomeEmail from 'emails/signup';
 
 export async function removeMemberFromNewsletter(email: string) {
     //check if they are apart of newsletter collection
-const updateStatus = await updateNewsletterStatus(email);
-if (!updateStatus) {
-    return { message: 'You are not subscribed to the newsletter', errors: true }
-}
+    const updateStatus = await updateNewsletterStatus(email);
+    if (!updateStatus) {
+        return { message: 'You are not subscribed to the newsletter', errors: true }
+    }
 
-    const remove = await removeIndividualFromList("Newsletter",  email );
+    const remove = await removeIndividualFromList("Newsletter", email);
     if (!remove) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
-    } 
-   
+    }
+
     return { message: 'You have been removed from the newsletter' }
 
 }
@@ -52,17 +52,17 @@ export async function memberSignup(formData: FormData) {
             return { message: 'You are already a member!', errors: true }
         }
         const addMemberRes = await addMember(firstName, lastName, email, studentId, newsLetter)
-        if(!addMemberRes) {
+        if (!addMemberRes) {
             return { message: 'Failed to sign up. Please try again.', errors: true }
         }
         if (newsLetter) {
             await addIndividualToList("Newsletter", { email: email, first_name: firstName, last_name: lastName, });
             await resend.contacts.create({
-                email:email,
-                first_name:firstName,
-                last_name:lastName,
-                audience_id:"151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
-                unsubscribed:false
+                email: email,
+                first_name: firstName,
+                last_name: lastName,
+                audience_id: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                unsubscribed: false
             })
         }
         await resend.emails.send({
@@ -71,12 +71,11 @@ export async function memberSignup(formData: FormData) {
             subject: "Here is a free gift!",
             react: WelcomeEmail({ firstName: firstName, content: "" }),
         });
-       
+
 
         return { message: 'Thanks for signing up!' }
     } catch (error) {
         return { message: `An error occurred. ${error instanceof Error ? error.message : String(error)}` }
     }
 }
-
 

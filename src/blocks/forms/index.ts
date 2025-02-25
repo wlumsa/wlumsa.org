@@ -138,28 +138,28 @@ export const ContactInformation: Block = {
       label: "First Name",
       type: "array",
       required: true,
-      fields:[
+      fields: [
         {
-          name:"label",
-          label:"Label",
-          type:"text",
-          required:true,
-          defaultValue:"John"
+          name: "label",
+          label: "Label",
+          type: "text",
+          required: true,
+          defaultValue: "John",
         },
         {
-          name:"first_name",
-          label:"First Name",
-          type:"text",
-          required:true,
-          defaultValue:"John"
+          name: "first_name",
+          label: "First Name",
+          type: "text",
+          required: true,
+          defaultValue: "John",
         },
-      ]
+      ],
     },
     {
-      name:"last_name",
-      label:"last name",
-      type:"text"
-    }
+      name: "last_name",
+      label: "last name",
+      type: "text",
+    },
   ],
 };
 
@@ -218,96 +218,99 @@ export const CheckboxBlock: Block = {
     label: "required?",
     type: "checkbox",
   }],
-  
 };
 
 export const ContactInfoBlock: Block = {
   slug: "contactInfo",
-  fields: [ {
-    name: "label",
-    label: "Label",
-    defaultValue: "Please fill the following",
-    type: "text",
-  }, {
-    name: "width",
-    label: "Field Width (percentage)",
-    type: "number",
-    defaultValue: 0,
-    required: false,
-  },  
-  {
-    name:"first_name",
-    label:"First Name",
-    type:"text",
-    admin: {
-      width: "50%",
-    }
-  },
-  {
-    name:"first_name_placeholder",
-    label:"Placeholder",
-    defaultValue:"First",
-    type:"text",
-    admin: {
-      width: "50%",
-    }
-  },
-  {
-    name:"last_name",
-    label:"Last Name",
-    type:"text",
-    admin: {
-      width: "50%",
-    }
-  },
-  {
-    name:"last_name_placeholder",
-    label:"Placeholder",
-    defaultValue:"Last",
-    type:"text",
-    admin: {
-      width: "50%",
-    }
-  },
-  {
-    name:"email",
-    label:"Email",
-    type:"text",
-    admin: {
-      width: "50%",
-    }
-  },
-  {
-    name:"email_placeholder",
-    label:"Placeholder",
-    defaultValue:"abcd@mylaurier.ca",
-    type:"text",
-    admin: { 
+  fields: [
+    {
+      name: "name",
+      label: "Name (lowercase, no special characters)*",
+      type: "text",
+      defaultValue:"contactInfo",
+      required: true,
+    },
+    {
+      name: "label",
+      label: "Label",
+      defaultValue: "Please fill the following",
+      type: "text",
+    },
+    {
+      name: "width",
+      label: "Field Width (percentage)",
+      type: "number",
+      defaultValue: 100,
+      required: false,
+    },
+    {
+      name: "first_name",
+      label: "First Name",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+    {
+      name: "first_name_placeholder",
+      label: "Placeholder",
+      defaultValue: "First",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+    {
+      name: "last_name",
+      label: "Last Name",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+    {
+      name: "last_name_placeholder",
+      label: "Placeholder",
+      defaultValue: "Last",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+    {
+      name: "email",
+      label: "Email",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+    {
+      name: "email_placeholder",
+      label: "Placeholder",
+      defaultValue: "abcd@mylaurier.ca",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
 
-      width: "50%", 
-    }
-  },
-
-  {
-    name:"studentID",
-    label:"Student ID",
-    type:"text",
-    admin: {
-      width: "50%",
-    } 
-  },
-  {
-    name:"studentID_placeholder",
-    label:"Placeholder",
-    defaultValue:"123456789",
-    type:"text",
-    admin: {
-      width: "50%",
-    }
-  },
-  
-
-  
-],
-  
+    {
+      name: "studentID",
+      label: "Student ID",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+    {
+      name: "studentID_placeholder",
+      label: "Placeholder",
+      defaultValue: "123456789",
+      type: "text",
+      admin: {
+        width: "50%",
+      },
+    },
+  ],
 };

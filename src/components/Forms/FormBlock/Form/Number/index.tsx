@@ -17,7 +17,7 @@ export const Number: React.FC<
   } & TextField
 > = ({ name, errors, label, register, required: requiredFromProps, width }) => {
   return (
-    <div className="mx-auto  min-h-[18rem] "> 
+    <div className=" "> 
       <Width width={width}>
         <div className="">
           <label className="label min-w-96  text-md text-3xl font-semibold text-gray-600" htmlFor={name}>

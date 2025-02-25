@@ -195,15 +195,18 @@ export default buildConfig({
                   
                 },
               },
+              {
+                name: "webhook",
+                label: "Zapier Webhook",
+                type: "text",
+                admin: {
+                  position: "sidebar",
+                },
+              },
             ];
             
           },
           
-        },
-        beforeEmail: (emailsToSend, beforeChangeParams) => {
-          const { data } = beforeChangeParams;
-          console.log(data);
-          return emailsToSend;
         },
         formSubmissionOverrides: {
           admin: {
