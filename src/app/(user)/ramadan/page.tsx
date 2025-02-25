@@ -1,13 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { getPayload } from 'payload'
-import configPromise from "@payload-config";
-import CountdownComponent from "./CountdownComponent";
-import { FormBlock } from "@/components/Forms/FormBlock/Form";
-import { Form as FormType } from "@payloadcms/plugin-form-builder/types";
-import { notFound } from "next/navigation";
+
 import BlurFade from "@/components/UI/BlurFade";
-import Image from "next/image";
 import { StatsSection } from "@/components/UI/Stats";
 import { DotPattern } from "@/components/UI/DotPatter";
 import { cn } from "@/Utils/cn";
@@ -42,26 +36,6 @@ const testimonials = [
 ];
 
 export default async function CountdownPage() {
-
-  const payload = await getPayload({ config: configPromise });
-
-  const payment = await payload.find({
-    collection: 'forms',
-    where: {
-      "slug": {
-        equals: "ramadan"
-      },
-    },
-    draft: false,
-    overrideAccess: false,
-  })
-  const id = payment.docs[0]?.id.toString()
-  const page = payment.docs[0] as unknown as null | FormType
-
-  if (page === null) {
-    return notFound()
-  }
-
   return (
     <div className="flex flex-col min-h-screen ">
       {/*Hero Section*/}

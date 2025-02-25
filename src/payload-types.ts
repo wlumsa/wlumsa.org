@@ -692,6 +692,22 @@ export interface Form {
             blockName?: string | null;
             blockType: 'select';
           }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            first_name?: string | null;
+            first_name_placeholder?: string | null;
+            last_name?: string | null;
+            last_name_placeholder?: string | null;
+            email?: string | null;
+            email_placeholder?: string | null;
+            studentID?: string | null;
+            studentID_placeholder?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactInfo';
+          }
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -744,6 +760,7 @@ export interface Form {
   releaseDate?: string | null;
   closeDate?: string | null;
   slug?: string | null;
+  webhook?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1412,6 +1429,23 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        contactInfo?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              first_name?: T;
+              first_name_placeholder?: T;
+              last_name?: T;
+              last_name_placeholder?: T;
+              email?: T;
+              email_placeholder?: T;
+              studentID?: T;
+              studentID_placeholder?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1437,6 +1471,7 @@ export interface FormsSelect<T extends boolean = true> {
   releaseDate?: T;
   closeDate?: T;
   slug?: T;
+  webhook?: T;
   updatedAt?: T;
   createdAt?: T;
 }

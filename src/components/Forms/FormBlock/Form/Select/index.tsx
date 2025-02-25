@@ -26,9 +26,10 @@ export const Select: React.FC<{
   }, [options]);
 
   return (
+    <div className="mx-auto min-h-[18rem]  ">
     <Width width={width || 100}>
-      <div className="">
-        <label className="label  text-md" htmlFor={name}>
+    
+        <label className="label min-w-96  text-md text-3xl font-semibold text-gray-600" htmlFor={name}>
           {label} {required&& <span className='text-red-900'>*</span> }
         </label>
         <Controller
@@ -41,7 +42,7 @@ export const Select: React.FC<{
             
             return (
               <ReactSelect
-                className=""
+                className=" min-w-96 my-4"
                 classNamePrefix="rs"
                 inputId={name}
                 instanceId={name}
@@ -72,8 +73,9 @@ export const Select: React.FC<{
           rules={{ required: required || undefined }}
         />
         
-        {required && errors[name] && <Error />}
-      </div>
+        { errors[name] && <Error />}
+   
     </Width>
+    </div>
   )
 }
