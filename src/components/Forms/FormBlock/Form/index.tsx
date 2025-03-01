@@ -354,7 +354,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="  w-screen h-[18rem]   rounded-xl flex flex-col justify-between  max-w-5xl ">
+              <div className="  w-screen min-h-[18rem] max-h-fit   rounded-xl flex flex-col justify-between  max-w-5xl ">
                 <FormProvider {...formMethods}>
                   <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
                     {currStepIndex === steps.length ? (
