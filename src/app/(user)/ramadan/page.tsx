@@ -61,7 +61,7 @@ export default async function CountdownPage() {
                   As part of the Laurier MSA and Chaplaincy Ramadan project, we are providing not only free iftars but also a space for students to sit and pray Tarawih. 
                   We will be giving out free daily iftars everday Monday - Friday in the Paul Martin Centre (PMC).  Registration is mandatory.
                   </p>
-                  <button  className="text-center btn btn-primary my-6 text-secondary duration-200 hover:scale-105" >Register here</button>
+                  <button  className="text-center btn btn-primary my-6 text-secondary duration-200 hover:scale-105" ><Link href="/forms/iftars">Register here </Link></button>
                 </div>
                 <div className="max-w-md lg:max-w-5xl flex-grow py-4 text-center">
                 <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0">
