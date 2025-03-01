@@ -29,7 +29,6 @@ interface CartItem {
 
 
 import { Nav } from "@/payload-types";
-import CountdownComponent from "@/app/(user)/ramadan/CountdownComponent";
 
 type NavbarProps = {
   navbarData: Nav;
@@ -54,12 +53,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   // }, [productData]);
 
   return (
-    <div className="navbar bg-primary relative z-20 ">
-      <div className="absolute top-0 left-0 w-full z-30 h-4 flex items-center justify-center bg-secondary  py-6 ">
-        <CountdownComponent />
-      </div>
+    <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full mb-16 p-0 px-2 ">
       {/* Mobile */}
-      <div className="navbar-start text-base-100 mt-12">
+      <div className="navbar-start text-base-100">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -124,7 +120,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
 
       {/* Desktop */}
-      <div className="navbar-center hidden text-base-100 lg:flex mt-12 ">
+      <div className="navbar-center hidden text-base-100 lg:flex ">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
           {navbarData.items.map((item, index) => {
             return (
@@ -164,7 +160,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
 
       </div>
-      <div className="navbar-end mt-12">
+      <div className="navbar-end">
         <Link
           href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
           className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"

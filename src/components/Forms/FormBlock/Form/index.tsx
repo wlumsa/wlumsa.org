@@ -337,6 +337,14 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           <div className="text-center p-4">
             <h2 className="text-xl font-bold">This form has reached its limit</h2>
           </div>
+        )  : formFromProps.releaseDate && new Date() < new Date(formFromProps.releaseDate) ? (
+          <div className="text-center p-4">
+            <h2 className="text-xl font-bold">This form will be releasing at {new Date(formFromProps.releaseDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
+          </div>
+        ) : formFromProps.closeDate && new Date() > new Date(formFromProps.closeDate) ? (
+          <div className="text-center p-4">
+            <h2 className="text-xl font-bold">This was closed at {new Date(formFromProps.closeDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
+          </div>
         ) : (
           <>
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
@@ -346,12 +354,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="  w-screen h-[18rem]   rounded-xl flex flex-col justify-between  max-w-5xl ">
-
-
+              <div className="  w-screen min-h-[18rem] max-h-fit   rounded-xl flex flex-col justify-between  max-w-5xl ">
                 <FormProvider {...formMethods}>
-
-
                   <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
                     {currStepIndex === steps.length ? (
                       <div className="flex flex-grow">
