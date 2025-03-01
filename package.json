@@ -92,6 +92,7 @@
     "supabase": "^1.207.9",
     "tailwind-merge": "^2.5.4",
     "use-debounce": "^10.0.4",
+    "vercel": "^41.3.0",
     "withPayload": "link:@payloadcms\\next\\withPayload",
     "zod": "^3.23.8"
   },
