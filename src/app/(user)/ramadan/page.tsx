@@ -11,7 +11,7 @@ import { EventCard } from "@/components/UI/WeeklyEvents";
 const items = [
   {
     name: "Daily Iftars on Campus",
-    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.jpg",
+    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/iftars.jpg",
     timeLocation: "Monday - Friday @ 19:00 to 19:30 in PMC",
     caption: "Join us for daily iftars on campus, happening Monday to Friday in the PMC. Enjoy a meal with fellow students 20 minutes before Iftar.",
     link: "/forms/iftars",
@@ -20,10 +20,8 @@ const items = [
   {
     name: "Daily Taraweeh on Campus",
     image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
-    timeLocation: "Everyday in the PMC, check prayer schedule for timings",
+    timeLocation: "Everyday in the PMC, check prayer schedule below for timings",
     caption: "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
-    link: "#prayer_schedule",
-    ctaText: "Prayer Schedule",
   },
   {
     name: "MSA Tarteel Competition",
