@@ -7,7 +7,40 @@ import { DotPattern } from "@/components/UI/DotPatter";
 import { cn } from "@/Utils/cn";
 import Image from "next/image";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
+import { EventCard } from "@/components/UI/WeeklyEvents";
+const items = [
+  {
+    name: "Daily Iftars on Campus",
+    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.jpg",
+    timeLocation: "Monday - Friday @ 19:00 to 19:30 in PMC",
+    caption: "Join us for daily iftars on campus, happening Monday to Friday in the PMC. Enjoy a meal with fellow students 20 minutes before Iftar.",
+    link: "/forms/iftars",
+    ctaText: "Register for Iftar",
+  },
+  {
+    name: "Daily Taraweeh on Campus",
+    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
+    timeLocation: "Everyday in the PMC, check prayer schedule for timings",
+    caption: "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
+    link: "#prayer_schedule",
+    ctaText: "Prayer Schedule",
+  },
+  {
+    name: "MSA Tarteel Competition",
+    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/tarteel.png",
+    timeLocation: "Entire Month on Tarteel App",
+    caption: "Showcase your recitation skills in the MSA Tarteel Competition. Happening throughout the entire month on the Tarteel app. Participate and win exciting prizes.",
+    link: "https://www.tarteel.ai/group/join/APupRReDbS3NmM6u?ref=P3pfsqtkCB",
+    ctaText: "Participate Now",
+  },
+  {
+    name: "Fundraiser for Sudan and Palestine",
+    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.jpg",
+    timeLocation: "Entire Month of Ramadan, Link will be avaliable soon",
+    caption: "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $25,000. Link will be avaliable soon",
 
+  },
+];
 
 export default async function CountdownPage() {
   return (
@@ -25,10 +58,10 @@ export default async function CountdownPage() {
               <BlurFade>
                 <h1 className="text-3xl md:text-5xl pt-4 md:text-center  text-primary duration-200 hover:scale-105 lg:pt-0 font-bold">Ramadan 2025</h1>
               </BlurFade>
-             
+
               <BlurFade delay={0.5}>
                 <p className="py-4 text-md md:text-xl text-center ">
-                O believers! Fasting is prescribed for you—as it was for those before you—so perhaps you will become mindful ˹of Allah˺. (Quran, 2:183)              </p>
+                  O believers! Fasting is prescribed for you—as it was for those before you—so perhaps you will become mindful ˹of Allah˺. (Quran, 2:183)              </p>
               </BlurFade>
               <BlurFade delay={0.75}>
                 <div className="flex flex-row  justify-center my-6" >
@@ -46,65 +79,79 @@ export default async function CountdownPage() {
           <StatsSection />
         </BlurFade>
       </div>
-      <div>
-        <div className="hero container px-4 py-8 mx-auto ">
-          <BlurFade delay={1.25}>
-            <div id="events" className="text-center flex flex-col items-center justify-center">
-             
-              <div className="space-y-4">
-                <div className="max-w-md lg:max-w-5xl flex-grow py-4 text-center">
-                <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0">
-                Register for Daily Iftars on Campus
-                 </h1>
-                 
-                  <p className="text-neutral">
-                  As part of the Laurier MSA and Chaplaincy Ramadan project, we are providing not only free iftars but also a space for students to sit and pray Tarawih. 
-                  We will be giving out free daily iftars everday Monday - Friday in the Paul Martin Centre (PMC).  Registration is mandatory.
-                  </p>
-                  <button  className="text-center btn btn-primary my-6 text-secondary duration-200 hover:scale-105" ><Link href="/forms/iftars">Register here </Link></button>
-                </div>
-                <div className="max-w-md lg:max-w-5xl flex-grow py-4 text-center">
-                <h1 className="text-2xl md:text-3xl font-bold pb-4 text-primary duration-200 hover:scale-105 lg:pt-0">
-                Donate this Ramadan
-                 </h1>
-                 
-                  <p className="text-neutral">
-                  Contribute to our fundraiser in collaboration with Islamic Relief. Our goal is to  raise $25,000 to go towards Palestine and Sudan.
-                  </p>
-                  <button  className="text-center btn btn-primary my-6 text-secondary duration-200 hover:scale-105" disabled >Coming soon</button>
-                </div>
+      <div id="services">
+        <div className="text-center space-y-4 py-6 mx-auto">
+          <h2 className="text-[14px] text-primary font-mono font-medium tracking-tight">
+            Services
+          </h2>
+          <h4 className="text-[42px] font-medium mb-2 text-balance max-w-3xl mx-auto tracking-tighter">
+            This year we are offering the following services on Campus
+          </h4>
+        </div>
+        <div className=" container px-4 py-8 mx-auto space-y-8">
+          <div id="events" className="flex-grow">
+            {items.map((event, index) => (
+              <EventCard
+                key={index}
+                name={event.name}
+                image={event.image}
+                caption={event.caption}
+                timeLocation={event.timeLocation}
+                index={index}
+                ctaText={event.ctaText}
+                link={event.link}
+              />
+            ))}
+          </div>
+          <div className="space-y-16">
+            <div className="mx-auto flex flex-col items-center text-center" id="journal">
+              <h1 className="mb-2  text-3xl font-bold text-primary duration-200 hover:scale-105">
+                Ramadan Journal
+              </h1>
+              <p className="mb-4 font-semibold text-xl "></p>
+
+              <p className="mb-4">Make this Ramadan truly transformative with a guided journal designed to help you deepen your connection with Allah</p>
+              <div className="rounded-lg bg-primary p-4">
+                <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png' width={966} height={1250} alt="prayer table" />
               </div>
+              <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
+                <Link href="/ramadan_schedule2025.pdf" target="_blank" >Download</Link>
+              </button>
             </div>
-            <div className="mx-auto flex flex-col items-center text-center ">
-            <h1 className="mb-2 mt-32 text-3xl font-bold text-primary duration-200 hover:scale-105">
-              Ramadan Prayer Table
+
+            <div className="mx-auto flex flex-col items-center text-center " id="prayer_schedule">
+              <h1 className="mb-2 text-3xl font-bold text-primary duration-200 hover:scale-105">
+                Ramadan Prayer Table
+              </h1>
+              <p className="mb-4 font-semibold text-xl ">Never miss a prayer this Ramadan</p>
+              <p className="mb-4">A complete prayer schedule for Ramadan on Campus. Limited Quantity avaliable in P101</p>
+              <div className="rounded-lg bg-primary p-4">
+                <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png' width={966} height={1250} alt="prayer table" />
+              </div>
+              <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
+                <Link href="/ramadan_schedule2025.pdf" target="_blank" >Download</Link>
+              </button>
+            </div>
+
+            <div className="mx-4 flex flex-col items-center" id="checklist">
+              <h1 className="mb-2 text-3xl font-bold text-primary duration-200 hover:scale-105">
+                Ramadan Checklist
+              </h1>
+              <p className="mb-4 font-semibold text-xl ">Build a habit this Ramadan</p>
+              <p className="mb-4 text-center">"The most beloved deed to Allah is the most regular and constant even if it were little." - <Link className="underline" target="_blank" href="https://sunnah.com/bukhari:6464">Bukhari 6465</Link></p>
+              <div className="rounded-lg bg-primary p-4">
+                <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png' width={1250} height={966} alt="ramadan checklist" />
+              </div>
+              <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
+                <Link href="/ramadan_checklist.pdf" target="_blank" >Download</Link>
+              </button>
+
+            </div>
+
+            <h1 className="mb-4 mt-12 text-3xl font-bold text-primary text-center duration-200 hover:scale-105" id="prayer_rooms">
+              Prayer Rooms
             </h1>
-            <p className="mb-4">A complete prayer schedule for Ramadan. Print your own or download <Link href="/ramadan_schedule2025.pdf" target="_blank" className="underline">here</Link> </p>
-            <div className="rounded-lg bg-primary p-4">
-              <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png' width={966} height={1250} alt="prayer table" />
-            </div>
-
-
           </div>
-          <div className="mx-4 flex flex-col items-center">
-            <h1 className="mb-2 mt-12 text-3xl font-bold text-primary duration-200 hover:scale-105">
-              Ramadan Checklist
-            </h1>
-            <p className="mb-4 font-semibold text-xl text-neutral">Build a habit this Ramadan</p>
-            <p className="mb-4 text-center">"The most beloved deed to Allah is the most regular and constant even if it were little." - <Link className="underline" target="_blank" href="https://sunnah.com/bukhari:6464">Bukhari 6465</Link></p>
-            <div className="rounded-lg bg-primary p-4">
-              <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png' width={1250} height={966} alt="ramadan checklist" />
-            </div>
-          
-            <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
-            <Link href="/ramadan_checklist.pdf" target="_blank" >Download</Link>
-            </button>
-        
-          </div>
-
-          <h1 className="mb-4 mt-12 text-3xl font-bold text-primary text-center duration-200 hover:scale-105">
-            Prayer Rooms
-          </h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mx-4" id="prayerlocations">
 
             <PrayerSpaceCard
@@ -114,7 +161,7 @@ export default async function CountdownPage() {
             />
             <PrayerSpaceCard
               videoId="xnGcNytQNxQ"
-              title="PMC (Iftars & Tarawih)"
+              title="PMC (Iftars & Taraweeh)"
               thumbnailUrl="https://img.youtube.com/vi/xnGcNytQNxQ/maxresdefault.jpg"
             />
             <PrayerSpaceCard
@@ -123,12 +170,12 @@ export default async function CountdownPage() {
               thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
             />
           </div>
-          </BlurFade>
+
         </div>
         <div>
-          
+
         </div>
-      
+
       </div>
     </div>
   );
