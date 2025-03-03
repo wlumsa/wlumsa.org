@@ -8,6 +8,7 @@ import { cn } from "@/Utils/cn";
 import Image from "next/image";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import { EventCard } from "@/components/UI/WeeklyEvents";
+import { ct } from "node_modules/@fullcalendar/core/internal-common";
 const items = [
   {
     name: "Daily Iftars on Campus",
@@ -22,6 +23,8 @@ const items = [
     image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
     timeLocation: "Everyday in the PMC, check prayer schedule below for timings",
     caption: "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
+    link:"https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
+    ctaText:"Directions to PMC"
   },
   {
     name: "MSA Tarteel Competition",
