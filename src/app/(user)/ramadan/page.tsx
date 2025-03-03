@@ -36,7 +36,7 @@ const items = [
   },
   {
     name: "Fundraiser for Sudan and Palestine",
-    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.jpg",
+    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
     timeLocation: "Entire Month of Ramadan, Link will be avaliable soon",
     caption: "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $25,000. Link will be avaliable soon",
 
