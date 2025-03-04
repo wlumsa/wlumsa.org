@@ -7,12 +7,11 @@ import Popup from '@/components/UI/Popup';
 import News from '@/components/UI/News';
 import Hero from '@/components/UI/Hero';
 import PrayerSection from '@/components/UI/PrayerSection';
-import Events from '@/components/UI/WeeklyEvents';
 import MemberSignup from '@/components/UI/MemberSignup';
 
 // Data fetching functions
 import { fetchInstagramPosts, fetchWeeklyEventsData, getJummahTimings, getPrayerRooms, getPrayerTimings, getMedia, fetchSocialData } from '@/Utils/datafetcher';
-
+import { WeeklyEvents } from '@/components/UI/WeeklyEvents';
 /*  
  * Next.js time-based revalidation function for caching (set to 1 hour)
  * Best practices:
@@ -52,7 +51,7 @@ export default async function Home() {
       
       {/* News and Events */}
       <News instagramPosts={instagramPosts} />
-      <Events events={events} />
+      <WeeklyEvents events={events} />
       
       {/* Signup */}
       <MemberSignup />
