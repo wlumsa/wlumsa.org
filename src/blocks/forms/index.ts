@@ -312,5 +312,10 @@ export const ContactInfoBlock: Block = {
         width: "50%",
       },
     },
+     {
+      name: "required",
+      label: "required?",
+      type: "checkbox",
+     }
   ],
 };
