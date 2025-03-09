@@ -37,6 +37,8 @@ export interface Config {
     RoommatePosts: RoommatePost;
     Comments: Comment;
     'general-user': GeneralUser;
+    events: Event;
+    'daily-reminders': DailyReminder;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -71,6 +73,8 @@ export interface Config {
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
     Comments: CommentsSelect<false> | CommentsSelect<true>;
     'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -553,6 +557,35 @@ export interface GeneralUser {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  name: string;
+  date?: string | null;
+  time?: string | null;
+  location?: string | null;
+  description: string;
+  image?: (number | null) | Media;
+  link?: string | null;
+  status?: ('draft' | 'published') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-reminders".
+ */
+export interface DailyReminder {
+  id: number;
+  reference: string;
+  arabic: string;
+  english: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -704,6 +737,7 @@ export interface Form {
             email_placeholder?: string | null;
             studentID?: string | null;
             studentID_placeholder?: string | null;
+            required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'contactInfo';
@@ -897,6 +931,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'general-user';
         value: number | GeneralUser;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'daily-reminders';
+        value: number | DailyReminder;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1292,6 +1334,33 @@ export interface GeneralUserSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  name?: T;
+  date?: T;
+  time?: T;
+  location?: T;
+  description?: T;
+  image?: T;
+  link?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-reminders_select".
+ */
+export interface DailyRemindersSelect<T extends boolean = true> {
+  reference?: T;
+  arabic?: T;
+  english?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
@@ -1443,6 +1512,7 @@ export interface FormsSelect<T extends boolean = true> {
               email_placeholder?: T;
               studentID?: T;
               studentID_placeholder?: T;
+              required?: T;
               id?: T;
               blockName?: T;
             };
