@@ -704,6 +704,7 @@ export interface Form {
             email_placeholder?: string | null;
             studentID?: string | null;
             studentID_placeholder?: string | null;
+            required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'contactInfo';
@@ -1443,6 +1444,7 @@ export interface FormsSelect<T extends boolean = true> {
               email_placeholder?: T;
               studentID?: T;
               studentID_placeholder?: T;
+              required?: T;
               id?: T;
               blockName?: T;
             };

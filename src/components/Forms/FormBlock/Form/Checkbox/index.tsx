@@ -25,69 +25,73 @@ export const Checkbox: React.FC<
   checkboxes, // Array of checkbox options
   isMultipleChoice, // Indicates if multiple checkboxes can be selected
 }) => {
-  const [checkedValues, setCheckedValues] = useState<string[]>([]);
+    const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
-  // Effect to sync checked values with form state
-  useEffect(() => {
-    const currentValues = getValues(name) || [];
-    setCheckedValues(currentValues);
-  }, [getValues, name]);
+    // Effect to sync checked values with form state
+    useEffect(() => {
+      const currentValues = getValues(name) || [];
+      setCheckedValues(currentValues);
+    }, [getValues, name]);
 
-  const handleCheckboxChange = (optionLabel: string, isChecked: boolean) => {
-    let newValues;
-    if (isMultipleChoice) {
-      newValues = isChecked
-        ? [...checkedValues, optionLabel]
-        : checkedValues.filter((value) => value !== optionLabel);
-    } else {
-      newValues = isChecked ? [optionLabel] : [];
-    }
-    setCheckedValues(newValues);
-    setValue(name, newValues);
-  };
+    const handleCheckboxChange = (optionLabel: string, isChecked: boolean) => {
+      let newValues;
+      if (isMultipleChoice) {
+        newValues = isChecked
+          ? [...checkedValues, optionLabel]
+          : checkedValues.filter((value) => value !== optionLabel);
+      } else {
+        newValues = isChecked ? [optionLabel] : [];
+      }
+      setCheckedValues(newValues);
+      setValue(name, newValues);
+    };
 
-  // Check if at least one checkbox is selected when required
-  const isError = requiredFromProps && errors[name] && !checkedValues.length;
+    // Check if at least one checkbox is selected when required
+    const isError = requiredFromProps && errors[name] && !checkedValues.length;
 
-  return (
-    <div className='mx-auto "min-h-[18rem] '>
-    <Width width={width}>
-      <div className="flex flex-col text-gray-600">
-        <label className="label cursor-pointer">
-          <span className="label-text text-3xl font-semibold text-gray-600">{label} {requiredFromProps && <span className='text-red-900'>*</span> }</span>
-        </label>
-        {checkboxes.map((option) => {
-          // Check if the limit is greater than 0
-          if (option.limit === 0) {
-            return null; // Do not render if limit is 0
-          }
+    return (
+      <div className='mx-auto "min-h-[18rem] '>
+        <Width width={width}>
+          <div className="flex flex-col text-gray-600">
+            <label className="label cursor-pointer">
+              <span className="label-text text-3xl font-semibold text-gray-600">{label} {requiredFromProps && <span className='text-red-900'>*</span>}</span>
+            </label>
+            {checkboxes.map((option) => {
+              // Check if the limit is greater than 0
+              if (option.limit === 0) {
+                return null; // Do not render if limit is 0
+              }
 
-          const isChecked = checkedValues.includes(option.label);
+              const isChecked = checkedValues.includes(option.label);
 
-          return (
-            <div key={option.label} className="flex items-center space-x-2 my-2">
-              <input
-                type="checkbox"
-                className="hidden"
-                {...register(name)}
-                checked={isChecked}
-                onChange={(e) => handleCheckboxChange(option.label, e.target.checked)}
-              />
-              <button
-                type="button"
-                onClick={() => handleCheckboxChange(option.label, !isChecked)}
-                className={`w-5 h-5 border-2 rounded flex items-center justify-center 
+              return (
+                <div key={option.label} className="flex items-center space-x-2 my-2">
+                  <input
+                    type="checkbox"
+                    className="hidden"
+                    {...register(name)}
+                    checked={isChecked}
+                    onChange={(e) => handleCheckboxChange(option.label, e.target.checked)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleCheckboxChange(option.label, !isChecked)}
+                    className={`w-5 h-5 border-2 rounded flex items-center justify-center 
                   ${isChecked ? 'bg-primary border-primary' : 'border-gray-300 bg-white'}`}
-              >
-                {isChecked && <Check className="w-4 h-4 text-base-100" />}
-              </button>
-              <span className="text-xl ">{option.label}</span>
-            </div>
-          );
-        })}
-        {requiredFromProps && errors[name] && !checkedValues.length && <Error />}
-        </div>
-    </Width>
-    </div>
-  )
-}
+                  >
+                    {isChecked && <Check className="w-4 h-4 text-base-100" />}
+                  </button>
+                  <span className="text-xl ">{option.label}</span>
+                  {requiredFromProps && errors[name] && <Error />}
+                </div>
+
+              );
+            })}
+          </div>
+         
+
+        </Width>
+
+      </div>
+    )
+  }
