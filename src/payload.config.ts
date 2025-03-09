@@ -40,7 +40,8 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
-
+import {Events } from "./collections/Events";
+import { DailyReminders } from "./collections/DailyReminders";
 import { GeneralUser } from "./collections/Users/Users";
 import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
@@ -82,6 +83,8 @@ export default buildConfig({
     RoommatePosts,
     Comments,
     GeneralUser,
+    Events,
+    DailyReminders,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
