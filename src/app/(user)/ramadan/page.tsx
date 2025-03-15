@@ -8,7 +8,6 @@ import { cn } from "@/Utils/cn";
 import Image from "next/image";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import { EventCard } from "@/components/UI/WeeklyEvents";
-import { ct } from "node_modules/@fullcalendar/core/internal-common";
 const items = [
   {
     name: "Daily Iftars on Campus",
@@ -35,11 +34,12 @@ const items = [
     ctaText: "Participate Now",
   },
   {
-    name: "Fundraiser for Sudan and Palestine",
+    name: "Fundraiser for Palestine",
     image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
-    timeLocation: "Entire Month of Ramadan, Link will be avaliable soon",
-    caption: "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $25,000. Link will be avaliable soon",
-
+    timeLocation: "Entire Month of Ramadan",
+    caption: "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be avaliable soon",
+    link:"https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858",
+    ctaText:"Donate Now"
   },
 ];
 
@@ -66,7 +66,7 @@ export default async function CountdownPage() {
               </BlurFade>
               <BlurFade delay={0.75}>
                 <div className="flex flex-row  justify-center my-6" >
-                  <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="https://secureca.imodules.com/s/1681/giving/19/form.aspx?sid=1681&gid=2&pgid=1015&cid=3655&bledit=1&dids=370.373]&_gl=1*6zquji*_gcl_au*MTAyMjYwNTc2MS4xNzMzMzUyMDQzLjEyMjE0MjY1NzUuMTczMzM1MjA1MC4xNzMzMzUyMDQ5*_ga*MTEyMTUzNjYyLjE3MzMzNTIwNDM.*_ga_12JPNCWPLJ*MTczOTQwOTE5OS4zLjAuMTczOTQwOTE5OS42MC4wLjA." target="_blank">Donate now!</Link></button>
+                  <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858" target="_blank">Donate now!</Link></button>
                   <button className="btn btn-sm md:btn-md btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/forms/iftars">Register for iftar</Link></button>
                 </div>
               </BlurFade>
