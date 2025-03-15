@@ -187,6 +187,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         const checkboxFields = formData.fields.filter(
           (field: CheckboxFieldExtended) => field.blockType === 'checkbox'
         )
+        let updatedCheckboxes: CheckboxFieldExtended['checkboxes'] = []
 
         // Only proceed if there are checkbox fields
         if (checkboxFields.length > 0) {
@@ -197,7 +198,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               if (!selectedValues) return f;
 
               // Update limits for selected checkboxes
-              const updatedCheckboxes = f.checkboxes.map(opt => {
+               updatedCheckboxes = f.checkboxes.map(opt => {
                 if (selectedValues.includes(opt.label) && opt.limit) {
                   return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
                 }
@@ -216,17 +217,36 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             body: JSON.stringify({ fields: updatedFields }),
           });
         }
-
-        // Update submission limit if exists
-        if (formData.submissionLimit) {
-          await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              'submissionLimit': formData.submissionLimit - 1,
-            }),
-          })
+        //check checkbox limit
+        const closeForm = formData.fields.some(
+          (field: CheckboxFieldExtended) =>
+            field.blockType === 'checkbox' &&
+            updatedCheckboxes.every((opt) => opt.limit === 0)
+        );
+        console.log("Close Form", closeForm)
+        if(formData.submissionLimit) {
+          if(closeForm){
+            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                'submissionLimit': 0,
+              }),
+            })
+          } else {
+              await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                'submissionLimit': formData.submissionLimit - 1,
+              }),
+            })
+          }
+          
         }
+        
+
+       
 
         // Create the submission
         const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
