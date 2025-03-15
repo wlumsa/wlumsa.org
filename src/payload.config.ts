@@ -214,7 +214,6 @@ export default buildConfig({
         formSubmissionOverrides: {
           admin: {
             group: "Forms",
-            hidden:true,
           },
           fields: ({ defaultFields }) => {
             const formField = defaultFields.find((field) =>

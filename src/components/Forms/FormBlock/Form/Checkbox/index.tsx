@@ -25,29 +25,29 @@ export const Checkbox: React.FC<
   checkboxes, // Array of checkbox options
   isMultipleChoice, // Indicates if multiple checkboxes can be selected
 }) => {
-  const [checkedValues, setCheckedValues] = useState<string[]>([]);
+    const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
-  // Effect to sync checked values with form state
-  useEffect(() => {
-    const currentValues = getValues(name) || [];
-    setCheckedValues(currentValues);
-  }, [getValues, name]);
+    // Effect to sync checked values with form state
+    useEffect(() => {
+      const currentValues = getValues(name) || [];
+      setCheckedValues(currentValues);
+    }, [getValues, name]);
 
-  const handleCheckboxChange = (optionLabel: string, isChecked: boolean) => {
-    let newValues;
-    if (isMultipleChoice) {
-      newValues = isChecked
-        ? [...checkedValues, optionLabel]
-        : checkedValues.filter((value) => value !== optionLabel);
-    } else {
-      newValues = isChecked ? [optionLabel] : [];
-    }
-    setCheckedValues(newValues);
-    setValue(name, newValues);
-  };
+    const handleCheckboxChange = (optionLabel: string, isChecked: boolean) => {
+      let newValues;
+      if (isMultipleChoice) {
+        newValues = isChecked
+          ? [...checkedValues, optionLabel]
+          : checkedValues.filter((value) => value !== optionLabel);
+      } else {
+        newValues = isChecked ? [optionLabel] : [];
+      }
+      setCheckedValues(newValues);
+      setValue(name, newValues);
+    };
 
-  // Check if at least one checkbox is selected when required
-  const isError = requiredFromProps && errors[name] && !checkedValues.length;
+    // Check if at least one checkbox is selected when required
+    const isError = requiredFromProps && errors[name] && !checkedValues.length;
 
  
   return (
@@ -63,7 +63,7 @@ export const Checkbox: React.FC<
             return null; // Do not render if limit is 0
           }
 
-          const isChecked = checkedValues.includes(option.label);
+              const isChecked = checkedValues.includes(option.label);
 
           return (
             <div key={option.label} className="flex items-center space-x-2 my-2">

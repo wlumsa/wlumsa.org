@@ -58,7 +58,7 @@ export const ContactInfo: React.FC<{
                 {...register(`${name}.last_name`, { required: requiredFromProps })}
               />
             </div>
-            
+
           </div>
           <div className='flex flex-col text-gray-700'>
             <div className='flex flex-col py-2'>
