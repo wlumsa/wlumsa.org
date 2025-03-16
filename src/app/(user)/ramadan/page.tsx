@@ -115,9 +115,11 @@ export default async function CountdownPage() {
               <div className="rounded-lg bg-primary p-4">
                 <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png' width={966} height={1250} alt="prayer table" />
               </div>
+              <Link href="/RamadanJournal.pdf" target="_blank" >
               <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
-                <Link href="/ramadan_schedule2025.pdf" target="_blank" >Download</Link>
+               Download
               </button>
+              </Link>
             </div>
 
             <div className="mx-auto flex flex-col items-center text-center " id="prayer_schedule">
@@ -129,9 +131,11 @@ export default async function CountdownPage() {
               <div className="rounded-lg bg-primary p-4">
                 <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png' width={966} height={1250} alt="prayer table" />
               </div>
-              <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
-                <Link href="/ramadan_schedule2025.pdf" target="_blank" >Download</Link>
-              </button>
+              <Link href="/ramadan_schedule2025.pdf" target="_blank" >
+                <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
+                  Download
+                </button>
+              </Link>
             </div>
 
             <div className="mx-4 flex flex-col items-center" id="checklist">
