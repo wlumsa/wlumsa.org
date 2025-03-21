@@ -35,25 +35,19 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   const [selectedCuisine, setSelectedCuisine] = useState<string>("All Cuisines");
   const [selectedMethod, setSelectedMethod] = useState<string>("All Methods");
   const [selectedCampusLocation, setSelectedCampusLocation] = useState<string>("All Locations");
-  const [showFilters, setShowFilters] = useState<boolean>(false); // Initially hidden
+  const [showFilters, setShowFilters] = useState<boolean>(false);
   const [isStickyVisible, setIsStickyVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
-        setIsStickyVisible(false); // Hide on scroll down
-      } else {
-        setIsStickyVisible(true); // Show on scroll up
-      }
+      setIsStickyVisible(currentScrollY <= lastScrollY);
       setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
   const clearFilter = (filterType: string) => {
@@ -85,7 +79,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
   return (
     <div className="w-full flex flex-col items-center mt-20 px-4 sm:px-8 bg-base-100 text-neutral">
-      {/* Header Section */}
+      {/* Header */}
       <div className="text-center w-full mb-8">
         <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-primary">Discover Best Halal Restaurants</h1>
         <p className="text-base-300 mt-2 text-sm sm:text-md md:text-lg">
@@ -93,35 +87,35 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         </p>
       </div>
 
-      {/* Active Filters Section */}
-      <div className="bg-gray-100 text-gray-700 rounded-lg p-3 mb-4 w-full">
-        <strong>Active Filters:</strong>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {selectedCuisine !== "All Cuisines" && (
-            <span className="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-sm">
-              Cuisine: {selectedCuisine}
-              <X className="ml-2 cursor-pointer" size={14} onClick={() => clearFilter("cuisine")} />
-            </span>
+      {/* Active Filters */}
+      <div className="bg-gray-100 text-gray-700 rounded-lg p-3 mb-4 w-full flex flex-wrap gap-2 items-center">
+        <strong className="mr-2">Active Filters:</strong>
+        {selectedCuisine !== "All Cuisines" && (
+          <span className="flex items-center bg-blue-200 text-blue-900 px-3 py-1 rounded-full text-sm font-medium shadow-md">
+            {selectedCuisine}
+            <X className="ml-2 cursor-pointer hover:text-red-600" size={14} onClick={() => clearFilter("cuisine")} />
+          </span>
+        )}
+        {selectedMethod !== "All Methods" && (
+          <span className="flex items-center bg-green-200 text-green-900 px-3 py-1 rounded-full text-sm font-medium shadow-md">
+            {selectedMethod}
+            <X className="ml-2 cursor-pointer hover:text-red-600" size={14} onClick={() => clearFilter("method")} />
+          </span>
+        )}
+        {selectedCampusLocation !== "All Locations" && (
+          <span className="flex items-center bg-yellow-200 text-yellow-900 px-3 py-1 rounded-full text-sm font-medium shadow-md">
+            {selectedCampusLocation === "true" ? "On Campus" : "Off Campus"}
+            <X className="ml-2 cursor-pointer hover:text-red-600" size={14} onClick={() => clearFilter("location")} />
+          </span>
+        )}
+        {selectedCuisine === "All Cuisines" &&
+          selectedMethod === "All Methods" &&
+          selectedCampusLocation === "All Locations" && (
+            <span className="text-gray-500">No active filters</span>
           )}
-          {selectedMethod !== "All Methods" && (
-            <span className="flex items-center bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm">
-              Method: {selectedMethod}
-              <X className="ml-2 cursor-pointer" size={14} onClick={() => clearFilter("method")} />
-            </span>
-          )}
-          {selectedCampusLocation !== "All Locations" && (
-            <span className="flex items-center bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-sm">
-              Location: {selectedCampusLocation}
-              <X className="ml-2 cursor-pointer" size={14} onClick={() => clearFilter("location")} />
-            </span>
-          )}
-          {selectedCuisine === "All Cuisines" &&
-            selectedMethod === "All Methods" &&
-            selectedCampusLocation === "All Locations" && <span>None</span>}
-        </div>
       </div>
 
-      {/* Sticky Collapsible Filter Section */}
+      {/* Sticky Filter Toggle */}
       <div
         className={`sticky top-[80px] z-50 bg-white p-4 rounded-b-lg shadow-md transition-transform duration-300 ${
           isStickyVisible ? "translate-y-0" : "-translate-y-full"
@@ -137,11 +131,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
           </button>
           <p className="text-sm text-gray-500">Scroll for more content</p>
         </div>
-        <div
-          className={`transition-all duration-300 overflow-hidden ${
-            showFilters ? "max-h-[500px]" : "max-h-0"
-          }`}
-        >
+        <div className={`transition-all duration-300 overflow-hidden ${showFilters ? "max-h-[500px]" : "max-h-0"}`}>
           <div className="mt-4">
             <SearchBar />
             <div className="flex flex-col sm:flex-row justify-center w-full space-y-4 sm:space-y-0 sm:space-x-4">
@@ -150,7 +140,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 <select
                   value={selectedCuisine}
                   onChange={(e) => setSelectedCuisine(e.target.value)}
-                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56"
+                  className="border border-gray-300 rounded-lg p-3 sm:p-4 w-full sm:w-56 transition focus:ring-2 focus:ring-primary focus:border-primary hover:shadow-md"
                 >
                   {cuisineOptions.map((option, index) => (
                     <option key={index} value={option}>
@@ -164,7 +154,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 <select
                   value={selectedMethod}
                   onChange={(e) => setSelectedMethod(e.target.value)}
-                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56"
+                  className="border border-gray-300 rounded-lg p-3 sm:p-4 w-full sm:w-56 transition focus:ring-2 focus:ring-primary focus:border-primary hover:shadow-md"
                 >
                   {slaughterMethodOptions.map((option, index) => (
                     <option key={index} value={option}>
@@ -178,7 +168,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 <select
                   value={selectedCampusLocation}
                   onChange={(e) => setSelectedCampusLocation(e.target.value)}
-                  className="border border-neutral rounded-lg p-3 sm:p-4 w-full sm:w-56"
+                  className="border border-gray-300 rounded-lg p-3 sm:p-4 w-full sm:w-56 transition focus:ring-2 focus:ring-primary focus:border-primary hover:shadow-md"
                 >
                   <option value="All Locations">All Locations</option>
                   <option value="true">On Campus</option>
@@ -190,18 +180,23 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         </div>
       </div>
 
-      {/* Main Content Section */}
+      {/* Main Content */}
       <div className="flex flex-col md:flex-row w-full md:space-x-6 mt-24">
+        {/* Restaurant Cards */}
         <div className="w-full md:w-2/3">
           {filteredData.length > 0 ? (
             filteredData.map((item) => (
               <div
                 key={item.id}
-                className="bg-white border border-gray-200 mb-6 shadow-lg rounded-lg p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-xl transition-shadow duration-300"
+                className="bg-white border border-gray-200 mb-6 shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 transform hover:-translate-y-1"
               >
                 <div className="w-full sm:w-48 h-48 bg-gray-200 flex items-center justify-center rounded-lg overflow-hidden">
                   {item.image && typeof item.image !== "number" && item.image.url ? (
-                    <img src={item.image.url} alt={item.image.alt} className="w-full h-full object-cover" />
+                    <img
+                      src={item.image.url}
+                      alt={item.image.alt}
+                      className="w-full h-full object-cover rounded-lg hover:scale-105 transition duration-300"
+                    />
                   ) : (
                     <p className="text-gray-500">No Image</p>
                   )}
@@ -234,7 +229,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                         href={item.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white bg-secondary hover:bg-warning transition-colors rounded-lg px-4 py-2 text-sm font-semibold"
+                        className="text-white bg-primary hover:bg-primary-dark transition-colors rounded-lg px-4 py-2 text-sm font-semibold"
                       >
                         Book Now
                       </a>
@@ -248,7 +243,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               <p className="text-gray-500 text-lg mb-4">No results found matching your criteria.</p>
               <button
                 onClick={clearAllFilters}
-                className="text-white bg-primary hover:bg-primary-dark px-4 py-2 rounded-lg text-sm font-medium"
+                className="text-white bg-primary hover:bg-primary-dark px-6 py-3 rounded-lg text-sm font-medium shadow-md transform hover:-translate-y-1 transition duration-300"
               >
                 Clear Filters
               </button>
@@ -257,12 +252,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         </div>
 
         {/* Map Section */}
-        <div className="w-full md:w-1/3 sticky top-20 h-64 sm:h-96 bg-info rounded-lg overflow-hidden shadow-lg">
+        <div className="w-full md:w-1/3 sticky top-20 h-64 sm:h-96 bg-info rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
           <iframe
             src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"
             width="100%"
             height="100%"
-            style={{ border: 0 }}
+            style={{ border: 0, borderRadius: "10px" }}
             allowFullScreen
             loading="lazy"
           ></iframe>
