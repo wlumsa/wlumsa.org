@@ -1,4 +1,4 @@
-// Improved HalalFoodClient.tsx with enhanced UI/UX + integrated side map
+// HalalFoodClient.tsx — Improved UI/UX with Integrated Map
 "use client";
 
 import { useState, useMemo } from "react";
@@ -15,6 +15,9 @@ import {
   Filter,
 } from "lucide-react";
 
+// ------------------
+// Filter Options
+// ------------------
 const cuisineOptions = [
   "All Cuisines",
   "Chinese",
@@ -41,6 +44,10 @@ interface FilterComponentProps {
 const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
+
+  // ------------------
+  // UI State
+  // ------------------
   const [selectedCuisine, setSelectedCuisine] = useState("All Cuisines");
   const [selectedMethod, setSelectedMethod] = useState("All Methods");
   const [selectedCampusLocation, setSelectedCampusLocation] = useState("All Locations");
@@ -48,6 +55,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // ------------------
+  // Filter Utilities
+  // ------------------
   const clearFilter = (filterType: string) => {
     if (filterType === "cuisine") setSelectedCuisine("All Cuisines");
     if (filterType === "method") setSelectedMethod("All Methods");
@@ -62,6 +72,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
     setCurrentPage(1);
   };
 
+  // ------------------
+  // Filter & Pagination Logic
+  // ------------------
   const filteredData = useMemo(() => {
     return halalDirectory
       .filter((item) => {
@@ -78,20 +91,25 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   }, [halalDirectory, selectedCuisine, selectedMethod, selectedCampusLocation, query]);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return filteredData.slice(start, start + itemsPerPage);
   }, [filteredData, currentPage]);
 
+  // ------------------
+  // Render UI
+  // ------------------
   return (
     <div className="w-full flex flex-col items-center mt-16 px-4 sm:px-8 bg-white text-neutral">
-      {/* Header */}
+
+      {/* Page Header */}
       <div className="text-center w-full mb-6">
         <h1 className="font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
         <p className="text-gray-500 mt-2 text-sm sm:text-md">{filteredData.length} halal spots found</p>
       </div>
 
-      {/* Filter Toggle */}
+      {/* Filter Panel */}
       <div className="w-full max-w-6xl bg-gray-50 border border-gray-200 rounded-xl p-4 shadow mb-6">
         <div className="flex items-center justify-between">
           <button
@@ -102,18 +120,17 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             {showFilters ? "Hide Filters" : "Show Filters"}
             {showFilters ? <ChevronUp className="ml-2" size={18} /> : <ChevronDown className="ml-2" size={18} />}
           </button>
-          <button
-            onClick={clearAllFilters}
-            className="text-sm text-red-500 hover:underline"
-          >
+          <button onClick={clearAllFilters} className="text-sm text-red-500 hover:underline">
             Clear All
           </button>
         </div>
 
+        {/* Filter Options */}
         {showFilters && (
           <div className="mt-4 space-y-4">
             <SearchBar />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {/* Cuisine Filter */}
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Cuisine</label>
                 <div className="flex items-center border rounded-lg overflow-hidden">
@@ -130,6 +147,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 </div>
               </div>
 
+              {/* Method Filter */}
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Slaughter Method</label>
                 <div className="flex items-center border rounded-lg overflow-hidden">
@@ -146,6 +164,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                 </div>
               </div>
 
+              {/* Location Filter */}
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Campus Location</label>
                 <div className="flex items-center border rounded-lg overflow-hidden">
@@ -166,7 +185,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         )}
       </div>
 
-      {/* Active Filters Pills */}
+      {/* Active Filter Tags */}
       <div className="w-full max-w-6xl flex flex-wrap gap-2 mb-6">
         {selectedCuisine !== "All Cuisines" && (
           <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
@@ -188,9 +207,10 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
         )}
       </div>
 
-      {/* Listings + Map */}
+      {/* Restaurant List & Map Section */}
       <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-6">
-        {/* Listings */}
+
+        {/* Listings Section */}
         <div className="w-full lg:w-2/3">
           {paginatedData.length > 0 ? (
             paginatedData.map((item) => (
@@ -252,7 +272,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             </div>
           )}
 
-          {/* Pagination */}
+          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 mt-8">
               <button
@@ -274,7 +294,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
           )}
         </div>
 
-        {/* Map */}
+        {/* Embedded Map */}
         <div className="w-full lg:w-1/3 h-[400px] lg:sticky top-24 rounded-xl overflow-hidden shadow-lg">
           <iframe
             src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"
