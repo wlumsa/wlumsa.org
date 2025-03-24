@@ -6,10 +6,65 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     execs: ExecAuthOperations;
   };
+  blocks: {};
   collections: {
     execs: Exec;
     link: Link;
@@ -37,6 +92,8 @@ export interface Config {
     RoommatePosts: RoommatePost;
     Comments: Comment;
     'general-user': GeneralUser;
+    events: Event;
+    'daily-reminders': DailyReminder;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -71,6 +128,8 @@ export interface Config {
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
     Comments: CommentsSelect<false> | CommentsSelect<true>;
     'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -319,6 +378,9 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
   };
   updatedAt: string;
@@ -399,6 +461,8 @@ export interface Service {
   createdAt: string;
 }
 /**
+ * Collection of emails for marketing purposes
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-collection".
  */
@@ -553,6 +617,35 @@ export interface GeneralUser {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  name: string;
+  date?: string | null;
+  time?: string | null;
+  location?: string | null;
+  description: string;
+  image?: (number | null) | Media;
+  link?: string | null;
+  status?: ('draft' | 'published') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-reminders".
+ */
+export interface DailyReminder {
+  id: number;
+  reference: string;
+  arabic: string;
+  english: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -692,9 +785,29 @@ export interface Form {
             blockName?: string | null;
             blockType: 'select';
           }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            first_name?: string | null;
+            first_name_placeholder?: string | null;
+            last_name?: string | null;
+            last_name_placeholder?: string | null;
+            email?: string | null;
+            email_placeholder?: string | null;
+            studentID?: string | null;
+            studentID_placeholder?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactInfo';
+          }
       )[]
     | null;
   submitButtonLabel?: string | null;
+  /**
+   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
+   */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
     root: {
@@ -714,6 +827,9 @@ export interface Form {
   redirect?: {
     url: string;
   };
+  /**
+   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
+   */
   emails?:
     | {
         emailTo?: string | null;
@@ -722,6 +838,9 @@ export interface Form {
         replyTo?: string | null;
         emailFrom?: string | null;
         subject: string;
+        /**
+         * Enter the message that should be sent in this email.
+         */
         message?: {
           root: {
             type: string;
@@ -744,6 +863,7 @@ export interface Form {
   releaseDate?: string | null;
   closeDate?: string | null;
   slug?: string | null;
+  webhook?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -880,6 +1000,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'general-user';
         value: number | GeneralUser;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'daily-reminders';
+        value: number | DailyReminder;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1275,6 +1403,33 @@ export interface GeneralUserSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  name?: T;
+  date?: T;
+  time?: T;
+  location?: T;
+  description?: T;
+  image?: T;
+  link?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-reminders_select".
+ */
+export interface DailyRemindersSelect<T extends boolean = true> {
+  reference?: T;
+  arabic?: T;
+  english?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
@@ -1412,6 +1567,24 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        contactInfo?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              first_name?: T;
+              first_name_placeholder?: T;
+              last_name?: T;
+              last_name_placeholder?: T;
+              email?: T;
+              email_placeholder?: T;
+              studentID?: T;
+              studentID_placeholder?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1437,6 +1610,7 @@ export interface FormsSelect<T extends boolean = true> {
   releaseDate?: T;
   closeDate?: T;
   slug?: T;
+  webhook?: T;
   updatedAt?: T;
   createdAt?: T;
 }

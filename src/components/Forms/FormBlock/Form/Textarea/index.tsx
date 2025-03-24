@@ -18,22 +18,23 @@ export const Textarea: React.FC<
   } & TextField
 > = ({ name, errors, label, register, required: requiredFromProps, rows = 3, width, }) => {
   return (
+    <div className=" ">
     <Width width={width}>
-      <div className="">
+     
 
-        <label className="label text-md" htmlFor={name}>
+        <label className=" text-3xl  font-semibold text-gray-600" htmlFor={name}>
           {label} {requiredFromProps && <span className='text-red-900'>*</span> }
         </label>
 
         <textarea
-          className="textarea textarea-bordered w-full focus:border-secondary  "
+          className="textarea textarea-bordered w-full focus:border-secondary text-lg "
           placeholder={label}
           id={name}
           rows={rows}
           {...register(name, { required: requiredFromProps })} />
 
         {requiredFromProps && errors[name] && <Error />}
-      </div>
     </Width>
+    </div>  
   )
 }
