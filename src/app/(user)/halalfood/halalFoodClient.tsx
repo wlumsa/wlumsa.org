@@ -101,11 +101,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   // Render UI
   // ------------------
   return (
-    <div className="w-full flex flex-col items-center mt-16 px-4 sm:px-8 bg-white text-neutral">
+    <div className="w-full flex flex-col items-center mt-4 px-4 sm:px-8 bg-white text-neutral">
+
 
       {/* Page Header */}
       <div className="text-center w-full mb-6">
-        <h1 className="font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
+      <h1 className="font-bold text-3xl sm:text-4xl text-primary mt-8">Halal Eats Near You 🍽️</h1>
         <p className="text-gray-500 mt-2 text-sm sm:text-md">{filteredData.length} halal spots found</p>
       </div>
 
