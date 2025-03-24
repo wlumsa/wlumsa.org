@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import {
   MapPin,
   Utensils,
@@ -220,9 +221,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               >
                 <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
                   {item.image && typeof item.image !== "number" && item.image.url ? (
-                    <img
+                    <Image
                       src={item.image.url}
                       alt={item.image.alt}
+                      width={192}
+                      height={192}
+                      
                       className="object-cover w-full h-full hover:scale-105 transition"
                     />
                   ) : (
