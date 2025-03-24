@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import {
   MapPin,
   Utensils,
@@ -101,11 +102,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   // Render UI
   // ------------------
   return (
-    <div className="w-full flex flex-col items-center mt-16 px-4 sm:px-8 bg-white text-neutral">
+    <div className="w-full flex flex-col items-center pt-24 px-4 sm:px-8 bg-white text-neutral">
 
       {/* Page Header */}
       <div className="text-center w-full mb-6">
-        <h1 className="font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
+      <h1 className="font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
         <p className="text-gray-500 mt-2 text-sm sm:text-md">{filteredData.length} halal spots found</p>
       </div>
 
@@ -220,9 +221,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               >
                 <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
                   {item.image && typeof item.image !== "number" && item.image.url ? (
-                    <img
+                    <Image
                       src={item.image.url}
                       alt={item.image.alt}
+                      width={192}
+                      height={192}
+                      
                       className="object-cover w-full h-full hover:scale-105 transition"
                     />
                   ) : (
