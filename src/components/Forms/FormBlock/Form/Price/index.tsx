@@ -58,6 +58,8 @@ export const Price: React.FC<
           <label htmlFor={name} className='label min-w-96 text-3xl font-semibold text-gray-600'>{label}:</label>
           <h1 className='text-xl'>({items.length}) {items.length === 1 ? 'paymentNum' : 'Players'} - <span className="font-bold">${totalPrice}</span></h1>
 
+          <label htmlFor={name} className='font-semibold'>{label}:</label>
+          <p>({items.length}) {items.length === 1 ? 'Player' : 'Players'} - <span className="font-bold">${totalPrice}</span></p>
           <div className="min-h-[24px]">
             {errors[name] && <Error />}
           </div>

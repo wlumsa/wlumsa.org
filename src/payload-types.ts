@@ -90,7 +90,7 @@ export interface Config {
     faq: Faq;
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
-    Comments: Comment;
+    comments: Comment;
     'general-user': GeneralUser;
     events: Event;
     'daily-reminders': DailyReminder;
@@ -126,7 +126,7 @@ export interface Config {
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
-    Comments: CommentsSelect<false> | CommentsSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
@@ -577,31 +577,27 @@ export interface HalalDirectory {
  */
 export interface RoommatePost {
   id: number;
-  user_id: string;
+  userId: number | GeneralUser;
+  author?: string | null;
+  email?: string | null;
+  contactEmail: boolean;
   title: string;
-  description: string;
   address: string;
-  name: string;
-  contactEmail: string;
-  rent: string;
-  PropertyType: string;
-  roomfurnishing: string;
+  description: string;
+  rent: number;
+  deposit?: number | null;
+  gender: '1' | '2';
+  propertyType: '1' | '2' | '3' | '4';
+  furnishingType: '1' | '2' | '3';
+  utilities?: ('1' | '2' | '3' | '4' | '5' | '6')[] | null;
+  amenities?: ('1' | '2' | '3' | '4' | '5')[] | null;
+  images: string[];
   availableDate: string;
-  images?: (number | Media)[] | null;
-  comments?: (number | Comment)[] | null;
+  facebook?: string | null;
+  phoneNumber?: string | null;
+  instagram?: string | null;
+  whatsapp?: string | null;
   status?: ('pending' | 'approved') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments".
- */
-export interface Comment {
-  id: number;
-  comment: string;
-  author: string;
-  postId?: (number | RoommatePost)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -611,7 +607,28 @@ export interface Comment {
  */
 export interface GeneralUser {
   id: number;
-  user_id: string;
+  clerkId: string;
+  email: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  category?: ('student' | 'landlord' | 'parent' | 'business' | 'alumni') | null;
+  laurierEmail?: string | null;
+  studentId?: string | null;
+  year?: string | null;
+  program?: string | null;
+  newsletter?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  author?: string | null;
+  comment?: string | null;
+  postId: number | RoommatePost;
   updatedAt: string;
   createdAt: string;
 }
@@ -994,7 +1011,7 @@ export interface PayloadLockedDocument {
         value: number | RoommatePost;
       } | null)
     | ({
-        relationTo: 'Comments';
+        relationTo: 'comments';
         value: number | Comment;
       } | null)
     | ({
@@ -1365,29 +1382,37 @@ export interface HalalDirectorySelect<T extends boolean = true> {
  * via the `definition` "RoommatePosts_select".
  */
 export interface RoommatePostsSelect<T extends boolean = true> {
-  user_id?: T;
-  title?: T;
-  description?: T;
-  address?: T;
-  name?: T;
+  userId?: T;
+  author?: T;
+  email?: T;
   contactEmail?: T;
+  title?: T;
+  address?: T;
+  description?: T;
   rent?: T;
-  PropertyType?: T;
-  roomfurnishing?: T;
-  availableDate?: T;
+  deposit?: T;
+  gender?: T;
+  propertyType?: T;
+  furnishingType?: T;
+  utilities?: T;
+  amenities?: T;
   images?: T;
-  comments?: T;
+  availableDate?: T;
+  facebook?: T;
+  phoneNumber?: T;
+  instagram?: T;
+  whatsapp?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments_select".
+ * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
-  comment?: T;
   author?: T;
+  comment?: T;
   postId?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1397,7 +1422,16 @@ export interface CommentsSelect<T extends boolean = true> {
  * via the `definition` "general-user_select".
  */
 export interface GeneralUserSelect<T extends boolean = true> {
-  user_id?: T;
+  clerkId?: T;
+  email?: T;
+  firstName?: T;
+  lastName?: T;
+  category?: T;
+  laurierEmail?: T;
+  studentId?: T;
+  year?: T;
+  program?: T;
+  newsletter?: T;
   updatedAt?: T;
   createdAt?: T;
 }

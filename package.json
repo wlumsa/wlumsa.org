@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.678.0",
-    "@clerk/nextjs": "^6.5.1",
+    "@clerk/nextjs": "^6.9.6",
     "@fontsource/libre-baskerville": "^5.1.0",
     "@fullcalendar/common": "^5.11.5",
     "@fullcalendar/core": "^6.1.15",
@@ -92,6 +92,7 @@
     "sharp": "^0.33.5",
     "stripe": "^17.5.0",
     "supabase": "^1.207.9",
+    "svix": "^1.44.0",
     "tailwind-merge": "^2.5.4",
     "use-debounce": "^10.0.4",
     "vercel": "^41.3.0",
