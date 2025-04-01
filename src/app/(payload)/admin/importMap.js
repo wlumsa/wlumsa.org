@@ -29,7 +29,6 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { DynamicFieldSelector as DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { DynamicPriceSelector as DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { default as default_f7e72fa773e9b4414610130d772b9a9e } from '@/plugins/form-builder/FormData'
-import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -63,5 +62,4 @@ export const importMap = {
   "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63,
   "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63,
   "@/plugins/form-builder/FormData#default": default_f7e72fa773e9b4414610130d772b9a9e,
-  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24
 }

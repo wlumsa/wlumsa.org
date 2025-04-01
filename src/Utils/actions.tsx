@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { fetchRoommatePosts, addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, updateUserInfo, deleteRoommatePostById, updateRoommatePostById, removeIndividualFromList, updateNewsletterStatus } from './datafetcher'
+import { fetchRoommatePosts, addIndividualToList, addMember, isMember, createComment, deleteCommentById, createRoommatePost, updateUserInfo, deleteRoommatePostById, updateRoommatePostById, removeIndividualFromList, updateNewsletterStatus,  } from './datafetcher'
 import { resend } from './resend';
 import axios from 'axios';
 import { currentUser } from '@clerk/nextjs/server';
@@ -194,3 +194,19 @@ export async function updateRoommatePost(postId: number, formData: RoommatePost)
     }
 }
 
+
+export async function removeMemberFromNewsletter(email: string) {
+    //check if they are apart of newsletter collection
+    const updateStatus = await updateNewsletterStatus(email);
+    if (!updateStatus) {
+        return { message: 'You are not subscribed to the newsletter', errors: true }
+    }
+
+    const remove = await removeIndividualFromList("Newsletter", email);
+    if (!remove) {
+        return { message: 'You are not subscribed to the newsletter', errors: true }
+    }
+
+    return { message: 'You have been removed from the newsletter' }
+
+}
