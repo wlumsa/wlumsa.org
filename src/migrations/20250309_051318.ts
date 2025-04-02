@@ -334,6 +334,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"available_date" timestamp(3) with time zone NOT NULL,
   	"status" "enum_roommate_posts_status" DEFAULT 'pending',
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+
+
+
+
+    
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
   

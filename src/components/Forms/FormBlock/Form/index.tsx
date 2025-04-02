@@ -75,7 +75,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   // Define steps based on form fields
   const steps = formFromProps.fields.map((field: FormFieldBlock, index: number) => {
-    const Field: React.FC<any> = fields[field.blockType]
+    const Field: React.FC<any> | undefined = fields[field.blockType as keyof typeof fields]
     return (
       <div className="w-full flex flex-grow" key={index}>
         <AnimatePresence>
