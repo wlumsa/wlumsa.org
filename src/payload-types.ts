@@ -91,8 +91,8 @@ export interface Config {
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
     comments: Comment;
-    'general-user': GeneralUser;
     events: Event;
+    GeneralUser: GeneralUser;
     'daily-reminders': DailyReminder;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -127,8 +127,8 @@ export interface Config {
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
-    'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    GeneralUser: GeneralUserSelect<false> | GeneralUserSelect<true>;
     'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -603,7 +603,7 @@ export interface RoommatePost {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "general-user".
+ * via the `definition` "GeneralUser".
  */
 export interface GeneralUser {
   id: number;
@@ -1015,12 +1015,12 @@ export interface PayloadLockedDocument {
         value: number | Comment;
       } | null)
     | ({
-        relationTo: 'general-user';
-        value: number | GeneralUser;
-      } | null)
-    | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'GeneralUser';
+        value: number | GeneralUser;
       } | null)
     | ({
         relationTo: 'daily-reminders';
@@ -1419,7 +1419,23 @@ export interface CommentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "general-user_select".
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  name?: T;
+  date?: T;
+  time?: T;
+  location?: T;
+  description?: T;
+  image?: T;
+  link?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GeneralUser_select".
  */
 export interface GeneralUserSelect<T extends boolean = true> {
   clerkId?: T;
@@ -1432,22 +1448,6 @@ export interface GeneralUserSelect<T extends boolean = true> {
   year?: T;
   program?: T;
   newsletter?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events_select".
- */
-export interface EventsSelect<T extends boolean = true> {
-  name?: T;
-  date?: T;
-  time?: T;
-  location?: T;
-  description?: T;
-  image?: T;
-  link?: T;
-  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

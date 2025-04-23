@@ -42,9 +42,9 @@ import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
 import {Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
-import { GeneralUser } from "./collections/Users/Users";
 import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
+import GeneralUser from "./collections/UI/GeneralUser";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -82,8 +82,8 @@ export default buildConfig({
     HalalDirectory,
     RoommatePosts,
     Comments,
-    GeneralUser,
     Events,
+    GeneralUser,
     DailyReminders,
   ],
   globals: [Nav, Footer, PrayerTimings],

@@ -13,7 +13,7 @@ export const isAuthor: Access = async ({ req }) => {
     return false;
   }
   const post = await payload.find({
-    collection: 'general-user',
+    collection: 'GeneralUser',
     where: {
       "clerkId": {
         equals: user.userId,
@@ -28,7 +28,7 @@ export const isAuthor: Access = async ({ req }) => {
 }
 
 export const GeneralUser: CollectionConfig = {
-  slug: 'general-user',
+  slug: 'GeneralUser',
   access: {
     read: () => true,
     create: ({req}) => isUser({req}),

@@ -54,9 +54,9 @@ export const Comments: CollectionConfig = {
 
   
             if (clerkUser) {
-              // Find the user in the general-user collection by clerkId
+              // Find the user in the GeneralUser collection by clerkId
               const generalUser = await req.payload.find({
-                collection: 'general-user',
+                collection: 'GeneralUser',
                 where: {
                   clerkId: {
                     equals: clerkUser.userId,
@@ -70,7 +70,7 @@ export const Comments: CollectionConfig = {
                 data.userId = generalUser.docs[0]?.id;
                 data.author = `${generalUser.docs[0]?.firstName} ${generalUser.docs[0]?.lastName}`;
               } else {
-                throw new Error('No matching user found in general-user collection');
+                throw new Error('No matching user found in GeneralUser collection');
               }
             }
   

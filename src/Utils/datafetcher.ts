@@ -917,7 +917,7 @@ export async function createUser(
   lastName: string,
 ) {
   const newUser = await payload.create({
-    collection: "general-user",
+    collection: "GeneralUser",
     data: {
       clerkId: clerkId,
       email: email,
@@ -929,7 +929,7 @@ export async function createUser(
 }
 export async function findUser(id: string) {
   const user = await payload.find({
-    collection: "general-user",
+    collection: "GeneralUser",
     where: {
       clerkId: {
         equals: id,
@@ -976,7 +976,7 @@ export async function deleteCommentById(commentId: string) {
 
 export async function createRoommatePost(postData: RoommatePost) {
   const post = await payload.create({
-    collection: "RoommatePosts",
+  collection: "RoommatePosts",
     data: {
       title: postData.title,
       description: postData.description,
@@ -1003,7 +1003,7 @@ export async function createRoommatePost(postData: RoommatePost) {
 
 export async function updateUserInfo(clerkId: string, data: any) {
   const user = await payload.update({
-    collection: "general-user",
+    collection: "GeneralUser",
     where: {
       clerkId: {
         equals: clerkId,
