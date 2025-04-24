@@ -79,13 +79,13 @@ console.log(daysInCurrentMonth)
               </th>
               {currentMonthTimings &&
                 currentMonthTimings
-                  .slice(today.getDate()-1 , today.getDate() + 6)
+                  .slice(today.getDate() , today.getDate() + 6)
                   .map((day, dayIndex) => {
                     const iqamahKey = `${key}_iqamah` as TimingKey;
                     const formattedTiming = day[key] + " " + timingDictonary[key];
                     let iqamahTime = "N/A";
                     if (key === "dhuhr") {
-                      iqamahTime = `${day["dhuhr_iqamah_1"]} ${timingDictonary["dhuhr_iqamah_1"]} | ${day["dhuhr_iqamah_2"]} ${timingDictonary["dhuhr_iqamah_2"]}`;
+                        iqamahTime = `${day["dhuhr_iqamah_1"] ? `${day["dhuhr_iqamah_1"]} ${timingDictonary["dhuhr_iqamah_1"]}` : ""}${day["dhuhr_iqamah_1"] && day["dhuhr_iqamah_2"] ? " | " : ""}${day["dhuhr_iqamah_2"] ? `${day["dhuhr_iqamah_2"]} ${timingDictonary["dhuhr_iqamah_2"]}` : ""}`;
                     } else if (key === "asr") {
                       iqamahTime = day["asr_iqamah_1"] + " " + timingDictonary["asr_iqamah_1"];
                     }

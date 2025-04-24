@@ -20,7 +20,7 @@ const monthNames = [
 export function getTodaysTimings(date: Date, timings: PrayerTiming) {
   
   const currMonth = timings.month[date.getMonth()];
-  const currDay = currMonth?.days[date.getDate()-1];
+  const currDay = currMonth?.days[date.getDate()];
   return currDay;
 }
 
