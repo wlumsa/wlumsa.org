@@ -51,7 +51,7 @@ console.log(daysInCurrentMonth)
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 overflow-hidden rounded-lg shadow-lg">
-        <thead className="bg-[#2E046D] text-white">
+        <thead className="bg-purple-950 text-white">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
               Prayer
