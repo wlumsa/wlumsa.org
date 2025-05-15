@@ -1,7 +1,7 @@
 <!-- MSA Banner -->
 
 <p align="center">
-  <img src="src\logo.png" width="140" />
+  <img src="src/logo.png" width="140" />
 </p>
 
 <h1 align="center">
