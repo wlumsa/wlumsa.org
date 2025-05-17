@@ -580,11 +580,11 @@ export interface RoommatePost {
   userId: number | GeneralUser;
   author?: string | null;
   email?: string | null;
-  contactEmail: boolean;
+  contactEmail: string;
   title: string;
   address: string;
   description: string;
-  rent: number;
+  rent: string;
   deposit?: number | null;
   gender: '1' | '2';
   propertyType: '1' | '2' | '3' | '4';

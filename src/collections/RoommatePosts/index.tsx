@@ -102,7 +102,7 @@ export const RoommatePosts: CollectionConfig = {
     },
     {
       name: 'contactEmail',
-      type: "checkbox",
+      type: "email",
       required: true,
     },
     {
@@ -126,9 +126,8 @@ export const RoommatePosts: CollectionConfig = {
 
     {
       name: 'rent',
-      type: 'number',
+      type: 'text',
       required: true,
-      label: 'Monthly Rent',
     },
     {
       name: 'deposit',
