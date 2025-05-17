@@ -19,8 +19,8 @@
   <a href="https://www.instagram.com/wlumsa/">
     <img src="https://img.shields.io/badge/Instagram-@wlumsa-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
   </a>
-  <a href="mailto:msa@mylaurier.ca">
-    <img src="https://img.shields.io/badge/Email-msa@mylaurier.ca-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+  <a href="mailto:msa@wlu.ca">
+    <img src="https://img.shields.io/badge/Email-msa@mwlu.ca-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
   </a>
 </p>
 
