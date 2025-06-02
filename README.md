@@ -1,128 +1,80 @@
-<!-- MSA Banner -->
+
+<!-- Qalam Consulting Banner -->
 
 <p align="center">
-  <img src="src/logo.png" width="140" />
+  <img src="public\logo2.png" alt="Qalam Consulting Logo" width="120" />
 </p>
 
-<h1 align="center">
-  <strong>Wilfrid Laurier University MSA</strong>
-</h1>
+<h1 align="center"><strong>Qalam Consulting - Main Website 🌐</strong></h1>
 
 <p align="center">
-  <em><span style="color:#CCCCCC;">Empowering students through faith, community, and service.</span></em>
+  Empowering businesses through strategy, design, and innovation.
 </p>
-
-<p align="center">
-  <a href="https://wlumsa.org">
-    <img src="https://img.shields.io/badge/Website-wlumsa.org-0A66C2?style=for-the-badge&logo=Google%20Chrome&logoColor=white" />
-  </a>
-  <a href="https://www.instagram.com/wlumsa/">
-    <img src="https://img.shields.io/badge/Instagram-@wlumsa-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
-  </a>
-  <a href="mailto:msa@wlu.ca">
-    <img src="https://img.shields.io/badge/Email-msa@mwlu.ca-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-</p>
-
 
 ---
 
-# WLU Muslim Student's Association Website
+## 📌 Project Overview
 
-This project is the official website for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University by the permission of Allah.
+Welcome to the official **Qalam Consulting** website repository!  
+This site serves as our **digital presence**, offering insights into our consulting services and how we help businesses succeed.
 
-## Features
+### ✅ Highlights
 
-- 🕌 Prayer timings and Jummah information
-- 📚 Blog with categories and search functionality
-- 🎓 Resources for students
-- 🏠 Roommate service for housing
-- 🍽️ Halal food directory
-- 📝 Forms and event registration
-- 🎥 Media recordings (Halaqah, Khutbah, Guest Speakers)
-- 📱 Responsive design with dark mode support
-- 🔍 SEO optimized
-- 🔐 User authentication with Clerk
-- 💳 Payment processing with Stripe
-- 📧 Newsletter subscription
-- 📸 Instagram feed integration
+- Built with **HTML & CSS**
+- Fully **responsive** design
+- Showcases services in **strategy, marketing, finance, and UI/UX**
+- Includes a **contact form** for client inquiries
 
-## Tech Stack
+---
 
-[![Technologies](https://skillicons.dev/icons?i=nextjs,typescript,tailwind,react,postgres,supabase,aws)](https://skillicons.dev)
+## 🚀 Getting Started
 
-- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **Backend**: Payload CMS
-- **Database**: PostgreSQL (via Supabase)
-- **Storage**: S3-compatible storage (via Supabase)
-- **Authentication**: Clerk
-- **Payments**: Stripe
-- **Email**: Resend
-- **Package Manager**: pnpm
+To view or edit this project locally:
 
-## Getting Started
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/Qalam-Consulting/mainsite.git```
 
-1. Clone this repository to your local machine
-```bash
-git clone <repository-url>
-```
+2. **Navigate into the project directory**
 
-2. Install dependencies using pnpm
-```bash
-pnpm install
-```
+   ```bash
+   cd mainsite
+   ```
 
-3. Set up your environment variables
-```bash
-cp .env.example .env
-```
-Fill in the required environment variables in the `.env` file.
+3. **Open `index.html`** in your browser to view the site.
 
-4. Start the development server
-```bash
-pnpm dev
-```
+---
 
-The website should now be accessible at `http://localhost:3000` in your web browser.
+## 🤝 Contributing
 
-## Environment Variables
+We welcome contributions to improve and grow the site.
 
-Required environment variables:
-- `DATABASE_URI`: PostgreSQL connection string
-- `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
-- `S3_BUCKET`: S3 bucket name
-- `S3_ACCESS_KEY_ID`: S3 access key
-- `S3_SECRET_ACCESS_KEY`: S3 secret key
-- `S3_REGION`: S3 region
-- `S3_ENDPOINT`: S3 endpoint
-- `STRIPE_SECRET_KEY`: Stripe secret key
-- `STRIPE_WEBHOOKS_ENDPOINT_SECRET`: Stripe webhook secret
-- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: Clerk publishable key
-- `CLERK_SECRET_KEY`: Clerk secret key
+### To contribute:
 
-## Project Structure
+1. **Fork** this repository
+2. **Create a branch**
 
-```
-src/
-├── app/              # Next.js app directory
-├── blocks/          # Payload CMS blocks
-├── collections/     # Payload CMS collections
-├── components/      # React components
-├── globals/         # Global configurations
-├── lib/            # Utility functions
-├── plugins/        # Payload CMS plugins
-├── redux/          # State management
-├── styles/         # Global styles
-└── Utils/          # Helper functions
-```
+   ```bash
+   git checkout -b feature-branch
+   ```
+3. **Make changes and commit**
 
-## Authors and Acknowledgements
+   ```bash
+   git commit -m "Add feature"
+   ```
+4. **Push to your branch**
 
-### Contributors
-![avatar](https://images.weserv.nl/?url=https://github.com/Syed-Ahmed02.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/rzlm.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/MarufHossain14.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/UsamaMo.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/mxsaad.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/yusrahassan737.png?v=4&h=100&w=100fit=cover&mask=circle)
+   ```bash
+   git push origin feature-branch
+   ```
+5. **Open a pull request** on GitHub
 
-### Special Thanks
-Thanks to the executive teams of the Laurier Muslim Students Association in the 2023-2025 school year for facilitating the project and providing valuable feedback.
+---
 
-## Contact Information
-If you would like to reach out to us, feel free to contact us using the form on our [resources page](https://www.wlumsa.org/resources).
+## 📬 Contact
+
+* 📧 Email: [contact@qalamconsulting.org](mailto:contact@qalamconsulting.org)
+* 🌐 Website: [qalamconsulting.org](https://qalamconsulting.org)
+* 💻 GitHub: [Qalam-Consulting](https://github.com/Qalam-Consulting)
+
+---
