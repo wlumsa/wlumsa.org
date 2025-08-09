@@ -6,7 +6,7 @@ export default {
   plugins: [require("daisyui")],
   daisyui: {
     themes: [
-      // --- Light (your community-approved set, unchanged hues) ---
+      // --- Light ---
       {
         lightTheme: {
           primary: "#2e046d",               // Purple
@@ -15,7 +15,7 @@ export default {
           "secondary-content": "#1a1200",
           accent: "#6c703e",                // Olive green
           "accent-content": "#ffffff",
-          neutral: "#444444",               // Gray for chips/badges
+          neutral: "#444444",               // Gray for badges
           "neutral-content": "#ffffff",
 
           "base-100": "#ffffff",            // Page bg
@@ -32,14 +32,14 @@ export default {
           error: "#F2B6B5",
           "error-content": "#2a0b09",
 
-          // Optional: nicer button hovers
+          // button hovers
           "--btn-primary-hover": "#250359",
           "--btn-secondary-hover": "#d49a2f",
           "--btn-accent-hover": "#5b6336",
         },
       },
 
-      // --- IIA (kept as-is, with content/base tokens added) ---
+      // --- IIA ---
       {
         IIA: {
           primary: "#3EB169",               // Green
@@ -71,7 +71,7 @@ export default {
         },
       },
 
-      // --- Dark (tone-shifted for readability on dark surfaces) ---
+      // --- Dark  ---
       {
         darkTheme: {
           "base-100": "#121318",            // Main bg (not pure black)
@@ -79,9 +79,9 @@ export default {
           "base-300": "#1f2230",
           "base-content": "#f2f3f7",
 
-          primary: "#5f3c8d",               // Your purple, works well on dark
+          primary: "#5f3c8d",               // purple, works well on dark
           "primary-content": "#ffffff",
-          secondary: "#ecb553",             // Your gold/yellow
+          secondary: "#ecb553",             // gold/yellow
           "secondary-content": "#201700",
           accent: "#a0a86c",                // Lightened olive so it pops
           "accent-content": "#14180c",
