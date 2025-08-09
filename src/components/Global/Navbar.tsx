@@ -53,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   // }, [productData]);
 
   return (
-    <div className="navbar fixed top-0 z-30 mb-16 rounded-b-3xl bg-primary p-0 px-2 sm:w-full ">
+    <div className="navbar fixed top-0 z-30 mb-16 rounded-b-3xl bg-[#2e046d] p-0 px-2 sm:w-full ">
       {/* Mobile */}
       <div className="navbar-start text-white">
         <div className="dropdown">
@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-primary p-2 shadow"
+            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-[#2e046d] p-2 shadow"
           >
             {navbarData.items.map((item, index) => {
               return (
@@ -91,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                     <details>
                       <summary>{item.label}</summary>
                       {item.links && (
-                        <ul className="w-fit rounded-t-none bg-primary">
+                        <ul className="w-fit rounded-t-none bg-[#2e046d]">
                           {item.links.map((link, index) => {
                             return (
                               <li key={index}>
@@ -119,7 +119,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
       </div>
 
       {/* Desktop */}
-      <div className="navbar-center hidden text-base-100 lg:flex ">
+      <div className="navbar-center hidden text-white lg:flex ">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
           {navbarData.items.map((item, index) => {
             return (
@@ -140,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 ) : (
                   <li className="dropdown dropdown-hover">
                     <div className="">{item.label}</div>
-                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                    <ul className="menu dropdown-content rounded-sm bg-[#2e046d] shadow-lg">
                       {item.links?.map((link) => {
                         return (
                           <li key={link.title}>
@@ -174,7 +174,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="h-6 w-6 text-base-100"
+              className="h-6 w-6 text-white"
             >
               <path
                 strokeLinecap="round"
@@ -189,7 +189,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="h-6 w-6 text-base-100"
+              className="h-6 w-6 text-white"
             >
               <path
                 strokeLinecap="round"
