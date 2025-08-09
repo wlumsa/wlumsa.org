@@ -27,11 +27,11 @@ export default function ContactPage() {
             <div className="hidden md:grid md:grid-cols-2">
               <div>
                 <p className="mb-12 mt-3 text-sm text-gray-600">
-                  At the Laurier Muslim Students Association we are commited to
-                  ensure the spiritural and professional development of Laurier
-                  Students as well as provide a variety of services to enhance
-                  the student experience. If you would like to colloberate with
-                  us fill out the form
+                 The Laurier Muslim Students' Association is committed to
+                  ensuring the spiritual and professional development of Laurier
+                  Students as well as providing a variety of services to enhance
+                  the student experience. If you would like to collaborate with
+                  us fill out the form.
                 </p>
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d574.5123406885597!2d-80.52840270038443!3d43.47394430083161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882bf3f61b1f9a23%3A0xd224e64459372537!2sWilfrid%20Laurier%20University%20Waterloo%20Campus!5e0!3m2!1sen!2sca!4v1699381173730!5m2!1sen!2sca"

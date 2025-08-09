@@ -51,7 +51,7 @@ console.log(daysInCurrentMonth)
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 overflow-hidden rounded-lg shadow-lg">
-        <thead className="bg-[#2E046D] text-white">
+        <thead className="bg-purple-950 text-white">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
               Prayer
@@ -79,13 +79,13 @@ console.log(daysInCurrentMonth)
               </th>
               {currentMonthTimings &&
                 currentMonthTimings
-                  .slice(today.getDate()-1 , today.getDate() + 6)
+                  .slice(today.getDate() , today.getDate() + 6)
                   .map((day, dayIndex) => {
                     const iqamahKey = `${key}_iqamah` as TimingKey;
                     const formattedTiming = day[key] + " " + timingDictonary[key];
                     let iqamahTime = "N/A";
                     if (key === "dhuhr") {
-                      iqamahTime = `${day["dhuhr_iqamah_1"]} ${timingDictonary["dhuhr_iqamah_1"]} | ${day["dhuhr_iqamah_2"]} ${timingDictonary["dhuhr_iqamah_2"]}`;
+                        iqamahTime = `${day["dhuhr_iqamah_1"] ? `${day["dhuhr_iqamah_1"]} ${timingDictonary["dhuhr_iqamah_1"]}` : ""}${day["dhuhr_iqamah_1"] && day["dhuhr_iqamah_2"] ? " | " : ""}${day["dhuhr_iqamah_2"] ? `${day["dhuhr_iqamah_2"]} ${timingDictonary["dhuhr_iqamah_2"]}` : ""}`;
                     } else if (key === "asr") {
                       iqamahTime = day["asr_iqamah_1"] + " " + timingDictonary["asr_iqamah_1"];
                     }

@@ -10,7 +10,9 @@ import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
 import { CheckboxField } from './Checkbox/types'
-
+import { ContactInfoField } from './ContactInfo/types'
+import { MoveLeft } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 export type Value = unknown
 
 export interface Property {
@@ -28,6 +30,7 @@ export type FormBlockType = {
     submissionLimit?: number
     closeDate?: Date,
     releaseDate?: Date,
+    webhook?: string,
   }
   introContent?: {
     [k: string]: unknown
@@ -40,12 +43,18 @@ type SelectFieldExtended = SelectField & {
 type CheckboxFieldExtended = CheckboxField & {
   id: string;
 }
-
+type ContactInfoFieldExtended = ContactInfoField & {
+  id: string;
+}
+const containerVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, type: "spring", stiffness: 50 } },
+  exit: { opacity: 0, x: 50, transition: { duration: 0.3 } }
+};
 export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const {
     form: formFromProps,
     form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
-    introContent,
   } = props
 
   const formMethods = useForm({
@@ -66,19 +75,29 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   // Define steps based on form fields
   const steps = formFromProps.fields.map((field: FormFieldBlock, index: number) => {
-    const Field: React.FC<any> = fields[field.blockType]
+    const Field: React.FC<any> | undefined = fields[field.blockType as keyof typeof fields]
     return (
       <div className="w-full flex flex-grow" key={index}>
-        {Field ? (
-          <Field
-            form={formFromProps}
-            {...field}
-            {...formMethods}
-            control={control}
-            errors={errors}
-            register={register}
-          />
-        ) : null}
+        <AnimatePresence>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="w-full h-[18rem-full] rounded-xl flex flex-col justify-between px-8"
+          >
+            {Field ? (
+              <Field
+                form={formFromProps}
+                {...field}
+                {...formMethods}
+                control={control}
+                errors={errors}
+                register={register}
+              />
+            ) : null}
+          </motion.div>
+        </AnimatePresence>
       </div>
     )
   });
@@ -91,7 +110,9 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
       console.log("Submit triggered")
       setError(undefined)
       setIsLoading(true)
-
+      console.log("Form from Field", formFromProps)
+      console.log("Submit triggered")
+      console.log("Contact Info Data:", data.contactInfo); // Accessing Contact Info data
       try {
         // Format the submission data
         const paymentField = formFromProps.fields.find(
@@ -109,6 +130,17 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             }),
             {} as FormData,
           )
+        console.log("Submission Data", submissionData)
+
+        console.log(formFromProps.webhook)
+        if (formFromProps.webhook) {
+          await fetch(formFromProps.webhook, {
+            body: JSON.stringify(submissionData),
+            method: "POST",
+
+          });
+        }
+
 
         // Get current form data for limits
         const formResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
@@ -118,6 +150,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         const selectFields = formData.fields.filter(
           (field: SelectFieldExtended) => field.blockType === 'select'
         )
+
 
         // Update select field limits
         for (const field of selectFields) {
@@ -154,6 +187,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         const checkboxFields = formData.fields.filter(
           (field: CheckboxFieldExtended) => field.blockType === 'checkbox'
         )
+        let updatedCheckboxes: CheckboxFieldExtended['checkboxes'] = []
 
         // Only proceed if there are checkbox fields
         if (checkboxFields.length > 0) {
@@ -164,7 +198,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               if (!selectedValues) return f;
 
               // Update limits for selected checkboxes
-              const updatedCheckboxes = f.checkboxes.map(opt => {
+               updatedCheckboxes = f.checkboxes.map(opt => {
                 if (selectedValues.includes(opt.label) && opt.limit) {
                   return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
                 }
@@ -183,17 +217,36 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             body: JSON.stringify({ fields: updatedFields }),
           });
         }
-
-        // Update submission limit if exists
-        if (formData.submissionLimit) {
-          await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              'submissionLimit': formData.submissionLimit - 1,
-            }),
-          })
+        //check checkbox limit
+        const closeForm = formData.fields.some(
+          (field: CheckboxFieldExtended) =>
+            field.blockType === 'checkbox' &&
+            updatedCheckboxes.every((opt) => opt.limit === 0)
+        );
+        console.log("Close Form", closeForm)
+        if(formData.submissionLimit) {
+          if(closeForm){
+            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                'submissionLimit': 0,
+              }),
+            })
+          } else {
+              await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                'submissionLimit': formData.submissionLimit - 1,
+              }),
+            })
+          }
+          
         }
+        
+
+       
 
         // Create the submission
         const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
@@ -243,7 +296,8 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           try {
             const session = await createCheckoutSession(
               submissionId,
-              Number(data[paymentFieldName])
+              Number(data[paymentFieldName]),
+              formFromProps.title
             )
 
             if (!session?.url) {
@@ -293,27 +347,38 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   }, [currStepIndex, handleSubmit, onSubmit]);
 
 
+
   return (
-    <div className="mt-20 flex min-h-screen flex-grow flex-col items-center">
-      <h1 className='my-4 text-3xl text-bold'>{formFromProps.title} Form</h1>
+    <div className="flex  flex-col items-center">
+      <h1 className='my-4 text-xl text-bold text-left'>{formFromProps.title}</h1>
 
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
             <h2 className="text-xl font-bold">This form has reached its limit</h2>
           </div>
+        )  : formFromProps.releaseDate && new Date() < new Date(formFromProps.releaseDate) ? (
+          <div className="text-center p-4">
+            <h2 className="text-xl font-bold">This form will be releasing at {new Date(formFromProps.releaseDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
+          </div>
+        ) : formFromProps.closeDate && new Date() > new Date(formFromProps.closeDate) ? (
+          <div className="text-center p-4">
+            <h2 className="text-xl font-bold">This was closed at {new Date(formFromProps.closeDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
+          </div>
         ) : (
           <>
             {!isLoading && hasSubmitted && confirmationType === 'message' && (
-              <RichText className="" content={confirmationMessage} />
+              <div>
+                <RichText className="" content={confirmationMessage} />
+              </div>
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="card w-96 min-h-[18rem] mx-4 rounded-xl border-primary border flex flex-col justify-between">
+              <div className="  w-screen min-h-[18rem] max-h-fit   rounded-xl flex flex-col justify-between  max-w-5xl ">
                 <FormProvider {...formMethods}>
-                  <form className="flex flex-col h-full card-body" id={formID} onSubmit={handleSubmit(onSubmit)} >
+                  <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
                     {currStepIndex === steps.length ? (
-                      <div className="flex items-center justify-center flex-grow">
+                      <div className="flex flex-grow">
                         <span className="loading loading-spinner loading-lg"></span>
                       </div>
                     ) :
@@ -322,23 +387,25 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                       </div>}
 
 
-                    <div className="card-actions justify-between mt-4">
-                      <button type="button" className='btn btn-sm' onClick={back} disabled={currStepIndex === 0 || currStepIndex === steps.length} >
-                        Back
+                    <div className="card-actions justify-between mt-4 w-full flex flex-row px-8 ">
+                      <button type="button" className='btn btn-md text-lg ' onClick={back} disabled={currStepIndex === 0 || currStepIndex === steps.length} >
+                        <MoveLeft className='w-6 h-6' />
                       </button>
                       {currStepIndex === steps.length - 1 ? (
-                        <button type="button"  onClick={handleNext} className="btn btn-sm btn-secondary">
-                          {submitButtonLabel || "submit"}
-                          {isLoading && <span className="loading loading-spinner"></span>}
+
+                        <button type="button" onClick={handleNext} className="btn btn-secondary">
+                          {submitButtonLabel || "Submit"}
+                          {isLoading && <span className="loading loading-spinner items-center justify-center"></span>}
                         </button>
                       ) : (
-                        <button type="button" className='btn btn-sm border border-neutral' onClick={handleNext} disabled={currStepIndex === steps.length}>
-                          Next
+                        <button type="button" className=' btn  btn-secondary text-lg  ' onClick={handleNext} disabled={currStepIndex === steps.length}>
+                          {currStepIndex === steps.length ? (submitButtonLabel || "Submit") : 'Next'}
                         </button>
                       )}
                     </div>
                   </form>
                 </FormProvider>
+
               </div>
             )}
           </>

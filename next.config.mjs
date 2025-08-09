@@ -13,6 +13,15 @@ const config = {
   experimental: {
     reactCompiler: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/wlumsa.org/forms/iftars',
+        destination: '/ramadan',
+        permanent: true, // Set to false if it's temporary
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -27,6 +36,12 @@ const config = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol:"https",
+        hostname:"mrucujpvbprmpznsgmfr.supabase.co",
+        port:"",
+        pathname:"/**"
+      }
       
       
     ],

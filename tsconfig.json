@@ -28,6 +28,7 @@
       "@payload-config": [
         "./src/payload.config.ts"
       ],
+      "react": [ "./node_modules/@types/react" ],
       "payload/types": [
         "./node_modules/payload/types"
       ]

@@ -20,7 +20,7 @@ const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
             Latest News
           </h3>
           {instagramPosts.length > 0 ? (
-            <div className="  carousel  flex-row-reverse  max-w-[22rem] overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+            <div className="  carousel  flex-row  max-w-[22rem] overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
 
               {instagramPosts.map((post, index) => (
                 <div

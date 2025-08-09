@@ -6,10 +6,65 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     execs: ExecAuthOperations;
   };
+  blocks: {};
   collections: {
     execs: Exec;
     link: Link;
@@ -35,8 +90,10 @@ export interface Config {
     faq: Faq;
     'halal-directory': HalalDirectory;
     RoommatePosts: RoommatePost;
-    Comments: Comment;
-    'general-user': GeneralUser;
+    comments: Comment;
+    events: Event;
+    GeneralUser: GeneralUser;
+    'daily-reminders': DailyReminder;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -69,8 +126,10 @@ export interface Config {
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
-    Comments: CommentsSelect<false> | CommentsSelect<true>;
-    'general-user': GeneralUserSelect<false> | GeneralUserSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    GeneralUser: GeneralUserSelect<false> | GeneralUserSelect<true>;
+    'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -319,6 +378,9 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
   };
   updatedAt: string;
@@ -399,6 +461,8 @@ export interface Service {
   createdAt: string;
 }
 /**
+ * Collection of emails for marketing purposes
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-collection".
  */
@@ -513,41 +577,87 @@ export interface HalalDirectory {
  */
 export interface RoommatePost {
   id: number;
-  user_id: string;
+  userId: number | GeneralUser;
+  author?: string | null;
+  email?: string | null;
+  contactEmail: boolean;
   title: string;
-  description: string;
   address: string;
-  name: string;
-  contactEmail: string;
-  rent: string;
-  PropertyType: string;
-  roomfurnishing: string;
+  description: string;
+  rent: number;
+  deposit?: number | null;
+  gender: '1' | '2';
+  propertyType: '1' | '2' | '3' | '4';
+  furnishingType: '1' | '2' | '3';
+  utilities?: ('1' | '2' | '3' | '4' | '5' | '6')[] | null;
+  amenities?: ('1' | '2' | '3' | '4' | '5')[] | null;
+  images: string[];
   availableDate: string;
-  images?: (number | Media)[] | null;
-  comments?: (number | Comment)[] | null;
+  facebook?: string | null;
+  phoneNumber?: string | null;
+  instagram?: string | null;
+  whatsapp?: string | null;
   status?: ('pending' | 'approved') | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments".
+ * via the `definition` "GeneralUser".
  */
-export interface Comment {
+export interface GeneralUser {
   id: number;
-  comment: string;
-  author: string;
-  postId?: (number | RoommatePost)[] | null;
+  clerkId: string;
+  email: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  category?: ('student' | 'landlord' | 'parent' | 'business' | 'alumni') | null;
+  laurierEmail?: string | null;
+  studentId?: string | null;
+  year?: string | null;
+  program?: string | null;
+  newsletter?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "general-user".
+ * via the `definition` "comments".
  */
-export interface GeneralUser {
+export interface Comment {
   id: number;
-  user_id: string;
+  author?: string | null;
+  comment?: string | null;
+  postId: number | RoommatePost;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  name: string;
+  date?: string | null;
+  time?: string | null;
+  location?: string | null;
+  description: string;
+  image?: (number | null) | Media;
+  link?: string | null;
+  status?: ('draft' | 'published') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-reminders".
+ */
+export interface DailyReminder {
+  id: number;
+  reference: string;
+  arabic: string;
+  english: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -692,9 +802,29 @@ export interface Form {
             blockName?: string | null;
             blockType: 'select';
           }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            first_name?: string | null;
+            first_name_placeholder?: string | null;
+            last_name?: string | null;
+            last_name_placeholder?: string | null;
+            email?: string | null;
+            email_placeholder?: string | null;
+            studentID?: string | null;
+            studentID_placeholder?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactInfo';
+          }
       )[]
     | null;
   submitButtonLabel?: string | null;
+  /**
+   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
+   */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
     root: {
@@ -714,6 +844,9 @@ export interface Form {
   redirect?: {
     url: string;
   };
+  /**
+   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
+   */
   emails?:
     | {
         emailTo?: string | null;
@@ -722,6 +855,9 @@ export interface Form {
         replyTo?: string | null;
         emailFrom?: string | null;
         subject: string;
+        /**
+         * Enter the message that should be sent in this email.
+         */
         message?: {
           root: {
             type: string;
@@ -744,6 +880,7 @@ export interface Form {
   releaseDate?: string | null;
   closeDate?: string | null;
   slug?: string | null;
+  webhook?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -874,12 +1011,20 @@ export interface PayloadLockedDocument {
         value: number | RoommatePost;
       } | null)
     | ({
-        relationTo: 'Comments';
+        relationTo: 'comments';
         value: number | Comment;
       } | null)
     | ({
-        relationTo: 'general-user';
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'GeneralUser';
         value: number | GeneralUser;
+      } | null)
+    | ({
+        relationTo: 'daily-reminders';
+        value: number | DailyReminder;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1237,39 +1382,83 @@ export interface HalalDirectorySelect<T extends boolean = true> {
  * via the `definition` "RoommatePosts_select".
  */
 export interface RoommatePostsSelect<T extends boolean = true> {
-  user_id?: T;
-  title?: T;
-  description?: T;
-  address?: T;
-  name?: T;
+  userId?: T;
+  author?: T;
+  email?: T;
   contactEmail?: T;
+  title?: T;
+  address?: T;
+  description?: T;
   rent?: T;
-  PropertyType?: T;
-  roomfurnishing?: T;
-  availableDate?: T;
+  deposit?: T;
+  gender?: T;
+  propertyType?: T;
+  furnishingType?: T;
+  utilities?: T;
+  amenities?: T;
   images?: T;
-  comments?: T;
+  availableDate?: T;
+  facebook?: T;
+  phoneNumber?: T;
+  instagram?: T;
+  whatsapp?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Comments_select".
+ * via the `definition` "comments_select".
  */
 export interface CommentsSelect<T extends boolean = true> {
-  comment?: T;
   author?: T;
+  comment?: T;
   postId?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "general-user_select".
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  name?: T;
+  date?: T;
+  time?: T;
+  location?: T;
+  description?: T;
+  image?: T;
+  link?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GeneralUser_select".
  */
 export interface GeneralUserSelect<T extends boolean = true> {
-  user_id?: T;
+  clerkId?: T;
+  email?: T;
+  firstName?: T;
+  lastName?: T;
+  category?: T;
+  laurierEmail?: T;
+  studentId?: T;
+  year?: T;
+  program?: T;
+  newsletter?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-reminders_select".
+ */
+export interface DailyRemindersSelect<T extends boolean = true> {
+  reference?: T;
+  arabic?: T;
+  english?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1412,6 +1601,24 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        contactInfo?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              first_name?: T;
+              first_name_placeholder?: T;
+              last_name?: T;
+              last_name_placeholder?: T;
+              email?: T;
+              email_placeholder?: T;
+              studentID?: T;
+              studentID_placeholder?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1437,6 +1644,7 @@ export interface FormsSelect<T extends boolean = true> {
   releaseDate?: T;
   closeDate?: T;
   slug?: T;
+  webhook?: T;
   updatedAt?: T;
   createdAt?: T;
 }

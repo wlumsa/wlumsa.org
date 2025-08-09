@@ -40,10 +40,11 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
-
-import { GeneralUser } from "./collections/Users/Users";
-import { CheckboxBlock, SelectBlock } from "./blocks/forms";
+import {Events } from "./collections/Events";
+import { DailyReminders } from "./collections/DailyReminders";
+import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
+import GeneralUser from "./collections/UI/GeneralUser";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -81,7 +82,9 @@ export default buildConfig({
     HalalDirectory,
     RoommatePosts,
     Comments,
+    Events,
     GeneralUser,
+    DailyReminders,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
@@ -90,10 +93,12 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: postgresAdapter({
+  db:
+   postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
+
   }),
   plugins: [
     seoPlugin({
@@ -195,20 +200,22 @@ export default buildConfig({
                   
                 },
               },
+              {
+                name: "webhook",
+                label: "Zapier Webhook",
+                type: "text",
+                admin: {
+                  position: "sidebar",
+                },
+              },
             ];
             
           },
           
         },
-        beforeEmail: (emailsToSend, beforeChangeParams) => {
-          const { data } = beforeChangeParams;
-          console.log(data);
-          return emailsToSend;
-        },
         formSubmissionOverrides: {
           admin: {
             group: "Forms",
-            hidden:true,
           },
           fields: ({ defaultFields }) => {
             const formField = defaultFields.find((field) =>
@@ -262,11 +269,13 @@ export default buildConfig({
           state: true,
           country: true,
           checkbox: CheckboxBlock,
+          contactInfo: ContactInfoBlock,
           number: true,
           message: true,
           payment: true,
         },
       },
+      
     ),
   ],
   email: resendAdapter({
