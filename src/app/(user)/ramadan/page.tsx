@@ -11,63 +11,86 @@ import { EventCard } from "@/components/UI/WeeklyEvents";
 const items = [
   {
     name: "Daily Iftars on Campus",
-    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/iftars.jpg",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/iftars.jpg",
     timeLocation: "Monday - Friday @ 19:00 to 19:30 in PMC",
-    caption: "Join us for daily iftars on campus, happening Monday to Friday in the PMC. Enjoy a meal with fellow students 20 minutes before Iftar.",
+    caption:
+      "Join us for daily iftars on campus, happening Monday to Friday in the PMC. Enjoy a meal with fellow students 20 minutes before Iftar.",
     link: "/forms/iftars",
     ctaText: "Register for Iftar",
   },
   {
     name: "Daily Taraweeh on Campus",
-    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
-    timeLocation: "Everyday in the PMC, check prayer schedule below for timings",
-    caption: "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
-    link:"https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
-    ctaText:"Directions to PMC"
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
+    timeLocation:
+      "Everyday in the PMC, check prayer schedule below for timings",
+    caption:
+      "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
+    link: "https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
+    ctaText: "Directions to PMC",
   },
   {
     name: "MSA Tarteel Competition",
-    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/tarteel.png",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/tarteel.png",
     timeLocation: "Entire Month on Tarteel App",
-    caption: "Showcase your recitation skills in the MSA Tarteel Competition. Happening throughout the entire month on the Tarteel app. Participate and win exciting prizes.",
+    caption:
+      "Showcase your recitation skills in the MSA Tarteel Competition. Happening throughout the entire month on the Tarteel app. Participate and win exciting prizes.",
     link: "https://www.tarteel.ai/group/join/APupRReDbS3NmM6u?ref=P3pfsqtkCB",
     ctaText: "Participate Now",
   },
   {
     name: "Fundraiser for Palestine",
-    image: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
     timeLocation: "Entire Month of Ramadan",
-    caption: "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be avaliable soon",
-    link:"https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858",
-    ctaText:"Donate Now"
+    caption:
+      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be avaliable soon",
+    link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858",
+    ctaText: "Donate Now",
   },
 ];
 
 export default async function CountdownPage() {
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex min-h-screen flex-col ">
       {/*Hero Section*/}
       <div className="">
         <DotPattern
           className={cn(
-            "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]",
+            "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
           )}
         />
-        <div className="hero container mx-auto px-4 py-4">
-          <div className="hero-content text-center mt-24">
+        <div className="container hero mx-auto px-4 py-4">
+          <div className="hero-content mt-24 text-center">
             <div className="max-w-5xl">
               <BlurFade>
-                <h1 className="text-3xl md:text-5xl pt-4 md:text-center  text-primary duration-200 hover:scale-105 lg:pt-0 font-bold">Ramadan 2025</h1>
+                <h1 className="pt-4 text-3xl font-bold text-primary  duration-200 hover:scale-105 md:text-center md:text-5xl lg:pt-0">
+                  Ramadan 2025
+                </h1>
               </BlurFade>
 
               <BlurFade delay={0.5}>
-                <p className="py-4 text-md md:text-xl text-center ">
-                  O believers! Fasting is prescribed for you—as it was for those before you—so perhaps you will become mindful ˹of Allah˺. (Quran, 2:183)              </p>
+                <p className="text-md py-4 text-center md:text-xl ">
+                  O believers! Fasting is prescribed for you—as it was for those
+                  before you—so perhaps you will become mindful ˹of Allah˺.
+                  (Quran, 2:183){" "}
+                </p>
               </BlurFade>
               <BlurFade delay={0.75}>
-                <div className="flex flex-row  justify-center my-6" >
-                  <button className="btn btn-sm md:btn-md btn-primary text-secondary mx-4 duration-200 hover:scale-105 "><Link href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858" target="_blank">Donate now!</Link></button>
-                  <button className="btn btn-sm md:btn-md btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/forms/iftars">Register for iftar</Link></button>
+                <div className="my-6 flex  flex-row justify-center">
+                  <button className="btn btn-primary btn-sm mx-4 text-secondary duration-200 md:btn-md hover:scale-105 ">
+                    <Link
+                      href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858"
+                      target="_blank"
+                    >
+                      Donate now!
+                    </Link>
+                  </button>
+                  <button className="btn btn-secondary btn-sm mx-4 text-primary duration-200 md:btn-md hover:scale-105  ">
+                    <Link href="/forms/iftars">Register for iftar</Link>
+                  </button>
                 </div>
               </BlurFade>
             </div>
@@ -81,15 +104,15 @@ export default async function CountdownPage() {
         </BlurFade>
       </div>
       <div id="services">
-        <div className="text-center space-y-4 py-6 mx-auto">
-          <h2 className="text-[14px] text-primary font-mono font-medium tracking-tight">
+        <div className="mx-auto space-y-4 py-6 text-center">
+          <h2 className="font-mono text-[14px] font-medium tracking-tight text-primary">
             Services
           </h2>
-          <h4 className="text-[42px] font-medium mb-2 text-balance max-w-3xl mx-auto tracking-tighter">
+          <h4 className="mx-auto mb-2 max-w-3xl text-balance text-[42px] font-medium tracking-tighter">
             This year we are offering the following services on Campus
           </h4>
         </div>
-        <div className=" container px-4 py-8 mx-auto space-y-8">
+        <div className=" container mx-auto space-y-8 px-4 py-8">
           <div id="events" className="flex-grow">
             {items.map((event, index) => (
               <EventCard
@@ -105,34 +128,64 @@ export default async function CountdownPage() {
             ))}
           </div>
           <div className="space-y-16">
-            <div className="mx-auto flex flex-col items-center text-center" id="journal">
+            <div
+              className="mx-auto flex flex-col items-center text-center"
+              id="journal"
+            >
               <h1 className="mb-2  text-3xl font-bold text-primary duration-200 hover:scale-105">
                 Ramadan Journal
               </h1>
-              <p className="mb-4 font-semibold text-xl "></p>
+              <p className="mb-4 text-xl font-semibold "></p>
 
-              <p className="mb-4">Make this Ramadan truly transformative with a guided journal designed to help you deepen your connection with Allah</p>
+              <p className="mb-4">
+                Make this Ramadan truly transformative with a guided journal
+                designed to help you deepen your connection with Allah
+              </p>
               <div className="rounded-lg bg-primary p-4">
-                <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png' width={966} height={1250} alt="prayer table" />
+                <Image
+                  src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png"
+                  width={966}
+                  height={1250}
+                  alt="prayer table"
+                />
               </div>
-              <Link href="/RamadanJournal.pdf" target="_blank" >
-              <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
-               Download
-              </button>
+              <Link href="/RamadanJournal.pdf" target="_blank">
+                <button
+                  id="download"
+                  className="btn btn-primary my-4 rounded-lg font-bold text-secondary duration-200 hover:scale-105"
+                >
+                  Download
+                </button>
               </Link>
             </div>
 
-            <div className="mx-auto flex flex-col items-center text-center " id="prayer_schedule">
+            <div
+              className="mx-auto flex flex-col items-center text-center "
+              id="prayer_schedule"
+            >
               <h1 className="mb-2 text-3xl font-bold text-primary duration-200 hover:scale-105">
                 Ramadan Prayer Table
               </h1>
-              <p className="mb-4 font-semibold text-xl ">Never miss a prayer this Ramadan</p>
-              <p className="mb-4">A complete prayer schedule for Ramadan on Campus. Limited Quantity avaliable in P101</p>
+              <p className="mb-4 text-xl font-semibold ">
+                Never miss a prayer this Ramadan
+              </p>
+              <p className="mb-4">
+                A complete prayer schedule for Ramadan on Campus. Limited
+                Quantity avaliable in P101
+              </p>
               <div className="rounded-lg bg-primary p-4">
-                <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png' width={966} height={1250} alt="prayer table" />
+                <Image
+                  src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png"
+                  width={966}
+                  height={1250}
+                  alt="prayer table"
+                />
               </div>
-              <Link href="/ramadan_schedule2025.pdf" target="_blank" >
-                <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
+              <Link href="/ramadan_schedule2025.pdf" target="_blank">
+                <button
+                  id="download"
+                  className="btn btn-primary my-4 rounded-lg font-bold text-secondary duration-200 hover:scale-105"
+                >
                   Download
                 </button>
               </Link>
@@ -142,23 +195,49 @@ export default async function CountdownPage() {
               <h1 className="mb-2 text-3xl font-bold text-primary duration-200 hover:scale-105">
                 Ramadan Checklist
               </h1>
-              <p className="mb-4 font-semibold text-xl ">Build a habit this Ramadan</p>
-              <p className="mb-4 text-center">"The most beloved deed to Allah is the most regular and constant even if it were little." - <Link className="underline" target="_blank" href="https://sunnah.com/bukhari:6464">Bukhari 6465</Link></p>
+              <p className="mb-4 text-xl font-semibold ">
+                Build a habit this Ramadan
+              </p>
+              <p className="mb-4 text-center">
+                "The most beloved deed to Allah is the most regular and constant
+                even if it were little." -{" "}
+                <Link
+                  className="underline"
+                  target="_blank"
+                  href="https://sunnah.com/bukhari:6464"
+                >
+                  Bukhari 6465
+                </Link>
+              </p>
               <div className="rounded-lg bg-primary p-4">
-                <Image src='https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png' width={1250} height={966} alt="ramadan checklist" />
+                <Image
+                  src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png"
+                  width={1250}
+                  height={966}
+                  alt="ramadan checklist"
+                />
               </div>
-              <button id="download" className="my-4 rounded-lg btn btn-primary text-secondary font-bold duration-200 hover:scale-105">
-                <Link href="/ramadan_checklist.pdf" target="_blank" >Download</Link>
+              <button
+                id="download"
+                className="btn btn-primary my-4 rounded-lg font-bold text-secondary duration-200 hover:scale-105"
+              >
+                <Link href="/ramadan_checklist.pdf" target="_blank">
+                  Download
+                </Link>
               </button>
-
             </div>
 
-            <h1 className="mb-4 mt-12 text-3xl font-bold text-primary text-center duration-200 hover:scale-105" id="prayer_rooms">
+            <h1
+              className="mb-4 mt-12 text-center text-3xl font-bold text-primary duration-200 hover:scale-105"
+              id="prayer_rooms"
+            >
               Prayer Rooms
             </h1>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mx-4" id="prayerlocations">
-
+          <div
+            className="mx-4 grid grid-cols-1 gap-4 md:grid-cols-3"
+            id="prayerlocations"
+          >
             <PrayerSpaceCard
               videoId="XQALLoF6Buo"
               title="Bricker Prayer Room"
@@ -175,12 +254,8 @@ export default async function CountdownPage() {
               thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
             />
           </div>
-
         </div>
-        <div>
-
-        </div>
-
+        <div></div>
       </div>
     </div>
   );
@@ -328,7 +403,6 @@ export default async function CountdownPage() {
 //     </div>
 //   );
 // }
-
 
 /*
 <div className="flex flex-col items-center justify-center min-h-screen text-center bg-gray-100 mt-10">

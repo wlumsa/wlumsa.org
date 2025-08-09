@@ -4,14 +4,16 @@ import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import { fetchNavData, fetchFooterData, fetchSocialData } from "@/Utils/datafetcher";
+import {
+  fetchNavData,
+  fetchFooterData,
+  fetchSocialData,
+} from "@/Utils/datafetcher";
 import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
-import GoogleAnalytics from './GoogleAnalytics';
+import GoogleAnalytics from "./GoogleAnalytics";
 import ThemeProvider from "./themeprovider";
-import {
-  ClerkProvider,
-} from '@clerk/nextjs'
+import { ClerkProvider } from "@clerk/nextjs";
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -54,27 +56,26 @@ export default async function RootLayout({
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
   return (
-     <ClerkProvider
-     signUpFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL}
-     >
+    <ClerkProvider
+      signUpFallbackRedirectUrl={
+        process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL
+      }
+    >
       <html lang="en">
         <GoogleAnalytics />
         <body>
-          <Toaster
-            position="top-center"
-          />
+          <Toaster position="top-center" />
           <SpeedInsights />
           <Analytics />
           <Providers>
             <ThemeProvider>
-            <Navbar navbarData={navbarData} />
-            {children}
-            <Footer footerGroups={footerData} socialData={socialData} />
+              <Navbar navbarData={navbarData} />
+              {children}
+              <Footer footerGroups={footerData} socialData={socialData} />
             </ThemeProvider>
           </Providers>
         </body>
-
-      </html >
-     </ClerkProvider>
+      </html>
+    </ClerkProvider>
   );
 }
