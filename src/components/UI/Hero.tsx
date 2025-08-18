@@ -20,16 +20,51 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
         className="object-cover w-full h-fit blur-sm scale-105"
 
       />
-      <div className="hero-overlay bg-neutral  bg-opacity-50" />
+      <div className="hero-overlay bg-neutral bg-opacity-50" />
       <div className="hero-content text-center">
         <div className="max-w-md">
           <FadeText className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" direction="right" text="Salam!" />
-          <TextEffect className="mb-5 text-white" per="char" as="h2">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</TextEffect>
+          <TextEffect
+            className="mb-5 text-white"
+            per="word"           // Animate by word instead of character for faster loading
+            as="h2"
+            delay={0.1}          // Start animation quickly after page load
+            variants={{
+              container: {
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.04, // 0.04s between words = ~0.4s total animation
+                  },
+                },
+              },
+              item: {
+                hidden: { opacity: 0, y: 8 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.3,
+                    ease: "easeOut"
+                  }
+                },
+              },
+            }}
+          >
+            "The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
+          </TextEffect>
           <div className="flex flex-row m-4 justify-center mb-6" >
-            <button className="btn btn-primary text-secondary mx-4 text-bold duration-200 hover:scale-105 "><Link href="/ramadan">Sponsor an Iftar</Link></button>
-            <button className="btn btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/guidebook">Become a Member</Link></button>
+            {/* Keep consistent styling for main CTA buttons regardless of theme */}
+            <button className="btn btn-primary text-yellow-400 mx-4 text-bold duration-200 hover:scale-105 hover:bg-primary/90">
+              <Link href="/ramadan">Sponsor an Iftar</Link>
+            </button>
+            <button className="btn btn-secondary text-purple-700 mx-4 duration-200 hover:scale-105 hover:bg-secondary/90">
+              <Link href="/guidebook">Become a Member</Link>
+            </button>
           </div>
           <div className="flex flex-row items-center justify-center gap-4">
+            {/* Keep consistent styling for social media icons regardless of theme */}
             {socialLinks.map((social, index) => (
               <Link
                 href={typeof social.link === 'object' ? social.link.url : '#'}
@@ -41,7 +76,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
-                  className="h-8 w-8 fill-secondary stroke-neutral hover:fill-secondary-focus"
+                  className="h-8 w-8 fill-secondary stroke-gray-600 hover:fill-secondary-focus"
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>

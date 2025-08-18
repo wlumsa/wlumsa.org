@@ -26,17 +26,17 @@ const MemberSignup: React.FC = () => {
         <h3 className="card-title text-3xl text-primary duration-200 hover:scale-105 lg:text-4xl">
           Become a member!
         </h3>
-        <p className="text-neutral lg:text-lg">
+        <p className="text-base-content/80 lg:text-lg">
           You'll receive all the latest news and information as well as a free MSA resource guide.
         </p>
-        <form className="card-body text-neutral" action={handleSubmit}>
+        <form className="card-body text-base-content" action={handleSubmit}>
           <div className="flex flex-col gap-2 py-2">
             <input
               type="text"
               required
               name="firstName"
               placeholder="First Name"
-              className="input input-bordered w-full text-neutral focus:border-secondary"
+              className="input input-bordered w-full text-base-content focus:border-secondary bg-base-100"
               aria-describedby="firstName-error"
             />
             <input
@@ -44,7 +44,7 @@ const MemberSignup: React.FC = () => {
               required
               name="lastName"
               placeholder="Last Name"
-              className="input input-bordered w-full text-neutral focus:border-secondary"
+              className="input input-bordered w-full text-base-content focus:border-secondary bg-base-100"
               aria-describedby="lastName-error"
             />
             <input
@@ -52,7 +52,7 @@ const MemberSignup: React.FC = () => {
               required
               name="email"
               placeholder="MyLaurier Email"
-              className="input input-bordered w-full text-neutral focus:border-secondary"
+              className="input input-bordered w-full text-base-content focus:border-secondary bg-base-100"
               aria-describedby="email-error"
             />
             <input
@@ -60,11 +60,11 @@ const MemberSignup: React.FC = () => {
               required
               name="studentId"
               placeholder="Student ID"
-              className="input input-bordered w-full text-neutral focus:border-secondary"
+              className="input input-bordered w-full text-base-content focus:border-secondary bg-base-100"
               aria-describedby="studentId-error"
             />
             <label className="label cursor-pointer">
-              <span className="label-text text-neutral">Newsletter Signup</span>
+              <span className="label-text text-base-content">Newsletter Signup</span>
               <input
                 type="checkbox"
                 name="newsLetter"
@@ -76,7 +76,7 @@ const MemberSignup: React.FC = () => {
           <div className="card-actions justify-end">
             <button
               type="submit"
-              className="btn border-0 btn-primary text-secondary shadow duration-200 hover:scale-105 "
+              className="btn border-0 btn-primary text-secondary shadow duration-200 hover:scale-105 hover:bg-primary/90"
               disabled={isPending}
             >
               {isPending ? 'Submitting...' : 'Submit ➜'}

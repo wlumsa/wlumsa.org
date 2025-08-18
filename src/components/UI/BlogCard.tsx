@@ -24,8 +24,8 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
   }
   const title = post?.title ? slugify(post.title) : "";
 
-  const date = new Date(post.createdAt)
-  const formattedDate = format(date, 'MMMM dd, yyyy');
+  const date = post?.createdAt ? new Date(post.createdAt) : new Date();
+  const formattedDate = isNaN(date.getTime()) ? 'Date unavailable' : format(date, 'MMMM dd, yyyy');
   const image = post?.header_image?.map((item) => {
     if (typeof item === 'object' && item !== null) {
       return item.url;
@@ -33,13 +33,13 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
     return null;
   });
   return (
-    <div className=" card cursor-pointer text-start items-center w-72 rounded-lg  bg-base-100 border duration-500 hover:scale-105 hover:shadow-xl ">
+    <div className="card cursor-pointer text-start items-center w-72 rounded-lg bg-base-100 border border-base-300 duration-500 hover:scale-105 hover:shadow-xl hover:border-primary/30">
       <figure className="w-full">
         <img src={image?.toString()} className="object-cover h-48 w-full" />
       </figure>
       <div className="card-body w-72 px-6 py-4">
 
-        <div className=" text-slate-500">
+        <div className="text-base-content/60">
           <p>{formattedDate}</p>
         </div>
         <div>
@@ -47,11 +47,11 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
             {typeof post?.categories === 'object' ? post?.categories?.title : ""}
           </div>
         </div>
-        <h2 className="card-title  text-primary">{post.title}</h2>
-        <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p>
+        <h2 className="card-title text-primary">{post.title}</h2>
+        <p className="text-base-content/80">{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p>
         <div className="card-actions justify-end">
           <Link href={`/blog/${title}-${post.id}`}>
-            <button className="btn btn-primary text-secondary">Read More →</button>
+            <button className="btn btn-primary text-secondary hover:bg-primary/90">Read More →</button>
           </Link>
         </div>
       </div>
