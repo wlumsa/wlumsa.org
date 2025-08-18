@@ -726,6 +726,92 @@ export async function getResourceById(id: string) {
   return resource;
 }
 
+export async function getResourcesByCategory(categoryId: string) {
+  const payload = await getPayloadInstance();
+
+  const resources = await payload.find({
+    collection: "resources",
+    where: {
+      category: {
+        equals: categoryId,
+      },
+    },
+    depth: 1, // This will populate the link relationship
+  });
+
+  return resources.docs;
+}
+
+export async function getAllResources() {
+  const payload = await getPayloadInstance();
+
+  const resources = await payload.find({
+    collection: "resources",
+    depth: 1, // This will populate the link relationship
+  });
+
+  return resources.docs;
+}
+
+export async function createSampleResources() {
+  const payload = await getPayloadInstance();
+
+  // First, create some sample links
+  const link1 = await payload.create({
+    collection: "link",
+    data: {
+      title: "MSA Registration Form",
+      url: "https://example.com/msa-registration",
+    },
+  });
+
+  const link2 = await payload.create({
+    collection: "link",
+    data: {
+      title: "Prayer Room Schedule",
+      url: "https://example.com/prayer-schedule",
+    },
+  });
+
+  const link3 = await payload.create({
+    collection: "link",
+    data: {
+      title: "Halal Food Guide",
+      url: "https://example.com/halal-guide",
+    },
+  });
+
+  // Then create resources with these links
+  const resource1 = await payload.create({
+    collection: "resources",
+    data: {
+      title: "MSA Forms",
+      category: "1", // General Forms
+      link: [link1.id],
+    },
+  });
+
+  const resource2 = await payload.create({
+    collection: "resources",
+    data: {
+      title: "Campus Prayer Information",
+      category: "2", // Campus Resources
+      link: [link2.id],
+    },
+  });
+
+  const resource3 = await payload.create({
+    collection: "resources",
+    data: {
+      title: "Halal Dining",
+      category: "3", // Religious Resources
+      link: [link3.id],
+    },
+  });
+
+  return { resource1, resource2, resource3 };
+}
+
 export async function fetchServices() {
   const payload = await getPayloadInstance();
   const services = await payload.find({

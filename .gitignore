@@ -42,3 +42,6 @@ __snapshots__/
 
 # clerk configuration (can include secrets)
 /clerk/
+
+# clerk configuration (can include secrets)
+/.clerk/
