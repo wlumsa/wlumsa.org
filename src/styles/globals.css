@@ -1,19 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 .RichText {
   h1 {
-    @apply text-4xl font-bold;
+    @apply text-4xl font-bold text-primary mb-6;
   }
   h2 {
-    @apply text-3xl font-bold;
+    @apply text-3xl font-bold text-primary mb-4;
   }
   h3 {
-    @apply text-2xl font-bold;
+    @apply text-2xl font-bold text-primary mb-3;
   }
-  p{
-    @apply text-lg;
+  p {
+    @apply text-lg text-base-content/90 leading-relaxed mb-4;
   }
- 
+  ul, ol {
+    @apply text-base-content/90 mb-4;
+  }
+  li {
+    @apply mb-2;
+  }
+  blockquote {
+    @apply border-l-4 border-primary pl-4 italic text-base-content/80 my-4;
+  }
+  code {
+    @apply bg-base-200 text-base-content px-2 py-1 rounded text-sm;
+  }
+  pre {
+    @apply bg-base-200 text-base-content p-4 rounded-lg overflow-x-auto my-4;
+  }
+  a {
+    @apply text-primary hover:text-primary/80 underline;
+  }
+  strong {
+    @apply font-semibold text-base-content;
+  }
+  em {
+    @apply italic text-base-content/90;
+  }
 }

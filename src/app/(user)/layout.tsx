@@ -65,6 +65,29 @@ export default async function RootLayout({
       }
     >
       <html lang="en">
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  try {
+                    var theme = localStorage.getItem('theme');
+                    if (theme) {
+                      document.documentElement.setAttribute('data-theme', theme);
+                    } else {
+                      var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                      var defaultTheme = systemPrefersDark ? 'darkTheme' : 'lightTheme';
+                      document.documentElement.setAttribute('data-theme', defaultTheme);
+                    }
+                  } catch (e) {
+                    // Fallback to light theme if there's an error
+                    document.documentElement.setAttribute('data-theme', 'lightTheme');
+                  }
+                })();
+              `,
+            }}
+          />
+        </head>
         <GoogleAnalytics />
         <body>
           <Toaster position="top-center" />
