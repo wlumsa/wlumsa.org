@@ -6,6 +6,7 @@ import RoommatePostCard from "@/components/UI/RoommatePostCard";
 import {findUser, fetchRoommatePostsByUser} from "@/Utils/datafetcher";
 import { currentUser } from '@clerk/nextjs/server'
 import Link from "next/link";
+import type { RoommatePost } from '@/payload-types';
 const RoommateServicePage = async () => {
 
     const user = await currentUser()
@@ -27,12 +28,12 @@ const posts = await fetchRoommatePostsByUser(clerkUser.docs[0]?.id);
       </div>
       <div>
         {user && <Link href='/create-post'><button className="btn btn-primary text-white" >Create a post</button></Link>}
-    
+
       </div>
 
       <div className="flex justify-center">
         <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
-          {posts.length > 0 && posts.map((post) => (
+          {posts.length > 0 && posts.map((post: RoommatePost) => (
             <RoommatePostCard type={"edit"} key={post.id} post={post} />
           ))}
         </div>

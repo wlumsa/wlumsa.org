@@ -25,12 +25,12 @@ const RoommateServicePage = async ( props: {params:Params, searchParams:SearchPa
   const utilities = searchParams?.utilities
 
 
-  const posts = await fetchRoommatePosts({ 
-    query, 
-    gender, 
-    rent, 
-    propertyType, 
-    utilities 
+  const posts = await fetchRoommatePosts({
+    query,
+    gender,
+    rent,
+    propertyType,
+    utilities
   });
   const user = await currentUser()
   console.log(posts);
@@ -49,7 +49,7 @@ const RoommateServicePage = async ( props: {params:Params, searchParams:SearchPa
 
       <div className="flex justify-center">
         <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
-          {posts.map((post) => (
+          {posts.map((post: RoommatePost) => (
             <RoommatePostCard key={post.id} post={post} />
           ))}
         </div>

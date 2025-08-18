@@ -4,6 +4,7 @@ import RichText from "@/Utils/RichText";
 import { format } from 'date-fns';
 import Head from "next/head";
 import { Metadata } from "next";
+import type { Media, Exec } from '@/payload-types';
 
 type Params = Promise<{ slug: string }>
 
@@ -19,7 +20,7 @@ export default async function BlogPost(props: {
 
   const post = res[0]
 
-  const image = post?.header_image?.map((item) => {
+  const image = post?.header_image?.map((item: number | Media) => {
     if (typeof item === 'object' && item !== null) {
       return item.url;
     }
@@ -32,7 +33,7 @@ export default async function BlogPost(props: {
   const title = post?.meta?.title;
   const description = post?.meta?.description || "";
 
-   
+
 
   return (
 
@@ -49,7 +50,7 @@ export default async function BlogPost(props: {
                 </p>
               </div>
               <div>
-                {post?.authors?.map((author, index) => (
+                {post?.authors?.map((author: number | Exec, index: number) => (
                   <p  className = "text-lg" key={index}>{typeof author === 'object' ? `   Author - ${author.name}` : ''}
                   </p>))}
               </div>
@@ -74,7 +75,7 @@ export default async function BlogPost(props: {
               </div>
             </div>
           </div>
-          
+
         </main>
       </div>
     </div>

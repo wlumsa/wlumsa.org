@@ -9,7 +9,7 @@
 
 // /**
 //  * Renders the about page of the application.
-//  * 
+//  *
 //  * @returns The JSX element representing the about page.
 // **/
 // export default async function About() {
@@ -105,6 +105,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import logo from "../../../logo.png";
 import { fetchServices } from '@/Utils/datafetcher';
+import type { Service } from '@/payload-types';
 export default async function About() {
   const servicesInfo = await fetchServices();
   console.log(servicesInfo)
@@ -141,7 +142,7 @@ export default async function About() {
               Services Offered
             </h2>
             <div className="mb-10 flex flex-wrap items-center justify-center gap-4">
-              {servicesInfo.map((service, index) => (
+              {servicesInfo.map((service: Service, index: number) => (
                 <div
                   className="card card-compact w-fit bg-base-100 shadow-xl sm:w-96"
                   key={index}

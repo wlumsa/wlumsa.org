@@ -8,6 +8,9 @@ import { cn } from "@/Utils/cn";
 import Image from "next/image";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import { EventCard } from "@/components/UI/WeeklyEvents";
+
+// Force dynamic rendering to avoid Clerk issues during static generation
+export const dynamic = 'force-dynamic';
 const items = [
   {
     name: "Daily Iftars on Campus",

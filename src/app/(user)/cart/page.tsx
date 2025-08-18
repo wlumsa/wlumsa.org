@@ -22,6 +22,9 @@
 
 import React from 'react'
 
+// Force dynamic rendering to avoid Clerk issues during static generation
+export const dynamic = 'force-dynamic';
+
 const page = () => {
   return (
     <div>page</div>

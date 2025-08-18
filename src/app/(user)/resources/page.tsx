@@ -2,6 +2,7 @@
 import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import { getResourceById } from "@/Utils/datafetcher";
+import type { Link } from '@/payload-types';
 
 interface Category {
   id: string,
@@ -56,7 +57,7 @@ export default async function Page(props: {
         <ButtonGroup categories={categories}   />
 
         <div className="container space-y-4   py-4">
-          {resourcesData?.link?.map((item, index) => (
+          {resourcesData?.link?.map((item: number | Link, index: number) => (
             <div
               key={index}
               className="bg-primary rounded text-center p-2 hover:bg-secondary transition ease-in-out delay-150 hover:-translate-y-1"
