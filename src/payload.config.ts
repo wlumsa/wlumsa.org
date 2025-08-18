@@ -51,7 +51,23 @@ const dirname = path.dirname(filename);
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
 };
+
+// Configure database using environment variables
+const getDatabaseAdapter = () => {
+  return postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI || "",
+      ssl: {
+        rejectUnauthorized: false,
+        requestCert: false,
+        checkServerIdentity: () => undefined,
+      }, // Configure SSL for Supabase connection
+    },
+  });
+};
+
 export default buildConfig({
+  secret: process.env.PAYLOAD_SECRET || '60433e937e48ece59e189548',
   admin: {
     user: Execs.slug,
   },
@@ -93,13 +109,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db:
-   postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI || "",
-    },
-
-  }),
+  db: getDatabaseAdapter(),
   plugins: [
     seoPlugin({
       collections: ["Posts"],
@@ -197,7 +207,7 @@ export default buildConfig({
                 type: "text",
                 admin: {
                   position: "sidebar",
-                  
+
                 },
               },
               {
@@ -209,9 +219,9 @@ export default buildConfig({
                 },
               },
             ];
-            
+
           },
-          
+
         },
         formSubmissionOverrides: {
           admin: {
@@ -275,7 +285,7 @@ export default buildConfig({
           payment: true,
         },
       },
-      
+
     ),
   ],
   email: resendAdapter({
@@ -290,6 +300,5 @@ export default buildConfig({
 
   // This is temporary - we may make an adapter pattern
   // for this before reaching 3.0 stable
-  secret: process.env.PAYLOAD_SECRET || "",
   sharp,
 });

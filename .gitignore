@@ -1,10 +1,44 @@
+
+# Node.js dependencies
 node_modules/
-.cache/
-dist/
-.env.local
-.DS_Store
-coverage/
-.vscode/
+
+# Build output
 .next/
-.vercel
-.env*.local
+dist/
+coverage/
+.cache/
+
+# Environment files
+.env
+.env.*
+.env.local
+.env.*.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE folders
+.vscode/
+.idea/
+
+# Vercel deployment
+.vercel/
+
+# pnpm/yarn/npm cache
+.pnpm/
+.npm/
+.yarn/
+
+# Logs
+*.log
+
+# Test snapshots
+__snapshots__/
+
+# Misc
+*.swp
+*.tmp
+
+# clerk configuration (can include secrets)
+/clerk/
