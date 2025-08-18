@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22.x"
+  },
   "scripts": {
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
