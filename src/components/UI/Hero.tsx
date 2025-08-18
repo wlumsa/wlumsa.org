@@ -41,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
-                  className="h-8 w-8 fill-base-100 stroke-neutral hover:fill-base-200"
+                  className="h-8 w-8 fill-secondary stroke-neutral hover:fill-secondary-focus"
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>

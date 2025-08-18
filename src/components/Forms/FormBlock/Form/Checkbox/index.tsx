@@ -49,7 +49,7 @@ export const Checkbox: React.FC<
     // Check if at least one checkbox is selected when required
     const isError = requiredFromProps && errors[name] && !checkedValues.length;
 
- 
+
   return (
     <div className='mx-auto "min-h-[18rem] '>
     <Width width={width}>
@@ -74,22 +74,22 @@ export const Checkbox: React.FC<
                 {...register(name, { required: checkedValues.length <= 0 })}
                 checked={isChecked}
                 onChange={(e) => handleCheckboxChange(option.label, e.target.checked)}
-                
+
               />
               <button
                 type="button"
                 onClick={() => handleCheckboxChange(option.label, !isChecked)}
-                className={`w-5 h-5 border-2 rounded flex items-center justify-center 
+                className={`w-5 h-5 border-2 rounded flex items-center justify-center
                   ${isChecked ? 'bg-primary border-primary' : 'border-gray-300 bg-white'}`}
               >
-                {isChecked && <Check className="w-4 h-4 text-base-100" />}
+                {isChecked && <Check className="w-4 h-4 text-secondary" />}
               </button>
               <span className="text-xl ">{option.label}</span>
             </div>
           );
         })}
            {requiredFromProps && errors[name] && <Error />}
-        
+
         </div>
     </Width>
     </div>
