@@ -5,6 +5,7 @@ import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { useTheme } from "../themeprovider";
 import {
   MapPin,
   Utensils,
@@ -42,6 +43,7 @@ interface FilterComponentProps {
 }
 
 const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => {
+  const { theme } = useTheme();
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
 
@@ -115,26 +117,26 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
   }, [filteredData, currentPage]);
 
   return (
-    <div className="w-full flex flex-col items-center pt-24 px-4 sm:px-8 bg-white text-neutral">
+    <div className="w-full flex flex-col items-center pt-24 px-4 sm:px-8 bg-base-100 text-base-content min-h-screen">
 
       {/* Page Header */}
       <div className="text-center w-full mb-6">
         <h1 className="font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
-        <p className="text-gray-500 mt-2 text-sm sm:text-md">{filteredData.length} halal spots found</p>
+        <p className="text-base-content/70 mt-2 text-sm sm:text-md">{filteredData.length} halal spots found</p>
       </div>
 
       {/* Filter Panel */}
-      <div className="w-full max-w-6xl bg-gray-50 border border-gray-200 rounded-xl p-4 shadow mb-6">
+      <div className="w-full max-w-6xl bg-base-200 border border-base-300 rounded-xl p-4 shadow mb-6">
         <div className="flex items-center justify-between">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center font-medium text-primary hover:text-primary-dark"
+            className="flex items-center font-medium text-primary hover:text-primary/80 transition-colors"
           >
             <Filter className="mr-2" size={18} />
             {showFilters ? "Hide Filters" : "Show Filters"}
             {showFilters ? <ChevronUp className="ml-2" size={18} /> : <ChevronDown className="ml-2" size={18} />}
           </button>
-          <button onClick={clearAllFilters} className="text-sm text-red-500 hover:underline">
+          <button onClick={clearAllFilters} className="text-sm text-error hover:underline">
             Clear All
           </button>
         </div>
@@ -146,13 +148,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {/* Cuisine Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Cuisine</label>
-                <div className="flex items-center border rounded-lg overflow-hidden">
-                  <Utensils className="ml-3 text-gray-400" size={18} />
+                <label className="block text-sm font-medium text-base-content/80 mb-1">Cuisine</label>
+                <div className="flex items-center border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                  <Utensils className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedCuisine}
                     onChange={(e) => setSelectedCuisine(e.target.value)}
-                    className="w-full p-2 pl-2 text-sm bg-white border-none focus:ring-0"
+                    className="w-full p-2 pl-2 text-sm bg-base-100 border-none focus:ring-0 text-base-content"
                   >
                     {cuisineOptions.map((option) => (
                       <option key={option} value={option}>{option}</option>
@@ -163,13 +165,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
               {/* Method Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Slaughter Method</label>
-                <div className="flex items-center border rounded-lg overflow-hidden">
-                  <Hand className="ml-3 text-gray-400" size={18} />
+                <label className="block text-sm font-medium text-base-content/80 mb-1">Slaughter Method</label>
+                <div className="flex items-center border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                  <Hand className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedMethod}
                     onChange={(e) => setSelectedMethod(e.target.value)}
-                    className="w-full p-2 pl-2 text-sm bg-white border-none focus:ring-0"
+                    className="w-full p-2 pl-2 text-sm bg-base-100 border-none focus:ring-0 text-base-content"
                   >
                     {slaughterMethodOptions.map((option) => (
                       <option key={option} value={option}>{option}</option>
@@ -180,13 +182,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
               {/* Campus Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Campus Location</label>
-                <div className="flex items-center border rounded-lg overflow-hidden">
-                  <MapPin className="ml-3 text-gray-400" size={18} />
+                <label className="block text-sm font-medium text-base-content/80 mb-1">Campus Location</label>
+                <div className="flex items-center border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                  <MapPin className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedCampusLocation}
                     onChange={(e) => setSelectedCampusLocation(e.target.value)}
-                    className="w-full p-2 pl-2 text-sm bg-white border-none focus:ring-0"
+                    className="w-full p-2 pl-2 text-sm bg-base-100 border-none focus:ring-0 text-base-content"
                   >
                     <option value="All Locations">All Locations</option>
                     <option value="true">On Campus</option>
@@ -202,19 +204,19 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       {/* Active Filters */}
       <div className="w-full max-w-6xl flex flex-wrap gap-2 mb-6">
         {selectedCuisine !== "All Cuisines" && (
-          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
+          <span className="bg-info text-info-content px-3 py-1 rounded-full text-sm flex items-center">
             {selectedCuisine}
             <X className="ml-2 cursor-pointer" size={14} onClick={() => clearFilter("cuisine")} />
           </span>
         )}
         {selectedMethod !== "All Methods" && (
-          <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+          <span className="bg-success text-success-content px-3 py-1 rounded-full text-sm flex items-center">
             {selectedMethod}
             <X className="ml-2 cursor-pointer" size={14} onClick={() => clearFilter("method")} />
           </span>
         )}
         {selectedCampusLocation !== "All Locations" && (
-          <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm flex items-center">
+          <span className="bg-warning text-warning-content px-3 py-1 rounded-full text-sm flex items-center">
             {selectedCampusLocation === "true" ? "On Campus" : "Off Campus"}
             <X className="ml-2 cursor-pointer" size={14} onClick={() => clearFilter("location")} />
           </span>
@@ -227,40 +229,40 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
           paginatedData.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-xl shadow mb-6 p-6 flex flex-col sm:flex-row gap-4 hover:shadow-lg transition"
+              className="bg-base-100 border border-base-300 rounded-xl shadow mb-6 p-6 flex flex-col sm:flex-row gap-4 hover:shadow-lg transition-all duration-200 hover:border-primary/30"
             >
-              <div className="w-full sm:w-48 h-48 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
+              <div className="w-full sm:w-48 h-48 bg-base-200 rounded-xl overflow-hidden flex items-center justify-center">
                 {item.image && typeof item.image !== "number" && item.image.url ? (
                   <Image
                     src={item.image.url}
                     alt={item.image.alt}
                     width={192}
                     height={192}
-                    className="object-cover w-full h-full hover:scale-105 transition"
+                    className="object-cover w-full h-full hover:scale-105 transition-transform duration-200"
                   />
                 ) : (
-                  <span className="text-gray-400">No Image</span>
+                  <span className="text-base-content/40">No Image</span>
                 )}
               </div>
               <div className="flex-1 flex flex-col justify-between">
                 <div>
                   <h2 className="text-xl font-semibold text-primary mb-1">{item.name}</h2>
-                  <p className="text-sm text-gray-600 mb-2">{item.shortDescription}</p>
-                  <div className="text-sm text-gray-500 space-y-1">
+                  <p className="text-sm text-base-content/70 mb-2">{item.shortDescription}</p>
+                  <div className="text-sm text-base-content/60 space-y-1">
                     <p><strong>Category:</strong> {item.category}</p>
                     <p><strong>Slaughter Method:</strong> {item.slaughtered}</p>
                     <p><strong>Location:</strong> {item.location}</p>
                   </div>
                 </div>
                 <div className="flex gap-4 mt-4">
-                  <a href={item.googleMapsLink} target="_blank" className="text-sm text-blue-600 hover:underline">
+                  <a href={item.googleMapsLink} target="_blank" className="text-sm text-info hover:underline">
                     Google Maps
                   </a>
                   {item.website && (
                     <a
                       href={item.website}
                       target="_blank"
-                      className="text-sm bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark"
+                      className="text-sm bg-primary text-primary-content px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                     >
                       Book Now
                     </a>
@@ -270,11 +272,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             </div>
           ))
         ) : (
-          <div className="text-center py-16 text-gray-500">
+          <div className="text-center py-16 text-base-content/60">
             <p>No results match your filters.</p>
             <button
               onClick={clearAllFilters}
-              className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark"
+              className="mt-4 px-6 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary/90 transition-colors"
             >
               Reset Filters
             </button>
@@ -287,15 +289,15 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-300"
+              className="px-4 py-2 bg-primary text-primary-content rounded disabled:bg-base-300 disabled:text-base-content/50 transition-colors"
             >
               Prev
             </button>
-            <span className="text-sm text-gray-600">Page {currentPage} of {totalPages}</span>
+            <span className="text-sm text-base-content/70">Page {currentPage} of {totalPages}</span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-primary text-white rounded disabled:bg-gray-300"
+              className="px-4 py-2 bg-primary text-primary-content rounded disabled:bg-base-300 disabled:text-base-content/50 transition-colors"
             >
               Next
             </button>
@@ -311,7 +313,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             setShowMap((prev) => !prev);
             setShowFilters(false);
           }}
-          className="bg-primary text-white px-6 py-2 rounded-full shadow-md hover:bg-primary-dark transition-transform duration-300"
+          className="bg-primary text-primary-content px-6 py-2 rounded-full shadow-md hover:bg-primary/90 transition-all duration-300 hover:scale-105"
         >
           {showMap ? "Hide Map" : "📍 View Map"}
         </button>
@@ -321,7 +323,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary-dark z-50 transition"
+          className="fixed bottom-8 right-8 bg-primary text-primary-content p-3 rounded-full shadow-lg hover:bg-primary/90 z-50 transition-all duration-200 hover:scale-110"
         >
           ↑
         </button>
@@ -331,7 +333,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       {showMap && (
         <div
           id="map-section"
-          className="w-full max-w-6xl h-[400px] mt-12 rounded-xl overflow-hidden shadow-lg animate-fade-in"
+          className="w-full max-w-6xl h-[400px] mt-12 rounded-xl overflow-hidden shadow-lg animate-fade-in bg-base-100 border border-base-300"
         >
           <iframe
             src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"
@@ -341,12 +343,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             loading="lazy"
             className="w-full h-full border-0"
           ></iframe>
-          <div className="text-center mt-2">
+          <div className="text-center mt-2 pb-2">
             <a
               href="https://www.google.com/maps/d/u/0/viewer?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline text-sm"
+              className="text-info hover:underline text-sm"
             >
               View Full Map
             </a>
