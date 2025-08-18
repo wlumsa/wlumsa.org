@@ -13,7 +13,7 @@ const IIA: React.FC = async () => {
    const questions = await fetchFAQ();
 
   return (
-   <div data-theme="IIA">
+   <div>
      <div id="hero"  className="hero min-h-[70vh] relative overflow-hidden">
        <Image
          fill
