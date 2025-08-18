@@ -3,8 +3,9 @@ import { CollectionConfig } from 'payload';
 export const link: CollectionConfig = {
   slug: 'link',
   admin: {
-   hidden: true,
+   hidden: false, // Changed from true to false
    useAsTitle:'title',
+   group: 'Resources', // Group it with other resource-related collections
   },
   fields: [
     {
@@ -18,7 +19,7 @@ export const link: CollectionConfig = {
       type: 'text',
       required: true,
     },
-   
+
     // Add more fields as needed
   ],
 }
