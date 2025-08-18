@@ -1,0 +1,11 @@
+packages:
+  - .
+onlyBuiltDependencies:
+  - '@clerk/shared'
+  - '@swc/core'
+  - '@vercel/speed-insights'
+  - aws-sdk
+  - esbuild
+  - msgpackr-extract
+  - sharp
+  - supabase

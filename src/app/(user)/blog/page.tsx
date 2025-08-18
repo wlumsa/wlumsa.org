@@ -1,7 +1,7 @@
 import React from "react";
 import BlogCard from "@/components/UI/BlogCard";
 import { fetchBlogPosts, fetchBlogPostsByQuery, fetchBlogPostsByQueryAndCategory, getCategories } from "@/Utils/datafetcher";
-import { Media } from "@/payload-types";
+import { Media, Category as PayloadCategory, Post } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 
@@ -9,7 +9,7 @@ import ButtonGroup from "@/components/UI/ButtonGroup";
  * Renders the Blog component.
  * Fetches blog data and displays a list of blog cards.
  * @returns The rendered Blog component.
- * 
+ *
  */
 
 type Params = Promise<{ slug: string }>
@@ -33,12 +33,12 @@ export default async function Page(props: {
   console.log(categoriesData)
   let categoryArray: Category[] = [];
   categoryArray.push({id: "0", title: "All"});
-  categoryArray = categoryArray.concat(categoriesData.map(category => ({id: category.id.toString(), title: category.title}))); 
+  categoryArray = categoryArray.concat(categoriesData.map((category: PayloadCategory) => ({id: category.id.toString(), title: category.title})));
   console.log("categoryarray,", categoryArray);
   const res = categoryId === '0'
   ? await fetchBlogPostsByQuery(query)
   : await fetchBlogPostsByQueryAndCategory(query, categoryId);
- 
+
   const posts = res;
   const id=posts[0]?.id;
   console.log(res);
@@ -53,16 +53,16 @@ export default async function Page(props: {
         <div className="mx-auto max-w-screen-md items-center text-center py-4">
              <SearchBar />
         </div>
-       
-        
+
+
         <div className="flex flex-row items-center justify-center">
           <ButtonGroup categories={categoryArray}  />
- 
+
         </div>
       </div>
       <div className="flex justify-center">
         <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
-        {posts.map((post) => (
+        {posts.map((post: Post) => (
               <BlogCard key={post.id} post={post}  />
             ))}
         </div>

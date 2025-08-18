@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import logo from "../../logo.png";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { SignInButton, UserButton } from "@clerk/nextjs";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
+import { useTheme } from "@/app/(user)/themeprovider";
 /* Readd donate button */
 interface Product {
   id: string;
@@ -25,18 +26,14 @@ interface CartItem {
   quantities: { S?: number; M?: number; L?: number; overall?: number };
 }
 
-
-
-
-
 import { Nav } from "@/payload-types";
 
 type NavbarProps = {
   navbarData: Nav;
 };
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
-  const pathname = usePathname()
-
+  const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
   // const productData = useSelector((state: RootState) => state.shopper.cart);
   // const [totalAmt, setTotalAmt] = useState("");
@@ -56,9 +53,9 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   // }, [productData]);
 
   return (
-    <div className="navbar fixed top-0 z-30 rounded-b-3xl bg-primary sm:w-full mb-16 p-0 px-2 ">
+    <div className="navbar fixed top-0 z-30 mb-16 rounded-b-3xl bg-[#2e046d] p-0 px-2 sm:w-full ">
       {/* Mobile */}
-      <div className="navbar-start text-base-100">
+      <div className="navbar-start text-white">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -78,14 +75,14 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-primary p-2 shadow"
+            className="menu dropdown-content menu-md z-[1] w-72  rounded-box bg-[#2e046d] p-2 shadow"
           >
             {navbarData.items.map((item, index) => {
               return (
                 <li className="" key={index}>
                   {item.links && item.links.length === 1 ? (
                     <Link
-                      className="active:bg-secondary min-w-0 flex-shrink"
+                      className="min-w-0 flex-shrink active:bg-secondary"
                       href={item.links[0]?.url || "#"}
                     >
                       {item.label}
@@ -94,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                     <details>
                       <summary>{item.label}</summary>
                       {item.links && (
-                        <ul className="w-fit rounded-t-none bg-primary">
+                        <ul className="w-fit rounded-t-none bg-[#2e046d]">
                           {item.links.map((link, index) => {
                             return (
                               <li key={index}>
@@ -121,13 +118,16 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </Link>
       </div>
 
-
       {/* Desktop */}
-      <div className="navbar-center hidden text-base-100 lg:flex ">
+      <div className="navbar-center hidden text-white lg:flex ">
         <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0}>
           {navbarData.items.map((item, index) => {
             return (
-              <ul className="menu menu-horizontal gap-2 px-2" tabIndex={0} key={index}>
+              <ul
+                className="menu menu-horizontal gap-2 px-2"
+                tabIndex={0}
+                key={index}
+              >
                 {item.links && item.links.length === 1 ? (
                   <li>
                     <Link
@@ -140,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 ) : (
                   <li className="dropdown dropdown-hover">
                     <div className="">{item.label}</div>
-                    <ul className="menu dropdown-content rounded-sm bg-primary shadow-lg">
+                    <ul className="menu dropdown-content rounded-sm bg-[#2e046d] shadow-lg">
                       {item.links?.map((link) => {
                         return (
                           <li key={link.title}>
@@ -160,39 +160,80 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
             );
           })}
         </ul>
-
-
       </div>
       <div className="navbar-end">
+        <button
+          onClick={toggleTheme}
+          className="btn btn-circle btn-ghost mr-2"
+          aria-label="Toggle theme"
+        >
+          {theme === "darkTheme" ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6 text-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6 text-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+              />
+            </svg>
+          )}
+        </button>
         <Link
           href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
-          className="btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-2"
+          className="btn btn-secondary mr-2 p-2 text-primary duration-200 hover:scale-105"
         >
           Donate
         </Link>
         <div className="dropdown dropdown-end">
-
-           <div
-            className="">
+          <div className="">
             <SignedOut>
-      <div className="mx-2 btn btn-secondary text-primary duration-200 hover:scale-105 p-2 mr-4 "> <SignInButton  fallbackRedirectUrl={pathname}  signUpFallbackRedirectUrl={'/onboarding'}  /></div>
-          </SignedOut>
-          <SignedIn  >
-          <div className="mx-2 "> <UserButton
-          appearance={{
-            elements: {
-              userButtonAvatarBox: "w-10 h-10", 
-              userButtonPopoverCard: "bg-blue-100",
-              userButtonPopoverActionButton: "text-primary"
-                       },
-          }}
-         
-          /> </div> 
-          </SignedIn>
+              <div className="btn btn-secondary mx-2 mr-4 p-2 text-primary duration-200 hover:scale-105 ">
+                {" "}
+                <SignInButton
+                  fallbackRedirectUrl={pathname}
+                  signUpFallbackRedirectUrl={"/onboarding"}
+                />
+              </div>
+            </SignedOut>
+            <SignedIn>
+              <div className="mx-2 ">
+                {" "}
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: "w-10 h-10",
+                      userButtonPopoverCard: "bg-blue-100",
+                      userButtonPopoverActionButton: "text-primary",
+                    },
+                  }}
+                />{" "}
+              </div>
+            </SignedIn>
           </div>
         </div>
       </div>
     </div>
   );
 };
-export default Navbar 
+export default Navbar;

@@ -3,6 +3,7 @@ import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import { RecordingsCarousel } from "@/components/UI/Carousel";
 import { fetchRecordingsbyCategory } from "@/Utils/datafetcher";
+import type { Recording } from '@/payload-types';
 /**
  * Renders the page component for displaying recordings.
  * @returns The JSX element representing the page component.
@@ -29,7 +30,7 @@ const categories: Category[] = [
     id: "3",
     title: "Guest Speaker"
   },
- 
+
 ]
 
 const page = async (props: {
@@ -39,7 +40,7 @@ const page = async (props: {
   const searchParams = await props.searchParams
   const categoryId = searchParams?.category || '1';
   const recordingsData = await fetchRecordingsbyCategory(categoryId);
-  const recordingArray = recordingsData.map(recording => ( { title: recording.title ? recording.title : '', src: recording.url } ));
+  const recordingArray = recordingsData.map((recording: Recording) => ( { title: recording.title ? recording.title : '', src: recording.url } ));
   return (
     <div className="flex relative min-h-screen flex-col m-16 items-center justify-center" >
        <div>
@@ -49,7 +50,7 @@ const page = async (props: {
        <div className="mx-auto mt-0">
          <ButtonGroup categories={categories}/>
        </div>
-         <RecordingsCarousel recordings={recordingArray} /> 
+         <RecordingsCarousel recordings={recordingArray} />
        <div>
           <button className="btn btn-primary text-white  "><a href="https://www.youtube.com/@WLUMSA">View on Youtube</a></button>
        </div>

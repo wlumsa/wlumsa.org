@@ -8,11 +8,12 @@ import { CalendarDays } from 'lucide-react';
 import Tag from "@/components/UI/Tag";
 import { Banknote, Users, House, Armchair, Phone, Mail } from "lucide-react";
 import ImageCarousel from "@/components/UI/ImageCarousel";
+import { Comment } from "@/payload-types";
 
 
 type Params = Promise<{ post: string }>
 
-interface Comment {
+interface CommentDisplay {
   id: number;
   author: string;
   message: string;
@@ -69,8 +70,8 @@ export default async function BlogPost(props: {
 
 
   const comments = await fetchCommentsByPostId(id);
-  let commentArray: Comment[] = [];
-  commentArray = commentArray.concat(comments.map(comment => ({
+  let commentArray: CommentDisplay[] = [];
+  commentArray = commentArray.concat(comments.map((comment: Comment) => ({
     id: comment.id,
     message: comment.comment ?? '',
     author: comment.author ? comment.author : "",

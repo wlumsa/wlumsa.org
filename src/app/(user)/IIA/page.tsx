@@ -2,7 +2,7 @@ import React from "react";
 //import { TextGenerateEffect } from "./text-generate-effect";
 import Image from "next/image";
 //import { FadeText } from "./FadeText";
-import { Social, Media } from "@/payload-types";
+import { Social, Media, Faq } from "@/payload-types";
 import { getMedia, fetchIIAServices, fetchFAQ } from "@/Utils/datafetcher";
 import Service from "@/components/UI/ServiceCard";
 
@@ -11,9 +11,9 @@ const IIA: React.FC = async () => {
    const mediaDocs = await getMedia("Mosque");
    const services= await fetchIIAServices();
    const questions = await fetchFAQ();
-  
+
   return (
-   <div data-theme="IIA">
+   <div>
      <div id="hero"  className="hero min-h-[70vh] relative overflow-hidden">
        <Image
          fill
@@ -45,7 +45,7 @@ const IIA: React.FC = async () => {
      <div className=" md:px-24 px-8 items-center mb-16 ">
        <h1 className="text-4xl text-center py-12 font-semibold">Frequently Asked Questions</h1>
        <div className="bg-primary rounded p-4 items-center">
-       {questions.map((question, index) => ( 
+       {questions.map((question: Faq, index: number) => (
          <div className="bg-base-200 collapse collapse-arrow my-4 rounded-md">
      <input type="checkbox" className="peer" />
          <div key={index}
@@ -59,9 +59,9 @@ const IIA: React.FC = async () => {
        </div>
        ))}
        </div>
-    
+
      </div>
-   
+
      </div>
   );
 };

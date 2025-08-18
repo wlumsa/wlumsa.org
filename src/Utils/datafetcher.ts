@@ -7,7 +7,16 @@ const supabase = createClient();
 import { unstable_cache } from "next/cache";
 import { RoommatePost } from "@/payload-types";
 export const revalidate = 3600;
-export const payload = await getPayload({ config: configPromise });
+
+// Lazy initialization of payload to prevent database connection issues
+let payloadInstance: any = null;
+
+async function getPayloadInstance() {
+  if (!payloadInstance) {
+    payloadInstance = await getPayload({ config: configPromise });
+  }
+  return payloadInstance;
+}
 
 export async function fetchRoommateProfiles() {
   const { data, error } = await supabase
@@ -145,6 +154,7 @@ export async function getPublicURL(
 }
 
 export async function getMedia(alt: string) {
+  const payload = await getPayloadInstance();
   const Media = await payload.find({
     collection: "media",
     where: {
@@ -160,6 +170,7 @@ export async function getMedia(alt: string) {
 }
 
 export async function fetchSocialData() {
+  const payload = await getPayloadInstance();
   const socials = await payload.find({
     collection: "Socials",
     limit: 10,
@@ -169,6 +180,7 @@ export async function fetchSocialData() {
 }
 
 export async function fetchNavData() {
+  const payload = await getPayloadInstance();
   const nav = await payload.findGlobal({
     slug: "nav",
   });
@@ -176,6 +188,7 @@ export async function fetchNavData() {
 }
 
 export async function fetchFooterData() {
+  const payload = await getPayloadInstance();
   const footer = await payload.findGlobal({
     slug: "footer",
   });
@@ -183,6 +196,7 @@ export async function fetchFooterData() {
 }
 
 export async function fetchWeeklyEventsData() {
+  const payload = await getPayloadInstance();
   const events = await payload.find({
     collection: "WeeklyEvents",
     limit: 10,
@@ -191,6 +205,7 @@ export async function fetchWeeklyEventsData() {
 }
 
 export async function fetchBlogPosts() {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -208,6 +223,7 @@ export async function fetchBlogPostsByCategory(
   category: string,
   postId: string,
 ) {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -231,6 +247,7 @@ export async function fetchBlogPostsByCategoryAndTag(
   category: string,
   tag: string,
 ) {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -250,6 +267,7 @@ export async function fetchBlogPostsByCategoryAndTag(
   return posts.docs;
 }
 export async function fetchBlogPostById(id: string) {
+  const payload = await getPayloadInstance();
   const post = await payload.find({
     collection: "Posts",
     where: {
@@ -266,6 +284,7 @@ export async function fetchBlogPostById(id: string) {
 }
 
 export async function fetchBlogPostByTitle(title: string) {
+  const payload = await getPayloadInstance();
   const post = await payload.find({
     collection: "Posts",
     where: {
@@ -282,6 +301,7 @@ export async function fetchBlogPostByTitle(title: string) {
 }
 
 export async function fetchBlogPostsBytag(tag: string) {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -298,6 +318,7 @@ export async function fetchBlogPostsBytag(tag: string) {
   return posts.docs;
 }
 export async function fetchBlogPostsByQuery(query: string) {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -319,6 +340,7 @@ export async function fetchBlogPostsByQuery(query: string) {
   return posts.docs;
 }
 export async function getCategories() {
+  const payload = await getPayloadInstance();
   const categories = await payload.find({
     collection: "categories",
     limit: 10,
@@ -329,6 +351,7 @@ export async function fetchBlogPostsByQueryAndCategory(
   query: string,
   categoryId: string,
 ) {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
@@ -358,6 +381,7 @@ export async function fetchBlogPostsByQueryAndCategory(
 }
 
 export async function fetchInstagramPosts() {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Instagram",
     limit: 10,
@@ -368,6 +392,7 @@ export async function fetchInstagramPosts() {
 }
 
 export async function getPrayerTimings() {
+  const payload = await getPayloadInstance();
   const timings = await payload.findGlobal({
     slug: "prayer-timings",
   });
@@ -375,6 +400,7 @@ export async function getPrayerTimings() {
 }
 
 export async function getPrayerRooms() {
+  const payload = await getPayloadInstance();
   const rooms = await payload.find({
     collection: "prayer-rooms",
     limit: 10,
@@ -382,6 +408,7 @@ export async function getPrayerRooms() {
   return rooms.docs;
 }
 export async function getJummahTimings() {
+  const payload = await getPayloadInstance();
   const timings = await payload.find({
     collection: "jummah-timings",
     limit: 10,
@@ -389,6 +416,7 @@ export async function getJummahTimings() {
   return timings.docs;
 }
 export async function getResources() {
+  const payload = await getPayloadInstance();
   const resources = await payload.find({
     collection: "resources",
     limit: 10,
@@ -397,6 +425,7 @@ export async function getResources() {
 }
 
 export async function getDistributionList(id: string) {
+  const payload = await getPayloadInstance();
   const distributionList = await payload.findByID({
     collection: "distribution-list",
     id: id,
@@ -405,6 +434,7 @@ export async function getDistributionList(id: string) {
 }
 
 export async function getImageByID(id: string) {
+  const payload = await getPayloadInstance();
   const media = await payload.findByID({
     collection: "media",
     id: id,
@@ -464,6 +494,7 @@ export async function addMember(
   studentID: string,
   newsletter: boolean,
 ) {
+  const payload = await getPayloadInstance();
   const result = await payload.create({
     collection: "members",
     data: {
@@ -490,6 +521,7 @@ export async function isMember(studentId: string) {
 }
 
 export async function updateNewsletterStatus(email: string) {
+const payload = await getPayloadInstance();
 const exists = await payload.find({
   collection: "members",
   where: {
@@ -527,7 +559,7 @@ export async function removeIndividualFromList(
       await supabase
         .from("individuals")
         .select("*")
-        .eq("email", email) 
+        .eq("email", email)
         .single();
     console.log("EXISITING INDIVIDUAL:", existingIndividual);
     if (
@@ -550,7 +582,7 @@ export async function removeIndividualFromList(
 
       if (!existingList || existingList.id === undefined) {
         throw new Error(`List does not exist`);
-      } 
+      }
 
       const removeIndividual = await supabase
       .from("distribution_list_rels")
@@ -686,6 +718,7 @@ export async function addIndividualToList(
 // Example usage:
 
 export async function getResourceById(id: string) {
+  const payload = await getPayloadInstance();
   const resource = await payload.findByID({
     collection: "resources",
     id: id,
@@ -693,7 +726,94 @@ export async function getResourceById(id: string) {
   return resource;
 }
 
+export async function getResourcesByCategory(categoryId: string) {
+  const payload = await getPayloadInstance();
+
+  const resources = await payload.find({
+    collection: "resources",
+    where: {
+      category: {
+        equals: categoryId,
+      },
+    },
+    depth: 1, // This will populate the link relationship
+  });
+
+  return resources.docs;
+}
+
+export async function getAllResources() {
+  const payload = await getPayloadInstance();
+
+  const resources = await payload.find({
+    collection: "resources",
+    depth: 1, // This will populate the link relationship
+  });
+
+  return resources.docs;
+}
+
+export async function createSampleResources() {
+  const payload = await getPayloadInstance();
+
+  // First, create some sample links
+  const link1 = await payload.create({
+    collection: "link",
+    data: {
+      title: "MSA Registration Form",
+      url: "https://example.com/msa-registration",
+    },
+  });
+
+  const link2 = await payload.create({
+    collection: "link",
+    data: {
+      title: "Prayer Room Schedule",
+      url: "https://example.com/prayer-schedule",
+    },
+  });
+
+  const link3 = await payload.create({
+    collection: "link",
+    data: {
+      title: "Halal Food Guide",
+      url: "https://example.com/halal-guide",
+    },
+  });
+
+  // Then create resources with these links
+  const resource1 = await payload.create({
+    collection: "resources",
+    data: {
+      title: "MSA Forms",
+      category: "1", // General Forms
+      link: [link1.id],
+    },
+  });
+
+  const resource2 = await payload.create({
+    collection: "resources",
+    data: {
+      title: "Campus Prayer Information",
+      category: "2", // Campus Resources
+      link: [link2.id],
+    },
+  });
+
+  const resource3 = await payload.create({
+    collection: "resources",
+    data: {
+      title: "Halal Dining",
+      category: "3", // Religious Resources
+      link: [link3.id],
+    },
+  });
+
+  return { resource1, resource2, resource3 };
+}
+
 export async function fetchServices() {
+  const payload = await getPayloadInstance();
   const services = await payload.find({
     collection: "services",
   });
@@ -701,6 +821,7 @@ export async function fetchServices() {
 }
 
 export async function fetchHalalDirectory() {
+  const payload = await getPayloadInstance();
   const foodSpots = await payload.find({
     collection: "halal-directory",
     limit: 50,
@@ -724,12 +845,14 @@ export async function fetchHalalDirectory() {
 // }
 
 export async function fetchIIAServices() {
+  const payload = await getPayloadInstance();
   const services = await payload.find({
     collection: "iia-services",
   });
   return services.docs;
 }
 export async function fetchFAQ() {
+  const payload = await getPayloadInstance();
   const faq = await payload.find({
     collection: "faq",
   });
@@ -737,6 +860,7 @@ export async function fetchFAQ() {
 }
 
 export async function fetchRecordingsbyCategory(category: string) {
+  const payload = await getPayloadInstance();
   const recordings = await payload.find({
     collection: "recording",
     where: {
@@ -750,6 +874,7 @@ export async function fetchRecordingsbyCategory(category: string) {
 }
 
 export async function fetchRoommatePostById(id: string) {
+  const payload = await getPayloadInstance();
   const post = await payload.find({
     collection: "RoommatePosts",
     where: {
@@ -847,6 +972,7 @@ export async function fetchRoommatePosts({
   }
   console.log("filters:", filters);
 
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "RoommatePosts",
     sort: "-createdAt",
@@ -857,6 +983,7 @@ export async function fetchRoommatePosts({
 }
 
 export async function deleteRoommatePostById(postId: number) {
+  const payload = await getPayloadInstance();
   const res = await payload.delete({
     collection: "RoommatePosts",
     id: postId,
@@ -866,6 +993,7 @@ export async function deleteRoommatePostById(postId: number) {
 
 //update a post
 export async function updateRoommatePostById(postId: number, postData: any) {
+  const payload = await getPayloadInstance();
   const post = await payload.update({
     collection: "RoommatePosts",
     where: {
@@ -899,6 +1027,7 @@ export async function updateRoommatePostById(postId: number, postData: any) {
 
 //delete a post
 export async function deletePost(id: number) {
+  const payload = await getPayloadInstance();
   const post = await payload.delete({
     collection: "RoommatePosts",
     where: {
@@ -916,6 +1045,7 @@ export async function createUser(
   firstName: string,
   lastName: string,
 ) {
+  const payload = await getPayloadInstance();
   const newUser = await payload.create({
     collection: "GeneralUser",
     data: {
@@ -928,6 +1058,7 @@ export async function createUser(
   return newUser;
 }
 export async function findUser(id: string) {
+  const payload = await getPayloadInstance();
   const user = await payload.find({
     collection: "GeneralUser",
     where: {
@@ -942,6 +1073,7 @@ export async function findUser(id: string) {
 //USER COMMENT FEATURE FUNCTIONS
 
 export async function fetchCommentsByPostId(id: string) {
+  const payload = await getPayloadInstance();
   const comments = await payload.find({
     collection: "comments",
 
@@ -955,6 +1087,7 @@ export async function fetchCommentsByPostId(id: string) {
 }
 
 export async function createComment(comment: string, postId: number,) {
+  const payload = await getPayloadInstance();
   const commentdata = await payload.create({
     collection: "comments",
     data: {
@@ -967,6 +1100,7 @@ export async function createComment(comment: string, postId: number,) {
 }
 
 export async function deleteCommentById(commentId: string) {
+  const payload = await getPayloadInstance();
   const res = await payload.delete({
     collection: "comments",
     id: commentId,
@@ -975,6 +1109,7 @@ export async function deleteCommentById(commentId: string) {
 }
 
 export async function createRoommatePost(postData: RoommatePost) {
+  const payload = await getPayloadInstance();
   const post = await payload.create({
   collection: "RoommatePosts",
     data: {
@@ -1002,6 +1137,7 @@ export async function createRoommatePost(postData: RoommatePost) {
 }
 
 export async function updateUserInfo(clerkId: string, data: any) {
+  const payload = await getPayloadInstance();
   const user = await payload.update({
     collection: "GeneralUser",
     where: {
@@ -1024,6 +1160,7 @@ export async function updateUserInfo(clerkId: string, data: any) {
 }
 
 export async function fetchRoommatePostsByUser(clerkId: number) {
+  const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "RoommatePosts",
     where: {

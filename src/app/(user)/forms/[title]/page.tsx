@@ -8,11 +8,21 @@ type Params = Promise<{ title: string }>
 
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
+// Lazy initialization of payload to prevent database connection issues
+let payloadInstance: any = null;
+
+async function getPayloadInstance() {
+  if (!payloadInstance) {
+    payloadInstance = await getPayload({ config: configPromise });
+  }
+  return payloadInstance;
+}
+
 // eslint-disable-next-line no-restricted-exports
 export default async function Page(props: {
     params: Params
 }) {
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadInstance();
     const params = await props.params
 
     const slug = params.title

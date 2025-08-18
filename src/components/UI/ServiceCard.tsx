@@ -7,11 +7,11 @@ interface ServicesProps {
   services: IiaService[];
 }
 const Service: React.FC<ServicesProps> = ({ services }) => {
-  
+
   const image = services[0]?.image[0];
 
   return (
-    <div id="services"  data-theme="IIA" className="flex-grow min-h-screen px-6 items-center">
+    <div id="services" className="flex-grow min-h-screen px-6 items-center">
       {services.map((service, index) => (
         <div className="hero h-fit bg-base-100 px-4" key={index}>
           <div
@@ -33,7 +33,7 @@ const Service: React.FC<ServicesProps> = ({ services }) => {
                 {service.name}
               </h3>
               <p className="py-6 text-neutral text-center" key={index}>{service.caption}</p>
-              
+
             </div>
           </div>
         </div>

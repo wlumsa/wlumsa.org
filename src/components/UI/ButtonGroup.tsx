@@ -10,13 +10,25 @@ interface Category {
 }
 interface ButtonGroupProps {
     categories: Category[];
-   
+
 }
 export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
     const [selectBtn, setSelectBtn] = useState<Category | null>(categories[0] || null);
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
+
+    // Set initial selected button based on URL params or default to first category
+    React.useEffect(() => {
+        const categoryParam = searchParams.get('category');
+        if (categoryParam) {
+            const category = categories.find(cat => cat.id === categoryParam);
+            if (category) {
+                setSelectBtn(category);
+            }
+        }
+    }, [searchParams, categories]);
+
     const handleCategoryClick = (category: Category) => {
         setSelectBtn(category);
         const params = new URLSearchParams(searchParams);
@@ -29,11 +41,11 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
         //params.set('');
         replace(`${pathname}`);
     }
-     
+
 
     return (
         <div>
-          
+
                 <div className="text-center mt-4 justify-center">
                 <div className="justify-center ">
                     <div className="dropdown w-64 ">
@@ -71,13 +83,13 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
                     </div>
                 </div>
             </div>
-            
 
-             
-                
-                
-            
-            
+
+
+
+
+
+
         </div>
 
     )

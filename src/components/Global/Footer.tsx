@@ -50,7 +50,7 @@ const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData }) =>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
-                  className="hover:fill-neutral-focus h-6 w-6 fill-neutral"
+                  className="hover:fill-secondary-focus h-6 w-6 fill-secondary"
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>

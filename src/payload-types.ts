@@ -243,6 +243,7 @@ export interface Instagram {
 export interface Resource {
   id: number;
   title: string;
+  category: '1' | '2' | '3' | '4';
   link: (number | Link)[];
   updatedAt: string;
   createdAt: string;
@@ -1126,6 +1127,7 @@ export interface InstagramSelect<T extends boolean = true> {
  */
 export interface ResourcesSelect<T extends boolean = true> {
   title?: T;
+  category?: T;
   link?: T;
   updatedAt?: T;
   createdAt?: T;

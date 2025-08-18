@@ -20,11 +20,11 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
         className="object-cover w-full h-fit blur-sm scale-105"
 
       />
-      <div className="hero-overlay bg-neutral bg-opacity-50" />
+      <div className="hero-overlay bg-neutral  bg-opacity-50" />
       <div className="hero-content text-center">
         <div className="max-w-md">
           <FadeText className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" direction="right" text="Salam!" />
-          <TextEffect className="mb-5 text-base-100" per="char" as="h2">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</TextEffect>
+          <TextEffect className="mb-5 text-white" per="char" as="h2">"The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)</TextEffect>
           <div className="flex flex-row m-4 justify-center mb-6" >
             <button className="btn btn-primary text-secondary mx-4 text-bold duration-200 hover:scale-105 "><Link href="/ramadan">Sponsor an Iftar</Link></button>
             <button className="btn btn-secondary text-primary mx-4 duration-200 hover:scale-105  "><Link href="/guidebook">Become a Member</Link></button>
@@ -41,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
-                  className="h-8 w-8 fill-base-100 stroke-neutral hover:fill-base-200"
+                  className="h-8 w-8 fill-secondary stroke-neutral hover:fill-secondary-focus"
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>
