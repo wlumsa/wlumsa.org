@@ -60,9 +60,11 @@ export default async function RootLayout({
   const navbarData = await fetchNavData();
   return (
     <ClerkProvider
-      signUpFallbackRedirectUrl={
-        process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL
-      }
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in'}
+      signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up'}
+      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard'}
+      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/onboarding'}
     >
       <html lang="en">
         <head>
@@ -91,8 +93,9 @@ export default async function RootLayout({
         <GoogleAnalytics />
         <body>
           <Toaster position="top-center" />
-          <SpeedInsights />
-          <Analytics />
+          {/* Temporarily disabled due to production loading issues */}
+          {/* <SpeedInsights /> */}
+          {/* <Analytics /> */}
           <Providers>
             <ThemeProvider>
               <Navbar navbarData={navbarData} />

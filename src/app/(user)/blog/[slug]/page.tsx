@@ -2,11 +2,15 @@ import React from "react";
 import { fetchBlogPostById, fetchBlogPostByTitle } from "@/Utils/datafetcher";
 import RichText from "@/Utils/RichText";
 import { format } from 'date-fns';
-import Head from "next/head";
 import { Metadata } from "next";
 import type { Media, Exec } from '@/payload-types';
 
 type Params = Promise<{ slug: string }>
+
+export const metadata: Metadata = {
+  title: "Blog Post",
+  description: "Read our latest blog posts and articles"
+};
 
 
 export default async function BlogPost(props: {
