@@ -29,11 +29,26 @@ export default async function Page(props: {
     if (categoryId === '0' || categoryId === '1') {
       // All Resources or General Forms (default), fetch all resources
       resourcesData = await getAllResources();
+      console.log('Resources fetched successfully:', resourcesData);
+      console.log('Resources structure:', resourcesData?.map((r: any) => ({
+        id: r.id,
+        title: r.title,
+        category: r.category,
+        linkCount: Array.isArray(r.link) ? r.link.length : 'Not an array',
+        linkData: r.link
+      })));
     } else {
       resourcesData = await getResourcesByCategory(categoryId);
+      console.log('Resources by category fetched successfully:', resourcesData);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching resources:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      categoryId,
+      query
+    });
     resourcesData = [];
   }
 
@@ -73,7 +88,7 @@ export default async function Page(props: {
         <div className=""></div>
         <ButtonGroup categories={categories}   />
 
-        <div className="container space-y-4   py-4">
+        <div className="container space-y-4 py-4">
           {resourcesData && resourcesData.length > 0 ? (
             resourcesData.map((resource: any, index: number) => (
               <div key={index}>
@@ -106,9 +121,18 @@ export default async function Page(props: {
               </div>
             ))
           ) : (
-            <div className="text-center text-gray-500 py-8">
-              <p>No resources found for this category.</p>
-              <p className="text-sm mt-2">Resources will appear here once they are added to the system.</p>
+            <div className="text-center text-base-content/60 py-8">
+              <p className="text-lg mb-2">No resources found for this category.</p>
+              <p className="text-sm mb-4">Resources will appear here once they are added to the system.</p>
+              <div className="bg-base-200 p-4 rounded-lg">
+                <p className="text-sm text-base-content/70">
+                  <strong>Debug Info:</strong> Category ID: {categoryId},
+                  Resources Count: {resourcesData?.length || 0}
+                </p>
+                <p className="text-sm text-base-content/70 mt-2">
+                  Check the browser console for detailed error information.
+                </p>
+              </div>
             </div>
           )}
         </div>
