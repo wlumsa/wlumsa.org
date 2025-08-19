@@ -45,3 +45,5 @@ __snapshots__/
 
 # clerk configuration (can include secrets)
 /.clerk/
+.vercel
+.env*.local
