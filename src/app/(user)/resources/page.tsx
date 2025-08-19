@@ -30,7 +30,7 @@ export default async function Page(props: {
       // All Resources or General Forms (default), fetch all resources
       resourcesData = await getAllResources();
       console.log('Resources fetched successfully:', resourcesData);
-      console.log('Resources structure:', resourcesData?.map(r => ({
+      console.log('Resources structure:', resourcesData?.map((r: any) => ({
         id: r.id,
         title: r.title,
         category: r.category,
@@ -41,7 +41,7 @@ export default async function Page(props: {
       resourcesData = await getResourcesByCategory(categoryId);
       console.log('Resources by category fetched successfully:', resourcesData);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching resources:', error);
     console.error('Error details:', {
       message: error.message,
