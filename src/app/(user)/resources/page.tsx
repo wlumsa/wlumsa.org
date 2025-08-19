@@ -2,12 +2,14 @@
 import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import { getResourcesByCategory, getAllResources } from "@/Utils/datafetcher";
-import type { Link } from '@/payload-types';
-
+import { Resource as ResourceType } from "@/payload-types";
+import Resource from "@/components/UI/Resource";
 interface Category {
   id: string,
   title: string
 }
+
+
 
 type Params = Promise<{ slug: string }>
 type SearchParams = Promise<{ [key: string]: string | undefined }>
@@ -24,7 +26,7 @@ export default async function Page(props: {
   //const query = searchParams?.query || '';
   const categoryId = searchParams?.category || '0';
 
-  let resourcesData;
+  let resourcesData: ResourceType[] = [];
   try {
     if (categoryId === '0' || categoryId === '1') {
       // All Resources or General Forms (default), fetch all resources
@@ -69,40 +71,19 @@ export default async function Page(props: {
         {/* <SearchBar/>  */}
       </div>
 
-      <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center h-screen">
-        <div className=""></div>
+      <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center ">
         <ButtonGroup categories={categories}   />
 
         <div className="container space-y-4 py-4">
           {resourcesData && resourcesData.length > 0 ? (
             resourcesData.map((resource: any, index: number) => (
-              <div key={index}>
-                {Array.isArray(resource.link) && resource.link.length > 0 ? (
-                  resource.link.map((link: any, linkIndex: number) => (
-                    <div
-                      key={linkIndex}
-                      className="bg-primary rounded text-center p-2 hover:bg-secondary transition ease-in-out delay-150 hover:-translate-y-1 mb-2"
-                    >
-                      <a
-                        href={link.url || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block p-2 text-xl font-medium text-white"
-                      >
-                        {link.title || resource.title || 'Untitled Resource'}
-                      </a>
-                    </div>
-                  ))
-                ) : (
-                  <div className="bg-primary rounded text-center p-2 hover:bg-secondary transition ease-in-out delay-150 hover:-translate-y-1">
-                    <a
-                      href="#"
-                      className="block p-2 text-xl font-medium text-white"
-                    >
-                      {resource.title || 'Untitled Resource'}
-                    </a>
-                  </div>
-                )}
+              <div key={index} className="flex flex-col gap-1">
+               
+                  <Resource
+                    title={resource.title}
+                    url={resource.url}
+                  />
+           
               </div>
             ))
           ) : (
