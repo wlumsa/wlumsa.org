@@ -1,13 +1,16 @@
 
 import React, { useEffect, useState } from "react";
 import RamadanInfo from "@/components/UI/RamadanInfo";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 
 type Params = Promise<{ slug: string }>
 
+export const metadata = {
+  title: "Ramadan 2024",
+  description: "Ramadan information, prayer times, and resources for WLU MSA"
+};
 
 export default async  function RamadanPage(props:{
     params:Params
@@ -15,12 +18,9 @@ export default async  function RamadanPage(props:{
 const params = await props.params
 const slug = params.slug
 
- 
+
   return (
     <div className="flex min-h-screen flex-col ">
-      <Head>
-        <title>Ramadan 2024</title>
-      </Head>
       <main className="flex-grow">
         <div className="flex w-full flex-col items-center">
           <h1 className="mb-5 mt-28 text-4xl font-bold text-[#203B5D]">
@@ -112,7 +112,7 @@ const slug = params.slug
           </div>
           </main>
           </div>
-        
+
             );
             }
 
