@@ -264,7 +264,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                   </div>
                 </div>
                 <div className="flex gap-4 mt-4">
-                  <a href={item.googleMapsLink} target="_blank" className="text-sm text-info hover:underline">
+                  <a href={item.googleMapsLink} target="_blank" className="text-sm text-primary hover:text-primary/80 hover:underline transition-colors">
                     Google Maps
                   </a>
                   {item.website && (
