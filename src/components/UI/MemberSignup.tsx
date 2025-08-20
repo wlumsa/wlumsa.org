@@ -4,7 +4,8 @@ import { Toaster } from "react-hot-toast";
 import { memberSignup } from '@/Utils/actions';
 import { useFormStatus } from 'react-dom';
 import { useTransition } from "react";
-import { Users, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
+import { GetStartedButton } from "@/components/UI/button";
 
 const MemberSignup: React.FC = () => {
   const { pending } = useFormStatus();
@@ -97,22 +98,13 @@ const MemberSignup: React.FC = () => {
 
             {/* Submit Button */}
             <div className="text-center">
-              <button
+              <GetStartedButton
                 type="submit"
-                className="btn btn-primary text-primary-content text-lg px-8 py-3 shadow-lg hover:shadow-xl duration-200 hover:scale-105 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isPending}
+                isLoading={isPending}
               >
-                {isPending ? (
-                  <>
-                    <span className="loading loading-spinner loading-sm"></span>
-                    Signing Up...
-                  </>
-                ) : (
-                  <>
-                    Join Community ➜
-                  </>
-                )}
-              </button>
+                {isPending ? "Signing Up..." : "Join Community"}
+              </GetStartedButton>
             </div>
           </form>
         </div>
