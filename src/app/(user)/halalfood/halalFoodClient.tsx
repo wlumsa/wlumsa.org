@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { HalalDirectory } from "@/payload-types";
 import SearchBar from "@/components/UI/SearchBar";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { useTheme } from "../themeprovider";
 import {
@@ -54,6 +54,8 @@ interface FilterComponentProps {
 const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => {
   const { theme } = useTheme();
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const query = searchParams.get("query") || "";
 
   const [selectedCuisine, setSelectedCuisine] = useState("All Cuisines");
@@ -101,6 +103,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
     setSelectedMethod("All Methods");
     setSelectedCampusLocation("All Locations");
     setCurrentPage(1);
+
+    // Clear the search query from URL
+    const params = new URLSearchParams(searchParams);
+    params.delete('query');
+    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`);
   };
 
   const filteredData = useMemo(() => {
@@ -135,7 +142,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       </div>
 
       {/* Filter Panel */}
-      <div className="w-full max-w-6xl bg-base-200 border border-base-300 rounded-xl p-4 shadow mb-6">
+      <div className="w-full max-w-6xl bg-base-200 dark:bg-base-300 border border-base-300 dark:border-base-700 rounded-xl p-4 shadow-lg dark:shadow-2xl mb-6">
         <div className="flex items-center justify-between">
           <button
             onClick={() => setShowFilters(!showFilters)}
@@ -145,9 +152,14 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             {showFilters ? "Hide Filters" : "Show Filters"}
             {showFilters ? <ChevronUp className="ml-2" size={18} /> : <ChevronDown className="ml-2" size={18} />}
           </button>
-          <button onClick={clearAllFilters} className="text-sm text-error hover:underline">
-            Clear All
-          </button>
+          {(selectedCuisine !== "All Cuisines" || selectedMethod !== "All Methods" || selectedCampusLocation !== "All Locations" || query) && (
+            <button
+              onClick={clearAllFilters}
+              className="text-sm bg-error/10 hover:bg-error/20 text-error border border-error/30 hover:border-error/50 px-3 py-1 rounded-lg transition-all duration-200 font-medium"
+            >
+              Clear All
+            </button>
+          )}
         </div>
 
         {/* Filters */}
@@ -158,12 +170,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               {/* Cuisine Filter */}
               <div>
                 <label className="block text-sm font-medium text-base-content/80 mb-1">Cuisine</label>
-                <div className="flex items-center border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                <div className="flex items-center border border-base-300 dark:border-base-700 rounded-lg overflow-hidden bg-base-100 dark:bg-base-200">
                   <Utensils className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedCuisine}
                     onChange={(e) => setSelectedCuisine(e.target.value)}
-                    className="w-full p-2 pl-2 text-sm bg-base-100 border-none focus:ring-0 text-base-content"
+                    className="w-full p-2 pl-2 text-sm bg-base-100 dark:bg-base-200 border-none focus:ring-0 text-base-content"
                   >
                     {cuisineOptions.map((option) => (
                       <option key={option} value={option}>{option}</option>
@@ -175,12 +187,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               {/* Method Filter */}
               <div>
                 <label className="block text-sm font-medium text-base-content/80 mb-1">Slaughter Method</label>
-                <div className="flex items-center border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                <div className="flex items-center border border-base-300 dark:border-base-700 rounded-lg overflow-hidden bg-base-100 dark:bg-base-200">
                   <Hand className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedMethod}
                     onChange={(e) => setSelectedMethod(e.target.value)}
-                    className="w-full p-2 pl-2 text-sm bg-base-100 border-none focus:ring-0 text-base-content"
+                    className="w-full p-2 pl-2 text-sm bg-base-100 dark:bg-base-200 border-none focus:ring-0 text-base-content"
                   >
                     {slaughterMethodOptions.map((option) => (
                       <option key={option} value={option}>{option}</option>
@@ -192,12 +204,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               {/* Campus Filter */}
               <div>
                 <label className="block text-sm font-medium text-base-content/80 mb-1">Campus Location</label>
-                <div className="flex items-center border border-base-300 rounded-lg overflow-hidden bg-base-100">
+                <div className="flex items-center border border-base-300 dark:border-base-700 rounded-lg overflow-hidden bg-base-100 dark:bg-base-200">
                   <MapPin className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedCampusLocation}
                     onChange={(e) => setSelectedCampusLocation(e.target.value)}
-                    className="w-full p-2 pl-2 text-sm bg-base-100 border-none focus:ring-0 text-base-content"
+                    className="w-full p-2 pl-2 text-sm bg-base-100 dark:bg-base-200 border-none focus:ring-0 text-base-content"
                   >
                     <option value="All Locations">All Locations</option>
                     <option value="true">On Campus</option>
@@ -238,9 +250,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
           paginatedData.map((item) => (
             <div
               key={item.id}
-              className="bg-base-100 border border-base-300 rounded-xl shadow mb-6 p-6 flex flex-col sm:flex-row gap-4 hover:shadow-lg transition-all duration-200 hover:border-primary/30"
+              className="bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-700 rounded-xl shadow-lg dark:shadow-2xl mb-6 p-6 flex flex-col sm:flex-row gap-4 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-200 hover:border-primary/30"
             >
-              <div className="w-full sm:w-48 h-48 bg-base-200 rounded-xl overflow-hidden flex items-center justify-center">
+              <div className="w-full sm:w-48 h-48 bg-base-200 dark:bg-base-300 rounded-xl overflow-hidden flex items-center justify-center">
                 {item.image && typeof item.image !== "number" && item.image.url ? (
                   <Image
                     src={item.image.url}
@@ -281,11 +293,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
             </div>
           ))
         ) : (
-          <div className="text-center py-16 text-base-content/60">
+          <div className="text-center py-16 text-base-content/60 dark:text-base-content/50">
             <p>No results match your filters.</p>
             <button
               onClick={clearAllFilters}
-              className="mt-4 px-6 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary/90 transition-colors"
+              className="mt-4 px-6 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary/90 transition-colors shadow-lg dark:shadow-xl"
             >
               Reset Filters
             </button>
@@ -446,7 +458,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
       {showMap && (
         <div
           id="map-section"
-          className="w-full max-w-6xl h-[400px] mt-12 rounded-xl overflow-hidden shadow-lg animate-fade-in bg-base-100 border border-base-300"
+          className="w-full max-w-6xl h-[400px] mt-12 rounded-xl overflow-hidden shadow-lg dark:shadow-2xl animate-fade-in bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-700"
         >
           <iframe
             src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"

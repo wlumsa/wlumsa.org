@@ -21,9 +21,9 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahIn
   return (
     <div
       id="prayer_info"
-      className="flex flex-col md:flex-row w-full bg-base-100 px-6 py-8 text-sm md:text-base lg:text-lg"
+      className="flex flex-col md:flex-row w-full bg-base-100/50 dark:bg-base-200/30 px-6 py-8 backdrop-blur-sm"
     >
-      <div className="card mb-auto grid flex-grow place-items-center rounded-box">
+      <div className="card mb-auto grid flex-grow place-items-center rounded-box bg-base-100 dark:bg-base-200 shadow-lg dark:shadow-2xl border border-base-300 dark:border-base-700 p-4">
         <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
           Prayer Times
         </h3>
@@ -35,17 +35,17 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahIn
           View Prayer Timings
         </Link>
       </div>
-      <div className="divider  md:divider-horizontal mt-10 mx-10"></div>
-      <div className="card flex-grow place-items-center rounded-box">
-        <div className="flex w-full items-center justify-center flex-row gap-6 gap:0 md:flex-col">
-          <div className="card grid place-items-center rounded-box bg-base-100">
+      <div className="divider md:divider-horizontal mt-10 mx-10"></div>
+      <div className="card flex-grow place-items-center rounded-box bg-transparent shadow-none">
+        <div className="flex w-full items-center justify-center flex-row gap-6 md:flex-col">
+          <div className="card grid place-items-center rounded-box bg-base-100 dark:bg-base-200 shadow-lg dark:shadow-2xl border border-base-300 dark:border-base-700 p-4">
             <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
               Jummah Info
             </h3>
             <JummahInfo jummahInfo={jummahInfo} />
           </div>
-          <div className="divider mx-4 "></div>
-          <div className="card grid place-items-center rounded-box bg-base-100">
+          <div className="divider mx-4"></div>
+          <div className="card grid place-items-center rounded-box bg-base-100 dark:bg-base-200 shadow-lg dark:shadow-2xl border border-base-300 dark:border-base-700 p-4">
             <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
               Prayer Rooms
             </h3>
