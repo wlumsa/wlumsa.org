@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FadeText } from "../Animations/FadeText";
 import { Social, Media } from "@/payload-types";
 import Link from "next/link";
+import { GetStartedButton } from "./button"
 
 interface HeroProps {
   socialLinks: Social[];
@@ -54,14 +55,14 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
           >
             "The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
           </TextEffect>
-          <div className="flex flex-row m-4 justify-center mb-6" >
+          <div className="flex flex-row m-4 justify-center mb-6 items-center gap-4" >
             {/* Keep consistent styling for main CTA buttons regardless of theme */}
-            <button className="btn btn-primary text-yellow-400 mx-4 text-bold duration-200 hover:scale-105 hover:bg-primary/90">
+            <button className="btn btn-primary text-yellow-400 text-bold h-12 px-6 py-3 duration-200 hover:scale-105 hover:bg-primary/90">
               <Link href="/ramadan">Sponsor an Iftar</Link>
             </button>
-            <button className="btn btn-secondary text-purple-700 mx-4 duration-200 hover:scale-105 hover:bg-secondary/90">
+            <GetStartedButton variant="secondary" className="h-12 px-6 py-3">
               <Link href="/guidebook">Become a Member</Link>
-            </button>
+            </GetStartedButton>
           </div>
           <div className="flex flex-row items-center justify-center gap-4">
             {/* Keep consistent styling for social media icons regardless of theme */}

@@ -15,6 +15,15 @@ import {
   X,
   Filter,
 } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/UI/pagination";
 
 // ------------------
 // Filter Options
@@ -255,7 +264,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
                   </div>
                 </div>
                 <div className="flex gap-4 mt-4">
-                  <a href={item.googleMapsLink} target="_blank" className="text-sm text-info hover:underline">
+                  <a href={item.googleMapsLink} target="_blank" className="text-sm text-primary hover:text-primary/80 hover:underline transition-colors">
                     Google Maps
                   </a>
                   {item.website && (
@@ -285,23 +294,127 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 bg-primary text-primary-content rounded disabled:bg-base-300 disabled:text-base-content/50 transition-colors"
-            >
-              Prev
-            </button>
-            <span className="text-sm text-base-content/70">Page {currentPage} of {totalPages}</span>
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-primary text-primary-content rounded disabled:bg-base-300 disabled:text-base-content/50 transition-colors"
-            >
-              Next
-            </button>
-          </div>
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  size="default"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage((p) => Math.max(p - 1, 1));
+                  }}
+                  className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+
+              {/* Show all pages if 5 or fewer, otherwise show smart pagination */}
+              {totalPages <= 5 ? (
+                // Simple pagination for few pages
+                Array.from({ length: totalPages }, (_, i) => {
+                  const pageNum = i + 1;
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        href="#"
+                        size="default"
+                        isActive={pageNum === currentPage}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentPage(pageNum);
+                        }}
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })
+              ) : (
+                // Smart pagination for many pages
+                <>
+                  {/* First page */}
+                  {currentPage > 3 && (
+                    <PaginationItem>
+                      <PaginationLink
+                        href="#"
+                        size="default"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentPage(1);
+                        }}
+                      >
+                        1
+                      </PaginationLink>
+                    </PaginationItem>
+                  )}
+
+                  {/* Ellipsis if needed */}
+                  {currentPage > 4 && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+
+                  {/* Pages around current page */}
+                  {Array.from({ length: 3 }, (_, i) => {
+                    const pageNum = Math.max(1, Math.min(totalPages, currentPage - 1 + i));
+                    if (pageNum > totalPages) return null;
+
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          href="#"
+                          size="default"
+                          isActive={pageNum === currentPage}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage(pageNum);
+                          }}
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+
+                  {/* Ellipsis if needed */}
+                  {currentPage < totalPages - 2 && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+
+                  {/* Last page */}
+                  {currentPage < totalPages - 1 && (
+                    <PaginationItem>
+                      <PaginationLink
+                        href="#"
+                        size="default"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentPage(totalPages);
+                        }}
+                      >
+                        {totalPages}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )}
+                </>
+              )}
+
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  size="default"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage((p) => Math.min(p + 1, totalPages));
+                  }}
+                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         )}
       </div>
 
