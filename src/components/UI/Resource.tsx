@@ -8,7 +8,7 @@ interface ResourceProps {
 const Resource: React.FC<ResourceProps> = ({ title, url }) => {
   return (
     <div
-      className="bg-primary rounded-xl text-center p-2 hover:bg-secondary transition ease-in-out delay-150 hover:-translate-y-1 my-1 mx-4 md:mx-0"
+      className="bg-primary rounded-xl text-center p-2 hover:bg-secondary transition ease-in-out delay-150 hover:-translate-y-1 my-5 mx-4 md:mx-0"
     >
       <a
         href={url }

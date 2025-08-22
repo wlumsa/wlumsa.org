@@ -2,7 +2,7 @@
 import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import { getResourcesByCategory, getAllResources } from "@/Utils/datafetcher";
-import { Resource as ResourceType } from "@/payload-types";
+import {Link, Resource as ResourceType } from "@/payload-types";
 import Resource from "@/components/UI/Resource";
 interface Category {
   id: string,
@@ -28,15 +28,15 @@ export default async function Page(props: {
 
   let resourcesData: ResourceType[] = [];
   try {
-    if (categoryId === '0' || categoryId === '1') {
+   // if (categoryId === '0' || categoryId === '1') {
       // All Resources or General Forms (default), fetch all resources
       resourcesData = await getAllResources();
-    } else {
-      resourcesData = await getResourcesByCategory(categoryId);
-    }
+    // } else {
+    //   resourcesData = await getResourcesByCategory(categoryId);
+    // }
   } catch (error: any) {
     console.error('Error fetching resources:', error);
-    resourcesData = [];
+   // resourcesData = [];
   }
 
   const categories: Category[] = [
@@ -73,17 +73,19 @@ export default async function Page(props: {
 
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center ">
         <ButtonGroup categories={categories}   />
+       
 
-        <div className="container space-y-4 py-4">
+        <div className="container  py-4">
           {resourcesData && resourcesData.length > 0 ? (
-            resourcesData.map((resource: any, index: number) => (
-              <div key={index} className="flex flex-col gap-1">
-               
+            resourcesData.map((resource: ResourceType, index: number) => (
+              <div key={index} className=" ">
+                {resource.link.filter((link): link is Link =>  link !== null ).map((link, index) => (
                   <Resource
-                    title={resource.title}
-                    url={resource.url}
+                    key={index}
+                    title={link.title || "Untitled Resource"}
+                    url={link.url}
                   />
-           
+                ))}
               </div>
             ))
           ) : (
@@ -96,3 +98,4 @@ export default async function Page(props: {
     </div>
   );
 }
+          
