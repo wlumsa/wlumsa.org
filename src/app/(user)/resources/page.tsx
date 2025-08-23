@@ -1,9 +1,10 @@
 
 import React from "react";
 import ButtonGroup from "@/components/UI/ButtonGroup";
-import { getResourcesByCategory, getAllResources } from "@/Utils/datafetcher";
+import { getResourcesByCategory } from "@/Utils/datafetcher";
 import {Link, Resource as ResourceType } from "@/payload-types";
 import Resource from "@/components/UI/Resource";
+import BlurFade from "@/components/UI/BlurFade";
 interface Category {
   id: string,
   title: string
@@ -28,12 +29,9 @@ export default async function Page(props: {
 
   let resourcesData: ResourceType[] = [];
   try {
-   // if (categoryId === '0' || categoryId === '1') {
-      // All Resources or General Forms (default), fetch all resources
-      resourcesData = await getAllResources();
-    // } else {
-    //   resourcesData = await getResourcesByCategory(categoryId);
-    // }
+  
+      resourcesData = await getResourcesByCategory(categoryId);
+     
   } catch (error: any) {
     console.error('Error fetching resources:', error);
    // resourcesData = [];
@@ -65,26 +63,34 @@ export default async function Page(props: {
 
   return (
     <div className="py-14 mt-16">
-      <div className="mx-auto max-w-screen-md px-4 py-4 lg:px-6 lg:py-12">
-        <h1 className="mb-4 text-center text-4xl font-bold text-primary">Resources</h1>
-        <h1 className="text-center">Your one-stop hub for all MSA and Campus Resources</h1>
-        {/* <SearchBar/>  */}
-      </div>
+      <BlurFade delay={0.5}> 
+        <div className="mx-auto max-w-screen-md px-4 py-4 lg:px-6 lg:py-12">
+          <h1 className="mb-4 text-center text-4xl font-bold text-primary">Resources</h1>
+          <h1 className="text-center">Your one-stop hub for all MSA and Campus Resources</h1>
+          {/* <SearchBar/>  */}
+        </div>
+      </BlurFade>
 
+      
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center ">
+        <BlurFade delay={0.75}>
         <ButtonGroup categories={categories}   />
+        </BlurFade>
+  
        
-
+     
         <div className="container  py-4">
           {resourcesData && resourcesData.length > 0 ? (
             resourcesData.map((resource: ResourceType, index: number) => (
               <div key={index} className=" ">
                 {resource.link.filter((link): link is Link =>  link !== null ).map((link, index) => (
+                   <BlurFade delay={index * 1.1 + 1}>
                   <Resource
                     key={index}
                     title={link.title || "Untitled Resource"}
                     url={link.url}
                   />
+                  </BlurFade>
                 ))}
               </div>
             ))
@@ -94,6 +100,7 @@ export default async function Page(props: {
             </div>
           )}
         </div>
+      
       </div>
     </div>
   );
