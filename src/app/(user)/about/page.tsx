@@ -153,7 +153,7 @@ export default async function About() {
               {servicesInfo.length > 0 ? (
                 servicesInfo.map((service: Service, index: number) => (
                   <div
-                    className="card card-compact w-full max-w-sm bg-base-100 shadow-xl"
+                    className="card card-compact w-full max-w-sm bg-base-100 dark:bg-base-200 shadow-xl dark:shadow-2xl border border-base-300 dark:border-base-700"
                     key={index}
                   >
                     <div className="card-body">
@@ -180,9 +180,9 @@ export default async function About() {
                   </div>
                 ))
               ) : (
-                <div className="text-center text-gray-500 py-8">
-                  <p>No services available at the moment.</p>
-                </div>
+                                 <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+                   <p>No services available at the moment.</p>
+                 </div>
               )}
             </div>
           </div>
@@ -195,7 +195,7 @@ export default async function About() {
             <h2 className="mb-4 text-center text-4xl font-bold text-primary">
               Constitution
             </h2>
-            <div className="w-full max-w-4xl relative justify-center overflow-hidden rounded-md border-2 border-base-300 bg-base-100">
+                         <div className="w-full max-w-4xl relative justify-center overflow-hidden rounded-md border-2 border-base-300 dark:border-base-700 bg-base-100 dark:bg-base-200 shadow-lg dark:shadow-xl">
               <iframe
                 width="100%"
                 height="600px"

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSearchParams , usePathname, useRouter} from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -13,6 +13,8 @@ const SearchBar = () => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
+    const [inputValue, setInputValue] = useState(searchParams.get('query') || '');
+
     const handleSearch = useDebouncedCallback((term) => {
         console.log(`Searching... ${term}`);
         const params = new URLSearchParams(searchParams);
@@ -21,18 +23,27 @@ const SearchBar = () => {
           } else {
             params.delete('query');
           }
-       
+
         replace(`${pathname}?${params.toString()}`);
-      }, 200 ) //this code runs 300ms after user stops typing
+      }, 200 ) //this code runs 200ms after user stops typing
+
+    // Sync input value with URL changes
+    useEffect(() => {
+        setInputValue(searchParams.get('query') || '');
+    }, [searchParams]);
 
   return (
     <div className="mx-2 rounded-xl bg-base-100 px-4">
           <label className="input input-bordered flex items-center my-2">
-            <input type="text" className="grow" placeholder="Search" 
-            onChange={(e) => {
+            <input
+              type="text"
+              className="grow"
+              placeholder="Search"
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
                 handleSearch(e.target.value);
               }}
-              defaultValue={searchParams.get('query')?.toString()}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
