@@ -71,26 +71,29 @@ export default async function Page(props: {
         </div>
       </BlurFade>
 
-      
-      <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center ">
         <BlurFade delay={0.75}>
-        <ButtonGroup categories={categories}   />
-        </BlurFade>
+      <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center ">
+        <div>
+       
+            <ButtonGroup categories={categories} />
+        
+        </div>
   
        
      
         <div className="container  py-4">
+   
           {resourcesData && resourcesData.length > 0 ? (
             resourcesData.map((resource: ResourceType, index: number) => (
               <div key={index} className=" ">
                 {resource.link.filter((link): link is Link =>  link !== null ).map((link, index) => (
-                   <BlurFade delay={index * 1.1 + 1}>
+                   
                   <Resource
                     key={index}
                     title={link.title || "Untitled Resource"}
                     url={link.url}
                   />
-                  </BlurFade>
+                 
                 ))}
               </div>
             ))
@@ -99,9 +102,13 @@ export default async function Page(props: {
               <p className="text-lg mb-2">No resources found for this category.</p>
             </div>
           )}
+           
         </div>
       
+   
       </div>
+      </BlurFade> 
+      
     </div>
   );
 }
