@@ -136,9 +136,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
     <div className="w-full flex flex-col items-center pt-24 px-4 sm:px-8 bg-base-100 text-base-content min-h-screen">
 
       {/* Page Header */}
-      <div className="text-center w-full mb-6">
-        <h1 className="font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
-        <p className="text-base-content/70 mt-2 text-sm sm:text-md">{filteredData.length} halal spots found</p>
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h1 className="font-serif font-bold text-3xl sm:text-4xl text-primary">Halal Eats Near You 🍽️</h1>
+          <p className="text-base-content/70 mt-2 max-w-2xl mx-auto">
+            Discover delicious halal restaurants and food options near Wilfrid Laurier University
+          </p>
+        </div>
       </div>
 
       {/* Filter Panel */}
@@ -267,7 +271,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({ halalDirectory }) => 
               </div>
               <div className="flex-1 flex flex-col justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold text-primary mb-1">{item.name}</h2>
+                  <h2 className="text-xl font-serif font-semibold text-primary mb-1">{item.name}</h2>
                   <p className="text-sm text-base-content/70 mb-2">{item.shortDescription}</p>
                   <div className="text-sm text-base-content/60 space-y-1">
                     <p><strong>Category:</strong> {item.category}</p>

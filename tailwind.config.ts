@@ -4,6 +4,10 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        'serif': ['var(--font-libre-baskerville)', 'Georgia', 'serif'],
+        'sans': ['var(--font-inter)', 'system-ui', 'sans-serif'],
+      },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
       },
