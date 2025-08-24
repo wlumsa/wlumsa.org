@@ -17,11 +17,11 @@ export default function DynamicContactPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <div className="mt-20 flex flex-col items-center flex-grow">
-        <div className="mb-10">
-          <h3 className="pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
-            {type} Form!
-          </h3>
-          <p className="text-center text-neutral lg:text-lg">
+        <div className="mb-10 text-center max-w-2xl">
+          <h1 className="pt-4 text-4xl md:text-5xl font-heading font-bold text-primary duration-200 hover:scale-105 lg:pt-0 capitalize">
+            {type} Form
+          </h1>
+          <p className="text-center text-lg font-body text-base-content/80 mt-4 leading-relaxed">
             Fill out the form and Inshallah we will get back to you soon
           </p>
         </div>
