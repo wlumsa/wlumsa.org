@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
+import { Libre_Baskerville, Inter } from 'next/font/google';
 import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -48,6 +49,20 @@ export const revalidate = 3600;
  * @returns The JSX element representing the root layout.
  */
 
+// Initialize fonts
+const libreBaskerville = Libre_Baskerville({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-libre-baskerville',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
 export default async function RootLayout({
   children,
 }: {
@@ -64,9 +79,9 @@ export default async function RootLayout({
       signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in'}
       signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up'}
       afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard'}
-      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/onboarding'}
+      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/sign-up'}
     >
-      <html lang="en">
+      <html lang="en" className={`${libreBaskerville.variable} ${inter.variable}`}>
         <head>
           <script
             dangerouslySetInnerHTML={{

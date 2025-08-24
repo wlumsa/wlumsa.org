@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font variables for consistent typography */
+:root {
+  --font-libre-baskerville: 'Libre Baskerville', Georgia, serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+}
+
+/* Apply fonts to base elements */
+body {
+  font-family: var(--font-inter);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-libre-baskerville);
+}
+
+/* Utility classes for fonts */
+.font-heading {
+  font-family: var(--font-libre-baskerville);
+}
+
+.font-body {
+  font-family: var(--font-inter);
+}
+
 .RichText {
   h1 {
     @apply text-4xl font-bold text-primary mb-6;
