@@ -2,7 +2,6 @@
 import React from 'react'
 import { useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { fetchBlogPosts } from '@/Utils/datafetcher';
 
 interface Category {
     title: string,
