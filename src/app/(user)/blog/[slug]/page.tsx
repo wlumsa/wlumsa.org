@@ -44,40 +44,42 @@ export default async function BlogPost(props: {
     <div className="mt-28">
       <div className="mx-auto max-w-screen-lg">
         <main className="mt-10 flex flex-col justify-center items-center text-base-content">
-          <div className="relative mx-auto mb-4 md:mb-0">
+          <div className="relative mx-auto mb-8 md:mb-12">
             <div className="px-4 lg:px-0">
-              <h2 className="text-left my-6 text-4xl font-bold leading-tight text-primary">
-                {post?.title} </h2>
-              <div className="flex justify-start text-lg">
-                <p className="text-base-content/70">
+              <h1 className="text-left my-6 text-4xl md:text-5xl font-heading font-bold leading-tight text-primary">
+                {post?.title}
+              </h1>
+              <div className="flex justify-start text-lg mb-2">
+                <p className="font-body text-base-content/70">
                   Published - {formattedDate}
                 </p>
               </div>
-              <div>
+              <div className="mb-4">
                 {post?.authors?.map((author: number | Exec, index: number) => (
-                  <p className="text-lg text-base-content/70" key={index}>
-                    {typeof author === 'object' ? `   Author - ${author.name}` : ''}
+                  <p className="text-lg font-body text-base-content/70" key={index}>
+                    {typeof author === 'object' ? `Author - ${author.name}` : ''}
                   </p>
                 ))}
               </div>
-              <p className="flex mb-2 py-2 text-base-content/80 text-lg">
+              <p className="mb-6 py-2 text-base-content/80 text-lg font-body leading-relaxed">
                 {post?.description}
               </p>
             </div>
-            <div className="flex justify-center items-center ">
+            <div className="flex justify-center items-center mb-8">
               <img
                 src={image?.toString()}
-                className="object-fit lg:rounded"
-                style={{ height: "26em", width: "42em" }}
+                className="object-cover lg:rounded shadow-lg"
+                style={{ height: "26em", width: "42em", maxWidth: "100%" }}
+                alt={post?.title || "Blog post header image"}
               />
             </div>
 
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:space-x-14 items-center justify-center min-h-screen">
-            <div className="mt-12 w-full px-4 text-lg lg:w-[70%] lg:px-0 mx-auto">
-              <div className="mb-10 items-center">
-                <RichText content={content} className="mt-4" />
+          <div className="flex flex-col lg:flex-row lg:space-x-14 items-start justify-center">
+            <div className="mt-8 w-full px-4 lg:w-[70%] lg:px-0 mx-auto">
+              <div className="mb-10">
+                <RichText content={content} className="mt-4 font-body text-lg leading-relaxed" />
               </div>
             </div>
           </div>

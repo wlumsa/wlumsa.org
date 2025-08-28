@@ -49,7 +49,7 @@ const items = [
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
     timeLocation: "Entire Month of Ramadan",
     caption:
-      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be avaliable soon",
+      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be available soon",
     link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858",
     ctaText: "Donate Now",
   },
@@ -69,13 +69,13 @@ export default async function CountdownPage() {
           <div className="hero-content mt-24 text-center">
             <div className="max-w-5xl">
               <BlurFade>
-                <h1 className="pt-4 text-3xl font-bold text-primary  duration-200 hover:scale-105 md:text-center md:text-5xl lg:pt-0">
+                <h1 className="pt-4 text-4xl font-heading font-bold text-primary duration-200 hover:scale-105 md:text-center md:text-6xl lg:pt-0">
                   Ramadan 2025
                 </h1>
               </BlurFade>
 
               <BlurFade delay={0.5}>
-                <p className="text-md py-4 text-center md:text-xl ">
+                <p className="py-4 text-center text-lg font-body md:text-xl">
                   O believers! Fasting is prescribed for you—as it was for those
                   before you—so perhaps you will become mindful ˹of Allah˺.
                   (Quran, 2:183){" "}
@@ -108,12 +108,12 @@ export default async function CountdownPage() {
       </div>
       <div id="services">
         <div className="mx-auto space-y-4 py-6 text-center">
-          <h2 className="font-mono text-[14px] font-medium tracking-tight text-primary">
+          <h2 className="text-sm font-body font-medium uppercase tracking-wide text-primary">
             Services
           </h2>
-          <h4 className="mx-auto mb-2 max-w-3xl text-balance text-[42px] font-medium tracking-tighter">
+          <h3 className="mx-auto mb-2 max-w-3xl text-balance text-4xl font-heading font-medium tracking-tight">
             This year we are offering the following services on Campus
-          </h4>
+          </h3>
         </div>
         <div className=" container mx-auto space-y-8 px-4 py-8">
           <div id="events" className="flex-grow">
@@ -135,12 +135,11 @@ export default async function CountdownPage() {
               className="mx-auto flex flex-col items-center text-center"
               id="journal"
             >
-              <h1 className="mb-2  text-3xl font-bold text-primary duration-200 hover:scale-105">
+              <h2 className="mb-6 text-3xl font-heading font-bold text-primary duration-200 hover:scale-105">
                 Ramadan Journal
-              </h1>
-              <p className="mb-4 text-xl font-semibold "></p>
+              </h2>
 
-              <p className="mb-4">
+              <p className="mb-6 max-w-2xl font-body text-lg">
                 Make this Ramadan truly transformative with a guided journal
                 designed to help you deepen your connection with Allah
               </p>
@@ -149,7 +148,7 @@ export default async function CountdownPage() {
                   src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png"
                   width={966}
                   height={1250}
-                  alt="prayer table"
+                  alt="Ramadan Journal cover design with Islamic patterns and daily reflection prompts"
                 />
               </div>
               <Link href="/RamadanJournal.pdf" target="_blank">
@@ -166,22 +165,22 @@ export default async function CountdownPage() {
               className="mx-auto flex flex-col items-center text-center "
               id="prayer_schedule"
             >
-              <h1 className="mb-2 text-3xl font-bold text-primary duration-200 hover:scale-105">
-                Ramadan Prayer Table
-              </h1>
-              <p className="mb-4 text-xl font-semibold ">
+              <h2 className="mb-6 text-3xl font-heading font-bold text-primary duration-200 hover:scale-105">
+                Ramadan Prayer Schedule
+              </h2>
+              <p className="mb-4 text-xl font-body font-semibold">
                 Never miss a prayer this Ramadan
               </p>
-              <p className="mb-4">
+              <p className="mb-6 max-w-2xl font-body text-lg">
                 A complete prayer schedule for Ramadan on Campus. Limited
-                Quantity avaliable in P101
+                quantity available in P101
               </p>
               <div className="rounded-lg bg-primary p-4">
                 <Image
                   src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png"
                   width={966}
                   height={1250}
-                  alt="prayer table"
+                  alt="Ramadan 2025 prayer schedule showing daily Fajr, Maghrib, and Taraweeh times"
                 />
               </div>
               <Link href="/ramadan_schedule2025.pdf" target="_blank">
@@ -195,17 +194,17 @@ export default async function CountdownPage() {
             </div>
 
             <div className="mx-4 flex flex-col items-center" id="checklist">
-              <h1 className="mb-2 text-3xl font-bold text-primary duration-200 hover:scale-105">
+              <h2 className="mb-6 text-3xl font-heading font-bold text-primary duration-200 hover:scale-105">
                 Ramadan Checklist
-              </h1>
-              <p className="mb-4 text-xl font-semibold ">
+              </h2>
+              <p className="mb-4 text-xl font-body font-semibold">
                 Build a habit this Ramadan
               </p>
-              <p className="mb-4 text-center">
+              <p className="mb-6 max-w-3xl text-center font-body text-lg">
                 "The most beloved deed to Allah is the most regular and constant
                 even if it were little." -{" "}
                 <Link
-                  className="underline"
+                  className="underline hover:text-primary/80"
                   target="_blank"
                   href="https://sunnah.com/bukhari:6464"
                 >
@@ -217,7 +216,7 @@ export default async function CountdownPage() {
                   src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png"
                   width={1250}
                   height={966}
-                  alt="ramadan checklist"
+                  alt="Ramadan habit tracker checklist with daily spiritual goals and activities"
                 />
               </div>
               <button
@@ -230,12 +229,12 @@ export default async function CountdownPage() {
               </button>
             </div>
 
-            <h1
-              className="mb-4 mt-12 text-center text-3xl font-bold text-primary duration-200 hover:scale-105"
+            <h2
+              className="mb-8 mt-16 text-center text-3xl font-heading font-bold text-primary duration-200 hover:scale-105"
               id="prayer_rooms"
             >
               Prayer Rooms
-            </h1>
+            </h2>
           </div>
           <div
             className="mx-4 grid grid-cols-1 gap-4 md:grid-cols-3"
@@ -258,7 +257,6 @@ export default async function CountdownPage() {
             />
           </div>
         </div>
-        <div></div>
       </div>
     </div>
   );

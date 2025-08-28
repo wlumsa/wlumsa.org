@@ -45,22 +45,27 @@ export default async function Page(props: {
 
   return (
     <section className="mt-16 bg-base-100">
-      <div className="mx-auto px-4 py-4 lg:px-24 lg:py-16 w-[70%]">
-        <h1 className="mb-4 text-center text-4xl font-bold text-primary">Blog </h1>
-        <h1 className="text-center text-base-content/80">
-          Welcome to our blog. Learn more about Islam, and how to excel spiritually as well as academically. View and search articles related to different topics.
-        </h1>
-        <div className="mx-auto max-w-screen-md items-center text-center py-4">
+      <div className="mx-auto px-4 py-8 lg:px-24 lg:py-16 w-[70%]">
+        <div className="text-center mb-8">
+          <h1 className="mb-6 text-4xl md:text-5xl font-heading font-bold text-primary">
+            MSA Blog
+          </h1>
+          <p className="text-lg md:text-xl font-body text-base-content/80 max-w-3xl mx-auto leading-relaxed">
+            Welcome to our blog. Learn more about Islam, and how to excel spiritually as well as academically.
+            View and search articles related to different topics.
+          </p>
+        </div>
+
+        <div className="mx-auto max-w-screen-md items-center text-center py-6">
              <SearchBar />
         </div>
 
-        <div className="flex flex-row items-center justify-center">
+        <div className="flex flex-row items-center justify-center mb-8">
           <ButtonGroup categories={categoryArray}  />
-
         </div>
       </div>
-      <div className="flex justify-center">
-        <div className="max-w-sm md:max-w-4xl gap-2 grid grid-cols-1 md:grid-cols-3">
+      <div className="flex justify-center pb-16">
+        <div className="max-w-sm md:max-w-4xl gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post: Post) => (
               <BlogCard key={post.id} post={post}  />
             ))}
