@@ -10,6 +10,7 @@ import {
   IS_SUPERSCRIPT,
   IS_UNDERLINE,
 } from "./nodeFormat"
+import { INSERT_CHECK_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list'
 
 
 export type NodeTypes =
@@ -23,7 +24,7 @@ type Props = {
 export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
     <Fragment>
-      <div style={{ lineHeight: '2.0' }}>
+      <div className='leading-loose text-lg'>
       {nodes?.map((node, index): JSX.Element | null => {
         if (node == null) {
           return null
@@ -60,6 +61,8 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           if (node.format & IS_SUPERSCRIPT) {
             text = <sup key={index}>{text}</sup>
           }
+         
+         
 
           return text
         }
@@ -110,8 +113,9 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
           case 'list': {
             const Tag = node?.tag
+          
             return (
-              <Tag className="list col-start-2" key={index}>
+              <Tag className={` list-disc ${Tag === 'ul' ? 'list-disc': 'list-decimal' }  col-start-2`} key={index}>
                 {serializedChildren}
               </Tag>
             )
