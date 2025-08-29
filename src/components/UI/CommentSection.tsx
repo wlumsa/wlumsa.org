@@ -1,10 +1,9 @@
 'use client'
 import React from 'react'
-import { format, set } from 'date-fns';
+import { format } from 'date-fns';
 import { postComment, deleteComment } from '@/Utils/actions';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from "react-hot-toast";
-import { EllipsisVertical } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
 import { SignInButton } from '@clerk/nextjs';
 import axios from 'axios';
