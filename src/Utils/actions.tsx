@@ -12,7 +12,7 @@ const schema = z.object({
     studentId: z.string().regex(/^\d+$/, "Student ID must be a number").length(9, "Student ID must be 9 digits"),
     newsLetter: z.boolean(),
 })
-import WelcomeEmail from 'emails/signup';
+import WelcomeEmail from '@/components/emails/signup';
 import { supabase } from '@/lib/supabaseClient';
 import { RoommatePost } from '@/payload-types';
 

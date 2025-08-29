@@ -1,10 +1,11 @@
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
-import Newsletter from 'emails/general';
-import CharityWeek from 'emails/charity_week';
+import Newsletter from '@/components/emails/general';
+import CharityWeek from '@/components/emails/charity_week';
 import { Individual } from '@/payload-types';
 import { resend } from '@/Utils/resend';
 import { getPublicURL } from '@/Utils/datafetcher';
 import { convertRichTextToMarkdown } from '@/Utils/converter';
+import { DistributionList } from "@/payload-types";
 
 function chunkArray(array: Individual[], chunkSize: number) {
   const chunks = [];
@@ -18,12 +19,13 @@ export async function POST(req: Request) {
   try {
     const response = await req.json();
     const { title, subject, headerImage, publishedAt, content, distributionListId, content_html } = response;
-    console.log(content_html);
     const distributionList: (number | Individual)[] | null | undefined = await getDistributionList(distributionListId);
     
     if (!distributionList || !Array.isArray(distributionList)) {
       throw new Error('Invalid distribution list');
     }
+
+    console.log("distributionList", distributionList);
     
     const validDistributionList: Individual[] = distributionList.filter((item): item is Individual => {
       return typeof item === 'object' && 'email' in item;

@@ -16,13 +16,12 @@ import * as React from "react";
 import logo from "src/logo.png"
 
 
-import { DistributionList } from "@/payload-types";
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
 interface WelcomeEmailProps {
   firstName: string | null | undefined;
-  content: string | null | undefined; // TEMP logo for url, replace with actual logo url later
+  content: string | null | undefined; 
 
 }
 
