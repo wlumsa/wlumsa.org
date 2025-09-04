@@ -419,7 +419,8 @@ export async function getResources() {
   const payload = await getPayloadInstance();
   const resources = await payload.find({
     collection: "resources",
-    limit: 10,
+    limit: 50,
+    sort: "-createdAt",
   });
   return resources.docs;
 }
@@ -722,6 +723,7 @@ export async function getResourceById(id: string) {
   const resource = await payload.findByID({
     collection: "resources",
     id: id,
+    sort: "-createdAt",
   });
   return resource;
 }
@@ -745,6 +747,7 @@ export async function getResourcesByCategory(categoryId: string) {
         },
       },
       depth: 1,
+      sort: "-createdAt",
     });
     return resources.docs;
   }
@@ -758,6 +761,7 @@ export async function getAllResources() {
   const resources = await payload.find({
     collection: "resources",
     depth: 1, // This will populate the link relationship
+    sort: "-createdAt",
   });
 
   return resources.docs;
