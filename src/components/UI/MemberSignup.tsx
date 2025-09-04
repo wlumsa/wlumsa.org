@@ -42,7 +42,7 @@ const MemberSignup: React.FC = () => {
         </div>
 
         {/* Form Section */}
-        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-6 sm:p-8">
+        <div className="bg-base-100 rounded-2xl shadow-md border border-base-300 p-6 sm:p-8">
           <form className="text-base-content" action={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="space-y-4">
