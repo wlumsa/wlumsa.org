@@ -47,9 +47,9 @@ export async function memberSignup(formData: FormData) {
             await addIndividualToList("Newsletter", { email: email, first_name: firstName, last_name: lastName, });
             await resend.contacts.create({
                 email: email,
-                first_name: firstName,
-                last_name: lastName,
-                audience_id: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                firstName: firstName,
+                lastName: lastName,
+                audienceId: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
                 unsubscribed: false
             })
         }
@@ -196,15 +196,29 @@ export async function updateRoommatePost(postId: number, formData: RoommatePost)
 
 
 export async function removeMemberFromNewsletter(email: string) {
+    
     //check if they are apart of newsletter collection
     const updateStatus = await updateNewsletterStatus(email);
     if (!updateStatus) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
     }
+    
+
 
     const remove = await removeIndividualFromList("Newsletter", email);
     if (!remove) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
+    }
+//update contact status in resend
+    const {data, error} =  await resend.contacts.update({
+        email: `${email}`,
+        audienceId: '151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b',
+        unsubscribed: true,
+      });
+
+
+    if(error) {
+        return { message: 'An error occurred', errors: true }
     }
 
     return { message: 'You have been removed from the newsletter' }

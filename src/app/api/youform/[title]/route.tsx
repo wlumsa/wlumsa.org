@@ -34,10 +34,10 @@ export async function POST(request: Request, segmentData: { params: Params }) {
         if (newsletter) {
             await addIndividualToList("Newsletter", { email, first_name, last_name });
             await resend.contacts.create({
-                email,
-                first_name,
-                last_name,
-                audience_id: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                email: email,
+                firstName: first_name,
+                lastName: last_name,
+                audienceId: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
                 unsubscribed: false
             })
         }
