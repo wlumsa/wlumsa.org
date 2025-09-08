@@ -29,7 +29,7 @@ export const ContactInfo: React.FC<{
         <div className='items-center justify-center'>
           <div>
             <label className="label cursor-pointer">
-              <span className="label-text text-3xl font-semibold text-gray-600">
+              <span className="label-text text-xl lg:text-2xl font-semibold text-gray-600">
                 {label} {requiredFromProps && <span className='text-red-900'>*</span>}
               </span>
             </label>
