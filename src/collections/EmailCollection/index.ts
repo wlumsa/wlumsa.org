@@ -116,10 +116,9 @@ export const EmailCollection: CollectionConfig = {
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
               const req = await fetch(
-                "localhost:3000/api/sendByDistributionList",
+                `https://${process.env.VERCEL_URL}/api/sendByDistributionList`,
                 {
                   method: "POST",
-                  
                   body: JSON.stringify({
                     title: siblingData.title,
                     subject: siblingData.subject,
