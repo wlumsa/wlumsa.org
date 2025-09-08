@@ -23,26 +23,9 @@ const MemberSignup: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full items-center justify-center bg-gradient-to-br from-base-100 to-base-200 py-8 sm:py-12">
-      <div className="max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <h3 className="pb-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105">
-            Join Our Community!
-          </h3>
-          <p className="text-base-content/80 text-base sm:text-lg lg:text-xl mb-4 leading-relaxed max-w-2xl mx-auto">
-            Stay connected with the latest MSA events, prayer times, and exclusive resources. Plus, get your free MSA Resource Guide!
-          </p>
-
-          {/* Social Proof */}
-          <div className="flex items-center justify-center gap-2 bg-success text-success-content px-4 py-2 rounded-full text-sm sm:text-base shadow-sm">
-            <CheckCircle className="w-5 h-5" />
-            <span className="font-medium">Join 200+ students already signed up!</span>
-          </div>
-        </div>
-
-        {/* Form Section */}
-        <div className="bg-base-100 rounded-2xl shadow-md border border-base-300 p-6 sm:p-8">
+  
+     
+        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-6 sm:p-8">
           <form className="text-base-content" action={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="space-y-4">
@@ -108,8 +91,7 @@ const MemberSignup: React.FC = () => {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+     
   );
 };
 

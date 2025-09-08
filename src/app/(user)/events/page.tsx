@@ -1,5 +1,6 @@
+import Link from "next/link";
 import React from "react";
-import CalendarComponent from "@/components/UI/CalenderComponent";
+import MemberSignup from "@/components/UI/MemberSignup";
 
 /**
  * Renders the Events page component.
@@ -7,21 +8,10 @@ import CalendarComponent from "@/components/UI/CalenderComponent";
  */
 export default async function EventsPage() {
   return (
-    <div className="flex-grow">
-      <div className="flex flex-col py-10">
-        <CalendarComponent />
-        <div className="mt-4 text-center">
-          <a
-            href="https://calendar.google.com/calendar/u/1?cid=ZmZhZWUwMTExMjBmYWIzOTZjNDBjZWY1NWUyYjA0OTY5NmEzYTUwYmNhMzIyOWE1MDAwMjM2ODQ1MTc5OTU5NUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-10"
-          >
-            <button className="btn border-0 bg-primary text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary">
-              Add to your calendar
-            </button>
-          </a>
-        </div>
+    <div className="flex-grow m-16 ">
+      <div className="flex flex-col max-w-4xl mx-auto">
+        <h1 className="text-4xl text-center font-bold text-primary py-8 ">Check out our <Link href="https://www.instagram.com/wlumsa" target="_blank" className="underline">Instagram</Link> to see what's happening or subscribe to our newsletter to get notified of upcoming events</h1>
+        <MemberSignup />
       </div>
     </div>
   );

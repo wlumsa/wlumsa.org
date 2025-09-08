@@ -1,8 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { hidePopup, showPopup } from "../../redux/popupSlice";
-import { RootState } from "../../redux/store";
+import React, { useEffect, useState } from "react";
 import MemberSignup from "./MemberSignup";
 
 /**
@@ -11,22 +8,25 @@ import MemberSignup from "./MemberSignup";
  */
 
 const Popup: React.FC = () => {
-  const dispatch = useDispatch();
-  const isPopupOpen = useSelector((state: RootState) => state.popup.displayed);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleClose = () => {
-    dispatch(hidePopup());
+    setIsPopupOpen(false);
     localStorage.setItem("popupShown", "true");
+  };
+
+  const handleShow = () => {
+    setIsPopupOpen(true);
   };
 
   useEffect(() => {
     if (!localStorage.getItem("popupShown")) {
       const timer = setTimeout(() => {
-        dispatch(showPopup());
+        handleShow();
       }, 10000);
       return () => clearTimeout(timer);
     }
-  }, [dispatch]);
+  }, []);
 
   if (!isPopupOpen) {
     return null;

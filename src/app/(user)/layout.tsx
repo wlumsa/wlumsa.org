@@ -3,14 +3,11 @@ import "../../styles/globals.css";
 import { Libre_Baskerville, Inter } from 'next/font/google';
 import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react";
 import {
   fetchNavData,
   fetchFooterData,
   fetchSocialData,
 } from "@/Utils/datafetcher";
-import { Providers } from "@/redux/Provider";
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from "./GoogleAnalytics";
 import ThemeProvider from "./themeprovider";
@@ -111,13 +108,11 @@ export default async function RootLayout({
           {/* Temporarily disabled due to production loading issues */}
           {/* <SpeedInsights /> */}
           {/* <Analytics /> */}
-          <Providers>
             <ThemeProvider>
               <Navbar navbarData={navbarData} />
               {children}
               <Footer footerGroups={footerData} socialData={socialData} />
             </ThemeProvider>
-          </Providers>
         </body>
       </html>
     </ClerkProvider>
