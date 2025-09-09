@@ -49,7 +49,7 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
 
       <Container style={container}>
         <Img
-          src={"https://qxhgmdhdnavuvrexvjhw.supabase.co/storage/v1/object/public/wlumsa_storage_bucket_test/MSA%20Logo-2.png"} // url || ""
+          src={"https://wlumsa.org/msa_guidebook.pdf"} // url || ""
           width="50"
           height="50"
           alt="logo"
