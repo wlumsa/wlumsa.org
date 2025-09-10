@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { addMember, addIndividualToList } from '@/Utils/datafetcher';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, newsletter } = await request.json();
+    const { name, email, newsletter, studentId } = await request.json();
 
     // Validate required fields
     if (!name || !email) {
@@ -12,37 +16,46 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Split name into first and last name
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Add as general member in CMS (using studentId if provided, otherwise use email as identifier)
+    const memberId = studentId || email.split('@')[0]; // Use studentId or email prefix as identifier
+    const addMemberRes = await addMember(firstName, lastName, email, memberId, newsletter);
+
+    if (!addMemberRes) {
+      return NextResponse.json(
+        { error: "Failed to add member to CMS" },
+        { status: 400 }
+      );
+    }
+
     // Only add to Resend if newsletter is checked
     if (newsletter) {
-      const response = await fetch("https://api.resend.com/contacts", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          first_name: name,
-          audience_id: process.env.RESEND_AUDIENCE_ID,
-        }),
+      // Add to newsletter distribution list
+      await addIndividualToList("Newsletter", {
+        email,
+        first_name: firstName,
+        last_name: lastName
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        console.error("Resend API error:", error);
-        return NextResponse.json(
-          { error: "Failed to add contact to Resend", details: error },
-          { status: 400 }
-        );
-      }
+      // Add to Resend audience
+      await resend.contacts.create({
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        audience_id: process.env.RESEND_AUDIENCE_ID!,
+        unsubscribed: false
+      });
 
-      const result = await response.json();
-      console.log("Successfully added contact to Resend:", result);
+      console.log("Successfully added contact to Resend and newsletter list");
     }
 
     return NextResponse.json({
       success: true,
-      message: newsletter ? "Contact added to newsletter" : "Contact saved"
+      message: newsletter ? "Contact added to newsletter and member database" : "Contact added to member database"
     });
 
   } catch (error) {

@@ -5,7 +5,7 @@ import WelcomeEmail from 'emails/signup';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 type Params = Promise<{ title: string }>
- 
+
 export async function POST(request: Request, segmentData: { params: Params }) {
   const params = await segmentData.params
     try {
@@ -37,7 +37,7 @@ export async function POST(request: Request, segmentData: { params: Params }) {
                 email,
                 first_name,
                 last_name,
-                audience_id: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                audience_id: process.env.RESEND_AUDIENCE_ID!,
                 unsubscribed: false
             })
         }

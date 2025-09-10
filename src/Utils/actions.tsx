@@ -49,7 +49,7 @@ export async function memberSignup(formData: FormData) {
                 email: email,
                 first_name: firstName,
                 last_name: lastName,
-                audience_id: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                audience_id: process.env.RESEND_AUDIENCE_ID!,
                 unsubscribed: false
             })
         }
@@ -206,6 +206,8 @@ export async function removeMemberFromNewsletter(email: string) {
     if (!remove) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
     }
+
+    // Resend unsubscribe is handled when contacts are marked as unsubscribed,the CMS unsubscribe is good enough removing from newsletter distribution
 
     return { message: 'You have been removed from the newsletter' }
 
