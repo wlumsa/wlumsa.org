@@ -49,7 +49,7 @@ export async function memberSignup(formData: FormData) {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
-                audienceId: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                audienceId: process.env.RESEND_AUDIENCE_ID!,
                 unsubscribed: false
             })
         }
@@ -196,13 +196,13 @@ export async function updateRoommatePost(postId: number, formData: RoommatePost)
 
 
 export async function removeMemberFromNewsletter(email: string) {
-    
+
     //check if they are apart of newsletter collection
     const updateStatus = await updateNewsletterStatus(email);
     if (!updateStatus) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
     }
-    
+
 
 
     const remove = await removeIndividualFromList("Newsletter", email);
@@ -212,7 +212,7 @@ export async function removeMemberFromNewsletter(email: string) {
 //update contact status in resend
     const {data, error} =  await resend.contacts.update({
         email: `${email}`,
-        audienceId: '151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b',
+        audienceId: process.env.RESEND_AUDIENCE_ID!,
         unsubscribed: true,
       });
 
@@ -220,6 +220,8 @@ export async function removeMemberFromNewsletter(email: string) {
     if(error) {
         return { message: 'An error occurred', errors: true }
     }
+
+    // Resend unsubscribe is handled when contacts are marked as unsubscribed,the CMS unsubscribe is good enough removing from newsletter distribution
 
     return { message: 'You have been removed from the newsletter' }
 
