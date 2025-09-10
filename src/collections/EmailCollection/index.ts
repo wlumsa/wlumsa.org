@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from 'payload'
 import {
   HTMLConverterFeature,
   lexicalEditor,
@@ -116,10 +116,9 @@ export const EmailCollection: CollectionConfig = {
           async ({ req, originalDoc, siblingData }) => {
             if (siblingData.Send === true) {
               const req = await fetch(
-                "https://www.wlumsa.org/api/sendByDistributionList",
+                `https://${process.env.VERCEL_URL}/api/sendByDistributionList`,
                 {
                   method: "POST",
-                  
                   body: JSON.stringify({
                     title: siblingData.title,
                     subject: siblingData.subject,

@@ -2,7 +2,6 @@
 import React from 'react'
 import { useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { fetchBlogPosts } from '@/Utils/datafetcher';
 
 interface Category {
     title: string,
@@ -49,7 +48,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
                 <div className="text-center mt-4 justify-center">
                 <div className="justify-center ">
                     <div className="dropdown w-64 ">
-                        <div tabIndex={0} className="lg:hidden text-primary font-semibold bg-secondary py-2 px-6 rounded">
+                        <div tabIndex={0} className="lg:hidden text-primary  font-semibold bg-secondary py-2 px-6 rounded">
                             <button className="w-full items-center flex-row flex justify-between">
                                 <span className=''>{selectBtn ? selectBtn.title : 'Select a category'}</span>
                                 <svg className=""width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -4,7 +4,6 @@ import {
   lexicalEditor,
 
 } from "@payloadcms/richtext-lexical";
-import { lexicalToPlainTextFieldHook } from '@/Utils/converter';
 export const Posts: CollectionConfig = {
   slug: "Posts",
   labels:{
