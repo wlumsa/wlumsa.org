@@ -44,9 +44,9 @@ export async function POST(request: NextRequest) {
       // Add to Resend audience
       await resend.contacts.create({
         email,
-        first_name: firstName,
-        last_name: lastName,
-        audience_id: process.env.RESEND_AUDIENCE_ID!,
+        firstName: firstName,
+        lastName: lastName,
+        audienceId: process.env.RESEND_AUDIENCE_ID!,
         unsubscribed: false
       });
 

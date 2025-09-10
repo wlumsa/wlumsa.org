@@ -393,7 +393,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   return (
     <div className="flex  flex-col items-center">
-      <h1 className='my-4 text-xl text-bold text-left'>{formFromProps.title}</h1>
+      <h1 className='mt-16 text-3xl text-primary font-bold text-left '>{formFromProps.title}</h1>
 
       <div className="flex items-center">
         {formFromProps.submissionLimit === 0 ? (
@@ -417,7 +417,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="  w-screen min-h-[18rem] max-h-fit   rounded-xl flex flex-col justify-between  max-w-5xl ">
+              <div className="  w-screen min-h-[18rem] max-h-fit  rounded-xl flex flex-col justify-between  max-w-5xl ">
                 <FormProvider {...formMethods}>
                   <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
                     {currStepIndex === steps.length ? (

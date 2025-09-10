@@ -7,8 +7,7 @@ const RoommateFilter: React.FC = () => {
   const [gender, setGender] = useState('');
   const [rent, setRent] = useState('');
   const [propertyType, setProperty] = useState('');
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(0)
+
 
 
 

@@ -1,11 +1,8 @@
 'use client'
 import React from 'react'
-import Listing from '../Forms/Listing';
 import { Pencil } from 'lucide-react';
 import { X } from 'lucide-react';
-import toast from 'react-hot-toast';
 import { RoommatePost } from '@/payload-types';
-import { useState } from 'react';
 import UpdateListing from '../Forms/UpdateListing';
 interface Props {
   post: RoommatePost;

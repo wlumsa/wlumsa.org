@@ -58,11 +58,11 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
           <div className="flex flex-row m-4 justify-center mb-6 items-center gap-4" >
             {/* Keep consistent styling for main CTA buttons regardless of theme */}
             <button className="btn btn-primary text-yellow-400 text-bold h-12 px-6 py-3 duration-200 hover:scale-105 hover:bg-primary/90">
-              <Link href="/ramadan">Sponsor an Iftar</Link>
+              <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</Link>
             </button>
-            <GetStartedButton variant="secondary" className="h-12 px-6 py-3">
-              <Link href="/guidebook">Become a Member</Link>
-            </GetStartedButton>
+            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3">
+              Become a Member
+            </GetStartedButton> </Link>
           </div>
           <div className="flex flex-row items-center justify-center gap-4">
             {/* Keep consistent styling for social media icons regardless of theme */}

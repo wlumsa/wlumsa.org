@@ -20,7 +20,7 @@ export default async function page() {
                 Are you a new student wondering about:
               </p>
               <ul className="space-y-2 text-left pl-4">
-                <li>• Looking for prayer rooms on campus?</li>
+                <li>• Where prayer rooms are on campus?</li>
                 <li>• What foods are Halal on and around campus?</li>
                 <li>• How to stay in the loop on campus events?</li>
                 <li>• Need to know about accommodations for Muslims?</li>

@@ -12,7 +12,7 @@ const schema = z.object({
     studentId: z.string().regex(/^\d+$/, "Student ID must be a number").length(9, "Student ID must be 9 digits"),
     newsLetter: z.boolean(),
 })
-import WelcomeEmail from 'emails/signup';
+import WelcomeEmail from '@/components/emails/signup';
 import { supabase } from '@/lib/supabaseClient';
 import { RoommatePost } from '@/payload-types';
 
@@ -47,9 +47,9 @@ export async function memberSignup(formData: FormData) {
             await addIndividualToList("Newsletter", { email: email, first_name: firstName, last_name: lastName, });
             await resend.contacts.create({
                 email: email,
-                first_name: firstName,
-                last_name: lastName,
-                audience_id: process.env.RESEND_AUDIENCE_ID!,
+                firstName: firstName,
+                lastName: lastName,
+                audienceId: process.env.RESEND_AUDIENCE_ID!,
                 unsubscribed: false
             })
         }
@@ -196,15 +196,29 @@ export async function updateRoommatePost(postId: number, formData: RoommatePost)
 
 
 export async function removeMemberFromNewsletter(email: string) {
+
     //check if they are apart of newsletter collection
     const updateStatus = await updateNewsletterStatus(email);
     if (!updateStatus) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
     }
 
+
+
     const remove = await removeIndividualFromList("Newsletter", email);
     if (!remove) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
+    }
+//update contact status in resend
+    const {data, error} =  await resend.contacts.update({
+        email: `${email}`,
+        audienceId: process.env.RESEND_AUDIENCE_ID!,
+        unsubscribed: true,
+      });
+
+
+    if(error) {
+        return { message: 'An error occurred', errors: true }
     }
 
     // Resend unsubscribe is handled when contacts are marked as unsubscribed,the CMS unsubscribe is good enough removing from newsletter distribution

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isMember, addMember, addIndividualToList } from '@/Utils/datafetcher'
 import { Resend } from 'resend';
-import WelcomeEmail from 'emails/signup';
+import WelcomeEmail from '@/components/emails/signup';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 type Params = Promise<{ title: string }>
@@ -35,9 +35,9 @@ export async function POST(request: Request, segmentData: { params: Params }) {
             await addIndividualToList("Newsletter", { email, first_name, last_name });
             await resend.contacts.create({
                 email,
-                first_name,
-                last_name,
-                audience_id: process.env.RESEND_AUDIENCE_ID!,
+                firstName: first_name,
+                lastName: last_name,
+                audienceId: process.env.RESEND_AUDIENCE_ID!,
                 unsubscribed: false
             })
         }
