@@ -49,7 +49,7 @@ export async function memberSignup(formData: FormData) {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
-                audienceId: "151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b",
+                audienceId: `${process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID}` ,
                 unsubscribed: false
             })
         }
@@ -212,7 +212,7 @@ export async function removeMemberFromNewsletter(email: string) {
 //update contact status in resend
     const {data, error} =  await resend.contacts.update({
         email: `${email}`,
-        audienceId: '151a3c8b-5d3d-4f3d-a0a5-cc2e5663574b',
+        audienceId: `${process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID}` ,
         unsubscribed: true,
       });
 
