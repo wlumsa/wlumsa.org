@@ -5,18 +5,19 @@ import { fetchHalalDirectory } from "@/Utils/datafetcher";
 export default async function HalalDirectoryPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  // Await the searchParams promise
+  const params = await searchParams;
   // Extract filter parameters from URL
-  const query = typeof searchParams.query === 'string' ? searchParams.query : '';
-  const cuisine = typeof searchParams.cuisine === 'string' ? searchParams.cuisine : 'All Cuisines';
-  const method = typeof searchParams.method === 'string' ? searchParams.method : 'All Methods';
-  const location = typeof searchParams.location === 'string' ? searchParams.location : 'All Locations';
-  const page = typeof searchParams.page === 'string' ? parseInt(searchParams.page, 10) : 1;
-  const layout = typeof searchParams.layout === 'string' ? searchParams.layout : 'list';
+  const query = typeof params.query === 'string' ? params.query : '';
+  const cuisine = typeof params.cuisine === 'string' ? params.cuisine : 'All Cuisines';
+  const method = typeof params.method === 'string' ? params.method : 'All Methods';
+  const location = typeof params.location === 'string' ? params.location : 'All Locations';
+  const page = typeof params.page === 'string' ? parseInt(params.page, 10) : 1;
+  const layout = typeof params.layout === 'string' ? params.layout : 'list';
 
   // Fetch filtered data from the server
-  console.log("SERVER FETCH with filters:", { query, cuisine, method, location, page });
   const data = await fetchHalalDirectory({
     query,
     cuisine,

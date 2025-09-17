@@ -96,7 +96,7 @@ export default async function RootLayout({
                   // Store the server theme to prevent hydration mismatch
                   window.__SERVER_THEME = currentTheme;
 
-                  // Only apply theme changes after a short delay to avoid hydration issues
+                  // Only apply theme changes after hydration is complete
                   setTimeout(function() {
                     try {
                       var theme = localStorage.getItem('theme');
@@ -105,7 +105,8 @@ export default async function RootLayout({
                       } else if (!theme) {
                         var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                         var defaultTheme = systemPrefersDark ? 'darkTheme' : 'lightTheme';
-                        if (defaultTheme !== currentTheme) {
+                        // Only change if the system preference is different AND we're not in the initial render
+                        if (defaultTheme !== currentTheme && window.__THEME_SCRIPT_LOADED) {
                           document.documentElement.setAttribute('data-theme', defaultTheme);
                         }
                       }
@@ -115,7 +116,7 @@ export default async function RootLayout({
                         document.documentElement.setAttribute('data-theme', 'lightTheme');
                       }
                     }
-                  }, 0);
+                  }, 100); // Increased delay to ensure hydration is complete
                 })();
               `,
             }}

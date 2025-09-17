@@ -11,7 +11,6 @@ interface InstagramPageProps {
 const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
 
   const queryLength = instagramPosts.length;
-  console.log(instagramPosts);
   return (
     <div id="news" className="w-full bg-base-100 py-10">
       <div className="flex flex-grow flex-col items-center justify-center px-8">
