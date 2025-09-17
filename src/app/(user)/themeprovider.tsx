@@ -30,26 +30,37 @@ export default function ThemeProvider({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Check localStorage first
-      const savedTheme = localStorage.getItem("theme") as Theme | null;
+      // Wait a bit to ensure the initial script has run and avoid hydration mismatch
+      const timeoutId = setTimeout(() => {
+        // Check localStorage first
+        const savedTheme = localStorage.getItem("theme") as Theme | null;
 
-      if (savedTheme) {
-        setTheme(savedTheme);
-        // Apply theme immediately to prevent flash
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      } else {
-        // If no saved preference, use system preference
-        const systemPrefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const defaultTheme = systemPrefersDark ? "darkTheme" : "lightTheme";
-        setTheme(defaultTheme);
-        // Apply theme immediately to prevent flash
-        document.documentElement.setAttribute("data-theme", defaultTheme);
-      }
+        if (savedTheme) {
+          setTheme(savedTheme);
+          // Only apply if different from current theme to avoid hydration mismatch
+          const currentTheme = document.documentElement.getAttribute("data-theme");
+          if (currentTheme !== savedTheme) {
+            document.documentElement.setAttribute("data-theme", savedTheme);
+          }
+        } else {
+          // If no saved preference, use system preference
+          const systemPrefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          const defaultTheme = systemPrefersDark ? "darkTheme" : "lightTheme";
+          setTheme(defaultTheme);
+          // Only apply if different from current theme to avoid hydration mismatch
+          const currentTheme = document.documentElement.getAttribute("data-theme");
+          if (currentTheme !== defaultTheme) {
+            document.documentElement.setAttribute("data-theme", defaultTheme);
+          }
+        }
 
-      // Mark as loaded
-      setIsLoaded(true);
+        // Mark as loaded
+        setIsLoaded(true);
+      }, 50); // Small delay to let the initial script run first
+
+      return () => clearTimeout(timeoutId);
     }
   }, []);
 

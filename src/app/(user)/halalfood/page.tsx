@@ -1,46 +1,43 @@
-import { supabase } from "@/lib/supabaseClient";
 import FilterComponent from "./halalFoodClient";
-// Define the structure for the Halal Directory data
 import { fetchHalalDirectory } from "@/Utils/datafetcher";
 
-async function getImageByID(id: string) {
-  const { data: filename, error } = await supabase.from("media").select("filename").eq("id", id).single();
-  if (error) {
-    console.error("Error fetching image:", error);
-    return "";
-  }
-
-  const path = `media/${filename.filename}`;
-  const { data } = supabase.storage.from(process.env.NEXT_PUBLIC_S3_BUCKET || "default_bucket").getPublicUrl(path || "");
-  return data;
-}
-
 // Main component for the Halal Directory page
-export default async function HalalDirectoryPage() {
-  // Fetch data from the Supabase database
-  console.log("SERVER FETCH");
-  const res = await fetchHalalDirectory();
-  // console.log("DATA", res);
-  // const { data, error } = await supabase.from("halal_directory").select("*");
-  // if (error) {
-  //   console.error("Error fetching Halal Directory:", error);
-  //   return <div>Error fetching data</div>;
-  // }
+export default async function HalalDirectoryPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  // Extract filter parameters from URL
+  const query = typeof searchParams.query === 'string' ? searchParams.query : '';
+  const cuisine = typeof searchParams.cuisine === 'string' ? searchParams.cuisine : 'All Cuisines';
+  const method = typeof searchParams.method === 'string' ? searchParams.method : 'All Methods';
+  const location = typeof searchParams.location === 'string' ? searchParams.location : 'All Locations';
+  const page = typeof searchParams.page === 'string' ? parseInt(searchParams.page, 10) : 1;
+  const layout = typeof searchParams.layout === 'string' ? searchParams.layout : 'list';
 
-  // // Fetch images associated with each item if image_id exists
-  // const imagePromises = data.map(async (item) => {
-  //   if (item.image_id) {
-  //     const image = await getImageByID(item.image_id);
-  //     if (typeof image === "object" && "publicUrl" in image) {
-  //       return { [item.image_id]: image.publicUrl };
-  //     }
-  //   }
-  //   return { [item.image_id]: "" };
-  // });
-  // const imageResults = await Promise.all(imagePromises);
-  // const imagesObject = Object.assign({}, ...imageResults);
+  // Fetch filtered data from the server
+  console.log("SERVER FETCH with filters:", { query, cuisine, method, location, page });
+  const data = await fetchHalalDirectory({
+    query,
+    cuisine,
+    method,
+    location,
+    page,
+    limit: 12,
+  });
 
   return (
-    <FilterComponent halalDirectory={res}   />
+    <FilterComponent
+      halalDirectory={data.items}
+      pagination={data.pagination}
+      initialFilters={{
+        query,
+        cuisine,
+        method,
+        location,
+        page,
+        layout,
+      }}
+    />
   );
 }
