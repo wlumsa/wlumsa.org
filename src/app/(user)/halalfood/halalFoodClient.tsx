@@ -13,6 +13,10 @@ import {
   ChevronUp,
   X,
   Filter,
+  LayoutList,
+  Columns2,
+  Columns3,
+  Columns4,
 } from "lucide-react";
 import {
   Pagination,
@@ -220,11 +224,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     // Don't render anything on mobile - force list view only
     if (isSmall) return null;
 
-    const options: { key: LayoutMode; label: string }[] = [
-      { key: "list", label: "List" },
-      { key: "g2", label: "2 Columns" },
-      { key: "g3", label: "3 Columns" },
-      { key: "g4", label: "4 Columns" },
+    const options: { key: LayoutMode; label: string; icon: any }[] = [
+      { key: "list", label: "List", icon: LayoutList },
+      { key: "g2", label: "2 Columns", icon: Columns2 },
+      { key: "g3", label: "3 Columns", icon: Columns3 },
+      { key: "g4", label: "4 Columns", icon: Columns4 },
     ];
 
     return (
@@ -235,6 +239,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
       >
         {options.map((opt) => {
           const isActive = effectiveLayout === opt.key;
+          const IconComponent = opt.icon;
           return (
             <button
               key={opt.key}
@@ -249,11 +254,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
               title={opt.key === "list" ? "List view" : `${opt.label} view`}
               className={
                 isActive
-                  ? "rounded-md bg-primary px-3 py-1.5 text-sm text-primary-content shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  : "dark:border-base-700 rounded-md border border-base-300 px-3 py-1.5 text-sm hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:hover:bg-base-300"
+                  ? "rounded-md bg-primary px-3 py-1.5 text-sm text-primary-content shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center justify-center"
+                  : "dark:border-base-700 rounded-md border border-base-300 px-3 py-1.5 text-sm hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:hover:bg-base-300 flex items-center justify-center"
               }
             >
-              {opt.label}
+              <IconComponent size={18} />
             </button>
           );
         })}
@@ -323,7 +328,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
   const scrollToTop = useCallback(() => {
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, []);
 
@@ -389,14 +394,14 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
               selectedMethod !== "All Methods" ||
               selectedCampusLocation !== "All Locations" ||
               initialFilters.query) && (
-              <button
+            <button
                 type="button"
-                onClick={clearAllFilters}
+              onClick={clearAllFilters}
                 className="rounded-lg border border-error/30 bg-error/10 px-2 py-1 text-xs font-medium text-error transition-all duration-200 hover:border-error/50 hover:bg-error/20 sm:px-3 sm:text-sm"
-              >
-                Clear All
-              </button>
-            )}
+            >
+              Clear All
+            </button>
+          )}
           </div>
         </div>
 
@@ -529,9 +534,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
             <div className="hidden md:flex items-center gap-2 text-xs text-base-content/50">
               <span>Shortcuts:</span>
               <kbd className="kbd kbd-xs">F</kbd>
-              <span>search (opens filters)</span>
+              <span>search</span>
               <kbd className="kbd kbd-xs">1-4</kbd>
-              <span>layout</span>
+              <span>layout icons</span>
             </div>
           )}
         </div>
@@ -605,7 +610,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                           {item.location}
                         </span>
                       )}
-                    </div>
+                  </div>
                   )}
                 </div>
                 <div className="mt-3 flex gap-3 sm:mt-4 sm:gap-4">
