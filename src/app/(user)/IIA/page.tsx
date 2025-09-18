@@ -15,13 +15,16 @@ const IIA: React.FC = async () => {
   return (
    <div className="mt-16">
      <div id="hero" className="hero min-h-[70vh] relative overflow-hidden">
-       <Image
-         fill
-         src={mediaDocs[0]?.url || ''}
-         alt={mediaDocs[0]?.alt || "Mosque"}
-        className="object-cover w-full blur-sm scale-105"
-
-       />
+       {mediaDocs[0]?.url ? (
+         <Image
+           fill
+           src={mediaDocs[0].url}
+           alt={mediaDocs[0]?.alt || "Mosque"}
+           className="object-cover w-full blur-sm scale-105"
+         />
+       ) : (
+         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
+       )}
            <div className="absolute inset-0 bg-[#050B07]" style={{ opacity: 0.38 }}></div>
 
        <div className="hero-overlay bg-[#050B07] bg-opacity-[30]" />

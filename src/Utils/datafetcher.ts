@@ -734,7 +734,7 @@ export async function getResourcesByCategory(categoryId: string) {
   if (categoryId === '0') {
     const resources = await payload.find({
       collection: "resources",
-      depth: 1, 
+      depth: 1,
     });
     return resources.docs;
   }
@@ -752,7 +752,7 @@ export async function getResourcesByCategory(categoryId: string) {
     return resources.docs;
   }
 
-  
+
 }
 
 export async function getAllResources() {
@@ -834,14 +834,89 @@ export async function fetchServices() {
   return services.docs;
 }
 
-export async function fetchHalalDirectory() {
-  const payload = await getPayloadInstance();
+export const fetchHalalDirectory = unstable_cache(
+  async ({
+    query = "",
+    cuisine = "All Cuisines",
+    method = "All Methods",
+    location = "All Locations",
+    page = 1,
+    limit = 12,
+  }: {
+    query?: string;
+    cuisine?: string;
+    method?: string;
+    location?: string;
+    page?: number;
+    limit?: number;
+  } = {}) => {
+    const payload = await getPayloadInstance();
+
+  // Build where conditions for filtering
+  const whereConditions: any[] = [];
+
+  // Text search
+  if (query) {
+    whereConditions.push({
+      or: [
+        { name: { like: `%${query}%` } },
+        { shortDescription: { like: `%${query}%` } },
+      ],
+    });
+  }
+
+  // Cuisine filter
+  if (cuisine && cuisine !== "All Cuisines") {
+    whereConditions.push({ category: { equals: cuisine } });
+  }
+
+  // Slaughter method filter
+  if (method && method !== "All Methods") {
+    whereConditions.push({ slaughtered: { equals: method } });
+  }
+
+  // Location filter
+  if (location && location !== "All Locations") {
+    const isOnCampus = location === "On Campus";
+    whereConditions.push({ is_on_campus: { equals: isOnCampus } });
+  }
+
+  // Calculate pagination
+  const offset = (page - 1) * limit;
+
+  // Fetch filtered results with pagination
   const foodSpots = await payload.find({
     collection: "halal-directory",
-    limit: 50,
+    where: whereConditions.length > 0 ? { and: whereConditions } : {},
+    limit: limit,
+    page: page,
+    sort: "name", // Sort by name for consistent pagination
   });
-  return foodSpots.docs;
-}
+
+  // Get total count for pagination info
+  const totalCount = await payload.count({
+    collection: "halal-directory",
+    where: whereConditions.length > 0 ? { and: whereConditions } : {},
+  });
+
+    return {
+      items: foodSpots.docs,
+      pagination: {
+        page,
+        limit,
+        total: totalCount.totalDocs,
+        totalPages: Math.ceil(totalCount.totalDocs / limit),
+        hasNextPage: page < Math.ceil(totalCount.totalDocs / limit),
+        hasPrevPage: page > 1,
+      },
+    };
+  },
+  ['halal-directory'],
+  {
+    revalidate: 60, // Cache for 60 seconds
+    tags: ['halal-directory'],
+  }
+);
 // Function to fetch Halal Directory data
 // export async function fetchHalalDirectory() {
 //   const { data, error } = await supabase
