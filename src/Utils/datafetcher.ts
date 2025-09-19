@@ -855,49 +855,87 @@ export const fetchHalalDirectory = unstable_cache(
   // Build where conditions for filtering
   const whereConditions: any[] = [];
 
-  // Text search
+  // Text search - use prefix search for better performance
   if (query) {
     whereConditions.push({
       or: [
-        { name: { like: `%${query}%` } },
-        { shortDescription: { like: `%${query}%` } },
+        { name: { like: `${query}%` } }, // Prefix search is faster
+        { shortDescription: { like: `${query}%` } }, // Prefix search is faster
       ],
     });
   }
 
-  // Cuisine filter
+  // Cuisine filter - map display names to database values
   if (cuisine && cuisine !== "All Cuisines") {
-    whereConditions.push({ category: { equals: cuisine } });
+    const cuisineMapping: { [key: string]: string } = {
+      "Chinese": "chinese",
+      "Persian": "persian",
+      "Shawarma": "shawarma",
+      "Burgers": "burgers",
+      "Bangladeshi": "bangladeshi",
+      "Chinese Indo Fusion": "chinese-indo-fusion",
+      "Pakistani Food": "pakistani-food",
+      "Chicken and Waffles": "chicken-and-waffles",
+      "Kabob": "kabob",
+      "Uyghur": "uyghur",
+      "Chicken": "chicken",
+      "Indian Fusion Food": "indian-fusion-food",
+      "Pizza": "pizza",
+    };
+    const dbValue = cuisineMapping[cuisine] || cuisine.toLowerCase();
+    whereConditions.push({ category: { equals: dbValue } });
   }
 
-  // Slaughter method filter
+  // Slaughter method filter - map display names to database values
   if (method && method !== "All Methods") {
-    whereConditions.push({ slaughtered: { equals: method } });
+    const methodMapping: { [key: string]: string } = {
+      "Hand": "hand",
+      "Machine": "machine",
+      "Both": "both",
+      "N/A": "n/a",
+    };
+    const dbValue = methodMapping[method] || method.toLowerCase();
+    whereConditions.push({ slaughtered: { equals: dbValue } });
   }
 
   // Location filter
   if (location && location !== "All Locations") {
-    const isOnCampus = location === "On Campus";
-    whereConditions.push({ is_on_campus: { equals: isOnCampus } });
+    if (location === "On Campus") {
+      whereConditions.push({ is_on_campus: { equals: true } });
+    } else if (location === "Off Campus") {
+      whereConditions.push({ is_on_campus: { equals: false } });
+    }
   }
 
   // Calculate pagination
   const offset = (page - 1) * limit;
 
   // Fetch filtered results with pagination
+  const whereClause = whereConditions.length > 0 ? { and: whereConditions } : {};
   const foodSpots = await payload.find({
     collection: "halal-directory",
-    where: whereConditions.length > 0 ? { and: whereConditions } : {},
+    where: whereClause,
     limit: limit,
     page: page,
     sort: "name", // Sort by name for consistent pagination
   });
 
-  // Get total count for pagination info
-  const totalCount = await payload.count({
-    collection: "halal-directory",
-    where: whereConditions.length > 0 ? { and: whereConditions } : {},
-  });
+  // Get total count for pagination info (only if we have conditions)
+  let totalCount = { totalDocs: 0 };
+  if (whereConditions.length > 0) {
+    try {
+      totalCount = await payload.count({
+        collection: "halal-directory",
+        where: whereClause,
+      });
+    } catch (error) {
+      console.error("Count query failed, using docs length:", error);
+      totalCount = { totalDocs: foodSpots.docs.length };
+    }
+  } else {
+    // For no filters, we can estimate based on docs returned
+    totalCount = { totalDocs: foodSpots.docs.length };
+  }
 
     return {
       items: foodSpots.docs,
@@ -911,9 +949,14 @@ export const fetchHalalDirectory = unstable_cache(
       },
     };
   },
-  ['halal-directory'],
+  // Create a more specific cache key that includes filter parameters
+  [
+    'halal-directory',
+    (query: string, cuisine: string, method: string, location: string, page: number) =>
+      `${query}-${cuisine}-${method}-${location}-${page}`
+  ],
   {
-    revalidate: 60, // Cache for 60 seconds
+    revalidate: 120, // Cache for 2 minutes - balance between performance and freshness
     tags: ['halal-directory'],
   }
 );

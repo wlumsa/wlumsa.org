@@ -25,42 +25,50 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
+  // Start with lightTheme to match server-side rendering
   const [theme, setTheme] = useState<Theme>("lightTheme");
-  const [isLoaded, setIsLoaded] = useState(false); // Track if theme is loaded
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Wait a bit to ensure the initial script has run and avoid hydration mismatch
+      // Get the current theme from the document (set by the initial script)
+      const currentTheme = document.documentElement.getAttribute("data-theme") as Theme || "lightTheme";
+      setTheme(currentTheme);
+
+      // Wait for hydration to complete before checking localStorage
       const timeoutId = setTimeout(() => {
-        // Check localStorage first
-        const savedTheme = localStorage.getItem("theme") as Theme | null;
+        try {
+          // Check localStorage first
+          const savedTheme = localStorage.getItem("theme") as Theme | null;
 
-        if (savedTheme) {
-          setTheme(savedTheme);
-          // Only apply if different from current theme to avoid hydration mismatch
-          const currentTheme = document.documentElement.getAttribute("data-theme");
-          if (currentTheme !== savedTheme) {
+          if (savedTheme && savedTheme !== currentTheme) {
+            setTheme(savedTheme);
             document.documentElement.setAttribute("data-theme", savedTheme);
-          }
-        } else {
-          // If no saved preference, use system preference
-          const systemPrefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
-          ).matches;
-          const defaultTheme = systemPrefersDark ? "darkTheme" : "lightTheme";
-          setTheme(defaultTheme);
-          // Only apply if different from current theme to avoid hydration mismatch
-          const currentTheme = document.documentElement.getAttribute("data-theme");
-          if (currentTheme !== defaultTheme) {
-            document.documentElement.setAttribute("data-theme", defaultTheme);
-          }
-        }
+          } else if (!savedTheme) {
+            // If no saved preference, use system preference
+            const systemPrefersDark = window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches;
+            const defaultTheme = systemPrefersDark ? "darkTheme" : "lightTheme";
 
-        // Mark as loaded
-        setIsLoaded(true);
-      }, 50); // Small delay to let the initial script run first
+            if (defaultTheme !== currentTheme) {
+              setTheme(defaultTheme);
+              document.documentElement.setAttribute("data-theme", defaultTheme);
+            }
+          }
+
+          // Mark as loaded
+          setIsLoaded(true);
+        } catch (e) {
+          // Fallback to current theme if there's an error
+          setIsLoaded(true);
+        }
+      }, 100); // Increased delay to ensure hydration is complete
 
       return () => clearTimeout(timeoutId);
+    } else {
+      // During SSR, mark as loaded immediately
+      setIsLoaded(true);
     }
   }, []);
 

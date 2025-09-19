@@ -83,40 +83,11 @@ export default async function RootLayout({
             dangerouslySetInnerHTML={{
               __html: `
                 (function() {
-                  // Mark that we're in the initial script phase to prevent hydration mismatches
+                  // Always start with lightTheme to match server-side rendering
+                  document.documentElement.setAttribute('data-theme', 'lightTheme');
+
+                  // Mark that theme script has loaded
                   window.__THEME_SCRIPT_LOADED = true;
-
-                  // Ensure we start with the same theme as server
-                  var currentTheme = document.documentElement.getAttribute('data-theme');
-                  if (!currentTheme) {
-                    document.documentElement.setAttribute('data-theme', 'lightTheme');
-                    currentTheme = 'lightTheme';
-                  }
-
-                  // Store the server theme to prevent hydration mismatch
-                  window.__SERVER_THEME = currentTheme;
-
-                  // Only apply theme changes after hydration is complete
-                  setTimeout(function() {
-                    try {
-                      var theme = localStorage.getItem('theme');
-                      if (theme && theme !== currentTheme) {
-                        document.documentElement.setAttribute('data-theme', theme);
-                      } else if (!theme) {
-                        var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                        var defaultTheme = systemPrefersDark ? 'darkTheme' : 'lightTheme';
-                        // Only change if the system preference is different AND we're not in the initial render
-                        if (defaultTheme !== currentTheme && window.__THEME_SCRIPT_LOADED) {
-                          document.documentElement.setAttribute('data-theme', defaultTheme);
-                        }
-                      }
-                    } catch (e) {
-                      // Keep current theme if there's an error
-                      if (!document.documentElement.getAttribute('data-theme')) {
-                        document.documentElement.setAttribute('data-theme', 'lightTheme');
-                      }
-                    }
-                  }, 100); // Increased delay to ensure hydration is complete
                 })();
               `,
             }}
