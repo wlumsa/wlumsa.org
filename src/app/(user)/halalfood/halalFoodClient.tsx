@@ -13,6 +13,10 @@ import {
   ChevronUp,
   X,
   Filter,
+  LayoutList,
+  Columns2,
+  Columns3,
+  Columns4,
 } from "lucide-react";
 import {
   Pagination,
@@ -34,13 +38,13 @@ const cuisineOptions = [
   "Shawarma",
   "Burgers",
   "Bangladeshi",
-  "Chinese-Indo-Fusion",
-  "Pakistani-Food",
-  "Chicken-and-Waffles",
+  "Chinese Indo Fusion",
+  "Pakistani Food",
+  "Chicken and Waffles",
   "Kabob",
   "Uyghur",
   "Chicken",
-  "Indian-Fusion-Food",
+  "Indian Fusion Food",
   "Pizza",
 ];
 
@@ -83,23 +87,30 @@ function useIsSmallScreen() {
     // Guard against SSR
     if (typeof window === "undefined") return;
 
-    setMounted(true);
-    const mq = window.matchMedia("(max-width: 640px)");
-    const update = () => setIsSmall(mq.matches);
-    update();
-    // Safari fallback for older versions
-    if (mq.addEventListener) {
-      mq.addEventListener("change", update);
-    } else {
-      (mq as any).addListener?.(update);
-    }
-    return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener("change", update);
+    // Small delay to ensure hydration is complete
+    const timeoutId = setTimeout(() => {
+      setMounted(true);
+      const mq = window.matchMedia("(max-width: 640px)");
+      const update = () => setIsSmall(mq.matches);
+      update();
+
+      // Safari fallback for older versions
+      if (mq.addEventListener) {
+        mq.addEventListener("change", update);
       } else {
-        (mq as any).removeListener?.(update);
+        (mq as any).addListener?.(update);
       }
-    };
+
+      return () => {
+        if (mq.removeEventListener) {
+          mq.removeEventListener("change", update);
+        } else {
+          (mq as any).removeListener?.(update);
+        }
+      };
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   // Return false during SSR and initial hydration to prevent mismatch
@@ -116,7 +127,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
   const pathname = usePathname();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>(initialFilters.layout as LayoutMode || "list");
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>("list"); // Start with consistent default
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
 
   const [selectedCuisine, setSelectedCuisine] = useState(initialFilters.cuisine);
@@ -131,29 +142,46 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
   // but keep the user's preference stored for when they go wider.
   const effectiveLayout: LayoutMode = isSmall ? "list" : layoutMode;
 
-  // Initialize layout from URL or localStorage
+  // Initialize layout from URL or localStorage after hydration
   useEffect(() => {
     // Guard against SSR
     if (typeof window === "undefined") return;
 
     setIsHydrated(true);
-    const params = new URLSearchParams(window.location.search);
-    const urlLayout = params.get("layout") as LayoutMode | null;
-    const valid = urlLayout && ["list", "g2", "g3", "g4"].includes(urlLayout);
-    if (valid && urlLayout) {
-      setLayoutMode(urlLayout);
-      try {
-        localStorage.setItem("halalLayout", urlLayout);
-      } catch {}
-      return;
-    }
-    try {
-      const saved = localStorage.getItem("halalLayout") as LayoutMode | null;
-      if (saved && ["list", "g2", "g3", "g4"].includes(saved)) {
-        setLayoutMode(saved);
+
+    // Small delay to ensure hydration is complete
+    const timeoutId = setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      const urlLayout = params.get("layout") as LayoutMode | null;
+      const valid = urlLayout && ["list", "g2", "g3", "g4"].includes(urlLayout);
+
+      if (valid && urlLayout) {
+        setLayoutMode(urlLayout);
+        try {
+          localStorage.setItem("halalLayout", urlLayout);
+        } catch {}
+        return;
       }
-    } catch {}
-  }, []);
+
+      // Check initialFilters from server first
+      if (initialFilters.layout && ["list", "g2", "g3", "g4"].includes(initialFilters.layout)) {
+        setLayoutMode(initialFilters.layout as LayoutMode);
+        try {
+          localStorage.setItem("halalLayout", initialFilters.layout);
+        } catch {}
+        return;
+      }
+
+      try {
+        const saved = localStorage.getItem("halalLayout") as LayoutMode | null;
+        if (saved && ["list", "g2", "g3", "g4"].includes(saved)) {
+          setLayoutMode(saved);
+        }
+      } catch {}
+    }, 50);
+
+    return () => clearTimeout(timeoutId);
+  }, [initialFilters.layout]);
 
   // Persist layout to localStorage and URL (guard against needless replaces)
   useEffect(() => {
@@ -220,11 +248,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     // Don't render anything on mobile - force list view only
     if (isSmall) return null;
 
-    const options: { key: LayoutMode; label: string }[] = [
-      { key: "list", label: "List" },
-      { key: "g2", label: "2 Columns" },
-      { key: "g3", label: "3 Columns" },
-      { key: "g4", label: "4 Columns" },
+    const options: { key: LayoutMode; label: string; icon: any }[] = [
+      { key: "list", label: "List", icon: LayoutList },
+      { key: "g2", label: "2 Columns", icon: Columns2 },
+      { key: "g3", label: "3 Columns", icon: Columns3 },
+      { key: "g4", label: "4 Columns", icon: Columns4 },
     ];
 
     return (
@@ -235,6 +263,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
       >
         {options.map((opt) => {
           const isActive = effectiveLayout === opt.key;
+          const IconComponent = opt.icon;
           return (
             <button
               key={opt.key}
@@ -249,11 +278,11 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
               title={opt.key === "list" ? "List view" : `${opt.label} view`}
               className={
                 isActive
-                  ? "rounded-md bg-primary px-3 py-1.5 text-sm text-primary-content shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  : "dark:border-base-700 rounded-md border border-base-300 px-3 py-1.5 text-sm hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:hover:bg-base-300"
+                  ? "rounded-md bg-primary px-3 py-1.5 text-sm text-primary-content shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center justify-center"
+                  : "dark:border-base-700 rounded-md border border-base-300 px-3 py-1.5 text-sm hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:hover:bg-base-300 flex items-center justify-center"
               }
             >
-              {opt.label}
+              <IconComponent size={18} />
             </button>
           );
         })}
@@ -323,14 +352,49 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
   const scrollToTop = useCallback(() => {
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, []);
 
+  // Function to update URL parameters when filters change
+  const updateFilterParams = useCallback((filterType: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (value === "All Cuisines" || value === "All Methods" || value === "All Locations") {
+      params.delete(filterType);
+    } else {
+      params.set(filterType, value);
+    }
+
+    // Reset to page 1 when filters change
+    params.delete("page");
+
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+    );
+  }, [searchParams, router, pathname]);
+
   const clearFilter = (filterType: string) => {
-    if (filterType === "cuisine") setSelectedCuisine("All Cuisines");
-    if (filterType === "method") setSelectedMethod("All Methods");
-    if (filterType === "location") setSelectedCampusLocation("All Locations");
+    const params = new URLSearchParams(searchParams);
+
+    if (filterType === "cuisine") {
+      setSelectedCuisine("All Cuisines");
+      params.delete("cuisine");
+    }
+    if (filterType === "method") {
+      setSelectedMethod("All Methods");
+      params.delete("method");
+    }
+    if (filterType === "location") {
+      setSelectedCampusLocation("All Locations");
+      params.delete("location");
+    }
+
+    // Reset to page 1 when clearing filters
+    params.delete("page");
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+    );
   };
 
   const clearAllFilters = () => {
@@ -338,9 +402,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     setSelectedMethod("All Methods");
     setSelectedCampusLocation("All Locations");
 
-    // Clear the search query from URL (preserve layout)
+    // Clear all filters from URL (preserve layout)
     const params = new URLSearchParams(searchParams);
     params.delete("query");
+    params.delete("cuisine");
+    params.delete("method");
+    params.delete("location");
+    params.delete("page");
     router.replace(
       `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
     );
@@ -389,14 +457,14 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
               selectedMethod !== "All Methods" ||
               selectedCampusLocation !== "All Locations" ||
               initialFilters.query) && (
-              <button
+            <button
                 type="button"
-                onClick={clearAllFilters}
+              onClick={clearAllFilters}
                 className="rounded-lg border border-error/30 bg-error/10 px-2 py-1 text-xs font-medium text-error transition-all duration-200 hover:border-error/50 hover:bg-error/20 sm:px-3 sm:text-sm"
-              >
-                Clear All
-              </button>
-            )}
+            >
+              Clear All
+            </button>
+          )}
           </div>
         </div>
 
@@ -417,7 +485,10 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   <Utensils className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedCuisine}
-                    onChange={(e) => setSelectedCuisine(e.target.value)}
+                    onChange={(e) => {
+                      setSelectedCuisine(e.target.value);
+                      updateFilterParams("cuisine", e.target.value);
+                    }}
                     className="w-full border-none bg-base-100 p-2 pl-2 text-sm text-base-content focus:ring-0 dark:bg-base-200"
                   >
                     {cuisineOptions.map((option) => (
@@ -438,7 +509,10 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   <Hand className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedMethod}
-                    onChange={(e) => setSelectedMethod(e.target.value)}
+                    onChange={(e) => {
+                      setSelectedMethod(e.target.value);
+                      updateFilterParams("method", e.target.value);
+                    }}
                     className="w-full border-none bg-base-100 p-2 pl-2 text-sm text-base-content focus:ring-0 dark:bg-base-200"
                   >
                     {slaughterMethodOptions.map((option) => (
@@ -459,12 +533,15 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   <MapPin className="ml-3 text-base-content/50" size={18} />
                   <select
                     value={selectedCampusLocation}
-                    onChange={(e) => setSelectedCampusLocation(e.target.value)}
+                    onChange={(e) => {
+                      setSelectedCampusLocation(e.target.value);
+                      updateFilterParams("location", e.target.value);
+                    }}
                     className="w-full border-none bg-base-100 p-2 pl-2 text-sm text-base-content focus:ring-0 dark:bg-base-200"
                   >
                     <option value="All Locations">All Locations</option>
-                    <option value="true">On Campus</option>
-                    <option value="false">Off Campus</option>
+                    <option value="On Campus">On Campus</option>
+                    <option value="Off Campus">Off Campus</option>
                   </select>
                 </div>
               </div>
@@ -497,7 +574,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         )}
         {selectedCampusLocation !== "All Locations" && (
           <span className="flex items-center rounded-full bg-warning px-3 py-1 text-sm text-warning-content">
-            {selectedCampusLocation === "true" ? "On Campus" : "Off Campus"}
+            {selectedCampusLocation}
             <X
               className="ml-2 cursor-pointer"
               size={14}
@@ -529,9 +606,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
             <div className="hidden md:flex items-center gap-2 text-xs text-base-content/50">
               <span>Shortcuts:</span>
               <kbd className="kbd kbd-xs">F</kbd>
-              <span>search (opens filters)</span>
+              <span>search</span>
               <kbd className="kbd kbd-xs">1-4</kbd>
-              <span>layout</span>
+              <span>layout icons</span>
             </div>
           )}
         </div>
@@ -605,7 +682,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                           {item.location}
                         </span>
                       )}
-                    </div>
+                  </div>
                   )}
                 </div>
                 <div className="mt-3 flex gap-3 sm:mt-4 sm:gap-4">
