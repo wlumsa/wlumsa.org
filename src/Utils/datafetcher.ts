@@ -949,12 +949,8 @@ export const fetchHalalDirectory = unstable_cache(
       },
     };
   },
-  // Create a more specific cache key that includes filter parameters
-  [
-    'halal-directory',
-    (query: string, cuisine: string, method: string, location: string, page: number) =>
-      `${query}-${cuisine}-${method}-${location}-${page}`
-  ],
+  // Use a simple cache key - Next.js will handle parameter-based caching automatically
+  ['halal-directory'],
   {
     revalidate: 120, // Cache for 2 minutes - balance between performance and freshness
     tags: ['halal-directory'],
