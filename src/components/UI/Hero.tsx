@@ -63,7 +63,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
             <button className="btn btn-primary text-yellow-400 text-bold h-12 px-6 py-3 duration-200 hover:scale-105 hover:bg-primary/90">
               <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</Link>
             </button>
-            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3">
+            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3 whitespace-nowrap">
               Become a Member
             </GetStartedButton> </Link>
           </div>
