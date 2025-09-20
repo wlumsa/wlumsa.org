@@ -956,6 +956,26 @@ export const fetchHalalDirectory = unstable_cache(
     tags: ['halal-directory'],
   }
 );
+
+export const fetchHalalGroceryStores = unstable_cache(
+  async () => {
+    const payload = await getPayloadInstance();
+
+    // Fetch all grocery stores
+    const groceryStores = await payload.find({
+      collection: "halal-grocery-stores",
+      sort: "name", // Sort by name
+    });
+
+    return groceryStores.docs;
+  },
+  ['halal-grocery-stores'],
+  {
+    revalidate: 120, // Cache for 2 minutes
+    tags: ['halal-grocery-stores'],
+  }
+);
+
 // Function to fetch Halal Directory data
 // export async function fetchHalalDirectory() {
 //   const { data, error } = await supabase
