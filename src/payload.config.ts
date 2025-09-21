@@ -37,6 +37,7 @@ import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
+import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
@@ -71,6 +72,9 @@ export default buildConfig({
   admin: {
     user: Execs.slug,
   },
+  routes: {
+    api: '/api/payload',
+  },
 
   collections: [
     Execs,
@@ -96,6 +100,7 @@ export default buildConfig({
     IIAServices,
     FrequentlyAskedQuestions,
     HalalDirectory,
+    HalalGroceryStores,
     RoommatePosts,
     Comments,
     Events,

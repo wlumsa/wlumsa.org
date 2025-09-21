@@ -75,28 +75,19 @@ export default async function RootLayout({
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
       signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in'}
       signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up'}
-      afterSignInUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard'}
-      afterSignUpUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL || '/sign-up'}
+      signInFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard'}
     >
-      <html lang="en" className={`${libreBaskerville.variable} ${inter.variable}`}>
+      <html lang="en" className={`${libreBaskerville.variable} ${inter.variable}`} data-theme="lightTheme">
         <head>
           <script
             dangerouslySetInnerHTML={{
               __html: `
                 (function() {
-                  try {
-                    var theme = localStorage.getItem('theme');
-                    if (theme) {
-                      document.documentElement.setAttribute('data-theme', theme);
-                    } else {
-                      var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                      var defaultTheme = systemPrefersDark ? 'darkTheme' : 'lightTheme';
-                      document.documentElement.setAttribute('data-theme', defaultTheme);
-                    }
-                  } catch (e) {
-                    // Fallback to light theme if there's an error
-                    document.documentElement.setAttribute('data-theme', 'lightTheme');
-                  }
+                  // Always start with lightTheme to match server-side rendering
+                  document.documentElement.setAttribute('data-theme', 'lightTheme');
+
+                  // Mark that theme script has loaded
+                  window.__THEME_SCRIPT_LOADED = true;
                 })();
               `,
             }}

@@ -734,7 +734,7 @@ export async function getResourcesByCategory(categoryId: string) {
   if (categoryId === '0') {
     const resources = await payload.find({
       collection: "resources",
-      depth: 1, 
+      depth: 1,
     });
     return resources.docs;
   }
@@ -752,7 +752,7 @@ export async function getResourcesByCategory(categoryId: string) {
     return resources.docs;
   }
 
-  
+
 }
 
 export async function getAllResources() {
@@ -834,14 +834,148 @@ export async function fetchServices() {
   return services.docs;
 }
 
-export async function fetchHalalDirectory() {
-  const payload = await getPayloadInstance();
+export const fetchHalalDirectory = unstable_cache(
+  async ({
+    query = "",
+    cuisine = "All Cuisines",
+    method = "All Methods",
+    location = "All Locations",
+    page = 1,
+    limit = 12,
+  }: {
+    query?: string;
+    cuisine?: string;
+    method?: string;
+    location?: string;
+    page?: number;
+    limit?: number;
+  } = {}) => {
+    const payload = await getPayloadInstance();
+
+  // Build where conditions for filtering
+  const whereConditions: any[] = [];
+
+  // Text search - use prefix search for better performance
+  if (query) {
+    whereConditions.push({
+      or: [
+        { name: { like: `${query}%` } }, // Prefix search is faster
+        { shortDescription: { like: `${query}%` } }, // Prefix search is faster
+      ],
+    });
+  }
+
+  // Cuisine filter - map display names to database values
+  if (cuisine && cuisine !== "All Cuisines") {
+    const cuisineMapping: { [key: string]: string } = {
+      "Chinese": "chinese",
+      "Persian": "persian",
+      "Shawarma": "shawarma",
+      "Burgers": "burgers",
+      "Bangladeshi": "bangladeshi",
+      "Chinese Indo Fusion": "chinese-indo-fusion",
+      "Pakistani Food": "pakistani-food",
+      "Chicken and Waffles": "chicken-and-waffles",
+      "Kabob": "kabob",
+      "Uyghur": "uyghur",
+      "Chicken": "chicken",
+      "Indian Fusion Food": "indian-fusion-food",
+      "Pizza": "pizza",
+    };
+    const dbValue = cuisineMapping[cuisine] || cuisine.toLowerCase();
+    whereConditions.push({ category: { equals: dbValue } });
+  }
+
+  // Slaughter method filter - map display names to database values
+  if (method && method !== "All Methods") {
+    const methodMapping: { [key: string]: string } = {
+      "Hand": "hand",
+      "Machine": "machine",
+      "Both": "both",
+      "N/A": "n/a",
+    };
+    const dbValue = methodMapping[method] || method.toLowerCase();
+    whereConditions.push({ slaughtered: { equals: dbValue } });
+  }
+
+  // Location filter
+  if (location && location !== "All Locations") {
+    if (location === "On Campus") {
+      whereConditions.push({ is_on_campus: { equals: true } });
+    } else if (location === "Off Campus") {
+      whereConditions.push({ is_on_campus: { equals: false } });
+    }
+  }
+
+  // Calculate pagination
+  const offset = (page - 1) * limit;
+
+  // Fetch filtered results with pagination
+  const whereClause = whereConditions.length > 0 ? { and: whereConditions } : {};
   const foodSpots = await payload.find({
     collection: "halal-directory",
-    limit: 50,
+    where: whereClause,
+    limit: limit,
+    page: page,
+    sort: "name", // Sort by name for consistent pagination
   });
-  return foodSpots.docs;
-}
+
+  // Get total count for pagination info (only if we have conditions)
+  let totalCount = { totalDocs: 0 };
+  if (whereConditions.length > 0) {
+    try {
+      totalCount = await payload.count({
+        collection: "halal-directory",
+        where: whereClause,
+      });
+    } catch (error) {
+      console.error("Count query failed, using docs length:", error);
+      totalCount = { totalDocs: foodSpots.docs.length };
+    }
+  } else {
+    // For no filters, we can estimate based on docs returned
+    totalCount = { totalDocs: foodSpots.docs.length };
+  }
+
+    return {
+      items: foodSpots.docs,
+      pagination: {
+        page,
+        limit,
+        total: totalCount.totalDocs,
+        totalPages: Math.ceil(totalCount.totalDocs / limit),
+        hasNextPage: page < Math.ceil(totalCount.totalDocs / limit),
+        hasPrevPage: page > 1,
+      },
+    };
+  },
+  // Use a simple cache key - Next.js will handle parameter-based caching automatically
+  ['halal-directory'],
+  {
+    revalidate: 120, // Cache for 2 minutes - balance between performance and freshness
+    tags: ['halal-directory'],
+  }
+);
+
+export const fetchHalalGroceryStores = unstable_cache(
+  async () => {
+    const payload = await getPayloadInstance();
+
+    // Fetch all grocery stores
+    const groceryStores = await payload.find({
+      collection: "halal-grocery-stores",
+      sort: "name", // Sort by name
+    });
+
+    return groceryStores.docs;
+  },
+  ['halal-grocery-stores'],
+  {
+    revalidate: 120, // Cache for 2 minutes
+    tags: ['halal-grocery-stores'],
+  }
+);
+
 // Function to fetch Halal Directory data
 // export async function fetchHalalDirectory() {
 //   const { data, error } = await supabase
