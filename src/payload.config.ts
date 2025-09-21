@@ -72,6 +72,9 @@ export default buildConfig({
   admin: {
     user: Execs.slug,
   },
+  routes: {
+    api: '/api/payload',
+  },
 
   collections: [
     Execs,
