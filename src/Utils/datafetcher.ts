@@ -1310,3 +1310,11 @@ export async function fetchRoommatePostsByUser(clerkId: number) {
 
 //   return;
 // }
+
+export async function fetchHalalGroceryStores() {
+  const payload = await getPayloadInstance();
+  const groceryStores = await payload.find({
+    collection: "halal-grocery-stores",
+  });
+  return groceryStores.docs;
+}
