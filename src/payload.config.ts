@@ -43,6 +43,7 @@ import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
 import {Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
+import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 import GeneralUser from "./collections/UI/GeneralUser";
@@ -106,6 +107,7 @@ export default buildConfig({
     Events,
     GeneralUser,
     DailyReminders,
+    HalalGroceryStores,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
