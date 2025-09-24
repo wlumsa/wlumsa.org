@@ -1331,7 +1331,7 @@ export async function fetchRoommatePostsByUser(clerkId: number) {
 //   return;
 // }
 
-export async function fetchHalalGroceryStores() {
+export async function getHalalGroceryStores() {
   const payload = await getPayloadInstance();
   const groceryStores = await payload.find({
     collection: "halal-grocery-stores",
