@@ -1,7 +1,7 @@
 import { render } from '@react-email/render';
-import WelcomeEmail from '@/components/emails/signup';
-import Email from '@/components/emails/test';
-import EventEmail from '@/components/emails/event';
+import WelcomeEmail from '@/emails/signup';
+import Email from '@/emails/test';
+import EventEmail from '@/emails/event';
 //converts JSX Emails to HTML
 import { pretty } from '@react-email/render';
 
