@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isMember, addMember, addIndividualToList } from '@/Utils/datafetcher'
 import { Resend } from 'resend';
-import WelcomeEmail from 'emails/signup';
+import WelcomeEmail from '@/emails/signup';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 type Params = Promise<{ title: string }>

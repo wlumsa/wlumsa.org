@@ -1,6 +1,6 @@
 import { getDistributionList, getImageByID } from "@/Utils/datafetcher";
-import Newsletter from 'emails/general';
-import CharityWeek from 'emails/charity_week';
+import Newsletter from '@/emails/general';
+import CharityWeek from '@/emails/charity_week';
 import { Individual } from '@/payload-types';
 import { resend } from '@/Utils/resend';
 import { getPublicURL } from '@/Utils/datafetcher';
