@@ -96,7 +96,6 @@ export interface Config {
     events: Event;
     GeneralUser: GeneralUser;
     'daily-reminders': DailyReminder;
-    'halal-grocery-stores': HalalGroceryStore;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -134,7 +133,6 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     GeneralUser: GeneralUserSelect<false> | GeneralUserSelect<true>;
     'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
-    'halal-grocery-stores': HalalGroceryStoresSelect<false> | HalalGroceryStoresSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -711,41 +709,6 @@ export interface DailyReminder {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "halal-grocery-stores".
- */
-export interface HalalGroceryStore {
-  id: number;
-  name: string;
-  category:
-    | 'full-grocery'
-    | 'halal-meat'
-    | 'international'
-    | 'specialty'
-    | 'convenience'
-    | 'bakery'
-    | 'spice'
-    | 'frozen';
-  halalCertification: 'certified' | 'muslim-owned' | 'halal-friendly' | 'not-specified';
-  shortDescription: string;
-  location: string;
-  googleMapsLink: string;
-  website?: string | null;
-  phone?: string | null;
-  hours?: string | null;
-  specialties?:
-    | {
-        specialty: string;
-        id?: string | null;
-      }[]
-    | null;
-  image?: (number | null) | Media;
-  is_on_campus: boolean;
-  priceRange?: ('1' | '2' | '3' | '4') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -1112,10 +1075,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'daily-reminders';
         value: number | DailyReminder;
-      } | null)
-    | ({
-        relationTo: 'halal-grocery-stores';
-        value: number | HalalGroceryStore;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1584,32 +1543,6 @@ export interface DailyRemindersSelect<T extends boolean = true> {
   reference?: T;
   arabic?: T;
   english?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "halal-grocery-stores_select".
- */
-export interface HalalGroceryStoresSelect<T extends boolean = true> {
-  name?: T;
-  category?: T;
-  halalCertification?: T;
-  shortDescription?: T;
-  location?: T;
-  googleMapsLink?: T;
-  website?: T;
-  phone?: T;
-  hours?: T;
-  specialties?:
-    | T
-    | {
-        specialty?: T;
-        id?: T;
-      };
-  image?: T;
-  is_on_campus?: T;
-  priceRange?: T;
   updatedAt?: T;
   createdAt?: T;
 }
