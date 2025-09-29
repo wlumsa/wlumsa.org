@@ -96,7 +96,6 @@ export interface Config {
     events: Event;
     GeneralUser: GeneralUser;
     'daily-reminders': DailyReminder;
-    'halal-grocery-stores': HalalGroceryStore;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -128,7 +127,6 @@ export interface Config {
     'iia-services': IiaServicesSelect<false> | IiaServicesSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
-    'halal-grocery-stores': HalalGroceryStoresSelect<false> | HalalGroceryStoresSelect<true>;
     RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
     comments: CommentsSelect<false> | CommentsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;

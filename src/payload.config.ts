@@ -37,7 +37,6 @@ import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
-import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 import RoommatePosts from "./collections/RoommatePosts";
 import { Comments } from "./collections/Comment";
