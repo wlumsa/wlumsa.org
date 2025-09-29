@@ -1,9 +1,97 @@
 {
-  "id": "db13d466-29fa-4d33-a4e6-a24f94a1bbb3",
+  "id": "c6d184b8-f35d-4b25-b4fb-c82a16893c3b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.execs_sessions": {
+      "name": "execs_sessions",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "execs_sessions_order_idx": {
+          "name": "execs_sessions_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "execs_sessions_parent_id_idx": {
+          "name": "execs_sessions_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "execs_sessions_parent_id_fk": {
+          "name": "execs_sessions_parent_id_fk",
+          "tableFrom": "execs_sessions",
+          "tableTo": "execs",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.execs": {
       "name": "execs",
       "schema": "",
@@ -3398,6 +3486,257 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.halal_grocery_stores_specialties": {
+      "name": "halal_grocery_stores_specialties",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "specialty": {
+          "name": "specialty",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "halal_grocery_stores_specialties_order_idx": {
+          "name": "halal_grocery_stores_specialties_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "halal_grocery_stores_specialties_parent_id_idx": {
+          "name": "halal_grocery_stores_specialties_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "halal_grocery_stores_specialties_parent_id_fk": {
+          "name": "halal_grocery_stores_specialties_parent_id_fk",
+          "tableFrom": "halal_grocery_stores_specialties",
+          "tableTo": "halal_grocery_stores",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.halal_grocery_stores": {
+      "name": "halal_grocery_stores",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "enum_halal_grocery_stores_category",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "halal_certification": {
+          "name": "halal_certification",
+          "type": "enum_halal_grocery_stores_halal_certification",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "short_description": {
+          "name": "short_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location": {
+          "name": "location",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "google_maps_link": {
+          "name": "google_maps_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "website": {
+          "name": "website",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hours": {
+          "name": "hours",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_on_campus": {
+          "name": "is_on_campus",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "price_range": {
+          "name": "price_range",
+          "type": "enum_halal_grocery_stores_price_range",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "halal_grocery_stores_image_idx": {
+          "name": "halal_grocery_stores_image_idx",
+          "columns": [
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "halal_grocery_stores_updated_at_idx": {
+          "name": "halal_grocery_stores_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "halal_grocery_stores_created_at_idx": {
+          "name": "halal_grocery_stores_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "halal_grocery_stores_image_id_media_id_fk": {
+          "name": "halal_grocery_stores_image_id_media_id_fk",
+          "tableFrom": "halal_grocery_stores",
+          "tableTo": "media",
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.roommate_posts_utilities": {
       "name": "roommate_posts_utilities",
       "schema": "",
@@ -6177,7 +6516,7 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true,
-          "default": "'You''''ve received a new message.'"
+          "default": "'You''ve received a new message.'"
         },
         "message": {
           "name": "message",
@@ -6735,6 +7074,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "halal_grocery_stores_id": {
+          "name": "halal_grocery_stores_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "roommate_posts_id": {
           "name": "roommate_posts_id",
           "type": "integer",
@@ -7169,6 +7514,21 @@
           "method": "btree",
           "with": {}
         },
+        "payload_locked_documents_rels_halal_grocery_stores_id_idx": {
+          "name": "payload_locked_documents_rels_halal_grocery_stores_id_idx",
+          "columns": [
+            {
+              "expression": "halal_grocery_stores_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "payload_locked_documents_rels_roommate_posts_id_idx": {
           "name": "payload_locked_documents_rels_roommate_posts_id_idx",
           "columns": [
@@ -7581,6 +7941,19 @@
           "tableTo": "halal_directory",
           "columnsFrom": [
             "halal_directory_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_halal_grocery_stores_fk": {
+          "name": "payload_locked_documents_rels_halal_grocery_stores_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "halal_grocery_stores",
+          "columnsFrom": [
+            "halal_grocery_stores_id"
           ],
           "columnsTo": [
             "id"
@@ -8847,6 +9220,40 @@
         "machine",
         "both",
         "n/a"
+      ]
+    },
+    "public.enum_halal_grocery_stores_category": {
+      "name": "enum_halal_grocery_stores_category",
+      "schema": "public",
+      "values": [
+        "full-grocery",
+        "halal-meat",
+        "international",
+        "specialty",
+        "convenience",
+        "bakery",
+        "spice",
+        "frozen"
+      ]
+    },
+    "public.enum_halal_grocery_stores_halal_certification": {
+      "name": "enum_halal_grocery_stores_halal_certification",
+      "schema": "public",
+      "values": [
+        "certified",
+        "muslim-owned",
+        "halal-friendly",
+        "not-specified"
+      ]
+    },
+    "public.enum_halal_grocery_stores_price_range": {
+      "name": "enum_halal_grocery_stores_price_range",
+      "schema": "public",
+      "values": [
+        "1",
+        "2",
+        "3",
+        "4"
       ]
     },
     "public.enum_roommate_posts_utilities": {

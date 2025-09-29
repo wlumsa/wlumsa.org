@@ -14,13 +14,16 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
 
   return (
     <div id="hero" className="hero min-h-screen relative overflow-hidden">
-      <Image
-        fill
-        src={mediaDocs[0]?.url || ''}
-        alt={mediaDocs[0]?.alt || "Hero Image"}
-        className="object-cover w-full h-fit blur-sm scale-105"
-
-      />
+      {mediaDocs[0]?.url ? (
+        <Image
+          fill
+          src={mediaDocs[0].url}
+          alt={mediaDocs[0]?.alt || "Hero Image"}
+          className="object-cover w-full h-fit blur-sm scale-105"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
+      )}
       <div className="hero-overlay bg-neutral bg-opacity-50" />
       <div className="hero-content text-center">
         <div className="max-w-md">
@@ -60,7 +63,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
             <button className="btn btn-primary text-yellow-400 text-bold h-12 px-6 py-3 duration-200 hover:scale-105 hover:bg-primary/90">
               <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</Link>
             </button>
-            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3">
+            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3 whitespace-nowrap">
               Become a Member
             </GetStartedButton> </Link>
           </div>

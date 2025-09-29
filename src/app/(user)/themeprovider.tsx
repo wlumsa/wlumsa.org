@@ -25,30 +25,49 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
+  // Start with lightTheme to match server-side rendering
   const [theme, setTheme] = useState<Theme>("lightTheme");
-  const [isLoaded, setIsLoaded] = useState(false); // Track if theme is loaded
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Check localStorage first
-      const savedTheme = localStorage.getItem("theme") as Theme | null;
+      // Get the current theme from the document (set by the initial script)
+      const currentTheme = document.documentElement.getAttribute("data-theme") as Theme || "lightTheme";
+      setTheme(currentTheme);
 
-      if (savedTheme) {
-        setTheme(savedTheme);
-        // Apply theme immediately to prevent flash
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      } else {
-        // If no saved preference, use system preference
-        const systemPrefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const defaultTheme = systemPrefersDark ? "darkTheme" : "lightTheme";
-        setTheme(defaultTheme);
-        // Apply theme immediately to prevent flash
-        document.documentElement.setAttribute("data-theme", defaultTheme);
-      }
+      // Wait for hydration to complete before checking localStorage
+      const timeoutId = setTimeout(() => {
+        try {
+          // Check localStorage first
+          const savedTheme = localStorage.getItem("theme") as Theme | null;
 
-      // Mark as loaded
+          if (savedTheme && savedTheme !== currentTheme) {
+            setTheme(savedTheme);
+            document.documentElement.setAttribute("data-theme", savedTheme);
+          } else if (!savedTheme) {
+            // If no saved preference, use system preference
+            const systemPrefersDark = window.matchMedia(
+              "(prefers-color-scheme: dark)"
+            ).matches;
+            const defaultTheme = systemPrefersDark ? "darkTheme" : "lightTheme";
+
+            if (defaultTheme !== currentTheme) {
+              setTheme(defaultTheme);
+              document.documentElement.setAttribute("data-theme", defaultTheme);
+            }
+          }
+
+          // Mark as loaded
+          setIsLoaded(true);
+        } catch (e) {
+          // Fallback to current theme if there's an error
+          setIsLoaded(true);
+        }
+      }, 100); // Increased delay to ensure hydration is complete
+
+      return () => clearTimeout(timeoutId);
+    } else {
+      // During SSR, mark as loaded immediately
       setIsLoaded(true);
     }
   }, []);

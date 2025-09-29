@@ -1,5 +1,6 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+
+import React, { useState, useEffect, forwardRef } from 'react'
 import { useSearchParams , usePathname, useRouter} from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -9,7 +10,7 @@ import { useDebouncedCallback } from 'use-debounce';
  * @returns {JSX.Element} The rendered search bar component.
  */
 
-const SearchBar = () => {
+const SearchBar = forwardRef<HTMLInputElement>((props, ref) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -36,6 +37,7 @@ const SearchBar = () => {
     <div className="mx-2 rounded-xl bg-base-100 px-4">
           <label className="input input-bordered flex items-center my-2">
             <input
+              ref={ref}
               type="text"
               className="grow"
               placeholder="Search"
@@ -60,6 +62,8 @@ const SearchBar = () => {
           </label>
         </div>
   )
-}
+})
+
+SearchBar.displayName = 'SearchBar'
 
 export default SearchBar

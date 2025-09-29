@@ -12,7 +12,7 @@ const schema = z.object({
     studentId: z.string().regex(/^\d+$/, "Student ID must be a number").length(9, "Student ID must be 9 digits"),
     newsLetter: z.boolean(),
 })
-import WelcomeEmail from '@/components/emails/signup';
+import WelcomeEmail from "../../emails/signup"
 import { supabase } from '@/lib/supabaseClient';
 import { RoommatePost } from '@/payload-types';
 
@@ -49,7 +49,7 @@ export async function memberSignup(formData: FormData) {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
-                audienceId: process.env.RESEND_AUDIENCE_ID!,
+                audienceId: `${process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID}` ,
                 unsubscribed: false
             })
         }
@@ -212,7 +212,7 @@ export async function removeMemberFromNewsletter(email: string) {
 //update contact status in resend
     const {data, error} =  await resend.contacts.update({
         email: `${email}`,
-        audienceId: process.env.RESEND_AUDIENCE_ID!,
+        audienceId: `${process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID}` ,
         unsubscribed: true,
       });
 
