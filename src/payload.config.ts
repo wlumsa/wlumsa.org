@@ -106,7 +106,6 @@ export default buildConfig({
     Events,
     GeneralUser,
     DailyReminders,
-    HalalGroceryStores
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
