@@ -141,6 +141,49 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           });
         }
 
+        // Handle newsletter signup if newsletter checkbox is checked
+        const newsletterField = formFromProps.fields.find(
+          field => field.blockType === 'checkbox' && 'name' in field && field.name === 'newsletter'
+        );
+
+        if (newsletterField && 'name' in newsletterField) {
+          const newsletterValue = data[newsletterField.name];
+          const isNewsletterChecked = Array.isArray(newsletterValue) && newsletterValue.length > 0;
+
+          if (isNewsletterChecked) {
+            // Extract name and email from the form data
+            const nameField = formFromProps.fields.find(field =>
+              field.blockType === 'text' && 'name' in field && (field.name === 'name' || field.name === 'firstName')
+            );
+            const emailField = formFromProps.fields.find(field =>
+              field.blockType === 'email' && 'name' in field && field.name === 'email'
+            );
+
+            if (nameField && emailField && 'name' in nameField && 'name' in emailField) {
+              const name = data[nameField.name];
+              const email = data[emailField.name];
+
+              if (name && email) {
+                try {
+                  await fetch('/api/addContact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      name: name,
+                      email: email,
+                      newsletter: true
+                    }),
+                  });
+                  console.log('Successfully added to newsletter');
+                } catch (err) {
+                  console.error('Failed to add to newsletter:', err);
+                  // Don't fail the entire form submission if newsletter signup fails
+                }
+              }
+            }
+          }
+        }
+
 
         // Get current form data for limits
         const formResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
@@ -242,11 +285,11 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               }),
             })
           }
-          
-        }
-        
 
-       
+        }
+
+
+
 
         // Create the submission
         const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {

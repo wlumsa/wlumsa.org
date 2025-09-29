@@ -196,13 +196,13 @@ export async function updateRoommatePost(postId: number, formData: RoommatePost)
 
 
 export async function removeMemberFromNewsletter(email: string) {
-    
+
     //check if they are apart of newsletter collection
     const updateStatus = await updateNewsletterStatus(email);
     if (!updateStatus) {
         return { message: 'You are not subscribed to the newsletter', errors: true }
     }
-    
+
 
 
     const remove = await removeIndividualFromList("Newsletter", email);
@@ -220,6 +220,8 @@ export async function removeMemberFromNewsletter(email: string) {
     if(error) {
         return { message: 'An error occurred', errors: true }
     }
+
+    // Resend unsubscribe is handled when contacts are marked as unsubscribed,the CMS unsubscribe is good enough removing from newsletter distribution
 
     return { message: 'You have been removed from the newsletter' }
 
