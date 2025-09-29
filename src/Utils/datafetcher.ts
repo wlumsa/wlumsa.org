@@ -842,6 +842,14 @@ export async function fetchHalalDirectory() {
   });
   return foodSpots.docs;
 }
+
+export async function fetchHalalGroceryStores() {
+  const payload = await getPayloadInstance();
+  const groceryStores = await payload.find({
+    collection: "halal-grocery-stores",
+  });
+  return groceryStores.docs;
+}
 // Function to fetch Halal Directory data
 // export async function fetchHalalDirectory() {
 //   const { data, error } = await supabase
