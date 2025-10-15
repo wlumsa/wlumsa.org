@@ -14,29 +14,29 @@ const page = () => {
     caption:
       "We'll be having a bake sale, and selling bubble tea during charity week to raise funds for our cause. Come by the concourse on Monday, Tuesday, and Friday to grab some delicious treats and support a great cause!",
     // link: "/forms/iftars",
-    // ctaText: "Register for Iftar",
+     ctaText: "",
   },
   {
     name: "Charity Week Social Events",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/auctionnight.png",
-    // timeLocation:
-    //   "Monday, Tuesday, Thursday",
+     timeLocation:
+   "",
     caption:
       "We have Charity week social events aimed at bringing the community together, such as Family Feud, Scavenger Hunt, and Chai and Chill! Join us for fun activities, games, and socializing with fellow students. Stay tuned for more information on Auction night!",
     link: "",
-    ctaText: "View Schedule",
+    // ctaText: "View Schedule",
   },
-  {
-    name: "Charity Week Merch",
-    image:
-      "",
-    timeLocation: "",
-    caption:
-      "Pre-order your Charity Week 2025 hoodie now! Show your support and help us reach our fundraising goal with exclusive apparel. Limited stock available, you don't miss out.",
-    link: "wlumsa.org/resources",
-    ctaText: "Preorder Now",
-  },
+//   {
+//     name: "Charity Week Merch",
+//     image:
+//       "",
+//     timeLocation: "",
+//     caption:
+//       "Pre-order your Charity Week 2025 hoodie now! Show your support and help us reach our fundraising goal with exclusive apparel. Limited stock available, you don't miss out.",
+//     link: "wlumsa.org/resources",
+//     ctaText: "Preorder Now",
+//   },
   
 ];
 
@@ -57,21 +57,21 @@ const page = () => {
                           A global week of unity, compassion, and action.
                         </p>
                       </BlurFade>
-                      <BlurFade delay={0.75}>
+                    
                         <div className="my-6 flex  flex-row justify-center">
-                          <button className="btn btn-primary btn-sm mx-4 text-secondary duration-200 md:btn-md hover:scale-105 ">
+                          {/* <button className="btn btn-primary btn-sm mx-4 text-secondary duration-200 md:btn-md hover:scale-105 ">
                             <Link
                               href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858"
                               target="_blank"
                             >
                               Donate
                             </Link>
-                          </button>
+                          </button> */}
                           {/* <button className="btn btn-secondary btn-sm mx-4 text-primary duration-200 md:btn-md hover:scale-105  ">
                             <Link href="/"></Link>
                           </button> */}
                         </div>
-                      </BlurFade>
+                 
                     </div>
                   </div>
                 </div>
@@ -175,15 +175,17 @@ const page = () => {
 
 </div>
 
-         </div>
+</div>
 
         <div>
         </div>
 
-
+        <div className='text-center mx-auto'>
+             <h1 className='mx-auto mb-2 max-w-3xl text-balance text-4xl font-heading font-medium tracking-tight pb-4'>How we're fundraising </h1>      
+        </div>
 
          <div className="container hero mx-auto px-4 py-4">
-         <h1 className='mx-auto mb-2 max-w-3xl text-balance text-4xl font-heading font-medium tracking-tight pb-4'>What we're fundraising for</h1>         
+           
              <div id="events" className="flex-grow">
                         {items.map((event, index) => (
                           <EventCard
