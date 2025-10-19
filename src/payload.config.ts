@@ -73,7 +73,7 @@ export default buildConfig({
     user: Execs.slug,
   },
   routes: {
-    api: '/api/payload',
+    api: '/api',
   },
 
   collections: [
