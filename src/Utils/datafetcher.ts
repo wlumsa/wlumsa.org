@@ -907,9 +907,6 @@ export const fetchHalalDirectory = unstable_cache(
     }
   }
 
-  // Calculate pagination
-  const offset = (page - 1) * limit;
-
   // Fetch filtered results with pagination
   const whereClause = whereConditions.length > 0 ? { and: whereConditions } : {};
   const foodSpots = await payload.find({
@@ -919,33 +916,15 @@ export const fetchHalalDirectory = unstable_cache(
     page: page,
     sort: "name", // Sort by name for consistent pagination
   });
-
-  // Get total count for pagination info (only if we have conditions)
-  let totalCount = { totalDocs: 0 };
-  if (whereConditions.length > 0) {
-    try {
-      totalCount = await payload.count({
-        collection: "halal-directory",
-        where: whereClause,
-      });
-    } catch (error) {
-      console.error("Count query failed, using docs length:", error);
-      totalCount = { totalDocs: foodSpots.docs.length };
-    }
-  } else {
-    // For no filters, we can estimate based on docs returned
-    totalCount = { totalDocs: foodSpots.docs.length };
-  }
-
     return {
       items: foodSpots.docs,
       pagination: {
-        page,
-        limit,
-        total: totalCount.totalDocs,
-        totalPages: Math.ceil(totalCount.totalDocs / limit),
-        hasNextPage: page < Math.ceil(totalCount.totalDocs / limit),
-        hasPrevPage: page > 1,
+        page: foodSpots.page ?? page,
+        limit: foodSpots.limit ?? limit,
+        total: foodSpots.totalDocs ?? foodSpots.docs.length,
+        totalPages: foodSpots.totalPages ?? Math.ceil((foodSpots.totalDocs ?? foodSpots.docs.length) / (foodSpots.limit ?? limit)),
+        hasNextPage: foodSpots.hasNextPage ?? (page < Math.ceil((foodSpots.totalDocs ?? foodSpots.docs.length) / limit)),
+        hasPrevPage: foodSpots.hasPrevPage ?? (page > 1),
       },
     };
   },

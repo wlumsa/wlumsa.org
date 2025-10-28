@@ -196,7 +196,8 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     if (params.get("layout") !== layoutMode) {
       params.set("layout", layoutMode);
       router.replace(
-        `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+        `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+        { scroll: false }
       );
     }
   }, [layoutMode, pathname, router, searchParams, isHydrated]);
@@ -370,7 +371,8 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     params.delete("page");
 
     router.replace(
-      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      { scroll: false }
     );
   }, [searchParams, router, pathname]);
 
@@ -393,7 +395,8 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     // Reset to page 1 when clearing filters
     params.delete("page");
     router.replace(
-      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      { scroll: false }
     );
   };
 
@@ -410,7 +413,8 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     params.delete("location");
     params.delete("page");
     router.replace(
-      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      { scroll: false }
     );
   };
 
@@ -722,17 +726,18 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
           </div>
         )}
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <Pagination className="mt-6 sm:mt-8">
+      </div>
+
+      {/* Pagination - outside the grid/list container to avoid alignment shifts */}
+      {totalPages > 1 && (
+        <div className="w-full max-w-6xl mx-auto flex justify-center mt-6 sm:mt-8">
+          <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
                   href={pagination.hasPrevPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page - 1)})}` : "#"}
                   size="default"
-                  className={
-                    !pagination.hasPrevPage ? "pointer-events-none opacity-50" : ""
-                  }
+                  className={!pagination.hasPrevPage ? "pointer-events-none opacity-50" : ""}
                 />
               </PaginationItem>
 
@@ -771,10 +776,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   )}
 
                   {Array.from({ length: 3 }, (_, i) => {
-                    const pageNum = Math.max(
-                      1,
-                      Math.min(totalPages, pagination.page - 1 + i)
-                    );
+                    const pageNum = Math.max(1, Math.min(totalPages, pagination.page - 1 + i));
                     if (pageNum > totalPages) return null;
                     return (
                       <PaginationItem key={pageNum}>
@@ -812,17 +814,13 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                 <PaginationNext
                   href={pagination.hasNextPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page + 1)})}` : "#"}
                   size="default"
-                  className={
-                    !pagination.hasNextPage
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }
+                  className={!pagination.hasNextPage ? "pointer-events-none opacity-50" : ""}
                 />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Toggle Map Button */}
       <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2 transform">
