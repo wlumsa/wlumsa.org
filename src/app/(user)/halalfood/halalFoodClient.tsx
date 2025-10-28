@@ -126,6 +126,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const didInitLayoutRef = useRef<boolean>(false);
 
   const [layoutMode, setLayoutMode] = useState<LayoutMode>("list"); // Start with consistent default
   const [isHydrated, setIsHydrated] = useState<boolean>(false);
@@ -151,6 +152,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
     // Small delay to ensure hydration is complete
     const timeoutId = setTimeout(() => {
+      // Skip initialization on small screens and ensure we only init once
+      if (didInitLayoutRef.current) return;
+      if (isSmall) return;
       const params = new URLSearchParams(window.location.search);
       const urlLayout = params.get("layout") as LayoutMode | null;
       const valid = urlLayout && ["list", "g2", "g3", "g4"].includes(urlLayout);
@@ -160,6 +164,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         try {
           localStorage.setItem("halalLayout", urlLayout);
         } catch {}
+        didInitLayoutRef.current = true;
         return;
       }
 
@@ -169,6 +174,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         try {
           localStorage.setItem("halalLayout", initialFilters.layout);
         } catch {}
+        didInitLayoutRef.current = true;
         return;
       }
 
@@ -178,15 +184,18 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
           setLayoutMode(saved);
         }
       } catch {}
+      didInitLayoutRef.current = true;
     }, 50);
 
     return () => clearTimeout(timeoutId);
-  }, [initialFilters.layout]);
+  }, [initialFilters.layout, isSmall]);
 
   // Persist layout to localStorage and URL (guard against needless replaces)
   useEffect(() => {
     // Guard against SSR and wait for hydration
     if (typeof window === "undefined" || !isHydrated) return;
+    // Do not persist layout on small screens to avoid flicker with forced list view
+    if (isSmall) return;
 
     try {
       localStorage.setItem("halalLayout", layoutMode);
@@ -200,7 +209,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         { scroll: false }
       );
     }
-  }, [layoutMode, pathname, router, searchParams, isHydrated]);
+  }, [layoutMode, pathname, router, searchParams, isHydrated, isSmall]);
 
   // Keyboard shortcuts: 1=list, 2=g2, 3=g3, 4=g4, F=search focus (disabled on small to avoid accidental toggles)
   useEffect(() => {
@@ -208,6 +217,8 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     if (typeof window === "undefined") return;
 
     const handler = (e: KeyboardEvent) => {
+      // Prevent auto-repeat from holding keys causing rapid toggles
+      if (e.repeat) return;
       if (isSmall) return;
       const t = e.target as HTMLElement | null;
       if (!t) return;
@@ -356,6 +367,16 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, []);
+
+  // Pagination navigation without scrolling to top
+  const goToPage = useCallback((newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", String(newPage));
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      { scroll: false }
+    );
+  }, [searchParams, router, pathname]);
 
   // Function to update URL parameters when filters change
   const updateFilterParams = useCallback((filterType: string, value: string) => {
@@ -738,6 +759,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   href={pagination.hasPrevPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page - 1)})}` : "#"}
                   size="default"
                   className={!pagination.hasPrevPage ? "pointer-events-none opacity-50" : ""}
+                  onClick={(e: any) => { e.preventDefault(); if (pagination.hasPrevPage) goToPage(pagination.page - 1); }}
                 />
               </PaginationItem>
 
@@ -750,6 +772,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                         href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pageNum)})}`}
                         size="default"
                         isActive={pageNum === pagination.page}
+                        aria-current={pageNum === pagination.page ? "page" : undefined}
+                        className={pageNum === pagination.page ? "font-semibold underline" : ""}
+                        onClick={(e: any) => { e.preventDefault(); goToPage(pageNum); }}
                       >
                         {pageNum}
                       </PaginationLink>
@@ -763,6 +788,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                       <PaginationLink
                         href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: "1"})}`}
                         size="default"
+                        aria-current={pagination.page === 1 ? "page" : undefined}
+                        className={pagination.page === 1 ? "font-semibold underline" : ""}
+                        onClick={(e: any) => { e.preventDefault(); goToPage(1); }}
                       >
                         1
                       </PaginationLink>
@@ -784,6 +812,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                           href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pageNum)})}`}
                           size="default"
                           isActive={pageNum === pagination.page}
+                          aria-current={pageNum === pagination.page ? "page" : undefined}
+                          className={pageNum === pagination.page ? "font-semibold underline" : ""}
+                          onClick={(e: any) => { e.preventDefault(); goToPage(pageNum); }}
                         >
                           {pageNum}
                         </PaginationLink>
@@ -802,6 +833,9 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                       <PaginationLink
                         href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(totalPages)})}`}
                         size="default"
+                        aria-current={pagination.page === totalPages ? "page" : undefined}
+                        className={pagination.page === totalPages ? "font-semibold underline" : ""}
+                        onClick={(e: any) => { e.preventDefault(); goToPage(totalPages); }}
                       >
                         {totalPages}
                       </PaginationLink>
@@ -815,6 +849,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   href={pagination.hasNextPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page + 1)})}` : "#"}
                   size="default"
                   className={!pagination.hasNextPage ? "pointer-events-none opacity-50" : ""}
+                  onClick={(e: any) => { e.preventDefault(); if (pagination.hasNextPage) goToPage(pagination.page + 1); }}
                 />
               </PaginationItem>
             </PaginationContent>
