@@ -23,8 +23,8 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
   const togglePopup = () => setIsOpen(!isOpen);
 
   return (
-    <div className="card w-54 md:w-96 bg-base-100 shadow-xl">
-      <figure onClick={togglePopup} className="cursor-pointer">
+    <div className="card w-54 h-54 md:w-96 md:h-72 bg-base-100 shadow-xl">
+      <figure onClick={togglePopup} className="cursor-pointer h-4/5">
         <img src={thumbnailUrl} alt={title} />
       </figure>
       <div className="card-body">
@@ -41,7 +41,6 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
               className="w-full h-96"
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1`}
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
