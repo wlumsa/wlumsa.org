@@ -46,6 +46,7 @@ import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
+import { Masjid } from "./collections/PrayerSpaces";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -106,6 +107,7 @@ export default buildConfig({
     Events,
     GeneralUser,
     DailyReminders,
+    Masjid,
   ],
   globals: [Nav, Footer, PrayerTimings],
   editor: lexicalEditor({}),
