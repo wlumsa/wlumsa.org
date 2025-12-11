@@ -39,6 +39,12 @@ const config = {
         hostname:"mrucujpvbprmpznsgmfr.supabase.co",
         port:"",
         pathname:"/**"
+      },
+      {
+        protocol:"https",
+        hostname:"qweyvtbtaycxzayedctk.supabase.co",
+        port:"",
+        pathname:"/**"
       }
 
 
