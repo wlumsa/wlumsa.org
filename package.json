@@ -63,7 +63,7 @@
     "list@0.21.0": "link:lexical\\list@0.21.0",
     "lucide-react": "^0.468.0",
     "mark@0.18.0": "link:lexical\\mark@0.18.0",
-    "next": "15.0.5",
+    "next": "15.0.7",
     "next-sitemap": "^4.2.3",
     "payload": "3.54.0",
     "prettier-plugin-tailwind": "^2.2.12",
