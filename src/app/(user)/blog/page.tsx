@@ -65,7 +65,7 @@ export default async function Page(props: {
         </div>
       </div>
       <div className="flex justify-center pb-16">
-        <div className="max-w-sm md:max-w-4xl gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className=" px-28  gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post: Post) => (
               <BlogCard key={post.id} post={post}  />
             ))}
