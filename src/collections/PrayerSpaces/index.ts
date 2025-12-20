@@ -36,7 +36,5 @@ export const Masjid: CollectionConfig = {
       type: 'text',
       required: false,
     },
-
-    // Add more fields as needed
   ],
 }

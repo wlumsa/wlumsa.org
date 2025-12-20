@@ -1317,3 +1317,11 @@ export async function getHalalGroceryStores() {
   });
   return groceryStores.docs;
 }
+
+export async function getPrayerSpaces() {
+  const payload = await getPayloadInstance();
+  const masajid = await payload.find({
+    collection: "masjid",
+  });
+  return masajid.docs;
+}
