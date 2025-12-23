@@ -96,6 +96,7 @@ export interface Config {
     events: Event;
     GeneralUser: GeneralUser;
     'daily-reminders': DailyReminder;
+    masjid: Masjid;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -133,6 +134,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     GeneralUser: GeneralUserSelect<false> | GeneralUserSelect<true>;
     'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
+    masjid: MasjidSelect<false> | MasjidSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -709,6 +711,20 @@ export interface DailyReminder {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "masjid".
+ */
+export interface Masjid {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
+  location: string;
+  googleMapsLink: string;
+  websiteLink?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -1075,6 +1091,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'daily-reminders';
         value: number | DailyReminder;
+      } | null)
+    | ({
+        relationTo: 'masjid';
+        value: number | Masjid;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1543,6 +1563,19 @@ export interface DailyRemindersSelect<T extends boolean = true> {
   reference?: T;
   arabic?: T;
   english?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "masjid_select".
+ */
+export interface MasjidSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  location?: T;
+  googleMapsLink?: T;
+  websiteLink?: T;
   updatedAt?: T;
   createdAt?: T;
 }

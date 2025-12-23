@@ -66,6 +66,7 @@
     "next": "15.0.7",
     "next-sitemap": "^4.2.3",
     "payload": "3.54.0",
+    "posthog-js": "^1.310.0",
     "prettier-plugin-tailwind": "^2.2.12",
     "react": "19.0.0",
     "react-dom": "19.0.0",
