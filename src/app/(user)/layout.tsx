@@ -12,6 +12,8 @@ import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from "./GoogleAnalytics";
 import ThemeProvider from "./themeprovider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { PostHogProvider } from "./providers";
+import posthog from 'posthog-js'
 
 // Force dynamic rendering to avoid Clerk issues during static generation
 export const dynamic = 'force-dynamic';
@@ -70,6 +72,10 @@ export default async function RootLayout({
   const socialData = await fetchSocialData();
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
+  posthog.capture("test_event", {
+    source: "manual_test",
+  })
+  
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
@@ -95,6 +101,8 @@ export default async function RootLayout({
         </head>
         <GoogleAnalytics />
         <body>
+          <PostHogProvider>
+          
           <Toaster position="top-center" />
           {/* Temporarily disabled due to production loading issues */}
           {/* <SpeedInsights /> */}
@@ -104,6 +112,7 @@ export default async function RootLayout({
               {children}
               <Footer footerGroups={footerData} socialData={socialData} />
             </ThemeProvider>
+            </PostHogProvider>
         </body>
       </html>
     </ClerkProvider>
