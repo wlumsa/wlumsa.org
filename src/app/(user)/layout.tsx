@@ -14,6 +14,8 @@ import ThemeProvider from "./themeprovider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { PostHogProvider } from "./providers";
 import posthog from 'posthog-js'
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from '@vercel/analytics/next';
 
 // Force dynamic rendering to avoid Clerk issues during static generation
 export const dynamic = 'force-dynamic';
@@ -105,8 +107,8 @@ export default async function RootLayout({
           
           <Toaster position="top-center" />
           {/* Temporarily disabled due to production loading issues */}
-          {/* <SpeedInsights /> */}
-          {/* <Analytics /> */}
+          <SpeedInsights /> 
+          <Analytics />
             <ThemeProvider>
               <Navbar navbarData={navbarData} />
               {children}
