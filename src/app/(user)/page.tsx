@@ -3,7 +3,7 @@
  * 
  * @returns The JSX element representing the home page.
  */
-import Popup from '@/components/UI/Popup';
+// import Popup from '@/components/UI/Popup';
 import News from '@/components/UI/News';
 import Hero from '@/components/UI/Hero';
 import PrayerSection from '@/components/UI/PrayerSection';

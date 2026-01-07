@@ -1,4 +1,5 @@
 
+"use client";
 import React, { useEffect, useState } from "react";
 import RamadanInfo from "@/components/UI/RamadanInfo";
 import Image from "next/image";
@@ -7,10 +8,10 @@ import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 
 type Params = Promise<{ slug: string }>
 
-export const metadata = {
-  title: "Ramadan 2024",
-  description: "Ramadan information, prayer times, and resources for WLU MSA"
-};
+// export const metadata = {
+//   title: "Ramadan 2024",
+//   description: "Ramadan information, prayer times, and resources for WLU MSA"
+// };
 
 export default async  function RamadanPage(props:{
     params:Params
