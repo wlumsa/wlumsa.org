@@ -17,7 +17,7 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
@@ -28,7 +28,9 @@
       "@payload-config": [
         "./src/payload.config.ts"
       ],
-      "react": [ "./node_modules/@types/react" ],
+      "react": [
+        "./node_modules/@types/react"
+      ],
       "payload/types": [
         "./node_modules/payload/types"
       ]
@@ -47,7 +49,8 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts",
-    "node_modules/payload/**/*.d.ts"
+    "node_modules/payload/**/*.d.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

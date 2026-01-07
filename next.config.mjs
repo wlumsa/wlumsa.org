@@ -8,9 +8,11 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  experimental: {
     reactCompiler: true,
-  },
+    turbopack: {
+
+    },
+
   async redirects() {
     return [
       {
