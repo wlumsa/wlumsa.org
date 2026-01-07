@@ -1,12 +1,17 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
-
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware(async (auth , req) => { ;
-const isProtectedRoute = createRouteMatcher(['/create-post', '/dashboard', '/onboarding']);
-  if (isProtectedRoute(req)) await auth.protect()
-  });
+const isProtectedRoute = createRouteMatcher([
+  '/create-post', '/dashboard','/onboarding']);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+  return await updateSession(req);
+});
+
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
@@ -16,9 +21,7 @@ export const config = {
   ],
 };
 
-export const updateSession = async (request: NextRequest) => {
-  // This `try/catch` block is only here for the interactive tutorial.
-  // Feel free to remove once you have Supabase connected.
+const updateSession = async (request: NextRequest) => {
   try {
     // Create an unmodified response
     let response = NextResponse.next({
@@ -32,7 +35,7 @@ export const updateSession = async (request: NextRequest) => {
 
     if (!supabaseUrl || !supabaseAnonKey) {
       console.error("Supabase URL or key is missing in environment variables");
-      throw new Error("Supabase URL or key is missing");
+      return response; 
     }
 
     const supabase = createServerClient(
@@ -44,7 +47,6 @@ export const updateSession = async (request: NextRequest) => {
             return request.cookies.get(name)?.value;
           },
           set(name: string, value: string, options: CookieOptions) {
-            // If the cookie is updated, update the cookies for the request and response
             request.cookies.set({
               name,
               value,
@@ -62,7 +64,6 @@ export const updateSession = async (request: NextRequest) => {
             });
           },
           remove(name: string, options: CookieOptions) {
-            // If the cookie is removed, update the cookies for the request and response
             request.cookies.set({
               name,
               value: "",
@@ -82,16 +83,10 @@ export const updateSession = async (request: NextRequest) => {
         },
       },
     );
-
-    // This will refresh session if expired - required for Server Components
-    // https://supabase.com/docs/guides/auth/server-side/nextjs
     await supabase.auth.getUser();
 
     return response;
   } catch (e) {
-    // If you are here, a Supabase client could not be created!
-    // This is likely because you have not set up environment variables.
-    // Check out http://localhost:3000 for Next Steps.
     return NextResponse.next({
       request: {
         headers: request.headers,
