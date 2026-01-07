@@ -155,12 +155,12 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </button>
 
           {/* Donate Button */}
-          <Link
+          {/* <Link
             href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
             className="btn btn-secondary text-primary duration-200 hover:scale-105 hover:shadow-lg transition-all text-xs sm:text-sm"
           >
             Donate
-          </Link>
+          </Link> */}
 
           {/* Sign In/Sign Up Button */}
           <SignedOut>
