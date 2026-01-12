@@ -1,3 +1,12 @@
+import React from 'react'
+
+const page = () => {
+  return (
+    <div>page</div>
+  )
+}
+
+export default page
 // "use server";
 // import React from "react";
 // import { supabase } from "@/lib/supabaseClient";
