@@ -38,13 +38,13 @@ import sharp from "sharp";
 import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
-import RoommatePosts from "./collections/RoommatePosts";
-import { Comments } from "./collections/Comment";
+// import RoommatePosts from "./collections/RoommatePosts";
+// import { Comments } from "./collections/Comment";
 import {Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
 import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
-import GeneralUser from "./collections/UI/GeneralUser";
+// import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
 const filename = fileURLToPath(import.meta.url);
@@ -102,10 +102,10 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     HalalGroceryStores,
-    RoommatePosts,
-    Comments,
+    // RoommatePosts,
+    // Comments,
     Events,
-    GeneralUser,
+    // GeneralUser,
     DailyReminders,
     Masjid,
   ],

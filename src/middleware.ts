@@ -1,16 +1,20 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+// import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher([
-  '/create-post', '/dashboard','/onboarding']);
+// const isProtectedRoute = createRouteMatcher([
+//   '/create-post', '/dashboard','/onboarding']);
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
-  return await updateSession(req);
-});
+// export default clerkMiddleware(async (auth, req) => {
+//   if (isProtectedRoute(req)) {
+//     await auth.protect();
+//   }
+//   return await updateSession(req);
+// });
+
+export async function middleware(request: NextRequest) {
+  return updateSession(request);
+}
 
 export const config = {
   matcher: [
@@ -21,7 +25,7 @@ export const config = {
   ],
 };
 
-const updateSession = async (request: NextRequest) => {
+export const updateSession = async (request: NextRequest) => {
   try {
     // Create an unmodified response
     let response = NextResponse.next({

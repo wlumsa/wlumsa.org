@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
-import {UserButton } from "@clerk/nextjs";
+// import { SignedIn, SignedOut } from "@clerk/nextjs";
+// import {UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/app/(user)/themeprovider";
 import logo from "../../logo.png";
@@ -155,25 +155,25 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           </button>
 
           {/* Donate Button */}
-          <Link
+          {/* <Link
             href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
             className="btn btn-secondary text-primary duration-200 hover:scale-105 hover:shadow-lg transition-all text-xs sm:text-sm"
           >
             Donate
-          </Link>
+          </Link> */}
 
           {/* Sign In/Sign Up Button */}
-          <SignedOut>
+          {/* <SignedOut>
             <Link
               href="/sign-up"
               className="btn btn-secondary text-primary duration-200 hover:scale-105 hover:shadow-lg transition-all text-xs sm:text-sm"
             >
               Sign Up
             </Link>
-          </SignedOut>
+          </SignedOut> */}
 
           {/* User Button - When signed in */}
-          <SignedIn>
+          {/* <SignedIn>
             <UserButton
               appearance={{
                 elements: {
@@ -183,7 +183,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 },
               }}
             />
-          </SignedIn>
+          </SignedIn> */}
         </div>
       </div>
 

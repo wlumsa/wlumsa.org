@@ -11,7 +11,7 @@ import {
 import { Toaster } from "react-hot-toast";
 import GoogleAnalytics from "./GoogleAnalytics";
 import ThemeProvider from "./themeprovider";
-import { ClerkProvider } from "@clerk/nextjs";
+// import { ClerkProvider } from "@clerk/nextjs";
 import { PostHogProvider } from "./providers";
 import posthog from 'posthog-js'
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -79,12 +79,7 @@ export default async function RootLayout({
   })
   
   return (
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in'}
-      signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up'}
-      signInFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL || '/dashboard'}
-    >
+    
       <html lang="en" className={`${libreBaskerville.variable} ${inter.variable}`} data-theme="lightTheme">
         <head>
           <script
@@ -117,6 +112,5 @@ export default async function RootLayout({
             </PostHogProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }

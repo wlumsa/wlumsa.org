@@ -49,7 +49,7 @@ const MasjidCard: React.FC<MasjidCardProps> = ({name, image, address, websiteLin
         
       </div>
       <div className="mt-3 flex gap-3 sm:mt-4 sm:gap-4">
-        <Link
+      { googleMapsLink && googleMapsLink.length > 0 && <Link
           href={`${googleMapsLink}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -58,6 +58,9 @@ const MasjidCard: React.FC<MasjidCardProps> = ({name, image, address, websiteLin
         >
           Google Maps
         </Link>
+}
+
+  { websiteLink && websiteLink.length > 0 && 
 
         <Link
           href={websiteLink}
@@ -68,7 +71,7 @@ const MasjidCard: React.FC<MasjidCardProps> = ({name, image, address, websiteLin
           >
             Website
           </Link>
-        
+}
       </div>
       </div>
     </div>

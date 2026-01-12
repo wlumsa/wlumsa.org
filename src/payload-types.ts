@@ -91,10 +91,7 @@ export interface Config {
     faq: Faq;
     'halal-directory': HalalDirectory;
     'halal-grocery-stores': HalalGroceryStore;
-    RoommatePosts: RoommatePost;
-    comments: Comment;
     events: Event;
-    GeneralUser: GeneralUser;
     'daily-reminders': DailyReminder;
     masjid: Masjid;
     forms: Form;
@@ -129,10 +126,7 @@ export interface Config {
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     'halal-grocery-stores': HalalGroceryStoresSelect<false> | HalalGroceryStoresSelect<true>;
-    RoommatePosts: RoommatePostsSelect<false> | RoommatePostsSelect<true>;
-    comments: CommentsSelect<false> | CommentsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
-    GeneralUser: GeneralUserSelect<false> | GeneralUserSelect<true>;
     'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
     masjid: MasjidSelect<false> | MasjidSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -621,67 +615,6 @@ export interface HalalGroceryStore {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "RoommatePosts".
- */
-export interface RoommatePost {
-  id: number;
-  userId: number | GeneralUser;
-  author?: string | null;
-  email?: string | null;
-  contactEmail: boolean;
-  title: string;
-  address: string;
-  description: string;
-  rent: number;
-  deposit?: number | null;
-  gender: '1' | '2';
-  propertyType: '1' | '2' | '3' | '4';
-  furnishingType: '1' | '2' | '3';
-  utilities?: ('1' | '2' | '3' | '4' | '5' | '6')[] | null;
-  amenities?: ('1' | '2' | '3' | '4' | '5')[] | null;
-  images: string[];
-  availableDate: string;
-  facebook?: string | null;
-  phoneNumber?: string | null;
-  instagram?: string | null;
-  whatsapp?: string | null;
-  status?: ('pending' | 'approved') | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GeneralUser".
- */
-export interface GeneralUser {
-  id: number;
-  clerkId: string;
-  email: string;
-  firstName?: string | null;
-  lastName?: string | null;
-  category?: ('student' | 'landlord' | 'parent' | 'business' | 'alumni') | null;
-  laurierEmail?: string | null;
-  studentId?: string | null;
-  year?: string | null;
-  program?: string | null;
-  newsletter?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments".
- */
-export interface Comment {
-  id: number;
-  author?: string | null;
-  comment?: string | null;
-  postId: number | RoommatePost;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
@@ -1073,20 +1006,8 @@ export interface PayloadLockedDocument {
         value: number | HalalGroceryStore;
       } | null)
     | ({
-        relationTo: 'RoommatePosts';
-        value: number | RoommatePost;
-      } | null)
-    | ({
-        relationTo: 'comments';
-        value: number | Comment;
-      } | null)
-    | ({
         relationTo: 'events';
         value: number | Event;
-      } | null)
-    | ({
-        relationTo: 'GeneralUser';
-        value: number | GeneralUser;
       } | null)
     | ({
         relationTo: 'daily-reminders';
@@ -1483,46 +1404,6 @@ export interface HalalGroceryStoresSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "RoommatePosts_select".
- */
-export interface RoommatePostsSelect<T extends boolean = true> {
-  userId?: T;
-  author?: T;
-  email?: T;
-  contactEmail?: T;
-  title?: T;
-  address?: T;
-  description?: T;
-  rent?: T;
-  deposit?: T;
-  gender?: T;
-  propertyType?: T;
-  furnishingType?: T;
-  utilities?: T;
-  amenities?: T;
-  images?: T;
-  availableDate?: T;
-  facebook?: T;
-  phoneNumber?: T;
-  instagram?: T;
-  whatsapp?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments_select".
- */
-export interface CommentsSelect<T extends boolean = true> {
-  author?: T;
-  comment?: T;
-  postId?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
@@ -1534,24 +1415,6 @@ export interface EventsSelect<T extends boolean = true> {
   image?: T;
   link?: T;
   status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GeneralUser_select".
- */
-export interface GeneralUserSelect<T extends boolean = true> {
-  clerkId?: T;
-  email?: T;
-  firstName?: T;
-  lastName?: T;
-  category?: T;
-  laurierEmail?: T;
-  studentId?: T;
-  year?: T;
-  program?: T;
-  newsletter?: T;
   updatedAt?: T;
   createdAt?: T;
 }

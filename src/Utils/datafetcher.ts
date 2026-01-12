@@ -5,7 +5,7 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
-import { RoommatePost } from "@/payload-types";
+// import { RoommatePost } from "@/payload-types";
 export const revalidate = 3600;
 
 // Lazy initialization of payload to prevent database connection issues
@@ -1235,33 +1235,33 @@ export async function deleteCommentById(commentId: string) {
   return res;
 }
 
-export async function createRoommatePost(postData: RoommatePost) {
-  const payload = await getPayloadInstance();
-  const post = await payload.create({
-  collection: "RoommatePosts",
-    data: {
-      title: postData.title,
-      description: postData.description,
-      rent: postData.rent,
-      deposit: postData.deposit,
-      address: postData.address,
-      contactEmail: postData.contactEmail,
-      availableDate: postData.availableDate,
-      propertyType: postData.propertyType,
-      utilities: postData.utilities, // Use the existing 'utilities' property
-      amenities: postData.amenities,
-      images: postData.images,
-      furnishingType: postData.furnishingType,
-      gender: postData.gender,
-      phoneNumber: postData.phoneNumber,
-      facebook: postData.facebook,
-      instagram: postData.instagram,
-      whatsapp: postData.whatsapp,
-      userId: postData.userId,
-    },
-  });
-  return post;
-}
+// export async function createRoommatePost(postData: RoommatePost) {
+//   const payload = await getPayloadInstance();
+//   const post = await payload.create({
+//   collection: "RoommatePosts",
+//     data: {
+//       title: postData.title,
+//       description: postData.description,
+//       rent: postData.rent,
+//       deposit: postData.deposit,
+//       address: postData.address,
+//       contactEmail: postData.contactEmail,
+//       availableDate: postData.availableDate,
+//       propertyType: postData.propertyType,
+//       utilities: postData.utilities, // Use the existing 'utilities' property
+//       amenities: postData.amenities,
+//       images: postData.images,
+//       furnishingType: postData.furnishingType,
+//       gender: postData.gender,
+//       phoneNumber: postData.phoneNumber,
+//       facebook: postData.facebook,
+//       instagram: postData.instagram,
+//       whatsapp: postData.whatsapp,
+//       userId: postData.userId,
+//     },
+//   });
+//   return post;
+// }
 
 export async function updateUserInfo(clerkId: string, data: any) {
   const payload = await getPayloadInstance();
