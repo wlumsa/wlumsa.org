@@ -27,17 +27,9 @@ export default async function page() {
               </ul>
             </div>
 
-            <p className="mb-6 font-body text-lg text-base-content/80 leading-relaxed">
+            <p className="font-body text-lg text-base-content/80 leading-relaxed">
               We have been there, that's why we decided to create the MSA Resource Guide!
             </p>
-
-            <div className="bg-primary/10 p-4 rounded-lg border-l-4 border-primary">
-              <p className="font-body text-lg">
-                <strong className="text-primary font-semibold">
-                  Sign up to receive a free resource guide below
-                </strong>
-              </p>
-            </div>
           </div>
 
           <div className="flex-shrink-0">
