@@ -12,10 +12,10 @@ interface FooterProps {
 const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData }) => {
   return (
     <div className=''>
-      <footer id="footer" className="footer bg-base-100 p-10 text-base-content">
+      <footer id="footer" className="footer bg-base-100 p-6 md:p-10 text-base-content">
         {footerGroups.items.map((item) => (
           <div key={item.id}>
-            <span className="footer-title">{item.label}</span>
+            <span className="footer-title opacity-80 mb-3">{item.label}</span>
             {item.links && (
               item.links.map((link, index) => (
                 <a key={index} href={link.url} className="link-hover link " target="_blank" rel="noopener noreferrer">
@@ -27,18 +27,18 @@ const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData }) =>
         ))}
       </footer>
 
-      <footer className="footer border-0 bg-base-100 px-10 py-4 text-base-content">
-        <div className="grid-flow-col items-center">
+      <footer className="border-0 bg-base-100 px-6 md:px-10 py-6 text-base-content flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="flex items-center justify-center md:justify-start gap-3">
           <Link prefetch={false} href='/'>
-            <Image src={logo} alt="Logo" className="mr-2 h-6 w-6" />
+            <Image src={logo} alt="Logo" className="h-8 w-8 md:h-6 md:w-6" />
           </Link>
-          <p>
+          <p className="text-sm md:text-base leading-tight">
             Wilfrid Laurier University <br />
             Muslim Students' Association
           </p>
         </div>
-        <div className="md:place-self-center md:justify-self-end">
-          <div className="grid grid-flow-col gap-4">
+        <div className="flex justify-center md:justify-end">
+          <div className="flex gap-5">
             {socialData.map((social, index) => (
               <a
                 key={index}
@@ -50,7 +50,7 @@ const FooterComponent: React.FC<FooterProps> = ({ footerGroups, socialData }) =>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
-                  className="hover:fill-secondary-focus h-6 w-6 fill-secondary"
+                  className="hover:fill-secondary-focus h-7 w-7 md:h-6 md:w-6 fill-secondary"
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>

@@ -8,11 +8,30 @@ import MemberSignup from "@/components/UI/MemberSignup";
  */
 export default async function EventsPage() {
   return (
-    <div className="flex-grow m-16 ">
-      <div className="flex flex-col max-w-4xl mx-auto">
-        <h1 className="text-4xl text-center font-bold text-primary py-8 ">Check out our <Link href="https://www.instagram.com/wlumsa" target="_blank" className="underline">Instagram</Link> to see what's happening or subscribe to our newsletter to get notified of upcoming events</h1>
-        <MemberSignup />
+    <main className="flex-grow px-4 pt-20 pb-12 sm:px-8">
+      <div className="flex flex-col max-w-3xl mx-auto space-y-6">
+        <h1 className="text-4xl font-bold text-center text-primary">
+          Upcoming Events
+        </h1>
+
+        <p className="text-lg text-center text-muted-foreground leading-relaxed">
+          Follow our{" "}
+          <Link
+            href="https://www.instagram.com/wlumsa"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-4"
+          >
+            Instagram
+          </Link>{" "}
+          to see what’s happening, or subscribe to our newsletter to get notified
+          about upcoming events.
+        </p>
+
+        <div className="pt-4">
+          <MemberSignup />
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

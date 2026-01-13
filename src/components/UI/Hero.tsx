@@ -24,12 +24,13 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
       )}
-      <div className="hero-overlay bg-neutral bg-opacity-50" />
+      <div className="absolute inset-0 bg-black" style={{ opacity: 0.25 }} />
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <FadeText className="mb-5 text-6xl font-bold text-secondary duration-200 hover:scale-105" direction="right" text="Salam!" />
+          <FadeText className="mb-5 text-6xl font-bold duration-200 hover:scale-105" style={{ color: '#e7ac3b' }} direction="right" text="Salam!" />
           <TextEffect
-            className="mb-5 text-white"
+            className="mb-5"
+            style={{ color: '#ffffff' }}
             per="word"           // Animate by word instead of character for faster loading
             as="h2"
             delay={0.1}          // Start animation quickly after page load
@@ -60,10 +61,10 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
           </TextEffect>
           <div className="flex flex-row m-4 justify-center mb-6 items-center gap-4" >
             {/* Keep consistent styling for main CTA buttons regardless of theme */}
-            <button className="btn btn-primary text-yellow-400 text-bold h-12 px-6 py-3 duration-200 hover:scale-105 hover:bg-primary/90">
+            <button className="btn text-bold h-12 px-6 py-3 duration-200 hover:scale-105 font-semibold rounded-lg" style={{ backgroundColor: '#2e046d', color: '#e7ac3b', border: 'none' }}>
               <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</Link>
             </button>
-            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3 whitespace-nowrap">
+            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3 whitespace-nowrap" style={{ backgroundColor: '#e7ac3b', color: '#1a1200', border: 'none' }}>
               Become a Member
             </GetStartedButton> </Link>
           </div>
@@ -80,7 +81,8 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
-                  className="h-8 w-8 fill-secondary stroke-gray-600 hover:fill-secondary-focus"
+                  className="h-8 w-8 stroke-gray-600"
+                  style={{ fill: '#e7ac3b' }}
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>

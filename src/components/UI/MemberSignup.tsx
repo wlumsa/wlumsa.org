@@ -1,11 +1,8 @@
 'use client'
 import { toast } from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
 import { memberSignup } from '@/Utils/actions';
 import { useFormStatus } from 'react-dom';
 import { useTransition } from "react";
-import { CheckCircle } from "lucide-react";
-import { GetStartedButton } from "@/components/UI/button";
 
 const MemberSignup: React.FC = () => {
   const { pending } = useFormStatus();
@@ -23,11 +20,9 @@ const MemberSignup: React.FC = () => {
   };
 
   return (
-  
-     
-        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-6 sm:p-8">
+        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 sm:p-7 md:p-8">
           <form className="text-base-content" action={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-7 md:mb-8">
               <div className="space-y-4">
                 <input
                   type="text"
@@ -67,31 +62,45 @@ const MemberSignup: React.FC = () => {
             </div>
 
             {/* Newsletter Toggle */}
-            <div className="mb-6">
+            <div className="mb-7 md:mb-8">
               <label className="label cursor-pointer bg-base-200 rounded-lg p-4 hover:bg-base-300 transition-colors">
-                <span className="label-text text-base-content font-medium">📧 Newsletter Signup</span>
+                <div className="flex flex-col gap-1 flex-1 pr-4">
+                  <span className="label-text text-base-content font-medium">
+                    Stay Updated
+                  </span>
+                  <span className="text-xs text-base-content/70">
+                    Get weekly updates on events, prayers, and community news
+                  </span>
+                </div>
                 <input
                   type="checkbox"
                   name="newsLetter"
-                  className="toggle toggle-primary"
+                  className="toggle toggle-primary shrink-0"
                   defaultChecked={true}
                 />
               </label>
             </div>
 
             {/* Submit Button */}
-            <div className="text-center">
-              <GetStartedButton
+            <div className="text-center pt-2">
+              <button
                 type="submit"
                 disabled={isPending}
-                isLoading={isPending}
+                className="btn btn-primary btn-lg w-full sm:w-auto sm:min-w-[240px] md:px-12 font-medium shadow-lg hover:shadow-xl transition-all duration-200"
               >
-                {isPending ? "Signing Up..." : "Join Community"}
-              </GetStartedButton>
+                {isPending ? (
+                  <>
+                    <span className="loading loading-spinner loading-sm"></span>
+                    Signing Up...
+                  </>
+                ) : (
+                  "Join Community"
+                )}
+              </button>
             </div>
           </form>
         </div>
-     
+
   );
 };
 

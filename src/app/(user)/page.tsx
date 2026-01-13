@@ -1,6 +1,6 @@
 /**
  * Renders the home page of the application.
- * 
+ *
  * @returns The JSX element representing the home page.
  */
 // import Popup from '@/components/UI/Popup';
@@ -13,12 +13,12 @@ import MemberSignup from '@/components/UI/MemberSignup';
 import { fetchInstagramPosts, fetchWeeklyEventsData, getJummahTimings, getPrayerRooms, getPrayerTimings, getMedia, fetchSocialData } from '@/Utils/datafetcher';
 import { WeeklyEvents } from '@/components/UI/WeeklyEvents';
 import { CheckCircle } from 'lucide-react';
-/*  
+/*
  * Next.js time-based revalidation function for caching (set to 1 hour)
  * Best practices:
  * - Use caching for static content to optimize performance
  * - Dynamic content should be revalidated periodically
- * More information can be found here: 
+ * More information can be found here:
  * https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 */
 
@@ -46,15 +46,15 @@ export default async function Home() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-base-100">
       {/* Hero Section */}
       <Hero mediaDocs={mediaDocs} socialLinks={socialLinks} />
-      
+
       {/* Prayer Section */}
-      <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} /> 
+      <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} />
       {/* <Popup /> */}
 
       {/* News and Events */}
       <News instagramPosts={instagramPosts} />
       <WeeklyEvents events={events} />
-      
+
       {/* Signup */}
       <div className="flex w-full items-center justify-center py-8 sm:py-12">
         <div className="max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -67,9 +67,9 @@ export default async function Home() {
               </p>
 
               {/* Social Proof */}
-              <div className="flex items-center justify-center gap-2 bg-success text-success-content px-4 py-2 rounded-full text-sm sm:text-base shadow-sm">
-                <CheckCircle className="w-5 h-5" />
-                <span className="font-medium">Join 200+ students already signed up!</span>
+              <div className="flex items-center justify-center gap-2 bg-base-200 border border-base-300 text-base-content/70 px-4 py-2 rounded-full text-sm">
+                <CheckCircle className="w-4 h-4 text-primary/60" />
+                <span>Trusted by 200+ WLU students</span>
               </div>
             </div>
           <MemberSignup />

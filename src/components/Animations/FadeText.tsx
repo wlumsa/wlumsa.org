@@ -5,6 +5,7 @@ import { motion, HTMLMotionProps } from 'framer-motion';
 interface FadeTextProps extends HTMLMotionProps<'div'> {
   direction?: 'up' | 'down' | 'left' | 'right';
   className?: string;
+  style?: React.CSSProperties;
   framerProps?: {
     hidden?: { opacity?: number; [key: string]: any };
     show?: { opacity?: number; [key: string]: any };
@@ -15,6 +16,7 @@ interface FadeTextProps extends HTMLMotionProps<'div'> {
 export function FadeText({
   direction = 'up',
   className,
+  style,
   framerProps = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { type: 'spring' } },
@@ -55,7 +57,7 @@ export function FadeText({
       viewport={{ once: true }}
       variants={FADE_ANIMATION_VARIANTS}
     >
-      <motion.span className={className}>{text}</motion.span>
+      <motion.span className={className} style={style}>{text}</motion.span>
     </motion.div>
   );
 }
