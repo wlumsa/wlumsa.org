@@ -64,8 +64,8 @@ export default async function Page(props: {
           <ButtonGroup categories={categoryArray}  />
         </div>
       </div>
-      <div className="flex justify-center pb-16">
-        <div className=" px-28  gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="flex justify-center pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {posts.map((post: Post) => (
               <BlogCard key={post.id} post={post}  />
             ))}

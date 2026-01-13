@@ -35,51 +35,60 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
   });
   return (
 
-    <article className="card mx-2 group rounded-xl border border-base-300   shadow-sm transition-all hover:shadow-md dark:border-base-700 bg-gray-50/50 min-h-120">
-      <div className="mb-4  h-44 w-full overflow-hidden rounded-t-lg bg-gray-100">
+    <article className="group flex flex-col h-full rounded-2xl overflow-hidden bg-base-100 border border-base-300 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1">
+      {/* Image Container */}
+      <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-base-200">
         {image && image.length > 0 && image[0] ? (
-
           <Image
             src={image[0] ?? ""}
             alt={post.title || "Blog header image"}
             width={620}
             height={420}
-            className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-2xl text-primary p-4" aria-hidden>
-            <span className="text-xs text-base-content/50">No image</span>
+          <div className="flex h-full w-full items-center justify-center" aria-hidden>
+            <span className="text-sm text-base-content/30">No image</span>
+          </div>
+        )}
+        {/* Category Badge - Overlay on image */}
+        {typeof post?.categories === 'object' && post?.categories?.title && (
+          <div className="absolute top-4 right-4 px-3 py-1 text-xs font-medium rounded-full bg-primary text-primary-content shadow-md">
+            {post.categories.title}
           </div>
         )}
       </div>
 
-      <div className="flex flex-col space-y-3 p-5 min-h-72 ">
-        <header>
-          <div className="flex flex-col md:flex-row md:gap-4 md:items-center justify-between">
-            <div className=" items-center  gap-2">
-              {/* <Calendar size={16} className="text-base-content/70" /> */}
-              <p className="text-base-content/70 text-sm py-2 ">{formattedDate}</p>
-            </div>
-            <div className="rounded-lg px-2 text-sm bg-primary/20 text-primary w-fit ">
-              {typeof post?.categories === 'object' ? post?.categories?.title : ""}
-            </div>
-          </div>
-          <div className=" h-40">
-          <h3 className="text-lg  font-semibold text-primary py-2">{post.title}</h3>
-          <p className="text-base-content/70 text-sm md:text-md ">{post.description ? post.description.length >= 50 ? post.description.slice(0, 150) + "..." : post.description : ""}</p>
-         </div>
-        </header>
-        <div className=" card-actions text-left justify-end py-2">
-          <Link
-            href={`/blog/${title}-${post.id}`}
-            rel="noopener noreferrer"
-            className="w-fit flex  items-center justify-center gap-2 rounded-lg border border-primary px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-content"
-            aria-label={`Read article about ${title} }`}
-          >
-            Read More
-            <ArrowRight size={16} />
-          </Link>
+      {/* Content Container */}
+      <div className="flex flex-col flex-1 p-5 sm:p-6">
+        {/* Date */}
+        <div className="flex items-center gap-2 mb-3">
+          <Calendar size={14} className="text-base-content/50" />
+          <time className="text-xs sm:text-sm text-base-content/60" dateTime={post.createdAt}>
+            {formattedDate}
+          </time>
         </div>
+
+        {/* Title */}
+        <h3 className="text-xl sm:text-2xl font-bold text-base-content mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+          {post.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm sm:text-base text-base-content/70 mb-6 line-clamp-3 flex-1">
+          {post.description ? post.description.length >= 120 ? post.description.slice(0, 120) + "..." : post.description : ""}
+        </p>
+
+        {/* CTA Button */}
+        <Link
+          href={`/blog/${title}-${post.id}`}
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-primary border-2 border-primary rounded-lg transition-all duration-200 hover:bg-primary hover:text-primary-content group/btn"
+          aria-label={`Read article about ${title}`}
+        >
+          Read More
+          <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
+        </Link>
       </div>
     </article>
   );
