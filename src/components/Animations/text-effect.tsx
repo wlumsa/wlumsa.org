@@ -13,6 +13,7 @@ type TextEffectProps = {
     item?: Variants;
   };
   className?: string;
+  style?: React.CSSProperties;
   preset?: PresetType;
   delay?: number;
   trigger?: boolean;
@@ -81,13 +82,15 @@ const AnimationComponent: React.FC<{
   word: string;
   variants: Variants;
   per: 'word' | 'char';
-}> = React.memo(({ word, variants, per }) => {
+  style?: React.CSSProperties;
+}> = React.memo(({ word, variants, per, style }) => {
   if (per === 'word') {
     return (
       <motion.span
         aria-hidden='true'
         variants={variants}
         className='inline-block whitespace-pre'
+        style={style}
       >
         {word}
       </motion.span>
@@ -102,6 +105,7 @@ const AnimationComponent: React.FC<{
           aria-hidden='true'
           variants={variants}
           className='inline-block whitespace-pre'
+          style={style}
         >
           {char}
         </motion.span>
@@ -118,6 +122,7 @@ export function TextEffect({
   as = 'p',
   variants,
   className,
+  style,
   preset,
   delay = 0,
   trigger = true,
@@ -157,6 +162,7 @@ export function TextEffect({
           word={word}
           variants={itemVariants}
           per={per}
+          style={style}
         />
       ))}
     </MotionTag>
