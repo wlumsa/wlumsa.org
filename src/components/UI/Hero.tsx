@@ -24,7 +24,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
       )}
-      <div className="hero-overlay bg-neutral bg-opacity-50" />
+      <div className="absolute inset-0 bg-black" style={{ opacity: 0.25 }} />
       <div className="hero-content text-center">
         <div className="max-w-md">
           <FadeText className="mb-5 text-6xl font-bold duration-200 hover:scale-105" style={{ color: '#e7ac3b' }} direction="right" text="Salam!" />
