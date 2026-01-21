@@ -43,11 +43,11 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({ recordings }) => 
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center md:gap-4">
+    <div className="flex w-full flex-col md:flex-row items-center justify-center md:gap-4">
       {length > 1 && (
         <button
           onClick={handlePrev}
-          className="btn btn-circle btn-primary hidden md:flex justify-center items-center"
+          className="btn btn-circle btn-primary hidden md:flex justify-center items-center md:mt-6"
           disabled={currentIndex === 0}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-left">
@@ -56,17 +56,17 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({ recordings }) => 
         </button>
       )}
       <div
-        className="carousel relative md:h-96 gap-12 max-w-[23rem] overflow-x-auto rounded-box py-2 sm:max-w-[20rem] md:max-w-2xl lg:max-w-4xl xl:max-w-6xl"
+        className="carousel relative md:h-96 gap-6 sm:gap-8 md:gap-10 max-w-[22rem] overflow-x-auto rounded-2xl border border-base-300/60 bg-base-200/40 px-3 py-5 shadow-sm sm:max-w-[24rem] md:max-w-2xl lg:max-w-4xl xl:max-w-6xl"
         ref={carouselRef}
       >
         {recordings.map((recording, index) => (
           <div
-            className="carousel-item flex-col w-full md:w-[24rem] bg-primary md:p-2 rounded-xl flex justify-center items-center h-[270px]"
+            className="carousel-item flex-col w-full md:w-[26rem] bg-primary p-3 md:p-4 rounded-xl flex justify-center items-center h-[300px] md:h-[320px]"
             key={index}
           >
-            <h1 className="text-white text-md font-semibold pb-2">{recording.title}</h1>
+            <h1 className="text-white text-md font-semibold pb-3 text-center">{recording.title}</h1>
             <iframe
-              className="w-80 h-60 md:w-[360px] md:h-[215px]"
+              className="w-[18rem] h-56 sm:w-[20rem] md:w-[360px] md:h-[230px]"
               src={recording.src}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -79,7 +79,7 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({ recordings }) => 
       {length > 1 && (
         <button
           onClick={handleNext}
-          className="btn btn-circle btn-primary hidden md:flex justify-center items-center"
+          className="btn btn-circle btn-primary hidden md:flex justify-center items-center md:mt-6"
           disabled={currentIndex === recordings.length - 1}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right">
