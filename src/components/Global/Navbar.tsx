@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 // import { SignedIn, SignedOut } from "@clerk/nextjs";
@@ -18,8 +18,20 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   return (
-    <div className="fixed top-0 z-30 mb-16 rounded-b-3xl bg-[#2e046d] p-0 px-4 sm:px-6 w-full">
+    <div className="fixed top-0 z-30 mb-16 rounded-b-3xl bg-[#2e046d] p-0 px-4 sm:px-6 lg:px-8 w-full">
       <div className="flex items-center h-16">
         {/* Logo - Left Side */}
         <div className="flex-shrink-0 mr-4">
@@ -32,32 +44,31 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         <div className="lg:hidden flex-shrink-0 mr-2">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="btn btn-ghost hover:bg-white/10 transition-all duration-200"
+            className={`grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/5 text-white/90 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-95 ${
+              isMobileMenuOpen ? "bg-white/10" : ""
+            }`}
             aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-nav"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-6 w-6 text-white transition-transform duration-200 ${isMobileMenuOpen ? 'rotate-90' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              )}
-            </svg>
+            <span className="sr-only">Toggle mobile menu</span>
+            <span className="flex flex-col items-center justify-center gap-1">
+              <span
+                className={`h-[2px] w-5 rounded-full bg-current transition-all duration-200 ${
+                  isMobileMenuOpen ? "translate-y-[6px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`h-[2px] w-5 rounded-full bg-current transition-all duration-200 ${
+                  isMobileMenuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`h-[2px] w-5 rounded-full bg-current transition-all duration-200 ${
+                  isMobileMenuOpen ? "-translate-y-[6px] -rotate-45" : ""
+                }`}
+              />
+            </span>
           </button>
         </div>
 
@@ -114,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </div>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-3 flex-shrink-0 absolute right-4 top-2">
+        <div className="flex items-center gap-3 flex-shrink-0 absolute right-4 sm:right-6 lg:right-8 top-2">
           {/* Theme Toggle - Hidden on very small screens */}
           <button
             onClick={toggleTheme}
@@ -192,12 +203,15 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         <div className="fixed inset-0 z-40 lg:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
 
           {/* Mobile Menu */}
-          <div className="fixed top-20 left-4 right-4 bg-[#2e046d] rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
+          <div
+            id="mobile-nav"
+            className="fixed top-20 left-4 right-4 bg-[#2e046d] rounded-2xl shadow-2xl border border-white/10 overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+          >
             <div className="p-4 max-h-[70vh] overflow-y-auto">
               <div className="space-y-2">
                 {navbarData.items.map((item, index) => {
