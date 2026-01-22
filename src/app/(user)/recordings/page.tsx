@@ -42,8 +42,8 @@ const page = async (props: {
   const recordingsData = await fetchRecordingsbyCategory(categoryId);
   const recordingArray = recordingsData.map((recording: Recording) => ( { title: recording.title ? recording.title : '', src: recording.url } ));
   return (
-    <div className="relative min-h-screen">
-      <div className="mx-auto w-full max-w-6xl px-6 py-10 md:px-10 md:py-16 lg:px-16">
+    <div className="relative min-h-screen mt-16 bg-base-100">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-10 md:py-16 lg:px-16">
         <header className="flex flex-col items-center space-y-3 text-center">
           <h1 className="text-3xl font-bold text-primary md:text-4xl">Recordings</h1>
           <p className="max-w-2xl text-center">
