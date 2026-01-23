@@ -8,8 +8,8 @@ import MemberSignup from "@/components/UI/MemberSignup";
  */
 export default async function EventsPage() {
   return (
-    <main className="flex-grow px-4 pt-20 pb-12 sm:px-8">
-      <div className="flex flex-col max-w-3xl mx-auto space-y-6">
+    <main className="flex-grow mt-16 bg-base-100">
+      <div className="flex flex-col max-w-3xl mx-auto space-y-6 px-4 py-8 sm:px-8 lg:py-16">
         <h1 className="text-4xl font-bold text-center text-primary">
           Upcoming Events
         </h1>

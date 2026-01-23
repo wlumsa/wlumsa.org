@@ -9,6 +9,10 @@
 }
 
 /* Apply fonts to base elements */
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-inter);
 }

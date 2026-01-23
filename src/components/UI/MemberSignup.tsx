@@ -86,7 +86,7 @@ const MemberSignup: React.FC = () => {
               <button
                 type="submit"
                 disabled={isPending}
-                className="btn btn-primary btn-lg w-full sm:w-auto sm:min-w-[240px] md:px-12 font-medium shadow-lg hover:shadow-xl transition-all duration-200"
+                className="btn btn-primary w-full sm:w-auto sm:px-8 font-medium rounded-full shadow-sm ring-1 ring-primary/30 border border-primary/40 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 transition-all duration-200"
               >
                 {isPending ? (
                   <>

@@ -106,7 +106,9 @@ export default async function RootLayout({
           <Analytics />
             <ThemeProvider>
               <Navbar navbarData={navbarData} />
-              {children}
+              <main className="pt-0">
+                {children}
+              </main>
               <Footer footerGroups={footerData} socialData={socialData} />
             </ThemeProvider>
             </PostHogProvider>

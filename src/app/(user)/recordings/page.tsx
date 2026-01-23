@@ -42,21 +42,41 @@ const page = async (props: {
   const recordingsData = await fetchRecordingsbyCategory(categoryId);
   const recordingArray = recordingsData.map((recording: Recording) => ( { title: recording.title ? recording.title : '', src: recording.url } ));
   return (
-    <div className="flex relative min-h-screen flex-col m-16 items-center justify-center" >
-       <div>
-        <h1 className="text-4xl text-center font-bold text-primary " >Recordings</h1>
-        <p className="text-center p-4">View previous halaqah, khutbah, and guest speaker recordings here! </p>
-       </div>
-       <div className="mx-auto mt-0">
-         <ButtonGroup categories={categories}/>
-       </div>
-         <RecordingsCarousel recordings={recordingArray} />
-       <div>
-          <button className="btn btn-primary text-white  "><a href="https://www.youtube.com/@WLUMSA">View on Youtube</a></button>
-       </div>
+    <div className="relative min-h-screen mt-16 bg-base-100">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-10 md:py-16 lg:px-16">
+        <header className="flex flex-col items-center space-y-3 text-center">
+          <h1 className="text-3xl font-bold text-primary md:text-4xl">Recordings</h1>
+          <p className="max-w-2xl text-center">
+            View previous halaqah, khutbah, and guest speaker recordings here!
+          </p>
+        </header>
+        <section className="mt-10 flex justify-center">
+          <ButtonGroup categories={categories} />
+        </section>
+        <section className="mt-8">
+          {recordingArray.length === 0 ? (
+            <div className="flex flex-col items-center space-y-2 text-center text-base-content/70">
+              <div className="h-2 w-12 rounded-full bg-base-300" aria-hidden="true" />
+              <p>No recordings available right now. Please check back soon.</p>
+            </div>
+          ) : (
+            <RecordingsCarousel recordings={recordingArray} />
+          )}
+        </section>
+        <section className="mt-10 flex justify-center">
+          <a
+            className="btn btn-primary text-white"
+            href="https://www.youtube.com/@WLUMSA"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="View WLU MSA recordings on YouTube"
+          >
+            View on YouTube
+          </a>
+        </section>
+      </div>
     </div>
   )
 }
 
 export default page
-
