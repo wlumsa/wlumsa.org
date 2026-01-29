@@ -132,7 +132,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
   const [selectedMethod, setSelectedMethod] = useState(initialFilters.method);
   const [selectedCampusLocation, setSelectedCampusLocation] = useState(initialFilters.location);
   const [showFilters, setShowFilters] = useState(false);
-  const [showMap, setShowMap] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const isSmall = useIsSmallScreen();
@@ -353,20 +352,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Scroll to map when toggled
-  useEffect(() => {
-    // Guard against SSR
-    if (typeof window === "undefined") return;
-
-    if (showMap) {
-      const timeout = setTimeout(() => {
-        const mapSection = document.getElementById("map-section");
-        mapSection?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 200);
-      return () => clearTimeout(timeout);
-    }
-  }, [showMap]);
 
   const scrollToTop = useCallback(() => {
     if (typeof window !== "undefined") {
@@ -888,24 +873,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         </div>
       )}
 
-      {/* Toggle Map Button */}
-      <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2 transform">
-        <button
-          type="button"
-          onClick={() => {
-            if (typeof navigator !== "undefined" && navigator.vibrate) {
-              navigator.vibrate(10);
-            }
-            setShowMap((prev) => !prev);
-            setShowFilters(false);
-          }}
-          aria-pressed={showMap}
-          className="rounded-full bg-primary px-6 py-2 text-primary-content shadow-md transition-all duration-300 hover:scale-105 hover:bg-primary/90"
-        >
-          {showMap ? "Hide Map" : "📍 View Map"}
-        </button>
-      </div>
-
       {/* Scroll to Top Button */}
       {showScrollTop && (
         <button
@@ -917,32 +884,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         </button>
       )}
 
-      {/* Embedded Map (Toggle View) */}
-      {showMap && (
-        <div
-          id="map-section"
-          className="dark:border-base-700 mt-12 h-[400px] w-full max-w-6xl animate-fade-in overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-lg dark:bg-base-200 dark:shadow-2xl"
-        >
-          <iframe
-            src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"
-            width="100%"
-            height="100%"
-            allowFullScreen
-            loading="lazy"
-            className="h-full w-full border-0"
-          ></iframe>
-          <div className="mt-2 pb-2 text-center">
-            <a
-              href="https://www.google.com/maps/d/u/0/viewer?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-info hover:underline"
-            >
-              View Full Map
-            </a>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
