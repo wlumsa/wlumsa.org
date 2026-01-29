@@ -15,15 +15,6 @@ import {
   Columns3,
   Columns4,
 } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/UI/pagination";
 
 // ------------------
 // Filter Options
@@ -359,14 +350,16 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     }
   }, []);
 
-  // Pagination navigation without scrolling to top
+  // Pagination navigation (scroll to top for page changes)
   const goToPage = useCallback((newPage: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", String(newPage));
     router.replace(
-      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
-      { scroll: false }
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
     );
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [searchParams, router, pathname]);
 
   // Function to update URL parameters when filters change
@@ -765,111 +758,28 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
       </div>
 
-      {/* Pagination - outside the grid/list container to avoid alignment shifts */}
+      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="w-full max-w-6xl mx-auto flex justify-center mt-6 sm:mt-8">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href={pagination.hasPrevPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page - 1)})}` : "#"}
-                  size="default"
-                  className={!pagination.hasPrevPage ? "pointer-events-none opacity-50" : ""}
-                  onClick={(e: any) => { e.preventDefault(); if (pagination.hasPrevPage) goToPage(pagination.page - 1); }}
-                />
-              </PaginationItem>
-
-              {totalPages <= 5 ? (
-                Array.from({ length: totalPages }, (_, i) => {
-                  const pageNum = i + 1;
-                  return (
-                    <PaginationItem key={pageNum}>
-                      <PaginationLink
-                        href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pageNum)})}`}
-                        size="default"
-                        isActive={pageNum === pagination.page}
-                        aria-current={pageNum === pagination.page ? "page" : undefined}
-                        className={pageNum === pagination.page ? "font-semibold underline" : ""}
-                        onClick={(e: any) => { e.preventDefault(); goToPage(pageNum); }}
-                      >
-                        {pageNum}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })
-              ) : (
-                <>
-                  {pagination.page > 3 && (
-                    <PaginationItem>
-                      <PaginationLink
-                        href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: "1"})}`}
-                        size="default"
-                        aria-current={pagination.page === 1 ? "page" : undefined}
-                        className={pagination.page === 1 ? "font-semibold underline" : ""}
-                        onClick={(e: any) => { e.preventDefault(); goToPage(1); }}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                  )}
-
-                  {pagination.page > 4 && (
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                  )}
-
-                  {Array.from({ length: 3 }, (_, i) => {
-                    const pageNum = Math.max(1, Math.min(totalPages, pagination.page - 1 + i));
-                    if (pageNum > totalPages) return null;
-                    return (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
-                          href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pageNum)})}`}
-                          size="default"
-                          isActive={pageNum === pagination.page}
-                          aria-current={pageNum === pagination.page ? "page" : undefined}
-                          className={pageNum === pagination.page ? "font-semibold underline" : ""}
-                          onClick={(e: any) => { e.preventDefault(); goToPage(pageNum); }}
-                        >
-                          {pageNum}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
-
-                  {pagination.page < totalPages - 2 && (
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                  )}
-
-                  {pagination.page < totalPages - 1 && (
-                    <PaginationItem>
-                      <PaginationLink
-                        href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(totalPages)})}`}
-                        size="default"
-                        aria-current={pagination.page === totalPages ? "page" : undefined}
-                        className={pagination.page === totalPages ? "font-semibold underline" : ""}
-                        onClick={(e: any) => { e.preventDefault(); goToPage(totalPages); }}
-                      >
-                        {totalPages}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )}
-                </>
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  href={pagination.hasNextPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page + 1)})}` : "#"}
-                  size="default"
-                  className={!pagination.hasNextPage ? "pointer-events-none opacity-50" : ""}
-                  onClick={(e: any) => { e.preventDefault(); if (pagination.hasNextPage) goToPage(pagination.page + 1); }}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        <div className="w-full max-w-6xl mx-auto flex items-center justify-center gap-4 mt-6 sm:mt-8">
+          <button
+            type="button"
+            onClick={() => pagination.hasPrevPage && goToPage(pagination.page - 1)}
+            disabled={!pagination.hasPrevPage}
+            className="rounded-md border border-base-300 px-3 py-2 text-sm text-base-content/80 transition-colors hover:border-base-400 hover:text-base-content disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-base-content/60">
+            Page {pagination.page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => pagination.hasNextPage && goToPage(pagination.page + 1)}
+            disabled={!pagination.hasNextPage}
+            className="rounded-md border border-base-300 px-3 py-2 text-sm text-base-content/80 transition-colors hover:border-base-400 hover:text-base-content disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       )}
 
