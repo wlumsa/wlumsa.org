@@ -6,9 +6,6 @@ import SearchBar from "@/components/UI/SearchBar";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import {
-  MapPin,
-  Utensils,
-  Hand,
   ChevronDown,
   ChevronUp,
   X,
@@ -18,15 +15,6 @@ import {
   Columns3,
   Columns4,
 } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/UI/pagination";
 
 // ------------------
 // Filter Options
@@ -135,10 +123,18 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
   const [selectedMethod, setSelectedMethod] = useState(initialFilters.method);
   const [selectedCampusLocation, setSelectedCampusLocation] = useState(initialFilters.location);
   const [showFilters, setShowFilters] = useState(false);
-  const [showMap, setShowMap] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const isSmall = useIsSmallScreen();
+  const queryTerm = searchParams.get("query") || "";
+  const activeFilters = [
+    ...(selectedCuisine !== "All Cuisines" ? [`Cuisine: ${selectedCuisine}`] : []),
+    ...(selectedMethod !== "All Methods" ? [`Method: ${selectedMethod}`] : []),
+    ...(selectedCampusLocation !== "All Locations"
+      ? [`Location: ${selectedCampusLocation}`]
+      : []),
+    ...(queryTerm ? [`Search: ${queryTerm}`] : []),
+  ];
   // Force list presentation on small screens for better readability,
   // but keep the user's preference stored for when they go wider.
   const effectiveLayout: LayoutMode = isSmall ? "list" : layoutMode;
@@ -319,7 +315,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
   const getCardClasses = () => {
     const base =
-      "bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-700 rounded-xl shadow-lg dark:shadow-2xl p-4 sm:p-6 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-200 hover:border-primary/30";
+      "bg-base-100 border border-base-300 rounded-xl p-4 sm:p-5 transition-colors duration-200 hover:border-base-400";
 
     // On small screens, even for grid choices, show a tidy horizontal list-like card
     if (effectiveLayout === "list" || isSmall) {
@@ -332,10 +328,10 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
   const getImageWrapperClasses = () => {
     if (effectiveLayout === "list" || isSmall) {
       // Compact thumbnail on mobile / list
-      return "w-28 h-28 sm:w-48 sm:h-48 bg-base-200 dark:bg-base-300 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center";
+      return "w-28 h-28 sm:w-44 sm:h-44 bg-base-200 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center";
     }
     // Grid: full-width image area with consistent height across cards
-    return "w-full h-40 md:h-48 aspect-[4/3] bg-base-200 dark:bg-base-300 rounded-xl overflow-hidden flex items-center justify-center";
+    return "w-full h-40 md:h-44 aspect-[4/3] bg-base-200 rounded-lg overflow-hidden flex items-center justify-center";
   };
 
   // Scroll to top visibility
@@ -348,34 +344,22 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll to map when toggled
-  useEffect(() => {
-    // Guard against SSR
-    if (typeof window === "undefined") return;
-
-    if (showMap) {
-      const timeout = setTimeout(() => {
-        const mapSection = document.getElementById("map-section");
-        mapSection?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 200);
-      return () => clearTimeout(timeout);
-    }
-  }, [showMap]);
-
   const scrollToTop = useCallback(() => {
     if (typeof window !== "undefined") {
     window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, []);
 
-  // Pagination navigation without scrolling to top
+  // Pagination navigation (scroll to top for page changes)
   const goToPage = useCallback((newPage: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", String(newPage));
     router.replace(
-      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
-      { scroll: false }
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
     );
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [searchParams, router, pathname]);
 
   // Function to update URL parameters when filters change
@@ -449,31 +433,31 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
       <div className="container mx-auto px-4 py-6 sm:py-8">
         <div className="mb-4 text-center sm:mb-8">
           <h1 className="font-serif text-2xl font-bold text-primary sm:text-4xl">
-            Halal Eats Near You 🍽️
+            Halal Eats Near You
           </h1>
           <p className="mx-auto mt-2 max-w-2xl text-base-content/70">
-            Discover delicious halal restaurants and food options near Wilfrid
-            Laurier University
+            Find halal restaurants and food options near Wilfrid Laurier
+            University.
           </p>
         </div>
       </div>
 
       {/* Filter Panel */}
-      <div className="dark:border-base-700 mb-4 w-full max-w-6xl rounded-xl border border-base-300 bg-base-200 p-3 shadow-lg sm:mb-6 sm:p-4 dark:bg-base-300 dark:shadow-2xl">
-        <div className="flex items-center justify-between gap-2 sm:gap-3">
+      <div className="mb-4 w-full max-w-6xl rounded-xl border border-base-300 bg-base-100 p-4 sm:mb-6 sm:p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => setShowFilters(!showFilters)}
             aria-controls="filters-panel"
             aria-expanded={showFilters}
-            className="flex items-center font-medium text-primary transition-colors hover:text-primary/80"
+            className="flex items-center text-sm font-medium text-base-content transition-colors hover:text-base-content/80"
           >
-            <Filter className="mr-2" size={18} />
-            {showFilters ? "Hide Filters" : "Show Filters"}
+            <Filter className="mr-2 text-base-content/70" size={16} />
+            {showFilters ? "Hide filters" : "Show filters"}
             {showFilters ? (
-              <ChevronUp className="ml-2" size={18} />
+              <ChevronUp className="ml-2 text-base-content/60" size={16} />
             ) : (
-              <ChevronDown className="ml-2" size={18} />
+              <ChevronDown className="ml-2 text-base-content/60" size={16} />
             )}
           </button>
           <div className="flex items-center gap-2 sm:gap-3">
@@ -481,40 +465,58 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
             {(selectedCuisine !== "All Cuisines" ||
               selectedMethod !== "All Methods" ||
               selectedCampusLocation !== "All Locations" ||
-              initialFilters.query) && (
-            <button
+              queryTerm) && (
+              <button
                 type="button"
-              onClick={clearAllFilters}
-                className="rounded-lg border border-error/30 bg-error/10 px-2 py-1 text-xs font-medium text-error transition-all duration-200 hover:border-error/50 hover:bg-error/20 sm:px-3 sm:text-sm"
-            >
-              Clear All
-            </button>
-          )}
+                onClick={clearAllFilters}
+                className="rounded-md border border-base-300 px-3 py-1 text-xs font-medium text-base-content/70 transition-colors hover:border-base-400 hover:text-base-content sm:text-sm"
+              >
+                Clear all
+              </button>
+            )}
           </div>
         </div>
+
+        {!showFilters && (
+          <div className="mt-3 text-xs text-base-content/60">
+            {activeFilters.length > 0 ? (
+              <span>
+                {activeFilters.length} active: {activeFilters.join(" · ")}
+              </span>
+            ) : (
+              <span>No filters applied.</span>
+            )}
+          </div>
+        )}
 
         {/* Filters */}
         {showFilters && (
           <div
             id="filters-panel"
-            className="mt-3 space-y-3 sm:mt-4 sm:space-y-4"
+            className="mt-4 space-y-4"
           >
-            <SearchBar ref={searchInputRef} />
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3">
+            <SearchBar
+              ref={searchInputRef}
+              className="rounded-md border border-base-300 bg-base-100 px-3 py-2"
+              inputClassName="flex items-center gap-2"
+              inputElementClassName="grow bg-transparent text-sm text-base-content placeholder:text-base-content/40 focus:outline-none"
+              showIcon={false}
+              placeholder="Search name or cuisine"
+            />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               {/* Cuisine Filter */}
               <div>
-                <label className="mb-1 block text-sm font-medium text-base-content/80">
+                <label className="mb-2 block text-sm font-medium text-base-content">
                   Cuisine
                 </label>
-                <div className="dark:border-base-700 flex items-center overflow-hidden rounded-lg border border-base-300 bg-base-100 dark:bg-base-200">
-                  <Utensils className="ml-3 text-base-content/50" size={18} />
+                <div className="flex items-center overflow-hidden rounded-md border border-base-300 bg-base-100">
                   <select
                     value={selectedCuisine}
                     onChange={(e) => {
                       setSelectedCuisine(e.target.value);
                       updateFilterParams("cuisine", e.target.value);
                     }}
-                    className="w-full border-none bg-base-100 p-2 pl-2 text-sm text-base-content focus:ring-0 dark:bg-base-200"
+                    className="w-full border-none bg-base-100 px-3 py-2 text-sm text-base-content focus:ring-0"
                   >
                     {cuisineOptions.map((option) => (
                       <option key={option} value={option}>
@@ -527,18 +529,17 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
               {/* Method Filter */}
               <div>
-                <label className="mb-1 block text-sm font-medium text-base-content/80">
+                <label className="mb-2 block text-sm font-medium text-base-content">
                   Slaughter Method
                 </label>
-                <div className="dark:border-base-700 flex items-center overflow-hidden rounded-lg border border-base-300 bg-base-100 dark:bg-base-200">
-                  <Hand className="ml-3 text-base-content/50" size={18} />
+                <div className="flex items-center overflow-hidden rounded-md border border-base-300 bg-base-100">
                   <select
                     value={selectedMethod}
                     onChange={(e) => {
                       setSelectedMethod(e.target.value);
                       updateFilterParams("method", e.target.value);
                     }}
-                    className="w-full border-none bg-base-100 p-2 pl-2 text-sm text-base-content focus:ring-0 dark:bg-base-200"
+                    className="w-full border-none bg-base-100 px-3 py-2 text-sm text-base-content focus:ring-0"
                   >
                     {slaughterMethodOptions.map((option) => (
                       <option key={option} value={option}>
@@ -551,18 +552,17 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
               {/* Campus Filter */}
               <div>
-                <label className="mb-1 block text-sm font-medium text-base-content/80">
+                <label className="mb-2 block text-sm font-medium text-base-content">
                   Campus Location
                 </label>
-                <div className="dark:border-base-700 flex items-center overflow-hidden rounded-lg border border-base-300 bg-base-100 dark:bg-base-200">
-                  <MapPin className="ml-3 text-base-content/50" size={18} />
+                <div className="flex items-center overflow-hidden rounded-md border border-base-300 bg-base-100">
                   <select
                     value={selectedCampusLocation}
                     onChange={(e) => {
                       setSelectedCampusLocation(e.target.value);
                       updateFilterParams("location", e.target.value);
                     }}
-                    className="w-full border-none bg-base-100 p-2 pl-2 text-sm text-base-content focus:ring-0 dark:bg-base-200"
+                    className="w-full border-none bg-base-100 px-3 py-2 text-sm text-base-content focus:ring-0"
                   >
                     <option value="All Locations">All Locations</option>
                     <option value="On Campus">On Campus</option>
@@ -576,41 +576,54 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
       </div>
 
       {/* Active Filters */}
-      <div className="mb-4 flex w-full max-w-6xl flex-wrap gap-2 sm:mb-6">
-        {selectedCuisine !== "All Cuisines" && (
-          <span className="flex items-center rounded-full bg-info px-3 py-1 text-sm text-info-content">
-            {selectedCuisine}
-            <X
-              className="ml-2 cursor-pointer"
-              size={14}
-              onClick={() => clearFilter("cuisine")}
-            />
-          </span>
-        )}
-        {selectedMethod !== "All Methods" && (
-          <span className="flex items-center rounded-full bg-success px-3 py-1 text-sm text-success-content">
-            {selectedMethod}
-            <X
-              className="ml-2 cursor-pointer"
-              size={14}
-              onClick={() => clearFilter("method")}
-            />
-          </span>
-        )}
-        {selectedCampusLocation !== "All Locations" && (
-          <span className="flex items-center rounded-full bg-warning px-3 py-1 text-sm text-warning-content">
-            {selectedCampusLocation}
-            <X
-              className="ml-2 cursor-pointer"
-              size={14}
-              onClick={() => clearFilter("location")}
-            />
-          </span>
-        )}
+      <div className="mb-3 w-full max-w-6xl border-t border-base-300 pt-3 text-sm text-base-content/70 sm:mb-4">
+        {selectedCuisine !== "All Cuisines" ||
+        selectedMethod !== "All Methods" ||
+        selectedCampusLocation !== "All Locations" ? (
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span className="text-base-content/60">Active:</span>
+            {selectedCuisine !== "All Cuisines" && (
+              <span className="flex items-center gap-2">
+                <span>Cuisine: {selectedCuisine}</span>
+                <button
+                  type="button"
+                  onClick={() => clearFilter("cuisine")}
+                  className="text-xs uppercase tracking-wide text-base-content/50 hover:text-base-content"
+                >
+                  Clear
+                </button>
+              </span>
+            )}
+            {selectedMethod !== "All Methods" && (
+              <span className="flex items-center gap-2">
+                <span>Method: {selectedMethod}</span>
+                <button
+                  type="button"
+                  onClick={() => clearFilter("method")}
+                  className="text-xs uppercase tracking-wide text-base-content/50 hover:text-base-content"
+                >
+                  Clear
+                </button>
+              </span>
+            )}
+            {selectedCampusLocation !== "All Locations" && (
+              <span className="flex items-center gap-2">
+                <span>Location: {selectedCampusLocation}</span>
+                <button
+                  type="button"
+                  onClick={() => clearFilter("location")}
+                  className="text-xs uppercase tracking-wide text-base-content/50 hover:text-base-content"
+                >
+                  Clear
+                </button>
+              </span>
+            )}
+          </div>
+        ) : null}
       </div>
 
       {/* Listings Header */}
-      <div className="sticky top-16 z-10 mb-2 flex w-full max-w-6xl items-center justify-between bg-base-100 py-2">
+      <div className="sticky top-16 z-10 mb-1 flex w-full max-w-6xl items-center justify-between bg-base-100 py-1.5">
         <div className="flex items-center gap-4">
           <div className="text-sm text-base-content/70" aria-live="polite">
             {pagination.total > 0 ? (
@@ -627,16 +640,12 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
               <span>0 results</span>
             )}
           </div>
-          {!isSmall && (
-            <div className="hidden md:flex items-center gap-2 text-xs text-base-content/50">
-              <span>Shortcuts:</span>
-              <kbd className="kbd kbd-xs">F</kbd>
-              <span>search</span>
-              <kbd className="kbd kbd-xs">1-4</kbd>
-              <span>layout icons</span>
-            </div>
-          )}
         </div>
+        {!isSmall && (
+          <div className="hidden md:block text-xs text-base-content/50">
+            Shortcuts: F search, 1–4 layout
+          </div>
+        )}
       </div>
 
       {/* Listings */}
@@ -665,14 +674,14 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
               <div className="flex min-w-0 flex-1 flex-col justify-between">
                 <div>
                   <h2
-                    className={`mb-1 font-serif text-lg font-semibold text-primary sm:text-xl ${
+                    className={`mb-1 font-serif text-lg font-semibold tracking-tight text-base-content sm:text-xl ${
                       effectiveLayout === "list" ? "" : "line-clamp-2"
                     }`}
                   >
                     {item.name}
                   </h2>
                   <p
-                    className={`mb-2 text-sm text-base-content/70 ${
+                    className={`mb-2 text-sm text-base-content/60 ${
                       effectiveLayout === "list" ? "" : "line-clamp-3"
                     }`}
                   >
@@ -693,29 +702,29 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                   ) : (
                     <div className="mt-1 flex flex-wrap gap-2 text-[11px] sm:text-xs">
                       {item.category && (
-                        <span className="rounded-full bg-base-200 px-2 py-0.5 text-base-content/80 dark:bg-base-300">
+                        <span className="rounded-full border border-base-300 px-2 py-0.5 text-base-content/70">
                           {item.category}
                         </span>
                       )}
                       {item.slaughtered && (
-                        <span className="rounded-full bg-base-200 px-2 py-0.5 text-base-content/80 dark:bg-base-300">
+                        <span className="rounded-full border border-base-300 px-2 py-0.5 text-base-content/70">
                           {item.slaughtered}
                         </span>
                       )}
                       {item.location && (
-                        <span className="rounded-full bg-base-200 px-2 py-0.5 text-base-content/80 dark:bg-base-300">
+                        <span className="rounded-full border border-base-300 px-2 py-0.5 text-base-content/70">
                           {item.location}
                         </span>
                       )}
                   </div>
                   )}
                 </div>
-                <div className="mt-3 flex gap-3 sm:mt-4 sm:gap-4">
+                <div className="mt-3 flex flex-wrap items-center gap-3 sm:mt-4">
                   <a
                     href={item.googleMapsLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-primary transition-colors hover:text-primary/80 hover:underline"
+                    className="text-sm text-base-content/70 transition-colors hover:text-base-content hover:underline"
                     aria-label="Open Google Maps for this restaurant"
                   >
                     Google Maps
@@ -725,7 +734,7 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
                       href={item.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-lg bg-primary px-3 py-2 text-sm text-primary-content transition-colors hover:bg-primary/90 sm:px-4"
+                      className="inline-flex items-center rounded-md border border-base-300 bg-base-100 px-3 py-2 text-sm text-base-content transition-colors hover:border-base-400 hover:bg-base-200 dark:border-base-600 dark:bg-base-200 dark:hover:bg-base-300 sm:px-4"
                       aria-label="Open restaurant website"
                     >
                       Book Now
@@ -749,131 +758,30 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
 
       </div>
 
-      {/* Pagination - outside the grid/list container to avoid alignment shifts */}
+      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="w-full max-w-6xl mx-auto flex justify-center mt-6 sm:mt-8">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href={pagination.hasPrevPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page - 1)})}` : "#"}
-                  size="default"
-                  className={!pagination.hasPrevPage ? "pointer-events-none opacity-50" : ""}
-                  onClick={(e: any) => { e.preventDefault(); if (pagination.hasPrevPage) goToPage(pagination.page - 1); }}
-                />
-              </PaginationItem>
-
-              {totalPages <= 5 ? (
-                Array.from({ length: totalPages }, (_, i) => {
-                  const pageNum = i + 1;
-                  return (
-                    <PaginationItem key={pageNum}>
-                      <PaginationLink
-                        href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pageNum)})}`}
-                        size="default"
-                        isActive={pageNum === pagination.page}
-                        aria-current={pageNum === pagination.page ? "page" : undefined}
-                        className={pageNum === pagination.page ? "font-semibold underline" : ""}
-                        onClick={(e: any) => { e.preventDefault(); goToPage(pageNum); }}
-                      >
-                        {pageNum}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })
-              ) : (
-                <>
-                  {pagination.page > 3 && (
-                    <PaginationItem>
-                      <PaginationLink
-                        href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: "1"})}`}
-                        size="default"
-                        aria-current={pagination.page === 1 ? "page" : undefined}
-                        className={pagination.page === 1 ? "font-semibold underline" : ""}
-                        onClick={(e: any) => { e.preventDefault(); goToPage(1); }}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                  )}
-
-                  {pagination.page > 4 && (
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                  )}
-
-                  {Array.from({ length: 3 }, (_, i) => {
-                    const pageNum = Math.max(1, Math.min(totalPages, pagination.page - 1 + i));
-                    if (pageNum > totalPages) return null;
-                    return (
-                      <PaginationItem key={pageNum}>
-                        <PaginationLink
-                          href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pageNum)})}`}
-                          size="default"
-                          isActive={pageNum === pagination.page}
-                          aria-current={pageNum === pagination.page ? "page" : undefined}
-                          className={pageNum === pagination.page ? "font-semibold underline" : ""}
-                          onClick={(e: any) => { e.preventDefault(); goToPage(pageNum); }}
-                        >
-                          {pageNum}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
-
-                  {pagination.page < totalPages - 2 && (
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                  )}
-
-                  {pagination.page < totalPages - 1 && (
-                    <PaginationItem>
-                      <PaginationLink
-                        href={`?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(totalPages)})}`}
-                        size="default"
-                        aria-current={pagination.page === totalPages ? "page" : undefined}
-                        className={pagination.page === totalPages ? "font-semibold underline" : ""}
-                        onClick={(e: any) => { e.preventDefault(); goToPage(totalPages); }}
-                      >
-                        {totalPages}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )}
-                </>
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  href={pagination.hasNextPage ? `?${new URLSearchParams({...Object.fromEntries(searchParams), page: String(pagination.page + 1)})}` : "#"}
-                  size="default"
-                  className={!pagination.hasNextPage ? "pointer-events-none opacity-50" : ""}
-                  onClick={(e: any) => { e.preventDefault(); if (pagination.hasNextPage) goToPage(pagination.page + 1); }}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        <div className="w-full max-w-6xl mx-auto flex items-center justify-center gap-4 mt-6 sm:mt-8">
+          <button
+            type="button"
+            onClick={() => pagination.hasPrevPage && goToPage(pagination.page - 1)}
+            disabled={!pagination.hasPrevPage}
+            className="rounded-md border border-base-300 px-3 py-2 text-sm text-base-content/80 transition-colors hover:border-base-400 hover:text-base-content disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-base-content/60">
+            Page {pagination.page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => pagination.hasNextPage && goToPage(pagination.page + 1)}
+            disabled={!pagination.hasNextPage}
+            className="rounded-md border border-base-300 px-3 py-2 text-sm text-base-content/80 transition-colors hover:border-base-400 hover:text-base-content disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       )}
-
-      {/* Toggle Map Button */}
-      <div className="fixed bottom-8 left-1/2 z-50 -translate-x-1/2 transform">
-        <button
-          type="button"
-          onClick={() => {
-            if (typeof navigator !== "undefined" && navigator.vibrate) {
-              navigator.vibrate(10);
-            }
-            setShowMap((prev) => !prev);
-            setShowFilters(false);
-          }}
-          aria-pressed={showMap}
-          className="rounded-full bg-primary px-6 py-2 text-primary-content shadow-md transition-all duration-300 hover:scale-105 hover:bg-primary/90"
-        >
-          {showMap ? "Hide Map" : "📍 View Map"}
-        </button>
-      </div>
 
       {/* Scroll to Top Button */}
       {showScrollTop && (
@@ -886,32 +794,6 @@ const HalalFoodClient: React.FC<FilterComponentProps> = ({
         </button>
       )}
 
-      {/* Embedded Map (Toggle View) */}
-      {showMap && (
-        <div
-          id="map-section"
-          className="dark:border-base-700 mt-12 h-[400px] w-full max-w-6xl animate-fade-in overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-lg dark:bg-base-200 dark:shadow-2xl"
-        >
-          <iframe
-            src="https://www.google.com/maps/d/embed?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw&usp=sharing"
-            width="100%"
-            height="100%"
-            allowFullScreen
-            loading="lazy"
-            className="h-full w-full border-0"
-          ></iframe>
-          <div className="mt-2 pb-2 text-center">
-            <a
-              href="https://www.google.com/maps/d/u/0/viewer?mid=1uQfQqV85aYaziCWMs996FZOPkyIKvAw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-info hover:underline"
-            >
-              View Full Map
-            </a>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

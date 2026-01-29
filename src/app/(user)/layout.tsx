@@ -13,12 +13,9 @@ import GoogleAnalytics from "./GoogleAnalytics";
 import ThemeProvider from "./themeprovider";
 // import { ClerkProvider } from "@clerk/nextjs";
 import { PostHogProvider } from "./providers";
-import posthog from 'posthog-js'
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/next';
 
-// Force dynamic rendering to avoid Clerk issues during static generation
-export const dynamic = 'force-dynamic';
 /*
   Default Metadata for entire project, to be changed
   More info on Nextjs Metadata API can be found: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -74,12 +71,7 @@ export default async function RootLayout({
   const socialData = await fetchSocialData();
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
-  posthog.capture("test_event", {
-    source: "manual_test",
-  })
-  
   return (
-    
       <html lang="en" className={`${libreBaskerville.variable} ${inter.variable}`} data-theme="lightTheme">
         <head>
           <script
@@ -99,10 +91,10 @@ export default async function RootLayout({
         <GoogleAnalytics />
         <body>
           <PostHogProvider>
-          
+
           <Toaster position="top-center" />
-          {/* Temporarily disabled due to production loading issues */}
-          <SpeedInsights /> 
+          {/* Temporarily disabled due to loading issues */}
+          <SpeedInsights />
           <Analytics />
             <ThemeProvider>
               <Navbar navbarData={navbarData} />
