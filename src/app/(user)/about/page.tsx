@@ -22,12 +22,12 @@ export default async function About() {
             <div className="flex justify-center md:justify-start">
               <Image
                 src={logo}
-                className="h-48 w-48 rounded-2xl sm:h-56 sm:w-56"
+                className="h-36 w-36 rounded-2xl sm:h-48 sm:w-48 md:h-56 md:w-56"
                 alt="MSA Logo"
                 priority
               />
             </div>
-            <div className="space-y-5">
+            <div className="space-y-5 text-center md:text-left">
               
               <h1 className="text-5xl font-bold text-primary sm:text-6xl">
                 About Us
@@ -151,7 +151,7 @@ export default async function About() {
                       Join our community and be part of something meaningful.
                     </p>
                   </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-6 py-3 font-semibold text-primary  transition-all duration-200 group-hover:gap-3">
+                  <div className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 font-semibold text-primary transition-all duration-200 group-hover:gap-3 sm:w-auto">
                     Learn More
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -177,8 +177,8 @@ export default async function About() {
               </div>
               <iframe
                 width="100%"
-                height="600px"
-                className="bg-base-100"
+                height="600"
+                className="h-[70vh] bg-base-100 sm:h-[600px]"
                 src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
                 allowFullScreen
                 title="MSA Constitution"
@@ -199,4 +199,3 @@ export default async function About() {
     </div>
   )
 }
-
