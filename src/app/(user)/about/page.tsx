@@ -45,7 +45,7 @@ export default async function About() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-primary">Founded</p>
                   <p className="text-3xl font-bold text-secondary">2010</p>
                 </div>
-                <div className="rounded-2xl border border-primary bg-white p-5 shadow-sm dark:border-purple-700/50 dark:bg-base-200">
+                <div className="rounded-2xl border border-primary/40 bg-white p-5 shadow-sm dark:border-primary-700/50 dark:bg-base-200">
                   {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 dark:bg-purple-900/30">
                     <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -54,7 +54,7 @@ export default async function About() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-primary">Members</p>
                   <p className="text-3xl font-bold text-secondary">250+</p>
                 </div>
-                <div className="rounded-2xl border border-primary bg-white p-5 shadow-sm dark:border-purple-700/50 dark:bg-base-200">
+                <div className="rounded-2xl border border-primary/40 bg-white p-5 shadow-sm dark:border-primary-700/50 dark:bg-base-200">
                   {/* <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 dark:bg-purple-900/30">
                     <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -170,18 +170,20 @@ export default async function About() {
               Our guiding principles, governance, and member commitments.
             </p>
           </div>
-          <div className="overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-lg dark:border-base-700 dark:bg-base-200">
-            <div className="border-b border-base-300/70 bg-base-100/80 px-6 py-4 text-sm text-neutral/70 dark:border-base-700/70 dark:bg-base-200/60">
-              Official Laurier MSA Constitution
+          <div className="mx-auto max-w-4xl">
+            <div className="overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-lg dark:border-base-700 dark:bg-base-200">
+              <div className="border-b border-base-300/70 bg-base-100/80 px-6 py-4 text-sm text-neutral/70 dark:border-base-700/70 dark:bg-base-200/60">
+                Official Laurier MSA Constitution
+              </div>
+              <iframe
+                width="100%"
+                height="600px"
+                className="bg-base-100"
+                src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
+                allowFullScreen
+                title="MSA Constitution"
+              />
             </div>
-            <iframe
-              width="100%"
-              height="600px"
-              className="bg-base-100"
-              src="https://docs.google.com/document/d/e/2PACX-1vTv6tG1GpHwkZBaN5pt2Reo12Zfi5CSsA8ZQw6t_yy2oxZ9r27gaFbRY7aL9PCUNuScvZjfT56rrPpY/pub?embedded=true"
-              allowFullScreen
-              title="MSA Constitution"
-            />
           </div>
           <div className="mt-6 flex justify-center">
             <Link
