@@ -104,6 +104,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
   // Use the multi-step form hook
   const { currStepIndex, step, next, back } = useMutlistepForm(steps);
+  const totalSteps = steps.length;
 
   const onSubmit = useCallback(
     async (data: Data) => {
@@ -392,10 +393,23 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
 
   return (
-    <div className="flex  flex-col items-center">
-      <h1 className='mt-16 text-3xl text-primary font-bold text-left '>{formFromProps.title}</h1>
+    <div className="flex min-h-[80vh] w-full flex-col items-center justify-center bg-gradient-to-b from-white via-slate-50 to-white px-4 py-10 mt-8">
+      <div className="w-full max-w-5xl">
+        <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight">
+          {formFromProps.title}
+        </h1>
+        <p className="mt-2 text-sm text-slate-500">
+          {Math.min(currStepIndex + 1, totalSteps)} / {totalSteps}
+        </p>
+        <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100">
+          <div
+            className="h-1.5 rounded-full bg-primary transition-all duration-300"
+            style={{ width: `${totalSteps ? (Math.min(currStepIndex + 1, totalSteps) / totalSteps) * 100 : 0}%` }}
+          />
+        </div>
+      </div>
 
-      <div className="flex items-center">
+      <div className="flex items-center w-full justify-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
             <h2 className="text-xl font-bold">This form has reached its limit</h2>
@@ -417,31 +431,40 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             )}
             {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
-              <div className="  w-screen min-h-[18rem] max-h-fit  rounded-xl flex flex-col justify-between  max-w-5xl ">
+              <div className="w-full max-w-5xl min-w-0">
                 <FormProvider {...formMethods}>
-                  <form className="flex flex-col h-full card-body " id={formID} onSubmit={handleSubmit(onSubmit)} >
+                  <form
+                    className="flex flex-col h-full rounded-3xl border border-slate-200 bg-white/80 shadow-2xl shadow-slate-200/40 backdrop-blur w-full"
+                    id={formID}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     {currStepIndex === steps.length ? (
-                      <div className="flex flex-grow">
+                      <div className="flex flex-grow items-center justify-center py-20">
                         <span className="loading loading-spinner loading-lg"></span>
                       </div>
                     ) :
-                      <div className='flex-grow'>
+                      <div className="flex-grow p-6 md:p-8">
                         {step}
                       </div>}
 
 
-                    <div className="card-actions justify-between mt-4 w-full flex flex-row px-8 ">
-                      <button type="button" className='btn btn-md text-lg ' onClick={back} disabled={currStepIndex === 0 || currStepIndex === steps.length} >
-                        <MoveLeft className='w-6 h-6' />
+                    <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 md:px-8">
+                      <button
+                        type="button"
+                        className="btn btn-md text-lg btn-ghost"
+                        onClick={back}
+                        disabled={currStepIndex === 0 || currStepIndex === steps.length}
+                      >
+                        <MoveLeft className="w-6 h-6" />
                       </button>
                       {currStepIndex === steps.length - 1 ? (
 
-                        <button type="button" onClick={handleNext} className="btn btn-secondary">
+                        <button type="button" onClick={handleNext} className="btn btn-secondary px-10 text-lg">
                           {submitButtonLabel || "Submit"}
                           {isLoading && <span className="loading loading-spinner items-center justify-center"></span>}
                         </button>
                       ) : (
-                        <button type="button" className=' btn  btn-secondary text-lg  ' onClick={handleNext} disabled={currStepIndex === steps.length}>
+                        <button type="button" className="btn btn-secondary text-lg px-10" onClick={handleNext} disabled={currStepIndex === steps.length}>
                           {currStepIndex === steps.length ? (submitButtonLabel || "Submit") : 'Next'}
                         </button>
                       )}

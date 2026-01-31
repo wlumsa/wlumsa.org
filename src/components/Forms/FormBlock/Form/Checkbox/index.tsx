@@ -51,11 +51,11 @@ export const Checkbox: React.FC<
 
 
   return (
-    <div className='mx-auto "min-h-[18rem] '>
+    <div className="mx-auto min-h-[12rem]">
     <Width width={width}>
-      <div className="flex flex-col text-gray-600">
-        <label className="label cursor-pointer">
-          <span className="label-text text-3xl font-semibold text-gray-600">{label} {requiredFromProps && <span className='text-red-900'>*</span> }</span>
+      <div className="flex flex-col text-slate-700 max-w-3xl">
+        <label className="block text-xl md:text-2xl font-semibold text-slate-800">
+          {label} {requiredFromProps && <span className="text-red-700">*</span>}
         </label>
         {checkboxes.map((option) => {
           // Check if the limit is greater than 0
@@ -66,7 +66,7 @@ export const Checkbox: React.FC<
               const isChecked = checkedValues.includes(option.label);
 
           return (
-            <div key={option.label} className="flex items-center space-x-2 my-2">
+            <div key={option.label} className="mt-3 flex items-center gap-4 rounded-2xl border border-slate-200 bg-white/80 px-5 py-3.5 shadow-sm">
               <input
                 type="checkbox"
                 className="hidden"
@@ -79,12 +79,12 @@ export const Checkbox: React.FC<
               <button
                 type="button"
                 onClick={() => handleCheckboxChange(option.label, !isChecked)}
-                className={`w-5 h-5 border-2 rounded flex items-center justify-center
-                  ${isChecked ? 'bg-primary border-primary' : 'border-gray-300 bg-white'}`}
+                className={`h-5 w-5 rounded-md border-2 flex items-center justify-center transition
+                  ${isChecked ? 'bg-primary border-primary' : 'border-slate-300 bg-white'}`}
               >
                 {isChecked && <Check className="w-4 h-4 text-secondary" />}
               </button>
-              <span className="text-xl ">{option.label}</span>
+              <span className="text-base md:text-lg font-normal text-slate-900">{option.label}</span>
             </div>
           );
         })}
