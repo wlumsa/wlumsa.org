@@ -434,7 +434,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               <div className="w-full max-w-5xl min-w-0">
                 <FormProvider {...formMethods}>
                   <form
-                    className="flex flex-col h-full rounded-3xl border border-slate-200 bg-white/80 shadow-2xl shadow-slate-200/40 backdrop-blur w-full"
+                    className="flex flex-col h-[420px] md:h-[480px] rounded-3xl border border-slate-200 bg-white/80 shadow-2xl shadow-slate-200/40 backdrop-blur w-full"
                     id={formID}
                     onSubmit={handleSubmit(onSubmit)}
                   >
