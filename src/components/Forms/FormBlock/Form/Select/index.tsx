@@ -12,70 +12,90 @@ export const Select: React.FC<{
   control: Control<FieldValues, any>
   errors: Partial<FieldErrorsImpl<{[x: string]: any}>>
 } & SelectField> = ({ name, control, errors, label, options = [], required = false, width }) => {
-  // Add console.log to debug options
-  console.log('Original options:', options);
-  
   const validOptions = React.useMemo(() => {
     const filtered = options?.filter(opt => {
       // Convert limit to number to ensure proper comparison
       const limit = Number(opt.limit);
       return opt.limit===null || limit > 0;
     });
-    console.log('Filtered options:', filtered);
     return filtered;
   }, [options]);
 
   return (
-    <div className="mx-auto min-h-[18rem]  ">
-    <Width width={width || 100}>
-    
-        <label className="label min-w-96  text-md text-3xl font-semibold text-gray-600" htmlFor={name}>
-          {label} {required&& <span className='text-red-900'>*</span> }
-        </label>
-        <Controller
-          control={control}
-          defaultValue=""
-          name={name}
-          render={({ field: { onChange, value } }) => {
-            // Debug current value
-            console.log('Current value:', value);
-            
-            return (
-              <ReactSelect
-                className=" min-w-96 my-4"
-                classNamePrefix="rs"
-                inputId={name}
-                instanceId={name}
-                onChange={(val) => {
-                  // Debug onChange value
-                  console.log('onChange val:', val);
-                  
-                  if (!val || val.value === null || val.value === undefined) {
-                    onChange('');
-                    return;
-                  }
+    <div className="mx-auto min-h-[12rem]">
+      <Width width={width || 100}>
+        <div className="max-w-3xl">
+          <label className="block text-xl md:text-2xl font-semibold text-slate-800" htmlFor={name}>
+            {label} {required && <span className="text-red-700">*</span>}
+          </label>
+          <Controller
+            control={control}
+            defaultValue=""
+            name={name}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <ReactSelect
+                  className="mt-4"
+                  classNamePrefix="rs"
+                  inputId={name}
+                  instanceId={name}
+                  onChange={(val) => {
+                    if (!val || val.value === null || val.value === undefined) {
+                      onChange('');
+                      return;
+                    }
 
-                  const selectedOption = validOptions?.find(opt => opt.value === val.value);
-                  console.log('Selected option:', selectedOption);
+                    const selectedOption = validOptions?.find(opt => opt.value === val.value);
 
-                  if (selectedOption) {
-                    onChange(val.value);
-                  } else {
-                    onChange('');
-                  }
-                }}
-                options={validOptions}
-                value={validOptions?.find((s) => s.value === value) || null}
-                
-              />
-            );
-          }}
-          rules={{ required: required || undefined }}
-        />
-        
-        { errors[name] && <Error />}
-   
-    </Width>
+                    if (selectedOption) {
+                      onChange(val.value);
+                    } else {
+                      onChange('');
+                    }
+                  }}
+                  options={validOptions}
+                  value={validOptions?.find((s) => s.value === value) || null}
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      minHeight: '2.75rem',
+                      borderRadius: '0.75rem',
+                      borderColor: state.isFocused ? '#0f766e' : '#e2e8f0',
+                      boxShadow: 'none',
+                      '&:hover': { borderColor: state.isFocused ? '#0f766e' : '#cbd5e1' },
+                      backgroundColor: 'transparent',
+                      borderWidth: '0 0 2px 0',
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      backgroundColor: state.isFocused ? 'rgba(14,116,144,0.08)' : 'white',
+                      color: '#0f172a',
+                      padding: '10px 14px',
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: '#94a3b8',
+                    }),
+                    singleValue: (base) => ({
+                      ...base,
+                      fontSize: '1.25rem',
+                      fontWeight: 300,
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      borderRadius: '0.75rem',
+                      overflow: 'hidden',
+                    }),
+                  }}
+                />
+              );
+            }}
+            rules={{ required: required || undefined }}
+          />
+
+          {errors[name] && <Error />}
+        </div>
+      </Width>
     </div>
   )
 }
