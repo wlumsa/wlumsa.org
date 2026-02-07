@@ -25,8 +25,8 @@ export const Select: React.FC<{
     <div className="mx-auto min-h-[12rem]">
       <Width width={width || 100}>
         <div className="max-w-3xl">
-          <label className="block text-xl md:text-2xl font-semibold text-slate-800" htmlFor={name}>
-            {label} {required && <span className="text-red-700">*</span>}
+          <label className="block text-xl md:text-2xl font-semibold text-slate-800 dark:text-base-content" htmlFor={name}>
+            {label} {required && <span className="text-red-700 dark:text-error">*</span>}
           </label>
           <Controller
             control={control}
@@ -65,6 +65,7 @@ export const Select: React.FC<{
                       '&:hover': { borderColor: state.isFocused ? '#0f766e' : '#cbd5e1' },
                       backgroundColor: 'transparent',
                       borderWidth: '0 0 2px 0',
+                      color: 'currentColor',
                     }),
                     option: (base, state) => ({
                       ...base,
@@ -80,11 +81,17 @@ export const Select: React.FC<{
                       ...base,
                       fontSize: '1.25rem',
                       fontWeight: 300,
+                      color: 'currentColor',
                     }),
                     menu: (base) => ({
                       ...base,
                       borderRadius: '0.75rem',
                       overflow: 'hidden',
+                      backgroundColor: 'var(--color-base-100, white)',
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: 'var(--color-base-100, white)',
                     }),
                   }}
                 />

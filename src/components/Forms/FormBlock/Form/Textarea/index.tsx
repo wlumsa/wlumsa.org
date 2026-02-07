@@ -21,12 +21,12 @@ export const Textarea: React.FC<
     <div className="">
       <Width width={width}>
         <div className="max-w-3xl">
-          <label className="block text-xl md:text-2xl font-semibold text-slate-800" htmlFor={name}>
-            {label} {requiredFromProps && <span className="text-red-700">*</span>}
+          <label className="block text-xl md:text-2xl font-semibold text-slate-800 dark:text-base-content" htmlFor={name}>
+            {label} {requiredFromProps && <span className="text-red-700 dark:text-error">*</span>}
           </label>
 
           <textarea
-            className="mt-4 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2.5 text-xl md:text-2xl font-light text-slate-900 outline-none transition focus:border-primary"
+            className="mt-4 w-full border-b-2 border-slate-200 dark:border-base-300 bg-transparent px-1 py-2.5 text-xl md:text-2xl font-light text-slate-900 dark:text-base-content outline-none transition focus:border-primary"
             placeholder={label}
             id={name}
             rows={rows}

@@ -53,9 +53,9 @@ export const Checkbox: React.FC<
   return (
     <div className="mx-auto min-h-[12rem]">
     <Width width={width}>
-      <div className="flex flex-col text-slate-700 max-w-3xl">
-        <label className="block text-xl md:text-2xl font-semibold text-slate-800">
-          {label} {requiredFromProps && <span className="text-red-700">*</span>}
+      <div className="flex flex-col text-slate-700 dark:text-base-content max-w-3xl">
+        <label className="block text-xl md:text-2xl font-semibold text-slate-800 dark:text-base-content">
+          {label} {requiredFromProps && <span className="text-red-700 dark:text-error">*</span>}
         </label>
         {checkboxes.map((option) => {
           // Check if the limit is greater than 0
@@ -66,7 +66,7 @@ export const Checkbox: React.FC<
               const isChecked = checkedValues.includes(option.label);
 
           return (
-            <div key={option.label} className="mt-3 flex items-center gap-4 rounded-2xl border border-slate-200 bg-white/80 px-5 py-3.5 shadow-sm">
+            <div key={option.label} className="mt-3 flex items-center gap-4 rounded-2xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/50 px-5 py-3.5 shadow-sm dark:shadow-none">
               <input
                 type="checkbox"
                 className="hidden"
@@ -80,11 +80,11 @@ export const Checkbox: React.FC<
                 type="button"
                 onClick={() => handleCheckboxChange(option.label, !isChecked)}
                 className={`h-5 w-5 rounded-md border-2 flex items-center justify-center transition
-                  ${isChecked ? 'bg-primary border-primary' : 'border-slate-300 bg-white'}`}
+                  ${isChecked ? 'bg-primary border-primary' : 'border-slate-300 dark:border-base-400 bg-white dark:bg-base-300'}`}
               >
                 {isChecked && <Check className="w-4 h-4 text-secondary" />}
               </button>
-              <span className="text-base md:text-lg font-normal text-slate-900">{option.label}</span>
+              <span className="text-base md:text-lg font-normal text-slate-900 dark:text-base-content">{option.label}</span>
             </div>
           );
         })}

@@ -70,6 +70,19 @@ const updateHeaderRow = async (
 }
 
 export async function POST(request: NextRequest, segmentData: { params: Params }) {
+  // Handle CORS preflight
+  const origin = request.headers.get('origin')
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+  
+  // Allow requests from localhost during development
+  if (origin && (origin.includes('localhost') || origin.includes('wlumsa.org'))) {
+    headers['Access-Control-Allow-Origin'] = origin
+    headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Content-Type'
+  }
+
   try {
     const params = await segmentData.params
     const formTitle = decodeURIComponent(params.form)
@@ -123,11 +136,30 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
       },
     })
 
-    return NextResponse.json({ message: 'Submission saved to Google Sheets' }, { status: 200 })
+    return NextResponse.json(
+      { message: 'Submission saved to Google Sheets' },
+      { status: 200, headers }
+    )
   } catch (error) {
     console.error('Google Sheets webhook error:', error)
-    return NextResponse.json({ error: 'Failed to write to Google Sheets' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Failed to write to Google Sheets' },
+      { status: 500, headers }
+    )
   }
+}
+
+export async function OPTIONS(request: NextRequest) {
+  const origin = request.headers.get('origin')
+  const headers: Record<string, string> = {}
+  
+  if (origin && (origin.includes('localhost') || origin.includes('wlumsa.org'))) {
+    headers['Access-Control-Allow-Origin'] = origin
+    headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Content-Type'
+  }
+  
+  return new NextResponse(null, { status: 204, headers })
 }
 
 export async function GET() {

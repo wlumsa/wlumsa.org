@@ -109,7 +109,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
   const onSubmit = useCallback(
     async (data: Data) => {
       console.log("Submit triggered")
-      setError(undefined)
+     // setError(undefined)
       setIsLoading(true)
       console.log("Form from Field", formFromProps)
       console.log("Submit triggered")
@@ -136,7 +136,14 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
         console.log(formFromProps.webhook)
         if (formFromProps.webhook) {
           try {
-            const webhookResponse = await fetch(formFromProps.webhook, {
+            // Convert absolute URL to relative path to avoid CORS issues in development
+            let webhookUrl = formFromProps.webhook
+            if (webhookUrl.includes('wlumsa.org')) {
+              const url = new URL(webhookUrl)
+              webhookUrl = url.pathname + url.search
+            }
+            
+            const webhookResponse = await fetch(webhookUrl, {
               body: JSON.stringify(submissionData),
               method: "POST",
               headers: { 'Content-Type': 'application/json' },
@@ -196,13 +203,23 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
 
         // Get current form data for limits
-        const formResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`)
-        const formData = await formResponse.json()
+        let formData = null
+        try {
+          const formResponse = await fetch(`/api/forms/${formID}`)
+          if (!formResponse.ok) {
+            console.error('Failed to fetch form data:', formResponse.status)
+          } else {
+            formData = await formResponse.json()
+          }
+        } catch (err) {
+          console.error('Error fetching form data:', err)
+          // Continue with form submission even if we can't fetch form data for limits
+        }
 
         // Handle select field limits
-        const selectFields = formData.fields.filter(
+        const selectFields = formData?.fields?.filter(
           (field: SelectFieldExtended) => field.blockType === 'select'
-        )
+        ) || []
 
 
         // Update select field limits
@@ -215,35 +232,42 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           )
 
           if (selectedOption?.limit) {
-            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                fields: formData.fields.map((f: SelectFieldExtended) =>
-                  f.id === field.id
-                    ? {
-                      ...f,
-                      options: f.options.map(opt =>
-                        opt.value === selectedValue
-                          ? { ...opt, limit: opt.limit! - 1 }
-                          : opt
-                      )
-                    }
-                    : f
-                )
-              }),
-            })
+            try {
+              const updateResponse = await fetch(`/api/forms/${formID}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  fields: formData.fields.map((f: SelectFieldExtended) =>
+                    f.id === field.id
+                      ? {
+                        ...f,
+                        options: f.options.map(opt =>
+                          opt.value === selectedValue
+                            ? { ...opt, limit: opt.limit! - 1 }
+                            : opt
+                        )
+                      }
+                      : f
+                  )
+                }),
+              })
+              if (!updateResponse.ok) {
+                console.error('Failed to update select field limits:', updateResponse.status)
+              }
+            } catch (err) {
+              console.error('Error updating select field limits:', err)
+            }
           }
         }
 
         // Handle checkbox field limits
-        const checkboxFields = formData.fields.filter(
+        const checkboxFields = formData?.fields?.filter(
           (field: CheckboxFieldExtended) => field.blockType === 'checkbox'
-        )
+        ) || []
         let updatedCheckboxes: CheckboxFieldExtended['checkboxes'] = []
 
         // Only proceed if there are checkbox fields
-        if (checkboxFields.length > 0) {
+        if (checkboxFields.length > 0 && formData?.fields) {
           // Prepare updates for checkboxes
           const updatedFields = formData.fields.map((f: CheckboxFieldExtended) => {
             if (f.blockType === 'checkbox') {
@@ -264,80 +288,93 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           });
 
           // Send a single fetch request to update all checkbox limits
-          await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fields: updatedFields }),
-          });
+          try {
+            const updateResponse = await fetch(`/api/forms/${formID}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ fields: updatedFields }),
+            })
+            if (!updateResponse.ok) {
+              console.error('Failed to update checkbox field limits:', updateResponse.status)
+            }
+          } catch (err) {
+            console.error('Error updating checkbox field limits:', err)
+          }
         }
         //check checkbox limit
-        const closeForm = formData.fields.some(
+        const closeForm = formData?.fields?.some(
           (field: CheckboxFieldExtended) =>
             field.blockType === 'checkbox' &&
             updatedCheckboxes.every((opt) => opt.limit === 0)
-        );
+        ) || false;
         console.log("Close Form", closeForm)
-        if(formData.submissionLimit) {
-          if(closeForm){
-            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
+        if(formData?.submissionLimit) {
+          try {
+            const limitUpdate = closeForm ? 0 : formData.submissionLimit - 1
+            const updateResponse = await fetch(`/api/forms/${formID}`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                'submissionLimit': 0,
+                'submissionLimit': limitUpdate,
               }),
             })
-          } else {
-              await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/forms/${formID}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                'submissionLimit': formData.submissionLimit - 1,
-              }),
-            })
+            if (!updateResponse.ok) {
+              console.error('Failed to update submission limit:', updateResponse.status)
+            }
+          } catch (err) {
+            console.error('Error updating submission limit:', err)
           }
-
         }
 
 
 
 
         // Create the submission
-        const req = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/form-submissions`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            form: formID,
-            submissionData,
-            payment: {
-              amount: Number(paymentAmount),
-              status: 'pending',
-            },
-          }),
-        });
+        let req, textResponse, res, submissionId;
+        try {
+          req = await fetch(`/api/form-submissions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              form: formID,
+              submissionData,
+              payment: {
+                amount: Number(paymentAmount),
+                status: 'pending',
+              },
+            }),
+          });
 
-        const textResponse = await req.text(); // Get the raw response as text
+          textResponse = await req.text(); // Get the raw response as text
 
-        if (!req.ok) {
-          throw new Error(textResponse); // Throw an error with the raw response
-        }
+          if (!req.ok) {
+            throw new Error(textResponse); // Throw an error with the raw response
+          }
 
-        const contentType = req.headers.get('Content-Type');
-        let res;
-        if (contentType && contentType.includes('application/json')) {
-          res = JSON.parse(textResponse); // Parse as JSON if the content type is JSON
-        } else {
-          throw new Error('Received non-JSON response from server');
-        }
+          const contentType = req.headers.get('Content-Type');
+          if (contentType && contentType.includes('application/json')) {
+            res = JSON.parse(textResponse); // Parse as JSON if the content type is JSON
+          } else {
+            throw new Error('Received non-JSON response from server');
+          }
 
-        if (req.status >= 400) {
-          throw new Error(res.errors?.[0]?.message || 'Failed to create submission')
-        }
+          if (req.status >= 400) {
+            throw new Error(res.errors?.[0]?.message || 'Failed to create submission')
+          }
 
-        const { doc: submission } = res
-        const submissionId: string = submission.id
+          const { doc: submission } = res
+          submissionId = submission.id
 
-        if (!submissionId) {
-          throw new Error('No submission ID received from the server')
+          if (!submissionId) {
+            throw new Error('No submission ID received from the server')
+          }
+        } catch (fetchError) {
+          console.error('Form submission fetch error:', fetchError)
+          throw new Error(
+            fetchError instanceof Error 
+              ? fetchError.message 
+              : 'Network error: Unable to connect to the server. Please check your connection and try again.'
+          )
         }
 
         // Set success state before handling payment
@@ -402,15 +439,15 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
 
   return (
-    <div className="flex min-h-[80vh] w-full flex-col items-center justify-center bg-gradient-to-b from-white via-slate-50 to-white px-4 py-10 mt-8">
+    <div className="flex min-h-[80vh] w-full flex-col items-center justify-center bg-gradient-to-b from-white via-slate-50 to-white dark:from-base-100 dark:via-base-200 dark:to-base-100 px-4 py-10 mt-8">
       <div className="w-full max-w-5xl">
-        <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight">
+        <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-base-content tracking-tight">
           {formFromProps.title}
         </h1>
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-sm text-slate-500 dark:text-base-content/70">
           {Math.min(currStepIndex + 1, totalSteps)} / {totalSteps}
         </p>
-        <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100">
+        <div className="mt-3 h-1.5 w-full rounded-full bg-slate-100 dark:bg-base-300">
           <div
             className="h-1.5 rounded-full bg-primary transition-all duration-300"
             style={{ width: `${totalSteps ? (Math.min(currStepIndex + 1, totalSteps) / totalSteps) * 100 : 0}%` }}
@@ -421,15 +458,15 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
       <div className="flex items-center w-full justify-center">
         {formFromProps.submissionLimit === 0 ? (
           <div className="text-center p-4">
-            <h2 className="text-xl font-bold">This form has reached its limit</h2>
+            <h2 className="text-xl font-bold text-base-content">This form has reached its limit</h2>
           </div>
         )  : formFromProps.releaseDate && new Date() < new Date(formFromProps.releaseDate) ? (
           <div className="text-center p-4">
-            <h2 className="text-xl font-bold">This form will be releasing at {new Date(formFromProps.releaseDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
+            <h2 className="text-xl font-bold text-base-content">This form will be releasing at {new Date(formFromProps.releaseDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
           </div>
         ) : formFromProps.closeDate && new Date() > new Date(formFromProps.closeDate) ? (
           <div className="text-center p-4">
-            <h2 className="text-xl font-bold">This was closed at {new Date(formFromProps.closeDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
+            <h2 className="text-xl font-bold text-base-content">This was closed at {new Date(formFromProps.closeDate).toLocaleString('en-US', { timeZone: 'America/New_York' })}</h2>
           </div>
         ) : (
           <>
@@ -438,12 +475,12 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                 <RichText className="" content={confirmationMessage} />
               </div>
             )}
-            {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
+            {error && <div className="text-error">{`${error.status || '500'}: ${error.message || ''}`}</div>}
             {!hasSubmitted && (
               <div className="w-full max-w-5xl min-w-0">
                 <FormProvider {...formMethods}>
                   <form
-                    className="flex flex-col h-[420px] md:h-[480px] rounded-3xl border border-slate-200 bg-white/80 shadow-2xl shadow-slate-200/40 backdrop-blur w-full"
+                    className="flex flex-col h-[420px] md:h-[480px] rounded-3xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/90 shadow-2xl shadow-slate-200/40 dark:shadow-base-300/20 backdrop-blur w-full"
                     id={formID}
                     onSubmit={handleSubmit(onSubmit)}
                   >
@@ -457,7 +494,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                       </div>}
 
 
-                    <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 md:px-8">
+                    <div className="flex items-center justify-between border-t border-slate-100 dark:border-base-300 px-6 py-4 md:px-8">
                       <button
                         type="button"
                         className="btn btn-md text-lg btn-ghost"
