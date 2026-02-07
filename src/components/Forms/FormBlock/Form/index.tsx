@@ -489,12 +489,12 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                         <span className="loading loading-spinner loading-lg"></span>
                       </div>
                     ) :
-                      <div className="flex-grow p-6 md:p-8">
+                      <div className="flex-grow p-2 md:p-8">
                         {step}
                       </div>}
 
 
-                    <div className="flex items-center justify-between border-t border-slate-100 dark:border-base-300 px-6 py-4 md:px-8">
+                    <div className="flex items-center justify-between border-t border-slate-100 dark:border-base-300 px-6  md:px-8">
                       <button
                         type="button"
                         className="btn btn-md text-lg btn-ghost"
