@@ -24,7 +24,7 @@ type Props = {
 export function serializeLexical({ nodes }: Props): JSX.Element {
   return (
     <Fragment>
-      <div className='leading-loose text-lg'>
+      <div className=''>
       {nodes?.map((node, index): JSX.Element | null => {
         if (node == null) {
           return null
@@ -94,11 +94,11 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
 
         switch (node.type) {
           case 'linebreak': {
-            return <br className="col-start-2 mt-4" key={index} />
+            return <br className=" mt-1" key={index} />
           }
           case 'paragraph': {
             return (
-              <p className="col-start-2" key={index}>
+              <p className="" key={index}>
                 {serializedChildren}
               </p>
             )
@@ -106,7 +106,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           case 'heading': {
             const Tag = node?.tag
             return (
-              <Tag className="col-start-2" key={index}>
+              <Tag className="" key={index}>
                 {serializedChildren}
               </Tag>
             )
@@ -115,7 +115,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             const Tag = node?.tag
           
             return (
-              <Tag className={` list-disc ${Tag === 'ul' ? 'list-disc': 'list-decimal' }  col-start-2`} key={index}>
+              <Tag className={` list-disc ${Tag === 'ul' ? 'list-disc': 'list-decimal' }`} key={index}>
                 {serializedChildren}
               </Tag>
             )
@@ -145,7 +145,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
           case 'quote': {
             return (
-              <blockquote className="col-start-2" key={index}>
+              <blockquote className="" key={index}>
                 {serializedChildren}
               </blockquote>
             )

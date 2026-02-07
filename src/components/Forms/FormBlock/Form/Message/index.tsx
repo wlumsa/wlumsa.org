@@ -8,8 +8,8 @@ import { Width } from '../Width'
 export const Message: React.FC<MessageField> = ({ message }) => {
   return (
     <Width width={100}>
-      <div className="min-h-[16rem] text-left text-lg md:text-xl leading-relaxed my-4 md:px-8 text-slate-700">
-        <RichText className="my-2" content={message} />
+      <div className="w-full max-w-full overflow-hidden text-left text-sm md:text-lg leading-relaxed my-4 px-4 md:px-8 text-slate-700 dark:text-base-content">
+        <RichText enableGutter={false} enableProse={false} content={message} />
       </div>
     </Width>
   )
