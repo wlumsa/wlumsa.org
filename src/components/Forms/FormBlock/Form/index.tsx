@@ -135,11 +135,20 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
         console.log(formFromProps.webhook)
         if (formFromProps.webhook) {
-          await fetch(formFromProps.webhook, {
-            body: JSON.stringify(submissionData),
-            method: "POST",
+          try {
+            const webhookResponse = await fetch(formFromProps.webhook, {
+              body: JSON.stringify(submissionData),
+              method: "POST",
+              headers: { 'Content-Type': 'application/json' },
+            })
 
-          });
+            if (!webhookResponse.ok) {
+              console.error('Webhook request failed:', webhookResponse.status)
+            }
+          } catch (webhookError) {
+            console.error('Webhook request error:', webhookError)
+            // Do not fail the entire form submission if the webhook fails.
+          }
         }
 
         // Handle newsletter signup if newsletter checkbox is checked
