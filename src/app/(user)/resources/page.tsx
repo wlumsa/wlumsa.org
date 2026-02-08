@@ -10,8 +10,6 @@ interface Category {
   title: string
 }
 
-
-
 type Params = Promise<{ slug: string }>
 type SearchParams = Promise<{ [key: string]: string | undefined }>
 
@@ -29,9 +27,9 @@ export default async function Page(props: {
 
   let resourcesData: ResourceType[] = [];
   try {
-  
+
       resourcesData = await getResourcesByCategory(categoryId);
-     
+
   } catch (error: any) {
     console.error('Error fetching resources:', error);
    // resourcesData = [];
@@ -60,10 +58,14 @@ export default async function Page(props: {
     }
   ]
 
+  const resourceLinks = resourcesData.flatMap((resource) =>
+    resource.link.filter((link): link is Link => link !== null)
+  )
+
 
   return (
     <div className="py-14 mt-16">
-      <BlurFade delay={0.5}> 
+      <BlurFade delay={0.5}>
         <div className="mx-auto max-w-screen-md px-4 py-4 lg:px-6 lg:py-12">
           <h1 className="mb-4 text-center text-4xl font-bold text-primary">Resources</h1>
           <h1 className="text-center">Your one-stop hub for all MSA and Campus Resources</h1>
@@ -74,42 +76,37 @@ export default async function Page(props: {
         <BlurFade delay={0.75}>
       <div className="mx-auto max-w-screen-md px-4 lg:px-6 text-center ">
         <div>
-       
+
             <ButtonGroup categories={categories} />
-        
+
         </div>
-  
-       
-     
-        <div className="container  py-4">
-   
-          {resourcesData && resourcesData.length > 0 ? (
-            resourcesData.map((resource: ResourceType, index: number) => (
-              <div key={index} className=" ">
-                {resource.link.filter((link): link is Link =>  link !== null ).map((link, index) => (
-                   
-                  <Resource
-                    key={index}
-                    title={link.title || "Untitled Resource"}
-                    url={link.url}
-                  />
-                 
-                ))}
-              </div>
+
+
+
+        <div className="mt-6 space-y-3 sm:space-y-4">
+
+          {resourceLinks.length > 0 ? (
+            resourceLinks.map((link, index) => (
+              <Resource
+                key={`${link.id ?? link.url ?? "resource"}-${index}`}
+                title={link.title || "Untitled Resource"}
+                url={link.url}
+                className=""
+              />
             ))
           ) : (
             <div className="text-center text-base-content/60 py-8">
               <p className="text-lg mb-2">No resources found for this category.</p>
             </div>
           )}
-           
+
         </div>
-      
-   
+
+
       </div>
-      </BlurFade> 
-      
+      </BlurFade>
+
     </div>
   );
 }
-          
+
