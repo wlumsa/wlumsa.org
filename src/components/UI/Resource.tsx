@@ -4,23 +4,22 @@ import { ExternalLink } from 'lucide-react'
 interface ResourceProps {
   title: string;
   url: string;
+  className?: string;
 }
 
-const Resource: React.FC<ResourceProps> = ({ title, url }) => {
+const Resource: React.FC<ResourceProps> = ({ title, url, className }) => {
   return (
-    <div
-      className="rounded-xl text-center p-2 transition ease-in-out delay-150 hover:-translate-y-1 my-5 mx-4 md:mx-0 border border-primary/60 bg-transparent hover:border-secondary"
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group block w-full rounded-xl border border-base-300 bg-base-200 px-5 py-4 text-left text-base text-base-content shadow-sm transition hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 ${className || ""}`}
     >
-      <a
-        href={url }
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 p-2 text-xl font-medium text-primary hover:text-secondary"
-      >
-        <span>{title}</span>
-        <ExternalLink className="h-5 w-5" aria-hidden="true" />
-      </a>
-    </div>
+      <span className="flex items-center justify-between gap-3 text-base font-medium sm:text-lg">
+        <span className="flex-1 leading-relaxed">{title}</span>
+        <ExternalLink className="h-4 w-4 flex-none text-secondary/80 transition group-hover:text-secondary" aria-hidden="true" />
+      </span>
+    </a>
   )
 }
 
