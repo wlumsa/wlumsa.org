@@ -489,7 +489,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                         <span className="loading loading-spinner loading-lg"></span>
                       </div>
                     ) :
-                      <div className="flex-grow p-2 md:p-8">
+                      <div className="flex-grow h-fit overflow-y-auto p-2 md:p-8">
                         {step}
                       </div>}
 
