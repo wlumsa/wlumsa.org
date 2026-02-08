@@ -71,7 +71,7 @@ export const Checkbox: React.FC<
                 type="checkbox"
                 className="hidden"
 
-                {...register(name, { required: checkedValues.length <= 0 })}
+                {...register(name, { required: checkedValues.length < 0 })}
                 checked={isChecked}
                 onChange={(e) => handleCheckboxChange(option.label, e.target.checked)}
 
