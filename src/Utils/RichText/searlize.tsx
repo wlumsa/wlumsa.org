@@ -22,6 +22,17 @@ type Props = {
 }
 
 export function serializeLexical({ nodes }: Props): JSX.Element {
+  const hasChildren = (
+    node: NodeTypes,
+  ): node is NodeTypes & { children: NodeTypes[] } => {
+    return (
+      typeof node === 'object' &&
+      node !== null &&
+      'children' in node &&
+      Array.isArray((node as { children?: unknown }).children)
+    )
+  }
+
   return (
     <Fragment>
       <div className=''>
@@ -61,18 +72,18 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           if (node.format & IS_SUPERSCRIPT) {
             text = <sup key={index}>{text}</sup>
           }
-         
-         
+
+
 
           return text
         }
-       
+
 
         // NOTE: Hacky fix for
         // https://github.com/facebook/lexical/blob/d10c4e6e55261b2fdd7d1845aed46151d0f06a8c/packages/lexical-list/src/LexicalListItemNode.ts#L133
         // which does not return checked: false (only true - i.e. there is no prop for false)
         const serializedChildrenFn = (node: NodeTypes): JSX.Element | null => {
-          if (node.children == null) {
+          if (!hasChildren(node)) {
             return null
           } else {
             if (node?.type === 'list' && node?.listType === 'check') {
@@ -84,11 +95,11 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 }
               }
             }
-            return serializeLexical({ nodes: node.children as NodeTypes[] })
+            return serializeLexical({ nodes: node.children })
           }
         }
 
-        const serializedChildren = 'children' in node ? serializedChildrenFn(node) : ''
+        const serializedChildren = serializedChildrenFn(node)
 
 
 
@@ -113,7 +124,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
           case 'list': {
             const Tag = node?.tag
-          
+
             return (
               <Tag className={` list-disc ${Tag === 'ul' ? 'list-disc': 'list-decimal' }`} key={index}>
                 {serializedChildren}
@@ -156,7 +167,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             return (
               <a
                 key={index}
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
                 href={fields.url}
                 className='text-primary hover:text-secondary'
