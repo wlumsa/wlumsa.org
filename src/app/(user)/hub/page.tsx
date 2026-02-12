@@ -1,5 +1,6 @@
 import { getMediaFiles } from "@/Utils/datafetcher";
 import Link from "next/link";
+import type { Media } from "@/payload-types";
 
 function formatFileSize(bytes: number | null | undefined) {
   if (!bytes || bytes <= 0) return "";
@@ -49,15 +50,15 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
     ? selectedType
     : "all";
 
-  const mediaFiles = await getMediaFiles(200);
+  const mediaFiles = (await getMediaFiles(200)) as Media[];
   const docs = mediaFiles
     .filter(
-      (file) =>
+      (file: Media) =>
         file.mimeType === "application/pdf" &&
         typeof file.url === "string" &&
         file.url.length > 0,
     )
-    .map((file) => {
+    .map((file: Media) => {
       const parsed = parseHubType(file.alt);
       if (!parsed) return null;
 
