@@ -19,18 +19,23 @@ function parseHubType(alt: string | null | undefined): {
   const trimmed = alt.trim();
   const typedMatch = trimmed.match(/^hub:(manual|prep|interview|resource):\s*(.+)$/i);
   if (typedMatch) {
-    const rawType = typedMatch[1].toLowerCase();
+    const matchedType = typedMatch[1];
+    const matchedTitle = typedMatch[2];
+    if (!matchedType || !matchedTitle) return null;
+    const rawType = matchedType.toLowerCase();
     return {
       type: (rawType === "interview" ? "prep" : rawType) as HubType,
-      title: typedMatch[2].trim(),
+      title: matchedTitle.trim(),
     };
   }
 
   const genericMatch = trimmed.match(/^hub:\s*(.+)$/i);
   if (genericMatch) {
+    const matchedTitle = genericMatch[1];
+    if (!matchedTitle) return null;
     return {
       type: "resource",
-      title: genericMatch[1].trim(),
+      title: matchedTitle.trim(),
     };
   }
 
