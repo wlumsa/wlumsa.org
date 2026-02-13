@@ -169,6 +169,18 @@ export async function getMedia(alt: string) {
   return Media.docs;
 }
 
+export async function getMediaFiles(limit = 100) {
+  const payload = await getPayloadInstance();
+  const media = await payload.find({
+    collection: "media",
+    limit,
+    depth: 0,
+    sort: "-createdAt",
+  });
+
+  return media.docs;
+}
+
 export async function fetchSocialData() {
   const payload = await getPayloadInstance();
   const socials = await payload.find({
