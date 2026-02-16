@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 
 interface PrayerSpaceCardProps {
   videoId: string;
@@ -23,22 +23,32 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
   const togglePopup = () => setIsOpen(!isOpen);
 
   return (
-    <div className="card w-54 h-54 md:w-96 md:h-72 bg-base-100 shadow-xl">
-      <figure onClick={togglePopup} className="cursor-pointer h-4/5">
-        <img src={thumbnailUrl} alt={title} />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">{title}</h2>
+    <div className="card h-full w-full overflow-hidden bg-base-100 shadow-xl">
+      <button type="button" onClick={togglePopup} className="relative block aspect-video w-full cursor-pointer overflow-hidden">
+        <img
+          src={thumbnailUrl}
+          alt={title}
+          className="h-full w-full object-cover transition duration-200 hover:scale-[1.02]"
+        />
+      </button>
+      <div className="card-body p-4">
+        <h2 className="card-title text-base md:text-lg">{title}</h2>
+        <p className="text-sm text-base-content/70">Tap to open video directions</p>
       </div>
 
       {isOpen && (
         <div className="modal modal-open">
-          <div className="modal-box relative">
-            <label
+          <div className="modal-box relative max-w-3xl">
+            <button
+              type="button"
               className="btn btn-sm btn-circle absolute right-2 top-2"
-              onClick={togglePopup}>✕</label>
+              onClick={togglePopup}
+              aria-label="Close video"
+            >
+              ✕
+            </button>
             <iframe
-              className="w-full h-96"
+              className="aspect-video w-full"
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1`}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -28,8 +28,8 @@ export function Hero({ title, subtitle }: HeroProps) {
         </BlurFade>
 
         <BlurFade delay={0.75}>
-          <div className="my-6 flex flex-row justify-center">
-            <button className="btn btn-primary btn-sm mx-4 text-secondary duration-200 md:btn-md hover:scale-105">
+          <div className="my-6 flex flex-wrap justify-center gap-3">
+            <button className="btn btn-primary btn-sm text-secondary duration-200 md:btn-md hover:scale-105">
               <Link
                 href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858"
                 target="_blank"
@@ -37,7 +37,7 @@ export function Hero({ title, subtitle }: HeroProps) {
                 Donate now!
               </Link>
             </button>
-            <button className="btn btn-secondary btn-sm mx-4 text-primary duration-200 md:btn-md hover:scale-105">
+            <button className="btn btn-secondary btn-sm text-primary duration-200 md:btn-md hover:scale-105">
               <Link href="/forms/iftars">Register for iftar</Link>
             </button>
           </div>

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { EventCard } from "@/components/UI/WeeklyEvents";
+import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import {
   buildKeyDateSummary,
   buildRamadanDays,
@@ -49,6 +51,49 @@ const RAMADAN_RESOURCES = [
     title: "Prayer Schedule PDF",
     description: "Printable prayer and iftar reference sheet.",
     href: "/ramadan_schedule2025.pdf",
+  },
+] as const;
+
+const CAMPUS_SERVICES = [
+  {
+    name: "Daily Iftars on Campus",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/iftars.jpg",
+    timeLocation: "Monday - Friday @ 19:00 to 19:30 in PMC",
+    caption:
+      "Join us for daily iftars on campus, happening Monday to Friday in the PMC. Enjoy a meal with fellow students 20 minutes before iftar.",
+    link: "/forms/iftars",
+    ctaText: "Register for Iftar",
+  },
+  {
+    name: "Daily Taraweeh on Campus",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
+    timeLocation: "Every day in PMC (after Isha). Check prayer schedule below for timings.",
+    caption:
+      "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
+    link: "https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
+    ctaText: "Directions to PMC",
+  },
+  {
+    name: "Fundraiser for Palestine",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
+    timeLocation: "Entire month of Ramadan",
+    caption:
+      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000.",
+    link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858",
+    ctaText: "Donate Now",
+  },
+  {
+    name: "MSA Tarteel Competition",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/tarteel.png",
+    timeLocation: "Entire month on the Tarteel app",
+    caption:
+      "Showcase your recitation skills in the MSA Tarteel Competition. Participate throughout Ramadan on the Tarteel app.",
+    link: "https://www.tarteel.ai/group/join/APupRReDbS3NmM6u?ref=P3pfsqtkCB",
+    ctaText: "Participate Now",
   },
 ] as const;
 
@@ -336,6 +381,27 @@ export default function Ramadan2026Client() {
           </div>
         </section>
 
+        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
+          <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
+            <h2 className="text-lg font-heading font-bold text-primary">Campus Services</h2>
+            <p className="text-xs font-body text-base-content/65">Programs running throughout Ramadan.</p>
+          </div>
+          <div id="events" className="flex-grow space-y-1">
+            {CAMPUS_SERVICES.map((service, index) => (
+              <EventCard
+                key={service.name}
+                name={service.name}
+                image={service.image}
+                caption={service.caption}
+                timeLocation={service.timeLocation}
+                index={index}
+                ctaText={service.ctaText}
+                link={service.link}
+              />
+            ))}
+          </div>
+        </section>
+
         <section className="space-y-4">
           <div className="rounded-2xl border border-base-300 bg-base-100 p-4">
             <h2 className="text-lg font-heading font-bold text-primary">Ramadan Planner</h2>
@@ -431,6 +497,38 @@ export default function Ramadan2026Client() {
 
           </div>
         </div>
+
+        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
+          <h2
+            className="mb-1 text-center text-2xl font-heading font-bold text-primary md:text-3xl"
+            id="prayer_rooms"
+          >
+            Prayer Rooms
+          </h2>
+          <p className="mb-4 text-center text-sm font-body text-base-content/70">
+            Find campus prayer spaces and watch directions before you head out.
+          </p>
+          <div
+            className="grid grid-cols-1 gap-4 md:grid-cols-3"
+            id="prayerlocations"
+          >
+            <PrayerSpaceCard
+              videoId="XQALLoF6Buo"
+              title="Bricker Prayer Room"
+              thumbnailUrl="https://img.youtube.com/vi/XQALLoF6Buo/maxresdefault.jpg"
+            />
+            <PrayerSpaceCard
+              videoId="xnGcNytQNxQ"
+              title="PMC (Iftars & Taraweeh)"
+              thumbnailUrl="https://img.youtube.com/vi/xnGcNytQNxQ/maxresdefault.jpg"
+            />
+            <PrayerSpaceCard
+              videoId="BeT9uC4NBPw"
+              title="Peters Prayer Room"
+              thumbnailUrl="https://img.youtube.com/vi/BeT9uC4NBPw/maxresdefault.jpg"
+            />
+          </div>
+        </section>
       </div>
     </div>
   );
