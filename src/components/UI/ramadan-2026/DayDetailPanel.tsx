@@ -13,9 +13,9 @@ type DayDetailPanelProps = {
 
 function PrayerTimeRow({ label, value, highlight = false }: { label: string; value?: string; highlight?: boolean }) {
   return (
-    <div className={`flex items-center justify-between rounded-lg px-3 py-2 ${highlight ? "bg-secondary/20" : "bg-base-200/60"}`}>
-      <span className="text-sm font-body text-base-content/70">{label}</span>
-      <span className={`text-sm font-body font-semibold ${highlight ? "text-primary" : "text-base-content"}`}>
+    <div className={`flex items-center justify-between rounded-lg px-3 py-2 ${highlight ? "bg-secondary" : "bg-base-200/60"}`}>
+      <span className={`text-sm font-body ${highlight ? "text-secondary-content/90" : "text-base-content/70"}`}>{label}</span>
+      <span className={`text-sm font-body font-semibold ${highlight ? "text-secondary-content" : "text-base-content"}`}>
         {value || "--:--"}
       </span>
     </div>

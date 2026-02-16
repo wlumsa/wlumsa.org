@@ -9,6 +9,11 @@ type CalendarGridProps = {
 };
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const COMPACT_LEGEND = [
+  { label: "Last 10", className: "bg-accent/15 border-accent/30" },
+  { label: "Odd Night", className: "bg-warning/30 border-warning/50" },
+  { label: "Eid", className: "bg-secondary/30 border-secondary/50" },
+] as const;
 
 function getMonthKey(isoDate: string): string {
   return isoDate.slice(0, 7);
@@ -62,7 +67,19 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
 
   return (
     <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
-      <h2 className="text-xl font-heading font-bold text-primary">Ramadan Calendar</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xl font-heading font-bold text-primary">Ramadan Calendar</h2>
+        <div className="flex flex-wrap items-center justify-end gap-1.5">
+          {COMPACT_LEGEND.map((item) => (
+            <span
+              key={item.label}
+              className={`rounded-full border px-2.5 py-1 text-[10px] font-body text-base-content/80 md:text-xs ${item.className}`}
+            >
+              {item.label}
+            </span>
+          ))}
+        </div>
+      </div>
 
       {grouped.map(([monthKey, monthDays]) => {
         const firstDate = parseISODate(monthDays[0]?.isoDate || `${monthKey}-01`);
@@ -70,7 +87,9 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
 
         return (
           <div key={monthKey} className="space-y-2">
-            <h3 className="text-base font-heading font-bold text-base-content/90">{monthLabel(monthKey)}</h3>
+            <h3 className="text-center text-base font-heading font-bold text-base-content/90 md:text-left">
+              {monthLabel(monthKey)}
+            </h3>
 
             <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-body uppercase tracking-wide text-base-content/60">
               {WEEKDAYS.map((day) => (
@@ -102,15 +121,17 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                     id={`ramadan-day-${day.isoDate}`}
                     type="button"
                     aria-label={`${formatShortDate(day.isoDate)} ${day.fastIndex ? `${getOrdinal(day.fastIndex)} fast` : "Eid al-Fitr"}`}
-                    className={`min-h-[72px] rounded-xl border p-1.5 text-left transition hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40 md:min-h-[92px] md:p-2 ${stateClass} ${
+                    className={`min-h-[72px] rounded-xl border p-1.5 text-center transition hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40 md:min-h-[92px] md:p-2 md:text-left ${stateClass} ${
                       isSelected ? "ring-2 ring-primary" : ""
                     }`}
                     onClick={() => onSelect(day.isoDate)}
                     onKeyDown={(event) => handleArrowNavigation(event, day.isoDate)}
                   >
-                    <p className="text-[10px] font-body text-base-content/70 md:text-[11px]">{formatShortDate(day.isoDate)}</p>
+                    <p className="whitespace-nowrap text-[10px] font-body text-base-content/70 md:text-[11px]">
+                      {formatShortDate(day.isoDate)}
+                    </p>
 
-                    <p className="mt-1 text-[10px] font-body font-semibold text-base-content md:text-[12px]">
+                    <p className="mt-1 whitespace-nowrap text-[10px] font-body font-semibold text-base-content md:text-[12px]">
                       {day.fastIndex ? (
                         <>
                           <span className="md:hidden">{`${day.fastIndex}F`}</span>
@@ -124,7 +145,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                       )}
                     </p>
 
-                    <div className="mt-1 flex flex-wrap gap-1">
+                    <div className="mt-1 flex flex-wrap justify-center gap-1 md:justify-start">
                       {day.isFirstTaraweeh ? (
                         <span className="hidden rounded-md bg-info px-1.5 py-0.5 text-[10px] font-body font-medium text-info-content md:inline-flex">
                           First Taraweeh

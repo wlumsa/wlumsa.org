@@ -18,7 +18,6 @@ import {
   ExportButtons,
   Hero,
   KeyDatesCard,
-  Legend,
   LocationSelector,
   MethodToggle,
   type LocationOption,
@@ -28,7 +27,30 @@ const LOCATION_OPTIONS: LocationOption[] = [
   { value: "waterloo-on", label: "Waterloo, ON", city: "Waterloo", country: "Canada" },
   { value: "kitchener-on", label: "Kitchener, ON", city: "Kitchener", country: "Canada" },
   { value: "toronto-on", label: "Toronto, ON", city: "Toronto", country: "Canada" },
+  { value: "ottawa-on", label: "Ottawa, ON", city: "Ottawa", country: "Canada" },
+  { value: "mississauga-on", label: "Mississauga, ON", city: "Mississauga", country: "Canada" },
+  { value: "brampton-on", label: "Brampton, ON", city: "Brampton", country: "Canada" },
+  { value: "hamilton-on", label: "Hamilton, ON", city: "Hamilton", country: "Canada" },
+  { value: "london-on", label: "London, ON", city: "London", country: "Canada" },
 ];
+
+const RAMADAN_RESOURCES = [
+  {
+    title: "Ramadan Journal",
+    description: "Daily reflection prompts and planning pages.",
+    href: "/RamadanJournal.pdf",
+  },
+  {
+    title: "Ramadan Checklist",
+    description: "Track worship goals and daily habits.",
+    href: "/ramadan_checklist.pdf",
+  },
+  {
+    title: "Prayer Schedule PDF",
+    description: "Printable prayer and iftar reference sheet.",
+    href: "/ramadan_schedule2025.pdf",
+  },
+] as const;
 
 type TimeSource = "waterloo-masjid" | "api";
 
@@ -280,43 +302,35 @@ export default function Ramadan2026Client() {
           <div>
             <h2 className="text-lg font-heading font-bold text-primary">Ramadan 2026 With WLUMSA</h2>
             <p className="mt-1 text-sm font-body text-base-content/75">
-              Join iftars, support campus Ramadan services, and stay connected with the community.
+              Join iftars, support campus Ramadan services, and stay connected.
             </p>
-            <div className="mt-3 space-y-1 text-sm font-body text-base-content/80">
-              <p><span className="font-semibold">Taraweeh:</span> Paul Martin Centre (PMC), Waterloo Campus</p>
-              <p><span className="font-semibold">Start Time:</span> After Isha (check daily schedule)</p>
-            </div>
-            <p className="mt-3 text-sm font-body text-base-content/70">
-              Use the top section buttons for iftar registration and donations.
+            <p className="mt-2 text-sm font-body text-base-content/80">
+              <span className="font-semibold">Taraweeh:</span> Paul Martin Centre (PMC), after Isha.
             </p>
+            <div className="mt-3 rounded-xl border border-base-300 bg-base-100 p-3">
+              <div className="flex flex-wrap items-end justify-between gap-2">
+                <h3 className="text-sm font-heading font-bold text-primary">Ramadan Resources</h3>
+                <p className="text-xs font-body text-base-content/65">All resources open as PDF.</p>
+              </div>
 
-            <div className="mt-5 rounded-xl border border-base-300 bg-base-100 p-3">
-              <h3 className="text-sm font-heading font-bold text-primary">Ramadan Resources</h3>
               <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                <a
-                  href="/RamadanJournal.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg border border-base-300 bg-base-100 px-3 py-2 text-sm font-body transition hover:border-primary/40 hover:bg-primary/5"
-                >
-                  Ramadan Journal
-                </a>
-                <a
-                  href="/ramadan_checklist.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg border border-base-300 bg-base-100 px-3 py-2 text-sm font-body transition hover:border-primary/40 hover:bg-primary/5"
-                >
-                  Ramadan Checklist
-                </a>
-                <a
-                  href="/ramadan_schedule2025.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg border border-base-300 bg-base-100 px-3 py-2 text-sm font-body transition hover:border-primary/40 hover:bg-primary/5"
-                >
-                  Prayer Schedule PDF
-                </a>
+                {RAMADAN_RESOURCES.map((resource) => (
+                  <a
+                    key={resource.href}
+                    href={resource.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group rounded-xl border border-base-300 bg-base-100 p-3 transition hover:border-primary/40 hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/25"
+                  >
+                    <p className="text-sm font-body font-semibold text-base-content group-hover:text-primary">
+                      {resource.title}
+                    </p>
+                    <p className="mt-1 text-xs font-body text-base-content/70">{resource.description}</p>
+                    <span className="mt-2 inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-[11px] font-body font-semibold uppercase tracking-wide text-primary">
+                      Open PDF
+                    </span>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -380,8 +394,6 @@ export default function Ramadan2026Client() {
             })}
           </div>
         </section>
-
-        <Legend />
 
         <div className="grid gap-5 lg:grid-cols-[1.7fr_1fr]">
           <CalendarGrid

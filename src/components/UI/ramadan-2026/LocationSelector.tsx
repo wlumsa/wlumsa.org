@@ -25,19 +25,19 @@ export function LocationSelector({
   onAutoDetect,
 }: LocationSelectorProps) {
   return (
-    <section className="rounded-2xl border border-base-300 bg-base-100 p-3 md:p-4">
-      <h2 className="text-base font-heading font-bold text-primary md:text-lg">Location</h2>
-      <p className="mt-1 text-sm font-body text-base-content/70">
-        Prayer times are fetched once daily for the selected location.
+    <section className="flex h-full flex-col justify-center rounded-2xl border border-base-300 bg-base-100 p-3 md:p-4">
+      <h2 className="text-center text-base font-heading font-bold text-primary md:text-lg">Location</h2>
+      <p className="mt-0.5 text-center text-xs font-body text-base-content/65">
+        Prayer times refresh daily for your selected location.
       </p>
 
-      <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
+      <div className="mx-auto mt-2 flex max-w-md items-center justify-center gap-2">
         <label className="sr-only" htmlFor="ramadan-location">
           Select location
         </label>
         <select
           id="ramadan-location"
-          className="select select-bordered select-sm w-full font-body md:select-md"
+          className="select select-bordered select-sm w-full min-w-0 font-body md:select-md"
           value={selectedValue}
           onChange={(event) => onChange(event.target.value)}
         >
@@ -50,7 +50,7 @@ export function LocationSelector({
 
         <button
           type="button"
-          className="btn btn-outline btn-primary btn-sm w-full sm:w-auto md:btn-md"
+          className="btn btn-outline btn-primary btn-sm shrink-0 whitespace-nowrap px-3 md:btn-md"
           onClick={onAutoDetect}
           disabled={isDetecting}
         >
@@ -59,7 +59,7 @@ export function LocationSelector({
       </div>
 
       {detectedLabel ? (
-        <p className="mt-1.5 text-xs font-body text-base-content/70">Detected: {detectedLabel}</p>
+        <p className="mt-1.5 text-center text-xs font-body text-base-content/70">Detected: {detectedLabel}</p>
       ) : null}
     </section>
   );
