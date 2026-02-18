@@ -41,7 +41,7 @@ export const EventCard: React.FC<EventCardProps> = ({ name, image, timeLocation,
   const isExternal = Boolean(link && /^https?:\/\//.test(link));
 
   return (
-    <BlurFade delay={index * 0.08} duration={0.22} blur="2px" yOffset={4} inView={true}>
+    <BlurFade delay={index * 0.1} duration={0.34} blur="3px" yOffset={6} inView={true}>
       <>
         <article className="rounded-2xl border border-base-300 bg-base-100 p-3 md:p-4 lg:hidden">
           <div className="flex flex-col gap-4">
