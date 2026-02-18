@@ -10,7 +10,7 @@
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "eslint .",
     "start": "next start",
     "email": "email dev",
     "generate:types": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types"
