@@ -5,7 +5,10 @@ type DayDetailPanelProps = {
   day?: RamadanDay;
   nextDay?: RamadanDay;
   isLoading: boolean;
-  note: string;
+  note: {
+    title: string;
+    items: string[];
+  };
   isMobileOpen: boolean;
   onCloseMobile: () => void;
 };
@@ -62,7 +65,14 @@ function PanelBody({ day, nextDay, isLoading, note }: Omit<DayDetailPanelProps, 
         </div>
       )}
 
-      <p className="rounded-lg border border-primary/15 bg-primary/5 p-3 text-sm font-body text-base-content/75">{note}</p>
+      <div className="rounded-lg border border-primary/15 bg-primary/5 p-2.5">
+        <p className="text-[11px] font-body font-semibold uppercase tracking-wide text-primary">{note.title}</p>
+        <ul className="mt-1 list-disc space-y-0.5 pl-4 text-xs font-body leading-relaxed text-base-content/75">
+          {note.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
 
     </div>
   );

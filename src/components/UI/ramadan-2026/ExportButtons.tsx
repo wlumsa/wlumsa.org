@@ -6,7 +6,9 @@ type ExportButtonsProps = {
 
 export function ExportButtons({ googleCalendarHref, icsDownloadHref, className }: ExportButtonsProps) {
   return (
-    <section className={`flex flex-col items-center rounded-2xl border border-base-300 bg-base-100 p-4 text-center ${className || ""}`}>
+    <section
+      className={`flex h-full min-h-[188px] flex-col items-center justify-center rounded-2xl border border-base-300 bg-base-100 p-4 text-center md:min-h-[218px] ${className || ""}`}
+    >
       <h2 className="text-lg font-heading font-bold text-primary">Calendar Export</h2>
       <p className="mt-1 text-sm font-body text-base-content/70">
         Add Ramadan dates to your calendar.

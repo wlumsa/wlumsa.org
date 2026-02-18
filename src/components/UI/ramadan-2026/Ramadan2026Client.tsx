@@ -216,12 +216,40 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
   const googleCalendarHref = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(calendarFeed)}`;
 
   const note = selectedDay?.isOddNight
-    ? "Odd night of the last 10: increase dua, Quran, and dhikr tonight."
+    ? {
+      title: "Tonight's Focus",
+      items: [
+        "Odd night of the last 10: prioritize extra dua, Quran, and sincere dhikr.",
+        "Protect your time after Isha and use at least part of the last third of the night for worship.",
+        "Ask Allah for broad goodness in this life and the next, and for accepted fasting.",
+      ],
+    }
     : selectedDay?.isLastTen
-      ? "Last 10 nights: stay consistent and aim for quality worship each night."
-        : selectedDay?.isEid
-        ? "Eid Mubarak from WLUMSA. May Allah accept your fasting and prayers."
-        : "Set your intention early, protect your fast, and keep your duas specific.";
+      ? {
+        title: "Tonight's Focus",
+        items: [
+          "Stay consistent: small acts done well each night are better than one heavy night.",
+          "Set a realistic plan before Maghrib (Quran, dua, istighfar, and salah).",
+          "End your night with sincere repentance and dua for yourself and the ummah.",
+        ],
+      }
+      : selectedDay?.isEid
+        ? {
+          title: "Eid Reminder",
+          items: [
+            "Eid Mubarak from WLUMSA. May Allah accept your fasting, prayers, and duas.",
+            "Keep gratitude, dhikr, and good character central throughout the day.",
+            "Reach out, forgive, and maintain ties with family, friends, and community.",
+          ],
+        }
+        : {
+          title: "Today's Focus",
+          items: [
+            "Renew your intention early and protect your fast from both hunger and harmful speech.",
+            "Plan your day around salah times, Quran recitation, and moments of dhikr.",
+            "Make focused dua before iftar and ask Allah for what is best.",
+          ],
+        };
 
   const todayISO = new Date().toISOString().slice(0, 10);
   const fastingDays = days.filter((day) => day.isFastingDay);
@@ -320,14 +348,46 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
         </section>
 
         <div id="ramadan-calendar" className="grid items-start gap-5 lg:grid-cols-[1.7fr_1fr]">
-          <CalendarGrid
-            days={days}
-            selectedISO={selectedDay?.isoDate || ""}
-            onSelect={(isoDate) => {
-              setSelectedISO(isoDate);
-              setIsMobilePanelOpen(true);
-            }}
-          />
+          <div className="space-y-5">
+            <CalendarGrid
+              days={days}
+              selectedISO={selectedDay?.isoDate || ""}
+              onSelect={(isoDate) => {
+                setSelectedISO(isoDate);
+                setIsMobilePanelOpen(true);
+              }}
+            />
+
+            <section className="flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+              <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">Worship Focus</p>
+              <h3 className="mt-1 text-base font-heading font-bold text-primary md:text-lg">
+                Last 10 Nights and Laylatul Qadr
+              </h3>
+              <p className="mt-2 text-xs font-body leading-relaxed text-base-content/80">
+                Laylatul Qadr is sought in the <strong>odd nights (21, 23, 25, 27, 29)</strong>. Nights begin at Maghrib.
+              </p>
+
+              <div className="mt-3 space-y-1.5 rounded-xl border border-base-300 bg-base-200/40 p-3">
+                <p className="text-xs font-body leading-relaxed text-base-content/80">
+                  <strong>Campus qiyam:</strong> Peters P101 (last 10 nights)
+                </p>
+                <p className="text-xs font-body leading-relaxed text-base-content/75">
+                  <strong>The Messenger of Allah ﷺ said:</strong>
+                </p>
+                <p className="text-xs font-body italic leading-relaxed text-base-content/80">
+                  “Our Lord Almighty descends to the lowest heaven in the last third of every night, saying:
+                  Who is calling upon Me that I may answer him? Who is asking from Me that I may give him?
+                  Who is seeking My forgiveness that I may forgive him?”
+                </p>
+                <p className="text-[11px] font-body leading-relaxed text-base-content/60">
+                  Bukhari &amp; Muslim
+                </p>
+                <p className="text-[11px] font-body leading-relaxed text-base-content/70">
+                  Keep your duas sincere and broad, and trust Allah&apos;s wisdom in what is best.
+                </p>
+              </div>
+            </section>
+          </div>
 
           <div className="space-y-4">
             <DayDetailPanel
@@ -344,21 +404,9 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
               ramadan29={keyDates.ramadan29}
               ramadan30={keyDates.ramadan30}
             />
+
+            <ExportButtons googleCalendarHref={googleCalendarHref} icsDownloadHref={icsDownloadHref} />
           </div>
-        </div>
-
-        <div className="grid items-stretch gap-5 lg:grid-cols-[1.7fr_1fr]">
-          <section className="flex h-full flex-col justify-center rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
-            <h3 className="text-base font-heading font-bold text-primary md:text-lg">Last 10 Nights and Laylatul Qadr</h3>
-            <p className="mt-2 text-xs font-body leading-relaxed text-base-content/80">
-              Laylatul Qadr is sought in the <strong>odd nights (21, 23, 25, 27, 29)</strong> of the last 10.
-            </p>
-            <p className="mt-1.5 text-xs font-body leading-relaxed text-base-content/80">
-              <strong>Nights begin at Maghrib.</strong> Campus qiyam for the last 10 nights will be held in <strong>Peters P101</strong>.
-            </p>
-          </section>
-
-          <ExportButtons googleCalendarHref={googleCalendarHref} icsDownloadHref={icsDownloadHref} />
         </div>
 
         <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
