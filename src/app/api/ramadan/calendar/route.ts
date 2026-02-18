@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addDays, getStartOption, parseISODate, toISODate, type CalculationMode } from "@/lib/ramadan2026";
+import { addDays, parseISODate, RAMADAN_2026_START_DATE_ISO, toISODate } from "@/lib/ramadan2026";
 
 function formatICSDate(isoDate: string): string {
   return isoDate.replace(/-/g, "");
@@ -39,12 +39,9 @@ function buildAllDayEvent({
 }
 
 export async function GET(request: NextRequest) {
-  const modeParam = request.nextUrl.searchParams.get("mode") as CalculationMode | null;
-  const mode: CalculationMode = modeParam === "moon-sighting" ? "moon-sighting" : "astronomical";
   const download = request.nextUrl.searchParams.get("download") === "1";
 
-  const start = getStartOption(mode);
-  const startDate = parseISODate(start.startDateISO);
+  const startDate = parseISODate(RAMADAN_2026_START_DATE_ISO);
 
   const events: string[] = [];
 

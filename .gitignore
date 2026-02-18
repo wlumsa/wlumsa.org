@@ -39,6 +39,7 @@ __snapshots__/
 # Misc
 *.swp
 *.tmp
+*.tsbuildinfo
 
 # clerk configuration (can include secrets)
 /clerk/

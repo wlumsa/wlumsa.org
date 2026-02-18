@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo, type KeyboardEvent } from "react";
 import type { RamadanDay } from "@/lib/ramadan2026";
 import { formatShortDate, getOrdinal, parseISODate } from "@/lib/ramadan2026";
 
@@ -10,9 +10,9 @@ type CalendarGridProps = {
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const COMPACT_LEGEND = [
-  { label: "Last 10", className: "bg-accent/15 border-accent/30" },
-  { label: "Odd Night", className: "bg-warning/30 border-warning/50" },
-  { label: "Eid", className: "bg-secondary/30 border-secondary/50" },
+  { label: "Last 10", className: "bg-accent/18 border-accent/45" },
+  { label: "Odd Night", className: "bg-warning/30 border-warning/70 text-warning-content" },
+  { label: "Eid", className: "bg-secondary/15 border-secondary/40" },
 ] as const;
 
 function getMonthKey(isoDate: string): string {
@@ -42,7 +42,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
   const flatDays = days;
 
   const handleArrowNavigation = (
-    event: React.KeyboardEvent<HTMLButtonElement>,
+    event: KeyboardEvent<HTMLButtonElement>,
     currentISO: string
   ) => {
     const currentIndex = flatDays.findIndex((day) => day.isoDate === currentISO);
@@ -66,7 +66,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
   };
 
   return (
-    <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
+    <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5 lg:pb-11">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-xl font-heading font-bold text-primary">Ramadan Calendar</h2>
         <div className="flex flex-wrap items-center justify-end gap-1.5">
@@ -87,7 +87,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
 
         return (
           <div key={monthKey} className="space-y-2">
-            <h3 className="text-center text-base font-heading font-bold text-base-content/90 md:text-left">
+            <h3 className="text-center text-base font-heading font-bold text-base-content/90">
               {monthLabel(monthKey)}
             </h3>
 
@@ -107,13 +107,16 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
 
               {monthDays.map((day) => {
                 const isSelected = selectedISO === day.isoDate;
+                const isEvenNightInLastTen = day.isLastTen && !day.isOddNight && !day.isEid;
                 const stateClass = day.isEid
-                  ? "border-secondary/60 bg-secondary/30"
+                  ? "border-secondary/45 bg-secondary/15"
                   : day.isOddNight
-                    ? "border-warning/60 bg-warning/20"
+                    ? "border-warning/75 bg-warning/30"
+                    : isEvenNightInLastTen
+                      ? "border-accent/60 bg-accent/22"
                     : day.isLastTen
-                      ? "border-accent/40 bg-accent/10"
-                      : "border-primary/20 bg-primary/5";
+                      ? "border-accent/45 bg-accent/18"
+                      : "border-primary/25 bg-base-100";
 
                 return (
                   <button
@@ -121,13 +124,13 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                     id={`ramadan-day-${day.isoDate}`}
                     type="button"
                     aria-label={`${formatShortDate(day.isoDate)} ${day.fastIndex ? `${getOrdinal(day.fastIndex)} fast` : "Eid al-Fitr"}`}
-                    className={`min-h-[72px] rounded-xl border p-1.5 text-center transition hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40 md:min-h-[92px] md:p-2 md:text-left ${stateClass} ${
-                      isSelected ? "ring-2 ring-primary" : ""
+                    className={`min-h-[72px] rounded-xl border p-1.5 text-center transition hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40 md:min-h-[92px] md:p-2 ${stateClass} ${
+                      isSelected ? "ring-2 ring-primary" : "hover:bg-primary/5"
                     }`}
                     onClick={() => onSelect(day.isoDate)}
                     onKeyDown={(event) => handleArrowNavigation(event, day.isoDate)}
                   >
-                    <p className="whitespace-nowrap text-[10px] font-body text-base-content/70 md:text-[11px]">
+                    <p className="whitespace-nowrap text-[10px] font-body text-neutral/80 md:text-[11px]">
                       {formatShortDate(day.isoDate)}
                     </p>
 
@@ -145,7 +148,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                       )}
                     </p>
 
-                    <div className="mt-1 flex flex-wrap justify-center gap-1 md:justify-start">
+                    <div className="mt-1 flex flex-wrap justify-center gap-1">
                       {day.isFirstTaraweeh ? (
                         <span className="hidden rounded-md bg-info px-1.5 py-0.5 text-[10px] font-body font-medium text-info-content md:inline-flex">
                           First Taraweeh
@@ -157,7 +160,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                         </span>
                       ) : null}
                       {day.isOddNight ? (
-                        <span className="hidden rounded-md bg-warning px-1.5 py-0.5 text-[10px] font-body font-medium text-warning-content md:inline-flex">
+                        <span className="hidden rounded-md border border-warning/60 bg-warning px-1.5 py-0.5 text-[10px] font-body font-semibold text-warning-content md:inline-flex">
                           Odd Night
                         </span>
                       ) : null}
@@ -169,7 +172,8 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                       <div className="flex items-center gap-1 md:hidden">
                         {day.isFirstTaraweeh ? <span className="h-1.5 w-1.5 rounded-full bg-info" /> : null}
                         {day.isLastTen ? <span className="h-1.5 w-1.5 rounded-full bg-accent" /> : null}
-                        {day.isOddNight ? <span className="h-1.5 w-1.5 rounded-full bg-warning" /> : null}
+                        {isEvenNightInLastTen ? <span className="h-1.5 w-1.5 rounded-full bg-accent" /> : null}
+                        {day.isOddNight ? <span className="h-2 w-2 rounded-full bg-warning" /> : null}
                         {day.isEid ? <span className="h-1.5 w-1.5 rounded-full bg-secondary" /> : null}
                       </div>
                     </div>

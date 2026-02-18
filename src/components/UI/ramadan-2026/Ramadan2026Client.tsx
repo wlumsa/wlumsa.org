@@ -1,18 +1,15 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { EventCard } from "@/components/UI/WeeklyEvents";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import {
+  RAMADAN_2026_START_DATE_ISO,
   buildKeyDateSummary,
   buildRamadanDays,
-  DEFAULT_LOCATION,
   formatDisplayDate,
-  getStartOption,
-  type CalculationMode,
-  type Madhab,
+  getOrdinal,
   type PrayerTimes,
-  RAMADAN_2026_START_OPTIONS,
 } from "@/lib/ramadan2026";
 import {
   CalendarGrid,
@@ -20,37 +17,32 @@ import {
   ExportButtons,
   Hero,
   KeyDatesCard,
-  LocationSelector,
-  MethodToggle,
-  type LocationOption,
 } from "./index";
-
-const LOCATION_OPTIONS: LocationOption[] = [
-  { value: "waterloo-on", label: "Waterloo, ON", city: "Waterloo", country: "Canada" },
-  { value: "kitchener-on", label: "Kitchener, ON", city: "Kitchener", country: "Canada" },
-  { value: "toronto-on", label: "Toronto, ON", city: "Toronto", country: "Canada" },
-  { value: "ottawa-on", label: "Ottawa, ON", city: "Ottawa", country: "Canada" },
-  { value: "mississauga-on", label: "Mississauga, ON", city: "Mississauga", country: "Canada" },
-  { value: "brampton-on", label: "Brampton, ON", city: "Brampton", country: "Canada" },
-  { value: "hamilton-on", label: "Hamilton, ON", city: "Hamilton", country: "Canada" },
-  { value: "london-on", label: "London, ON", city: "London", country: "Canada" },
-];
 
 const RAMADAN_RESOURCES = [
   {
     title: "Ramadan Journal",
     description: "Daily reflection prompts and planning pages.",
     href: "/RamadanJournal.pdf",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png",
+    alt: "Ramadan Journal cover",
   },
   {
     title: "Ramadan Checklist",
     description: "Track worship goals and daily habits.",
     href: "/ramadan_checklist.pdf",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png",
+    alt: "Ramadan Checklist preview",
   },
   {
     title: "Prayer Schedule PDF",
     description: "Printable prayer and iftar reference sheet.",
-    href: "/ramadan_schedule2025.pdf",
+    href: "/ramadan_schedule2026.pdf",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule.png",
+    alt: "Ramadan prayer schedule preview",
   },
 ] as const;
 
@@ -58,109 +50,126 @@ const CAMPUS_SERVICES = [
   {
     name: "Daily Iftars on Campus",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/iftars.jpg",
-    timeLocation: "Monday - Friday @ 19:00 to 19:30 in PMC",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/iftar2025.webp",
+    timeLocation: "Monday - Friday in PMC (arrive ~20 minutes before Maghrib)",
     caption:
-      "Join us for daily iftars on campus, happening Monday to Friday in the PMC. Enjoy a meal with fellow students 20 minutes before iftar.",
+      "Join daily campus iftars in the PMC and break your fast together at Maghrib.",
     link: "/forms/iftars",
     ctaText: "Register for Iftar",
   },
   {
     name: "Daily Taraweeh on Campus",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/taraweeh.png",
-    timeLocation: "Every day in PMC (after Isha). Check prayer schedule below for timings.",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/taraweeh25.webp",
+    timeLocation: "Every day in PMC (after Isha). See Ramadan calendar for exact timings.",
     caption:
-      "Participate in daily Taraweeh prayers on campus. Join us every evening, including weekends, in the PMC for a spiritually uplifting experience.",
+      "Attend daily Taraweeh in the PMC, including weekends, after Isha.",
     link: "https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
     ctaText: "Directions to PMC",
   },
   {
-    name: "Fundraiser for Palestine",
-    image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/donations.png",
-    timeLocation: "Entire month of Ramadan",
-    caption:
-      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000.",
-    link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858",
-    ctaText: "Donate Now",
-  },
-  {
     name: "MSA Tarteel Competition",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/tarteel.png",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/tarteel26(1).webp",
     timeLocation: "Entire month on the Tarteel app",
     caption:
-      "Showcase your recitation skills in the MSA Tarteel Competition. Participate throughout Ramadan on the Tarteel app.",
+      "Join the MSA Tarteel Competition and participate through Ramadan on the Tarteel app.",
     link: "https://www.tarteel.ai/group/join/APupRReDbS3NmM6u?ref=P3pfsqtkCB",
     ctaText: "Participate Now",
   },
 ] as const;
 
-type TimeSource = "waterloo-masjid" | "api";
+const IMPACT_METRICS_2025 = [
+  {
+    value: 3000,
+    label: "Meals Provided",
+    prefix: "",
+    suffix: "+",
+  },
+  {
+    value: 16000,
+    label: "Charity Raised",
+    prefix: "$",
+    suffix: "+",
+  },
+  {
+    value: 500,
+    label: "Students Served",
+    prefix: "",
+    suffix: "+",
+  },
+] as const;
 
-function isWaterlooContext(
-  location: { city: string; country: string },
-  coords: { latitude: number; longitude: number } | null
-) {
-  const byName = location.city.toLowerCase().includes("waterloo") && location.country.toLowerCase().includes("canada");
-  if (byName) return true;
+function formatCompactNumber(value: number): string {
+  return new Intl.NumberFormat("en-CA").format(value);
+}
 
-  if (!coords) return false;
+function CountUpNumber({
+  value,
+  start,
+  prefix = "",
+  suffix = "",
+  durationMs = 1000,
+}: {
+  value: number;
+  start: boolean;
+  prefix?: string;
+  suffix?: string;
+  durationMs?: number;
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!start) return;
+
+    let frame = 0;
+    let startTime: number | null = null;
+
+    const tick = (timestamp: number) => {
+      if (startTime === null) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / durationMs, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(Math.round(value * eased));
+
+      if (progress < 1) {
+        frame = requestAnimationFrame(tick);
+      }
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [start, value, durationMs]);
+
   return (
-    coords.latitude >= 43.2 &&
-    coords.latitude <= 43.7 &&
-    coords.longitude >= -80.8 &&
-    coords.longitude <= -80.2
+    <>
+      {prefix}
+      {formatCompactNumber(displayValue)}
+      {suffix}
+    </>
   );
 }
 
-export default function Ramadan2026Client() {
-  const [selectedLocationValue, setSelectedLocationValue] = useState("waterloo-on");
-  const [detectedLabel, setDetectedLabel] = useState<string | undefined>(undefined);
-  const [detectedCityCountry, setDetectedCityCountry] = useState<{ city: string; country: string } | null>(null);
-  const [isDetecting, setIsDetecting] = useState(false);
-  const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+type Ramadan2026ClientProps = {
+  prayerTimesByDate: Record<string, PrayerTimes>;
+};
 
-  const [mode, setMode] = useState<CalculationMode>("astronomical");
-  const [madhab, setMadhab] = useState<Madhab>("shafi");
-  const [timeSource, setTimeSource] = useState<TimeSource>("waterloo-masjid");
-  const [selectedStartOptionId, setSelectedStartOptionId] = useState(getStartOption("astronomical").id);
-
-  const [prayerTimesByDate, setPrayerTimesByDate] = useState<Record<string, PrayerTimes>>({});
-  const [isPrayerLoading, setIsPrayerLoading] = useState(true);
-  const [prayerError, setPrayerError] = useState<string | null>(null);
-  const [sourceDescription, setSourceDescription] = useState<string | undefined>(undefined);
-  const [supportsMadhab, setSupportsMadhab] = useState(true);
-
+export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026ClientProps) {
+  const impactSectionRef = useRef<HTMLElement | null>(null);
+  const [isImpactVisible, setIsImpactVisible] = useState(false);
   const [selectedISO, setSelectedISO] = useState<string | null>(null);
   const [isMobilePanelOpen, setIsMobilePanelOpen] = useState(false);
   const [origin, setOrigin] = useState("");
 
-  const selectedLocationFromDropdown =
-    LOCATION_OPTIONS.find((option) => option.value === selectedLocationValue) ||
-    ({
-      city: DEFAULT_LOCATION.city,
-      country: DEFAULT_LOCATION.country,
-    } as LocationOption);
-
-  const selectedLocation = detectedCityCountry || selectedLocationFromDropdown;
-  const isWaterlooAvailable = isWaterlooContext(selectedLocation, coords);
-
-  const selectedStartOption =
-    RAMADAN_2026_START_OPTIONS.find((option) => option.id === selectedStartOptionId) ||
-    getStartOption(mode);
-
   const days = useMemo(
-    () => buildRamadanDays(selectedStartOption.startDateISO, prayerTimesByDate),
-    [selectedStartOption.startDateISO, prayerTimesByDate]
+    () => buildRamadanDays(RAMADAN_2026_START_DATE_ISO, prayerTimesByDate),
+    [prayerTimesByDate]
   );
 
   const selectedDay = days.find((day) => day.isoDate === selectedISO) || days[0];
   const selectedDayIndex = days.findIndex((day) => day.isoDate === selectedDay?.isoDate);
   const nextDay = selectedDayIndex >= 0 ? days[selectedDayIndex + 1] : undefined;
 
-  const keyDates = buildKeyDateSummary(selectedStartOption.startDateISO);
+  const keyDates = buildKeyDateSummary(RAMADAN_2026_START_DATE_ISO);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -169,8 +178,30 @@ export default function Ramadan2026Client() {
   }, []);
 
   useEffect(() => {
-    if (!selectedISO && days[0]) {
-      setSelectedISO(days[0].isoDate);
+    const node = impactSectionRef.current;
+    if (!node || isImpactVisible) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setIsImpactVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [isImpactVisible]);
+
+  useEffect(() => {
+    if (!days[0]) return;
+
+    if (!selectedISO) {
+      const todayISO = new Date().toISOString().slice(0, 10);
+      const matchingToday = days.find((day) => day.isoDate === todayISO);
+      setSelectedISO(matchingToday?.isoDate || days[0].isoDate);
       return;
     }
 
@@ -180,213 +211,162 @@ export default function Ramadan2026Client() {
     }
   }, [days, selectedISO]);
 
-  useEffect(() => {
-    if (!isWaterlooAvailable && timeSource === "waterloo-masjid") {
-      setTimeSource("api");
-    }
-  }, [isWaterlooAvailable, timeSource]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const params = new URLSearchParams({
-      source: timeSource,
-      mode,
-      madhab,
-      city: selectedLocation.city,
-      country: selectedLocation.country,
-    });
-
-    if (coords) {
-      params.set("latitude", String(coords.latitude));
-      params.set("longitude", String(coords.longitude));
-    }
-
-    setIsPrayerLoading(true);
-    setPrayerError(null);
-
-    fetch(`/api/ramadan/prayer-times?${params.toString()}`, {
-      signal: controller.signal,
-      cache: "force-cache",
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("Unable to load prayer times");
-        }
-        return response.json();
-      })
-      .then((payload: {
-        prayerTimesByDate?: Record<string, PrayerTimes>;
-        source?: string;
-        supportsMadhab?: boolean;
-      }) => {
-        setPrayerTimesByDate(payload.prayerTimesByDate || {});
-        setSourceDescription(payload.source);
-        setSupportsMadhab(payload.supportsMadhab ?? true);
-      })
-      .catch((error: unknown) => {
-        if ((error as { name?: string })?.name === "AbortError") return;
-        setPrayerError("Prayer times could not be loaded right now.");
-      })
-      .finally(() => {
-        setIsPrayerLoading(false);
-      });
-
-    return () => controller.abort();
-  }, [timeSource, mode, madhab, selectedLocation.city, selectedLocation.country, coords]);
-
-  const handleAutoDetect = async () => {
-    if (typeof navigator === "undefined" || !navigator.geolocation) {
-      setDetectedLabel("Geolocation is not available in this browser.");
-      return;
-    }
-
-    setIsDetecting(true);
-    setDetectedLabel(undefined);
-
-    try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-        });
-      });
-
-      const latitude = Number(position.coords.latitude.toFixed(4));
-      const longitude = Number(position.coords.longitude.toFixed(4));
-      setCoords({ latitude, longitude });
-
-      try {
-        const reverseUrl = new URL("https://nominatim.openstreetmap.org/reverse");
-        reverseUrl.searchParams.set("format", "jsonv2");
-        reverseUrl.searchParams.set("lat", String(latitude));
-        reverseUrl.searchParams.set("lon", String(longitude));
-
-        const reverseResponse = await fetch(reverseUrl.toString());
-        const reverseData = (await reverseResponse.json()) as {
-          address?: { city?: string; town?: string; village?: string; state?: string; country?: string };
-        };
-
-        const city =
-          reverseData.address?.city || reverseData.address?.town || reverseData.address?.village || "Detected city";
-        const region = reverseData.address?.state || "";
-        const country = reverseData.address?.country || selectedLocation.country;
-
-        setDetectedLabel(`${city}${region ? `, ${region}` : ""}`);
-        setDetectedCityCountry({ city, country });
-        const localDetected =
-          city.toLowerCase().includes("waterloo") && country.toLowerCase().includes("canada");
-        setTimeSource(localDetected ? "waterloo-masjid" : "api");
-      } catch {
-        setDetectedLabel(`Detected coordinates: ${latitude}, ${longitude}`);
-      }
-    } catch {
-      setDetectedLabel("Location access denied or unavailable.");
-    } finally {
-      setIsDetecting(false);
-    }
-  };
-
-  const handleLocationChange = (value: string) => {
-    const nextLocation = LOCATION_OPTIONS.find((option) => option.value === value);
-    const shouldUseWaterlooSource =
-      (nextLocation?.city || "").toLowerCase().includes("waterloo") &&
-      (nextLocation?.country || "").toLowerCase().includes("canada");
-
-    setSelectedLocationValue(value);
-    setCoords(null);
-    setDetectedCityCountry(null);
-    setDetectedLabel(undefined);
-    setTimeSource(shouldUseWaterlooSource ? "waterloo-masjid" : "api");
-  };
-
-  const handleTimeSourceChange = (source: TimeSource) => {
-    if (source === "waterloo-masjid" && !isWaterlooAvailable) return;
-    setTimeSource(source);
-  };
-
-  const handleMethodChange = (nextMode: CalculationMode) => {
-    setMode(nextMode);
-    const option = getStartOption(nextMode);
-    setSelectedStartOptionId(option.id);
-  };
-
-  const handleStartOptionSelect = (optionId: string) => {
-    const option = RAMADAN_2026_START_OPTIONS.find((value) => value.id === optionId);
-    if (!option) return;
-    setSelectedStartOptionId(option.id);
-    setMode(option.mode);
-  };
-
-  const calendarQuery = new URLSearchParams({
-    mode: selectedStartOption.mode,
-    city: selectedLocation.city,
-    country: selectedLocation.country,
-  }).toString();
-
-  const icsDownloadHref = `/api/ramadan/calendar?${calendarQuery}&download=1`;
-  const calendarFeed = `${origin || "https://www.wlumsa.org"}/api/ramadan/calendar?${calendarQuery}`;
+  const icsDownloadHref = "/api/ramadan/calendar?download=1";
+  const calendarFeed = `${origin || "https://www.wlumsa.org"}/api/ramadan/calendar`;
   const googleCalendarHref = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(calendarFeed)}`;
 
   const note = selectedDay?.isOddNight
     ? "Odd night of the last 10: increase dua, Quran, and dhikr tonight."
     : selectedDay?.isLastTen
       ? "Last 10 nights: stay consistent and aim for quality worship each night."
-      : selectedDay?.isEid
+        : selectedDay?.isEid
         ? "Eid Mubarak from WLUMSA. May Allah accept your fasting and prayers."
         : "Set your intention early, protect your fast, and keep your duas specific.";
 
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const fastingDays = days.filter((day) => day.isFastingDay);
+  const firstFastingDay = fastingDays[0];
+  const lastFastingDay = fastingDays[fastingDays.length - 1];
+  const todayRamadanDay = fastingDays.find((day) => day.isoDate === todayISO);
+  const jumpTargetDay =
+    todayRamadanDay ||
+    (todayISO < (firstFastingDay?.isoDate || "") ? firstFastingDay : lastFastingDay);
+  const jumpButtonLabel = todayRamadanDay
+    ? "Go to Today"
+    : todayISO < (firstFastingDay?.isoDate || "")
+      ? "Go to Ramadan Day 1"
+      : "Go to Last Fasting Day";
+  const selectedFastingDay = selectedDay?.isFastingDay ? selectedDay : undefined;
+
+  const handleJumpToRelevantDay = () => {
+    if (!jumpTargetDay) return;
+    setSelectedISO(jumpTargetDay.isoDate);
+    setIsMobilePanelOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-base-100 pb-24 pt-24">
-      <div className="container mx-auto space-y-5 px-4">
+      <div className="container mx-auto max-w-6xl space-y-5 px-4">
         <Hero
           title="Ramadan 2026"
           subtitle="Waterloo, Ontario"
         />
 
-        <section className="rounded-2xl border border-primary/15 bg-primary/5 p-4 md:p-5">
-          <div>
-            <h2 className="text-lg font-heading font-bold text-primary">Ramadan 2026 With WLUMSA</h2>
-            <p className="mt-1 text-sm font-body text-base-content/75">
-              Join iftars, support campus Ramadan services, and stay connected.
-            </p>
-            <p className="mt-2 text-sm font-body text-base-content/80">
-              <span className="font-semibold">Taraweeh:</span> Paul Martin Centre (PMC), after Isha.
-            </p>
-            <div className="mt-3 rounded-xl border border-base-300 bg-base-100 p-3">
-              <div className="flex flex-wrap items-end justify-between gap-2">
-                <h3 className="text-sm font-heading font-bold text-primary">Ramadan Resources</h3>
-                <p className="text-xs font-body text-base-content/65">All resources open as PDF.</p>
-              </div>
+        <section ref={impactSectionRef} className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+          <div className="mx-auto space-y-1.5 py-1 text-center">
+            <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">2025 Impact</p>
+            <h2 className="mx-auto max-w-3xl text-balance text-2xl font-heading font-bold text-primary md:text-3xl">
+              Alhamdulillah, last Ramadan we delivered
+            </h2>
+            <p className="text-sm font-body text-base-content/70">A quick look at what your support made possible.</p>
+          </div>
 
-              <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                {RAMADAN_RESOURCES.map((resource) => (
-                  <a
-                    key={resource.href}
-                    href={resource.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group rounded-xl border border-base-300 bg-base-100 p-3 transition hover:border-primary/40 hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/25"
-                  >
-                    <p className="text-sm font-body font-semibold text-base-content group-hover:text-primary">
-                      {resource.title}
-                    </p>
-                    <p className="mt-1 text-xs font-body text-base-content/70">{resource.description}</p>
-                    <span className="mt-2 inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-[11px] font-body font-semibold uppercase tracking-wide text-primary">
-                      Open PDF
-                    </span>
-                  </a>
-                ))}
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {IMPACT_METRICS_2025.map((metric) => (
+              <article key={metric.label} className="rounded-xl border border-base-300 bg-base-100 p-4 text-center">
+                <p className="text-4xl font-heading font-bold text-primary md:text-5xl">
+                  <CountUpNumber
+                    value={metric.value}
+                    prefix={metric.prefix}
+                    suffix={metric.suffix}
+                    start={isImpactVisible}
+                  />
+                </p>
+                <p className="mt-2 text-sm font-body font-semibold text-base-content/80">{metric.label}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+          <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+            <div>
+              <h2 className="text-lg font-heading font-bold text-primary">Today&apos;s Fasting Snapshot</h2>
+              <p className="text-xs font-body text-base-content/65">Quick view for day, suhoor cutoff, and iftar time.</p>
+            </div>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-3">
+            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-xs font-body uppercase tracking-wide text-base-content/55">Fast Day</p>
+                <button
+                  type="button"
+                  onClick={handleJumpToRelevantDay}
+                  disabled={!jumpTargetDay}
+                  className="btn btn-primary btn-xs px-2 text-primary-content normal-case"
+                >
+                  {jumpButtonLabel}
+                </button>
               </div>
+              <p className="mt-2 text-lg font-heading font-bold text-base-content">
+                {selectedFastingDay?.fastIndex ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast` : "Outside fasting dates"}
+              </p>
+              <p className="mt-1 text-sm font-body text-base-content/70">
+                {selectedFastingDay ? formatDisplayDate(selectedFastingDay.isoDate) : "Select a fasting day below to view details."}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
+              <p className="text-xs font-body uppercase tracking-wide text-base-content/55">Suhoor Ends</p>
+              <p className="mt-2 text-3xl font-heading font-bold text-base-content">{selectedFastingDay?.prayerTimes?.fajr || "--:--"}</p>
+              <p className="mt-1 text-sm font-body text-base-content/70">Fajr (Suhoor cutoff)</p>
+            </div>
+            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
+              <p className="text-xs font-body uppercase tracking-wide text-base-content/55">Iftar</p>
+              <p className="mt-2 text-3xl font-heading font-bold text-base-content">{selectedFastingDay?.prayerTimes?.maghrib || "--:--"}</p>
+              <p className="mt-1 text-sm font-body text-base-content/70">Maghrib (Iftar time)</p>
             </div>
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
+        <div id="ramadan-calendar" className="grid items-start gap-5 lg:grid-cols-[1.7fr_1fr]">
+          <CalendarGrid
+            days={days}
+            selectedISO={selectedDay?.isoDate || ""}
+            onSelect={(isoDate) => {
+              setSelectedISO(isoDate);
+              setIsMobilePanelOpen(true);
+            }}
+          />
+
+          <div className="space-y-4">
+            <DayDetailPanel
+              day={selectedDay}
+              nextDay={nextDay}
+              isLoading={false}
+              note={note}
+              isMobileOpen={isMobilePanelOpen}
+              onCloseMobile={() => setIsMobilePanelOpen(false)}
+            />
+
+            <KeyDatesCard
+              eidEstimate={keyDates.eidEstimate}
+              ramadan29={keyDates.ramadan29}
+              ramadan30={keyDates.ramadan30}
+            />
+          </div>
+        </div>
+
+        <div className="grid items-stretch gap-5 lg:grid-cols-[1.7fr_1fr]">
+          <section className="flex h-full flex-col justify-center rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
+            <h3 className="text-base font-heading font-bold text-primary md:text-lg">Last 10 Nights and Laylatul Qadr</h3>
+            <p className="mt-2 text-xs font-body leading-relaxed text-base-content/80">
+              Laylatul Qadr is sought in the odd nights (21, 23, 25, 27, 29) of the last 10.
+            </p>
+            <p className="mt-1.5 text-xs font-body leading-relaxed text-base-content/80">
+              Nights begin at Maghrib. Campus qiyam for the last 10 nights will be held in Peters P101.
+            </p>
+          </section>
+
+          <ExportButtons googleCalendarHref={googleCalendarHref} icsDownloadHref={icsDownloadHref} />
+        </div>
+
+        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
           <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Campus Services</h2>
-            <p className="text-xs font-body text-base-content/65">Programs running throughout Ramadan.</p>
+            <p className="text-xs font-body text-base-content/65">Programs running throughout Ramadan 2026.</p>
           </div>
-          <div id="events" className="flex-grow space-y-1">
+          <div id="events" className="mt-3 flex-grow space-y-1">
             {CAMPUS_SERVICES.map((service, index) => (
               <EventCard
                 key={service.name}
@@ -402,103 +382,37 @@ export default function Ramadan2026Client() {
           </div>
         </section>
 
-        <section className="space-y-4">
-          <div className="rounded-2xl border border-base-300 bg-base-100 p-4">
-            <h2 className="text-lg font-heading font-bold text-primary">Ramadan Planner</h2>
-            <p className="mt-1 text-sm font-body text-base-content/70">
-              Choose location and method, then explore the daily calendar details.
-            </p>
+        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+          <div className="flex flex-wrap items-end justify-between gap-2">
+            <h2 className="text-lg font-heading font-bold text-primary">Resources</h2>
           </div>
-
-          <div className="grid gap-4 lg:grid-cols-2">
-            <LocationSelector
-              options={LOCATION_OPTIONS}
-              selectedValue={selectedLocationValue}
-              isDetecting={isDetecting}
-              detectedLabel={detectedLabel}
-              onAutoDetect={handleAutoDetect}
-              onChange={handleLocationChange}
-            />
-
-            <MethodToggle
-              timeSource={timeSource}
-              isWaterlooAvailable={isWaterlooAvailable}
-              sourceDescription={sourceDescription}
-              showMadhabToggle={timeSource === "api" && supportsMadhab}
-              mode={mode}
-              madhab={madhab}
-              onTimeSourceChange={handleTimeSourceChange}
-              onModeChange={handleMethodChange}
-              onMadhabChange={setMadhab}
-            />
+          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {RAMADAN_RESOURCES.map((resource) => (
+              <a
+                key={resource.href}
+                href={resource.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-sm sm:p-4"
+              >
+                <div className="flex h-56 w-full items-center justify-center overflow-hidden rounded-xl border border-base-300 bg-base-200 sm:h-64">
+                  <img
+                    src={resource.image}
+                    alt={resource.alt}
+                    className="h-full w-full object-contain p-2"
+                  />
+                </div>
+                <div className="mt-3 flex min-w-0 flex-1 flex-col">
+                  <p className="text-base font-body font-semibold text-base-content">{resource.title}</p>
+                  <p className="mt-1 text-[11px] font-body uppercase tracking-wide text-base-content/60">PDF</p>
+                  <p className="mt-1 text-sm font-body text-base-content/70">{resource.description}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
-          <h2 className="text-lg font-heading font-bold text-primary">Ramadan Start Date</h2>
-          <div className="mt-3 grid gap-3 md:grid-cols-2">
-            {RAMADAN_2026_START_OPTIONS.map((option) => {
-              const isSelected = option.id === selectedStartOptionId;
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  onClick={() => handleStartOptionSelect(option.id)}
-                  className={`rounded-xl border p-4 text-left transition ${
-                    isSelected
-                      ? "border-primary bg-primary/5 ring-2 ring-primary/25"
-                      : "border-base-300 bg-base-100 hover:border-primary/30"
-                  }`}
-                >
-                  <p className="text-sm font-body font-semibold text-base-content">{option.label}</p>
-                  <p className="mt-1 text-lg font-heading font-bold text-primary">
-                    {formatDisplayDate(option.startDateISO)}
-                  </p>
-                  <p className="mt-1 text-sm font-body text-base-content/70">{option.description}</p>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        <div className="grid gap-5 lg:grid-cols-[1.7fr_1fr]">
-          <CalendarGrid
-            days={days}
-            selectedISO={selectedDay?.isoDate || ""}
-            onSelect={(isoDate) => {
-              setSelectedISO(isoDate);
-              setIsMobilePanelOpen(true);
-            }}
-          />
-
-          <div className="space-y-4">
-            {prayerError ? (
-              <div className="rounded-2xl border border-error/30 bg-error/10 p-4 text-sm font-body text-error-content">
-                {prayerError}
-              </div>
-            ) : null}
-
-            <DayDetailPanel
-              day={selectedDay}
-              nextDay={nextDay}
-              isLoading={isPrayerLoading}
-              note={note}
-              isMobileOpen={isMobilePanelOpen}
-              onCloseMobile={() => setIsMobilePanelOpen(false)}
-            />
-
-            <KeyDatesCard
-              eidEstimate={keyDates.eidEstimate}
-              ramadan29={keyDates.ramadan29}
-              ramadan30={keyDates.ramadan30}
-            />
-
-            <ExportButtons googleCalendarHref={googleCalendarHref} icsDownloadHref={icsDownloadHref} />
-
-          </div>
-        </div>
-
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
           <h2
             className="mb-1 text-center text-2xl font-heading font-bold text-primary md:text-3xl"
             id="prayer_rooms"

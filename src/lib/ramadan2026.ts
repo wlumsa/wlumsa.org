@@ -1,6 +1,3 @@
-export type CalculationMode = "astronomical" | "moon-sighting";
-export type Madhab = "shafi" | "hanafi";
-
 export type PrayerTimes = {
   fajr: string;
   sunrise: string;
@@ -22,42 +19,7 @@ export type RamadanDay = {
   prayerTimes?: PrayerTimes;
 };
 
-export type StartDateOption = {
-  id: string;
-  mode: CalculationMode;
-  label: string;
-  startDateISO: string;
-  description: string;
-};
-
-export const RAMADAN_2026_START_OPTIONS: StartDateOption[] = [
-  {
-    id: "astronomical",
-    mode: "astronomical",
-    label: "Option A (Astronomical)",
-    startDateISO: "2026-02-18",
-    description: "Estimated start based on astronomical calculations.",
-  },
-  {
-    id: "moon-sighting",
-    mode: "moon-sighting",
-    label: "Option B (Moon Sighting)",
-    startDateISO: "2026-02-19",
-    description: "Estimated start based on local moon sighting reports.",
-  },
-];
-
-export const DEFAULT_LOCATION = {
-  city: "Waterloo",
-  country: "Canada",
-  display: "Waterloo, ON",
-};
-
-export function getStartOption(mode: CalculationMode): StartDateOption {
-  const byMode = RAMADAN_2026_START_OPTIONS.find((option) => option.mode === mode);
-  if (byMode) return byMode;
-  return RAMADAN_2026_START_OPTIONS[0] as StartDateOption;
-}
+export const RAMADAN_2026_START_DATE_ISO = "2026-02-19";
 
 export function parseISODate(isoDate: string): Date {
   const [yearRaw = 2026, monthRaw = 1, dayRaw = 1] = isoDate.split("-").map(Number);
@@ -174,30 +136,47 @@ export function getLastThirdOfNight(
 ): string | null {
   if (!currentDay || !nextDay) return null;
 
-  const [maghribHour, maghribMinute] = currentDay.maghrib.split(":").map(Number);
-  const [nextFajrHour, nextFajrMinute] = nextDay.fajr.split(":").map(Number);
+  const [rawMaghribHour, maghribMinute] = currentDay.maghrib.split(":").map(Number);
+  const [rawNextFajrHour, nextFajrMinute] = nextDay.fajr.split(":").map(Number);
 
   if (
-    Number.isNaN(maghribHour) ||
+    Number.isNaN(rawMaghribHour) ||
     Number.isNaN(maghribMinute) ||
-    Number.isNaN(nextFajrHour) ||
+    Number.isNaN(rawNextFajrHour) ||
     Number.isNaN(nextFajrMinute)
   ) {
     return null;
   }
 
-  const safeMaghribHour = maghribHour ?? 0;
+  const safeRawMaghribHour = rawMaghribHour ?? 0;
   const safeMaghribMinute = maghribMinute ?? 0;
-  const safeNextFajrHour = nextFajrHour ?? 0;
+  const safeRawNextFajrHour = rawNextFajrHour ?? 0;
   const safeNextFajrMinute = nextFajrMinute ?? 0;
 
-  const startMinutes = safeMaghribHour * 60 + safeMaghribMinute;
-  const nextFajrTotal = safeNextFajrHour * 60 + safeNextFajrMinute + 24 * 60;
+  // Timetable data is often in 12-hour style without AM/PM (e.g., 7:35 for Maghrib).
+  // Normalize with prayer-context assumptions while still supporting true 24-hour values.
+  const maghribHour24 =
+    safeRawMaghribHour >= 13
+      ? safeRawMaghribHour
+      : safeRawMaghribHour === 12
+        ? 12
+        : safeRawMaghribHour + 12;
+  const nextFajrHour24 =
+    safeRawNextFajrHour >= 13
+      ? safeRawNextFajrHour
+      : safeRawNextFajrHour === 12
+        ? 0
+        : safeRawNextFajrHour;
+
+  const startMinutes = maghribHour24 * 60 + safeMaghribMinute;
+  const nextFajrTotal = nextFajrHour24 * 60 + safeNextFajrMinute + 24 * 60;
   const duration = nextFajrTotal - startMinutes;
   const lastThirdStart = startMinutes + Math.floor((duration * 2) / 3);
 
   const normalized = lastThirdStart % (24 * 60);
-  const hour = String(Math.floor(normalized / 60)).padStart(2, "0");
+  const hour24 = Math.floor(normalized / 60);
   const minute = String(normalized % 60).padStart(2, "0");
-  return `${hour}:${minute}`;
+  const suffix = hour24 >= 12 ? "PM" : "AM";
+  const hour12 = hour24 % 12 || 12;
+  return `${hour12}:${minute} ${suffix}`;
 }

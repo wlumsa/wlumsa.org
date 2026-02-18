@@ -41,24 +41,24 @@ export const EventCard: React.FC<EventCardProps> = ({ name, image, timeLocation,
   const isExternal = Boolean(link && /^https?:\/\//.test(link));
 
   return (
-    <BlurFade delay={index * 0.25} inView={true}>
+    <BlurFade delay={index * 0.08} duration={0.22} blur="2px" yOffset={4} inView={true}>
       <>
         <article className="rounded-2xl border border-base-300 bg-base-100 p-3 md:p-4 lg:hidden">
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-primary/25">
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-base-300">
               <Image
                 src={image || '/path/to/default/image.jpg'}
                 alt={`${name} image`}
                 fill
                 sizes="100vw"
-                className="rounded-lg border border-primary object-cover"
+                className="rounded-lg object-cover"
                 priority={index < 2}
               />
             </div>
             <div className="w-full">
-              <h3 className="text-2xl font-bold text-primary md:text-3xl">{name}</h3>
-              <p className="mt-3 text-sm text-neutral md:text-base">{caption}</p>
-              <p className="mt-3 text-sm font-bold text-neutral md:text-base">{timeLocation}</p>
+              <h3 className="text-2xl font-heading font-bold text-primary md:text-3xl">{name}</h3>
+              <p className="mt-2 text-sm font-body font-semibold text-base-content/75 md:text-base">{timeLocation}</p>
+              <p className="mt-3 text-sm font-body leading-relaxed text-base-content/75 md:text-base">{caption}</p>
               {link && (
                 <Link
                   href={link}
@@ -85,23 +85,24 @@ export const EventCard: React.FC<EventCardProps> = ({ name, image, timeLocation,
                 alt={`${name} image`}
                 fill
                 sizes="500px"
-                className="rounded-lg border border-primary object-cover"
+                className="rounded-lg border border-base-300 object-cover"
                 priority={index < 2}
               />
             </div>
             <div className="max-w-md flex-grow lg:max-w-[500px]">
-              <h3 className="pt-4 text-3xl font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
+              <h3 className="pt-2 text-3xl font-heading font-bold text-primary lg:pt-1">
                 {name}
               </h3>
-              <p className="py-4 text-neutral">{caption}</p>
-              <p className="font-bold text-neutral">{timeLocation}</p>
+              <p className="mt-2 text-base font-body font-semibold text-base-content/75">{timeLocation}</p>
+              <p className="py-4 font-body leading-relaxed text-base-content/75">{caption}</p>
               {link && (
                 <Link
                   href={link}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noreferrer" : undefined}
+                  className="btn btn-primary mt-2 w-full text-secondary"
                 >
-                  <button className="btn btn-primary mt-4 w-full text-secondary">{ctaText || "Learn More"}</button>
+                  {ctaText || "Learn More"}
                 </Link>
               )}
             </div>

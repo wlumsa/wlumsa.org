@@ -1,936 +1,657 @@
-[
-  {
-    "gregorian_date": "2026-02-18",
-    "weekday": "Wed",
-    "ramadan_day": 1,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:58",
-      "sunrise": "07:18",
-      "zuhr": "12:37",
-      "asr": "16:12",
-      "maghrib": "17:56",
-      "isha": "19:15"
-    },
-    "eqama_times": {
-      "fajr": [
-        "06:18"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:01"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
+{
+  "meta": {
+    "source": "Waterloo Masjid — 2026 Ramadan Timetable for Kitchener–Waterloo (1447 Hijrah)",
+    "location": "Kitchener–Waterloo, Ontario, Canada",
+    "generated_at_utc": "2026-02-18T10:10:42Z",
+    "notes": [
+      "Times are transcribed from the provided PDF timetable.",
+      "Ramadan day is null for 2026-02-18 because the timetable shows '-' in the Ramadan column.",
+      "Some iqama times include two values (e.g., '12:40/1:55'); these are preserved as-is."
+    ]
   },
-  {
-    "gregorian_date": "2026-02-19",
-    "weekday": "Thu",
-    "ramadan_day": 2,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:56",
-      "sunrise": "07:15",
-      "zuhr": "12:37",
-      "asr": "16:14",
-      "maghrib": "17:58",
-      "isha": "19:18"
+  "days": [
+    {
+      "gregorian_date": "2026-02-18",
+      "weekday": "Wed",
+      "ramadan_day": null,
+      "fasting": {
+        "fajr": "5:58",
+        "sunrise": "7:18",
+        "zuhr": "12:37",
+        "asr": "4:12",
+        "maghrib": "5:56",
+        "isha": "7:15"
+      },
+      "masjid_iqama": {
+        "fajr": "6:18",
+        "zuhr": "12:45",
+        "asr": "4:30",
+        "maghrib": "6:01",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:16"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:03"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-20",
-    "weekday": "Fri",
-    "ramadan_day": 3,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:54",
-      "sunrise": "07:13",
-      "zuhr": "12:36",
-      "asr": "16:16",
-      "maghrib": "17:59",
-      "isha": "19:19"
+    {
+      "gregorian_date": "2026-02-19",
+      "weekday": "Thu",
+      "ramadan_day": 1,
+      "fasting": {
+        "fajr": "5:56",
+        "sunrise": "7:15",
+        "zuhr": "12:37",
+        "asr": "4:14",
+        "maghrib": "5:58",
+        "isha": "7:18"
+      },
+      "masjid_iqama": {
+        "fajr": "6:16",
+        "zuhr": "12:45",
+        "asr": "4:30",
+        "maghrib": "6:03",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:14"
-      ],
-      "zuhr": [
-        "12:40",
-        "13:55"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:04"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-21",
-    "weekday": "Sat",
-    "ramadan_day": 4,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:53",
-      "sunrise": "07:12",
-      "zuhr": "12:36",
-      "asr": "16:17",
-      "maghrib": "18:01",
-      "isha": "19:20"
+    {
+      "gregorian_date": "2026-02-20",
+      "weekday": "Fri",
+      "ramadan_day": 2,
+      "fasting": {
+        "fajr": "5:54",
+        "sunrise": "7:13",
+        "zuhr": "12:36",
+        "asr": "4:16",
+        "maghrib": "5:59",
+        "isha": "7:19"
+      },
+      "masjid_iqama": {
+        "fajr": "6:14",
+        "zuhr": "12:40/1:55",
+        "asr": "4:30",
+        "maghrib": "6:04",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:13"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:06"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-22",
-    "weekday": "Sun",
-    "ramadan_day": 5,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:51",
-      "sunrise": "07:10",
-      "zuhr": "12:36",
-      "asr": "16:18",
-      "maghrib": "18:02",
-      "isha": "19:21"
+    {
+      "gregorian_date": "2026-02-21",
+      "weekday": "Sat",
+      "ramadan_day": 3,
+      "fasting": {
+        "fajr": "5:53",
+        "sunrise": "7:12",
+        "zuhr": "12:36",
+        "asr": "4:17",
+        "maghrib": "6:01",
+        "isha": "7:20"
+      },
+      "masjid_iqama": {
+        "fajr": "6:13",
+        "zuhr": "12:45",
+        "asr": "4:30",
+        "maghrib": "6:06",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:11"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:07"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-23",
-    "weekday": "Mon",
-    "ramadan_day": 6,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:50",
-      "sunrise": "07:08",
-      "zuhr": "12:36",
-      "asr": "16:19",
-      "maghrib": "18:03",
-      "isha": "19:23"
+    {
+      "gregorian_date": "2026-02-22",
+      "weekday": "Sun",
+      "ramadan_day": 4,
+      "fasting": {
+        "fajr": "5:51",
+        "sunrise": "7:10",
+        "zuhr": "12:36",
+        "asr": "4:18",
+        "maghrib": "6:02",
+        "isha": "7:21"
+      },
+      "masjid_iqama": {
+        "fajr": "6:11",
+        "zuhr": "12:45",
+        "asr": "4:30",
+        "maghrib": "6:07",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:10"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:08"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-24",
-    "weekday": "Tue",
-    "ramadan_day": 7,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:48",
-      "sunrise": "07:07",
-      "zuhr": "12:36",
-      "asr": "16:20",
-      "maghrib": "18:05",
-      "isha": "19:24"
+    {
+      "gregorian_date": "2026-02-23",
+      "weekday": "Mon",
+      "ramadan_day": 5,
+      "fasting": {
+        "fajr": "5:50",
+        "sunrise": "7:08",
+        "zuhr": "12:36",
+        "asr": "4:19",
+        "maghrib": "6:03",
+        "isha": "7:23"
+      },
+      "masjid_iqama": {
+        "fajr": "6:10",
+        "zuhr": "12:45",
+        "asr": "4:30",
+        "maghrib": "6:08",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:08"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:30"
-      ],
-      "maghrib": [
-        "18:10"
-      ],
-      "isha": [
-        "19:45"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-25",
-    "weekday": "Wed",
-    "ramadan_day": 8,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:48",
-      "sunrise": "07:07",
-      "zuhr": "12:36",
-      "asr": "16:20",
-      "maghrib": "18:06",
-      "isha": "19:24"
+    {
+      "gregorian_date": "2026-02-24",
+      "weekday": "Tue",
+      "ramadan_day": 6,
+      "fasting": {
+        "fajr": "5:48",
+        "sunrise": "7:07",
+        "zuhr": "12:36",
+        "asr": "4:20",
+        "maghrib": "6:05",
+        "isha": "7:24"
+      },
+      "masjid_iqama": {
+        "fajr": "6:08",
+        "zuhr": "12:45",
+        "asr": "4:30",
+        "maghrib": "6:10",
+        "isha": "7:45"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:08"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:11"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-26",
-    "weekday": "Thu",
-    "ramadan_day": 9,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:45",
-      "sunrise": "07:04",
-      "zuhr": "12:36",
-      "asr": "16:23",
-      "maghrib": "18:07",
-      "isha": "19:26"
+    {
+      "gregorian_date": "2026-02-25",
+      "weekday": "Wed",
+      "ramadan_day": 7,
+      "fasting": {
+        "fajr": "5:48",
+        "sunrise": "7:07",
+        "zuhr": "12:36",
+        "asr": "4:20",
+        "maghrib": "6:06",
+        "isha": "7:24"
+      },
+      "masjid_iqama": {
+        "fajr": "6:08",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:11",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:05"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:12"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-27",
-    "weekday": "Fri",
-    "ramadan_day": 10,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:43",
-      "sunrise": "07:02",
-      "zuhr": "12:35",
-      "asr": "16:24",
-      "maghrib": "18:09",
-      "isha": "19:28"
+    {
+      "gregorian_date": "2026-02-26",
+      "weekday": "Thu",
+      "ramadan_day": 8,
+      "fasting": {
+        "fajr": "5:45",
+        "sunrise": "7:04",
+        "zuhr": "12:36",
+        "asr": "4:23",
+        "maghrib": "6:07",
+        "isha": "7:26"
+      },
+      "masjid_iqama": {
+        "fajr": "6:05",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:12",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:03"
-      ],
-      "zuhr": [
-        "12:40",
-        "13:55"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:14"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-02-28",
-    "weekday": "Sat",
-    "ramadan_day": 11,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:42",
-      "sunrise": "07:00",
-      "zuhr": "12:35",
-      "asr": "16:25",
-      "maghrib": "18:10",
-      "isha": "19:29"
+    {
+      "gregorian_date": "2026-02-27",
+      "weekday": "Fri",
+      "ramadan_day": 9,
+      "fasting": {
+        "fajr": "5:43",
+        "sunrise": "7:02",
+        "zuhr": "12:35",
+        "asr": "4:24",
+        "maghrib": "6:09",
+        "isha": "7:28"
+      },
+      "masjid_iqama": {
+        "fajr": "6:03",
+        "zuhr": "12:40/1:55",
+        "asr": "4:45",
+        "maghrib": "6:14",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:02"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:15"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-01",
-    "weekday": "Sun",
-    "ramadan_day": 12,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:40",
-      "sunrise": "06:59",
-      "zuhr": "12:35",
-      "asr": "16:26",
-      "maghrib": "18:11",
-      "isha": "19:30"
+    {
+      "gregorian_date": "2026-02-28",
+      "weekday": "Sat",
+      "ramadan_day": 10,
+      "fasting": {
+        "fajr": "5:42",
+        "sunrise": "7:00",
+        "zuhr": "12:35",
+        "asr": "4:25",
+        "maghrib": "6:10",
+        "isha": "7:29"
+      },
+      "masjid_iqama": {
+        "fajr": "6:02",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:15",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:00"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:16"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-02",
-    "weekday": "Mon",
-    "ramadan_day": 13,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:39",
-      "sunrise": "06:57",
-      "zuhr": "12:35",
-      "asr": "16:27",
-      "maghrib": "18:12",
-      "isha": "19:31"
+    {
+      "gregorian_date": "2026-03-01",
+      "weekday": "Sun",
+      "ramadan_day": 11,
+      "fasting": {
+        "fajr": "5:40",
+        "sunrise": "6:59",
+        "zuhr": "12:35",
+        "asr": "4:26",
+        "maghrib": "6:11",
+        "isha": "7:30"
+      },
+      "masjid_iqama": {
+        "fajr": "6:00",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:16",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "05:59"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:17"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-03",
-    "weekday": "Tue",
-    "ramadan_day": 14,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:37",
-      "sunrise": "06:55",
-      "zuhr": "12:35",
-      "asr": "16:28",
-      "maghrib": "18:14",
-      "isha": "19:32"
+    {
+      "gregorian_date": "2026-03-02",
+      "weekday": "Mon",
+      "ramadan_day": 12,
+      "fasting": {
+        "fajr": "5:39",
+        "sunrise": "6:57",
+        "zuhr": "12:35",
+        "asr": "4:27",
+        "maghrib": "6:12",
+        "isha": "7:31"
+      },
+      "masjid_iqama": {
+        "fajr": "5:59",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:17",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "05:57"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:19"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-04",
-    "weekday": "Wed",
-    "ramadan_day": 15,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:37",
-      "sunrise": "06:55",
-      "zuhr": "12:35",
-      "asr": "16:28",
-      "maghrib": "18:15",
-      "isha": "19:32"
+    {
+      "gregorian_date": "2026-03-03",
+      "weekday": "Tue",
+      "ramadan_day": 13,
+      "fasting": {
+        "fajr": "5:37",
+        "sunrise": "6:55",
+        "zuhr": "12:35",
+        "asr": "4:28",
+        "maghrib": "6:14",
+        "isha": "7:32"
+      },
+      "masjid_iqama": {
+        "fajr": "5:57",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:19",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "05:57"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "16:45"
-      ],
-      "maghrib": [
-        "18:20"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-05",
-    "weekday": "Thu",
-    "ramadan_day": 16,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:35",
-      "sunrise": "06:54",
-      "zuhr": "12:34",
-      "asr": "16:29",
-      "maghrib": "18:16",
-      "isha": "19:34"
+    {
+      "gregorian_date": "2026-03-04",
+      "weekday": "Wed",
+      "ramadan_day": 14,
+      "fasting": {
+        "fajr": "5:37",
+        "sunrise": "6:55",
+        "zuhr": "12:35",
+        "asr": "4:28",
+        "maghrib": "6:15",
+        "isha": "7:32"
+      },
+      "masjid_iqama": {
+        "fajr": "5:57",
+        "zuhr": "12:45",
+        "asr": "4:45",
+        "maghrib": "6:20",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "05:55"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "17:00"
-      ],
-      "maghrib": [
-        "18:21"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-06",
-    "weekday": "Fri",
-    "ramadan_day": 17,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:32",
-      "sunrise": "06:50",
-      "zuhr": "12:34",
-      "asr": "16:31",
-      "maghrib": "18:18",
-      "isha": "19:36"
+    {
+      "gregorian_date": "2026-03-05",
+      "weekday": "Thu",
+      "ramadan_day": 15,
+      "fasting": {
+        "fajr": "5:35",
+        "sunrise": "6:54",
+        "zuhr": "12:34",
+        "asr": "4:29",
+        "maghrib": "6:16",
+        "isha": "7:34"
+      },
+      "masjid_iqama": {
+        "fajr": "5:55",
+        "zuhr": "12:45",
+        "asr": "5:00",
+        "maghrib": "6:21",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "05:52"
-      ],
-      "zuhr": [
-        "12:40",
-        "13:55"
-      ],
-      "asr": [
-        "17:00"
-      ],
-      "maghrib": [
-        "18:23"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-07",
-    "weekday": "Sat",
-    "ramadan_day": 18,
-    "dst_active": false,
-    "prayer_times": {
-      "fajr": "05:30",
-      "sunrise": "06:48",
-      "zuhr": "12:34",
-      "asr": "16:33",
-      "maghrib": "18:19",
-      "isha": "19:38"
+    {
+      "gregorian_date": "2026-03-06",
+      "weekday": "Fri",
+      "ramadan_day": 16,
+      "fasting": {
+        "fajr": "5:32",
+        "sunrise": "6:50",
+        "zuhr": "12:34",
+        "asr": "4:31",
+        "maghrib": "6:18",
+        "isha": "7:36"
+      },
+      "masjid_iqama": {
+        "fajr": "5:52",
+        "zuhr": "12:40/1:55",
+        "asr": "5:00",
+        "maghrib": "6:23",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "05:50"
-      ],
-      "zuhr": [
-        "12:45"
-      ],
-      "asr": [
-        "17:00"
-      ],
-      "maghrib": [
-        "18:24"
-      ],
-      "isha": [
-        "20:00"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-08",
-    "weekday": "Sun",
-    "ramadan_day": 19,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:28",
-      "sunrise": "07:47",
-      "zuhr": "13:34",
-      "asr": "17:34",
-      "maghrib": "19:20",
-      "isha": "20:39"
+    {
+      "gregorian_date": "2026-03-07",
+      "weekday": "Sat",
+      "ramadan_day": 17,
+      "fasting": {
+        "fajr": "5:30",
+        "sunrise": "6:48",
+        "zuhr": "12:34",
+        "asr": "4:33",
+        "maghrib": "6:19",
+        "isha": "7:38"
+      },
+      "masjid_iqama": {
+        "fajr": "5:50",
+        "zuhr": "12:45",
+        "asr": "5:00",
+        "maghrib": "6:24",
+        "isha": "8:00"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:48"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:25"
-      ],
-      "isha": [
-        "21:00"
+    {
+      "gregorian_date": "2026-03-08",
+      "weekday": "Sun",
+      "ramadan_day": 18,
+      "fasting": {
+        "fajr": "6:28",
+        "sunrise": "7:47",
+        "zuhr": "1:34",
+        "asr": "5:34",
+        "maghrib": "7:20",
+        "isha": "8:39"
+      },
+      "masjid_iqama": {
+        "fajr": "6:48",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:25",
+        "isha": "9:00"
+      },
+      "notes": [
+        "Daylight Saving Time begins"
       ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-09",
-    "weekday": "Mon",
-    "ramadan_day": 20,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:27",
-      "sunrise": "07:45",
-      "zuhr": "13:33",
-      "asr": "17:35",
-      "maghrib": "19:21",
-      "isha": "20:40"
     },
-    "eqama_times": {
-      "fajr": [
-        "06:47"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:26"
-      ],
-      "isha": [
-        "21:05"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-10",
-    "weekday": "Tue",
-    "ramadan_day": 21,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:25",
-      "sunrise": "07:43",
-      "zuhr": "13:33",
-      "asr": "17:36",
-      "maghrib": "19:23",
-      "isha": "20:41"
+    {
+      "gregorian_date": "2026-03-09",
+      "weekday": "Mon",
+      "ramadan_day": 19,
+      "fasting": {
+        "fajr": "6:27",
+        "sunrise": "7:45",
+        "zuhr": "1:33",
+        "asr": "5:35",
+        "maghrib": "7:21",
+        "isha": "8:40"
+      },
+      "masjid_iqama": {
+        "fajr": "6:47",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:26",
+        "isha": "9:05"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:45"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:28"
-      ],
-      "isha": [
-        "21:05"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-11",
-    "weekday": "Wed",
-    "ramadan_day": 22,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:23",
-      "sunrise": "07:42",
-      "zuhr": "13:33",
-      "asr": "17:37",
-      "maghrib": "19:24",
-      "isha": "20:43"
+    {
+      "gregorian_date": "2026-03-10",
+      "weekday": "Tue",
+      "ramadan_day": 20,
+      "fasting": {
+        "fajr": "6:25",
+        "sunrise": "7:43",
+        "zuhr": "1:33",
+        "asr": "5:36",
+        "maghrib": "7:23",
+        "isha": "8:41"
+      },
+      "masjid_iqama": {
+        "fajr": "6:45",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:28",
+        "isha": "9:05"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:43"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:29"
-      ],
-      "isha": [
-        "21:05"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-12",
-    "weekday": "Thu",
-    "ramadan_day": 23,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:21",
-      "sunrise": "07:40",
-      "zuhr": "13:32",
-      "asr": "17:38",
-      "maghrib": "19:25",
-      "isha": "20:44"
+    {
+      "gregorian_date": "2026-03-11",
+      "weekday": "Wed",
+      "ramadan_day": 21,
+      "fasting": {
+        "fajr": "6:23",
+        "sunrise": "7:42",
+        "zuhr": "1:33",
+        "asr": "5:37",
+        "maghrib": "7:24",
+        "isha": "8:43"
+      },
+      "masjid_iqama": {
+        "fajr": "6:43",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:29",
+        "isha": "9:05"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:41"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:30"
-      ],
-      "isha": [
-        "21:05"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-13",
-    "weekday": "Fri",
-    "ramadan_day": 24,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:19",
-      "sunrise": "07:38",
-      "zuhr": "13:32",
-      "asr": "17:39",
-      "maghrib": "19:26",
-      "isha": "20:45"
+    {
+      "gregorian_date": "2026-03-12",
+      "weekday": "Thu",
+      "ramadan_day": 22,
+      "fasting": {
+        "fajr": "6:21",
+        "sunrise": "7:40",
+        "zuhr": "1:32",
+        "asr": "5:38",
+        "maghrib": "7:25",
+        "isha": "8:44"
+      },
+      "masjid_iqama": {
+        "fajr": "6:41",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:30",
+        "isha": "9:05"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:39"
-      ],
-      "zuhr": [
-        "13:40",
-        "14:55"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:31"
-      ],
-      "isha": [
-        "21:05"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-14",
-    "weekday": "Sat",
-    "ramadan_day": 25,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:18",
-      "sunrise": "07:36",
-      "zuhr": "13:32",
-      "asr": "17:40",
-      "maghrib": "19:27",
-      "isha": "20:46"
+    {
+      "gregorian_date": "2026-03-13",
+      "weekday": "Fri",
+      "ramadan_day": 23,
+      "fasting": {
+        "fajr": "6:19",
+        "sunrise": "7:38",
+        "zuhr": "1:32",
+        "asr": "5:39",
+        "maghrib": "7:26",
+        "isha": "8:45"
+      },
+      "masjid_iqama": {
+        "fajr": "6:39",
+        "zuhr": "1:40/2:55",
+        "asr": "6:00",
+        "maghrib": "7:31",
+        "isha": "9:05"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:38"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:32"
-      ],
-      "isha": [
-        "21:05"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-15",
-    "weekday": "Sun",
-    "ramadan_day": 26,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:16",
-      "sunrise": "07:34",
-      "zuhr": "13:32",
-      "asr": "17:41",
-      "maghrib": "19:29",
-      "isha": "20:48"
+    {
+      "gregorian_date": "2026-03-14",
+      "weekday": "Sat",
+      "ramadan_day": 24,
+      "fasting": {
+        "fajr": "6:18",
+        "sunrise": "7:36",
+        "zuhr": "1:32",
+        "asr": "5:40",
+        "maghrib": "7:27",
+        "isha": "8:46"
+      },
+      "masjid_iqama": {
+        "fajr": "6:38",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:32",
+        "isha": "9:05"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:36"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:34"
-      ],
-      "isha": [
-        "21:10"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-16",
-    "weekday": "Mon",
-    "ramadan_day": 27,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:14",
-      "sunrise": "07:33",
-      "zuhr": "13:31",
-      "asr": "17:42",
-      "maghrib": "19:30",
-      "isha": "20:49"
+    {
+      "gregorian_date": "2026-03-15",
+      "weekday": "Sun",
+      "ramadan_day": 25,
+      "fasting": {
+        "fajr": "6:16",
+        "sunrise": "7:34",
+        "zuhr": "1:32",
+        "asr": "5:41",
+        "maghrib": "7:29",
+        "isha": "8:48"
+      },
+      "masjid_iqama": {
+        "fajr": "6:36",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:34",
+        "isha": "9:10"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:34"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:35"
-      ],
-      "isha": [
-        "21:10"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-17",
-    "weekday": "Tue",
-    "ramadan_day": 28,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:12",
-      "sunrise": "07:31",
-      "zuhr": "13:31",
-      "asr": "17:42",
-      "maghrib": "19:31",
-      "isha": "20:50"
+    {
+      "gregorian_date": "2026-03-16",
+      "weekday": "Mon",
+      "ramadan_day": 26,
+      "fasting": {
+        "fajr": "6:14",
+        "sunrise": "7:33",
+        "zuhr": "1:31",
+        "asr": "5:42",
+        "maghrib": "7:30",
+        "isha": "8:49"
+      },
+      "masjid_iqama": {
+        "fajr": "6:34",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:35",
+        "isha": "9:10"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:32"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:36"
-      ],
-      "isha": [
-        "21:10"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-18",
-    "weekday": "Wed",
-    "ramadan_day": 29,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:10",
-      "sunrise": "07:29",
-      "zuhr": "13:31",
-      "asr": "17:43",
-      "maghrib": "19:32",
-      "isha": "20:52"
+    {
+      "gregorian_date": "2026-03-17",
+      "weekday": "Tue",
+      "ramadan_day": 27,
+      "fasting": {
+        "fajr": "6:12",
+        "sunrise": "7:31",
+        "zuhr": "1:31",
+        "asr": "5:42",
+        "maghrib": "7:31",
+        "isha": "8:50"
+      },
+      "masjid_iqama": {
+        "fajr": "6:32",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:36",
+        "isha": "9:10"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:30"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:37"
-      ],
-      "isha": [
-        "21:10"
-      ]
-    }
-  },
-  {
-    "gregorian_date": "2026-03-19",
-    "weekday": "Thu",
-    "ramadan_day": 30,
-    "dst_active": true,
-    "prayer_times": {
-      "fajr": "06:08",
-      "sunrise": "07:27",
-      "zuhr": "13:31",
-      "asr": "17:44",
-      "maghrib": "19:34",
-      "isha": "20:53"
+    {
+      "gregorian_date": "2026-03-18",
+      "weekday": "Wed",
+      "ramadan_day": 28,
+      "fasting": {
+        "fajr": "6:10",
+        "sunrise": "7:29",
+        "zuhr": "1:31",
+        "asr": "5:43",
+        "maghrib": "7:32",
+        "isha": "8:52"
+      },
+      "masjid_iqama": {
+        "fajr": "6:30",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:37",
+        "isha": "9:10"
+      }
     },
-    "eqama_times": {
-      "fajr": [
-        "06:28"
-      ],
-      "zuhr": [
-        "13:45"
-      ],
-      "asr": [
-        "18:00"
-      ],
-      "maghrib": [
-        "19:39"
-      ],
-      "isha": [
-        "21:10"
-      ]
+    {
+      "gregorian_date": "2026-03-19",
+      "weekday": "Thu",
+      "ramadan_day": 29,
+      "fasting": {
+        "fajr": "6:08",
+        "sunrise": "7:27",
+        "zuhr": "1:31",
+        "asr": "5:44",
+        "maghrib": "7:34",
+        "isha": "8:53"
+      },
+      "masjid_iqama": {
+        "fajr": "6:28",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:39",
+        "isha": "9:10"
+      }
+    },
+    {
+      "gregorian_date": "2026-03-20",
+      "weekday": "Fri",
+      "ramadan_day": 30,
+      "fasting": {
+        "fajr": "6:06",
+        "sunrise": "7:26",
+        "zuhr": "1:30",
+        "asr": "5:45",
+        "maghrib": "7:35",
+        "isha": "8:54"
+      },
+      "masjid_iqama": {
+        "fajr": "6:26",
+        "zuhr": "1:40",
+        "asr": "6:00",
+        "maghrib": "7:40",
+        "isha": "9:15"
+      }
+    },
+    {
+      "gregorian_date": "2026-03-21",
+      "weekday": "Sat",
+      "ramadan_day": null,
+      "fasting": {
+        "fajr": "6:04",
+        "sunrise": "7:24",
+        "zuhr": "1:30",
+        "asr": "5:46",
+        "maghrib": "7:36",
+        "isha": "8:55"
+      },
+      "masjid_iqama": {
+        "fajr": "6:30",
+        "zuhr": "1:45",
+        "asr": "6:00",
+        "maghrib": "7:40",
+        "isha": "9:15"
+      }
     }
-  }
-]
+  ]
+}

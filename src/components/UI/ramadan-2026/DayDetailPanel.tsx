@@ -1,4 +1,3 @@
-import React from "react";
 import type { RamadanDay } from "@/lib/ramadan2026";
 import { getLastThirdOfNight, getOrdinal } from "@/lib/ramadan2026";
 
@@ -13,9 +12,13 @@ type DayDetailPanelProps = {
 
 function PrayerTimeRow({ label, value, highlight = false }: { label: string; value?: string; highlight?: boolean }) {
   return (
-    <div className={`flex items-center justify-between rounded-lg px-3 py-2 ${highlight ? "bg-secondary" : "bg-base-200/60"}`}>
-      <span className={`text-sm font-body ${highlight ? "text-secondary-content/90" : "text-base-content/70"}`}>{label}</span>
-      <span className={`text-sm font-body font-semibold ${highlight ? "text-secondary-content" : "text-base-content"}`}>
+    <div
+      className={`flex items-center justify-between rounded-lg border px-3 py-2 ${
+        highlight ? "border-secondary/65 bg-secondary/30 shadow-sm" : "border-base-300 bg-base-200/50"
+      }`}
+    >
+      <span className={`text-sm font-body ${highlight ? "text-base-content" : "text-neutral/80"}`}>{label}</span>
+      <span className="text-sm font-body font-bold text-base-content">
         {value || "--:--"}
       </span>
     </div>
@@ -33,7 +36,6 @@ function PanelBody({ day, nextDay, isLoading, note }: Omit<DayDetailPanelProps, 
   return (
     <div className="space-y-3">
       <div>
-        <p className="text-xs font-body uppercase tracking-wide text-base-content/60">Selected Day</p>
         <h3 className="text-lg font-heading font-bold text-primary">{day.dayLabel}</h3>
         <p className="text-sm font-body text-base-content/75">
           {day.fastIndex ? `${getOrdinal(day.fastIndex)} Fast` : "Eid al-Fitr"}
@@ -50,11 +52,18 @@ function PanelBody({ day, nextDay, isLoading, note }: Omit<DayDetailPanelProps, 
           <PrayerTimeRow label="Asr" value={prayerTimes?.asr} />
           <PrayerTimeRow label="Maghrib (Iftar)" value={prayerTimes?.maghrib} highlight />
           <PrayerTimeRow label="Isha" value={prayerTimes?.isha} />
-          <PrayerTimeRow label="Last third begins" value={lastThird || undefined} />
+          <div className="rounded-lg border border-base-300 bg-base-100 px-3 py-2">
+            <p className="text-[11px] font-body uppercase tracking-wide text-neutral/80">Last Third of the Night</p>
+            <p className="text-base font-heading font-bold text-base-content">{lastThird || "--:--"}</p>
+            <p className="text-[11px] font-body text-neutral/80">
+              Calculated as: Fajr - (night / 3), where night = Maghrib to next day&apos;s Fajr.
+            </p>
+          </div>
         </div>
       )}
 
-      <p className="rounded-lg border border-primary/10 bg-primary/5 p-3 text-sm font-body text-base-content/80">{note}</p>
+      <p className="rounded-lg border border-primary/15 bg-primary/5 p-3 text-sm font-body text-base-content/75">{note}</p>
+
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { formatDisplayDate } from "@/lib/ramadan2026";
 
 type KeyDatesCardProps = {
@@ -13,7 +12,7 @@ export function KeyDatesCard({ eidEstimate, ramadan29, ramadan30 }: KeyDatesCard
       <h2 className="text-lg font-heading font-bold text-primary">Key Dates</h2>
       <div className="mt-3 space-y-2 text-sm font-body text-base-content/85">
         <p>
-          <span className="font-semibold">Eid al-Fitr (Estimated):</span> {formatDisplayDate(eidEstimate)}
+          <span className="font-semibold">Eid al-Fitr (Estimated):</span> {formatDisplayDate(ramadan30)} or {formatDisplayDate(eidEstimate)}
         </p>
         <p>
           <span className="font-semibold">Ramadan 29 days:</span> {formatDisplayDate(ramadan29)}
