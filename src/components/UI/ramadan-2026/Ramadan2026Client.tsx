@@ -351,10 +351,10 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           <section className="flex h-full flex-col justify-center rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5">
             <h3 className="text-base font-heading font-bold text-primary md:text-lg">Last 10 Nights and Laylatul Qadr</h3>
             <p className="mt-2 text-xs font-body leading-relaxed text-base-content/80">
-              Laylatul Qadr is sought in the odd nights (21, 23, 25, 27, 29) of the last 10.
+              Laylatul Qadr is sought in the <strong>odd nights (21, 23, 25, 27, 29)</strong> of the last 10.
             </p>
             <p className="mt-1.5 text-xs font-body leading-relaxed text-base-content/80">
-              Nights begin at Maghrib. Campus qiyam for the last 10 nights will be held in Peters P101.
+              <strong>Nights begin at Maghrib.</strong> Campus qiyam for the last 10 nights will be held in <strong>Peters P101</strong>.
             </p>
           </section>
 
