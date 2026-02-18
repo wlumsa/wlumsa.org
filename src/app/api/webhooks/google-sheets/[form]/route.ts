@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { google } from 'googleapis'
 import { env } from '@/env.mjs'
+import { resend } from '@/Utils/resend'
 
 export const runtime = 'nodejs'
 
 type Params = Promise<{ form: string }>
 
 type FlatValue = string | number | boolean | null | undefined
+
+type JsonRecord = Record<string, unknown>
 
 const flattenValues = (input: unknown, prefix = ''): Record<string, FlatValue> => {
   if (input === null || input === undefined) {
@@ -28,6 +31,51 @@ const flattenValues = (input: unknown, prefix = ''): Record<string, FlatValue> =
   }
 
   return { [prefix]: input as FlatValue }
+}
+
+const getValueByPath = (input: JsonRecord, path: string): unknown => {
+  return path.split('.').reduce<unknown>((acc, key) => {
+    if (!acc || typeof acc !== 'object') {
+      return undefined
+    }
+    return (acc as JsonRecord)[key]
+  }, input)
+}
+
+const formatDaysList = (value: unknown) => {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item)).join(', ')
+  }
+
+  if (value === null || value === undefined) {
+    return ''
+  }
+
+  return String(value)
+}
+
+const formatSingleDay = (value: unknown) => {
+  if (Array.isArray(value) && value.length > 0) {
+    return String(value[0])
+  }
+
+  if (value === null || value === undefined) {
+    return ''
+  }
+
+  return String(value)
+}
+
+const normalizeUrl = (value: string) => {
+  if (!value) {
+    return value
+  }
+
+  if (value.startsWith('http://') || value.startsWith('https://')) {
+    return value
+  }
+
+  return `https://${value}`
 }
 
 const getSheetsClient = () => {
@@ -86,6 +134,7 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
   try {
     const params = await segmentData.params
     const formTitle = decodeURIComponent(params.form)
+    const normalizedForm = formTitle.trim().toLowerCase()
     const { searchParams } = new URL(request.url)
     const spreadsheetId = searchParams.get('spreadsheetId') ?? env.GOOGLE_SHEETS_SPREADSHEET_ID
     const sheetName = searchParams.get('sheetName') ?? env.GOOGLE_SHEETS_SHEET_NAME ?? 'Sheet1'
@@ -135,6 +184,44 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
         values: [row],
       },
     })
+
+    if (normalizedForm === 'iftar' || normalizedForm === 'cancel') {
+      const emailPath = 'contactInfo.email'
+      const firstNamePath = 'contactInfo.first_name'
+      const daysPath = 'days'
+      const cancelLink = normalizeUrl('wlumsa.org/forms/iftar-cancellation')
+      const email = getValueByPath(body, emailPath)
+      const firstName = String(getValueByPath(body, firstNamePath) ?? '').trim() || 'there'
+      const daysValue = getValueByPath(body, daysPath)
+      const daysList = formatDaysList(daysValue)
+      const dayText = formatSingleDay(daysValue)
+
+      if (typeof email === 'string' && email) {
+        try {
+          if (normalizedForm === 'iftar') {
+            const text = `Asalamu alaykum ${firstName}\n\nWe have received your request for Iftar this week. You are registered for are the following days: ${daysList || 'N/A'}\n\nIf you need to cancel, please do so using the following link: ${cancelLink}`
+            await resend.emails.send({
+              from: 'WLU MSA <admin@wlumsa.org>',
+              to: email,
+              subject: 'Iftar confirmation',
+              text,
+            })
+          } else {
+            const text = `Asalamu alaykum ${firstName}\n\nYou have cancelled your iftar for ${dayText || 'the selected day'}.`
+            await resend.emails.send({
+              from: 'WLU MSA <admin@wlumsa.org>',
+              to: email,
+              subject: 'Iftar cancellation',
+              text,
+            })
+          }
+        } catch (emailError) {
+          console.error('Webhook email failed:', emailError)
+        }
+      } else {
+        console.warn('Webhook email skipped: missing contact email', { formTitle })
+      }
+    }
 
     return NextResponse.json(
       { message: 'Submission saved to Google Sheets' },
