@@ -393,7 +393,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 href={resource.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-sm sm:p-4"
+                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 transition-colors duration-200 ease-out hover:border-base-content/20 hover:shadow-[0_1px_6px_rgba(0,0,0,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 motion-reduce:transition-none sm:p-4"
               >
                 <div className="flex h-56 w-full items-center justify-center overflow-hidden rounded-xl border border-base-300 bg-base-200 sm:h-64">
                   <img
