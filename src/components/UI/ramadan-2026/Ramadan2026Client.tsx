@@ -54,7 +54,7 @@ const CAMPUS_SERVICES = [
     timeLocation: "Monday - Friday in PMC (arrive ~20 minutes before Maghrib)",
     caption:
       "Join daily campus iftars in the PMC and break your fast together at Maghrib.",
-    link: "/forms/iftars",
+    link: "/forms/iftar",
     ctaText: "Register for Iftar",
   },
   {
