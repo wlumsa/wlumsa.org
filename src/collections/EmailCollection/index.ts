@@ -4,7 +4,6 @@ import {
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
-import type { HTMLConverter } from '@payloadcms/richtext-lexical'
 
 export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
@@ -113,23 +112,26 @@ export const EmailCollection: CollectionConfig = {
       type: "checkbox",
       hooks: {
         afterChange: [
-          async ({ req, originalDoc, siblingData }) => {
+          async ({ siblingData }) => {
             if (siblingData.Send === true) {
-              const req = await fetch(
-                `https://${process.env.VERCEL_URL}/api/sendByDistributionList`,
-                {
-                  method: "POST",
-                  body: JSON.stringify({
-                    title: siblingData.title,
-                    subject: siblingData.subject,
-                    headerImage: siblingData.headerImage,
-                    publishedAt: siblingData.publishedAt,
-                    content: siblingData.content,
-                    distributionListId: siblingData.distributionList,
-                    content_html: siblingData.content_html,
-                  }),
-                },
-              );
+              const appURL =
+                process.env.NEXT_PUBLIC_APP_URL ||
+                (process.env.NODE_ENV === "development"
+                  ? "http://localhost:3000"
+                  : `https://${process.env.VERCEL_URL}`);
+
+              await fetch(`${appURL}/api/sendByDistributionList`, {
+                method: "POST",
+                body: JSON.stringify({
+                  title: siblingData.title,
+                  subject: siblingData.subject,
+                  headerImage: siblingData.headerImage,
+                  publishedAt: siblingData.publishedAt,
+                  content: siblingData.content,
+                  distributionListId: siblingData.distributionList,
+                  content_html: siblingData.content_html,
+                }),
+              });
             }
           },
         ],
