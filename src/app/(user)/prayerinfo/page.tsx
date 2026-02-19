@@ -5,6 +5,7 @@ import { getJummahTimings, getPrayerTimings } from "@/Utils/datafetcher";
 import Image from "next/image";
 import MasjidCard from "@/components/UI/MasjidCard"
 import { getPrayerSpaces } from "@/Utils/datafetcher";
+import Link from "next/link";
 /**
  
  * This page displays the prayer timings and videos guiding users to the prayer rooms.
@@ -23,6 +24,13 @@ export default async function PrayerInfo() {
     <div className="flex-grow items-center pt-16">
       <div className="container mx-auto p-8">
          <h1 className="font-serif text-3xl font-bold text-primary sm:text-4xl text-center mb-8">Prayer Information</h1>
+         <p className="mb-6 text-center text-sm font-body text-base-content/75">
+           Looking for Ramadan prayer, suhoor, and iftar timings?{" "}
+           <Link href="/ramadan" className="font-semibold text-primary underline underline-offset-2">
+             View the Ramadan page
+           </Link>
+           .
+         </p>
 
         <PrayerTimesTable timingsData={timingsData} jummahTimes={jummahTimes} />
       </div>

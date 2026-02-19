@@ -35,7 +35,6 @@ interface EventCardProps {
   index: number;
   link?: string;
   ctaText?: string;
-  ctaDisabled?: boolean;
 }
 
 export const EventCard: React.FC<EventCardProps> = ({
@@ -46,7 +45,6 @@ export const EventCard: React.FC<EventCardProps> = ({
   index,
   link,
   ctaText,
-  ctaDisabled = false,
 }) => {
   const isExternal = Boolean(link && /^https?:\/\//.test(link));
 
@@ -69,11 +67,7 @@ export const EventCard: React.FC<EventCardProps> = ({
               <h3 className="text-2xl font-heading font-bold text-primary md:text-3xl">{name}</h3>
               <p className="mt-2 text-sm font-body font-semibold text-base-content/75 md:text-base">{timeLocation}</p>
               <p className="mt-3 text-sm font-body leading-relaxed text-base-content/75 md:text-base">{caption}</p>
-              {ctaDisabled ? (
-                <button type="button" disabled className="btn btn-primary btn-disabled mt-4 w-full text-secondary sm:w-auto">
-                  {ctaText || "Learn More"}
-                </button>
-              ) : link ? (
+              {link ? (
                 <Link
                   href={link}
                   target={isExternal ? "_blank" : undefined}
@@ -109,11 +103,7 @@ export const EventCard: React.FC<EventCardProps> = ({
               </h3>
               <p className="mt-2 text-base font-body font-semibold text-base-content/75">{timeLocation}</p>
               <p className="py-4 font-body leading-relaxed text-base-content/75">{caption}</p>
-              {ctaDisabled ? (
-                <button type="button" disabled className="btn btn-primary btn-disabled mt-2 w-full text-secondary">
-                  {ctaText || "Learn More"}
-                </button>
-              ) : link ? (
+              {link ? (
                 <Link
                   href={link}
                   target={isExternal ? "_blank" : undefined}

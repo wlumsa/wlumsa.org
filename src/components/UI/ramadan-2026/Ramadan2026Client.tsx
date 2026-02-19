@@ -56,7 +56,6 @@ const CAMPUS_SERVICES = [
       "Join daily campus iftars in the PMC and break your fast together at Maghrib.",
     link: "/forms/iftar",
     ctaText: "Register for Iftar",
-    ctaDisabled: false,
   },
   {
     name: "Daily Taraweeh on Campus",
@@ -67,7 +66,6 @@ const CAMPUS_SERVICES = [
       "Attend daily Taraweeh in the PMC, including weekends, after Isha.",
     link: "https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
     ctaText: "Directions to PMC",
-    ctaDisabled: false,
   },
   {
     name: "MSA Tarteel Competition",
@@ -76,9 +74,8 @@ const CAMPUS_SERVICES = [
     timeLocation: "Entire month on the Tarteel app",
     caption:
       "Join the MSA Tarteel Competition and participate through Ramadan on the Tarteel app.",
-    link: "https://www.tarteel.ai/group/join/APupRReDbS3NmM6u?ref=P3pfsqtkCB",
+    link: "https://t.zip/g/kW5g0luYnastysVT?ref=8gs7JKfEiR",
     ctaText: "Participate Now",
-    ctaDisabled: true,
   },
 ] as const;
 
@@ -428,7 +425,6 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 index={index}
                 ctaText={service.ctaText}
                 link={service.link}
-                ctaDisabled={service.ctaDisabled}
               />
             ))}
           </div>
