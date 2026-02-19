@@ -207,7 +207,7 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
               text,
             })
           } else {
-            const text = `Asalamu alaykum ${firstName}\n\nYou have cancelled your iftar for ${dayText || 'the selected day'}.`
+            const text = `Asalamu alaykum ${firstName}\n\nYou have cancelled your iftar for ${daysList || 'the selected day(s)'}.`
             await resend.emails.send({
               from: 'WLU MSA <admin@wlumsa.org>',
               to: email,
