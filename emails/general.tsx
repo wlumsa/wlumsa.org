@@ -21,297 +21,91 @@ interface WelcomeEmailProps {
 export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
   <Html>
     <Head>
+      <meta name="color-scheme" content="light" />
+      <meta name="supported-color-schemes" content="light" />
       <style>{`
-        :root {
-          color-scheme: light dark;
-          supported-color-schemes: light dark;
-        }
-        * {
-          box-sizing: border-box;
-        }
-        .email-content p {
-          margin: 0 0 14px;
-          font-size: 16px;
-          line-height: 1.72;
-          color: #1f1f1f;
+        * { box-sizing: border-box; }
+        .content, .content * {
+          color: #1f1f1f !important;
+          background: transparent !important;
           overflow-wrap: break-word;
         }
-        .email-content img {
-          display: block;
-          max-width: 100%;
-          height: auto;
-          margin: 12px auto;
-          border-radius: 8px;
+        .content p { margin: 0 0 12px; line-height: 1.55; font-size: 15px; }
+        .content ul, .content ol { margin: 0 0 12px; padding-left: 20px; }
+        .content li { margin: 0 0 6px; line-height: 1.5; }
+        .content h1, .content h2, .content h3, .content h4, .content h5 {
+          margin: 14px 0 8px;
+          line-height: 1.25;
+          color: #2e046d !important;
         }
-        .email-content ul,
-        .email-content ol {
-          margin: 0 0 14px;
-          padding-left: 22px;
-          color: #1f1f1f;
+        .content h1 { font-size: 22px; }
+        .content h2 { font-size: 19px; }
+        .content h3 { font-size: 16px; }
+        .content strong, .content a { color: #2e046d !important; }
+        .content a { text-decoration: underline; font-weight: 700; }
+        .content blockquote {
+          margin: 12px 0;
+          padding: 10px 12px;
+          border-left: 4px solid #2e046d;
+          background: #f7f7f7 !important;
         }
-        .email-content li {
-          margin: 0 0 8px;
-          line-height: 1.68;
-        }
-        .email-content h1,
-        .email-content h2,
-        .email-content h3,
-        .email-content h4,
-        .email-content h5 {
-          margin: 22px 0 10px;
-          line-height: 1.3;
-          color: #2e046d;
-          overflow-wrap: break-word;
-        }
-        .email-content h1 { font-size: 27px; }
-        .email-content h2 { font-size: 22px; }
-        .email-content h3 { font-size: 18px; }
-        .email-content blockquote {
-          margin: 18px 0;
-          padding: 12px 14px;
-          border-left: 4px solid #e7ac3b;
-          background: #f7f7f7;
-          color: #1f1f1f;
-        }
-        .email-content blockquote p:last-child {
-          margin-bottom: 0;
-        }
-        .email-content hr {
-          border: none;
-          border-top: 1px solid #eeeeee;
-          margin: 18px 0;
-        }
-        .email-content strong {
-          color: #2e046d;
-        }
-        .email-content em {
-          font-style: italic;
-        }
-        .email-content code {
-          font-family: Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-          font-size: 13px;
-          background: #f7f7f7;
-          border: 1px solid #eeeeee;
-          border-radius: 4px;
-          padding: 1px 5px;
-        }
-        .email-content pre {
-          margin: 0 0 14px;
-          padding: 12px;
-          background: #f7f7f7;
-          border: 1px solid #eeeeee;
-          border-radius: 8px;
-          overflow: auto;
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-        .email-content pre code {
-          border: 0;
-          padding: 0;
-          background: transparent;
-        }
-        .email-content table {
-          width: 100%;
-          border-collapse: collapse;
-          margin: 0 0 14px;
-          table-layout: fixed;
-        }
-        .email-content th,
-        .email-content td {
-          border: 1px solid #eeeeee;
-          padding: 8px 10px;
-          text-align: left;
-          vertical-align: top;
-          overflow-wrap: break-word;
-        }
-        .email-content th {
-          background: #f7f7f7;
-          color: #2e046d;
-          font-weight: 700;
-        }
-        .email-content a {
-          color: #2e046d;
-          font-weight: 700;
-          text-decoration: underline;
-        }
+        .content img { display: block; max-width: 100%; height: auto; margin: 10px auto; }
         @media only screen and (max-width: 620px) {
-          .shell { padding: 14px 8px !important; }
-          .card { border-radius: 12px !important; }
-          .header-wrap { padding: 20px 18px 12px !important; }
-          .heading { font-size: 25px !important; }
-          .subheading { font-size: 15px !important; }
-          .content-wrap { padding: 0 14px 12px !important; }
-          .cta-wrap { padding: 14px 14px 0 !important; }
-          .footer-wrap { padding: 14px 14px 18px !important; }
-          .footer-text { font-size: 11.5px !important; }
-          .email-content h1 {
-            font-size: 24px !important;
-            line-height: 1.28 !important;
-            margin: 18px 0 10px !important;
-          }
-          .email-content h2 {
-            font-size: 20px !important;
-            line-height: 1.3 !important;
-            margin: 16px 0 8px !important;
-          }
-          .email-content h3 {
-            font-size: 17px !important;
-            line-height: 1.32 !important;
-            margin: 14px 0 8px !important;
-          }
-          .email-content p,
-          .email-content li {
-            font-size: 15px !important;
-            line-height: 1.68 !important;
-          }
-          .email-content blockquote {
-            margin: 14px 0 !important;
-            padding: 10px 12px !important;
-          }
-          .email-content blockquote p {
-            font-size: 14.5px !important;
-            line-height: 1.62 !important;
-          }
-          .email-content th,
-          .email-content td {
-            padding: 7px 8px !important;
-            font-size: 13px !important;
-            line-height: 1.45 !important;
-          }
-        }
-        @media (prefers-color-scheme: dark) {
-          .shell { background-color: #121318 !important; }
-          .card {
-            background-color: #171922 !important;
-            border-color: #2a2f43 !important;
-          }
-          .top { background-color: #5f3c8d !important; }
-          .heading,
-          .subheading,
-          .signoff,
-          .signoff-name,
-          .footer-text,
-          .footer-text a,
-          .email-content p,
-          .email-content ul,
-          .email-content ol,
-          .email-content li {
-            color: #f2f3f7 !important;
-          }
-          .subheading,
-          .signoff,
-          .signoff-name,
-          .footer-text,
-          .footer-text a {
-            color: #d3d7e0 !important;
-          }
-          .content-panel {
-            background-color: #1f2230 !important;
-            border-color: #2a2f43 !important;
-          }
-          .email-content h1,
-          .email-content h2,
-          .email-content h3,
-          .email-content h4,
-          .email-content h5,
-          .email-content a,
-          .label {
-            color: #ecb553 !important;
-          }
-          .email-content hr {
-            border-top-color: #2a2f43 !important;
-          }
-          .email-content blockquote {
-            background: #171922 !important;
-            border-left-color: #a0a86c !important;
-            color: #f2f3f7 !important;
-          }
-          .email-content code,
-          .email-content pre {
-            background: #1f2230 !important;
-            border-color: #2a2f43 !important;
-            color: #f2f3f7 !important;
-          }
-          .email-content th,
-          .email-content td {
-            border-color: #2a2f43 !important;
-            color: #f2f3f7 !important;
-          }
-          .email-content th {
-            background: #1f2230 !important;
-            color: #ecb553 !important;
-          }
-          .cta {
-            background-color: #ecb553 !important;
-            color: #201700 !important;
-            border-color: #dfaa45 !important;
-          }
-          .divider { border-color: #2a2f43 !important; }
+          .shell { padding: 10px 6px !important; }
+          .header { padding: 16px 12px 10px !important; }
+          .body-wrap { padding: 0 10px 10px !important; }
+          .panel { padding: 10px !important; }
+          .footer { padding: 10px 10px 14px !important; }
+          .content p, .content li { font-size: 14px !important; line-height: 1.5 !important; }
         }
       `}</style>
     </Head>
+
     <Preview>Assalamu alaikum{firstName ? ` ${firstName}` : ""}</Preview>
+
     <Body style={main} className="shell">
       <Container style={container}>
-        <Section style={card} className="card">
-          <Section style={top} className="top">
-            <Text style={topText}>WLU MSA Newsletter</Text>
+        <Section style={card}>
+          <Section style={topBar}>
+            <Text style={topBarText}>WLU MSA Newsletter</Text>
           </Section>
 
-          <Section style={headerWrap} className="header-wrap">
+          <Section style={header} className="header">
             <Img
               src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/MSA%20Logo-2.png"
-              width="60"
-              height="60"
+              width="56"
+              height="56"
               alt="WLU MSA logo"
               style={logo}
             />
-            <Text style={heading} className="heading">
-              Assalamu alaikum{firstName ? ` ${firstName}` : ""}
-            </Text>
-            <Text style={subheading} className="subheading">
-              We pray this message finds you in good health and iman. Here are
-              the latest updates from your WLU MSA community.
+            <Text style={title}>Assalamu alaikum{firstName ? ` ${firstName}` : ""}</Text>
+            <Text style={subtitle}>
+              Here are the latest updates from the WLU MSA community.
             </Text>
           </Section>
 
-          <Section style={contentWrap} className="content-wrap">
-            <Text style={label} className="label">
-              Weekly Updates
-            </Text>
-            <Section style={contentPanel} className="content-panel">
-              <div
-                className="email-content"
-                dangerouslySetInnerHTML={{ __html: content || "" }}
-              />
+          <Section style={bodyWrap} className="body-wrap">
+            <Text style={label}>Weekly Updates</Text>
+            <Section style={panel} className="panel">
+              <div className="content" dangerouslySetInnerHTML={{ __html: content || "" }} />
             </Section>
           </Section>
 
-          <Section style={ctaWrap} className="cta-wrap">
-            <Button style={cta} className="cta" href="https://wlumsa.org">
+          <Section style={ctaWrap}>
+            <Button style={cta} href="https://wlumsa.org">
               Visit WLUMSA.org
             </Button>
           </Section>
 
-          <Text style={signoff} className="signoff">
-            Jazakum Allahu khayran,
-          </Text>
-          <Text style={signoffName} className="signoff-name">
-            WLU MSA Team
-          </Text>
+          <Text style={signoff}>Jazakum Allahu khayran,</Text>
+          <Text style={signoffName}>WLU MSA Team</Text>
 
-          <Hr style={divider} className="divider" />
+          <Hr style={divider} />
 
-          <Section style={footerWrap} className="footer-wrap">
-            <Text style={footerText} className="footer-text">
-              This is an automated email, please do not reply.
-            </Text>
-            <Text style={footerText} className="footer-text">
-              For questions, contact{" "}
-              <Link href="mailto:msa@wlu.ca" style={footerLink}>
-                msa@wlu.ca
-              </Link>
-              .
+          <Section style={footer} className="footer">
+            <Text style={footerText}>This is an automated email, please do not reply.</Text>
+            <Text style={footerText}>
+              For questions, contact <Link href="mailto:msa@wlu.ca" style={footerLink}>msa@wlu.ca</Link>.
             </Text>
           </Section>
         </Section>
@@ -324,9 +118,9 @@ export default Newsletter;
 
 const main = {
   fontFamily: '"Trebuchet MS","Segoe UI",Helvetica,Arial,sans-serif',
-  backgroundColor: "#ffffff",
+  backgroundColor: "#efe8fb",
   margin: "0",
-  padding: "28px 12px",
+  padding: "24px 10px",
 };
 
 const container = {
@@ -336,89 +130,89 @@ const container = {
 
 const card = {
   backgroundColor: "#ffffff",
-  borderRadius: "14px",
   border: "1px solid #eeeeee",
+  borderRadius: "12px",
   overflow: "hidden",
 };
 
-const top = {
+const topBar = {
   backgroundColor: "#2e046d",
-  padding: "11px 18px",
+  padding: "10px 16px",
 };
 
-const topText = {
+const topBarText = {
   margin: "0",
   color: "#ffffff",
   fontSize: "12px",
   fontWeight: "700",
-  letterSpacing: "0.9px",
+  letterSpacing: "0.8px",
   textTransform: "uppercase" as const,
 };
 
-const headerWrap = {
-  padding: "24px 28px 14px",
+const header = {
+  padding: "20px 18px 12px",
   textAlign: "center" as const,
 };
 
 const logo = {
-  margin: "0 auto 12px",
+  margin: "0 auto 10px",
 };
 
-const heading = {
+const title = {
   margin: "0",
   color: "#2e046d",
-  fontSize: "31px",
+  fontSize: "28px",
   fontWeight: "700",
   lineHeight: "1.2",
 };
 
-const subheading = {
-  margin: "11px 0 0",
+const subtitle = {
+  margin: "10px 0 0",
   color: "#1f1f1f",
-  fontSize: "16px",
-  lineHeight: "1.6",
+  fontSize: "15px",
+  lineHeight: "1.55",
 };
 
-const contentWrap = {
-  padding: "0 28px 14px",
+const bodyWrap = {
+  padding: "0 14px 12px",
 };
 
 const label = {
-  margin: "0 0 10px",
-  color: "#6c703e",
+  margin: "0 0 8px",
+  color: "#2e046d",
   fontSize: "12px",
-  fontWeight: "800",
-  letterSpacing: "0.65px",
+  fontWeight: "700",
   textTransform: "uppercase" as const,
+  letterSpacing: "0.5px",
 };
 
-const contentPanel = {
+const panel = {
   backgroundColor: "#ffffff",
   border: "1px solid #eeeeee",
   borderRadius: "10px",
-  padding: "18px",
+  padding: "12px",
 };
 
 const ctaWrap = {
-  padding: "14px 28px 0",
+  padding: "10px 14px 0",
   textAlign: "center" as const,
 };
 
 const cta = {
-  backgroundColor: "#e7ac3b",
-  border: "1px solid #d49a2f",
+  backgroundColor: "#2e046d",
+  border: "1px solid #2e046d",
   borderRadius: "999px",
-  color: "#1a1200",
+  color: "#ffffff",
   fontSize: "15px",
   fontWeight: "700",
   textDecoration: "none",
   textAlign: "center" as const,
   display: "block",
-  padding: "13px 16px",
+  padding: "12px 16px",
 };
 
 const signoff = {
-  margin: "22px 28px 0",
+  margin: "18px 14px 0",
   color: "#1f1f1f",
   fontSize: "15px",
   fontWeight: "600",
@@ -426,19 +220,21 @@ const signoff = {
 };
 
 const signoffName = {
-  margin: "0 28px 0",
+  margin: "0 14px 0",
   color: "#1f1f1f",
   fontSize: "15px",
   lineHeight: "1.6",
 };
 
 const divider = {
-  borderColor: "#eeeeee",
-  margin: "22px 28px 0",
+  border: "0",
+  borderTop: "1px solid #eeeeee",
+  margin: "18px 14px 0",
+  width: "auto",
 };
 
-const footerWrap = {
-  padding: "14px 28px 22px",
+const footer = {
+  padding: "12px 14px 18px",
 };
 
 const footerText = {
