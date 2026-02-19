@@ -5,8 +5,8 @@ import type { Media } from "@/payload-types";
 function formatFileSize(bytes: number | null | undefined) {
   if (!bytes || bytes <= 0) return "";
   const kb = bytes / 1024;
-  if (kb < 1024) return `${Math.round(kb)} KB`;
-  return `${(kb / 1024).toFixed(1)} MB`;
+  if (kb < 1024) return `${Math.round(kb)}\u00A0KB`;
+  return `${(kb / 1024).toFixed(1)}\u00A0MB`;
 }
 
 type SearchParams = Promise<{ [key: string]: string | undefined }>;
@@ -112,7 +112,7 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
               <Link
                 key={filter.type}
                 href={filter.href}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                   activeType === filter.type
                     ? "bg-primary text-primary-content"
                     : "border border-base-300 bg-base-200 text-base-content/80 hover:bg-base-300"
@@ -131,7 +131,8 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
                   href={doc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-base-300 bg-base-200 px-4 py-3 transition hover:border-primary/40 hover:bg-base-300"
+                  className="group flex items-center justify-between gap-4 rounded-xl border border-base-300 bg-base-200 px-4 py-3 transition hover:border-primary/40 hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  style={{ contentVisibility: "auto", containIntrinsicSize: "76px" }}
                 >
                   <div className="min-w-0">
                     <p className="truncate font-medium text-base-content">{doc.title}</p>
