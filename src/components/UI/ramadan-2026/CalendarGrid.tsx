@@ -11,7 +11,7 @@ type CalendarGridProps = {
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const COMPACT_LEGEND = [
   { label: "Last 10", className: "bg-accent/18 border-accent/45" },
-  { label: "Odd Night", className: "bg-warning/30 border-warning/70 text-warning-content" },
+  { label: "Odd Night", className: "bg-warning/30 border-warning/70" },
   { label: "Eid", className: "bg-secondary/15 border-secondary/40" },
 ] as const;
 
@@ -160,7 +160,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                         </span>
                       ) : null}
                       {day.isOddNight ? (
-                        <span className="hidden rounded-md border border-warning/60 bg-warning px-1.5 py-0.5 text-[10px] font-body font-semibold text-warning-content md:inline-flex">
+                        <span className="hidden rounded-md border border-warning/60 bg-warning px-1.5 py-0.5 text-[10px] font-body font-semibold text-base-content md:inline-flex">
                           Odd Night
                         </span>
                       ) : null}
