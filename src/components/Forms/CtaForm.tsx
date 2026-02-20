@@ -98,7 +98,7 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
             <div className="card-actions justify-end">
               <button
                 type="submit"
-                className="btn border-0 bg-secondary text-primary shadow duration-200 hover:scale-105 hover:text-base-100"
+                className="btn btn-secondary text-secondary-content shadow-md transition-all duration-200 hover:bg-secondary/90 hover:shadow-lg"
               >
                 Submit ➜
               </button>
