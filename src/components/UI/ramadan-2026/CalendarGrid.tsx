@@ -73,7 +73,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
           {COMPACT_LEGEND.map((item) => (
             <span
               key={item.label}
-              className={`rounded-full border px-2.5 py-1 text-[10px] font-body text-base-content/80 md:text-xs ${item.className}`}
+              className={`rounded-full border px-2.5 py-1 text-[10px] font-body font-semibold uppercase tracking-wide text-base-content/85 md:text-xs ${item.className}`}
             >
               {item.label}
             </span>
@@ -160,7 +160,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
                         </span>
                       ) : null}
                       {day.isOddNight ? (
-                        <span className="hidden rounded-md border border-warning/60 bg-warning px-1.5 py-0.5 text-[10px] font-body font-semibold text-base-content md:inline-flex">
+                        <span className="hidden rounded-md border border-warning/60 bg-warning px-1.5 py-0.5 text-[10px] font-body font-semibold text-warning-content md:inline-flex">
                           Odd Night
                         </span>
                       ) : null}
