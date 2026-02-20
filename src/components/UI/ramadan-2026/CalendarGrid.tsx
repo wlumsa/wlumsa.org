@@ -66,7 +66,7 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
   };
 
   return (
-    <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5 lg:pb-11">
+    <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5 lg:pb-11">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-xl font-heading font-bold text-primary">Ramadan Calendar</h2>
         <div className="flex flex-wrap items-center justify-end gap-1.5">

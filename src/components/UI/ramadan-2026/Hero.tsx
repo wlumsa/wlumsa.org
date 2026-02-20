@@ -9,7 +9,7 @@ type HeroProps = {
 
 export function Hero({ title, subtitle }: HeroProps) {
   return (
-    <section className="rounded-3xl border border-primary/20 bg-base-100 p-4 shadow-sm md:p-6">
+    <section className="rounded-3xl border border-primary/20 bg-base-100 p-4 shadow-md shadow-base-content/10 md:p-6">
       <div className="mx-auto max-w-4xl text-center">
         <BlurFade>
           <p className="text-xs font-body font-semibold uppercase tracking-[0.16em] text-primary/80 md:text-sm">{subtitle}</p>
@@ -30,7 +30,7 @@ export function Hero({ title, subtitle }: HeroProps) {
         </BlurFade>
 
         <BlurFade delay={0.35}>
-          <div className="mx-auto mt-2.5 max-w-3xl rounded-2xl border border-base-300 bg-base-100 px-4 py-2.5 text-left md:px-6">
+          <div className="mx-auto mt-2.5 max-w-3xl rounded-2xl bg-base-200/80 px-4 py-2.5 text-left shadow-sm md:px-6">
             <p className="text-[10px] font-body font-semibold uppercase tracking-[0.16em] text-base-content/70 md:text-[11px]">Quran 2:183</p>
             <p className="mt-2 text-sm font-body italic leading-relaxed text-base-content/85 md:text-base">
               “O believers! Fasting is prescribed for you as it was for those before you so perhaps you will become mindful of Allah.”
