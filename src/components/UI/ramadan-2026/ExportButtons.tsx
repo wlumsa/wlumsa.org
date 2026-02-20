@@ -7,7 +7,7 @@ type ExportButtonsProps = {
 export function ExportButtons({ googleCalendarHref, icsDownloadHref, className }: ExportButtonsProps) {
   return (
     <section
-      className={`flex h-full min-h-[188px] flex-col items-center justify-center rounded-2xl border border-base-300 bg-base-100 p-4 text-center md:min-h-[218px] ${className || ""}`}
+      className={`flex h-full min-h-[231px] flex-col items-center justify-center rounded-2xl border border-base-300 bg-base-100/95 p-4 text-center shadow-md shadow-base-content/10 md:min-h-[261px] ${className || ""}`}
     >
       <h2 className="text-lg font-heading font-bold text-primary">Calendar Export</h2>
       <p className="mt-1 text-sm font-body text-base-content/70">

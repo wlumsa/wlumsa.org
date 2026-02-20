@@ -11,7 +11,7 @@ type CalendarGridProps = {
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const COMPACT_LEGEND = [
   { label: "Last 10", className: "bg-accent/18 border-accent/45" },
-  { label: "Odd Night", className: "bg-warning/30 border-warning/70 text-warning-content" },
+  { label: "Odd Night", className: "bg-warning/30 border-warning/70" },
   { label: "Eid", className: "bg-secondary/15 border-secondary/40" },
 ] as const;
 
@@ -66,14 +66,14 @@ export function CalendarGrid({ days, selectedISO, onSelect }: CalendarGridProps)
   };
 
   return (
-    <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100 p-4 md:p-5 lg:pb-11">
+    <section className="space-y-4 rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5 lg:pb-11">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-xl font-heading font-bold text-primary">Ramadan Calendar</h2>
         <div className="flex flex-wrap items-center justify-end gap-1.5">
           {COMPACT_LEGEND.map((item) => (
             <span
               key={item.label}
-              className={`rounded-full border px-2.5 py-1 text-[10px] font-body text-base-content/80 md:text-xs ${item.className}`}
+              className={`rounded-full border px-2.5 py-1 text-[10px] font-body font-semibold uppercase tracking-wide text-base-content/85 md:text-xs ${item.className}`}
             >
               {item.label}
             </span>

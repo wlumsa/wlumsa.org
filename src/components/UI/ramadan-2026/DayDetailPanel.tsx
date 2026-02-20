@@ -4,40 +4,34 @@ import { getLastThirdOfNight, getOrdinal } from "@/lib/ramadan2026";
 type DayDetailPanelProps = {
   day?: RamadanDay;
   nextDay?: RamadanDay;
-  isLoading: boolean;
-  note: {
-    title: string;
-    items: string[];
-  };
   isMobileOpen: boolean;
   onCloseMobile: () => void;
 };
 
-function PrayerTimeRow({ label, value, highlight = false }: { label: string; value?: string; highlight?: boolean }) {
+function PrayerTimeRow({ label, value, emphasize = false }: { label: string; value?: string; emphasize?: boolean }) {
   return (
     <div
-      className={`flex items-center justify-between rounded-lg border px-3 py-2 ${
-        highlight ? "border-secondary/65 bg-secondary/30 shadow-sm" : "border-base-300 bg-base-200/50"
+      className={`relative flex items-center justify-between rounded-xl border px-3 py-2.5 ${
+        emphasize
+          ? "border-secondary/45 bg-secondary/12 shadow-sm"
+          : "border-base-300 bg-base-200/50"
       }`}
     >
-      <span className={`text-sm font-body ${highlight ? "text-base-content" : "text-neutral/80"}`}>{label}</span>
-      <span className="text-sm font-body font-bold text-base-content">
-        {value || "--:--"}
-      </span>
+      <span className={`text-sm font-body ${emphasize ? "text-base-content" : "text-neutral/80"}`}>{label}</span>
+      <span className="text-sm font-body font-bold tabular-nums text-base-content">{value || "--:--"}</span>
     </div>
   );
 }
 
-function PanelBody({ day, nextDay, isLoading, note }: Omit<DayDetailPanelProps, "onCloseMobile" | "isMobileOpen">) {
+function PanelBody({ day, nextDay }: Omit<DayDetailPanelProps, "onCloseMobile" | "isMobileOpen">) {
   if (!day) {
     return <p className="text-sm font-body text-base-content/70">Select a day to view details.</p>;
   }
 
   const prayerTimes = day.prayerTimes;
   const lastThird = getLastThirdOfNight(prayerTimes, nextDay?.prayerTimes);
-
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div>
         <h3 className="text-lg font-heading font-bold text-primary">{day.dayLabel}</h3>
         <p className="text-sm font-body text-base-content/75">
@@ -45,44 +39,48 @@ function PanelBody({ day, nextDay, isLoading, note }: Omit<DayDetailPanelProps, 
         </p>
       </div>
 
-      {isLoading ? (
-        <div className="rounded-lg bg-base-200/70 p-3 text-sm font-body text-base-content/70">Loading prayer times...</div>
-      ) : (
-        <div className="space-y-2">
-          <PrayerTimeRow label="Fajr (Suhoor ends)" value={prayerTimes?.fajr} />
-          <PrayerTimeRow label="Sunrise" value={prayerTimes?.sunrise} />
-          <PrayerTimeRow label="Dhuhr" value={prayerTimes?.dhuhr} />
-          <PrayerTimeRow label="Asr" value={prayerTimes?.asr} />
-          <PrayerTimeRow label="Maghrib (Iftar)" value={prayerTimes?.maghrib} highlight />
-          <PrayerTimeRow label="Isha" value={prayerTimes?.isha} />
-          <div className="rounded-lg border border-base-300 bg-base-100 px-3 py-2">
-            <p className="text-[11px] font-body uppercase tracking-wide text-neutral/80">Last Third of the Night</p>
-            <p className="text-base font-heading font-bold text-base-content">{lastThird || "--:--"}</p>
-            <p className="text-[11px] font-body text-neutral/80">
-              Calculated as: Fajr - (night / 3), where night = Maghrib to next day&apos;s Fajr.
-            </p>
-          </div>
+      <div className="space-y-2 rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm">
+        <div className="flex items-center justify-between">
+          <p className="text-[11px] font-body font-semibold uppercase tracking-wide text-base-content/60">Full Prayer Schedule</p>
+          <p className="text-[10px] font-body text-base-content/55">Waterloo local time</p>
         </div>
-      )}
+        <PrayerTimeRow label="Fajr (Suhoor ends)" value={prayerTimes?.fajr} emphasize />
+        <PrayerTimeRow label="Sunrise" value={prayerTimes?.sunrise} />
+        <PrayerTimeRow label="Dhuhr" value={prayerTimes?.dhuhr} />
+        <PrayerTimeRow label="Asr" value={prayerTimes?.asr} />
+        <PrayerTimeRow label="Maghrib (Iftar)" value={prayerTimes?.maghrib} emphasize />
+        <PrayerTimeRow label="Isha" value={prayerTimes?.isha} />
+      </div>
 
-      <div className="rounded-lg border border-primary/15 bg-primary/5 p-2.5">
-        <p className="text-[11px] font-body font-semibold uppercase tracking-wide text-primary">{note.title}</p>
-        <ul className="mt-1 list-disc space-y-0.5 pl-4 text-xs font-body leading-relaxed text-base-content/75">
-          {note.items.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+        <div className="rounded-lg border border-base-300 bg-base-200/60 px-3 py-2">
+          <p className="text-[11px] font-body uppercase tracking-wide text-neutral/80">Night Status</p>
+          <p className="text-sm font-body font-semibold text-base-content">
+            {day.isEid
+              ? "Eid"
+              : day.isOddNight
+                ? "Odd night in the last 10"
+                : day.isLastTen
+                  ? "Last 10 nights"
+                  : "Regular Ramadan night"}
+          </p>
+        </div>
+        <div className="rounded-lg border border-base-300 bg-base-200/60 px-3 py-2">
+          <p className="text-[11px] font-body uppercase tracking-wide text-neutral/80">Last Third Starts</p>
+          <p className="text-base font-heading font-bold tabular-nums text-base-content">{lastThird || "--:--"}</p>
+          <p className="text-[11px] font-body text-neutral/80">Based on Maghrib to next day&apos;s Fajr.</p>
+        </div>
       </div>
 
     </div>
   );
 }
 
-export function DayDetailPanel({ day, nextDay, isLoading, note, isMobileOpen, onCloseMobile }: DayDetailPanelProps) {
+export function DayDetailPanel({ day, nextDay, isMobileOpen, onCloseMobile }: DayDetailPanelProps) {
   return (
     <>
-      <aside className="hidden rounded-2xl border border-base-300 bg-base-100 p-4 lg:block lg:sticky lg:top-24">
-        <PanelBody day={day} nextDay={nextDay} isLoading={isLoading} note={note} />
+      <aside className="hidden rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 lg:sticky lg:top-24 lg:block">
+        <PanelBody day={day} nextDay={nextDay} />
       </aside>
 
       {day && isMobileOpen ? (
@@ -101,7 +99,7 @@ export function DayDetailPanel({ day, nextDay, isLoading, note, isMobileOpen, on
               </button>
             </div>
             <div className="max-h-[62vh] overflow-y-auto pb-4">
-              <PanelBody day={day} nextDay={nextDay} isLoading={isLoading} note={note} />
+              <PanelBody day={day} nextDay={nextDay} />
             </div>
           </div>
         </div>

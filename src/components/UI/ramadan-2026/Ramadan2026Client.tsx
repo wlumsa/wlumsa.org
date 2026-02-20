@@ -280,7 +280,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           subtitle="Waterloo, Ontario"
         />
 
-        <section ref={impactSectionRef} className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+        <section ref={impactSectionRef} className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
           <div className="mx-auto space-y-1.5 py-1 text-center">
             <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">2025 Impact</p>
             <h2 className="mx-auto max-w-3xl text-balance text-2xl font-heading font-bold text-primary md:text-3xl">
@@ -291,7 +291,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
 
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {IMPACT_METRICS_2025.map((metric) => (
-              <article key={metric.label} className="rounded-xl border border-base-300 bg-base-100 p-4 text-center">
+              <article key={metric.label} className="rounded-xl border border-base-300 bg-base-200/45 p-4 text-center shadow-sm">
                 <p className="text-4xl font-heading font-bold text-primary md:text-5xl">
                   <CountUpNumber
                     value={metric.value}
@@ -306,7 +306,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 dark:border-base-content/20 dark:bg-base-200/30 md:p-5">
           <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
             <div>
               <h2 className="text-lg font-heading font-bold text-primary">Today&apos;s Fasting Snapshot</h2>
@@ -315,9 +315,9 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
 
           <div className="grid gap-3 md:grid-cols-3">
-            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
+            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-md shadow-base-content/10">
               <div className="flex items-start justify-between gap-2">
-                <p className="text-xs font-body uppercase tracking-wide text-base-content/55">Fast Day</p>
+                <p className="text-xs font-body uppercase tracking-wide text-base-content/70">Fast Day</p>
                 <button
                   type="button"
                   onClick={handleJumpToRelevantDay}
@@ -330,20 +330,29 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
               <p className="mt-2 text-lg font-heading font-bold text-base-content">
                 {selectedFastingDay?.fastIndex ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast` : "Outside fasting dates"}
               </p>
-              <p className="mt-1 text-sm font-body text-base-content/70">
+              <p className="mt-1 text-sm font-body text-base-content/75">
                 {selectedFastingDay ? formatDisplayDate(selectedFastingDay.isoDate) : "Select a fasting day below to view details."}
               </p>
             </div>
-            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
-              <p className="text-xs font-body uppercase tracking-wide text-base-content/55">Suhoor Ends</p>
+            <div className="rounded-2xl border border-base-300 bg-base-200/60 p-4 shadow-md shadow-base-content/10">
+              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">Suhoor Ends</p>
               <p className="mt-2 text-3xl font-heading font-bold text-base-content">{selectedFastingDay?.prayerTimes?.fajr || "--:--"}</p>
-              <p className="mt-1 text-sm font-body text-base-content/70">Fajr (Suhoor cutoff)</p>
+              <p className="mt-1 text-sm font-body text-base-content/75">Fajr (Suhoor cutoff)</p>
             </div>
-            <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
-              <p className="text-xs font-body uppercase tracking-wide text-base-content/55">Iftar</p>
+            <div className="rounded-2xl border border-secondary/35 bg-secondary/10 p-4 shadow-md shadow-base-content/10">
+              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">Iftar</p>
               <p className="mt-2 text-3xl font-heading font-bold text-base-content">{selectedFastingDay?.prayerTimes?.maghrib || "--:--"}</p>
-              <p className="mt-1 text-sm font-body text-base-content/70">Maghrib (Iftar time)</p>
+              <p className="mt-1 text-sm font-body text-base-content/75">Maghrib (Iftar time)</p>
             </div>
+          </div>
+
+          <div className="mt-3 rounded-2xl border border-primary/20 bg-base-200/70 p-3 shadow-sm dark:border-primary/30 dark:bg-base-200/45">
+            <p className="text-[11px] font-body font-semibold uppercase tracking-wide text-primary">{note.title}</p>
+            <ul className="mt-1 list-disc space-y-0.5 pl-4 text-xs font-body leading-relaxed text-base-content/80 dark:text-base-content/85">
+              {note.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         </section>
 
@@ -358,7 +367,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
               }}
             />
 
-            <section className="flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+            <section className="flex h-full flex-col rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
               <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">Worship Focus</p>
               <h3 className="mt-1 text-base font-heading font-bold text-primary md:text-lg">
                 Last 10 Nights and Laylatul Qadr
@@ -367,7 +376,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 Laylatul Qadr is sought in the <strong>odd nights (21, 23, 25, 27, 29)</strong>. Nights begin at Maghrib.
               </p>
 
-              <div className="mt-3 space-y-1.5 rounded-xl border border-base-300 bg-base-200/40 p-3">
+              <div className="mt-3 space-y-1.5 rounded-xl border border-base-300 bg-base-200/55 p-3 shadow-sm">
                 <p className="text-xs font-body leading-relaxed text-base-content/80">
                   <strong>Campus qiyam:</strong> Peters P101 (last 10 nights)
                 </p>
@@ -393,8 +402,6 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
             <DayDetailPanel
               day={selectedDay}
               nextDay={nextDay}
-              isLoading={false}
-              note={note}
               isMobileOpen={isMobilePanelOpen}
               onCloseMobile={() => setIsMobilePanelOpen(false)}
             />
@@ -409,7 +416,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </div>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
           <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Campus Services</h2>
             <p className="text-xs font-body text-base-content/65">Programs running throughout Ramadan 2026.</p>
@@ -430,7 +437,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
           <div className="flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Resources</h2>
           </div>
@@ -441,7 +448,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 href={resource.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 transition-colors duration-200 ease-out hover:border-base-content/20 hover:shadow-[0_1px_6px_rgba(0,0,0,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 motion-reduce:transition-none sm:p-4"
+                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-colors duration-200 ease-out hover:border-base-content/20 hover:shadow-[0_8px_18px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 motion-reduce:transition-none sm:p-4"
               >
                 <div className="flex h-56 w-full items-center justify-center overflow-hidden rounded-xl border border-base-300 bg-base-200 sm:h-64">
                   <img
@@ -460,7 +467,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
           <h2
             className="mb-1 text-center text-2xl font-heading font-bold text-primary md:text-3xl"
             id="prayer_rooms"
