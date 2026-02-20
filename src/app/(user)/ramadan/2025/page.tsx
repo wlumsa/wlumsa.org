@@ -5,7 +5,6 @@ import BlurFade from "@/components/UI/BlurFade";
 import { StatsSection } from "@/components/UI/Stats";
 import { DotPattern } from "@/components/UI/DotPatter";
 import { cn } from "@/Utils/cn";
-import Image from "next/image";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import { EventCard } from "@/components/UI/WeeklyEvents";
 
@@ -131,104 +130,6 @@ export default async function CountdownPage() {
             ))}
           </div>
           <div className="space-y-16">
-            <div
-              className="mx-auto flex flex-col items-center text-center"
-              id="journal"
-            >
-              <h2 className="mb-6 text-3xl font-heading font-bold text-primary duration-200 hover:scale-105">
-                Ramadan Journal
-              </h2>
-
-              <p className="mb-6 max-w-2xl font-body text-lg">
-                Make this Ramadan truly transformative with a guided journal
-                designed to help you deepen your connection with Allah
-              </p>
-              <div className="rounded-lg bg-primary p-4">
-                <Image
-                  src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/Photos/ramadan_journal.png"
-                  width={966}
-                  height={1250}
-                  alt="Ramadan Journal cover design with Islamic patterns and daily reflection prompts"
-                />
-              </div>
-              <Link href="/RamadanJournal.pdf" target="_blank">
-                <button
-                  id="download"
-                  className="btn btn-primary my-4 rounded-lg font-bold text-secondary duration-200 hover:scale-105"
-                >
-                  Download
-                </button>
-              </Link>
-            </div>
-
-            <div
-              className="mx-auto flex flex-col items-center text-center "
-              id="prayer_schedule"
-            >
-              <h2 className="mb-6 text-3xl font-heading font-bold text-primary duration-200 hover:scale-105">
-                Ramadan Prayer Schedule
-              </h2>
-              <p className="mb-4 text-xl font-body font-semibold">
-                Never miss a prayer this Ramadan
-              </p>
-              <p className="mb-6 max-w-2xl font-body text-lg">
-                A complete prayer schedule for Ramadan on Campus. Limited
-                quantity available in P101
-              </p>
-              <div className="rounded-lg bg-primary p-4">
-                <Image
-                  src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule_msa.png"
-                  width={966}
-                  height={1250}
-                  alt="Ramadan 2025 prayer schedule showing daily Fajr, Maghrib, and Taraweeh times"
-                />
-              </div>
-              <Link href="/ramadan_schedule2025.pdf" target="_blank">
-                <button
-                  id="download"
-                  className="btn btn-primary my-4 rounded-lg font-bold text-secondary duration-200 hover:scale-105"
-                >
-                  Download
-                </button>
-              </Link>
-            </div>
-
-            <div className="mx-4 flex flex-col items-center" id="checklist">
-              <h2 className="mb-6 text-3xl font-heading font-bold text-primary duration-200 hover:scale-105">
-                Ramadan Checklist
-              </h2>
-              <p className="mb-4 text-xl font-body font-semibold">
-                Build a habit this Ramadan
-              </p>
-              <p className="mb-6 max-w-3xl text-center font-body text-lg">
-                "The most beloved deed to Allah is the most regular and constant
-                even if it were little." -{" "}
-                <Link
-                  className="underline hover:text-primary/80"
-                  target="_blank"
-                  href="https://sunnah.com/bukhari:6464"
-                >
-                  Bukhari 6465
-                </Link>
-              </p>
-              <div className="rounded-lg bg-primary p-4">
-                <Image
-                  src="https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png"
-                  width={1250}
-                  height={966}
-                  alt="Ramadan habit tracker checklist with daily spiritual goals and activities"
-                />
-              </div>
-              <button
-                id="download"
-                className="btn btn-primary my-4 rounded-lg font-bold text-secondary duration-200 hover:scale-105"
-              >
-                <Link href="/ramadan_checklist.pdf" target="_blank">
-                  Download
-                </Link>
-              </button>
-            </div>
-
             <h2
               className="mb-8 mt-16 text-center text-3xl font-heading font-bold text-primary duration-200 hover:scale-105"
               id="prayer_rooms"
