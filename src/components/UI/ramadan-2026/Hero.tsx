@@ -40,7 +40,7 @@ export function Hero({ title, subtitle }: HeroProps) {
 
         <BlurFade delay={0.5}>
           <div className="mt-3 flex flex-col justify-center gap-2 sm:flex-row sm:gap-3">
-            <Link href="/forms/iftars" className="btn btn-primary btn-sm text-primary-content md:btn-md">
+            <Link href="/forms/iftar" className="btn btn-primary btn-sm text-primary-content md:btn-md">
               Register for iftar
             </Link>
             <Link
