@@ -31,9 +31,9 @@ const RAMADAN_RESOURCES = [
   {
     title: "Ramadan Checklist",
     description: "Track worship goals and daily habits.",
-    href: "/ramadan_checklist.pdf",
+    href: "/https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan%20Checklist%20Journal%202026%20(1).pdf",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/RamadanChecklist.png",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/checklist-preview.png",
     alt: "Ramadan Checklist preview",
   },
   {
@@ -41,7 +41,7 @@ const RAMADAN_RESOURCES = [
     description: "Printable prayer and iftar reference sheet.",
     href: "/ramadan_schedule2026.pdf",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule.png",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule 26.webp",
     alt: "Ramadan prayer schedule preview",
   },
 ] as const;
@@ -77,7 +77,15 @@ const CAMPUS_SERVICES = [
     link: "https://t.zip/g/kW5g0luYnastysVT?ref=8gs7JKfEiR",
     ctaText: "Participate Now",
   },
-] as const;
+  {
+    name: "Qiyam Nights in PMC",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/qiyam25.webp",
+    timeLocation: "Last 10 nights in PMC (late night worship)",
+    caption:
+      "Join our community for Qiyam and deepen your spiritual connection during the blessed nights of Ramadan. Last 10 nights in PMC for late night worship.",
+  },
+];
 
 const IMPACT_METRICS_2025 = [
   {
