@@ -77,7 +77,15 @@ const CAMPUS_SERVICES = [
     link: "https://t.zip/g/kW5g0luYnastysVT?ref=8gs7JKfEiR",
     ctaText: "Participate Now",
   },
-] as const;
+  {
+    name: "Qiyam Nights in PMC",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/qiyam25.webp",
+    timeLocation: "Last 10 nights in PMC (late night worship)",
+    caption:
+      "Join our community for Qiyam and deepen your spiritual connection during the blessed nights of Ramadan. Last 10 nights in PMC for late night worship.",
+  },
+];
 
 const IMPACT_METRICS_2025 = [
   {
