@@ -41,7 +41,7 @@ const RAMADAN_RESOURCES = [
     description: "Printable prayer and iftar reference sheet.",
     href: "/ramadan_schedule2026.pdf",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule.png",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule 26.webp",
     alt: "Ramadan prayer schedule preview",
   },
 ] as const;
