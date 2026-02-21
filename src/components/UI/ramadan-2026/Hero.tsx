@@ -44,7 +44,7 @@ export function Hero({ title, subtitle }: HeroProps) {
               Register for iftar
             </Link>
             <Link
-              href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858"
+              href="https://www.laurieralumni.ca/s/1681/15/interior-giving.aspx?sid=1681&gid=2&pgid=5048"
               target="_blank"
               rel="noreferrer"
               className="btn btn-secondary btn-sm text-secondary-content md:btn-md"
