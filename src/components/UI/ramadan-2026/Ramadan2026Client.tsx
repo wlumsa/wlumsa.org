@@ -44,6 +44,14 @@ const RAMADAN_RESOURCES = [
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule 26.webp",
     alt: "Ramadan prayer schedule preview",
   },
+   {
+    title: "Duas PDF",
+    description: "A collection of short duas for Ramadan and beyond.",
+    href: "/Ramadan_Duas.pdf",
+    image:
+      "/1.png",
+    alt: "Ramadan duas preview",
+  }
 ] as const;
 
 const CAMPUS_SERVICES = [

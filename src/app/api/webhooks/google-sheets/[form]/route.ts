@@ -198,14 +198,23 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
 
       if (typeof email === 'string' && email) {
         try {
-          if (normalizedForm === 'iftar') {
-            const text = `Asalamu alaykum ${firstName}\n\nWe have received your request for Iftar this week. You are registered for are the following days: ${daysList || 'N/A'}\n\nIf you need to cancel, please do so using the following link: ${cancelLink}`
-            await resend.emails.send({
-              from: 'WLU MSA <admin@wlumsa.org>',
-              to: email,
-              subject: 'Iftar confirmation',
-              text,
-            })
+          if (normalizedForm === 'iftar' || 'iftars') {
+          const html = `
+            <p>Asalamu alaykum ${firstName},</p>
+
+            <p>We have received your request for Iftar this week. 
+            You are registered for the following days: ${daysList || 'N/A'}</p>
+
+            <p>If you need to cancel, please click 
+            <a href="${cancelLink}">here</a>.</p>
+          `
+
+          await resend.emails.send({
+            from: 'WLU MSA <admin@wlumsa.org>',
+            to: email,
+            subject: 'Iftar confirmation',
+            html,
+          })
           } else {
             const text = `Asalamu alaykum ${firstName}\n\nYou have cancelled your iftar for ${daysList || 'the selected day(s)'}.`
             await resend.emails.send({
