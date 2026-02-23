@@ -31,7 +31,7 @@ const RAMADAN_RESOURCES = [
   {
     title: "Ramadan Checklist",
     description: "Track worship goals and daily habits.",
-    href: "/https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan%20Checklist%20Journal%202026%20(1).pdf",
+    href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_checklist.pdf",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/checklist-preview.png",
     alt: "Ramadan Checklist preview",
@@ -39,7 +39,7 @@ const RAMADAN_RESOURCES = [
   {
     title: "Prayer Schedule PDF",
     description: "Printable prayer and iftar reference sheet.",
-    href: "/ramadan_schedule2026.pdf",
+    href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule2026.pdf",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule 26.webp",
     alt: "Ramadan prayer schedule preview",
@@ -47,9 +47,9 @@ const RAMADAN_RESOURCES = [
    {
     title: "Duas PDF",
     description: "A collection of short duas for Ramadan and beyond.",
-    href: "/Ramadan_Duas.pdf",
+    href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan_Duas.pdf",
     image:
-      "/1.png",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/duas.webp",
     alt: "Ramadan duas preview",
   }
 ] as const;
@@ -457,7 +457,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           <div className="flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Resources</h2>
           </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
             {RAMADAN_RESOURCES.map((resource) => (
               <a
                 key={resource.href}
