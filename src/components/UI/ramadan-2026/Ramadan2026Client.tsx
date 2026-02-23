@@ -31,7 +31,7 @@ const RAMADAN_RESOURCES = [
   {
     title: "Ramadan Checklist",
     description: "Track worship goals and daily habits.",
-    href: "/https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan%20Checklist%20Journal%202026%20(1).pdf",
+    href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_checklist.pdf",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/checklist-preview.png",
     alt: "Ramadan Checklist preview",
@@ -39,7 +39,7 @@ const RAMADAN_RESOURCES = [
   {
     title: "Prayer Schedule PDF",
     description: "Printable prayer and iftar reference sheet.",
-    href: "/ramadan_schedule2026.pdf",
+    href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/ramadan_schedule2026.pdf",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule 26.webp",
     alt: "Ramadan prayer schedule preview",
