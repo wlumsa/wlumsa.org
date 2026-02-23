@@ -47,9 +47,9 @@ const RAMADAN_RESOURCES = [
    {
     title: "Duas PDF",
     description: "A collection of short duas for Ramadan and beyond.",
-    href: "/Ramadan_Duas.pdf",
+    href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan_Duas.pdf",
     image:
-      "/1.png",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/duas.webp",
     alt: "Ramadan duas preview",
   }
 ] as const;
