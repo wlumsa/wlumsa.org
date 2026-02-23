@@ -457,7 +457,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           <div className="flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Resources</h2>
           </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
             {RAMADAN_RESOURCES.map((resource) => (
               <a
                 key={resource.href}
