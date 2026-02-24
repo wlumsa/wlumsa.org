@@ -113,8 +113,8 @@ import {
             <Text
               style={{ fontSize: "12px", lineHeight: "24px", color: "#666666" }}
             >
-              This is an automated email,any inquires should be directed to msa@wlu.ca
-              <Link href="https://www.wlumsa.org/unsubscribe"> here</Link>
+              This is an automated email, any inquiries should be directed to msa@wlu.ca. To unsubscribe from these emails, click{" "}
+              <Link href="https://wlumsa.org/unsubscribe">here</Link>.
             </Text>
             <Button
               href="https://www.wlumsa.org/events"

@@ -26,6 +26,8 @@ import {
     content: string | null | undefined; // TEMP logo for url, replace with actual logo url later
   
   }
+
+  const unsubscribeUrl = "https://wlumsa.org/unsubscribe";
   
   
   export const CharityWeek = ({ firstName, content }: WelcomeEmailProps) => (
@@ -115,7 +117,9 @@ import {
           </Text>
           <Hr style={hr} />
           <Text style={footer}>
-            This is an automated email, please do not reply.</Text>
+            This is an automated email, please do not reply. To unsubscribe from these emails, click{" "}
+            <Link href={unsubscribeUrl}>here</Link>.
+          </Text>
         </Container>
       </Body>
     </Html>
