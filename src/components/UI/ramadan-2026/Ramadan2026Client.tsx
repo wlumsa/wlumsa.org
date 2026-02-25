@@ -58,7 +58,7 @@ const CAMPUS_SERVICES = [
   {
     name: "Daily Iftars on Campus",
     image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/iftar2025.webp",
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/iftar-new.webp",
     timeLocation: "Monday - Friday in PMC (arrive ~20 minutes before Maghrib)",
     caption:
       "Join daily campus iftars in the PMC and break your fast together at Maghrib.",
@@ -76,6 +76,24 @@ const CAMPUS_SERVICES = [
     ctaText: "Directions to PMC",
   },
   {
+    name: "Qiyam Nights in PMC",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/qiyam25.webp",
+    timeLocation: "Last 10 nights in PMC (starts around 1:00 AM)",
+    caption:
+      "Join our community for Qiyam and deepen your spiritual connection during the blessed nights of Ramadan. Last 10 nights in PMC for late night worship.",
+  },
+  {
+    name: "Fundraiser for Palestine",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/palestine-fundraiser.webp",
+    timeLocation: "Online campaign (Ramadan 2026 / 1447 AH)",
+    caption:
+      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be available soon",
+    link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2026-1447-ah-3914",
+    ctaText: "Donate Now",
+  },
+  {
     name: "MSA Tarteel Competition",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/tarteel26(1).webp",
@@ -85,24 +103,7 @@ const CAMPUS_SERVICES = [
     link: "https://t.zip/g/kW5g0luYnastysVT?ref=8gs7JKfEiR",
     ctaText: "Participate Now",
   },
-  {
-    name: "Fundraiser for Palestine",
-    image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/fundraiser26.webp",
-    timeLocation: "Online campaign (Ramadan 2026 / 1447 AH)",
-    caption:
-      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be available soon",
-    link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2026-1447-ah-3914",
-    ctaText: "Donate Now",
-  },
-  {
-    name: "Qiyam Nights in PMC",
-    image:
-      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/qiyam25.webp",
-    timeLocation: "Last 10 nights in PMC (late night worship)",
-    caption:
-      "Join our community for Qiyam and deepen your spiritual connection during the blessed nights of Ramadan. Last 10 nights in PMC for late night worship.",
-  },
+
 ];
 
 const IMPACT_METRICS_2025 = [
