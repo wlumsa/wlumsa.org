@@ -198,7 +198,7 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
 
       if (typeof email === 'string' && email) {
         try {
-          if (normalizedForm === 'iftar' || 'iftars') {
+          if (normalizedForm === 'iftar' ) {
           const html = `
             <p>Asalamu alaykum ${firstName},</p>
 
@@ -215,13 +215,18 @@ export async function POST(request: NextRequest, segmentData: { params: Params }
             subject: 'Iftar confirmation',
             html,
           })
-          } else {
-            const text = `Asalamu alaykum ${firstName}\n\nYou have cancelled your iftar for ${daysList || 'the selected day(s)'}.`
+          } else if (normalizedForm === 'cancel') {
+            const html = `
+              <p>Asalamu alaykum ${firstName},</p>
+              <p>You have cancelled your iftar for ${daysList || 'the selected day(s)'}. 
+              JazakAllahu khair for letting us know.</p>
+
+            `
             await resend.emails.send({
               from: 'WLU MSA <admin@wlumsa.org>',
               to: email,
               subject: 'Iftar cancellation',
-              text,
+              html,
             })
           }
         } catch (emailError) {
