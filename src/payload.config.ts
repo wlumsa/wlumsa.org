@@ -27,6 +27,7 @@ import type { GenerateTitle } from "@payloadcms/plugin-seo/types";
 import { Sizes } from "./collections/Products/sizes";
 import WeeklyEvents from "./collections/UI/WeeklyEvents";
 import PrayerTimings from "./collections/UI/PrayerInfo/PrayerTimings";
+import WeeklyPrayerTimings from "./collections/UI/PrayerInfo/WeeklyPrayerTimings";
 import Jummah from "./collections/UI/PrayerInfo/JummahTimings";
 import PrayerRooms from "./collections/UI/PrayerInfo/PrayerRoom";
 import Services from "./collections/UI/Services";
@@ -92,6 +93,7 @@ export default buildConfig({
     Sizes,
     Recording,
     WeeklyEvents,
+    WeeklyPrayerTimings,
     Jummah,
     PrayerRooms,
     Services,
