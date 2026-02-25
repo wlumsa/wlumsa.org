@@ -1,4 +1,4 @@
-import {
+  import {
     Body,
     Button,
     Container,
@@ -6,6 +6,7 @@ import {
     Hr,
     Html,
     Img,
+    Link,
     Preview,
     Section,
     Text,
@@ -26,6 +27,8 @@ import {
     type: "text";
     value: string;
   }
+
+  const unsubscribeUrl = "https://wlumsa.org/unsubscribe";
   
 
   export const EventEmail = ({formLink, content}: EventInfo) => {
@@ -85,7 +88,9 @@ import {
         </Section>
           <Hr style={hr} />
           <Text style={footer}>
-          This is an automated email, please do not reply. If you would like to unsubscribe from this newsletter, you can do so here        </Text>
+          This is an automated email, please do not reply. To unsubscribe from these emails, click{" "}
+          <Link href={unsubscribeUrl}>here</Link>.
+        </Text>
         </Container>
       </Body>
     </Html>
