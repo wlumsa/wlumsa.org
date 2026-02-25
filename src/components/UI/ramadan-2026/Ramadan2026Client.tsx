@@ -86,6 +86,16 @@ const CAMPUS_SERVICES = [
     ctaText: "Participate Now",
   },
   {
+    name: "Fundraiser for Palestine",
+    image:
+      "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/fundraiser26.webp",
+    timeLocation: "Online campaign (Ramadan 2026 / 1447 AH)",
+    caption:
+      "Join our fundraiser in collaboration with Islamic Relief to raise money for Sudan and Palestine. Our goal is to raise $15,000. Link will be available soon",
+    link: "https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2026-1447-ah-3914",
+    ctaText: "Donate Now",
+  },
+  {
     name: "Qiyam Nights in PMC",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/qiyam25.webp",
