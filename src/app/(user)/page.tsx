@@ -11,7 +11,6 @@ import MemberSignup from '@/components/UI/MemberSignup';
 
 // Data fetching functions
 import { fetchInstagramPosts, fetchWeeklyEventsData, getJummahTimings, getPrayerRooms, getPrayerTimings, getMedia, fetchSocialData } from '@/Utils/datafetcher';
-import { WeeklyEvents } from '@/components/UI/WeeklyEvents';
 import { CheckCircle } from 'lucide-react';
 /*
  * Next.js time-based revalidation function for caching (set to 1 hour)
@@ -53,7 +52,8 @@ export default async function Home() {
 
       {/* News and Events */}
       <News instagramPosts={instagramPosts} />
-      <WeeklyEvents events={events} />
+      {/*<WeeklyEvents events={events} />*/}
+
 
       {/* Signup */}
       <div className="flex w-full items-center justify-center py-8 sm:py-12">
