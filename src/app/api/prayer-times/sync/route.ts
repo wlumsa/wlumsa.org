@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     });
 
     if (existing.docs.length > 0) {
-      const currentDoc = existing.docs[0] as {
+      const currentDoc = existing.docs[0] as unknown as {
         id: string;
         rows?: unknown;
       };
