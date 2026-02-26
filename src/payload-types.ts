@@ -448,20 +448,20 @@ export interface WeeklyPrayerTiming {
   sourceUrl: string;
   fetchedAt: string;
   rows: {
-    dateISO: string;
+    date_iso: string;
     weekday: string;
     fajr: string;
-    fajrIqamah?: string | null;
+    fajr_iqamah?: string | null;
     sunrise: string;
     dhuhr: string;
-    dhuhrIqamah?: string | null;
+    dhuhr_iqamah?: string | null;
     asr: string;
-    asrIqamah?: string | null;
+    asr_iqamah?: string | null;
     maghrib: string;
-    maghribIqamah?: string | null;
+    maghrib_iqamah?: string | null;
     isha: string;
-    ishaIqamah?: string | null;
-    jumuahKhutbah?: string | null;
+    isha_iqamah?: string | null;
+    jumuah_khutbah?: string | null;
     id?: string | null;
   }[];
   /**
@@ -1349,20 +1349,20 @@ export interface WeeklyPrayerTimingsSelect<T extends boolean = true> {
   rows?:
     | T
     | {
-        dateISO?: T;
+        date_iso?: T;
         weekday?: T;
         fajr?: T;
-        fajrIqamah?: T;
+        fajr_iqamah?: T;
         sunrise?: T;
         dhuhr?: T;
-        dhuhrIqamah?: T;
+        dhuhr_iqamah?: T;
         asr?: T;
-        asrIqamah?: T;
+        asr_iqamah?: T;
         maghrib?: T;
-        maghribIqamah?: T;
+        maghrib_iqamah?: T;
         isha?: T;
-        ishaIqamah?: T;
-        jumuahKhutbah?: T;
+        isha_iqamah?: T;
+        jumuah_khutbah?: T;
         id?: T;
       };
   rawSnapshot?: T;

@@ -57,7 +57,7 @@ const WeeklyPrayerTimings: CollectionConfig = {
       maxRows: 7,
       fields: [
         {
-          name: "dateISO",
+          name: "date_iso",
           label: "Date (ISO)",
           type: "text",
           required: true,
@@ -73,7 +73,7 @@ const WeeklyPrayerTimings: CollectionConfig = {
           required: true,
         },
         {
-          name: "fajrIqamah",
+          name: "fajr_iqamah",
           type: "text",
           required: false,
         },
@@ -88,7 +88,7 @@ const WeeklyPrayerTimings: CollectionConfig = {
           required: true,
         },
         {
-          name: "dhuhrIqamah",
+          name: "dhuhr_iqamah",
           type: "text",
           required: false,
         },
@@ -98,7 +98,7 @@ const WeeklyPrayerTimings: CollectionConfig = {
           required: true,
         },
         {
-          name: "asrIqamah",
+          name: "asr_iqamah",
           type: "text",
           required: false,
         },
@@ -108,7 +108,7 @@ const WeeklyPrayerTimings: CollectionConfig = {
           required: true,
         },
         {
-          name: "maghribIqamah",
+          name: "maghrib_iqamah",
           type: "text",
           required: false,
         },
@@ -118,12 +118,12 @@ const WeeklyPrayerTimings: CollectionConfig = {
           required: true,
         },
         {
-          name: "ishaIqamah",
+          name: "isha_iqamah",
           type: "text",
           required: false,
         },
         {
-          name: "jumuahKhutbah",
+          name: "jumuah_khutbah",
           type: "text",
           required: false,
         },

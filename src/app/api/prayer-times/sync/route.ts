@@ -3,11 +3,32 @@ import { getPayload } from "payload";
 
 import configPromise from "@payload-config";
 import { env } from "@/env.mjs";
+import type { ScrapedPrayerDay } from "@/lib/prayer-times/weeklyWaterlooScraper";
 import { scrapeWeeklyPrayerTimes } from "@/lib/prayer-times/weeklyWaterlooScraper";
 
 export const runtime = "nodejs";
 
 const DEFAULT_SOURCE_URL = "https://waterloomasjid.com/main/index.php/prayers";
+
+/** Map scraper row (camelCase) to Payload row (snake_case) for DB column names. */
+function toPayloadRows(rows: ScrapedPrayerDay[]): Record<string, unknown>[] {
+  return rows.map((row): Record<string, unknown> => ({
+    date_iso: row.dateISO,
+    weekday: row.weekday,
+    fajr: row.fajr,
+    fajr_iqamah: row.fajrIqamah ?? null,
+    sunrise: row.sunrise,
+    dhuhr: row.dhuhr,
+    dhuhr_iqamah: row.dhuhrIqamah ?? null,
+    asr: row.asr,
+    asr_iqamah: row.asrIqamah ?? null,
+    maghrib: row.maghrib,
+    maghrib_iqamah: row.maghribIqamah ?? null,
+    isha: row.isha,
+    isha_iqamah: row.ishaIqamah ?? null,
+    jumuah_khutbah: row.jumuahKhutbah ?? null,
+  }));
+}
 
 function isAuthorized(request: NextRequest): boolean {
   if (!env.CRON_SECRET) {
@@ -52,7 +73,8 @@ export async function GET(request: NextRequest) {
         rows?: unknown;
       };
 
-      const unchanged = JSON.stringify(currentDoc.rows ?? []) === JSON.stringify(parsedWeek.rows);
+      const payloadRows = toPayloadRows(parsedWeek.rows);
+      const unchanged = JSON.stringify(currentDoc.rows ?? []) === JSON.stringify(payloadRows);
       if (unchanged) {
         return NextResponse.json({
           status: "skipped",
@@ -72,7 +94,7 @@ export async function GET(request: NextRequest) {
           weekEnd: parsedWeek.weekEndISO,
           fetchedAt: parsedWeek.fetchedAtISO,
           sourceUrl: parsedWeek.sourceUrl,
-          rows: parsedWeek.rows,
+          rows: payloadRows as never,
           rawSnapshot: parsedWeek.rawSnapshot,
         },
       });
@@ -94,7 +116,7 @@ export async function GET(request: NextRequest) {
         weekEnd: parsedWeek.weekEndISO,
         fetchedAt: parsedWeek.fetchedAtISO,
         sourceUrl: parsedWeek.sourceUrl,
-        rows: parsedWeek.rows,
+        rows: toPayloadRows(parsedWeek.rows) as never,
         rawSnapshot: parsedWeek.rawSnapshot,
       },
     });
