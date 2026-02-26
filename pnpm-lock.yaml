@@ -98,7 +98,7 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.8.2
         version: 2.11.2(react@19.2.3)
-      '@sparticuz/chromium':
+      '@sparticuz/chromium-min':
         specifier: ^143.0.4
         version: 143.0.4
       '@supabase/auth-helpers-nextjs':
@@ -2771,8 +2771,8 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
-  '@sparticuz/chromium@143.0.4':
-    resolution: {integrity: sha512-/6I7uQTRhRDD2/gGPQ1Gkf+Dqk0RYDACPJDZfSzz0OWk4JmUTonNHPXbrn6UIklOHlnDLf8xAAzkOZKB/cJpLA==}
+  '@sparticuz/chromium-min@143.0.4':
+    resolution: {integrity: sha512-vAV731SUEVH0FUmMc+404ZoRq0glq7DlhEGpAX0C7/rXupZ0HasOIJHbrjNNNE+VElenkdmwBm8MVTzwYcFPyQ==}
     engines: {node: '>=20.11.0'}
 
   '@stablelib/base64@1.0.1':
@@ -10783,7 +10783,7 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@sparticuz/chromium@143.0.4':
+  '@sparticuz/chromium-min@143.0.4':
     dependencies:
       follow-redirects: 1.15.11
       tar-fs: 3.1.1

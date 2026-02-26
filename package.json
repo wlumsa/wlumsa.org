@@ -45,7 +45,7 @@
     "@react-email/markdown": "^0.0.15",
     "@react-email/render": "^1.2.1",
     "@reduxjs/toolkit": "^2.8.2",
-    "@sparticuz/chromium": "^143.0.4",
+    "@sparticuz/chromium-min": "^143.0.4",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",

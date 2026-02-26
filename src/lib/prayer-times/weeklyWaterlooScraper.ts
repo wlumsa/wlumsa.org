@@ -1,7 +1,11 @@
 import "server-only";
 
-import chromium from "@sparticuz/chromium";
+import chromium from "@sparticuz/chromium-min";
 import { chromium as playwrightChromium } from "playwright-core";
+
+/** URL to Chromium pack tar for serverless (chromium-min). First run downloads to /tmp. */
+const DEFAULT_CHROMIUM_PACK_URL =
+  "https://github.com/Sparticuz/chromium/releases/download/v143.0.4/chromium-v143.0.4-pack.x64.tar";
 
 export type ScrapedPrayerDay = {
   dateISO: string;
@@ -82,11 +86,17 @@ function toWeekdayName(dateISO: string): string {
 }
 
 export async function scrapeWeeklyPrayerTimes(sourceUrl: string): Promise<ScrapedPrayerWeek> {
-  const executablePath = process.env.VERCEL ? await chromium.executablePath() : undefined;
+  let executablePath: string | undefined;
+  let launchArgs: string[] = [];
+  if (process.env.VERCEL) {
+    const packUrl = process.env.CHROMIUM_PACK_URL ?? DEFAULT_CHROMIUM_PACK_URL;
+    executablePath = await chromium.executablePath(packUrl);
+    launchArgs = chromium.args;
+  }
   const browser = await playwrightChromium.launch({
     headless: true,
     executablePath,
-    args: process.env.VERCEL ? chromium.args : [],
+    args: launchArgs,
   });
 
   try {
