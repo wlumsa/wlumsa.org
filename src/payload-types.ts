@@ -81,7 +81,6 @@ export interface Config {
     Sizes: Size;
     recording: Recording;
     WeeklyEvents: WeeklyEvent;
-    'weekly-prayer-timings': WeeklyPrayerTiming;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
     services: Service;
@@ -118,7 +117,6 @@ export interface Config {
     Sizes: SizesSelect<false> | SizesSelect<true>;
     recording: RecordingSelect<false> | RecordingSelect<true>;
     WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
-    'weekly-prayer-timings': WeeklyPrayerTimingsSelect<false> | WeeklyPrayerTimingsSelect<true>;
     'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
     'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
@@ -433,49 +431,6 @@ export interface WeeklyEvent {
   location: string;
   caption: string;
   image: (number | Media)[];
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "weekly-prayer-timings".
- */
-export interface WeeklyPrayerTiming {
-  id: number;
-  weekLabel: string;
-  weekStart: string;
-  weekEnd: string;
-  sourceUrl: string;
-  fetchedAt: string;
-  rows: {
-    date_iso: string;
-    weekday: string;
-    fajr: string;
-    fajr_iqamah?: string | null;
-    sunrise: string;
-    dhuhr: string;
-    dhuhr_iqamah?: string | null;
-    asr: string;
-    asr_iqamah?: string | null;
-    maghrib: string;
-    maghrib_iqamah?: string | null;
-    isha: string;
-    isha_iqamah?: string | null;
-    jumuah_khutbah?: string | null;
-    id?: string | null;
-  }[];
-  /**
-   * Captured raw table data for debugging parser changes.
-   */
-  rawSnapshot?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1031,10 +986,6 @@ export interface PayloadLockedDocument {
         value: number | WeeklyEvent;
       } | null)
     | ({
-        relationTo: 'weekly-prayer-timings';
-        value: number | WeeklyPrayerTiming;
-      } | null)
-    | ({
         relationTo: 'jummah-timings';
         value: number | JummahTiming;
       } | null)
@@ -1333,39 +1284,6 @@ export interface WeeklyEventsSelect<T extends boolean = true> {
   location?: T;
   caption?: T;
   image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "weekly-prayer-timings_select".
- */
-export interface WeeklyPrayerTimingsSelect<T extends boolean = true> {
-  weekLabel?: T;
-  weekStart?: T;
-  weekEnd?: T;
-  sourceUrl?: T;
-  fetchedAt?: T;
-  rows?:
-    | T
-    | {
-        date_iso?: T;
-        weekday?: T;
-        fajr?: T;
-        fajr_iqamah?: T;
-        sunrise?: T;
-        dhuhr?: T;
-        dhuhr_iqamah?: T;
-        asr?: T;
-        asr_iqamah?: T;
-        maghrib?: T;
-        maghrib_iqamah?: T;
-        isha?: T;
-        isha_iqamah?: T;
-        jumuah_khutbah?: T;
-        id?: T;
-      };
-  rawSnapshot?: T;
   updatedAt?: T;
   createdAt?: T;
 }

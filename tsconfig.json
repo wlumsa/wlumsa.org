@@ -13,9 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"], 
     "module": "esnext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,

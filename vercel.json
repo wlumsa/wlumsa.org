@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/api/prayer-times/sync",
-      "schedule": "0 8 * * 1"
-    }
-  ]
-}
