@@ -207,12 +207,73 @@ export async function fetchFooterData() {
   return footer;
 }
 
+export async function fetchEventsSettingsData() {
+  const payload = await getPayloadInstance();
+  const eventsSettings = await payload.findGlobal({
+    slug: "events-settings",
+  });
+  return eventsSettings;
+}
+
 export async function fetchWeeklyEventsData() {
   const payload = await getPayloadInstance();
   const events = await payload.find({
     collection: "WeeklyEvents",
-    limit: 10,
+    depth: 1,
+    limit: 5,
   });
+  return events.docs;
+}
+
+export async function fetchUpcomingEventsData(limit = 15) {
+  const payload = await getPayloadInstance();
+  const nowIso = new Date().toISOString();
+  const events = await payload.find({
+    collection: "events",
+    where: {
+      and: [
+        {
+          status: {
+            equals: "published",
+          },
+        },
+        {
+          date: {
+            greater_than_equal: nowIso,
+          },
+        },
+      ],
+    },
+    sort: "date",
+    limit,
+  });
+
+  return events.docs;
+}
+
+export async function fetchPastEventsData(limit = 10) {
+  const payload = await getPayloadInstance();
+  const nowIso = new Date().toISOString();
+  const events = await payload.find({
+    collection: "events",
+    where: {
+      and: [
+        {
+          status: {
+            equals: "published",
+          },
+        },
+        {
+          date: {
+            less_than: nowIso,
+          },
+        },
+      ],
+    },
+    sort: "-date",
+    limit,
+  });
+
   return events.docs;
 }
 

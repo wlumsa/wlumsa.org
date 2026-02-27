@@ -145,11 +145,13 @@ export interface Config {
     nav: Nav;
     footer: Footer;
     'prayer-timings': PrayerTiming;
+    'events-settings': EventsSetting;
   };
   globalsSelect: {
     nav: NavSelect<false> | NavSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'prayer-timings': PrayerTimingsSelect<false> | PrayerTimingsSelect<true>;
+    'events-settings': EventsSettingsSelect<false> | EventsSettingsSelect<true>;
   };
   locale: null;
   user: Exec & {
@@ -426,9 +428,18 @@ export interface WeeklyEvent {
   id: number;
   name: string;
   day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+  recurrence: 'weekly' | 'biweekly';
+  /**
+   * Required for biweekly events. Set the first date this recurring event should run.
+   */
+  startDate?: string | null;
   timeStart: string;
   timeEnd: string;
   location: string;
+  /**
+   * Optional directions URL (e.g., Google Maps). Shows as 'Get Directions' on the event card.
+   */
+  locationLink?: string | null;
   caption: string;
   image: (number | Media)[];
   updatedAt: string;
@@ -623,9 +634,16 @@ export interface HalalGroceryStore {
 export interface Event {
   id: number;
   name: string;
-  date?: string | null;
+  date: string;
+  /**
+   * Optional. Fill only if you want a time shown on the site.
+   */
   time?: string | null;
   location?: string | null;
+  /**
+   * Optional directions URL (e.g., Google Maps). Shows as 'Get directions' under location.
+   */
+  locationLink?: string | null;
   description: string;
   image?: (number | null) | Media;
   link?: string | null;
@@ -1279,9 +1297,12 @@ export interface RecordingSelect<T extends boolean = true> {
 export interface WeeklyEventsSelect<T extends boolean = true> {
   name?: T;
   day?: T;
+  recurrence?: T;
+  startDate?: T;
   timeStart?: T;
   timeEnd?: T;
   location?: T;
+  locationLink?: T;
   caption?: T;
   image?: T;
   updatedAt?: T;
@@ -1431,6 +1452,7 @@ export interface EventsSelect<T extends boolean = true> {
   date?: T;
   time?: T;
   location?: T;
+  locationLink?: T;
   description?: T;
   image?: T;
   link?: T;
@@ -1783,6 +1805,20 @@ export interface PrayerTiming {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events-settings".
+ */
+export interface EventsSetting {
+  id: number;
+  mode: 'auto' | 'quiet';
+  /**
+   * Shown on the events page when mode is set to Quiet Season. Leave empty to use the default message.
+   */
+  quietMessage?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nav_select".
  */
 export interface NavSelect<T extends boolean = true> {
@@ -1854,6 +1890,17 @@ export interface PrayerTimingsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events-settings_select".
+ */
+export interface EventsSettingsSelect<T extends boolean = true> {
+  mode?: T;
+  quietMessage?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
