@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   fetchEventsSettingsData,
   fetchPastEventsData,
@@ -151,11 +152,13 @@ export default async function EventsPage() {
           </section>
         ) : null}
         {eventsMode !== "quiet" ? (
-          <EventsTabs
-            upcomingEvents={upcomingEvents}
-            weeklyEvents={weeklyEvents}
-            pastEvents={pastEvents}
-          />
+          <Suspense fallback={<div className="h-10" aria-hidden="true" />}>
+            <EventsTabs
+              upcomingEvents={upcomingEvents}
+              weeklyEvents={weeklyEvents}
+              pastEvents={pastEvents}
+            />
+          </Suspense>
         ) : null}
 
         {isQuietSeason ? (
