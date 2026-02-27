@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import { link } from "./collections/Link";
 import { Execs } from "./collections/Users/Execs";
 import Nav from "./globals/Navbar";
+import EventsSettings from "./globals/EventsSettings";
 import individuals from "./collections/Newsletter/Individual";
 import Footer from "./globals/Footer";
 import { Instagram } from "./collections/UI/Instagram";
@@ -109,7 +110,7 @@ export default buildConfig({
     DailyReminders,
     Masjid,
   ],
-  globals: [Nav, Footer, PrayerTimings],
+  globals: [Nav, Footer, PrayerTimings, EventsSettings],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
 
