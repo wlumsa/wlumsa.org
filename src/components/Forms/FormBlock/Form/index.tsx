@@ -439,7 +439,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
 
   return (
-    <div className="flex min-h-[80vh] w-full flex-col items-center justify-center bg-gradient-to-b from-white via-slate-50 to-white dark:from-base-100 dark:via-base-200 dark:to-base-100 px-2 py-10 mt-8">
+    <div className="flex min-h-[80vh] w-full flex-col items-center justify-center bg-gradient-to-b from-white via-slate-50 to-white dark:from-base-100 dark:via-base-200 dark:to-base-100 px-4 py-10 mt-8">
       <div className="w-full max-w-5xl">
         <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-base-content tracking-tight">
           {formFromProps.title}
@@ -480,7 +480,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               <div className="w-full max-w-5xl min-w-0">
                 <FormProvider {...formMethods}>
                   <form
-                    className="flex flex-col h-[74svh] md:h-[480px] rounded-3xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/90 shadow-2xl shadow-slate-200/40 dark:shadow-base-300/20 backdrop-blur w-full"
+                    className="flex flex-col h-[420px] md:h-[480px] rounded-3xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/90 shadow-2xl shadow-slate-200/40 dark:shadow-base-300/20 backdrop-blur w-full"
                     id={formID}
                     onSubmit={handleSubmit(onSubmit)}
                   >
@@ -494,7 +494,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                       </div>}
 
 
-                    <div className="flex items-center justify-between border-t border-slate-100 dark:border-base-300 px-2  md:px-8">
+                    <div className="flex items-center justify-between border-t border-slate-100 dark:border-base-300 px-6  md:px-8">
                       <button
                         type="button"
                         className="btn btn-md text-lg btn-ghost"

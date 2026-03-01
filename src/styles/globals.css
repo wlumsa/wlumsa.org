@@ -31,75 +31,40 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .RichText {
-  @apply text-base-content;
-
   h1 {
-    @apply text-4xl font-bold mb-4;
+    @apply text-4xl font-bold text-primary mb-6;
   }
   h2 {
-    @apply text-3xl font-bold mb-4;
+    @apply text-3xl font-bold text-primary mb-4;
   }
   h3 {
-    @apply text-2xl font-bold mb-3;
+    @apply text-2xl font-bold text-primary mb-3;
   }
   p {
-    @apply text-base md:text-lg text-base-content/90 leading-relaxed mb-2 md:mb-4;
+    @apply text-lg text-base-content/90 leading-relaxed mb-4;
   }
-  ul,
-  ol {
-    @apply text-base md:text-lg text-base-content/90 leading-relaxed;
+  ul, ol {
+    @apply  text-lg text-base-content/90 leading-relaxed 
   }
   li {
-    @apply mb-2;
+    @apply mb-4;
   }
   blockquote {
-    @apply border-l-4 pl-4 italic text-base-content/80 my-4;
+    @apply border-l-4 border-primary pl-4 italic text-base-content/80 my-4;
   }
   code {
-    @apply bg-base-200 text-base-content px-2 py-1 rounded text-sm border border-base-300;
+    @apply bg-base-200 text-base-content px-2 py-1 rounded text-sm;
   }
   pre {
-    @apply bg-base-200 text-base-content p-4 rounded-lg overflow-x-auto my-4 border border-base-300;
+    @apply bg-base-200 text-base-content p-4 rounded-lg overflow-x-auto my-4;
   }
   a {
-    @apply underline underline-offset-2;
+    @apply text-primary hover:text-primary/80 underline;
   }
   strong {
     @apply font-semibold text-base-content;
   }
   em {
     @apply italic text-base-content/90;
-  }
-}
-
-[data-theme='lightTheme'] .RichText {
-  h1,
-  h2,
-  h3 {
-    @apply text-primary;
-  }
-
-  blockquote {
-    @apply border-primary;
-  }
-
-  a {
-    @apply text-primary hover:text-primary/80;
-  }
-}
-
-[data-theme='darkTheme'] .RichText {
-  h1,
-  h2,
-  h3 {
-    @apply text-base-content;
-  }
-
-  blockquote {
-    @apply border-secondary;
-  }
-
-  a {
-    @apply text-secondary hover:text-secondary/80;
   }
 }
