@@ -480,7 +480,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               <div className="w-full max-w-5xl min-w-0">
                 <FormProvider {...formMethods}>
                   <form
-                    className="flex flex-col h-[427640px] md:h-[480px] rounded-3xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/90 shadow-2xl shadow-slate-200/40 dark:shadow-base-300/20 backdrop-blur w-full"
+                    className="flex flex-col h-[420px] md:h-[480px] rounded-3xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/90 shadow-2xl shadow-slate-200/40 dark:shadow-base-300/20 backdrop-blur w-full"
                     id={formID}
                     onSubmit={handleSubmit(onSubmit)}
                   >
