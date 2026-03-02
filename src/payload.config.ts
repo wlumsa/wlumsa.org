@@ -44,6 +44,7 @@ import {Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
 import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
+import { afterSubmissionHook } from "./collections/Forms/hooks/afterSubmission";
 // import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
@@ -233,6 +234,9 @@ export default buildConfig({
         formSubmissionOverrides: {
           admin: {
             group: "Forms",
+          },
+          hooks: {
+            afterOperation: [afterSubmissionHook],
           },
           fields: ({ defaultFields }) => {
             const formField = defaultFields.find((field) =>

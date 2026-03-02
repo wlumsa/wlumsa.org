@@ -9,7 +9,6 @@ import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
-import { CheckboxField } from './Checkbox/types'
 import { ContactInfoField } from './ContactInfo/types'
 import { MoveLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -38,9 +37,6 @@ export type FormBlockType = {
 }
 
 type SelectFieldExtended = SelectField & {
-  id: string;
-}
-type CheckboxFieldExtended = CheckboxField & {
   id: string;
 }
 type ContactInfoFieldExtended = ContactInfoField & {
@@ -260,75 +256,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           }
         }
 
-        // Handle checkbox field limits
-        const checkboxFields = formData?.fields?.filter(
-          (field: CheckboxFieldExtended) => field.blockType === 'checkbox'
-        ) || []
-        let updatedCheckboxes: CheckboxFieldExtended['checkboxes'] = []
-
-        // Only proceed if there are checkbox fields
-        if (checkboxFields.length > 0 && formData?.fields) {
-          // Prepare updates for checkboxes
-          const updatedFields = formData.fields.map((f: CheckboxFieldExtended) => {
-            if (f.blockType === 'checkbox') {
-              const selectedValues = data[f.name] as string[]; // Cast to string array
-              if (!selectedValues) return f;
-
-              // Update limits for selected checkboxes
-               updatedCheckboxes = f.checkboxes.map(opt => {
-                if (selectedValues.includes(opt.label) && opt.limit) {
-                  return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
-                }
-                return opt;
-              });
-
-              return { ...f, checkboxes: updatedCheckboxes };
-            }
-            return f;
-          });
-
-          // Send a single fetch request to update all checkbox limits
-          try {
-            const updateResponse = await fetch(`/api/forms/${formID}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ fields: updatedFields }),
-            })
-            if (!updateResponse.ok) {
-              console.error('Failed to update checkbox field limits:', updateResponse.status)
-            }
-          } catch (err) {
-            console.error('Error updating checkbox field limits:', err)
-          }
-        }
-        //check checkbox limit
-        const closeForm = formData?.fields?.some(
-          (field: CheckboxFieldExtended) =>
-            field.blockType === 'checkbox' &&
-            updatedCheckboxes.every((opt) => opt.limit === 0)
-        ) || false;
-        console.log("Close Form", closeForm)
-        if(formData?.submissionLimit) {
-          try {
-            const limitUpdate = closeForm ? 0 : formData.submissionLimit - 1
-            const updateResponse = await fetch(`/api/forms/${formID}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                'submissionLimit': limitUpdate,
-              }),
-            })
-            if (!updateResponse.ok) {
-              console.error('Failed to update submission limit:', updateResponse.status)
-            }
-          } catch (err) {
-            console.error('Error updating submission limit:', err)
-          }
-        }
-
-
-
-
         // Create the submission
         let req, textResponse, res, submissionId;
         try {
@@ -338,10 +265,10 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             body: JSON.stringify({
               form: formID,
               submissionData,
-              payment: {
-                amount: Number(paymentAmount),
-                status: 'pending',
-              },
+              // payment: {
+              //   amount: Number(paymentAmount),
+              //   status: 'pending',
+              // },
             }),
           });
 
