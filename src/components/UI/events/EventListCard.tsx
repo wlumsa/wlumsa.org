@@ -17,7 +17,6 @@ interface EventListCardProps {
 }
 
 const DESCRIPTION_PREVIEW_CHARS = 150;
-const TITLE_PREVIEW_CHARS = 72;
 
 export default function EventListCard({
   title,
@@ -34,10 +33,6 @@ export default function EventListCard({
   const descriptionId = useId();
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
-  const previewTitle = title.length > TITLE_PREVIEW_CHARS
-    ? `${title.slice(0, TITLE_PREVIEW_CHARS).trimEnd()}…`
-    : title;
-
   const isDescriptionLong = description.length > DESCRIPTION_PREVIEW_CHARS;
   const previewDescription = description.length > DESCRIPTION_PREVIEW_CHARS
     ? `${description.slice(0, DESCRIPTION_PREVIEW_CHARS).trimEnd()}…`
@@ -53,35 +48,38 @@ export default function EventListCard({
 
   const toneClasses = {
     upcoming: {
-      card: "border-primary/25 bg-primary/5 ring-1 ring-primary/15",
-      date: "rounded-md border border-primary/45 bg-primary/10 px-2 py-0.5 text-base-content",
-      badge: "border border-primary/45 bg-primary/10 text-base-content",
-      cta: "border border-primary/40 bg-base-100 text-base-content hover:bg-base-200",
-      readMore: "text-base-content/80 hover:text-base-content",
+      card: "border-base-content/15 bg-base-100 ring-1 ring-base-content/10",
+      date: "rounded-md border border-base-300 bg-base-100 px-2 py-0.5 text-base-content/80",
+      badge: "border border-base-300 bg-base-100 text-base-content/70",
+      cta: "bg-primary text-primary-content hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
+      secondaryCta: "border border-base-300 bg-base-100 text-base-content hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
+      readMore: "text-base-content/80 hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
     },
     recurring: {
-      card: "border-secondary/25 bg-secondary/5 ring-1 ring-secondary/15",
-      date: "rounded-md border border-secondary/45 bg-secondary/10 px-2 py-0.5 text-base-content",
-      badge: "border border-secondary/45 bg-secondary/10 text-base-content",
-      cta: "border border-secondary/40 bg-base-100 text-base-content hover:bg-base-200",
-      readMore: "text-base-content/80 hover:text-base-content",
+      card: "border-base-content/15 bg-base-100 ring-1 ring-base-content/10",
+      date: "rounded-md border border-base-300 bg-base-100 px-2 py-0.5 text-base-content/80",
+      badge: "border border-base-300 bg-base-100 text-base-content/70",
+      cta: "bg-primary text-primary-content hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
+      secondaryCta: "border border-base-300 bg-base-100 text-base-content hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
+      readMore: "text-base-content/80 hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
     },
     past: {
-      card: "border-base-content/30 bg-base-200 ring-1 ring-base-content/15",
-      date: "rounded-md border border-base-content/30 bg-base-200 px-2 py-0.5 text-base-content",
-      badge: "border border-base-content/30 bg-base-200 text-base-content",
-      cta: "border border-base-content/25 bg-base-100 text-base-content hover:bg-base-200",
-      readMore: "text-base-content/80 hover:text-base-content",
+      card: "border-base-content/15 bg-base-100 ring-1 ring-base-content/10",
+      date: "rounded-md border border-base-300 bg-base-100 px-2 py-0.5 text-base-content/80",
+      badge: "border border-base-300 bg-base-100 text-base-content/70",
+      cta: "bg-primary text-primary-content hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
+      secondaryCta: "border border-base-300 bg-base-100 text-base-content hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
+      readMore: "text-base-content/80 hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
     },
   }[tone];
 
   return (
-    <article className={`group overflow-hidden rounded-2xl border transition-colors duration-200 ease-out hover:bg-base-100 ${toneClasses.card}`}>
+    <article className={`group overflow-hidden rounded-2xl border shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-base-content/20 hover:shadow-[0_8px_22px_rgba(0,0,0,0.12)] hover:ring-base-content/15 ${toneClasses.card}`}>
       <div className={`grid gap-0 ${imageUrl ? "md:grid-cols-[1fr_13rem]" : ""}`}>
         <div className="min-w-0 p-5 sm:p-6">
           <div className="flex flex-wrap items-center gap-2.5">
             {categoryLabel ? (
-              <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] ${toneClasses.badge}`}>
+              <span className={`inline-flex rounded-full px-2 py-1 text-[10px] font-medium tracking-[0.08em] ${toneClasses.badge}`}>
                 {categoryLabel}
               </span>
             ) : null}
@@ -91,7 +89,7 @@ export default function EventListCard({
           </div>
 
           <h3 className="mt-3 text-balance text-lg font-semibold leading-snug text-base-content sm:text-xl">
-            {previewTitle}
+            {title}
           </h3>
 
           <p id={descriptionId} className="mt-3 whitespace-pre-line text-sm leading-relaxed text-base-content/80">
@@ -103,7 +101,7 @@ export default function EventListCard({
               onClick={() => setIsDescriptionExpanded((prev) => !prev)}
               aria-expanded={isDescriptionExpanded}
               aria-controls={descriptionId}
-              className={`mt-2 text-xs font-medium underline underline-offset-4 transition-colors ${toneClasses.readMore}`}
+              className={`mt-2 inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium underline underline-offset-4 transition-colors ${toneClasses.readMore}`}
             >
               {isDescriptionExpanded ? "Show less" : "Read more"}
             </button>
@@ -126,7 +124,7 @@ export default function EventListCard({
                     href={normalizedLocationLink}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex w-fit items-center justify-center gap-1 rounded-full border border-base-content/25 bg-base-100 px-3 py-2 text-sm font-medium text-base-content transition-colors hover:bg-base-200"
+                    className={`inline-flex min-h-11 w-fit items-center justify-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${toneClasses.secondaryCta}`}
                   >
                     Get Directions
                   </a>
@@ -136,9 +134,9 @@ export default function EventListCard({
                     href={link}
                     target="_blank"
                     rel="noreferrer"
-                    className={`inline-flex w-fit items-center justify-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors ${toneClasses.cta}`}
+                    className={`inline-flex min-h-11 w-fit items-center justify-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${toneClasses.cta}`}
                   >
-                    See Details
+                    View Event
                     <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fillRule="evenodd" d="M5 10a.75.75 0 0 1 .75-.75h6.69l-2.22-2.22a.75.75 0 1 1 1.06-1.06l3.5 3.5a.75.75 0 0 1 0 1.06l-3.5 3.5a.75.75 0 1 1-1.06-1.06l2.22-2.22H5.75A.75.75 0 0 1 5 10Z" clipRule="evenodd" />
                     </svg>
@@ -150,13 +148,13 @@ export default function EventListCard({
         </div>
 
         {imageUrl ? (
-          <div className="relative h-36 overflow-hidden border-t border-base-300 md:h-auto md:border-t-0 md:border-l">
+          <div className="order-first relative h-44 overflow-hidden border-b border-base-300 md:order-none md:h-auto md:border-b-0 md:border-l">
             <Image
               src={imageUrl}
               alt={imageAlt ?? `${title} image`}
               fill
               sizes="(min-width: 768px) 208px, 100vw"
-              className="object-contain object-center p-3"
+              className="object-contain object-center p-2"
             />
           </div>
         ) : null}
