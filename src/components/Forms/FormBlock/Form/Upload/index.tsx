@@ -1,11 +1,9 @@
 'use client'
 import React, { useState, useRef } from 'react'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { supabase } from '@/lib/supabaseClient'
 import type { UploadField } from './types'
 import { Error } from '../Error'
 
-// Hard cap enforced on the client regardless of CMS setting
 const HARD_MAX_MB = 10
 
 export const Upload: React.FC<
@@ -23,7 +21,6 @@ export const Upload: React.FC<
   const effectiveMaxMB = Math.min(maxFileSizeMB ?? 5, HARD_MAX_MB)
   const effectiveMaxBytes = effectiveMaxMB * 1024 * 1024
 
-  // Build the accept string — if '*' is included (or list is empty), allow any file
   const acceptString =
     !allowedFileTypes || allowedFileTypes.length === 0 || allowedFileTypes.includes('*')
       ? undefined
@@ -40,25 +37,47 @@ export const Upload: React.FC<
     setUploading(true)
     setUploadedFileName(file.name)
 
-    const bucket = process.env.NEXT_PUBLIC_S3_BUCKET!
-    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
-    const filePath = `form-uploads/${Date.now()}_${safeName}`
+    try {
+      // Step 1: get a presigned PUT URL from our API route (uses S3 credentials server-side).
+      // The browser never touches Vercel during the actual upload — no timeout risk.
+      const presignRes = await fetch('/api/upload-form-file', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filename: file.name,
+          contentType: file.type || 'application/octet-stream',
+          sizeMB: file.size / 1024 / 1024,
+        }),
+      })
 
-    const { error: uploadErr } = await supabase.storage.from(bucket).upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: false,
-    })
+      if (!presignRes.ok) {
+        const err = await presignRes.json().catch(() => ({}))
+        throw new Error(err.error ?? 'Could not prepare upload. Please try again.')
+      }
 
-    if (uploadErr) {
-      setUploadError('Upload failed. Please try again.')
+      const { signedUrl, publicUrl } = await presignRes.json()
+
+      // Step 2: PUT the file directly to Supabase S3 using the presigned URL.
+      // This is a browser → Supabase request; no Vercel function is involved.
+      const uploadRes = await fetch(signedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      })
+
+      if (!uploadRes.ok) {
+        throw new Error('Upload failed. Please try again.')
+      }
+
+      // Step 3: store the public URL as the field value
+      setValue(name, publicUrl, { shouldValidate: true })
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : 'Upload failed. Please try again.')
       setUploadedFileName(null)
+      setValue(name, '', { shouldValidate: false })
+    } finally {
       setUploading(false)
-      return
     }
-
-    const { data: { publicUrl } } = supabase.storage.from(bucket).getPublicUrl(filePath)
-    setValue(name, publicUrl, { shouldValidate: true })
-    setUploading(false)
   }
 
   const handleRemove = () => {
@@ -76,11 +95,10 @@ export const Upload: React.FC<
           {requiredFromProps && <span className="text-red-700 dark:text-error"> *</span>}
         </label>
         <p className="mt-1 text-sm text-slate-500 dark:text-base-content/60">
-          Max {effectiveMaxMB}MB
-          {acceptString && ` · Accepted: ${acceptString}`}
+          Max {effectiveMaxMB}MB{acceptString && ` · ${acceptString}`}
         </p>
 
-        {/* Hidden text input registered with RHF — holds the uploaded file URL */}
+        {/* Hidden input registered with RHF so required-validation works with trigger() */}
         <input type="hidden" {...register(name, { required: requiredFromProps })} />
 
         {uploadedFileName && !uploading ? (
