@@ -103,7 +103,7 @@ export const Upload: React.FC<
 
         {uploadedFileName && !uploading ? (
           <div className="mt-4 flex items-center gap-3 rounded-xl border border-green-200 dark:border-success/30 bg-green-50 dark:bg-success/10 px-4 py-3">
-            <svg className="h-5 w-5 shrink-0 text-green-600 dark:text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-5 w-5 shrink-0 text-green-800 dark:text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             <span className="flex-1 truncate text-sm text-green-800 dark:text-success">{uploadedFileName}</span>
@@ -165,7 +165,7 @@ export const Upload: React.FC<
         {uploadError && (
           <p className="mt-2 text-sm text-red-600 dark:text-error">{uploadError}</p>
         )}
-        {requiredFromProps && errors[name] && <FieldError />}
+        {requiredFromProps && errors[name] && <Error />}
       </div>
     </div>
   )
