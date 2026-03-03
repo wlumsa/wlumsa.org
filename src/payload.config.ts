@@ -42,7 +42,7 @@ import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 // import { Comments } from "./collections/Comment";
 import {Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
-import { CheckboxBlock, SelectBlock, ContactInfoBlock  } from "./blocks/forms";
+import { CheckboxBlock, SelectBlock, ContactInfoBlock, UploadBlock } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 // import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
@@ -287,6 +287,7 @@ export default buildConfig({
           country: true,
           checkbox: CheckboxBlock,
           contactInfo: ContactInfoBlock,
+          fileUpload: UploadBlock,
           number: true,
           message: true,
           payment: true,

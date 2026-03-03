@@ -817,6 +817,17 @@ export interface Form {
             blockName?: string | null;
             blockType: 'contactInfo';
           }
+        | {
+            name: string;
+            label: string;
+            width?: number | null;
+            allowedFileTypes?: ('*' | 'application/pdf' | 'image/png,image/jpeg,image/webp' | '.doc,.docx')[] | null;
+            maxFileSizeMB?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'upload';
+          }
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -1615,6 +1626,18 @@ export interface FormsSelect<T extends boolean = true> {
               email_placeholder?: T;
               studentID?: T;
               studentID_placeholder?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        upload?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              allowedFileTypes?: T;
+              maxFileSizeMB?: T;
               required?: T;
               id?: T;
               blockName?: T;
