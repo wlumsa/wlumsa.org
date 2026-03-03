@@ -220,6 +220,57 @@ export const CheckboxBlock: Block = {
   }],
 };
 
+export const UploadBlock: Block = {
+  slug: 'upload',
+  fields: [
+    {
+      name: 'name',
+      label: 'Name (lowercase, no special characters)*',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'label',
+      label: 'Label',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'width',
+      label: 'Field Width (percentage)',
+      type: 'number',
+      defaultValue: 100,
+      required: false,
+    },
+    {
+      name: 'allowedFileTypes',
+      label: 'Allowed File Types',
+      type: 'select',
+      hasMany: true,
+      defaultValue: ['*'],
+      options: [
+        { label: 'Any file', value: '*' },
+        { label: 'PDF', value: 'application/pdf' },
+        { label: 'Images (PNG, JPG, WEBP)', value: 'image/png,image/jpeg,image/webp' },
+        { label: 'Word documents (.doc, .docx)', value: '.doc,.docx' },
+      ],
+    },
+    {
+      name: 'maxFileSizeMB',
+      label: 'Max File Size in MB (up to 10)',
+      type: 'number',
+      defaultValue: 5,
+      min: 1,
+      max: 10,
+    },
+    {
+      name: 'required',
+      label: 'Required?',
+      type: 'checkbox',
+    },
+  ],
+}
+
 export const ContactInfoBlock: Block = {
   slug: "contactInfo",
   fields: [
