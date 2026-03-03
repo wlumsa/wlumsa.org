@@ -165,7 +165,7 @@ export const Upload: React.FC<
         {uploadError && (
           <p className="mt-2 text-sm text-red-600 dark:text-error">{uploadError}</p>
         )}
-        {requiredFromProps && errors[name] && <Error />}
+        {requiredFromProps && errors[name] && <FieldError />}
       </div>
     </div>
   )
