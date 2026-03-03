@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import type { UploadField } from './types'
-import { Error } from '../Error'
+import { Error as FieldError } from '../Error'
 
 const HARD_MAX_MB = 10
 
@@ -51,7 +51,7 @@ export const Upload: React.FC<
       })
 
       if (!presignRes.ok) {
-        const err = await presignRes.json().catch(() => ({}))
+        const err = await presignRes.json().catch(() => ({})) as { error?: string }
         throw new Error(err.error ?? 'Could not prepare upload. Please try again.')
       }
 
@@ -165,7 +165,7 @@ export const Upload: React.FC<
         {uploadError && (
           <p className="mt-2 text-sm text-red-600 dark:text-error">{uploadError}</p>
         )}
-        {requiredFromProps && errors[name] && <Error />}
+        {requiredFromProps && errors[name] && <FieldError />}
       </div>
     </div>
   )

@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
     ContentType: contentType,
   })
 
-  const signedUrl = await getSignedUrl(s3, command, { expiresIn: 300 })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const signedUrl = await getSignedUrl(s3 as any, command, { expiresIn: 300 })
 
   // Public URL uses Supabase's storage REST pattern, matching what Payload uses for media
   const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${filePath}`
