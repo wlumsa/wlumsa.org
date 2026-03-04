@@ -48,6 +48,7 @@ import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSess
 // import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -66,6 +67,7 @@ const getDatabaseAdapter = () => {
         checkServerIdentity: () => undefined,
       }, // Configure SSL for Supabase connection
     },
+   
   });
 };
 

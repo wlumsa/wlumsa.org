@@ -81,6 +81,7 @@ export interface Config {
     Sizes: Size;
     recording: Recording;
     WeeklyEvents: WeeklyEvent;
+    'weekly-prayer-timetables': WeeklyPrayerTimetable;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
     services: Service;
@@ -117,6 +118,7 @@ export interface Config {
     Sizes: SizesSelect<false> | SizesSelect<true>;
     recording: RecordingSelect<false> | RecordingSelect<true>;
     WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
+    'weekly-prayer-timetables': WeeklyPrayerTimetablesSelect<false> | WeeklyPrayerTimetablesSelect<true>;
     'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
     'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
@@ -431,6 +433,37 @@ export interface WeeklyEvent {
   location: string;
   caption: string;
   image: (number | Media)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "weekly-prayer-timetables".
+ */
+export interface WeeklyPrayerTimetable {
+  id: number;
+  weekKey: string;
+  weekLabel: string;
+  sourceUrl: string;
+  scrapedAt: string;
+  headers:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  rows:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -997,6 +1030,10 @@ export interface PayloadLockedDocument {
         value: number | WeeklyEvent;
       } | null)
     | ({
+        relationTo: 'weekly-prayer-timetables';
+        value: number | WeeklyPrayerTimetable;
+      } | null)
+    | ({
         relationTo: 'jummah-timings';
         value: number | JummahTiming;
       } | null)
@@ -1295,6 +1332,20 @@ export interface WeeklyEventsSelect<T extends boolean = true> {
   location?: T;
   caption?: T;
   image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "weekly-prayer-timetables_select".
+ */
+export interface WeeklyPrayerTimetablesSelect<T extends boolean = true> {
+  weekKey?: T;
+  weekLabel?: T;
+  sourceUrl?: T;
+  scrapedAt?: T;
+  headers?: T;
+  rows?: T;
   updatedAt?: T;
   createdAt?: T;
 }
