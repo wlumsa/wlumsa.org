@@ -7,7 +7,7 @@
     "node": "22.x"
   },
   "scripts": {
-    "build": "next build --no-lint",
+    "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "next dev",
     "lint": "eslint .",
