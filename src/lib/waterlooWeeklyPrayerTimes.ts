@@ -1,18 +1,9 @@
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
+import { access } from "node:fs/promises";
+import { getPayloadInstance } from "@/Utils/datafetcher";
 import puppeteer from "puppeteer-core";
 
 export const WATERLOO_PRAYER_TIMES_URL = "https://waterloomasjid.com/main/index.php/prayers";
 
-const CACHE_FILE_PATH = process.env.VERCEL === "1"
-  ? path.join("/tmp", "waterloo-weekly-prayer-times.json")
-  : path.join(
-      process.cwd(),
-      "src",
-      "data",
-      "prayer-times",
-      "waterloo-weekly-prayer-times.json"
-    );
 const CHROMIUM_PACK_URL = process.env.CHROMIUM_PACK_URL
   || (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chromium-pack.tar`
@@ -21,6 +12,7 @@ const CHROMIUM_PACK_URL = process.env.CHROMIUM_PACK_URL
       : null);
 
 export type WeeklyPrayerTimesSnapshot = {
+  weekKey?: string;
   sourceUrl: string;
   scrapedAt: string;
   weekLabel: string | null;
@@ -46,6 +38,61 @@ function normalizeHeader(header: string, index: number): string {
 
 let cachedServerlessExecutablePath: string | null = null;
 let chromiumDownloadPromise: Promise<string> | null = null;
+
+function buildWeekKey(snapshot: WeeklyPrayerTimesSnapshot): string {
+  const base = snapshot.weekLabel || snapshot.scrapedAt.slice(0, 10);
+  const normalized = base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return normalized || `week-${snapshot.scrapedAt.slice(0, 10)}`;
+}
+
+async function upsertWeeklyPrayerSnapshot(
+  snapshot: WeeklyPrayerTimesSnapshot
+): Promise<WeeklyPrayerTimesSnapshot> {
+  const payload = await getPayloadInstance();
+  const weekKey = buildWeekKey(snapshot);
+
+  const existing = await payload.find({
+    collection: "weekly-prayer-timetables",
+    where: {
+      weekKey: {
+        equals: weekKey,
+      },
+    },
+    limit: 1,
+    pagination: false,
+    depth: 0,
+  });
+
+  const docData = {
+    weekKey,
+    weekLabel: snapshot.weekLabel || "Unknown Week",
+    sourceUrl: snapshot.sourceUrl,
+    scrapedAt: snapshot.scrapedAt,
+    headers: snapshot.headers,
+    rows: snapshot.rows,
+  };
+
+  if (existing.docs.length > 0) {
+    await payload.update({
+      collection: "weekly-prayer-timetables",
+      id: existing.docs[0].id,
+      data: docData,
+    });
+  } else {
+    await payload.create({
+      collection: "weekly-prayer-timetables",
+      data: docData,
+    });
+  }
+
+  return {
+    ...snapshot,
+    weekKey,
+  };
+}
 
 async function getServerlessExecutablePath(): Promise<string> {
   if (!CHROMIUM_PACK_URL) {
@@ -210,8 +257,36 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
 
 export async function readWeeklyPrayerTimesCache(): Promise<WeeklyPrayerTimesSnapshot | null> {
   try {
-    const raw = await readFile(CACHE_FILE_PATH, "utf8");
-    return JSON.parse(raw) as WeeklyPrayerTimesSnapshot;
+    const payload = await getPayloadInstance();
+    const result = await payload.find({
+      collection: "weekly-prayer-timetables",
+      sort: "-scrapedAt",
+      limit: 1,
+      pagination: false,
+      depth: 0,
+    });
+
+    if (result.docs.length === 0) {
+      return null;
+    }
+
+    const doc = result.docs[0] as {
+      weekKey?: string;
+      sourceUrl?: string;
+      scrapedAt?: string;
+      weekLabel?: string | null;
+      headers?: unknown;
+      rows?: unknown;
+    };
+
+    return {
+      weekKey: typeof doc.weekKey === "string" ? doc.weekKey : undefined,
+      sourceUrl: typeof doc.sourceUrl === "string" ? doc.sourceUrl : WATERLOO_PRAYER_TIMES_URL,
+      scrapedAt: typeof doc.scrapedAt === "string" ? doc.scrapedAt : new Date().toISOString(),
+      weekLabel: typeof doc.weekLabel === "string" ? doc.weekLabel : null,
+      headers: Array.isArray(doc.headers) ? (doc.headers as string[]) : [],
+      rows: Array.isArray(doc.rows) ? (doc.rows as Array<Record<string, string>>) : [],
+    };
   } catch {
     return null;
   }
@@ -219,7 +294,5 @@ export async function readWeeklyPrayerTimesCache(): Promise<WeeklyPrayerTimesSna
 
 export async function refreshWeeklyPrayerTimesCache(): Promise<WeeklyPrayerTimesSnapshot> {
   const snapshot = await scrapeWaterlooWeeklyPrayerTimes();
-  await mkdir(path.dirname(CACHE_FILE_PATH), { recursive: true });
-  await writeFile(CACHE_FILE_PATH, JSON.stringify(snapshot, null, 2), "utf8");
-  return snapshot;
+  return upsertWeeklyPrayerSnapshot(snapshot);
 }

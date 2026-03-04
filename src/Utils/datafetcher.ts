@@ -11,7 +11,7 @@ export const revalidate = 3600;
 // Lazy initialization of payload to prevent database connection issues
 let payloadInstance: any = null;
 
-async function getPayloadInstance() {
+export async function getPayloadInstance() {
   if (!payloadInstance) {
     payloadInstance = await getPayload({ config: configPromise });
   }
