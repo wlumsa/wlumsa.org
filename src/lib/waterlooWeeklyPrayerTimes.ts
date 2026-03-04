@@ -45,20 +45,13 @@ async function getExecutablePath(): Promise<string | undefined> {
 
   if (process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV) {
     try {
-      const chromium = await import("@sparticuz/chromium-min");
-      const chromiumBinDir = path.join(
-        process.cwd(),
-        "node_modules",
-        "@sparticuz",
-        "chromium-min",
-        "bin"
-      );
-      return await chromium.default.executablePath(chromiumBinDir);
+      const chromium = await import("@sparticuz/chromium");
+      return await chromium.default.executablePath();
     } catch (error) {
       throw new Error(
         [
-          "Failed to resolve @sparticuz/chromium-min executable path in serverless runtime.",
-          "Ensure output file tracing includes @sparticuz/chromium-min binaries and redeploy.",
+          "Failed to resolve @sparticuz/chromium executable path in serverless runtime.",
+          "Ensure output file tracing includes @sparticuz/chromium binaries and redeploy.",
           `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
         ].join(" ")
       );
@@ -133,7 +126,7 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
       throw new Error(
         [
           "Unable to launch a Chromium/Chrome browser for scraping.",
-          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify @sparticuz/chromium-min binaries are traced into the function bundle.",
+          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify @sparticuz/chromium binaries are traced into the function bundle.",
           `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
         ].join(" ")
       );
