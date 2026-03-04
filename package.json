@@ -46,7 +46,7 @@
     "@react-email/markdown": "^0.0.15",
     "@react-email/render": "^1.2.1",
     "@reduxjs/toolkit": "^2.8.2",
-    "@sparticuz/chromium": "^143.0.4",
+    "@sparticuz/chromium-min": "^143.0.4",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
@@ -72,7 +72,7 @@
     "playwright-core": "^1.58.2",
     "posthog-js": "^1.310.0",
     "prettier-plugin-tailwind": "^2.2.12",
-    "puppeteer": "^24.37.5",
+    "puppeteer-core": "^24.37.5",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-dropdown": "^1.11.0",
@@ -91,8 +91,8 @@
     "tailwindcss-animate": "^1.0.7",
     "url": "^0.11.4",
     "use-debounce": "^10.0.5",
-    "zod": "^3.25.76",
-    "withPayload": "link:@payloadcms\\next\\withPayload"
+    "withPayload": "link:@payloadcms\\next\\withPayload",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@react-email/preview-server": "4.3.2",
@@ -113,8 +113,8 @@
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
     "tailwindcss": "^3.4.17",
-    "vercel": "^50.25.6",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vercel": "^50.25.6"
   },
   "ct3aMetadata": {
     "initVersion": "7.13.0"

@@ -1,6 +1,6 @@
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 
 export const WATERLOO_PRAYER_TIMES_URL = "https://waterloomasjid.com/main/index.php/prayers";
 
@@ -45,13 +45,20 @@ async function getExecutablePath(): Promise<string | undefined> {
 
   if (process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV) {
     try {
-      const chromium = await import("@sparticuz/chromium");
-      return await chromium.default.executablePath();
+      const chromium = await import("@sparticuz/chromium-min");
+      const chromiumBinDir = path.join(
+        process.cwd(),
+        "node_modules",
+        "@sparticuz",
+        "chromium-min",
+        "bin"
+      );
+      return await chromium.default.executablePath(chromiumBinDir);
     } catch (error) {
       throw new Error(
         [
-          "Failed to resolve @sparticuz/chromium executable path in serverless runtime.",
-          "Ensure output file tracing includes @sparticuz/chromium binaries and redeploy.",
+          "Failed to resolve @sparticuz/chromium-min executable path in serverless runtime.",
+          "Ensure output file tracing includes @sparticuz/chromium-min binaries and redeploy.",
           `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
         ].join(" ")
       );
@@ -82,19 +89,51 @@ async function getExecutablePath(): Promise<string | undefined> {
 export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnapshot> {
   const executablePath = await getExecutablePath();
   const isServerless = process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV;
+  const launchArgs = isServerless
+    ? [
+        "--allow-pre-commit-input",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-update",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-popup-blocking",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--disable-sync",
+        "--disable-web-security",
+        "--enable-automation",
+        "--headless=new",
+        "--hide-scrollbars",
+        "--mute-audio",
+        "--no-first-run",
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+      ]
+    : ["--no-sandbox", "--disable-setuid-sandbox"];
+
   const browser = await puppeteer
     .launch({
       headless: true,
       channel: !isServerless && !executablePath ? "chrome" : undefined,
       executablePath,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      args: launchArgs,
       defaultViewport: { width: 1365, height: 900 },
+      protocolTimeout: 120000,
+      timeout: 120000,
     })
     .catch((error) => {
       throw new Error(
         [
           "Unable to launch a Chromium/Chrome browser for scraping.",
-          "Set PUPPETEER_EXECUTABLE_PATH, install Google Chrome, or run `pnpm exec puppeteer browsers install chrome`.",
+          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify @sparticuz/chromium-min binaries are traced into the function bundle.",
           `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
         ].join(" ")
       );

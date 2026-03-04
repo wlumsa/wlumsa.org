@@ -14,8 +14,8 @@ const config = {
     },
   outputFileTracingIncludes: {
     "/*": [
-      "./node_modules/@sparticuz/chromium/**/*",
-      "./node_modules/.pnpm/@sparticuz+chromium@*/node_modules/@sparticuz/chromium/**/*",
+      "./node_modules/@sparticuz/chromium-min/**/*",
+      "./node_modules/.pnpm/@sparticuz+chromium-min@*/node_modules/@sparticuz/chromium-min/**/*",
     ],
   },
 
