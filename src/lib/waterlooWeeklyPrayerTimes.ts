@@ -1,6 +1,5 @@
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer";
 
 export const WATERLOO_PRAYER_TIMES_URL = "https://waterloomasjid.com/main/index.php/prayers";
@@ -45,7 +44,18 @@ async function getExecutablePath(): Promise<string | undefined> {
   }
 
   if (process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV) {
-    return chromium.executablePath();
+    try {
+      const chromium = await import("@sparticuz/chromium");
+      return await chromium.default.executablePath();
+    } catch (error) {
+      throw new Error(
+        [
+          "Failed to resolve @sparticuz/chromium executable path in serverless runtime.",
+          "Ensure output file tracing includes @sparticuz/chromium binaries and redeploy.",
+          `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
+        ].join(" ")
+      );
+    }
   }
 
   const localCandidates = process.platform === "win32"
@@ -71,14 +81,13 @@ async function getExecutablePath(): Promise<string | undefined> {
 
 export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnapshot> {
   const executablePath = await getExecutablePath();
+  const isServerless = process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV;
   const browser = await puppeteer
     .launch({
       headless: true,
-      channel: executablePath ? undefined : "chrome",
+      channel: !isServerless && !executablePath ? "chrome" : undefined,
       executablePath,
-      args: executablePath
-        ? [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"]
-        : ["--no-sandbox", "--disable-setuid-sandbox"],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
       defaultViewport: { width: 1365, height: 900 },
     })
     .catch((error) => {

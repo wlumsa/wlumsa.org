@@ -12,6 +12,12 @@ const config = {
     turbopack: {
 
     },
+  outputFileTracingIncludes: {
+    "/*": [
+      "./node_modules/@sparticuz/chromium/**/*",
+      "./node_modules/.pnpm/@sparticuz+chromium@*/node_modules/@sparticuz/chromium/**/*",
+    ],
+  },
 
   async redirects() {
     return [
