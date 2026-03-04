@@ -40,8 +40,6 @@ __snapshots__/
 *.swp
 *.tmp
 *.tsbuildinfo
-src/data/prayer-times/*.json
-public/chromium-pack.tar
 
 # clerk configuration (can include secrets)
 /clerk/
