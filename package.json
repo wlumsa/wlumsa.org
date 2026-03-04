@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.878.0",
+    "@aws-sdk/s3-request-presigner": "^3.966.0",
     "@fontsource/libre-baskerville": "^5.2.6",
     "@lexical/headless": "0.35.0",
     "@lexical/link": "0.35.0",
@@ -91,7 +92,7 @@
     "tailwindcss-animate": "^1.0.7",
     "url": "^0.11.4",
     "use-debounce": "^10.0.5",
-    "vercel": "^41.7.8",
+    "vercel": "^50.25.6",
     "withPayload": "link:@payloadcms\\next\\withPayload",
     "zod": "^3.25.76"
   },
