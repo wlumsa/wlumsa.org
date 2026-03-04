@@ -13,6 +13,12 @@ const CACHE_FILE_PATH = process.env.VERCEL === "1"
       "prayer-times",
       "waterloo-weekly-prayer-times.json"
     );
+const CHROMIUM_PACK_URL = process.env.CHROMIUM_PACK_URL
+  || (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chromium-pack.tar`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/chromium-pack.tar`
+      : null);
 
 export type WeeklyPrayerTimesSnapshot = {
   sourceUrl: string;
@@ -38,24 +44,39 @@ function normalizeHeader(header: string, index: number): string {
   return normalized || `column_${index + 1}`;
 }
 
-async function getExecutablePath(): Promise<string | undefined> {
-  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-    return process.env.PUPPETEER_EXECUTABLE_PATH;
+let cachedServerlessExecutablePath: string | null = null;
+let chromiumDownloadPromise: Promise<string> | null = null;
+
+async function getServerlessExecutablePath(): Promise<string> {
+  if (!CHROMIUM_PACK_URL) {
+    throw new Error(
+      "Missing CHROMIUM_PACK_URL or Vercel URL env for serverless Chromium package."
+    );
   }
 
-  if (process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV) {
-    try {
-      const chromium = await import("@sparticuz/chromium");
-      return await chromium.default.executablePath();
-    } catch (error) {
-      throw new Error(
-        [
-          "Failed to resolve @sparticuz/chromium executable path in serverless runtime.",
-          "Ensure output file tracing includes @sparticuz/chromium binaries and redeploy.",
-          `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
-        ].join(" ")
-      );
-    }
+  if (cachedServerlessExecutablePath) {
+    return cachedServerlessExecutablePath;
+  }
+
+  if (!chromiumDownloadPromise) {
+    chromiumDownloadPromise = import("@sparticuz/chromium-min")
+      .then((chromium) => chromium.default.executablePath(CHROMIUM_PACK_URL))
+      .then((resolvedPath) => {
+        cachedServerlessExecutablePath = resolvedPath;
+        return resolvedPath;
+      })
+      .catch((error) => {
+        chromiumDownloadPromise = null;
+        throw error;
+      });
+  }
+
+  return chromiumDownloadPromise;
+}
+
+async function getLocalExecutablePath(): Promise<string | undefined> {
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    return process.env.PUPPETEER_EXECUTABLE_PATH;
   }
 
   const localCandidates = process.platform === "win32"
@@ -80,44 +101,20 @@ async function getExecutablePath(): Promise<string | undefined> {
 }
 
 export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnapshot> {
-  const executablePath = await getExecutablePath();
   const isServerless = process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV;
-  const launchArgs = isServerless
-    ? [
-        "--allow-pre-commit-input",
-        "--disable-background-networking",
-        "--disable-background-timer-throttling",
-        "--disable-backgrounding-occluded-windows",
-        "--disable-breakpad",
-        "--disable-client-side-phishing-detection",
-        "--disable-component-update",
-        "--disable-default-apps",
-        "--disable-dev-shm-usage",
-        "--disable-extensions",
-        "--disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints",
-        "--disable-hang-monitor",
-        "--disable-ipc-flooding-protection",
-        "--disable-popup-blocking",
-        "--disable-prompt-on-repost",
-        "--disable-renderer-backgrounding",
-        "--disable-sync",
-        "--disable-web-security",
-        "--enable-automation",
-        "--headless=new",
-        "--hide-scrollbars",
-        "--mute-audio",
-        "--no-first-run",
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-      ]
-    : ["--no-sandbox", "--disable-setuid-sandbox"];
+  const executablePath = isServerless
+    ? await getServerlessExecutablePath()
+    : await getLocalExecutablePath();
+  const chromium = isServerless ? (await import("@sparticuz/chromium-min")).default : null;
 
   const browser = await puppeteer
     .launch({
       headless: true,
       channel: !isServerless && !executablePath ? "chrome" : undefined,
       executablePath,
-      args: launchArgs,
+      args: isServerless
+        ? chromium?.args
+        : ["--no-sandbox", "--disable-setuid-sandbox"],
       defaultViewport: { width: 1365, height: 900 },
       protocolTimeout: 120000,
       timeout: 120000,
@@ -126,7 +123,7 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
       throw new Error(
         [
           "Unable to launch a Chromium/Chrome browser for scraping.",
-          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify @sparticuz/chromium binaries are traced into the function bundle.",
+          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify /chromium-pack.tar exists and CHROMIUM_PACK_URL resolves.",
           `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
         ].join(" ")
       );

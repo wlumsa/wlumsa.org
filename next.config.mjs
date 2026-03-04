@@ -12,17 +12,7 @@ const config = {
     turbopack: {
 
     },
-  serverExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
-  outputFileTracingIncludes: {
-    "/api/prayer-times/weekly": [
-      "./node_modules/@sparticuz/chromium/**/*",
-      "./node_modules/.pnpm/@sparticuz+chromium@*/node_modules/@sparticuz/chromium/**/*",
-    ],
-    "/api/cron/prayer-times/weekly": [
-      "./node_modules/@sparticuz/chromium/**/*",
-      "./node_modules/.pnpm/@sparticuz+chromium@*/node_modules/@sparticuz/chromium/**/*",
-    ],
-  },
+  serverExternalPackages: ["@sparticuz/chromium-min", "puppeteer-core"],
 
   async redirects() {
     return [

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
+    "postinstall": "node scripts/postinstall.mjs",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
@@ -46,7 +47,6 @@
     "@react-email/markdown": "^0.0.15",
     "@react-email/render": "^1.2.1",
     "@reduxjs/toolkit": "^2.8.2",
-    "@sparticuz/chromium": "^143.0.4",
     "@sparticuz/chromium-min": "^143.0.4",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "latest",
@@ -97,6 +97,7 @@
   },
   "devDependencies": {
     "@react-email/preview-server": "4.3.2",
+    "@sparticuz/chromium": "^143.0.4",
     "@types/eslint": "^8.56.12",
     "@types/node": "^18.19.130",
     "@types/prettier": "^2.7.3",

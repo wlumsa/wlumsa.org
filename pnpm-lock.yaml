@@ -101,9 +101,6 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.8.2
         version: 2.11.2(react@19.2.3)
-      '@sparticuz/chromium':
-        specifier: ^143.0.4
-        version: 143.0.4
       '@sparticuz/chromium-min':
         specifier: ^143.0.4
         version: 143.0.4
@@ -249,6 +246,9 @@ importers:
       '@react-email/preview-server':
         specifier: 4.3.2
         version: 4.3.2(@swc/core@1.15.8)(babel-plugin-react-compiler@0.0.0-experimental-7d62301-20240819)(postcss@8.5.6)(sass@1.77.4)(ts-node@10.9.1(@swc/core@1.15.8)(@types/node@18.19.130)(typescript@5.9.3))
+      '@sparticuz/chromium':
+        specifier: ^143.0.4
+        version: 143.0.4
       '@types/eslint':
         specifier: ^8.56.12
         version: 8.56.12
