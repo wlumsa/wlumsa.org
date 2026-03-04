@@ -65,7 +65,7 @@
     "googleapis": "^171.0.0",
     "lexical": "0.35.0",
     "lucide-react": "^0.468.0",
-    "next": "16.1.1",
+    "next": "15.4.10",
     "next-sitemap": "^4.2.3",
     "path": "^0.12.7",
     "payload": "3.70.0",
@@ -91,7 +91,6 @@
     "tailwindcss-animate": "^1.0.7",
     "url": "^0.11.4",
     "use-debounce": "^10.0.5",
-    "vercel": "^50.25.6",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -112,8 +111,8 @@
     "postcss": "^8.5.6",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "supabase": "^1.226.4",
     "tailwindcss": "^3.4.17",
+    "vercel": "^50.25.6",
     "typescript": "^5.9.2"
   },
   "ct3aMetadata": {
