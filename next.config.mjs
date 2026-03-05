@@ -12,7 +12,6 @@ const config = {
     turbopack: {
 
     },
-  serverExternalPackages: ["@sparticuz/chromium-min", "puppeteer-core"],
 
   async redirects() {
     return [
