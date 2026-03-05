@@ -104,7 +104,7 @@ export default buildConfig({
     individuals,
     IIAServices,
     FrequentlyAskedQuestions,
-    HalalDirectory,
+    HalalDirectory, 
     HalalGroceryStores,
     // RoommatePosts,
     // Comments,

@@ -1,7 +1,7 @@
 import { CollectionConfig } from "payload";
 
 export const WeeklyPrayerTimetables: CollectionConfig = {
-  slug: "weekly-prayer-timetables",
+  slug: "weekly-prayer-timetables", 
   admin: {
     useAsTitle: "weekLabel",
     group: "Prayer Info",
