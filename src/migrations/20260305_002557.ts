@@ -13,20 +13,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_email_collection_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_halal_directory_category" AS ENUM('chinese', 'persian', 'shawarma', 'burgers', 'bangladeshi', 'chinese-indo-fusion', 'pakistani-food', 'chicken-and-waffles', 'kabob', 'uyghur', 'chicken', 'indian-fusion-food', 'pizza');
   CREATE TYPE "public"."enum_halal_directory_slaughtered" AS ENUM('hand', 'machine', 'both', 'n/a');
-  CREATE TYPE "public"."enum_roommate_posts_utilities" AS ENUM('1', '2', '3', '4', '5', '6');
-  CREATE TYPE "public"."enum_roommate_posts_amenities" AS ENUM('1', '2', '3', '4', '5');
-  CREATE TYPE "public"."enum_roommate_posts_gender" AS ENUM('1', '2');
-  CREATE TYPE "public"."enum_roommate_posts_property_type" AS ENUM('1', '2', '3', '4');
-  CREATE TYPE "public"."enum_roommate_posts_furnishing_type" AS ENUM('1', '2', '3');
-  CREATE TYPE "public"."enum_roommate_posts_status" AS ENUM('pending', 'approved');
-  CREATE TYPE "public"."enum_events_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum_general_user_category" AS ENUM('student', 'landlord', 'parent', 'business', 'alumni');
   CREATE TYPE "public"."enum_halal_grocery_stores_category" AS ENUM('full-grocery', 'halal-meat', 'international', 'specialty', 'convenience', 'bakery', 'spice', 'frozen');
   CREATE TYPE "public"."enum_halal_grocery_stores_halal_certification" AS ENUM('certified', 'muslim-owned', 'halal-friendly', 'not-specified');
   CREATE TYPE "public"."enum_halal_grocery_stores_price_range" AS ENUM('1', '2', '3', '4');
+  CREATE TYPE "public"."enum_events_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_forms_blocks_payment_price_conditions_condition" AS ENUM('hasValue', 'equals', 'notEquals');
   CREATE TYPE "public"."enum_forms_blocks_payment_price_conditions_operator" AS ENUM('add', 'subtract', 'multiply', 'divide');
   CREATE TYPE "public"."enum_forms_blocks_payment_price_conditions_value_type" AS ENUM('static', 'valueOfField');
+  CREATE TYPE "public"."enum_forms_blocks_upload_allowed_file_types" AS ENUM('*', 'application/pdf', 'image/png,image/jpeg,image/webp', '.doc,.docx');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
   CREATE TYPE "public"."enum_form_submissions_payment_status" AS ENUM('pending', 'paid', 'cancelled', 'refunded');
   CREATE TYPE "public"."enum_prayer_timings_month_month" AS ENUM('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
@@ -227,6 +221,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"media_id" integer
   );
   
+  CREATE TABLE "weekly_prayer_timetables" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"week_key" varchar NOT NULL,
+  	"week_label" varchar NOT NULL,
+  	"source_url" varchar NOT NULL,
+  	"scraped_at" timestamp(3) with time zone NOT NULL,
+  	"headers" jsonb NOT NULL,
+  	"rows" jsonb NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
   CREATE TABLE "jummah_timings" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"building" varchar NOT NULL,
@@ -339,100 +345,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
   
-  CREATE TABLE "roommate_posts_utilities" (
-  	"order" integer NOT NULL,
-  	"parent_id" integer NOT NULL,
-  	"value" "enum_roommate_posts_utilities",
-  	"id" serial PRIMARY KEY NOT NULL
-  );
-  
-  CREATE TABLE "roommate_posts_amenities" (
-  	"order" integer NOT NULL,
-  	"parent_id" integer NOT NULL,
-  	"value" "enum_roommate_posts_amenities",
-  	"id" serial PRIMARY KEY NOT NULL
-  );
-  
-  CREATE TABLE "roommate_posts" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"user_id_id" integer NOT NULL,
-  	"author" varchar,
-  	"email" varchar,
-  	"contact_email" boolean DEFAULT false NOT NULL,
-  	"title" varchar NOT NULL,
-  	"address" varchar NOT NULL,
-  	"description" varchar NOT NULL,
-  	"rent" numeric NOT NULL,
-  	"deposit" numeric,
-  	"gender" "enum_roommate_posts_gender" NOT NULL,
-  	"property_type" "enum_roommate_posts_property_type" NOT NULL,
-  	"furnishing_type" "enum_roommate_posts_furnishing_type" NOT NULL,
-  	"available_date" timestamp(3) with time zone NOT NULL,
-  	"facebook" varchar,
-  	"phone_number" varchar,
-  	"instagram" varchar,
-  	"whatsapp" varchar,
-  	"status" "enum_roommate_posts_status" DEFAULT 'approved',
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
-  CREATE TABLE "roommate_posts_texts" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"order" integer NOT NULL,
-  	"parent_id" integer NOT NULL,
-  	"path" varchar NOT NULL,
-  	"text" varchar
-  );
-  
-  CREATE TABLE "comments" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"author" varchar,
-  	"comment" varchar,
-  	"post_id_id" integer NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
-  CREATE TABLE "events" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"name" varchar NOT NULL,
-  	"date" timestamp(3) with time zone,
-  	"time" varchar,
-  	"location" varchar,
-  	"description" varchar NOT NULL,
-  	"image_id" integer,
-  	"link" varchar,
-  	"status" "enum_events_status" DEFAULT 'draft',
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
-  CREATE TABLE "general_user" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"clerk_id" varchar NOT NULL,
-  	"email" varchar NOT NULL,
-  	"first_name" varchar,
-  	"last_name" varchar,
-  	"category" "enum_general_user_category",
-  	"laurier_email" varchar,
-  	"student_id" varchar,
-  	"year" varchar,
-  	"program" varchar,
-  	"newsletter" boolean,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
-  CREATE TABLE "daily_reminders" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"reference" varchar NOT NULL,
-  	"arabic" varchar NOT NULL,
-  	"english" varchar NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
   CREATE TABLE "halal_grocery_stores_specialties" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -454,6 +366,40 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer,
   	"is_on_campus" boolean DEFAULT false NOT NULL,
   	"price_range" "enum_halal_grocery_stores_price_range",
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "events" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"name" varchar NOT NULL,
+  	"date" timestamp(3) with time zone,
+  	"time" varchar,
+  	"location" varchar,
+  	"description" varchar NOT NULL,
+  	"image_id" integer,
+  	"link" varchar,
+  	"status" "enum_events_status" DEFAULT 'draft',
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "daily_reminders" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"reference" varchar NOT NULL,
+  	"arabic" varchar NOT NULL,
+  	"english" varchar NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "masjid" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar NOT NULL,
+  	"image_id" integer,
+  	"location" varchar NOT NULL,
+  	"google_maps_link" varchar NOT NULL,
+  	"website_link" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
@@ -631,6 +577,26 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
+  CREATE TABLE "forms_blocks_upload_allowed_file_types" (
+  	"order" integer NOT NULL,
+  	"parent_id" varchar NOT NULL,
+  	"value" "enum_forms_blocks_upload_allowed_file_types",
+  	"id" serial PRIMARY KEY NOT NULL
+  );
+  
+  CREATE TABLE "forms_blocks_upload" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"name" varchar NOT NULL,
+  	"label" varchar NOT NULL,
+  	"width" numeric DEFAULT 100,
+  	"max_file_size_m_b" numeric DEFAULT 5,
+  	"required" boolean,
+  	"block_name" varchar
+  );
+  
   CREATE TABLE "forms_emails" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -670,6 +636,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
   
+  CREATE TABLE "payload_kv" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"key" varchar NOT NULL,
+  	"data" jsonb NOT NULL
+  );
+  
   CREATE TABLE "payload_locked_documents" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"global_slug" varchar,
@@ -696,6 +668,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"sizes_id" integer,
   	"recording_id" integer,
   	"weekly_events_id" integer,
+  	"weekly_prayer_timetables_id" integer,
   	"jummah_timings_id" integer,
   	"prayer_rooms_id" integer,
   	"services_id" integer,
@@ -705,12 +678,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"iia_services_id" integer,
   	"faq_id" integer,
   	"halal_directory_id" integer,
-  	"roommate_posts_id" integer,
-  	"comments_id" integer,
-  	"events_id" integer,
-  	"general_user_id" integer,
-  	"daily_reminders_id" integer,
   	"halal_grocery_stores_id" integer,
+  	"events_id" integer,
+  	"daily_reminders_id" integer,
+  	"masjid_id" integer,
   	"forms_id" integer,
   	"form_submissions_id" integer
   );
@@ -838,14 +809,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "iia_services_rels" ADD CONSTRAINT "iia_services_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."iia_services"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "iia_services_rels" ADD CONSTRAINT "iia_services_rels_media_fk" FOREIGN KEY ("media_id") REFERENCES "public"."media"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "halal_directory" ADD CONSTRAINT "halal_directory_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "roommate_posts_utilities" ADD CONSTRAINT "roommate_posts_utilities_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."roommate_posts"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "roommate_posts_amenities" ADD CONSTRAINT "roommate_posts_amenities_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."roommate_posts"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "roommate_posts" ADD CONSTRAINT "roommate_posts_user_id_id_general_user_id_fk" FOREIGN KEY ("user_id_id") REFERENCES "public"."general_user"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "roommate_posts_texts" ADD CONSTRAINT "roommate_posts_texts_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."roommate_posts"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "comments" ADD CONSTRAINT "comments_post_id_id_roommate_posts_id_fk" FOREIGN KEY ("post_id_id") REFERENCES "public"."roommate_posts"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "events" ADD CONSTRAINT "events_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "halal_grocery_stores_specialties" ADD CONSTRAINT "halal_grocery_stores_specialties_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."halal_grocery_stores"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "halal_grocery_stores" ADD CONSTRAINT "halal_grocery_stores_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "events" ADD CONSTRAINT "events_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "masjid" ADD CONSTRAINT "masjid_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "forms_blocks_checkbox_checkboxes" ADD CONSTRAINT "forms_blocks_checkbox_checkboxes_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms_blocks_checkbox"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "forms_blocks_checkbox" ADD CONSTRAINT "forms_blocks_checkbox_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "forms_blocks_country" ADD CONSTRAINT "forms_blocks_country_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
@@ -860,6 +827,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "forms_blocks_select_options" ADD CONSTRAINT "forms_blocks_select_options_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms_blocks_select"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "forms_blocks_select" ADD CONSTRAINT "forms_blocks_select_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "forms_blocks_contact_info" ADD CONSTRAINT "forms_blocks_contact_info_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "forms_blocks_upload_allowed_file_types" ADD CONSTRAINT "forms_blocks_upload_allowed_file_types_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."forms_blocks_upload"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "forms_blocks_upload" ADD CONSTRAINT "forms_blocks_upload_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "forms_emails" ADD CONSTRAINT "forms_emails_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "form_submissions" ADD CONSTRAINT "form_submissions_form_id_forms_id_fk" FOREIGN KEY ("form_id") REFERENCES "public"."forms"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."payload_locked_documents"("id") ON DELETE cascade ON UPDATE no action;
@@ -877,6 +846,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_sizes_fk" FOREIGN KEY ("sizes_id") REFERENCES "public"."sizes"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_recording_fk" FOREIGN KEY ("recording_id") REFERENCES "public"."recording"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_weekly_events_fk" FOREIGN KEY ("weekly_events_id") REFERENCES "public"."weekly_events"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_weekly_prayer_timetables_fk" FOREIGN KEY ("weekly_prayer_timetables_id") REFERENCES "public"."weekly_prayer_timetables"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_jummah_timings_fk" FOREIGN KEY ("jummah_timings_id") REFERENCES "public"."jummah_timings"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_prayer_rooms_fk" FOREIGN KEY ("prayer_rooms_id") REFERENCES "public"."prayer_rooms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_services_fk" FOREIGN KEY ("services_id") REFERENCES "public"."services"("id") ON DELETE cascade ON UPDATE no action;
@@ -886,12 +856,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_iia_services_fk" FOREIGN KEY ("iia_services_id") REFERENCES "public"."iia_services"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_faq_fk" FOREIGN KEY ("faq_id") REFERENCES "public"."faq"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_halal_directory_fk" FOREIGN KEY ("halal_directory_id") REFERENCES "public"."halal_directory"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_roommate_posts_fk" FOREIGN KEY ("roommate_posts_id") REFERENCES "public"."roommate_posts"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_comments_fk" FOREIGN KEY ("comments_id") REFERENCES "public"."comments"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_events_fk" FOREIGN KEY ("events_id") REFERENCES "public"."events"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_general_user_fk" FOREIGN KEY ("general_user_id") REFERENCES "public"."general_user"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_daily_reminders_fk" FOREIGN KEY ("daily_reminders_id") REFERENCES "public"."daily_reminders"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_halal_grocery_stores_fk" FOREIGN KEY ("halal_grocery_stores_id") REFERENCES "public"."halal_grocery_stores"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_events_fk" FOREIGN KEY ("events_id") REFERENCES "public"."events"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_daily_reminders_fk" FOREIGN KEY ("daily_reminders_id") REFERENCES "public"."daily_reminders"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_masjid_fk" FOREIGN KEY ("masjid_id") REFERENCES "public"."masjid"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_forms_fk" FOREIGN KEY ("forms_id") REFERENCES "public"."forms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_form_submissions_fk" FOREIGN KEY ("form_submissions_id") REFERENCES "public"."form_submissions"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."payload_preferences"("id") ON DELETE cascade ON UPDATE no action;
@@ -959,6 +927,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "weekly_events_rels_parent_idx" ON "weekly_events_rels" USING btree ("parent_id");
   CREATE INDEX "weekly_events_rels_path_idx" ON "weekly_events_rels" USING btree ("path");
   CREATE INDEX "weekly_events_rels_media_id_idx" ON "weekly_events_rels" USING btree ("media_id");
+  CREATE UNIQUE INDEX "weekly_prayer_timetables_week_key_idx" ON "weekly_prayer_timetables" USING btree ("week_key");
+  CREATE INDEX "weekly_prayer_timetables_updated_at_idx" ON "weekly_prayer_timetables" USING btree ("updated_at");
+  CREATE INDEX "weekly_prayer_timetables_created_at_idx" ON "weekly_prayer_timetables" USING btree ("created_at");
   CREATE INDEX "jummah_timings_updated_at_idx" ON "jummah_timings" USING btree ("updated_at");
   CREATE INDEX "jummah_timings_created_at_idx" ON "jummah_timings" USING btree ("created_at");
   CREATE INDEX "prayer_rooms_updated_at_idx" ON "prayer_rooms" USING btree ("updated_at");
@@ -992,31 +963,20 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "halal_directory_image_idx" ON "halal_directory" USING btree ("image_id");
   CREATE INDEX "halal_directory_updated_at_idx" ON "halal_directory" USING btree ("updated_at");
   CREATE INDEX "halal_directory_created_at_idx" ON "halal_directory" USING btree ("created_at");
-  CREATE INDEX "roommate_posts_utilities_order_idx" ON "roommate_posts_utilities" USING btree ("order");
-  CREATE INDEX "roommate_posts_utilities_parent_idx" ON "roommate_posts_utilities" USING btree ("parent_id");
-  CREATE INDEX "roommate_posts_amenities_order_idx" ON "roommate_posts_amenities" USING btree ("order");
-  CREATE INDEX "roommate_posts_amenities_parent_idx" ON "roommate_posts_amenities" USING btree ("parent_id");
-  CREATE INDEX "roommate_posts_user_id_idx" ON "roommate_posts" USING btree ("user_id_id");
-  CREATE INDEX "roommate_posts_updated_at_idx" ON "roommate_posts" USING btree ("updated_at");
-  CREATE INDEX "roommate_posts_created_at_idx" ON "roommate_posts" USING btree ("created_at");
-  CREATE INDEX "roommate_posts_texts_order_parent_idx" ON "roommate_posts_texts" USING btree ("order","parent_id");
-  CREATE INDEX "comments_post_id_idx" ON "comments" USING btree ("post_id_id");
-  CREATE INDEX "comments_updated_at_idx" ON "comments" USING btree ("updated_at");
-  CREATE INDEX "comments_created_at_idx" ON "comments" USING btree ("created_at");
-  CREATE INDEX "events_image_idx" ON "events" USING btree ("image_id");
-  CREATE INDEX "events_updated_at_idx" ON "events" USING btree ("updated_at");
-  CREATE INDEX "events_created_at_idx" ON "events" USING btree ("created_at");
-  CREATE UNIQUE INDEX "general_user_clerk_id_idx" ON "general_user" USING btree ("clerk_id");
-  CREATE UNIQUE INDEX "general_user_email_idx" ON "general_user" USING btree ("email");
-  CREATE INDEX "general_user_updated_at_idx" ON "general_user" USING btree ("updated_at");
-  CREATE INDEX "general_user_created_at_idx" ON "general_user" USING btree ("created_at");
-  CREATE INDEX "daily_reminders_updated_at_idx" ON "daily_reminders" USING btree ("updated_at");
-  CREATE INDEX "daily_reminders_created_at_idx" ON "daily_reminders" USING btree ("created_at");
   CREATE INDEX "halal_grocery_stores_specialties_order_idx" ON "halal_grocery_stores_specialties" USING btree ("_order");
   CREATE INDEX "halal_grocery_stores_specialties_parent_id_idx" ON "halal_grocery_stores_specialties" USING btree ("_parent_id");
   CREATE INDEX "halal_grocery_stores_image_idx" ON "halal_grocery_stores" USING btree ("image_id");
   CREATE INDEX "halal_grocery_stores_updated_at_idx" ON "halal_grocery_stores" USING btree ("updated_at");
   CREATE INDEX "halal_grocery_stores_created_at_idx" ON "halal_grocery_stores" USING btree ("created_at");
+  CREATE INDEX "events_image_idx" ON "events" USING btree ("image_id");
+  CREATE INDEX "events_updated_at_idx" ON "events" USING btree ("updated_at");
+  CREATE INDEX "events_created_at_idx" ON "events" USING btree ("created_at");
+  CREATE INDEX "daily_reminders_updated_at_idx" ON "daily_reminders" USING btree ("updated_at");
+  CREATE INDEX "daily_reminders_created_at_idx" ON "daily_reminders" USING btree ("created_at");
+  CREATE INDEX "masjid_title_idx" ON "masjid" USING btree ("title");
+  CREATE INDEX "masjid_image_idx" ON "masjid" USING btree ("image_id");
+  CREATE INDEX "masjid_updated_at_idx" ON "masjid" USING btree ("updated_at");
+  CREATE INDEX "masjid_created_at_idx" ON "masjid" USING btree ("created_at");
   CREATE INDEX "forms_blocks_checkbox_checkboxes_order_idx" ON "forms_blocks_checkbox_checkboxes" USING btree ("_order");
   CREATE INDEX "forms_blocks_checkbox_checkboxes_parent_id_idx" ON "forms_blocks_checkbox_checkboxes" USING btree ("_parent_id");
   CREATE INDEX "forms_blocks_checkbox_order_idx" ON "forms_blocks_checkbox" USING btree ("_order");
@@ -1056,6 +1016,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "forms_blocks_contact_info_order_idx" ON "forms_blocks_contact_info" USING btree ("_order");
   CREATE INDEX "forms_blocks_contact_info_parent_id_idx" ON "forms_blocks_contact_info" USING btree ("_parent_id");
   CREATE INDEX "forms_blocks_contact_info_path_idx" ON "forms_blocks_contact_info" USING btree ("_path");
+  CREATE INDEX "forms_blocks_upload_allowed_file_types_order_idx" ON "forms_blocks_upload_allowed_file_types" USING btree ("order");
+  CREATE INDEX "forms_blocks_upload_allowed_file_types_parent_idx" ON "forms_blocks_upload_allowed_file_types" USING btree ("parent_id");
+  CREATE INDEX "forms_blocks_upload_order_idx" ON "forms_blocks_upload" USING btree ("_order");
+  CREATE INDEX "forms_blocks_upload_parent_id_idx" ON "forms_blocks_upload" USING btree ("_parent_id");
+  CREATE INDEX "forms_blocks_upload_path_idx" ON "forms_blocks_upload" USING btree ("_path");
   CREATE INDEX "forms_emails_order_idx" ON "forms_emails" USING btree ("_order");
   CREATE INDEX "forms_emails_parent_id_idx" ON "forms_emails" USING btree ("_parent_id");
   CREATE INDEX "forms_updated_at_idx" ON "forms" USING btree ("updated_at");
@@ -1063,6 +1028,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "form_submissions_form_idx" ON "form_submissions" USING btree ("form_id");
   CREATE INDEX "form_submissions_updated_at_idx" ON "form_submissions" USING btree ("updated_at");
   CREATE INDEX "form_submissions_created_at_idx" ON "form_submissions" USING btree ("created_at");
+  CREATE UNIQUE INDEX "payload_kv_key_idx" ON "payload_kv" USING btree ("key");
   CREATE INDEX "payload_locked_documents_global_slug_idx" ON "payload_locked_documents" USING btree ("global_slug");
   CREATE INDEX "payload_locked_documents_updated_at_idx" ON "payload_locked_documents" USING btree ("updated_at");
   CREATE INDEX "payload_locked_documents_created_at_idx" ON "payload_locked_documents" USING btree ("created_at");
@@ -1083,6 +1049,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_sizes_id_idx" ON "payload_locked_documents_rels" USING btree ("sizes_id");
   CREATE INDEX "payload_locked_documents_rels_recording_id_idx" ON "payload_locked_documents_rels" USING btree ("recording_id");
   CREATE INDEX "payload_locked_documents_rels_weekly_events_id_idx" ON "payload_locked_documents_rels" USING btree ("weekly_events_id");
+  CREATE INDEX "payload_locked_documents_rels_weekly_prayer_timetables_i_idx" ON "payload_locked_documents_rels" USING btree ("weekly_prayer_timetables_id");
   CREATE INDEX "payload_locked_documents_rels_jummah_timings_id_idx" ON "payload_locked_documents_rels" USING btree ("jummah_timings_id");
   CREATE INDEX "payload_locked_documents_rels_prayer_rooms_id_idx" ON "payload_locked_documents_rels" USING btree ("prayer_rooms_id");
   CREATE INDEX "payload_locked_documents_rels_services_id_idx" ON "payload_locked_documents_rels" USING btree ("services_id");
@@ -1092,12 +1059,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_iia_services_id_idx" ON "payload_locked_documents_rels" USING btree ("iia_services_id");
   CREATE INDEX "payload_locked_documents_rels_faq_id_idx" ON "payload_locked_documents_rels" USING btree ("faq_id");
   CREATE INDEX "payload_locked_documents_rels_halal_directory_id_idx" ON "payload_locked_documents_rels" USING btree ("halal_directory_id");
-  CREATE INDEX "payload_locked_documents_rels_roommate_posts_id_idx" ON "payload_locked_documents_rels" USING btree ("roommate_posts_id");
-  CREATE INDEX "payload_locked_documents_rels_comments_id_idx" ON "payload_locked_documents_rels" USING btree ("comments_id");
-  CREATE INDEX "payload_locked_documents_rels_events_id_idx" ON "payload_locked_documents_rels" USING btree ("events_id");
-  CREATE INDEX "payload_locked_documents_rels_general_user_id_idx" ON "payload_locked_documents_rels" USING btree ("general_user_id");
-  CREATE INDEX "payload_locked_documents_rels_daily_reminders_id_idx" ON "payload_locked_documents_rels" USING btree ("daily_reminders_id");
   CREATE INDEX "payload_locked_documents_rels_halal_grocery_stores_id_idx" ON "payload_locked_documents_rels" USING btree ("halal_grocery_stores_id");
+  CREATE INDEX "payload_locked_documents_rels_events_id_idx" ON "payload_locked_documents_rels" USING btree ("events_id");
+  CREATE INDEX "payload_locked_documents_rels_daily_reminders_id_idx" ON "payload_locked_documents_rels" USING btree ("daily_reminders_id");
+  CREATE INDEX "payload_locked_documents_rels_masjid_id_idx" ON "payload_locked_documents_rels" USING btree ("masjid_id");
   CREATE INDEX "payload_locked_documents_rels_forms_id_idx" ON "payload_locked_documents_rels" USING btree ("forms_id");
   CREATE INDEX "payload_locked_documents_rels_form_submissions_id_idx" ON "payload_locked_documents_rels" USING btree ("form_submissions_id");
   CREATE INDEX "payload_preferences_key_idx" ON "payload_preferences" USING btree ("key");
@@ -1149,6 +1114,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "recording" CASCADE;
   DROP TABLE "weekly_events" CASCADE;
   DROP TABLE "weekly_events_rels" CASCADE;
+  DROP TABLE "weekly_prayer_timetables" CASCADE;
   DROP TABLE "jummah_timings" CASCADE;
   DROP TABLE "prayer_rooms" CASCADE;
   DROP TABLE "services" CASCADE;
@@ -1161,16 +1127,11 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "iia_services_rels" CASCADE;
   DROP TABLE "faq" CASCADE;
   DROP TABLE "halal_directory" CASCADE;
-  DROP TABLE "roommate_posts_utilities" CASCADE;
-  DROP TABLE "roommate_posts_amenities" CASCADE;
-  DROP TABLE "roommate_posts" CASCADE;
-  DROP TABLE "roommate_posts_texts" CASCADE;
-  DROP TABLE "comments" CASCADE;
-  DROP TABLE "events" CASCADE;
-  DROP TABLE "general_user" CASCADE;
-  DROP TABLE "daily_reminders" CASCADE;
   DROP TABLE "halal_grocery_stores_specialties" CASCADE;
   DROP TABLE "halal_grocery_stores" CASCADE;
+  DROP TABLE "events" CASCADE;
+  DROP TABLE "daily_reminders" CASCADE;
+  DROP TABLE "masjid" CASCADE;
   DROP TABLE "forms_blocks_checkbox_checkboxes" CASCADE;
   DROP TABLE "forms_blocks_checkbox" CASCADE;
   DROP TABLE "forms_blocks_country" CASCADE;
@@ -1185,9 +1146,12 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "forms_blocks_select_options" CASCADE;
   DROP TABLE "forms_blocks_select" CASCADE;
   DROP TABLE "forms_blocks_contact_info" CASCADE;
+  DROP TABLE "forms_blocks_upload_allowed_file_types" CASCADE;
+  DROP TABLE "forms_blocks_upload" CASCADE;
   DROP TABLE "forms_emails" CASCADE;
   DROP TABLE "forms" CASCADE;
   DROP TABLE "form_submissions" CASCADE;
+  DROP TABLE "payload_kv" CASCADE;
   DROP TABLE "payload_locked_documents" CASCADE;
   DROP TABLE "payload_locked_documents_rels" CASCADE;
   DROP TABLE "payload_preferences" CASCADE;
@@ -1213,20 +1177,14 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum_email_collection_status";
   DROP TYPE "public"."enum_halal_directory_category";
   DROP TYPE "public"."enum_halal_directory_slaughtered";
-  DROP TYPE "public"."enum_roommate_posts_utilities";
-  DROP TYPE "public"."enum_roommate_posts_amenities";
-  DROP TYPE "public"."enum_roommate_posts_gender";
-  DROP TYPE "public"."enum_roommate_posts_property_type";
-  DROP TYPE "public"."enum_roommate_posts_furnishing_type";
-  DROP TYPE "public"."enum_roommate_posts_status";
-  DROP TYPE "public"."enum_events_status";
-  DROP TYPE "public"."enum_general_user_category";
   DROP TYPE "public"."enum_halal_grocery_stores_category";
   DROP TYPE "public"."enum_halal_grocery_stores_halal_certification";
   DROP TYPE "public"."enum_halal_grocery_stores_price_range";
+  DROP TYPE "public"."enum_events_status";
   DROP TYPE "public"."enum_forms_blocks_payment_price_conditions_condition";
   DROP TYPE "public"."enum_forms_blocks_payment_price_conditions_operator";
   DROP TYPE "public"."enum_forms_blocks_payment_price_conditions_value_type";
+  DROP TYPE "public"."enum_forms_blocks_upload_allowed_file_types";
   DROP TYPE "public"."enum_forms_confirmation_type";
   DROP TYPE "public"."enum_form_submissions_payment_status";
   DROP TYPE "public"."enum_prayer_timings_month_month";`)

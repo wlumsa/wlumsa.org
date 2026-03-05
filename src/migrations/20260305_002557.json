@@ -1,6 +1,4 @@
 {
-  "id": "c6d184b8-f35d-4b25-b4fb-c82a16893c3b",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -2221,6 +2219,121 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.weekly_prayer_timetables": {
+      "name": "weekly_prayer_timetables",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "week_key": {
+          "name": "week_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "week_label": {
+          "name": "week_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_url": {
+          "name": "source_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scraped_at": {
+          "name": "scraped_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "headers": {
+          "name": "headers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rows": {
+          "name": "rows",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "weekly_prayer_timetables_week_key_idx": {
+          "name": "weekly_prayer_timetables_week_key_idx",
+          "columns": [
+            {
+              "expression": "week_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "weekly_prayer_timetables_updated_at_idx": {
+          "name": "weekly_prayer_timetables_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "weekly_prayer_timetables_created_at_idx": {
+          "name": "weekly_prayer_timetables_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.jummah_timings": {
       "name": "jummah_timings",
       "schema": "",
@@ -3737,569 +3850,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.roommate_posts_utilities": {
-      "name": "roommate_posts_utilities",
-      "schema": "",
-      "columns": {
-        "order": {
-          "name": "order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "parent_id": {
-          "name": "parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "value": {
-          "name": "value",
-          "type": "enum_roommate_posts_utilities",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "roommate_posts_utilities_order_idx": {
-          "name": "roommate_posts_utilities_order_idx",
-          "columns": [
-            {
-              "expression": "order",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "roommate_posts_utilities_parent_idx": {
-          "name": "roommate_posts_utilities_parent_idx",
-          "columns": [
-            {
-              "expression": "parent_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "roommate_posts_utilities_parent_fk": {
-          "name": "roommate_posts_utilities_parent_fk",
-          "tableFrom": "roommate_posts_utilities",
-          "tableTo": "roommate_posts",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.roommate_posts_amenities": {
-      "name": "roommate_posts_amenities",
-      "schema": "",
-      "columns": {
-        "order": {
-          "name": "order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "parent_id": {
-          "name": "parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "value": {
-          "name": "value",
-          "type": "enum_roommate_posts_amenities",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "roommate_posts_amenities_order_idx": {
-          "name": "roommate_posts_amenities_order_idx",
-          "columns": [
-            {
-              "expression": "order",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "roommate_posts_amenities_parent_idx": {
-          "name": "roommate_posts_amenities_parent_idx",
-          "columns": [
-            {
-              "expression": "parent_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "roommate_posts_amenities_parent_fk": {
-          "name": "roommate_posts_amenities_parent_fk",
-          "tableFrom": "roommate_posts_amenities",
-          "tableTo": "roommate_posts",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.roommate_posts": {
-      "name": "roommate_posts",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "user_id_id": {
-          "name": "user_id_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "author": {
-          "name": "author",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "contact_email": {
-          "name": "contact_email",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "address": {
-          "name": "address",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "rent": {
-          "name": "rent",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "deposit": {
-          "name": "deposit",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "gender": {
-          "name": "gender",
-          "type": "enum_roommate_posts_gender",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "property_type": {
-          "name": "property_type",
-          "type": "enum_roommate_posts_property_type",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "furnishing_type": {
-          "name": "furnishing_type",
-          "type": "enum_roommate_posts_furnishing_type",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "available_date": {
-          "name": "available_date",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "facebook": {
-          "name": "facebook",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "phone_number": {
-          "name": "phone_number",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "instagram": {
-          "name": "instagram",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "whatsapp": {
-          "name": "whatsapp",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "status": {
-          "name": "status",
-          "type": "enum_roommate_posts_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'approved'"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "roommate_posts_user_id_idx": {
-          "name": "roommate_posts_user_id_idx",
-          "columns": [
-            {
-              "expression": "user_id_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "roommate_posts_updated_at_idx": {
-          "name": "roommate_posts_updated_at_idx",
-          "columns": [
-            {
-              "expression": "updated_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "roommate_posts_created_at_idx": {
-          "name": "roommate_posts_created_at_idx",
-          "columns": [
-            {
-              "expression": "created_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "roommate_posts_user_id_id_general_user_id_fk": {
-          "name": "roommate_posts_user_id_id_general_user_id_fk",
-          "tableFrom": "roommate_posts",
-          "tableTo": "general_user",
-          "columnsFrom": [
-            "user_id_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.roommate_posts_texts": {
-      "name": "roommate_posts_texts",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "order": {
-          "name": "order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "parent_id": {
-          "name": "parent_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "path": {
-          "name": "path",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "text": {
-          "name": "text",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {
-        "roommate_posts_texts_order_parent_idx": {
-          "name": "roommate_posts_texts_order_parent_idx",
-          "columns": [
-            {
-              "expression": "order",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "parent_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "roommate_posts_texts_parent_fk": {
-          "name": "roommate_posts_texts_parent_fk",
-          "tableFrom": "roommate_posts_texts",
-          "tableTo": "roommate_posts",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.comments": {
-      "name": "comments",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "author": {
-          "name": "author",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "comment": {
-          "name": "comment",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "post_id_id": {
-          "name": "post_id_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "comments_post_id_idx": {
-          "name": "comments_post_id_idx",
-          "columns": [
-            {
-              "expression": "post_id_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "comments_updated_at_idx": {
-          "name": "comments_updated_at_idx",
-          "columns": [
-            {
-              "expression": "updated_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "comments_created_at_idx": {
-          "name": "comments_created_at_idx",
-          "columns": [
-            {
-              "expression": "created_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "comments_post_id_id_roommate_posts_id_fk": {
-          "name": "comments_post_id_id_roommate_posts_id_fk",
-          "tableFrom": "comments",
-          "tableTo": "roommate_posts",
-          "columnsFrom": [
-            "post_id_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.events": {
       "name": "events",
       "schema": "",
@@ -4443,161 +3993,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.general_user": {
-      "name": "general_user",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "clerk_id": {
-          "name": "clerk_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "first_name": {
-          "name": "first_name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "last_name": {
-          "name": "last_name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "category": {
-          "name": "category",
-          "type": "enum_general_user_category",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "laurier_email": {
-          "name": "laurier_email",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "student_id": {
-          "name": "student_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "year": {
-          "name": "year",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "program": {
-          "name": "program",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "newsletter": {
-          "name": "newsletter",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "general_user_clerk_id_idx": {
-          "name": "general_user_clerk_id_idx",
-          "columns": [
-            {
-              "expression": "clerk_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "general_user_email_idx": {
-          "name": "general_user_email_idx",
-          "columns": [
-            {
-              "expression": "email",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "general_user_updated_at_idx": {
-          "name": "general_user_updated_at_idx",
-          "columns": [
-            {
-              "expression": "updated_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "general_user_created_at_idx": {
-          "name": "general_user_created_at_idx",
-          "columns": [
-            {
-              "expression": "created_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.daily_reminders": {
       "name": "daily_reminders",
       "schema": "",
@@ -4674,6 +4069,144 @@
         }
       },
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.masjid": {
+      "name": "masjid",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_id": {
+          "name": "image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "location": {
+          "name": "location",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "google_maps_link": {
+          "name": "google_maps_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "website_link": {
+          "name": "website_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "masjid_title_idx": {
+          "name": "masjid_title_idx",
+          "columns": [
+            {
+              "expression": "title",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "masjid_image_idx": {
+          "name": "masjid_image_idx",
+          "columns": [
+            {
+              "expression": "image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "masjid_updated_at_idx": {
+          "name": "masjid_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "masjid_created_at_idx": {
+          "name": "masjid_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "masjid_image_id_media_id_fk": {
+          "name": "masjid_image_id_media_id_fk",
+          "tableFrom": "masjid",
+          "tableTo": "media",
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -6459,6 +5992,224 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.forms_blocks_upload_allowed_file_types": {
+      "name": "forms_blocks_upload_allowed_file_types",
+      "schema": "",
+      "columns": {
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "enum_forms_blocks_upload_allowed_file_types",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "forms_blocks_upload_allowed_file_types_order_idx": {
+          "name": "forms_blocks_upload_allowed_file_types_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "forms_blocks_upload_allowed_file_types_parent_idx": {
+          "name": "forms_blocks_upload_allowed_file_types_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "forms_blocks_upload_allowed_file_types_parent_fk": {
+          "name": "forms_blocks_upload_allowed_file_types_parent_fk",
+          "tableFrom": "forms_blocks_upload_allowed_file_types",
+          "tableTo": "forms_blocks_upload",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.forms_blocks_upload": {
+      "name": "forms_blocks_upload",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_path": {
+          "name": "_path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "width": {
+          "name": "width",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 100
+        },
+        "max_file_size_m_b": {
+          "name": "max_file_size_m_b",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 5
+        },
+        "required": {
+          "name": "required",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "block_name": {
+          "name": "block_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "forms_blocks_upload_order_idx": {
+          "name": "forms_blocks_upload_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "forms_blocks_upload_parent_id_idx": {
+          "name": "forms_blocks_upload_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "forms_blocks_upload_path_idx": {
+          "name": "forms_blocks_upload_path_idx",
+          "columns": [
+            {
+              "expression": "_path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "forms_blocks_upload_parent_id_fk": {
+          "name": "forms_blocks_upload_parent_id_fk",
+          "tableFrom": "forms_blocks_upload",
+          "tableTo": "forms",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.forms_emails": {
       "name": "forms_emails",
       "schema": "",
@@ -6823,6 +6574,53 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.payload_kv": {
+      "name": "payload_kv",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data": {
+          "name": "data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "payload_kv_key_idx": {
+          "name": "payload_kv_key_idx",
+          "columns": [
+            {
+              "expression": "key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.payload_locked_documents": {
       "name": "payload_locked_documents",
       "schema": "",
@@ -7020,6 +6818,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "weekly_prayer_timetables_id": {
+          "name": "weekly_prayer_timetables_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "jummah_timings_id": {
           "name": "jummah_timings_id",
           "type": "integer",
@@ -7080,32 +6884,20 @@
           "primaryKey": false,
           "notNull": false
         },
-        "roommate_posts_id": {
-          "name": "roommate_posts_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "comments_id": {
-          "name": "comments_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
         "events_id": {
           "name": "events_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "general_user_id": {
-          "name": "general_user_id",
+        "daily_reminders_id": {
+          "name": "daily_reminders_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
-        "daily_reminders_id": {
-          "name": "daily_reminders_id",
+        "masjid_id": {
+          "name": "masjid_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -7379,6 +7171,21 @@
           "method": "btree",
           "with": {}
         },
+        "payload_locked_documents_rels_weekly_prayer_timetables_i_idx": {
+          "name": "payload_locked_documents_rels_weekly_prayer_timetables_i_idx",
+          "columns": [
+            {
+              "expression": "weekly_prayer_timetables_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "payload_locked_documents_rels_jummah_timings_id_idx": {
           "name": "payload_locked_documents_rels_jummah_timings_id_idx",
           "columns": [
@@ -7529,36 +7336,6 @@
           "method": "btree",
           "with": {}
         },
-        "payload_locked_documents_rels_roommate_posts_id_idx": {
-          "name": "payload_locked_documents_rels_roommate_posts_id_idx",
-          "columns": [
-            {
-              "expression": "roommate_posts_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "payload_locked_documents_rels_comments_id_idx": {
-          "name": "payload_locked_documents_rels_comments_id_idx",
-          "columns": [
-            {
-              "expression": "comments_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "payload_locked_documents_rels_events_id_idx": {
           "name": "payload_locked_documents_rels_events_id_idx",
           "columns": [
@@ -7574,11 +7351,11 @@
           "method": "btree",
           "with": {}
         },
-        "payload_locked_documents_rels_general_user_id_idx": {
-          "name": "payload_locked_documents_rels_general_user_id_idx",
+        "payload_locked_documents_rels_daily_reminders_id_idx": {
+          "name": "payload_locked_documents_rels_daily_reminders_id_idx",
           "columns": [
             {
-              "expression": "general_user_id",
+              "expression": "daily_reminders_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -7589,11 +7366,11 @@
           "method": "btree",
           "with": {}
         },
-        "payload_locked_documents_rels_daily_reminders_id_idx": {
-          "name": "payload_locked_documents_rels_daily_reminders_id_idx",
+        "payload_locked_documents_rels_masjid_id_idx": {
+          "name": "payload_locked_documents_rels_masjid_id_idx",
           "columns": [
             {
-              "expression": "daily_reminders_id",
+              "expression": "masjid_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -7831,6 +7608,19 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
+        "payload_locked_documents_rels_weekly_prayer_timetables_fk": {
+          "name": "payload_locked_documents_rels_weekly_prayer_timetables_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "weekly_prayer_timetables",
+          "columnsFrom": [
+            "weekly_prayer_timetables_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
         "payload_locked_documents_rels_jummah_timings_fk": {
           "name": "payload_locked_documents_rels_jummah_timings_fk",
           "tableFrom": "payload_locked_documents_rels",
@@ -7961,32 +7751,6 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "payload_locked_documents_rels_roommate_posts_fk": {
-          "name": "payload_locked_documents_rels_roommate_posts_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "roommate_posts",
-          "columnsFrom": [
-            "roommate_posts_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_comments_fk": {
-          "name": "payload_locked_documents_rels_comments_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "comments",
-          "columnsFrom": [
-            "comments_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
         "payload_locked_documents_rels_events_fk": {
           "name": "payload_locked_documents_rels_events_fk",
           "tableFrom": "payload_locked_documents_rels",
@@ -8000,12 +7764,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "payload_locked_documents_rels_general_user_fk": {
-          "name": "payload_locked_documents_rels_general_user_fk",
+        "payload_locked_documents_rels_daily_reminders_fk": {
+          "name": "payload_locked_documents_rels_daily_reminders_fk",
           "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "general_user",
+          "tableTo": "daily_reminders",
           "columnsFrom": [
-            "general_user_id"
+            "daily_reminders_id"
           ],
           "columnsTo": [
             "id"
@@ -8013,12 +7777,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "payload_locked_documents_rels_daily_reminders_fk": {
-          "name": "payload_locked_documents_rels_daily_reminders_fk",
+        "payload_locked_documents_rels_masjid_fk": {
+          "name": "payload_locked_documents_rels_masjid_fk",
           "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "daily_reminders",
+          "tableTo": "masjid",
           "columnsFrom": [
-            "daily_reminders_id"
+            "masjid_id"
           ],
           "columnsTo": [
             "id"
@@ -9256,81 +9020,12 @@
         "4"
       ]
     },
-    "public.enum_roommate_posts_utilities": {
-      "name": "enum_roommate_posts_utilities",
-      "schema": "public",
-      "values": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6"
-      ]
-    },
-    "public.enum_roommate_posts_amenities": {
-      "name": "enum_roommate_posts_amenities",
-      "schema": "public",
-      "values": [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5"
-      ]
-    },
-    "public.enum_roommate_posts_gender": {
-      "name": "enum_roommate_posts_gender",
-      "schema": "public",
-      "values": [
-        "1",
-        "2"
-      ]
-    },
-    "public.enum_roommate_posts_property_type": {
-      "name": "enum_roommate_posts_property_type",
-      "schema": "public",
-      "values": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
-    },
-    "public.enum_roommate_posts_furnishing_type": {
-      "name": "enum_roommate_posts_furnishing_type",
-      "schema": "public",
-      "values": [
-        "1",
-        "2",
-        "3"
-      ]
-    },
-    "public.enum_roommate_posts_status": {
-      "name": "enum_roommate_posts_status",
-      "schema": "public",
-      "values": [
-        "pending",
-        "approved"
-      ]
-    },
     "public.enum_events_status": {
       "name": "enum_events_status",
       "schema": "public",
       "values": [
         "draft",
         "published"
-      ]
-    },
-    "public.enum_general_user_category": {
-      "name": "enum_general_user_category",
-      "schema": "public",
-      "values": [
-        "student",
-        "landlord",
-        "parent",
-        "business",
-        "alumni"
       ]
     },
     "public.enum_forms_blocks_payment_price_conditions_condition": {
@@ -9358,6 +9053,16 @@
       "values": [
         "static",
         "valueOfField"
+      ]
+    },
+    "public.enum_forms_blocks_upload_allowed_file_types": {
+      "name": "enum_forms_blocks_upload_allowed_file_types",
+      "schema": "public",
+      "values": [
+        "*",
+        "application/pdf",
+        "image/png,image/jpeg,image/webp",
+        ".doc,.docx"
       ]
     },
     "public.enum_forms_confirmation_type": {
@@ -9406,5 +9111,7 @@
     "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "30168b6e-c165-4659-86d4-33781b7a68ac",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }
