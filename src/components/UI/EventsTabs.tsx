@@ -17,6 +17,13 @@ interface EventsTabsProps {
 }
 
 const TAB_ORDER: TabKey[] = ["upcoming", "recurring", "past"];
+const TAB_LABELS: Record<TabKey, string> = {
+  upcoming: "Upcoming",
+  recurring: "Recurring",
+  past: "Past",
+};
+const ACTIVE_TAB_CLASS = "border-primary bg-primary text-primary-content font-semibold";
+const INACTIVE_TAB_CLASS = "border-transparent bg-transparent text-base-content/90 font-medium hover:bg-base-100/80";
 
 function isTabKey(value: string | null): value is TabKey {
   return value === "upcoming" || value === "recurring" || value === "past";
@@ -81,71 +88,30 @@ export default function EventsTabs({
       <div
         role="tablist"
         aria-label="Event categories"
-        className="grid w-full grid-cols-3 gap-1 rounded-full border border-base-300 bg-base-200/70 p-1"
+        className="grid w-full grid-cols-3 gap-1 rounded-full border border-base-300 bg-base-200/70 p-1 sm:gap-1.5 sm:p-1.5"
       >
-        <Button
-          variant={activeTab === "upcoming" ? "default" : "outline"}
-          size="sm"
-          role="tab"
-          id="events-tab-upcoming"
-          aria-controls="events-panel-upcoming"
-          aria-selected={activeTab === "upcoming"}
-          tabIndex={activeTab === "upcoming" ? 0 : -1}
-          ref={(node) => {
-            tabRefs.current.upcoming = node;
-          }}
-          onClick={() => setTabAndUrl("upcoming")}
-          onKeyDown={(event) => handleTabKeyDown("upcoming", event)}
-          className={`h-10 rounded-full px-2 text-xs transition-colors duration-150 sm:h-11 sm:text-sm ${
-            activeTab === "upcoming"
-              ? "border-primary bg-primary text-primary-content font-semibold"
-              : "border-transparent bg-transparent text-base-content/90 font-medium hover:bg-base-100/80"
-          }`}
-        >
-          Upcoming
-        </Button>
-        <Button
-          variant={activeTab === "recurring" ? "default" : "outline"}
-          size="sm"
-          role="tab"
-          id="events-tab-recurring"
-          aria-controls="events-panel-recurring"
-          aria-selected={activeTab === "recurring"}
-          tabIndex={activeTab === "recurring" ? 0 : -1}
-          ref={(node) => {
-            tabRefs.current.recurring = node;
-          }}
-          onClick={() => setTabAndUrl("recurring")}
-          onKeyDown={(event) => handleTabKeyDown("recurring", event)}
-          className={`h-10 rounded-full px-2 text-xs transition-colors duration-150 sm:h-11 sm:text-sm ${
-            activeTab === "recurring"
-              ? "border-primary bg-primary text-primary-content font-semibold"
-              : "border-transparent bg-transparent text-base-content/90 font-medium hover:bg-base-100/80"
-          }`}
-        >
-          Recurring
-        </Button>
-        <Button
-          variant={activeTab === "past" ? "default" : "outline"}
-          size="sm"
-          role="tab"
-          id="events-tab-past"
-          aria-controls="events-panel-past"
-          aria-selected={activeTab === "past"}
-          tabIndex={activeTab === "past" ? 0 : -1}
-          ref={(node) => {
-            tabRefs.current.past = node;
-          }}
-          onClick={() => setTabAndUrl("past")}
-          onKeyDown={(event) => handleTabKeyDown("past", event)}
-          className={`h-10 rounded-full px-2 text-xs transition-colors duration-150 sm:h-11 sm:text-sm ${
-            activeTab === "past"
-              ? "border-primary bg-primary text-primary-content font-semibold"
-              : "border-transparent bg-transparent text-base-content/90 font-medium hover:bg-base-100/80"
-          }`}
-        >
-          Past
-        </Button>
+        {TAB_ORDER.map((tab) => (
+          <Button
+            key={tab}
+            variant={activeTab === tab ? "default" : "outline"}
+            size="sm"
+            role="tab"
+            id={`events-tab-${tab}`}
+            aria-controls={`events-panel-${tab}`}
+            aria-selected={activeTab === tab}
+            tabIndex={activeTab === tab ? 0 : -1}
+            ref={(node) => {
+              tabRefs.current[tab] = node;
+            }}
+            onClick={() => setTabAndUrl(tab)}
+            onKeyDown={(event) => handleTabKeyDown(tab, event)}
+            className={`h-11 touch-manipulation rounded-full px-1.5 text-[13px] transition-colors duration-150 sm:h-12 sm:px-2 sm:text-sm ${
+              activeTab === tab ? ACTIVE_TAB_CLASS : INACTIVE_TAB_CLASS
+            }`}
+          >
+            {TAB_LABELS[tab]}
+          </Button>
+        ))}
       </div>
 
       {activeTab === "upcoming" ? (
@@ -177,11 +143,12 @@ export default function EventsTabs({
                 const recurrencePrefix = event.recurrence === "biweekly"
                   ? "Biweekly · "
                   : "";
+                const recurringDateLabel = `${recurrencePrefix}${event.day}\n${formatWeeklyTime(event.timeStart)} - ${formatWeeklyTime(event.timeEnd)}`;
                 return (
                   <EventListCard
                     key={event.id}
                     title={event.name}
-                    dateLabel={`${recurrencePrefix}${event.day} | ${formatWeeklyTime(event.timeStart)} - ${formatWeeklyTime(event.timeEnd)}`}
+                    dateLabel={recurringDateLabel}
                     location={event.location}
                     locationLink={event.locationLink}
                     description={event.caption}
