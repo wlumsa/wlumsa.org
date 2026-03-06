@@ -3,7 +3,12 @@ import Link from "next/link";
 import JummahInfo from "./JummahInfo";
 import PrayerRooms from "./PrayerRooms";
 import PrayerTimes from "./PrayerTimes";
-import { JummahTiming, PrayerTiming, PrayerRoom } from "@/payload-types";
+import {
+  JummahTiming,
+  PrayerTiming,
+  PrayerRoom,
+  WeeklyPrayerTimetable,
+} from "@/payload-types";
 /**
  * Represents the PrayerSection component.
  * @param {Object} prayerRoomsData - The data for prayer rooms.
@@ -16,8 +21,14 @@ interface PrayerSectionProps {
   prayerRoomsData: PrayerRoom[];
   jummahInfo: JummahTiming[];
   timingsData: PrayerTiming;
+  weeklyTimetable: WeeklyPrayerTimetable | null;
 }
-const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahInfo, timingsData }) => {
+const PrayerSection: React.FC<PrayerSectionProps> = ({
+  prayerRoomsData,
+  jummahInfo,
+  timingsData,
+  weeklyTimetable,
+}) => {
   return (
     <div
       id="prayer_info"
@@ -27,7 +38,7 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({ prayerRoomsData, jummahIn
         <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
           Prayer Times
         </h3>
-        <PrayerTimes timingsData={timingsData} />
+        <PrayerTimes timingsData={timingsData} weeklyTimetable={weeklyTimetable} />
         <Link
           href="/prayerinfo"
           className="btn btn-primary mt-4 border-0 text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"

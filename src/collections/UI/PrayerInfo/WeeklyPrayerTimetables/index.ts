@@ -1,17 +1,13 @@
-import { CollectionConfig } from "payload";
+import { GlobalConfig } from "payload";
 
-export const WeeklyPrayerTimetables: CollectionConfig = {
+export const WeeklyPrayerTimetables: GlobalConfig = {
   slug: "weekly-prayer-timetables",
   admin: {
-    useAsTitle: "weekLabel",
     group: "Prayer Info",
-    defaultColumns: ["weekLabel", "weekKey", "scrapedAt", "updatedAt"],
   },
   access: {
     read: () => true,
-    create: () => true,
     update: () => true,
-    delete: () => true,
   },
   fields: [
     {

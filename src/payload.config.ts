@@ -97,7 +97,6 @@ export default buildConfig({
     WeeklyEvents,
     Jummah,
     PrayerRooms,
-    WeeklyPrayerTimetables,
     Services,
     EmailCollection,
     DistributionList,
@@ -113,7 +112,7 @@ export default buildConfig({
     DailyReminders,
     Masjid,
   ],
-  globals: [Nav, Footer, PrayerTimings],
+  globals: [Nav, Footer, PrayerTimings, WeeklyPrayerTimetables],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
 

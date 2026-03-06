@@ -11,7 +11,7 @@ export const revalidate = 3600;
 // Lazy initialization of payload to prevent database connection issues
 let payloadInstance: any = null;
 
-async function getPayloadInstance() {
+export async function getPayloadInstance() {
   if (!payloadInstance) {
     payloadInstance = await getPayload({ config: configPromise });
   }
@@ -409,6 +409,20 @@ export async function getPrayerTimings() {
     slug: "prayer-timings",
   });
   return timings;
+}
+
+export async function getWeeklyPrayerTimetable() {
+  const payload = await getPayloadInstance();
+
+  try {
+    const timetable = await payload.findGlobal({
+      slug: "weekly-prayer-timetables",
+      depth: 0,
+    });
+    return timetable;
+  } catch {
+    return null;
+  }
 }
 
 export async function getPrayerRooms() {
