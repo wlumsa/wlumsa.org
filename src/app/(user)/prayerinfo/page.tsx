@@ -11,11 +11,10 @@ import Image from "next/image";
 import MasjidCard from "@/components/UI/MasjidCard"
 import Link from "next/link";
 /**
- 
  * This page displays the prayer timings and videos guiding users to the prayer rooms.
- * @returns The JSX element representing the Prayer Info page.
+ * Revalidate every 24 hours so timings stay fresh after the daily cron update.
  */
-export const revalidate = 6000;
+export const revalidate = 86400; // 24 hours
 
 export default async function PrayerInfo() {
   const [timingsData, jummahTimes, prayerSpaces, weeklyTimetable] = await Promise.all([

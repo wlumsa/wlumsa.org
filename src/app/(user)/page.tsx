@@ -22,13 +22,10 @@ import {
 } from '@/Utils/datafetcher';
 import { CheckCircle } from 'lucide-react';
 /*
- * Next.js time-based revalidation function for caching (set to 1 hour)
- * Best practices:
- * - Use caching for static content to optimize performance
- * - Dynamic content should be revalidated periodically
- * More information can be found here:
+ * Revalidate every 24 hours so prayer timings (and other data) stay fresh after cron updates.
  * https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
-*/
+ */
+export const revalidate = 86400; // 24 hours
 
 export default async function Home() {
   // Fetch data from database for dynamic data using destructuring to improve clarity
