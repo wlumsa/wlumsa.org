@@ -1322,6 +1322,41 @@ export async function fetchRoommatePostsByUser(clerkId: number) {
 //   return;
 // }
 
+/**
+ * Decrement the submission_limit for a form directly in Supabase.
+ * Equivalent to: UPDATE forms SET submission_limit = GREATEST(FLOOR(submission_limit) - 1, 0) WHERE id = $1
+ * @param {string} formID - The ID of the form.
+ * @returns {Promise<number>} The updated submission_limit value.
+ */
+export async function decrementFormSubmissionLimit(formID: string): Promise<number> {
+  const { data: current, error: fetchError } = await supabase
+    .from("forms")
+    .select("submission_limit")
+    .eq("id", formID)
+    .single();
+
+  if (fetchError) {
+    console.error(`Error fetching submission_limit for form ${formID}:`, fetchError);
+    throw new Error(`Failed to fetch submission limit: ${fetchError.message}`);
+  }
+
+  const newLimit = Math.max(Math.floor(current.submission_limit ?? 0) - 1, 0);
+
+  const { data, error } = await supabase
+    .from("forms")
+    .update({ submission_limit: newLimit })
+    .eq("id", formID)
+    .select("submission_limit")
+    .single();
+
+  if (error) {
+    console.error(`Error decrementing submission_limit for form ${formID}:`, error);
+    throw new Error(`Failed to decrement submission limit: ${error.message}`);
+  }
+
+  return data.submission_limit;
+}
+
 export async function getHalalGroceryStores() {
   const payload = await getPayloadInstance();
   const groceryStores = await payload.find({

@@ -9,6 +9,7 @@ import { buildInitialFormState } from './buildInitialFormState'
 import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
+import { decrementSubmissionLimit } from './actions'
 import { CheckboxField } from './Checkbox/types'
 import { ContactInfoField } from './ContactInfo/types'
 import { MoveLeft } from 'lucide-react'
@@ -308,19 +309,9 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             updatedCheckboxes.every((opt) => opt.limit === 0)
         ) || false;
         console.log("Close Form", closeForm)
-        if(formData?.submissionLimit) {
+        if (formData?.submissionLimit) {
           try {
-            const limitUpdate = closeForm ? 0 : formData.submissionLimit - 1
-            const updateResponse = await fetch(`/api/forms/${formID}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                'submissionLimit': limitUpdate,
-              }),
-            })
-            if (!updateResponse.ok) {
-              console.error('Failed to update submission limit:', updateResponse.status)
-            }
+            await decrementSubmissionLimit(String(formID))
           } catch (err) {
             console.error('Error updating submission limit:', err)
           }
