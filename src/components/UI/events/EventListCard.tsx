@@ -21,8 +21,8 @@ type Tone = "upcoming" | "recurring" | "past";
 const DESCRIPTION_PREVIEW_CHARS = 150;
 const BASE_TONE_CLASSES = {
   card: "border-base-content/15 bg-base-100 ring-1 ring-base-content/10",
-  date: "rounded-md border border-base-300 bg-base-100 px-2 py-0.5 text-base-content/80",
-  badge: "border border-base-300 bg-base-100 text-base-content/70",
+  date: "rounded-md border border-base-300 bg-gradient-to-b from-base-100 to-base-200/40 px-2 py-0.5 text-base-content/80 shadow-sm shadow-base-content/10",
+  badge: "border border-base-300 bg-gradient-to-b from-base-100 to-base-200/40 text-base-content/70 shadow-sm shadow-base-content/10",
   cta: "bg-primary text-primary-content shadow-sm shadow-primary/20 hover:bg-primary/90 hover:shadow-md hover:shadow-primary/30 active:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
   secondaryCta: "border border-base-300 bg-base-100 text-base-content shadow-sm shadow-base-content/10 hover:bg-base-200 hover:shadow-md hover:shadow-base-content/20 active:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",
   readMore: "text-base-content/80 hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/20 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100",

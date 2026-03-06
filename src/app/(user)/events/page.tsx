@@ -2,10 +2,11 @@ import { Suspense } from "react";
 import {
   fetchEventsSettingsData,
   fetchPastEventsData,
+  fetchSocialData,
   fetchUpcomingEventsData,
   fetchWeeklyEventsData,
 } from "@/Utils/datafetcher";
-import type { Event as EventDoc, WeeklyEvent } from "@/payload-types";
+import type { Event as EventDoc, Social, WeeklyEvent } from "@/payload-types";
 import EventsTabs from "@/components/UI/EventsTabs";
 import { formatWeeklyTime, getWeeklyEventPrimaryImage } from "@/components/UI/events/events-utils";
 import MemberSignup from "@/components/UI/MemberSignup";
@@ -99,16 +100,27 @@ function buildNearRecurringAsUpcoming(weeklyEvents: WeeklyEvent[], now: Date): E
   });
 }
 
+function getInstagramUrl(socials: Social[]) {
+  const instagramSocial = socials.find((social) => {
+    const linkUrl = typeof social.link === "object" ? social.link.url : "";
+    return linkUrl.toLowerCase().includes("instagram.com");
+  });
+
+  if (!instagramSocial || typeof instagramSocial.link !== "object") return null;
+  return instagramSocial.link.url;
+}
+
 /**
  * Renders the Events page component.
  * @returns The rendered Events page component.
  */
 export default async function EventsPage() {
-  const [upcomingResult, weeklyResult, pastResult, settingsResult] = await Promise.allSettled([
+  const [upcomingResult, weeklyResult, pastResult, settingsResult, socialResult] = await Promise.allSettled([
     fetchUpcomingEventsData(),
     fetchWeeklyEventsData(),
     fetchPastEventsData(),
     fetchEventsSettingsData(),
+    fetchSocialData(),
   ]);
 
   const upcomingEventsFromEvents: EventDoc[] = upcomingResult.status === "fulfilled"
@@ -125,6 +137,9 @@ export default async function EventsPage() {
     : "auto";
   const quietMessage = settingsResult.status === "fulfilled"
     ? settingsResult.value.quietMessage
+    : null;
+  const instagramUrl = socialResult.status === "fulfilled"
+    ? getInstagramUrl(socialResult.value)
     : null;
   const hasEventsDataError = upcomingResult.status === "rejected"
     || weeklyResult.status === "rejected"
@@ -144,6 +159,24 @@ export default async function EventsPage() {
           <h1 className="text-center text-3xl font-bold text-primary sm:text-4xl">Events</h1>
           <p className="text-center text-sm text-base-content/75 sm:text-base">
             Upcoming, recurring, and past events in one place.
+          </p>
+          <p className="text-center text-xs text-base-content/70 sm:text-sm">
+            {instagramUrl ? (
+              <>
+                Follow{" "}
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  Instagram
+                </a>{" "}
+                for live updates, or join email reminders.
+              </>
+            ) : (
+              "Join email reminders for upcoming event updates."
+            )}
           </p>
         </section>
         {hasEventsDataError ? (
@@ -177,7 +210,7 @@ export default async function EventsPage() {
           <section className="space-y-4 pt-2">
             <div className="text-center">
               <p className="text-sm text-base-content/80 sm:text-base">
-                Want reminders about new events? Join updates below.
+                Want reminders about new events? Join updates.
               </p>
             </div>
             <div className="mx-auto w-full max-w-2xl">
