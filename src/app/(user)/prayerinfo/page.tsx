@@ -1,10 +1,14 @@
 import React from "react";
 import PrayerTimesTable from "../../../components/PrayerTimeTable"; // assuming PrayerTimesTable is the client component
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
-import { getJummahTimings, getPrayerTimings } from "@/Utils/datafetcher";
+import {
+  getJummahTimings,
+  getPrayerTimings,
+  getPrayerSpaces,
+  getWeeklyPrayerTimetable,
+} from "@/Utils/datafetcher";
 import Image from "next/image";
 import MasjidCard from "@/components/UI/MasjidCard"
-import { getPrayerSpaces } from "@/Utils/datafetcher";
 import Link from "next/link";
 /**
  
@@ -14,11 +18,12 @@ import Link from "next/link";
 export const revalidate = 6000;
 
 export default async function PrayerInfo() {
-  const timingsData = await getPrayerTimings()
-  const jummahTimes = await getJummahTimings()
-  const prayerSpaces = await getPrayerSpaces()
-  console.log(prayerSpaces)
-  
+  const [timingsData, jummahTimes, prayerSpaces, weeklyTimetable] = await Promise.all([
+    getPrayerTimings(),
+    getJummahTimings(),
+    getPrayerSpaces(),
+    getWeeklyPrayerTimetable(),
+  ]);
 
   return (
     <div className="flex-grow items-center pt-16">
@@ -32,7 +37,11 @@ export default async function PrayerInfo() {
            .
          </p>
 
-        <PrayerTimesTable timingsData={timingsData} jummahTimes={jummahTimes} />
+        <PrayerTimesTable
+          timingsData={timingsData}
+          jummahTimes={jummahTimes}
+          weeklyTimetable={weeklyTimetable}
+        />
       </div>
       <div className="container mx-auto justify-center   flex flex-col items-center ">
           <h1 className="font-serif text-3xl font-bold text-primary text-center mb-4 sm:text-4xl">On-campus Prayer Spaces</h1>

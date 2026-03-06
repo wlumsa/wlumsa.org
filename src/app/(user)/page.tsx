@@ -10,7 +10,16 @@ import PrayerSection from '@/components/UI/PrayerSection';
 import MemberSignup from '@/components/UI/MemberSignup';
 
 // Data fetching functions
-import { fetchInstagramPosts, fetchWeeklyEventsData, getJummahTimings, getPrayerRooms, getPrayerTimings, getMedia, fetchSocialData } from '@/Utils/datafetcher';
+import {
+  fetchInstagramPosts,
+  fetchWeeklyEventsData,
+  getJummahTimings,
+  getPrayerRooms,
+  getPrayerTimings,
+  getMedia,
+  fetchSocialData,
+  getWeeklyPrayerTimetable,
+} from '@/Utils/datafetcher';
 import { CheckCircle } from 'lucide-react';
 /*
  * Next.js time-based revalidation function for caching (set to 1 hour)
@@ -29,6 +38,7 @@ export default async function Home() {
     prayerRoomsData,
     jummahInfo,
     timingsData,
+    weeklyTimetable,
     mediaDocs,
     socialLinks
   ] = await Promise.all([
@@ -37,6 +47,7 @@ export default async function Home() {
     getPrayerRooms(),
     getJummahTimings(),
     getPrayerTimings(),
+    getWeeklyPrayerTimetable(),
     getMedia("hero"),
     fetchSocialData()
   ]);
@@ -47,7 +58,12 @@ export default async function Home() {
       <Hero mediaDocs={mediaDocs} socialLinks={socialLinks} />
 
       {/* Prayer Section */}
-      <PrayerSection prayerRoomsData={prayerRoomsData} jummahInfo={jummahInfo} timingsData={timingsData} />
+      <PrayerSection
+        prayerRoomsData={prayerRoomsData}
+        jummahInfo={jummahInfo}
+        timingsData={timingsData}
+        weeklyTimetable={weeklyTimetable}
+      />
       {/* <Popup /> */}
 
       {/* News and Events */}

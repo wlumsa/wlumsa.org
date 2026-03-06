@@ -1,11 +1,12 @@
 "use client"
 import React from "react";
-import { PrayerTiming, JummahTiming } from "@/payload-types";
+import { PrayerTiming, JummahTiming, WeeklyPrayerTimetable } from "@/payload-types";
 import { getFullDate,isFriday,formatJummahTiming } from "@/Utils/dateFormater";
 
 interface PrayerTimesTableProps {
   timingsData: PrayerTiming;
   jummahTimes: JummahTiming[];
+  weeklyTimetable: WeeklyPrayerTimetable | null;
 }
 
 type TimingKey = "fajr" | "fajr_iqamah" | "sunrise" | "dhuhr" | "dhuhr_iqamah_1" | "dhuhr_iqamah_2"| "asr" | "asr_iqamah_1" | "maghrib" | "maghrib_iqamah" | "isha" | "isha_iqamah";
@@ -23,22 +24,101 @@ const timingDictonary = {
   "isha": "PM",
   "isha_iqamah": "PM",
 };
-const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
 
-const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummahTimes }) => {
+type DayTiming = Partial<Record<TimingKey, string>> & { day?: number };
+
+const WEEKLY_TIME_KEYS = {
+  date_day: ["date_day", "dateday", "date", "day"],
+  fajr_start: ["fajr_start", "fajr"],
+  fajr_iqamah: ["fajr_iqamah"],
+  dhuhr_start: ["dhuhr_start", "zuhr_start", "dhuhr", "zuhr"],
+  dhuhr_iqamah_1: ["dhuhr_iqamah_1", "zuhr_iqamah_1", "dhuhr_iqamah", "zuhr_iqamah"],
+  dhuhr_iqamah_2: ["dhuhr_iqamah_2", "zuhr_iqamah_2"],
+  asr_start: ["asr_start", "asr"],
+  asr_iqamah: ["asr_iqamah", "asr_iqamah_1"],
+  maghrib_start: ["maghrib_start", "maghrib", "magrib_start", "magrib"],
+  maghrib_iqamah: ["maghrib_iqamah", "magrib_iqamah"],
+  isha_start: ["isha_start", "isha"],
+  isha_iqamah: ["isha_iqamah"],
+} as const;
+
+function firstStringValue(row: Record<string, unknown>, keys: readonly string[]): string | null {
+  for (const key of keys) {
+    const value = row[key];
+    if (typeof value === "string" && value.trim().length > 0) {
+      return value.trim();
+    }
+  }
+  return null;
+}
+
+function extractDayNumber(value: string | null): number | undefined {
+  if (!value) return undefined;
+  const match = value.match(/\b(\d{1,2})\b/);
+  return match ? Number(match[1]) : undefined;
+}
+
+function mapWeeklyRowToDay(row: Record<string, unknown>): DayTiming {
+  return {
+    day: extractDayNumber(firstStringValue(row, WEEKLY_TIME_KEYS.date_day)),
+    fajr: firstStringValue(row, WEEKLY_TIME_KEYS.fajr_start) || undefined,
+    fajr_iqamah: firstStringValue(row, WEEKLY_TIME_KEYS.fajr_iqamah) || undefined,
+    dhuhr: firstStringValue(row, WEEKLY_TIME_KEYS.dhuhr_start) || undefined,
+    dhuhr_iqamah_1: firstStringValue(row, WEEKLY_TIME_KEYS.dhuhr_iqamah_1) || undefined,
+    dhuhr_iqamah_2: firstStringValue(row, WEEKLY_TIME_KEYS.dhuhr_iqamah_2) || undefined,
+    asr: firstStringValue(row, WEEKLY_TIME_KEYS.asr_start) || undefined,
+    asr_iqamah_1: firstStringValue(row, WEEKLY_TIME_KEYS.asr_iqamah) || undefined,
+    maghrib: firstStringValue(row, WEEKLY_TIME_KEYS.maghrib_start) || undefined,
+    maghrib_iqamah: firstStringValue(row, WEEKLY_TIME_KEYS.maghrib_iqamah) || undefined,
+    isha: firstStringValue(row, WEEKLY_TIME_KEYS.isha_start) || undefined,
+    isha_iqamah: firstStringValue(row, WEEKLY_TIME_KEYS.isha_iqamah) || undefined,
+  };
+}
+
+function getWeeklyUpcomingDays(weeklyTimetable: WeeklyPrayerTimetable | null): DayTiming[] {
+  if (!weeklyTimetable || !Array.isArray(weeklyTimetable.rows)) {
+    return [];
+  }
+
+  const rows = weeklyTimetable.rows.filter(
+    (row): row is Record<string, unknown> => typeof row === "object" && row !== null
+  );
+
+  if (rows.length === 0) {
+    return [];
+  }
+
+  const today = new Date().getDate();
+  const dayRegex = new RegExp(`(^|\\D)0?${today}(\\D|$)`);
+
+  const todayIndex = rows.findIndex((row) => {
+    const dateLabel = firstStringValue(row, WEEKLY_TIME_KEYS.date_day);
+    return dateLabel ? dayRegex.test(dateLabel) : false;
+  });
+
+  const orderedRows = todayIndex >= 0
+    ? rows.slice(todayIndex).concat(rows.slice(0, todayIndex))
+    : rows;
+
+  return orderedRows.slice(0, 7).map(mapWeeklyRowToDay);
+}
+
+const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummahTimes, weeklyTimetable }) => {
   const today = new Date();
   const timesToShow: TimingKey[] = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 
   const currentMonth = today.getMonth();
-  const daysInCurrentMonth = new Date(today.getFullYear(), currentMonth+1, 0).getDate();
+  const daysInCurrentMonth = new Date(today.getFullYear(), currentMonth + 1, 0).getDate();
   let currentMonthTimings = timingsData.month[currentMonth]?.days;
   
   if (timingsData && timingsData.month[currentMonth + 1]) {
     const nextMonthTimings = timingsData.month[currentMonth + 1]?.days || [];
-    currentMonthTimings = currentMonthTimings?.concat(nextMonthTimings)
+    currentMonthTimings = currentMonthTimings?.concat(nextMonthTimings);
   }
 
-  const upcomingDays = currentMonthTimings?.slice(today.getDate() - 1, today.getDate() + 6) || [];
+  const weeklyUpcomingDays = getWeeklyUpcomingDays(weeklyTimetable);
+  const monthlyUpcomingDays = (currentMonthTimings?.slice(today.getDate() - 1, today.getDate() + 6) || []) as DayTiming[];
+  const upcomingDays = weeklyUpcomingDays.length > 0 ? weeklyUpcomingDays : monthlyUpcomingDays;
 
   const getDateParts = (index: number) => {
     const dayDate = today.getDate() + index;
@@ -49,7 +129,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
     return { monthForDay, dayOfMonth };
   };
 
-  const getFormattedIqamah = (day: any, key: TimingKey) => {
+  const getFormattedIqamah = (day: DayTiming, key: TimingKey) => {
     if (key === "dhuhr") {
       return `${day["dhuhr_iqamah_1"] ? `${day["dhuhr_iqamah_1"]} ${timingDictonary["dhuhr_iqamah_1"]}` : ""}${day["dhuhr_iqamah_1"] && day["dhuhr_iqamah_2"] ? " | " : ""}${day["dhuhr_iqamah_2"] ? `${day["dhuhr_iqamah_2"]} ${timingDictonary["dhuhr_iqamah_2"]}` : ""}`;
     }
@@ -71,7 +151,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
           const fullDate = getFullDate(today.getFullYear(), monthForDay, dayOfMonth);
 
           return (
-            <div key={`${day.day}-${dayIndex}`} className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
+            <div key={`${dayIndex}-${dayOfMonth}`} className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm">
               <h3 className="mb-3 text-center text-sm font-semibold uppercase tracking-wide text-primary">
                 {fullDate}
               </h3>
@@ -82,13 +162,13 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                   const iqamahTime = getFormattedIqamah(day, key);
 
                   return (
-                    <div key={`${day.day}-${key}`} className="rounded-xl border border-base-300 bg-base-200/50 px-3 py-2 text-center">
+                    <div key={`${dayIndex}-${key}`} className="rounded-xl border border-base-300 bg-base-200/50 px-3 py-2 text-center">
                       <p className="text-xs font-semibold uppercase tracking-wide text-base-content/70">{key}</p>
                       <p className="mt-1 text-sm font-medium text-base-content">{formattedTiming}</p>
                       <p className="mt-0.5 text-sm font-semibold text-green-500">{iqamahTime}</p>
 
                       {key === "dhuhr" &&
-                        isFriday(today.getFullYear(), monthForDay, day.day) &&
+                        isFriday(today.getFullYear(), monthForDay, dayOfMonth) &&
                         jummahTimes.map((jummah, index) => (
                           <p key={index} className="mt-1 text-xs font-medium text-info">
                             {formatJummahTiming(jummah.timing)} ({jummah.building})
@@ -115,7 +195,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
 
                 return (
                   <th
-                    key={`${day.day}-${index}`}
+                    key={`${index}-${dayOfMonth}`}
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                   >
                     {getFullDate(today.getFullYear(), monthForDay, dayOfMonth)}
@@ -131,7 +211,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                   {timesToShow[keyIndex]}
                 </th>
                 {upcomingDays.map((day, dayIndex) => {
-                  const { monthForDay } = getDateParts(dayIndex);
+                  const { monthForDay, dayOfMonth } = getDateParts(dayIndex);
                   const formattedTiming = day[key] ? `${day[key]} ${timingDictonary[key]}` : "--";
                   const iqamahTime = getFormattedIqamah(day, key);
 
@@ -140,7 +220,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                       <div>{formattedTiming}</div>
                       <div className="text-green-500">{iqamahTime}</div>
                       {key === "dhuhr" &&
-                        isFriday(today.getFullYear(), monthForDay, day.day) &&
+                        isFriday(today.getFullYear(), monthForDay, dayOfMonth) &&
                         jummahTimes.map((jummah, index) => (
                           <div key={index} className="text-red-500">
                             {formatJummahTiming(jummah.timing)} at ({jummah.building})
