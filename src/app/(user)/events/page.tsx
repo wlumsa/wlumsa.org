@@ -139,9 +139,9 @@ export default async function EventsPage() {
 
   return (
     <main className="mt-16 flex-grow bg-base-100">
-      <div className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-8 sm:px-8 lg:py-16">
+      <div className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-8 sm:px-6 lg:py-16">
         <section className="space-y-2">
-          <h1 className="text-center text-4xl font-bold text-primary">Events</h1>
+          <h1 className="text-center text-3xl font-bold text-primary sm:text-4xl">Events</h1>
           <p className="text-center text-sm text-base-content/75 sm:text-base">
             Upcoming, recurring, and past events in one place.
           </p>

@@ -1,5 +1,9 @@
 import type { Event as EventDoc, Media, WeeklyEvent } from "@/payload-types";
 
+function normalizeMeridiemSpacing(value: string) {
+  return value.replace(/\s(?=(?:[APap]\.?M\.?)$)/, "\u00A0");
+}
+
 export function formatEventDate(dateValue: string | null | undefined) {
   if (!dateValue) return "Date TBD";
   const parsedDate = new Date(dateValue);
@@ -16,7 +20,7 @@ export function getEventDateLabel(event: EventDoc) {
   const dateLabel = formatEventDate(event.date);
   const timeLabel = event.time?.trim();
   if (!timeLabel) return dateLabel;
-  return `${dateLabel} | ${timeLabel}`;
+  return `${dateLabel} | ${normalizeMeridiemSpacing(timeLabel)}`;
 }
 
 export function formatWeeklyTime(timeValue: string | null | undefined) {
@@ -29,8 +33,7 @@ export function formatWeeklyTime(timeValue: string | null | undefined) {
     minute: "2-digit",
   }).format(parsedDate);
 
-  // Prevent "p.m./a.m." from wrapping onto a separate line on small screens.
-  return formattedTime.replace(/\s(?=[ap]\.m\.$)/i, "\u00A0");
+  return normalizeMeridiemSpacing(formattedTime);
 }
 
 function getEventMedia(event: EventDoc): Media | null {
