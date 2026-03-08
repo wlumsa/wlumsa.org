@@ -1372,15 +1372,15 @@ export async function decrementFormSubmissionLimit(formID: string): Promise<numb
 }
 
 interface CheckboxOptionWithLimit {
+  id?: string;
   label?: string;
   limit?: number;
   [key: string]: unknown;
 }
 
 interface FormFieldWithCheckboxes {
-  blockType?: string;
+  id?: string;
   name?: string;
-  checkboxes?: CheckboxOptionWithLimit[];
   [key: string]: unknown;
 }
 
@@ -1392,63 +1392,86 @@ export async function decrementFormCheckboxLimits(
   formID: string,
   submissionData: Record<string, unknown>,
 ): Promise<void> {
-  const { data: current, error: fetchError } = await supabase
-    .from("forms")
-    .select("fields")
-    .eq("id", formID)
-    .single();
-
-  if (fetchError) {
-    console.error(`Error fetching fields for form ${formID}:`, fetchError);
-    throw new Error(`Failed to fetch form fields: ${fetchError.message}`);
+  const parsedFormID = Number(formID);
+  if (Number.isNaN(parsedFormID)) {
+    throw new Error(`Invalid form ID: ${formID}`);
   }
 
-  const fields = Array.isArray(current?.fields)
-    ? (current.fields as FormFieldWithCheckboxes[])
+  const { data: checkboxBlocks, error: fetchBlocksError } = await supabase
+    .from("forms_blocks_checkbox")
+    .select("id, name")
+    .eq("_parent_id", parsedFormID);
+
+  if (fetchBlocksError) {
+    console.error(`Error fetching checkbox blocks for form ${formID}:`, fetchBlocksError);
+    throw new Error(`Failed to fetch checkbox blocks: ${fetchBlocksError.message}`);
+  }
+
+  const fields = Array.isArray(checkboxBlocks)
+    ? (checkboxBlocks as FormFieldWithCheckboxes[])
     : [];
 
-  const updatedFields = fields.map((field) => {
-    if (field.blockType !== "checkbox" || !Array.isArray(field.checkboxes) || !field.name) {
-      return field;
+  for (const field of fields) {
+    if (!field.id || !field.name) {
+      continue;
     }
 
     const selectedValuesRaw = submissionData[field.name];
     if (!Array.isArray(selectedValuesRaw) || selectedValuesRaw.length === 0) {
-      return field;
+      continue;
     }
 
-    const selectedLabels = new Set(
+    const selectedLabels = Array.from(new Set(
       selectedValuesRaw
         .filter((value): value is string => typeof value === "string" && value.length > 0),
-    );
+    ));
 
-    if (selectedLabels.size === 0) {
-      return field;
+    if (selectedLabels.length === 0) {
+      continue;
     }
 
-    const updatedCheckboxes = field.checkboxes.map((option) => {
-      if (
-        typeof option?.label === "string" &&
-        selectedLabels.has(option.label) &&
-        typeof option.limit === "number"
-      ) {
-        return { ...option, limit: Math.max(option.limit - 1, 0) };
+    const { data: options, error: fetchOptionsError } = await supabase
+      .from("forms_blocks_checkbox_checkboxes")
+      .select("id, label, limit")
+      .eq("_parent_id", field.id)
+      .in("label", selectedLabels);
+
+    if (fetchOptionsError) {
+      console.error(`Error fetching checkbox options for field ${field.name}:`, fetchOptionsError);
+      throw new Error(`Failed to fetch checkbox options: ${fetchOptionsError.message}`);
+    }
+
+    const checkboxOptions = Array.isArray(options)
+      ? (options as CheckboxOptionWithLimit[])
+      : [];
+
+    for (const option of checkboxOptions) {
+      if (!option.id) {
+        continue;
       }
 
-      return option;
-    });
+      const currentLimit = typeof option.limit === "number"
+        ? option.limit
+        : Number(option.limit ?? 0);
 
-    return { ...field, checkboxes: updatedCheckboxes };
-  });
+      const normalizedLimit = Number.isFinite(currentLimit)
+        ? Math.max(Math.floor(currentLimit) - 1, 0)
+        : 0;
 
-  const { error: updateError } = await supabase
-    .from("forms")
-    .update({ fields: updatedFields })
-    .eq("id", formID);
+      const { error: updateOptionError } = await supabase
+        .from("forms_blocks_checkbox_checkboxes")
+        .update({ limit: normalizedLimit })
+        .eq("id", option.id)
+        .eq("_parent_id", field.id);
 
-  if (updateError) {
-    console.error(`Error decrementing checkbox limits for form ${formID}:`, updateError);
-    throw new Error(`Failed to decrement checkbox limits: ${updateError.message}`);
+      if (updateOptionError) {
+        console.error(
+          `Error decrementing checkbox limit for option ${option.id} on form ${formID}:`,
+          updateOptionError,
+        );
+        throw new Error(`Failed to decrement checkbox limit: ${updateOptionError.message}`);
+      }
+    }
   }
 }
 
