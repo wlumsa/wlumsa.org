@@ -10,6 +10,7 @@ import { fields } from './fields'
 import { SelectField, Options } from './Select/types'
 import { createCheckoutSession } from '@/plugins/stripe/actions'
 import { decrementSubmissionLimit } from './actions'
+import { decrementCheckboxLimits } from './actions'
 import { CheckboxField } from './Checkbox/types'
 import { ContactInfoField } from './ContactInfo/types'
 import { MoveLeft } from 'lucide-react'
@@ -288,18 +289,12 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
             return f;
           });
 
-          // Send a single fetch request to update all checkbox limits
+          // Keep local state for close-form checks.
+          // Actual persistence now happens via a server action backed by Supabase.
           try {
-            const updateResponse = await fetch(`/api/forms/${formID}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ fields: updatedFields }),
-            })
-            if (!updateResponse.ok) {
-              console.error('Failed to update checkbox field limits:', updateResponse.status)
-            }
+            await decrementCheckboxLimits(String(formID), data as Record<string, unknown>)
           } catch (err) {
-            console.error('Error updating checkbox field limits:', err)
+            console.error('Error updating checkbox field limits in Supabase:', err)
           }
         }
         //check checkbox limit

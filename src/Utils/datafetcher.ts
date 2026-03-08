@@ -1357,6 +1357,87 @@ export async function decrementFormSubmissionLimit(formID: string): Promise<numb
   return data.submission_limit;
 }
 
+interface CheckboxOptionWithLimit {
+  label?: string;
+  limit?: number;
+  [key: string]: unknown;
+}
+
+interface FormFieldWithCheckboxes {
+  blockType?: string;
+  name?: string;
+  checkboxes?: CheckboxOptionWithLimit[];
+  [key: string]: unknown;
+}
+
+/**
+ * Decrement checkbox option limits on a form directly in Supabase.
+ * Each selected checkbox option is decremented by 1 with a floor at 0.
+ */
+export async function decrementFormCheckboxLimits(
+  formID: string,
+  submissionData: Record<string, unknown>,
+): Promise<void> {
+  const { data: current, error: fetchError } = await supabase
+    .from("forms")
+    .select("fields")
+    .eq("id", formID)
+    .single();
+
+  if (fetchError) {
+    console.error(`Error fetching fields for form ${formID}:`, fetchError);
+    throw new Error(`Failed to fetch form fields: ${fetchError.message}`);
+  }
+
+  const fields = Array.isArray(current?.fields)
+    ? (current.fields as FormFieldWithCheckboxes[])
+    : [];
+
+  const updatedFields = fields.map((field) => {
+    if (field.blockType !== "checkbox" || !Array.isArray(field.checkboxes) || !field.name) {
+      return field;
+    }
+
+    const selectedValuesRaw = submissionData[field.name];
+    if (!Array.isArray(selectedValuesRaw) || selectedValuesRaw.length === 0) {
+      return field;
+    }
+
+    const selectedLabels = new Set(
+      selectedValuesRaw
+        .filter((value): value is string => typeof value === "string" && value.length > 0),
+    );
+
+    if (selectedLabels.size === 0) {
+      return field;
+    }
+
+    const updatedCheckboxes = field.checkboxes.map((option) => {
+      if (
+        typeof option?.label === "string" &&
+        selectedLabels.has(option.label) &&
+        typeof option.limit === "number"
+      ) {
+        return { ...option, limit: Math.max(option.limit - 1, 0) };
+      }
+
+      return option;
+    });
+
+    return { ...field, checkboxes: updatedCheckboxes };
+  });
+
+  const { error: updateError } = await supabase
+    .from("forms")
+    .update({ fields: updatedFields })
+    .eq("id", formID);
+
+  if (updateError) {
+    console.error(`Error decrementing checkbox limits for form ${formID}:`, updateError);
+    throw new Error(`Failed to decrement checkbox limits: ${updateError.message}`);
+  }
+}
+
 export async function getHalalGroceryStores() {
   const payload = await getPayloadInstance();
   const groceryStores = await payload.find({
