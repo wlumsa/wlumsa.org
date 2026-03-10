@@ -69,11 +69,14 @@ export default function EventListCard({
     : null;
   const hasActions = Boolean(normalizedLocationLink || link);
   const toneClasses = TONE_CLASSES[tone];
+  const contentMinHeightClass = imageUrl
+    ? "sm:min-h-[17rem]"
+    : "sm:min-h-[15rem]";
 
   return (
     <article className={`group relative overflow-hidden rounded-2xl border shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-[transform,box-shadow,border-color,ring-color] duration-200 ease-out motion-reduce:transform-none motion-reduce:transition-none hover:-translate-y-0.5 hover:border-base-content/20 hover:shadow-[0_8px_22px_rgba(0,0,0,0.12)] hover:ring-base-content/15 ${toneClasses.card}`}>
-      <div className={`grid gap-0 ${imageUrl ? "md:grid-cols-[1fr_16rem] lg:grid-cols-[1fr_18rem]" : ""}`}>
-        <div className="relative flex h-full min-w-0 flex-col p-4 sm:p-6">
+      <div className={`grid gap-0 ${imageUrl ? "md:grid-cols-[minmax(0,1fr)_12rem] md:gap-4 lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-5" : ""}`}>
+        <div className={`relative flex h-full min-w-0 flex-col p-4 sm:p-6 ${contentMinHeightClass}`}>
           <div className="flex items-start gap-3 sm:gap-4">
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2.5">
@@ -129,16 +132,16 @@ export default function EventListCard({
 
           <div className="mt-auto grid gap-3 border-t border-base-300 pt-4 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
             {location ? (
-              <p className="inline-flex items-start gap-1.5 text-sm text-base-content/75">
+              <p className="inline-flex max-w-full items-start gap-1.5 text-sm text-base-content/75">
                 <svg className="h-3.5 w-3.5 text-base-content/60" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M9.69 18.933a.75.75 0 0 0 .62 0C13.645 17.46 17 13.937 17 10A7 7 0 1 0 3 10c0 3.937 3.355 7.46 6.69 8.933ZM10 11.5A2.5 2.5 0 1 0 10 6a2.5 2.5 0 0 0 0 5.5Z" clipRule="evenodd" />
                 </svg>
-                <span className="max-w-full break-words">{location}</span>
+                <span className="max-w-full break-words leading-relaxed">{location}</span>
               </p>
             ) : <span className="text-sm text-base-content/45">Location TBD</span>}
 
             {hasActions ? (
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
                 {normalizedLocationLink ? (
                   <a
                     href={normalizedLocationLink}
@@ -168,17 +171,17 @@ export default function EventListCard({
         </div>
 
         {imageUrl ? (
-          <div className={`relative hidden overflow-hidden border-l border-base-300 bg-base-100 md:block ${
-            isDescriptionExpanded ? "md:h-56 md:self-start lg:h-64" : "md:h-auto md:self-stretch"
-          }`}>
-            <Image
-              src={imageUrl}
-              alt={imageAlt ?? `${title} image`}
-              width={288}
-              height={288}
-              sizes="(min-width: 1024px) 288px, 256px"
-              className="h-full w-full object-cover object-center"
-            />
+          <div className="hidden md:block md:self-start md:py-4 md:pr-4 lg:py-5 lg:pr-5">
+            <div className="overflow-hidden rounded-xl border border-base-300 bg-base-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+              <Image
+                src={imageUrl}
+                alt={imageAlt ?? `${title} image`}
+                width={288}
+                height={288}
+                sizes="(min-width: 1024px) 288px, 256px"
+                className="aspect-[4/5] h-auto w-full object-cover object-center"
+              />
+            </div>
           </div>
         ) : null}
       </div>
