@@ -109,19 +109,19 @@ const CAMPUS_SERVICES = [
 
 const IMPACT_METRICS_2025 = [
   {
-    value: 3000,
+    value: 4000,
     label: "Meals Provided",
     prefix: "",
     suffix: "+",
   },
   {
-    value: 16000,
+    value: 30000,
     label: "Charity Raised",
     prefix: "$",
     suffix: "+",
   },
   {
-    value: 500,
+    value: 700,
     label: "Students Served",
     prefix: "",
     suffix: "+",
