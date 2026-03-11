@@ -108,6 +108,7 @@ export default function EventListCard({
                   alt={imageAlt ?? `${title} image`}
                   width={128}
                   height={128}
+                  unoptimized
                   sizes="(max-width: 640px) 112px, 128px"
                   className="h-full w-full object-cover object-center"
                 />
@@ -178,6 +179,7 @@ export default function EventListCard({
                 alt={imageAlt ?? `${title} image`}
                 width={288}
                 height={288}
+                unoptimized
                 sizes="(min-width: 1024px) 288px, 256px"
                 className="aspect-[4/5] h-auto w-full object-cover object-center"
               />
