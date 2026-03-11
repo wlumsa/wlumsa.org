@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => null);
   const paths = Array.isArray(body?.paths)
-    ? body.paths.filter((value): value is string => typeof value === "string" && value.startsWith("/"))
+    ? body.paths.filter((value: unknown): value is string => typeof value === "string" && value.startsWith("/"))
     : [];
 
   if (paths.length === 0) {
