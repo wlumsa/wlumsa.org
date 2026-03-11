@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { EventCard } from "@/components/UI/WeeklyEvents";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import {
@@ -108,24 +109,43 @@ const CAMPUS_SERVICES = [
 
 const IMPACT_METRICS_2025 = [
   {
-    value: 3000,
+    value: 4000,
     label: "Meals Provided",
     prefix: "",
     suffix: "+",
   },
   {
-    value: 16000,
+    value: 30000,
     label: "Charity Raised",
     prefix: "$",
     suffix: "+",
   },
   {
-    value: 500,
+    value: 700,
     label: "Students Served",
     prefix: "",
     suffix: "+",
   },
 ] as const;
+
+function getTodayISOInToronto(): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Toronto",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+  const day = parts.find((part) => part.type === "day")?.value;
+
+  if (!year || !month || !day) {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  return `${year}-${month}-${day}`;
+}
 
 function formatCompactNumber(value: number): string {
   return new Intl.NumberFormat("en-CA").format(value);
@@ -278,7 +298,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           ],
         };
 
-  const todayISO = new Date().toISOString().slice(0, 10);
+  const todayISO = getTodayISOInToronto();
   const fastingDays = days.filter((day) => day.isFastingDay);
   const firstFastingDay = fastingDays[0];
   const lastFastingDay = fastingDays[fastingDays.length - 1];
@@ -307,7 +327,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           subtitle="Waterloo, Ontario"
         />
 
-        <section ref={impactSectionRef} className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
+        <section ref={impactSectionRef} className="py-2 md:py-3">
           <div className="mx-auto space-y-1.5 py-1 text-center">
             <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">2025 Impact</p>
             <h2 className="mx-auto max-w-3xl text-balance text-2xl font-heading font-bold text-primary md:text-3xl">
@@ -443,7 +463,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </div>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
+        <section className="py-2 md:py-3">
           <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Campus Services</h2>
             <p className="text-xs font-body text-base-content/65">Programs running throughout Ramadan 2026.</p>
@@ -464,7 +484,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
+        <section className="py-2 md:py-3">
           <div className="flex flex-wrap items-end justify-between gap-2">
             <h2 className="text-lg font-heading font-bold text-primary">Resources</h2>
           </div>
@@ -474,13 +494,18 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 key={resource.href}
                 href={resource.href}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-colors duration-200 ease-out hover:border-base-content/20 hover:shadow-[0_8px_18px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 motion-reduce:transition-none sm:p-4"
               >
                 <div className="flex h-56 w-full items-center justify-center overflow-hidden rounded-xl border border-base-300 bg-base-200 sm:h-64">
-                  <img
+                  <Image
                     src={resource.image}
                     alt={resource.alt}
+                    width={800}
+                    height={1000}
+                    loading="lazy"
+                    decoding="async"
+                    sizes="(min-width: 1280px) 22vw, (min-width: 640px) 42vw, 90vw"
                     className="h-full w-full object-contain p-2"
                   />
                 </div>
@@ -494,7 +519,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
+        <section className="py-2 md:py-3">
           <h2
             className="mb-1 text-center text-2xl font-heading font-bold text-primary md:text-3xl"
             id="prayer_rooms"

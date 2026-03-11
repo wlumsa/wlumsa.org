@@ -9,7 +9,7 @@ type HeroProps = {
 
 export function Hero({ title, subtitle }: HeroProps) {
   return (
-    <section className="rounded-3xl border border-primary/20 bg-base-100 p-4 shadow-md shadow-base-content/10 md:p-6">
+    <section className="px-1 py-2 md:px-2 md:py-3">
       <div className="mx-auto max-w-4xl text-center">
         <BlurFade>
           <p className="text-xs font-body font-semibold uppercase tracking-[0.16em] text-primary/80 md:text-sm">{subtitle}</p>

@@ -2010,6 +2010,20 @@
           "primaryKey": false,
           "notNull": true
         },
+        "recurrence": {
+          "name": "recurrence",
+          "type": "enum_weekly_events_recurrence",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'weekly'"
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
         "time_start": {
           "name": "time_start",
           "type": "timestamp(3) with time zone",
@@ -2027,6 +2041,12 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
+        },
+        "location_link": {
+          "name": "location_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
         },
         "caption": {
           "name": "caption",
@@ -2213,121 +2233,6 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.weekly_prayer_timetables": {
-      "name": "weekly_prayer_timetables",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "week_key": {
-          "name": "week_key",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "week_label": {
-          "name": "week_label",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "source_url": {
-          "name": "source_url",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "scraped_at": {
-          "name": "scraped_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "headers": {
-          "name": "headers",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "rows": {
-          "name": "rows",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "weekly_prayer_timetables_week_key_idx": {
-          "name": "weekly_prayer_timetables_week_key_idx",
-          "columns": [
-            {
-              "expression": "week_key",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "weekly_prayer_timetables_updated_at_idx": {
-          "name": "weekly_prayer_timetables_updated_at_idx",
-          "columns": [
-            {
-              "expression": "updated_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "weekly_prayer_timetables_created_at_idx": {
-          "name": "weekly_prayer_timetables_created_at_idx",
-          "columns": [
-            {
-              "expression": "created_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -3870,7 +3775,7 @@
           "name": "date",
           "type": "timestamp(3) with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "time": {
           "name": "time",
@@ -3880,6 +3785,12 @@
         },
         "location": {
           "name": "location",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "location_link": {
+          "name": "location_link",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -6818,12 +6729,6 @@
           "primaryKey": false,
           "notNull": false
         },
-        "weekly_prayer_timetables_id": {
-          "name": "weekly_prayer_timetables_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
         "jummah_timings_id": {
           "name": "jummah_timings_id",
           "type": "integer",
@@ -7161,21 +7066,6 @@
           "columns": [
             {
               "expression": "weekly_events_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "payload_locked_documents_rels_weekly_prayer_timetables_i_idx": {
-          "name": "payload_locked_documents_rels_weekly_prayer_timetables_i_idx",
-          "columns": [
-            {
-              "expression": "weekly_prayer_timetables_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -7601,19 +7491,6 @@
           "tableTo": "weekly_events",
           "columnsFrom": [
             "weekly_events_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_weekly_prayer_timetables_fk": {
-          "name": "payload_locked_documents_rels_weekly_prayer_timetables_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "weekly_prayer_timetables",
-          "columnsFrom": [
-            "weekly_prayer_timetables_id"
           ],
           "columnsTo": [
             "id"
@@ -8865,6 +8742,134 @@
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
+    },
+    "public.weekly_prayer_timetables": {
+      "name": "weekly_prayer_timetables",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "week_key": {
+          "name": "week_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "week_label": {
+          "name": "week_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_url": {
+          "name": "source_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scraped_at": {
+          "name": "scraped_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "headers": {
+          "name": "headers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rows": {
+          "name": "rows",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "weekly_prayer_timetables_week_key_idx": {
+          "name": "weekly_prayer_timetables_week_key_idx",
+          "columns": [
+            {
+              "expression": "week_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.events_settings": {
+      "name": "events_settings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "mode": {
+          "name": "mode",
+          "type": "enum_events_settings_mode",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'auto'"
+        },
+        "quiet_message": {
+          "name": "quiet_message",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
   "enums": {
@@ -8947,6 +8952,14 @@
         "Friday",
         "Saturday",
         "Sunday"
+      ]
+    },
+    "public.enum_weekly_events_recurrence": {
+      "name": "enum_weekly_events_recurrence",
+      "schema": "public",
+      "values": [
+        "weekly",
+        "biweekly"
       ]
     },
     "public.enum_email_collection_status": {
@@ -9100,6 +9113,14 @@
         "November",
         "December"
       ]
+    },
+    "public.enum_events_settings_mode": {
+      "name": "enum_events_settings_mode",
+      "schema": "public",
+      "values": [
+        "auto",
+        "quiet"
+      ]
     }
   },
   "schemas": {},
@@ -9112,6 +9133,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "30168b6e-c165-4659-86d4-33781b7a68ac",
+  "id": "13bac7b9-bb34-4576-b887-5f28f3d85ca4",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

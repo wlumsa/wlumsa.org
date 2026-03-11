@@ -1,11 +1,9 @@
 'use client'
 import { toast } from "react-hot-toast";
 import { memberSignup } from '@/Utils/actions';
-import { useFormStatus } from 'react-dom';
 import { useTransition } from "react";
 
 const MemberSignup: React.FC = () => {
-  const { pending } = useFormStatus();
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
@@ -20,50 +18,64 @@ const MemberSignup: React.FC = () => {
   };
 
   return (
-        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-5 sm:p-7 md:p-8">
+        <div className="rounded-xl border border-base-300 bg-base-100 p-5 sm:p-6">
           <form className="text-base-content" action={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-7 md:mb-8">
-              <div className="space-y-4">
+            <div className="mb-7 grid grid-cols-1 gap-4 md:mb-8 md:grid-cols-2 md:gap-6">
+              <label className="form-control w-full gap-2">
+                <span className="label-text text-sm font-medium text-base-content">First Name</span>
                 <input
                   type="text"
                   required
                   name="firstName"
-                  placeholder="First Name"
-                  className="input input-bordered w-full text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20 bg-base-100 transition-all duration-200"
+                  autoComplete="given-name"
+                  placeholder="First Name…"
+                  className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
                   aria-describedby="firstName-error"
                 />
-                <input
-                  type="email"
-                  required
-                  name="email"
-                  placeholder="MyLaurier Email"
-                  className="input input-bordered w-full text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20 bg-base-100 transition-all duration-200"
-                  aria-describedby="email-error"
-                />
-              </div>
-              <div className="space-y-4">
+              </label>
+              <label className="form-control w-full gap-2">
+                <span className="label-text text-sm font-medium text-base-content">Last Name</span>
                 <input
                   type="text"
                   required
                   name="lastName"
-                  placeholder="Last Name"
-                  className="input input-bordered w-full text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20 bg-base-100 transition-all duration-200"
+                  autoComplete="family-name"
+                  placeholder="Last Name…"
+                  className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
                   aria-describedby="lastName-error"
                 />
+              </label>
+              <label className="form-control w-full gap-2">
+                <span className="label-text text-sm font-medium text-base-content">MyLaurier Email</span>
+                <input
+                  type="email"
+                  required
+                  name="email"
+                  autoComplete="email"
+                  spellCheck={false}
+                  placeholder="name@mylaurier.ca…"
+                  className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                  aria-describedby="email-error"
+                />
+              </label>
+              <label className="form-control w-full gap-2">
+                <span className="label-text text-sm font-medium text-base-content">Student ID</span>
                 <input
                   type="text"
                   required
                   name="studentId"
-                  placeholder="Student ID"
-                  className="input input-bordered w-full text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20 bg-base-100 transition-all duration-200"
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="Student ID…"
+                  className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
                   aria-describedby="studentId-error"
                 />
-              </div>
+              </label>
             </div>
 
             {/* Newsletter Toggle */}
             <div className="mb-7 md:mb-8">
-              <label className="label cursor-pointer bg-base-200 rounded-lg p-4 hover:bg-base-300 transition-colors">
+              <label className="label cursor-pointer rounded-lg bg-base-200/70 p-4">
                 <div className="flex flex-col gap-1 flex-1 pr-4">
                   <span className="label-text text-base-content font-medium">
                     Stay Updated
@@ -86,15 +98,15 @@ const MemberSignup: React.FC = () => {
               <button
                 type="submit"
                 disabled={isPending}
-                className="btn btn-primary w-full sm:w-auto sm:px-8 font-medium rounded-full shadow-sm ring-1 ring-primary/30 border border-primary/40 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 transition-all duration-200"
+                className="btn btn-primary w-full rounded-full border border-primary/40 px-8 font-medium sm:w-auto"
               >
                 {isPending ? (
                   <>
                     <span className="loading loading-spinner loading-sm"></span>
-                    Signing Up...
+                    Signing Up…
                   </>
                 ) : (
-                  "Join Community"
+                    "Join Community"
                 )}
               </button>
             </div>
