@@ -1,10 +1,23 @@
 import { CollectionConfig } from "payload";
+import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 export const Events: CollectionConfig = {
   slug: "events",
   admin: {
     useAsTitle: "name",
     group: "App",
+  },
+  hooks: {
+    afterChange: [
+      async () => {
+        await revalidateEventsPage();
+      },
+    ],
+    afterDelete: [
+      async () => {
+        await revalidateEventsPage();
+      },
+    ],
   },
   fields: [
     {
