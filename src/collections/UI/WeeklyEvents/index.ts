@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload';
+import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 
 
@@ -7,6 +8,18 @@ export const WeeklyEvents: CollectionConfig = {
     admin: {
         useAsTitle: 'name',
         group: 'UI',
+    },
+    hooks: {
+        afterChange: [
+            async () => {
+                await revalidateEventsPage();
+            },
+        ],
+        afterDelete: [
+            async () => {
+                await revalidateEventsPage();
+            },
+        ],
     },
     fields: [
         {

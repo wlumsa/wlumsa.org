@@ -1,9 +1,22 @@
 import { CollectionConfig } from 'payload';
+import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 const Socials: CollectionConfig = {
     slug: 'Socials',
     admin: {
         group: 'UI',
+    },
+    hooks: {
+        afterChange: [
+            async () => {
+                await revalidateEventsPage();
+            },
+        ],
+        afterDelete: [
+            async () => {
+                await revalidateEventsPage();
+            },
+        ],
     },
     fields: [
         {

@@ -1,9 +1,17 @@
 import { GlobalConfig } from "payload";
+import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 const EventsSettings: GlobalConfig = {
   slug: "events-settings",
   admin: {
     group: "App",
+  },
+  hooks: {
+    afterChange: [
+      async () => {
+        await revalidateEventsPage();
+      },
+    ],
   },
   fields: [
     {
