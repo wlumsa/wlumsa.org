@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  const paths = Array.isArray(body?.paths)
+  const paths: string[] = Array.isArray(body?.paths)
     ? body.paths.filter((value: unknown): value is string => typeof value === "string" && value.startsWith("/"))
     : [];
 
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "No valid paths provided" }, { status: 400 });
   }
 
-  for (const path of new Set(paths)) {
+  for (const path of new Set<string>(paths)) {
     revalidatePath(path);
   }
 
