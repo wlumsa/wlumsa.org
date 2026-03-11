@@ -1,5 +1,20 @@
 import type { Event as EventDoc, Media, WeeklyEvent } from "@/payload-types";
 
+function buildMediaUrl(media: Media | null) {
+  if (!media) return null;
+  if (media.url) return media.url;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const bucket = process.env.NEXT_PUBLIC_S3_BUCKET;
+  const filename = media.filename?.trim();
+
+  if (!supabaseUrl || !bucket || !filename) return null;
+
+  const prefix = media.prefix?.trim();
+  const basePath = `${supabaseUrl}/storage/v1/object/public/${bucket}`;
+  return prefix ? `${basePath}/${prefix}/${filename}` : `${basePath}/${filename}`;
+}
+
 function normalizeMeridiemSpacing(value: string) {
   return value.replace(/\s(?=(?:[APap]\.?M\.?)$)/, "\u00A0");
 }
@@ -42,7 +57,7 @@ function getEventMedia(event: EventDoc): Media | null {
 }
 
 export function getEventImageUrl(event: EventDoc) {
-  return getEventMedia(event)?.url ?? null;
+  return buildMediaUrl(getEventMedia(event));
 }
 
 export function getEventImageAlt(event: EventDoc) {
@@ -58,7 +73,7 @@ export function getWeeklyEventPrimaryImage(event: WeeklyEvent): Media | null {
 }
 
 export function getWeeklyEventImageUrl(event: WeeklyEvent) {
-  return getWeeklyEventPrimaryImage(event)?.url ?? null;
+  return buildMediaUrl(getWeeklyEventPrimaryImage(event));
 }
 
 export function getWeeklyEventImageAlt(event: WeeklyEvent) {
