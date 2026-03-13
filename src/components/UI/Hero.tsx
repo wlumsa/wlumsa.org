@@ -61,9 +61,13 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
           </TextEffect>
           <div className="flex flex-row m-4 justify-center mb-6 items-center gap-4" >
             {/* Keep consistent styling for main CTA buttons regardless of theme */}
-            <button className="btn text-bold h-12 px-6 py-3 duration-200 hover:scale-105 font-semibold rounded-lg" style={{ backgroundColor: '#2e046d', color: '#e7ac3b', border: 'none' }}>
-              <Link href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform">Donate</Link>
-            </button>
+            <Link
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform"
+              className="btn text-bold inline-flex h-12 items-center justify-center px-6 py-3 font-semibold rounded-lg duration-200 hover:scale-105"
+              style={{ backgroundColor: '#2e046d', color: '#e7ac3b', border: 'none' }}
+            >
+              Donate
+            </Link>
             <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3 whitespace-nowrap" style={{ backgroundColor: '#e7ac3b', color: '#1a1200', border: 'none' }}>
               Become a Member
             </GetStartedButton> </Link>
