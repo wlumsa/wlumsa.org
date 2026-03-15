@@ -1,10 +1,23 @@
 import { CollectionConfig } from "payload";
+import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 export const Events: CollectionConfig = {
   slug: "events",
   admin: {
     useAsTitle: "name",
     group: "App",
+  },
+  hooks: {
+    afterChange: [
+      async () => {
+        await revalidateEventsPage();
+      },
+    ],
+    afterDelete: [
+      async () => {
+        await revalidateEventsPage();
+      },
+    ],
   },
   fields: [
     {
@@ -16,25 +29,38 @@ export const Events: CollectionConfig = {
     {
         name:"date",
         type:"date",
-        required:false,
-        label:"Date",
+        required:true,
+        label:"Date and Time",
         admin: {
             position: "sidebar",
+            date: {
+              pickerAppearance: "dayAndTime",
+            },
           },
     }, 
     {
         name:"time",
         type:"text",
         required:false,
-        label:"Time",
+        label:"Display Time (optional)",
         admin: {
             position: "sidebar",
+            description: "Optional. Fill only if you want a time shown on the site.",
           },
     }, {
         name:"location",
         type:"text",
         required:false,
         label:"Location"
+    }, {
+        name:"locationLink",
+        type:"text",
+        required:false,
+        label:"Location Link (optional)",
+        admin: {
+            position: "sidebar",
+            description: "Optional directions URL (e.g., Google Maps). Shows as 'Get directions' under location.",
+          },
     }, {
         name:"description",
         type:"textarea",
