@@ -355,13 +355,16 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <section className="rounded-2xl border border-secondary/35 bg-secondary/10 p-4 shadow-md shadow-base-content/10 md:p-5">
-          <p className="text-xs font-body font-semibold uppercase tracking-[0.2em] text-primary">Eid Update</p>
-          <h2 className="mt-1 text-xl font-heading font-bold text-primary md:text-2xl">Eid al-Fitr is on Friday, March 20</h2>
-          <p className="mt-2 max-w-3xl text-sm font-body leading-relaxed text-base-content/80">
-            Waterloo Masjid has announced Eid based on moon sighting. Eid prayer will be at <strong>{EID_AL_FITR_2026_PRAYER_LOCATION}</strong> at <strong>{EID_AL_FITR_2026_PRAYER_TIME}</strong>.
-          </p>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm font-body text-base-content/80">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 dark:border-base-content/15 dark:bg-base-200/40 md:p-5">
+          <div>
+            <p className="text-xs font-body font-semibold uppercase tracking-[0.18em] text-primary">Eid Update</p>
+            <h2 className="mt-1 text-xl font-heading font-bold text-primary md:text-2xl">Eid al-Fitr is on Friday, March 20</h2>
+            <p className="mt-2 max-w-3xl text-sm font-body leading-relaxed text-base-content/80">
+              Waterloo Masjid has announced Eid based on moon sighting. Eid prayer will be at <strong>{EID_AL_FITR_2026_PRAYER_LOCATION}</strong> at <strong>{EID_AL_FITR_2026_PRAYER_TIME}</strong>.
+            </p>
+          </div>
+
+          <ul className="mt-4 list-disc space-y-1 pl-5 text-sm font-body text-base-content/80">
             <li>Bring your own prayer mats.</li>
             <li>Carpool to ease parking and traffic.</li>
           </ul>
