@@ -1,5 +1,10 @@
 import type { RamadanDay } from "@/lib/ramadan2026";
-import { getLastThirdOfNight, getOrdinal } from "@/lib/ramadan2026";
+import {
+  EID_AL_FITR_2026_PRAYER_LOCATION,
+  EID_AL_FITR_2026_PRAYER_TIME,
+  getLastThirdOfNight,
+  getOrdinal,
+} from "@/lib/ramadan2026";
 
 type DayDetailPanelProps = {
   day?: RamadanDay;
@@ -71,6 +76,18 @@ function PanelBody({ day, nextDay }: Omit<DayDetailPanelProps, "onCloseMobile" |
           <p className="text-[11px] font-body text-neutral/80">Based on Maghrib to next day&apos;s Fajr.</p>
         </div>
       </div>
+
+      {day.isEid ? (
+        <div className="rounded-xl border border-secondary/35 bg-secondary/10 p-3 shadow-sm">
+          <p className="text-[11px] font-body font-semibold uppercase tracking-wide text-base-content/70">Eid Prayer</p>
+          <p className="mt-1 text-sm font-body font-semibold text-base-content">{EID_AL_FITR_2026_PRAYER_LOCATION}</p>
+          <p className="text-sm font-body text-base-content/80">{EID_AL_FITR_2026_PRAYER_TIME}</p>
+          <ul className="mt-2 list-disc space-y-1 pl-4 text-sm font-body text-base-content/80">
+            <li>Bring your own prayer mats.</li>
+            <li>Carpool to ease parking and traffic.</li>
+          </ul>
+        </div>
+      ) : null}
 
     </div>
   );

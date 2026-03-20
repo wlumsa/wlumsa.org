@@ -5,6 +5,8 @@ import Image from "next/image";
 import { EventCard } from "@/components/UI/WeeklyEvents";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import {
+  EID_AL_FITR_2026_PRAYER_LOCATION,
+  EID_AL_FITR_2026_PRAYER_TIME,
   RAMADAN_2026_START_DATE_ISO,
   buildKeyDateSummary,
   buildRamadanDays,
@@ -246,7 +248,7 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
     if (!days[0]) return;
 
     if (!selectedISO) {
-      const todayISO = new Date().toISOString().slice(0, 10);
+      const todayISO = getTodayISOInToronto();
       const matchingToday = days.find((day) => day.isoDate === todayISO);
       setSelectedISO(matchingToday?.isoDate || days[0].isoDate);
       return;
@@ -353,11 +355,30 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 dark:border-base-content/15 dark:bg-base-200/40 md:p-5">
+          <div>
+            <p className="text-xs font-body font-semibold uppercase tracking-[0.18em] text-primary">Eid Update</p>
+            <h2 className="mt-1 text-xl font-heading font-bold text-primary md:text-2xl">Eid al-Fitr is on Friday, March 20</h2>
+            <p className="mt-2 max-w-3xl text-sm font-body leading-relaxed text-base-content/80">
+              Waterloo Masjid has announced Eid based on moon sighting. Eid prayer will be at <strong>{EID_AL_FITR_2026_PRAYER_LOCATION}</strong> at <strong>{EID_AL_FITR_2026_PRAYER_TIME}</strong>.
+            </p>
+          </div>
+
+          <ul className="mt-4 list-disc space-y-1 pl-5 text-sm font-body text-base-content/80">
+            <li>Bring your own prayer mats.</li>
+            <li>Carpool to ease parking and traffic.</li>
+          </ul>
+        </section>
+
         <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 dark:border-base-content/20 dark:bg-base-200/30 md:p-5">
           <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
             <div>
-              <h2 className="text-lg font-heading font-bold text-primary">Today&apos;s Fasting Snapshot</h2>
-              <p className="text-xs font-body text-base-content/65">Quick view for day, suhoor cutoff, and iftar time.</p>
+              <h2 className="text-lg font-heading font-bold text-primary">Today&apos;s Overview</h2>
+              <p className="text-xs font-body text-base-content/65">
+                {selectedDay?.isEid
+                  ? "Quick view for Eid date and prayer details."
+                  : "Quick view for day, suhoor cutoff, and iftar time."}
+              </p>
             </div>
           </div>
 
@@ -375,21 +396,39 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 </button>
               </div>
               <p className="mt-2 text-lg font-heading font-bold text-base-content">
-                {selectedFastingDay?.fastIndex ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast` : "Outside fasting dates"}
+                {selectedDay?.isEid
+                  ? "Eid al-Fitr"
+                  : selectedFastingDay?.fastIndex
+                    ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast`
+                    : "Outside fasting dates"}
               </p>
               <p className="mt-1 text-sm font-body text-base-content/75">
-                {selectedFastingDay ? formatDisplayDate(selectedFastingDay.isoDate) : "Select a fasting day below to view details."}
+                {selectedDay
+                  ? formatDisplayDate(selectedDay.isoDate)
+                  : "Select a day below to view details."}
               </p>
             </div>
             <div className="rounded-2xl border border-base-300 bg-base-200/60 p-4 shadow-md shadow-base-content/10">
-              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">Suhoor Ends</p>
-              <p className="mt-2 text-3xl font-heading font-bold text-base-content">{selectedFastingDay?.prayerTimes?.fajr || "--:--"}</p>
-              <p className="mt-1 text-sm font-body text-base-content/75">Fajr (Suhoor cutoff)</p>
+              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">
+                {selectedDay?.isEid ? "Prayer Time" : "Suhoor Ends"}
+              </p>
+              <p className="mt-2 text-3xl font-heading font-bold text-base-content">
+                {selectedDay?.isEid ? EID_AL_FITR_2026_PRAYER_TIME : selectedFastingDay?.prayerTimes?.fajr || "--:--"}
+              </p>
+              <p className="mt-1 text-sm font-body text-base-content/75">
+                {selectedDay?.isEid ? "Eid salah begins" : "Fajr (Suhoor cutoff)"}
+              </p>
             </div>
             <div className="rounded-2xl border border-secondary/35 bg-secondary/10 p-4 shadow-md shadow-base-content/10">
-              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">Iftar</p>
-              <p className="mt-2 text-3xl font-heading font-bold text-base-content">{selectedFastingDay?.prayerTimes?.maghrib || "--:--"}</p>
-              <p className="mt-1 text-sm font-body text-base-content/75">Maghrib (Iftar time)</p>
+              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">
+                {selectedDay?.isEid ? "Location" : "Iftar"}
+              </p>
+              <p className="mt-2 text-3xl font-heading font-bold text-base-content">
+                {selectedDay?.isEid ? EID_AL_FITR_2026_PRAYER_LOCATION : selectedFastingDay?.prayerTimes?.maghrib || "--:--"}
+              </p>
+              <p className="mt-1 text-sm font-body text-base-content/75">
+                {selectedDay?.isEid ? "Eid prayer venue" : "Maghrib (Iftar time)"}
+              </p>
             </div>
           </div>
 
@@ -454,9 +493,9 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
             />
 
             <KeyDatesCard
-              eidEstimate={keyDates.eidEstimate}
+              confirmedEid={keyDates.confirmedEid}
+              lastFastDay={keyDates.lastFastDay}
               ramadan29={keyDates.ramadan29}
-              ramadan30={keyDates.ramadan30}
             />
 
             <ExportButtons googleCalendarHref={googleCalendarHref} icsDownloadHref={icsDownloadHref} />
