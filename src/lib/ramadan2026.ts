@@ -20,6 +20,9 @@ export type RamadanDay = {
 };
 
 export const RAMADAN_2026_START_DATE_ISO = "2026-02-19";
+export const EID_AL_FITR_2026_ISO = "2026-03-20";
+export const EID_AL_FITR_2026_PRAYER_TIME = "8:30 AM";
+export const EID_AL_FITR_2026_PRAYER_LOCATION = "RIM Park";
 
 export function parseISODate(isoDate: string): Date {
   const [yearRaw = 2026, monthRaw = 1, dayRaw = 1] = isoDate.split("-").map(Number);
@@ -80,10 +83,11 @@ export function buildRamadanDays(
   prayerTimesByDate: Record<string, PrayerTimes> = {}
 ): RamadanDay[] {
   const startDate = parseISODate(startDateISO);
+  const eidDate = parseISODate(EID_AL_FITR_2026_ISO);
   const days: RamadanDay[] = [];
+  let fastIndex = 1;
 
-  for (let fastIndex = 1; fastIndex <= 30; fastIndex += 1) {
-    const currentDate = addDays(startDate, fastIndex - 1);
+  for (let currentDate = new Date(startDate); currentDate < eidDate; currentDate = addDays(currentDate, 1)) {
     const isoDate = toISODate(currentDate);
 
     days.push({
@@ -97,21 +101,20 @@ export function buildRamadanDays(
       isEid: false,
       prayerTimes: prayerTimesByDate[isoDate],
     });
+
+    fastIndex += 1;
   }
 
-  const eidDate = addDays(startDate, 30);
-  const eidISO = toISODate(eidDate);
-
   days.push({
-    isoDate: eidISO,
-    dayLabel: formatDisplayDate(eidISO),
+    isoDate: EID_AL_FITR_2026_ISO,
+    dayLabel: formatDisplayDate(EID_AL_FITR_2026_ISO),
     fastIndex: null,
     isFastingDay: false,
     isLastTen: false,
     isOddNight: false,
     isFirstTaraweeh: false,
     isEid: true,
-    prayerTimes: prayerTimesByDate[eidISO],
+    prayerTimes: prayerTimesByDate[EID_AL_FITR_2026_ISO],
   });
 
   return days;
@@ -120,13 +123,11 @@ export function buildRamadanDays(
 export function buildKeyDateSummary(startDateISO: string) {
   const startDate = parseISODate(startDateISO);
   const ramadan29 = toISODate(addDays(startDate, 28));
-  const ramadan30 = toISODate(addDays(startDate, 29));
-  const eidEstimate = toISODate(addDays(startDate, 30));
 
   return {
+    confirmedEid: EID_AL_FITR_2026_ISO,
+    lastFastDay: ramadan29,
     ramadan29,
-    ramadan30,
-    eidEstimate,
   };
 }
 

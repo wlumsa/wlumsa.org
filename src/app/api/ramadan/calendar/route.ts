@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addDays, parseISODate, RAMADAN_2026_START_DATE_ISO, toISODate } from "@/lib/ramadan2026";
+import {
+  EID_AL_FITR_2026_ISO,
+  addDays,
+  parseISODate,
+  RAMADAN_2026_START_DATE_ISO,
+  toISODate,
+} from "@/lib/ramadan2026";
 
 function formatICSDate(isoDate: string): string {
   return isoDate.replace(/-/g, "");
@@ -42,10 +48,12 @@ export async function GET(request: NextRequest) {
   const download = request.nextUrl.searchParams.get("download") === "1";
 
   const startDate = parseISODate(RAMADAN_2026_START_DATE_ISO);
+  const eidDate = parseISODate(EID_AL_FITR_2026_ISO);
+  const totalFasts = Math.round((eidDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 
   const events: string[] = [];
 
-  for (let fast = 1; fast <= 30; fast += 1) {
+  for (let fast = 1; fast <= totalFasts; fast += 1) {
     const date = addDays(startDate, fast - 1);
     const nextDate = addDays(date, 1);
     const startISO = toISODate(date);
@@ -61,7 +69,7 @@ export async function GET(request: NextRequest) {
       })
     );
 
-    if (fast >= 21 && fast <= 30) {
+    if (fast >= 21 && fast <= totalFasts) {
       events.push(
         buildAllDayEvent({
           uid: `ramadan-2026-last10-${fast}@wlumsa.org`,
@@ -86,7 +94,6 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const eidDate = addDays(startDate, 30);
   const eidISO = toISODate(eidDate);
   const eidEndISO = toISODate(addDays(eidDate, 1));
 
@@ -95,8 +102,8 @@ export async function GET(request: NextRequest) {
       uid: "ramadan-2026-eid@wlumsa.org",
       startISO: eidISO,
       endISO: eidEndISO,
-      summary: "Eid al-Fitr (Estimated)",
-      description: "Estimated Eid date for Ramadan 2026. Confirm with local moon sighting.",
+      summary: "Eid al-Fitr",
+      description: "Confirmed Eid date for Ramadan 2026 based on local moon sighting.",
     })
   );
 
