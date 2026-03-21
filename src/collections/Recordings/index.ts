@@ -25,6 +25,7 @@ export const Recording: CollectionConfig = {
         { label: 'Halaqah', value: '1' },
         { label: 'Khutbah', value: '2' },
         { label: 'Guest speaker', value: '3' },
+        { label: 'Ramadan Series', value: '4' },
       ],
     }
   ],

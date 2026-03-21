@@ -30,6 +30,10 @@ const categories: Category[] = [
     id: "3",
     title: "Guest Speaker"
   },
+  {
+    id: "4",
+    title: "Ramadan Series"
+  },
 
 ]
 
