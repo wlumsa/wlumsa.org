@@ -58,6 +58,15 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({ recordings }) => 
       setCurrentIndex(newIndex);
     }
   };
+  const [activeIndices, setActiveIndices] = useState<Set<number>>(new Set());
+  const activeVideo = (index: number) => {
+  setActiveIndices(prev => new Set(prev).add(index));
+    
+    }
+   const getYouTubeId = (src: string): string => {
+  return src.split("/embed/")[1]?.split("?")[0] ?? "";
+};
+
 
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -66,7 +75,7 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({ recordings }) => 
         ref={carouselRef}
         onScroll={handleScroll}
       >
-        {recordings.map((recording, index) => (
+       {recordings.map((recording, index) => (
           <div
             className="carousel-item flex-col w-full md:w-[24rem] bg-primary p-3 md:p-2 rounded-xl flex justify-center items-center min-h-[260px] md:min-h-[270px]"
             key={index}
@@ -74,14 +83,34 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({ recordings }) => 
             <h1 className="text-white/90 text-sm sm:text-base font-semibold text-center leading-snug line-clamp-2 pb-3">
               {recording.title}
             </h1>
-            <iframe
-              className="w-full aspect-video"
-              src={recording.src}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
+            {activeIndices.has(index) ? (
+              <iframe
+                className="w-full aspect-video"
+                src={`${recording.src}?autoplay=1`}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            ) : (
+              <div
+                className="relative w-full aspect-video cursor-pointer"
+                onClick={() => activeVideo(index)}
+              >
+                <img
+                  src={`https://img.youtube.com/vi/${getYouTubeId(recording.src)}/hqdefault.jpg`}
+                  alt={recording.title}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-black/60 rounded-full p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white">
+                      <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

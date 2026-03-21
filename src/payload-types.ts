@@ -418,7 +418,7 @@ export interface Recording {
   id: number;
   title?: string | null;
   url: string;
-  category: '1' | '2' | '3';
+  category: '1' | '2' | '3' | '4';
   updatedAt: string;
   createdAt: string;
 }
