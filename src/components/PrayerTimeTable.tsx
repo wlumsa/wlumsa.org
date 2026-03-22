@@ -170,7 +170,10 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                       {key === "dhuhr" &&
                         isFriday(today.getFullYear(), monthForDay, dayOfMonth) &&
                         jummahTimes.map((jummah, index) => (
-                          <p key={index} className="mt-1 text-xs font-medium text-info">
+                          <p
+                            key={jummah.id ?? `${jummah.building}-${jummah.timing}-${index}`}
+                            className="mt-1 text-xs font-medium text-info"
+                          >
                             {formatJummahTiming(jummah.timing)} ({jummah.building})
                           </p>
                         ))}
@@ -222,7 +225,10 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({ timingsData, jummah
                       {key === "dhuhr" &&
                         isFriday(today.getFullYear(), monthForDay, dayOfMonth) &&
                         jummahTimes.map((jummah, index) => (
-                          <div key={index} className="text-red-500">
+                          <div
+                            key={jummah.id ?? `${jummah.building}-${jummah.timing}-${index}`}
+                            className="text-red-500"
+                          >
                             {formatJummahTiming(jummah.timing)} at ({jummah.building})
                           </div>
                         ))}

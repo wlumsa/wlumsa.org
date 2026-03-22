@@ -499,6 +499,7 @@ export async function getJummahTimings() {
   const timings = await payload.find({
     collection: "jummah-timings",
     limit: 10,
+    sort: "timing",
   });
   return timings.docs;
 }
