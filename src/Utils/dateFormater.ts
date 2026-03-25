@@ -34,17 +34,23 @@ export function getFullDate(year: number, month: number, day: number) {
 }
 
 export function isFriday(year: number, month: number, day: number) {
-  let date = new Date(year = year, month = month, day = day);
+  const date = new Date(year = year, month = month, day = day);
   return date.getDay() === 5;
 }
 
 export function formatJummahTiming(jummahTiming: string) {
   const date = new Date(jummahTiming);
+
+  if (Number.isNaN(date.getTime())) {
+    return jummahTiming;
+  }
+
   const options: Intl.DateTimeFormatOptions = {
     hour: "numeric",
-    minute: "numeric",
+    minute: "2-digit",
     hour12: true,
-    timeZone: "America/Toronto", // Set to Toronto time
+    timeZone: "America/Toronto",
   };
-  return date.toLocaleTimeString("en-US", options);
+
+  return new Intl.DateTimeFormat("en-US", options).format(date);
 }
