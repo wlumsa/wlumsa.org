@@ -10,6 +10,13 @@ type SearchBarProps = {
   inputElementClassName?: string;
   showIcon?: boolean;
   placeholder?: string;
+  label?: string;
+  name?: string;
+  autoComplete?: string;
+  inputId?: string;
+  type?: React.HTMLInputTypeAttribute;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  spellCheck?: boolean;
 };
 
 
@@ -26,6 +33,13 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       inputElementClassName = "grow",
       showIcon = true,
       placeholder = "Search",
+      label = "Search",
+      name = "query",
+      autoComplete = "off",
+      inputId,
+      type = "search",
+      inputMode,
+      spellCheck = false,
     },
     ref
   ) => {
@@ -54,9 +68,16 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   return (
     <div className={className}>
           <label className={inputClassName}>
+            <span className="sr-only">{label}</span>
             <input
               ref={ref}
-              type="text"
+              id={inputId}
+              type={type}
+              name={name}
+              autoComplete={autoComplete}
+              aria-label={label}
+              inputMode={inputMode}
+              spellCheck={spellCheck}
               className={inputElementClassName}
               placeholder={placeholder}
               value={inputValue}
