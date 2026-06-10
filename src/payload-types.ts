@@ -156,9 +156,10 @@ export interface Config {
     'events-settings': EventsSettingsSelect<false> | EventsSettingsSelect<true>;
   };
   locale: null;
-  user: Exec & {
-    collection: 'execs';
+  widgets: {
+    collections: CollectionsWidget;
   };
+  user: Exec;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -227,6 +228,7 @@ export interface Exec {
       }[]
     | null;
   password?: string | null;
+  collection: 'execs';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1975,6 +1977,16 @@ export interface EventsSettingsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
