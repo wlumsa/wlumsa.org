@@ -1,8 +1,15 @@
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
 
+/** @typedef {import("eslint").Linter.Config} EslintConfig */
+
+/**
+ * @param {EslintConfig[]} configs
+ * @returns {EslintConfig[]}
+ */
 function withCompatibilityRules(configs) {
   return configs.map((config) => {
+    /** @type {NonNullable<EslintConfig["rules"]>} */
     const rules = {};
 
     if (config.plugins?.["@typescript-eslint"]) {
