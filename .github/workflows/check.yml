@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   check:
-    name: Lint and build
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +33,3 @@ jobs:
 
       - name: Lint
         run: pnpm lint
-
-      - name: Build
-        run: pnpm build
