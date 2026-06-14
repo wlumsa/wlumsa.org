@@ -1,7 +1,6 @@
 import React from "react";
 import { TextEffect } from "../Animations/text-effect";
 import Image from "next/image";
-import { FadeText } from "../Animations/FadeText";
 import { Social, Media } from "@/payload-types";
 import Link from "next/link";
 import { GetStartedButton } from "./button"
@@ -24,10 +23,17 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
       )}
-      <div className="absolute inset-0 bg-black" style={{ opacity: 0.25 }} />
+      <div className="absolute inset-0 bg-black" style={{ opacity: 0.35 }} />
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <FadeText className="mb-5 text-6xl font-bold duration-200 hover:scale-105" style={{ color: '#e7ac3b' }} direction="right" text="Salam!" />
+          <Image
+            src="/Assalamu-aleykum.svg"
+            alt="Assalamu alaikum"
+            width={720}
+            height={280}
+            priority
+            className="mx-auto mb-5 h-auto w-full max-w-sm duration-200 hover:scale-105"
+          />
           <TextEffect
             className="mb-5"
             style={{ color: '#ffffff' }}
