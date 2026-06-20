@@ -65,6 +65,7 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
       return {
         id: file.id,
         url: file.url || "#",
+        previewUrl: file.thumbnailURL || null,
         type: parsed.type,
         title: parsed.title || file.filename || "Untitled PDF",
         filename: file.filename || "",
@@ -97,9 +98,9 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
           <p className="mt-3 max-w-2xl text-sm text-base-content/80 sm:text-base">
             Manuals, interview prep, and key documents in one place.
           </p>
-          <div className="mt-5 inline-flex items-center rounded-lg border border-base-300 bg-base-200 px-3 py-2 text-sm text-base-content/80">
+          {/* <div className="mt-5 inline-flex items-center rounded-lg border border-base-300 bg-base-200 px-3 py-2 text-sm text-base-content/80">
             {totalDocs} {totalDocs === 1 ? "item" : "items"}
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-5 rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm sm:p-5">
@@ -132,9 +133,23 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center justify-between gap-4 rounded-xl border border-base-300 bg-base-200 px-4 py-3 transition hover:border-primary/40 hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  style={{ contentVisibility: "auto", containIntrinsicSize: "76px" }}
+                  style={{ contentVisibility: "auto", containIntrinsicSize: "88px" }}
                 >
-                  <div className="min-w-0">
+                  <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-base-300 bg-base-100">
+                    {doc.previewUrl ? (
+                      <img
+                        src={doc.previewUrl}
+                        alt={`${doc.title} preview`}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[11px] font-semibold tracking-wide text-base-content/60">
+                        PDF
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
                     <p className="truncate font-medium text-base-content">{doc.title}</p>
                     {doc.filename ? (
                       <p className="truncate text-xs text-base-content/65">{doc.filename}</p>
