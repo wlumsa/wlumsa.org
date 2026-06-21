@@ -17,7 +17,7 @@ type ExternalResource = {
 const housingSites: ExternalResource[] = [
   {
     title: "Laurier Off-Campus Housing",
-    url: "https://students.wlu.ca/student-life/residence-and-off-campus-housing/off-campus-housing/index.html",
+    url: "https://students.wlu.ca/campus-services/residence-and-off-campus-housing/off-campus-initiatives/off-campus-housing/index.html",
   },
   {
     title: "Places4Students",
@@ -56,6 +56,22 @@ const officialLinks: ExternalResource[] = [
   {
     title: "Landlord and Tenant Board",
     url: "https://tribunalsontario.ca/ltb/",
+  },
+  {
+    title: "Laurier Rental Fraud",
+    url: "https://students.wlu.ca/campus-services/residence-and-off-campus-housing/off-campus-initiatives/off-campus-housing/rental-fraud.html",
+  },
+  {
+    title: "Laurier Tenant Resources",
+    url: "https://students.wlu.ca/campus-services/residence-and-off-campus-housing/off-campus-initiatives/off-campus-housing/tenant-resources.html",
+  },
+  {
+    title: "City of Waterloo Rental Housing Support",
+    url: "https://www.waterloo.ca/community-support/get-rental-housing-support/",
+  },
+  {
+    title: "Waterloo Region Community Legal Services",
+    url: "https://www.wrcls.ca/",
   },
   {
     title: "Grand River Transit",
@@ -255,12 +271,12 @@ function ResourceButton({
   const Icon = external ? ExternalLink : ArrowUpRight;
   const content = (
     <>
-      <span>{title}</span>
-      <Icon className="ml-2 h-4 w-4 flex-none" aria-hidden="true" />
+      <span className="min-w-0">{title}</span>
+      <Icon className="h-4 w-4 flex-none" aria-hidden="true" />
     </>
   );
   const className =
-    "h-auto min-h-12 w-full touch-manipulation whitespace-normal border-0 py-3 text-center text-secondary shadow-sm transition duration-200 hover:scale-105 hover:bg-secondary hover:text-primary motion-reduce:transform-none motion-reduce:transition-none";
+    "h-auto min-h-12 w-full touch-manipulation flex-nowrap gap-2 whitespace-normal border-0 py-3 text-center text-secondary shadow-sm transition duration-200 hover:scale-105 hover:bg-secondary hover:text-primary motion-reduce:transform-none motion-reduce:transition-none";
 
   return (
     <Button asChild className={className}>
