@@ -14,18 +14,19 @@ export const WeeklyEvents: React.FC<WeeklyEventsProps> = ({ events }) => {
         <EventCard
           key={index}
           name={event.name}
-          image={typeof event.image[0] === 'object' ? event.image[0].url || '/path/to/default/image.jpg' : ''}
+          image={
+            typeof event.image[0] === "object"
+              ? event.image[0].url || "/path/to/default/image.jpg"
+              : ""
+          }
           timeLocation={`${event.day} @ ${event.timeStart} to ${event.timeEnd} in ${event.location}`}
           caption={event.caption}
           index={index}
-
         />
       ))}
     </div>
   );
 };
-
-
 
 interface EventCardProps {
   name: string;
@@ -35,6 +36,7 @@ interface EventCardProps {
   index: number;
   link?: string;
   ctaText?: string;
+  compact?: boolean;
 }
 
 export const EventCard: React.FC<EventCardProps> = ({
@@ -45,17 +47,24 @@ export const EventCard: React.FC<EventCardProps> = ({
   index,
   link,
   ctaText,
+  compact = false,
 }) => {
   const isExternal = Boolean(link && /^https?:\/\//.test(link));
 
   return (
-    <BlurFade delay={index * 0.1} duration={0.34} blur="3px" yOffset={6} inView={true}>
+    <BlurFade
+      delay={index * 0.1}
+      duration={0.34}
+      blur="3px"
+      yOffset={6}
+      inView={true}
+    >
       <>
         <article className="rounded-2xl border border-base-300 bg-base-100 p-3 md:p-4 lg:hidden">
           <div className="flex flex-col gap-4">
             <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-base-300">
               <Image
-                src={image || '/path/to/default/image.jpg'}
+                src={image || "/path/to/default/image.jpg"}
                 alt={`${name} image`}
                 fill
                 sizes="100vw"
@@ -64,9 +73,19 @@ export const EventCard: React.FC<EventCardProps> = ({
               />
             </div>
             <div className="w-full">
-              <h3 className="text-2xl font-heading font-bold text-primary md:text-3xl">{name}</h3>
-              <p className="mt-2 text-sm font-body font-semibold text-base-content/75 md:text-base">{timeLocation}</p>
-              <p className="mt-3 text-sm font-body leading-relaxed text-base-content/75 md:text-base">{caption}</p>
+              <h3
+                className={`font-heading font-bold text-primary ${
+                  compact ? "text-xl md:text-2xl" : "text-2xl md:text-3xl"
+                }`}
+              >
+                {name}
+              </h3>
+              <p className="font-body mt-2 text-sm font-semibold text-base-content/75 md:text-base">
+                {timeLocation}
+              </p>
+              <p className="font-body mt-3 text-sm leading-relaxed text-base-content/75 md:text-base">
+                {caption}
+              </p>
               {link ? (
                 <Link
                   href={link}
@@ -85,11 +104,15 @@ export const EventCard: React.FC<EventCardProps> = ({
           <div
             className={`hero-content flex-col items-start justify-start ${
               index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-            } lg:gap-16`}
+            } ${compact ? "lg:gap-10" : "lg:gap-16"}`}
           >
-            <div className="relative h-80 w-full flex-grow lg:w-[500px]">
+            <div
+              className={`relative w-full flex-grow ${
+                compact ? "h-64 lg:w-[420px]" : "h-80 lg:w-[500px]"
+              }`}
+            >
               <Image
-                src={image || '/path/to/default/image.jpg'}
+                src={image || "/path/to/default/image.jpg"}
                 alt={`${name} image`}
                 fill
                 sizes="500px"
@@ -97,12 +120,28 @@ export const EventCard: React.FC<EventCardProps> = ({
                 priority={index < 2}
               />
             </div>
-            <div className="max-w-md flex-grow lg:max-w-[500px]">
-              <h3 className="pt-2 text-3xl font-heading font-bold text-primary lg:pt-1">
+            <div
+              className={`max-w-md flex-grow ${
+                compact ? "lg:max-w-[480px]" : "lg:max-w-[500px]"
+              }`}
+            >
+              <h3
+                className={`font-heading pt-2 font-bold text-primary lg:pt-1 ${
+                  compact ? "text-2xl" : "text-3xl"
+                }`}
+              >
                 {name}
               </h3>
-              <p className="mt-2 text-base font-body font-semibold text-base-content/75">{timeLocation}</p>
-              <p className="py-4 font-body leading-relaxed text-base-content/75">{caption}</p>
+              <p className="font-body mt-2 text-base font-semibold text-base-content/75">
+                {timeLocation}
+              </p>
+              <p
+                className={`font-body leading-relaxed text-base-content/75 ${
+                  compact ? "py-3 text-sm" : "py-4"
+                }`}
+              >
+                {caption}
+              </p>
               {link ? (
                 <Link
                   href={link}

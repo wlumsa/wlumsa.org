@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, BookOpen, HeartHandshake } from "lucide-react";
+import { ArrowUpRight, HeartHandshake } from "lucide-react";
 import Resource from "@/components/UI/Resource";
 import logo from "../../../logo.png";
 
@@ -150,9 +150,6 @@ export default function About() {
       >
         <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
           <div>
-            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-secondary/20 text-secondary ring-1 ring-secondary/30">
-              <BookOpen className="h-5 w-5" aria-hidden="true" />
-            </div>
             <h2 className="font-heading text-3xl font-bold text-primary sm:text-4xl">
               Constitution
             </h2>

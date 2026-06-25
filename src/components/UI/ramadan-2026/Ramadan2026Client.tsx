@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { EventCard } from "@/components/UI/WeeklyEvents";
 import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import {
@@ -352,6 +353,14 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                 <p className="mt-2 text-sm font-body font-semibold text-base-content/80">{metric.label}</p>
               </article>
             ))}
+          </div>
+          <div className="mt-4 text-center">
+            <Link
+              href="/ramadan/impact"
+              className="text-sm font-body font-semibold text-primary underline underline-offset-4 transition hover:text-primary/75"
+            >
+              View full Ramadan impact archive
+            </Link>
           </div>
         </section>
 
