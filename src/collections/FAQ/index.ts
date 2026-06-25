@@ -6,7 +6,6 @@ export const FrequentlyAskedQuestions: CollectionConfig = {
     slug: 'faq',
     admin: {
         useAsTitle: 'Question',
-        group: 'IIA',
     },
     fields: [
         {

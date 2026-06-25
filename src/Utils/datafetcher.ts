@@ -1059,13 +1059,6 @@ export const fetchHalalGroceryStores = unstable_cache(
 //   return data || [];
 // }
 
-export async function fetchIIAServices() {
-  const payload = await getPayloadInstance();
-  const services = await payload.find({
-    collection: "iia-services",
-  });
-  return services.docs;
-}
 export async function fetchFAQ() {
   const payload = await getPayloadInstance();
   const faq = await payload.find({

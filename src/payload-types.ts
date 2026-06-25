@@ -87,7 +87,6 @@ export interface Config {
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
     individuals: Individual;
-    'iia-services': IiaService;
     faq: Faq;
     'halal-directory': HalalDirectory;
     'halal-grocery-stores': HalalGroceryStore;
@@ -123,7 +122,6 @@ export interface Config {
     'email-collection': EmailCollectionSelect<false> | EmailCollectionSelect<true>;
     'distribution-list': DistributionListSelect<false> | DistributionListSelect<true>;
     individuals: IndividualsSelect<false> | IndividualsSelect<true>;
-    'iia-services': IiaServicesSelect<false> | IiaServicesSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     'halal-grocery-stores': HalalGroceryStoresSelect<false> | HalalGroceryStoresSelect<true>;
@@ -539,18 +537,6 @@ export interface Individual {
   firstName?: string | null;
   lastName?: string | null;
   email: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "iia-services".
- */
-export interface IiaService {
-  id: number;
-  name: string;
-  caption: string;
-  image: (number | Media)[];
   updatedAt: string;
   createdAt: string;
 }
@@ -1043,10 +1029,6 @@ export interface PayloadLockedDocument {
         value: number | Individual;
       } | null)
     | ({
-        relationTo: 'iia-services';
-        value: number | IiaService;
-      } | null)
-    | ({
         relationTo: 'faq';
         value: number | Faq;
       } | null)
@@ -1391,17 +1373,6 @@ export interface IndividualsSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   email?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "iia-services_select".
- */
-export interface IiaServicesSelect<T extends boolean = true> {
-  name?: T;
-  caption?: T;
-  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

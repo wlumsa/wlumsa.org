@@ -34,7 +34,6 @@ import { WeeklyPrayerTimetables } from "./collections/UI/PrayerInfo/WeeklyPrayer
 import Services from "./collections/UI/Services";
 import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
-import IIAServices from "./collections/IIA";
 import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 import { Recording } from "./collections/Recordings";
@@ -60,6 +59,7 @@ const generateTitle: GenerateTitle = () => {
 // Configure database using environment variables
 const getDatabaseAdapter = () => {
   return postgresAdapter({
+    push: false,
     pool: {
       connectionString: process.env.DATABASE_URI || "",
       ssl: {
@@ -102,7 +102,6 @@ export default buildConfig({
     EmailCollection,
     DistributionList,
     individuals,
-    IIAServices,
     FrequentlyAskedQuestions,
     HalalDirectory, 
     HalalGroceryStores,
