@@ -55,38 +55,6 @@ export default {
         },
       },
 
-      // --- IIA ---
-      {
-        IIA: {
-          primary: "#3EB169",               // Green
-          "primary-content": "#092114",
-          secondary: "#F3FAF6",             // Very light green
-          "secondary-content": "#0f2619",
-          accent: "#6c703e",                // Olive
-          "accent-content": "#ffffff",
-          neutral: "#444444",
-          "neutral-content": "#ffffff",
-
-          "base-100": "#ffffff",
-          "base-200": "#f6fbf8",
-          "base-300": "#e9f4ee",
-          "base-content": "#132018",
-
-          info: "#C8E1E7",
-          "info-content": "#0f2630",
-          success: "#DEF29F",
-          "success-content": "#14230a",
-          warning: "#F7E589",
-          "warning-content": "#241b00",
-          error: "#F2B6B5",
-          "error-content": "#2a0b09",
-
-          "--btn-primary-hover": "#38a160",
-          "--btn-secondary-hover": "#e7f5ee",
-          "--btn-accent-hover": "#5b6336",
-        },
-      },
-
       // --- Dark  ---
       {
         darkTheme: {
