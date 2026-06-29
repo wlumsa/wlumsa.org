@@ -41,6 +41,7 @@ export default async function Page(props: {
   const featuredPost = posts[0];
   const remainingPosts = posts.slice(1);
   const selectedCategory = categoryArray.find((category) => category.id === categoryId) || categoryArray[0];
+  const selectedCategoryTitle = selectedCategory?.title || "All";
   const hasFilters = Boolean(query || categoryId !== "0");
   const resultLabel = posts.length === 1 ? "1 article" : `${posts.length} articles`;
 
@@ -88,7 +89,7 @@ export default async function Page(props: {
           <div className="mt-4 flex flex-col gap-3 text-sm text-base-content/60 sm:flex-row sm:items-center sm:justify-between">
             <p>
               Showing <span className="font-semibold text-base-content">{resultLabel}</span>
-              {selectedCategory?.id !== "0" ? <> in <span className="font-semibold text-base-content">{selectedCategory.title}</span></> : null}
+              {categoryId !== "0" ? <> in <span className="font-semibold text-base-content">{selectedCategoryTitle}</span></> : null}
               {query ? <> matching <span className="font-semibold text-base-content">&quot;{query}&quot;</span></> : null}
             </p>
             {hasFilters && (
