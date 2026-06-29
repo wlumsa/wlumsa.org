@@ -1,5 +1,5 @@
 import React, { Fragment, JSX } from 'react'
-import { DefaultNodeTypes, SerializedBlockNode } from '@payloadcms/richtext-lexical'
+import { DefaultNodeTypes } from '@payloadcms/richtext-lexical'
 
 import {
   IS_BOLD,
@@ -10,7 +10,6 @@ import {
   IS_SUPERSCRIPT,
   IS_UNDERLINE,
 } from "./nodeFormat"
-import { INSERT_CHECK_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list'
 
 
 export type NodeTypes =
