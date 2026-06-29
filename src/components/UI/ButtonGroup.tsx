@@ -1,7 +1,8 @@
 "use client"
 import React from 'react'
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
 
 interface Category {
     title: string,
@@ -21,6 +22,11 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
     const currentCategoryId = searchParams.get('category') || categories[0]?.id || '0';
     const currentCategory = categories.find(cat => cat.id === currentCategoryId) || categories[0];
 
+    const getUrlWithParams = (params: URLSearchParams) => {
+        const queryString = params.toString();
+        return queryString ? `${pathname}?${queryString}` : pathname;
+    };
+
     const handleCategoryClick = (category: Category) => {
         const params = new URLSearchParams(searchParams);
 
@@ -31,7 +37,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
             params.set('category', category.id);
         }
 
-        replace(`${pathname}?${params.toString()}`, { scroll: false });
+        replace(getUrlWithParams(params), { scroll: false });
 
         // Close the dropdown by removing focus
         if (dropdownRef.current) {
@@ -45,28 +51,29 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
         <div className="w-full">
             {/* Mobile Dropdown */}
             <div className="lg:hidden">
-                <div className="dropdown dropdown-bottom w-full max-w-xs mx-auto" ref={dropdownRef}>
+                <div className="dropdown dropdown-bottom mx-auto w-full" ref={dropdownRef}>
                     <div
                         tabIndex={0}
                         role="button"
-                        className="btn btn-outline btn-primary w-full justify-between normal-case font-semibold"
+                        className="btn btn-outline btn-primary h-12 w-full justify-between rounded-md normal-case font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     >
                         <span>{currentCategory?.title || 'Select a category'}</span>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
+                        <ChevronDown size={16} aria-hidden />
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-full max-w-xs p-2 shadow-lg border border-base-300">
+                        className="menu dropdown-content z-[1] mt-3 w-full rounded-md border border-base-300 bg-base-100 p-2 shadow-lg">
                         {categories.map((category) => (
                             <li
                                 key={category.id}
-                                onClick={() => handleCategoryClick(category)}
                             >
-                                <a className={`${currentCategory?.id === category.id ? 'bg-primary text-primary-content font-semibold' : 'hover:bg-base-200'}`}>
+                                <button
+                                    type="button"
+                                    onClick={() => handleCategoryClick(category)}
+                                    className={`text-left ${currentCategory?.id === category.id ? 'bg-primary text-primary-content font-semibold' : 'hover:bg-base-200'}`}
+                                >
                                     {category.title}
-                                </a>
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -74,17 +81,17 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
             </div>
 
             {/* Desktop View */}
-            <div className="hidden lg:flex justify-center">
-                <div className="inline-flex gap-2 p-1 bg-base-200 rounded-lg">
+            <div className="hidden lg:flex justify-start">
+                <div className="inline-flex max-w-full flex-wrap justify-start gap-1">
                     {categories.map((category) => (
                         <button
                             key={category.id}
                             onClick={() => handleCategoryClick(category)}
                             className={`
-                                px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                                rounded-md border px-4 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
                                 ${currentCategory?.id === category.id
-                                    ? 'bg-primary text-primary-content shadow-md'
-                                    : 'text-base-content/70 hover:text-primary hover:bg-base-300'
+                                    ? 'border-primary bg-primary text-primary-content'
+                                    : 'border-base-content/15 text-base-content/70 hover:border-primary/35 hover:text-primary'
                                 }
                             `}
                         >
