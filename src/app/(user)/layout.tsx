@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
-import { Libre_Baskerville, Inter } from 'next/font/google';
+import { Geist, Libre_Baskerville } from "next/font/google";
 import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
 import {
@@ -14,7 +14,7 @@ import ThemeProvider from "./themeprovider";
 // import { ClerkProvider } from "@clerk/nextjs";
 import { PostHogProvider } from "./providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from "@vercel/analytics/next";
 
 /*
   Default Metadata for entire project, to be changed
@@ -49,16 +49,16 @@ export const revalidate = 3600;
 
 // Initialize fonts
 const libreBaskerville = Libre_Baskerville({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-libre-baskerville',
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-libre-baskerville",
 });
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
 });
 
 export default async function RootLayout({
@@ -72,11 +72,15 @@ export default async function RootLayout({
   const footerData = await fetchFooterData();
   const navbarData = await fetchNavData();
   return (
-      <html lang="en" className={`${libreBaskerville.variable} ${inter.variable}`} data-theme="lightTheme">
-        <head>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+    <html
+      lang="en"
+      className={`${libreBaskerville.variable} ${geist.variable}`}
+      data-theme="lightTheme"
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
                 (function() {
                   // Always start with lightTheme to match server-side rendering
                   document.documentElement.setAttribute('data-theme', 'lightTheme');
@@ -85,26 +89,23 @@ export default async function RootLayout({
                   window.__THEME_SCRIPT_LOADED = true;
                 })();
               `,
-            }}
-          />
-        </head>
-        <GoogleAnalytics />
-        <body>
-          <PostHogProvider>
-
+          }}
+        />
+      </head>
+      <GoogleAnalytics />
+      <body>
+        <PostHogProvider>
           <Toaster position="top-center" />
           {/* Temporarily disabled due to loading issues */}
           <SpeedInsights />
           <Analytics />
-            <ThemeProvider>
-              <Navbar navbarData={navbarData} />
-              <main className="pt-0">
-                {children}
-              </main>
-              <Footer footerGroups={footerData} socialData={socialData} />
-            </ThemeProvider>
-            </PostHogProvider>
-        </body>
-      </html>
+          <ThemeProvider>
+            <Navbar navbarData={navbarData} />
+            <main className="pt-0">{children}</main>
+            <Footer footerGroups={footerData} socialData={socialData} />
+          </ThemeProvider>
+        </PostHogProvider>
+      </body>
+    </html>
   );
 }
