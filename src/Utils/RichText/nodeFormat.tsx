@@ -1,8 +1,18 @@
 // @ts-nocheck
 //This copy-and-pasted from lexical here: https://github.com/facebook/lexical/blob/c2ceee223f46543d12c574e62155e619f9a18a5d/packages/lexical/src/LexicalConstants.ts
 
-import type { ElementFormatType, TextFormatType } from 'lexical'
-import type { TextDetailType, TextModeType } from 'lexical/nodes/LexicalTextNode'
+type ElementFormatType = '' | 'left' | 'start' | 'center' | 'right' | 'end' | 'justify'
+type TextDetailType = 'directionless' | 'unmergeable'
+type TextFormatType =
+  | 'bold'
+  | 'code'
+  | 'highlight'
+  | 'italic'
+  | 'strikethrough'
+  | 'subscript'
+  | 'superscript'
+  | 'underline'
+type TextModeType = 'normal' | 'segmented' | 'token'
 
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
