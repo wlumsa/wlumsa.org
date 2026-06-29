@@ -1,4 +1,4 @@
-import { withPayload } from '@payloadcms/next/withPayload'
+import { withPayload } from "@payloadcms/next/withPayload";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
@@ -8,16 +8,14 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-    reactCompiler: true,
-    turbopack: {
-
-    },
+  reactCompiler: true,
+  turbopack: {},
 
   async redirects() {
     return [
       {
-        source: '/wlumsa.org/forms/iftars',
-        destination: '/ramadan',
+        source: "/wlumsa.org/forms/iftars",
+        destination: "/ramadan",
         permanent: true, // Set to false if it's temporary
       },
     ];
@@ -37,25 +35,29 @@ const config = {
         pathname: "/**",
       },
       {
-        protocol:"https",
-        hostname:"mrucujpvbprmpznsgmfr.supabase.co",
-        port:"",
-        pathname:"/**"
+        protocol: "https",
+        hostname: "mrucujpvbprmpznsgmfr.supabase.co",
+        port: "",
+        pathname: "/**",
       },
       {
-        protocol:"https",
-        hostname:"qweyvtbtaycxzayedctk.supabase.co",
-        port:"",
-        pathname:"/**"
+        protocol: "https",
+        hostname: "qweyvtbtaycxzayedctk.supabase.co",
+        port: "",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "qxhgmdhdnavuvrexvjhw.supabase.co",
         port: "",
-        pathname:"/**"
-      }
-
-
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   //domains: [process.env.NEXT_PUBLIC_SUPABASE_URL],
