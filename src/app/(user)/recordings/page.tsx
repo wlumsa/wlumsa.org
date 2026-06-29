@@ -42,8 +42,9 @@ const page = async (props: { searchParams: SearchParams }) => {
     title: recording.title ? recording.title : "",
     src: recording.url,
   }));
-  const activeCategory =
-    categories.find((category) => category.id === categoryId) || categories[0];
+  const activeCategoryTitle =
+    categories.find((category) => category.id === categoryId)?.title ||
+    "Recordings";
   const recordingCount = recordingArray.length;
 
   return (
@@ -72,7 +73,7 @@ const page = async (props: { searchParams: SearchParams }) => {
                 <p className="mt-1 text-sm font-semibold text-base-content">
                   {recordingCount}{" "}
                   {recordingCount === 1 ? "recording" : "recordings"} in{" "}
-                  {activeCategory.title}
+                  {activeCategoryTitle}
                 </p>
               </div>
               <a
@@ -103,7 +104,7 @@ const page = async (props: { searchParams: SearchParams }) => {
                 No recordings yet
               </h2>
               <p className="mt-2 max-w-md text-sm leading-6 text-base-content/65">
-                There are no {activeCategory.title.toLowerCase()} recordings
+                There are no {activeCategoryTitle.toLowerCase()} recordings
                 available right now. Check back soon or visit YouTube for the
                 full channel archive.
               </p>
