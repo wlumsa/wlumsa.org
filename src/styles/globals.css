@@ -4,20 +4,26 @@
 
 /* Font variables for consistent typography */
 :root {
-  --font-libre-baskerville: 'Libre Baskerville', Georgia, serif;
-  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-libre-baskerville: "Libre Baskerville", Georgia, serif;
+  --font-geist: "Geist", system-ui, sans-serif;
 }
 
 /* Apply fonts to base elements */
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
 body {
-  font-family: var(--font-inter);
+  font-family: var(--font-geist);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-libre-baskerville);
 }
 
@@ -27,41 +33,39 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .font-body {
-  font-family: var(--font-inter);
+  font-family: var(--font-geist);
 }
-
-
 
 .RichText {
   @apply text-base-content;
 
   h1 {
-    @apply text-4xl font-bold mb-4;
+    @apply mb-4 text-4xl font-bold;
   }
   h2 {
-    @apply text-3xl font-bold mb-4;
+    @apply mb-4 text-3xl font-bold;
   }
   h3 {
-    @apply text-2xl font-bold mb-3;
+    @apply mb-3 text-2xl font-bold;
   }
   p {
-    @apply text-base md:text-lg text-base-content/90 leading-relaxed mb-2 md:mb-4;
+    @apply mb-2 text-base leading-relaxed text-base-content/90 md:mb-4 md:text-lg;
   }
   ul,
   ol {
-    @apply text-base md:text-lg text-base-content/90 leading-relaxed;
+    @apply text-base leading-relaxed text-base-content/90 md:text-lg;
   }
   li {
-    @apply text-base md:text-lg text-base-content/90 leading-relaxed md:mb-4;
+    @apply text-base leading-relaxed text-base-content/90 md:mb-4 md:text-lg;
   }
   blockquote {
-    @apply border-l-4 pl-4 italic text-base-content/80 my-4;
+    @apply my-4 border-l-4 pl-4 italic text-base-content/80;
   }
   code {
-    @apply bg-base-200 text-base-content px-2 py-1 rounded text-sm border border-base-300;
+    @apply rounded border border-base-300 bg-base-200 px-2 py-1 text-sm text-base-content;
   }
   pre {
-    @apply bg-base-200 text-base-content p-4 rounded-lg overflow-x-auto my-4 border border-base-300;
+    @apply my-4 overflow-x-auto rounded-lg border border-base-300 bg-base-200 p-4 text-base-content;
   }
   a {
     @apply underline underline-offset-2;
@@ -74,7 +78,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-[data-theme='lightTheme'] .RichText {
+[data-theme="lightTheme"] .RichText {
   h1,
   h2,
   h3 {
@@ -90,7 +94,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-[data-theme='darkTheme'] .RichText {
+[data-theme="darkTheme"] .RichText {
   h1,
   h2,
   h3 {

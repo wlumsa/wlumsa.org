@@ -5,19 +5,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'serif': ['var(--font-libre-baskerville)', 'Georgia', 'serif'],
-        'sans': ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        serif: ["var(--font-libre-baskerville)", "Georgia", "serif"],
+        sans: ["var(--font-geist)", "system-ui", "sans-serif"],
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
+        "fade-in": "fadeIn 0.5s ease-in-out",
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
-    }
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
@@ -25,19 +25,19 @@ export default {
       // --- Light ---
       {
         lightTheme: {
-          primary: "#2e046d",               // Purple
+          primary: "#2e046d", // Purple
           "primary-content": "#ffffff",
-          secondary: "#e7ac3b",             // Yellow/Gold
+          secondary: "#e7ac3b", // Yellow/Gold
           "secondary-content": "#1a1200",
-          accent: "#6c703e",                // Olive green
+          accent: "#6c703e", // Olive green
           "accent-content": "#ffffff",
-          neutral: "#444444",               // Gray for badges
+          neutral: "#444444", // Gray for badges
           "neutral-content": "#ffffff",
 
-          "base-100": "#ffffff",            // Page bg
+          "base-100": "#ffffff", // Page bg
           "base-200": "#f7f7f7",
           "base-300": "#eeeeee",
-          "base-content": "#1f1f1f",        // Default text
+          "base-content": "#1f1f1f", // Default text
 
           info: "#C8E1E7",
           "info-content": "#0f2630",
@@ -58,16 +58,16 @@ export default {
       // --- Dark  ---
       {
         darkTheme: {
-          "base-100": "#121318",            // Main bg (not pure black)
+          "base-100": "#121318", // Main bg (not pure black)
           "base-200": "#171922",
           "base-300": "#1f2230",
           "base-content": "#f2f3f7",
 
-          primary: "#5f3c8d",               // purple, works well on dark
+          primary: "#5f3c8d", // purple, works well on dark
           "primary-content": "#ffffff",
-          secondary: "#ecb553",             // gold/yellow
+          secondary: "#ecb553", // gold/yellow
           "secondary-content": "#201700",
-          accent: "#a0a86c",                // Lightened olive so it pops
+          accent: "#a0a86c", // Lightened olive so it pops
           "accent-content": "#14180c",
 
           // Neutral tuned for dark
