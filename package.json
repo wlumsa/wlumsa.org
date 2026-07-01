@@ -9,10 +9,14 @@
   },
   "scripts": {
     "build": "next build",
+    "check": "pnpm check:type && pnpm check:lint",
+    "check:lint": "eslint .",
+    "check:type": "tsc --noEmit --pretty false",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start",
+    "test": "pnpm check",
     "email": "email dev",
     "generate:types": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types"
   },
