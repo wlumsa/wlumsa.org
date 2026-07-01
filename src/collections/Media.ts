@@ -1,36 +1,38 @@
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
 import {
   FixedToolbarFeature,
   InlineToolbarFeature,
   lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+} from "@payloadcms/richtext-lexical";
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: "media",
   admin: {
-    group:'Miscellaneous',
-    
+    group: "Miscellaneous",
   },
   access: {
     read: () => true,
   },
   fields: [
     {
-      name: 'alt',
-      type: 'text',
+      name: "alt",
+      type: "text",
       required: true,
     },
     {
-      name: 'caption',
-      type: 'richText',
+      name: "caption",
+      type: "richText",
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+          return [
+            ...rootFeatures,
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ];
         },
       }),
     },
   ],
   upload: true,
-
-}
+};

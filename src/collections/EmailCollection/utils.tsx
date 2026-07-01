@@ -14,16 +14,21 @@ async function getPayloadInstance() {
   return payloadInstance;
 }
 
-export async function sendEmail(req: PayloadRequest, distributionListId: string, subject: string, htmlContent: string) {
-  const list = await getDistributionList(distributionListId)
+export async function sendEmail(
+  req: PayloadRequest,
+  distributionListId: string,
+  subject: string,
+  htmlContent: string
+) {
+  const list = await getDistributionList(distributionListId);
 
-  console.log("sending ")
+  console.log("sending ");
   const payload = await getPayloadInstance();
   const email = await payload.sendEmail({
-    to: 'razan4424@gmail.com',
-    from: 'onboarding@resend.dev',
+    to: "razan4424@gmail.com",
+    from: "onboarding@resend.dev",
     subject: subject,
     html: htmlContent,
-  })
+  });
   return;
 }

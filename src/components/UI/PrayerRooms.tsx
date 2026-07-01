@@ -5,7 +5,6 @@ interface PrayerRoomsProps {
   prayerRoomsData: PrayerRoom[];
 }
 
-
 const PrayerRooms: React.FC<PrayerRoomsProps> = ({ prayerRoomsData }) => {
   return (
     <div className="stats stats-vertical shadow lg:stats-horizontal">

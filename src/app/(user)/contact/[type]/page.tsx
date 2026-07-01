@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { useParams } from "next/navigation";
 
@@ -12,16 +12,16 @@ import CtaForm from "@/components/Forms/CtaForm";
  */
 export default function DynamicContactPage() {
   const params = useParams<{ type: string }>();
-  const type = params ? params.type : 'Contact';
+  const type = params ? params.type : "Contact";
 
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="mt-20 flex flex-col items-center flex-grow">
-        <div className="mb-10 text-center max-w-2xl">
-          <h1 className="pt-4 text-4xl md:text-5xl font-heading font-bold text-primary duration-200 hover:scale-105 lg:pt-0 capitalize">
+      <div className="mt-20 flex flex-grow flex-col items-center">
+        <div className="mb-10 max-w-2xl text-center">
+          <h1 className="font-heading pt-4 text-4xl font-bold capitalize text-primary duration-200 hover:scale-105 md:text-5xl lg:pt-0">
             {type} Form
           </h1>
-          <p className="text-center text-lg font-body text-base-content/80 mt-4 leading-relaxed">
+          <p className="font-body mt-4 text-center text-lg leading-relaxed text-base-content/80">
             Fill out the form and Inshallah we will get back to you soon
           </p>
         </div>
@@ -29,6 +29,4 @@ export default function DynamicContactPage() {
       </div>
     </div>
   );
-};
-
-
+}

@@ -18,7 +18,9 @@ function parseHubType(alt: string | null | undefined): {
 } | null {
   if (!alt) return null;
   const trimmed = alt.trim();
-  const typedMatch = trimmed.match(/^hub:(manual|prep|interview|resource):\s*(.+)$/i);
+  const typedMatch = trimmed.match(
+    /^hub:(manual|prep|interview|resource):\s*(.+)$/i
+  );
   if (typedMatch) {
     const matchedType = typedMatch[1];
     const matchedTitle = typedMatch[2];
@@ -46,7 +48,9 @@ function parseHubType(alt: string | null | undefined): {
 export default async function HubPage(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;
   const selectedType = (searchParams.type || "all").toLowerCase() as HubType;
-  const activeType: HubType = ["manual", "prep", "resource"].includes(selectedType)
+  const activeType: HubType = ["manual", "prep", "resource"].includes(
+    selectedType
+  )
     ? selectedType
     : "all";
 
@@ -56,7 +60,7 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
       (file: Media) =>
         file.mimeType === "application/pdf" &&
         typeof file.url === "string" &&
-        file.url.length > 0,
+        file.url.length > 0
     )
     .map((file: Media) => {
       const parsed = parseHubType(file.alt);
@@ -104,7 +108,9 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
 
         <div className="mt-5 rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm sm:p-5">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-base-content sm:text-xl">Documents</h2>
+            <h2 className="text-lg font-semibold text-base-content sm:text-xl">
+              Documents
+            </h2>
             <span className="text-xs text-base-content/60">PDF</span>
           </div>
           <div className="mb-4 flex flex-wrap gap-2">
@@ -132,12 +138,19 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center justify-between gap-4 rounded-xl border border-base-300 bg-base-200 px-4 py-3 transition hover:border-primary/40 hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  style={{ contentVisibility: "auto", containIntrinsicSize: "76px" }}
+                  style={{
+                    contentVisibility: "auto",
+                    containIntrinsicSize: "76px",
+                  }}
                 >
                   <div className="min-w-0">
-                    <p className="truncate font-medium text-base-content">{doc.title}</p>
+                    <p className="truncate font-medium text-base-content">
+                      {doc.title}
+                    </p>
                     {doc.filename ? (
-                      <p className="truncate text-xs text-base-content/65">{doc.filename}</p>
+                      <p className="truncate text-xs text-base-content/65">
+                        {doc.filename}
+                      </p>
                     ) : null}
                   </div>
                   <div className="shrink-0 text-right">
@@ -150,7 +163,9 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
               ))
             ) : (
               <div className="rounded-xl border border-dashed border-base-300 bg-base-200 px-4 py-6 text-center">
-                <p className="text-sm text-base-content/70">No {typeLabel[activeType].toLowerCase()} available right now.</p>
+                <p className="text-sm text-base-content/70">
+                  No {typeLabel[activeType].toLowerCase()} available right now.
+                </p>
               </div>
             )}
           </div>

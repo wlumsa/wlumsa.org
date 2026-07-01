@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { Event as EventDoc, WeeklyEvent } from "@/payload-types";
-import { formatWeeklyTime, getWeeklyEventImageAlt, getWeeklyEventImageUrl } from "./events/events-utils";
+import {
+  formatWeeklyTime,
+  getWeeklyEventImageAlt,
+  getWeeklyEventImageUrl,
+} from "./events/events-utils";
 import EventListCard from "./events/EventListCard";
 import EventsListPanel from "./events/EventsListPanel";
 import { Button } from "./button";
@@ -22,8 +26,10 @@ const TAB_LABELS: Record<TabKey, string> = {
   recurring: "Recurring",
   past: "Past",
 };
-const ACTIVE_TAB_CLASS = "border-primary bg-primary text-primary-content font-semibold";
-const INACTIVE_TAB_CLASS = "border-transparent bg-transparent text-base-content/90 font-medium hover:bg-base-100/80";
+const ACTIVE_TAB_CLASS =
+  "border-primary bg-primary text-primary-content font-semibold";
+const INACTIVE_TAB_CLASS =
+  "border-transparent bg-transparent text-base-content/90 font-medium hover:bg-base-100/80";
 
 function isTabKey(value: string | null): value is TabKey {
   return value === "upcoming" || value === "recurring" || value === "past";
@@ -58,10 +64,15 @@ export default function EventsTabs({
       params.set("tab", nextTab);
     }
     const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    router.replace(query ? `${pathname}?${query}` : pathname, {
+      scroll: false,
+    });
   }
 
-  function handleTabKeyDown(currentTab: TabKey, event: KeyboardEvent<HTMLButtonElement>) {
+  function handleTabKeyDown(
+    currentTab: TabKey,
+    event: KeyboardEvent<HTMLButtonElement>
+  ) {
     const currentIndex = TAB_ORDER.indexOf(currentTab);
     let nextIndex = currentIndex;
 
@@ -140,10 +151,13 @@ export default function EventsTabs({
           {weeklyEvents.length > 0 ? (
             <div className="space-y-3">
               {weeklyEvents.map((event) => {
-                const recurrencePrefix = event.recurrence === "biweekly"
-                  ? "Biweekly · "
-                  : "";
-                const recurringDateLabel = `${recurrencePrefix}${event.day}\n${formatWeeklyTime(event.timeStart)} - ${formatWeeklyTime(event.timeEnd)}`;
+                const recurrencePrefix =
+                  event.recurrence === "biweekly" ? "Biweekly · " : "";
+                const recurringDateLabel = `${recurrencePrefix}${
+                  event.day
+                }\n${formatWeeklyTime(event.timeStart)} - ${formatWeeklyTime(
+                  event.timeEnd
+                )}`;
                 return (
                   <EventListCard
                     key={event.id}

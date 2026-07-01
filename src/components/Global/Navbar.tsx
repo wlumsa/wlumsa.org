@@ -31,17 +31,26 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   }, [isMobileMenuOpen]);
 
   return (
-    <div className="fixed top-0 z-30 mb-16 rounded-b-3xl bg-[#2e046d] p-0 px-4 sm:px-6 lg:px-8 w-full">
-      <div className="flex items-center h-16">
+    <div className="fixed top-0 z-30 mb-16 w-full rounded-b-3xl bg-[#2e046d] p-0 px-4 sm:px-6 lg:px-8">
+      <div className="flex h-16 items-center">
         {/* Logo - Left Side */}
-        <div className="flex-shrink-0 mr-4">
-          <Link href="/" className="btn btn-ghost text-xl normal-case hover:bg-white/10 transition-all duration-200">
-            <Image src={logo.src} alt="Logo" height={36} width={36} className="rounded-lg" />
+        <div className="mr-4 flex-shrink-0">
+          <Link
+            href="/"
+            className="btn btn-ghost text-xl normal-case transition-all duration-200 hover:bg-white/10"
+          >
+            <Image
+              src={logo.src}
+              alt="Logo"
+              height={36}
+              width={36}
+              className="rounded-lg"
+            />
           </Link>
         </div>
 
         {/* Mobile Menu Button - Only visible on mobile */}
-        <div className="lg:hidden flex-shrink-0 mr-2">
+        <div className="mr-2 flex-shrink-0 lg:hidden">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/5 text-white/90 transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-95 ${
@@ -73,33 +82,38 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </div>
 
         {/* Desktop Navigation - Center */}
-        <div className="hidden text-white lg:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
+        <div className="absolute left-1/2 hidden -translate-x-1/2 transform items-center justify-center text-white lg:flex">
           <div className="flex items-center justify-center gap-6">
             {navbarData.items.map((item, index) => {
               return (
-                <div key={index} className="relative group">
+                <div key={index} className="group relative">
                   {item.links && item.links.length === 1 ? (
                     <Link
                       href={item.links[0]?.url || "#"}
-                      className="text-white hover:text-gray-200 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20 whitespace-nowrap"
+                      className="whitespace-nowrap rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20"
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <>
-                      <button className="bg-transparent text-white hover:text-gray-200 hover:bg-white/10 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 flex items-center gap-2 whitespace-nowrap">
+                      <button className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-transparent px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white/20">
                         {item.label}
                         <svg
-                          className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180"
+                          className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </button>
-                      <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                        <ul className="grid w-[220px] gap-1 p-3 bg-[#2e046d] rounded-xl shadow-2xl border border-white/10 min-w-[200px]">
+                      <div className="invisible absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 transform opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                        <ul className="grid w-[220px] min-w-[200px] gap-1 rounded-xl border border-white/10 bg-[#2e046d] p-3 shadow-2xl">
                           {item.links?.map((link) => {
                             return (
                               <li key={link.title}>
@@ -125,11 +139,11 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </div>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-3 flex-shrink-0 absolute right-4 sm:right-6 lg:right-8 top-2">
+        <div className="absolute right-4 top-2 flex flex-shrink-0 items-center gap-3 sm:right-6 lg:right-8">
           {/* Theme Toggle - Hidden on very small screens */}
           <button
             onClick={toggleTheme}
-            className="btn btn-circle btn-ghost hover:bg-white/10 transition-all duration-200 hidden sm:flex"
+            className="btn btn-circle btn-ghost hidden transition-all duration-200 hover:bg-white/10 sm:flex"
             aria-label="Toggle theme"
           >
             {theme === "darkTheme" ? (
@@ -203,23 +217,26 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         <div className="fixed inset-0 z-40 lg:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-200"
+            className="animate-in fade-in fixed inset-0 bg-black/40 backdrop-blur-[2px] duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
 
           {/* Mobile Menu */}
           <div
             id="mobile-nav"
-            className="fixed top-20 left-4 right-4 bg-[#2e046d] rounded-2xl shadow-2xl border border-white/10 overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+            className="animate-in fade-in zoom-in-95 fixed left-4 right-4 top-20 overflow-hidden rounded-2xl border border-white/10 bg-[#2e046d] shadow-2xl duration-200"
           >
-            <div className="p-4 max-h-[70vh] overflow-y-auto">
+            <div className="max-h-[70vh] overflow-y-auto p-4">
               <div className="space-y-2">
                 {navbarData.items.map((item, index) => {
                   return (
-                    <div key={index} className="border-b border-white/10 last:border-b-0">
+                    <div
+                      key={index}
+                      className="border-b border-white/10 last:border-b-0"
+                    >
                       {item.links && item.links.length === 1 ? (
                         <Link
-                          className="block w-full text-left text-white hover:text-gray-200 hover:bg-white/10 rounded-lg px-4 py-3 transition-all duration-200 text-base font-medium"
+                          className="block w-full rounded-lg px-4 py-3 text-left text-base font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200"
                           href={item.links[0]?.url || "#"}
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
@@ -227,23 +244,28 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                         </Link>
                       ) : (
                         <details className="group">
-                          <summary className="flex items-center justify-between w-full text-left text-white hover:text-gray-200 hover:bg-white/10 rounded-lg px-4 py-3 transition-all duration-200 text-base font-medium cursor-pointer">
+                          <summary className="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-3 text-left text-base font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200">
                             {item.label}
                             <svg
-                              className="w-5 h-5 transition-transform duration-200 group-open:rotate-180"
+                              className="h-5 w-5 transition-transform duration-200 group-open:rotate-180"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
                             >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                              />
                             </svg>
                           </summary>
-                          <div className="mt-2 ml-4 space-y-1">
+                          <div className="ml-4 mt-2 space-y-1">
                             {item.links?.map((link, linkIndex) => {
                               return (
                                 <Link
                                   key={linkIndex}
-                                  className="block w-full text-left text-gray-200 hover:text-white hover:bg-white/10 rounded-lg px-4 py-2 transition-all duration-200 text-sm"
+                                  className="block w-full rounded-lg px-4 py-2 text-left text-sm text-gray-200 transition-all duration-200 hover:bg-white/10 hover:text-white"
                                   href={link.url || "#"}
                                   onClick={() => setIsMobileMenuOpen(false)}
                                 >
@@ -260,10 +282,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               </div>
 
               {/* Mobile Action Buttons */}
-              <div className="mt-6 pt-4 border-t border-white/10 space-y-3">
+              <div className="mt-6 space-y-3 border-t border-white/10 pt-4">
                 <button
                   onClick={toggleTheme}
-                  className="w-full btn btn-ghost text-white hover:bg-white/10 transition-all duration-200 justify-start"
+                  className="btn btn-ghost w-full justify-start text-white transition-all duration-200 hover:bg-white/10"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +293,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="h-5 w-5 mr-3"
+                    className="mr-3 h-5 w-5"
                   >
                     {theme === "darkTheme" ? (
                       <path
@@ -292,11 +314,21 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
                 <Link
                   href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
-                  className="w-full btn btn-secondary text-primary hover:scale-105 transition-all duration-200 justify-start"
+                  className="btn btn-secondary w-full justify-start text-primary transition-all duration-200 hover:scale-105"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  <svg
+                    className="mr-3 h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
                   </svg>
                   Donate
                 </Link>

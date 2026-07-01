@@ -24,7 +24,6 @@
 //   const formattedDate = format(date, 'MMMM dd');
 //   const image = post?.images;
 
-
 //   const handleDelete = async () => {
 //     const res = await deleteRoommatePost(post.id);
 //     console.log(res)
@@ -43,7 +42,6 @@
 //             <button className="btn btn-primary"> <Trash size={18}  onClick={handleDelete} /> </button>
 //             <ListingPopup post={post} />
 //         </div>
-        
 
 //          )}
 //         <img src={image?.[0]?.toString() || ""} className="object-cover h-48 w-full" />
@@ -52,12 +50,11 @@
 //         <div className=" text-slate-500">
 //           <p>Available on {formattedDate}</p>
 //         </div>
-     
+
 //         {/* <div className="badge w-fit p-4 badge-secondary text-primary font-semibold rounded-md">
 //                   {typeof post?.categories === 'object' ? post?.categories?.title: ""}
 //                 </div> */}
-         
-      
+
 //         <h2 className="card-title  text-primary">{post.title}</h2>
 //         {/* <p>{post.description ? post.description.length >= 50 ? post.description.slice(0, 70) + "..." : post.description : ""}</p> */}
 //         <div className="card-actions justify-end">

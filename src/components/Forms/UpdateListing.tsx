@@ -8,15 +8,11 @@
 // import { RoommatePost } from '@/payload-types';
 // import { format } from 'date-fns';
 
-
 // const genderOptions = ["Female", "Male"] as const
 // const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 // const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
 // const utilitiesOptions = ["Wifi", "Electricity, water, gas", "Laundry (in unit)", "Laundry (on site)", "Heating", "Air conditioning"] as const
 // const amenitiesOptions = ["Parking available", "Recreational spaces (gym, pool, lounge)", "Pets allowed", "Private kitchen", "Private bathroom"] as const
-
-
-
 
 // //Form validation
 // const StepOneSchema = z.object({
@@ -41,13 +37,11 @@
 
 // })
 
-
 // const UploadedFileSchema = z.array(z.object({
 //     file: z.instanceof(File, { message: "Must be a valid file" }),
 //     preview: z.string().url("Preview must be a valid URL"),
 // }),
 // ).min(1, "At least one image is required");
-
 
 // interface UploadedFile {
 //     file: File;
@@ -146,7 +140,6 @@
 //         });
 //     };
 
-
 //     const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 //         const { name, value, checked } = e.target;
 
@@ -169,7 +162,6 @@
 //             return prevData;
 //         });
 //     };
-
 
 //     const handleNextStep = (e: React.FormEvent) => {
 //         e.preventDefault();
@@ -197,7 +189,6 @@
 //         //         }
 //         //   }
 //         setCurrentStep(currentStep + 1)
-
 
 //     }
 //     const handlePreviousStep = () => {
@@ -256,7 +247,6 @@
 //                 toast.success("Post saved successfully!");
 //                 router.push('/roommateservice');
 
-
 //             } else {
 //                 console.error("Error saving post:", res.message);
 //                 toast.error("Failed to save post.");
@@ -309,7 +299,6 @@
 //                     </div>
 //                     <div className='flex flex-col md:flex-row gap-4 py-2'>
 
-
 //                         <div className=' flex flex-col md:w-1/2'>
 //                             <label className='font-semibold' >Gender</label>
 //                             <select name="gender" value={formData.gender} onChange={handleInputChange} className="select select-bordered min-h-[2rem] h-[2rem] bg-[#F2F2F2]  border-none max-w-xs" >
@@ -327,7 +316,6 @@
 //                         </div>
 //                     </div>
 //                     <div className='flex flex-col md:flex-row gap-4'>
-
 
 //                         <div className='flex flex-col py-2 md:w-1/2'>
 //                             <label className='font-semibold'>Deposit</label>
@@ -550,7 +538,7 @@
 
 //                                 type="checkbox"
 //                                 name="contactEmail"
-                    
+
 //                                 onChange={(e) => setFormData({ ...formData, contactEmail: e.target.checked })}
 //                                 className="toggle"
 //                                 defaultChecked={false}

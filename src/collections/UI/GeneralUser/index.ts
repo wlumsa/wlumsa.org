@@ -19,7 +19,7 @@
 //         equals: user.userId,
 //       },
 //     },
-   
+
 //   });
 //   if (!post || post.docs.length === 0) {
 //     return false;
@@ -89,12 +89,10 @@
 //       type: 'checkbox',
 //     },
 
-   
-    
 //   ],
 //   admin: {
 //     useAsTitle: 'email',
 //   },
-  
+
 // };
 // export default GeneralUser;

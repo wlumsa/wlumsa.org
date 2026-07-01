@@ -12,5 +12,3 @@
 //     }
 //    return user.userId != null ;
 //    };
-
-

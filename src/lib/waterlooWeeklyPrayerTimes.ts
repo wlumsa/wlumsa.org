@@ -2,14 +2,16 @@ import { access } from "node:fs/promises";
 import { getPayloadInstance } from "@/Utils/datafetcher";
 import puppeteer from "puppeteer-core";
 
-export const WATERLOO_PRAYER_TIMES_URL = "https://waterloomasjid.com/main/index.php/prayers";
+export const WATERLOO_PRAYER_TIMES_URL =
+  "https://waterloomasjid.com/main/index.php/prayers";
 
-const CHROMIUM_PACK_URL = process.env.CHROMIUM_PACK_URL
-  || (process.env.VERCEL_PROJECT_PRODUCTION_URL
+const CHROMIUM_PACK_URL =
+  process.env.CHROMIUM_PACK_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chromium-pack.tar`
     : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/chromium-pack.tar`
-      : null);
+    ? `https://${process.env.VERCEL_URL}/chromium-pack.tar`
+    : null);
 
 export type WeeklyPrayerTimesSnapshot = {
   weekKey?: string;
@@ -106,14 +108,19 @@ async function getLocalExecutablePath(): Promise<string | undefined> {
     return process.env.PUPPETEER_EXECUTABLE_PATH;
   }
 
-  const localCandidates = process.platform === "win32"
-    ? [
-        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-      ]
-    : process.platform === "darwin"
+  const localCandidates =
+    process.platform === "win32"
+      ? [
+          "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+        ]
+      : process.platform === "darwin"
       ? ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"]
-      : ["/usr/bin/google-chrome", "/usr/bin/chromium-browser", "/usr/bin/chromium"];
+      : [
+          "/usr/bin/google-chrome",
+          "/usr/bin/chromium-browser",
+          "/usr/bin/chromium",
+        ];
 
   for (const candidate of localCandidates) {
     try {
@@ -128,11 +135,14 @@ async function getLocalExecutablePath(): Promise<string | undefined> {
 }
 
 export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnapshot> {
-  const isServerless = process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV;
+  const isServerless =
+    process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV;
   const executablePath = isServerless
     ? await getServerlessExecutablePath()
     : await getLocalExecutablePath();
-  const chromium = isServerless ? (await import("@sparticuz/chromium-min")).default : null;
+  const chromium = isServerless
+    ? (await import("@sparticuz/chromium-min")).default
+    : null;
 
   const browser = await puppeteer
     .launch({
@@ -151,7 +161,9 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
         [
           "Unable to launch a Chromium/Chrome browser for scraping.",
           "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify /chromium-pack.tar exists and CHROMIUM_PACK_URL resolves.",
-          `Original error: ${error instanceof Error ? error.message : "Unknown error"}`,
+          `Original error: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`,
         ].join(" ")
       );
     });
@@ -163,7 +175,9 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
       timeout: 60000,
     });
 
-    await page.waitForSelector("#main-timetable-large .row", { timeout: 20000 });
+    await page.waitForSelector("#main-timetable-large .row", {
+      timeout: 20000,
+    });
 
     const scraped = (await page.evaluate(`
       (() => {
@@ -213,7 +227,11 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
           rows,
         };
       })()
-    `)) as { weekLabel: string | null; headers: string[]; rows: Array<Record<string, string>> };
+    `)) as {
+      weekLabel: string | null;
+      headers: string[];
+      rows: Array<Record<string, string>>;
+    };
 
     const sanitizedRows = scraped.rows.map((row) => {
       const cleaned: Record<string, string> = {};
@@ -227,7 +245,9 @@ export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTim
       sourceUrl: WATERLOO_PRAYER_TIMES_URL,
       scrapedAt: new Date().toISOString(),
       weekLabel: scraped.weekLabel ? cleanText(scraped.weekLabel) : null,
-      headers: scraped.headers.map((header, index) => normalizeHeader(header, index)),
+      headers: scraped.headers.map((header, index) =>
+        normalizeHeader(header, index)
+      ),
       rows: sanitizedRows,
     };
   } finally {
@@ -256,13 +276,18 @@ export async function readWeeklyPrayerTimesCache(): Promise<WeeklyPrayerTimesSna
     }
 
     return {
-      weekKey: typeof typedDoc.weekKey === "string" ? typedDoc.weekKey : undefined,
-      sourceUrl: typeof typedDoc.sourceUrl === "string"
-        ? typedDoc.sourceUrl
-        : WATERLOO_PRAYER_TIMES_URL,
+      weekKey:
+        typeof typedDoc.weekKey === "string" ? typedDoc.weekKey : undefined,
+      sourceUrl:
+        typeof typedDoc.sourceUrl === "string"
+          ? typedDoc.sourceUrl
+          : WATERLOO_PRAYER_TIMES_URL,
       scrapedAt: typedDoc.scrapedAt,
-      weekLabel: typeof typedDoc.weekLabel === "string" ? typedDoc.weekLabel : null,
-      headers: Array.isArray(typedDoc.headers) ? (typedDoc.headers as string[]) : [],
+      weekLabel:
+        typeof typedDoc.weekLabel === "string" ? typedDoc.weekLabel : null,
+      headers: Array.isArray(typedDoc.headers)
+        ? (typedDoc.headers as string[])
+        : [],
       rows: typedDoc.rows as Array<Record<string, string>>,
     };
   } catch {

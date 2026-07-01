@@ -1,17 +1,21 @@
-"use client"
-import { CheckboxField } from './types'
-import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
-import React, { useEffect, useState } from 'react'
-import { Check } from 'lucide-react'
-import { Error } from '../Error'
-import { Width } from '../Width'
+"use client";
+import { CheckboxField } from "./types";
+import type {
+  FieldErrorsImpl,
+  FieldValues,
+  UseFormRegister,
+} from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { Check } from "lucide-react";
+import { Error } from "../Error";
+import { Width } from "../Width";
 
 export const Checkbox: React.FC<
   {
-    errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
-    getValues: any
-    register: UseFormRegister<any & FieldValues>
-    setValue: any
+    errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>;
+    getValues: any;
+    register: UseFormRegister<any & FieldValues>;
+    setValue: any;
   } & CheckboxField
 > = ({
   name,
@@ -25,73 +29,83 @@ export const Checkbox: React.FC<
   checkboxes, // Array of checkbox options
   isMultipleChoice, // Indicates if multiple checkboxes can be selected
 }) => {
-    const [checkedValues, setCheckedValues] = useState<string[]>([]);
+  const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
-    // Effect to sync checked values with form state
-    useEffect(() => {
-      const currentValues = getValues(name) || [];
-      setCheckedValues(currentValues);
-    }, [getValues, name]);
+  // Effect to sync checked values with form state
+  useEffect(() => {
+    const currentValues = getValues(name) || [];
+    setCheckedValues(currentValues);
+  }, [getValues, name]);
 
-    const handleCheckboxChange = (optionLabel: string, isChecked: boolean) => {
-      let newValues;
-      if (isMultipleChoice) {
-        newValues = isChecked
-          ? [...checkedValues, optionLabel]
-          : checkedValues.filter((value) => value !== optionLabel);
-      } else {
-        newValues = isChecked ? [optionLabel] : [];
-      }
-      setCheckedValues(newValues);
-      setValue(name, newValues);
-    };
+  const handleCheckboxChange = (optionLabel: string, isChecked: boolean) => {
+    let newValues;
+    if (isMultipleChoice) {
+      newValues = isChecked
+        ? [...checkedValues, optionLabel]
+        : checkedValues.filter((value) => value !== optionLabel);
+    } else {
+      newValues = isChecked ? [optionLabel] : [];
+    }
+    setCheckedValues(newValues);
+    setValue(name, newValues);
+  };
 
-    // Check if at least one checkbox is selected when required
-    const isError = requiredFromProps && errors[name] && !checkedValues.length;
-
+  // Check if at least one checkbox is selected when required
+  const isError = requiredFromProps && errors[name] && !checkedValues.length;
 
   return (
     <div className="mx-auto min-h-[12rem]">
-    <Width width={width}>
-      <div className="flex flex-col text-slate-700 dark:text-base-content max-w-3xl">
-        <label className="block text-xl md:text-2xl font-semibold text-slate-800 dark:text-base-content">
-          {label} {requiredFromProps && <span className="text-red-700 dark:text-error">*</span>}
-        </label>
-        {checkboxes.map((option) => {
-          // Check if the limit is greater than 0
-          if (option.limit === 0) {
-            return null; // Do not render if limit is 0
-          }
+      <Width width={width}>
+        <div className="flex max-w-3xl flex-col text-slate-700 dark:text-base-content">
+          <label className="block text-xl font-semibold text-slate-800 md:text-2xl dark:text-base-content">
+            {label}{" "}
+            {requiredFromProps && (
+              <span className="text-red-700 dark:text-error">*</span>
+            )}
+          </label>
+          {checkboxes.map((option) => {
+            // Check if the limit is greater than 0
+            if (option.limit === 0) {
+              return null; // Do not render if limit is 0
+            }
 
-              const isChecked = checkedValues.includes(option.label);
+            const isChecked = checkedValues.includes(option.label);
 
-          return (
-            <div key={option.label} className="mt-3 flex items-center gap-4 rounded-2xl border border-slate-200 dark:border-base-300 bg-white/80 dark:bg-base-200/50 px-5 py-3.5 shadow-sm dark:shadow-none">
-              <input
-                type="checkbox"
-                className="hidden"
-
-                {...register(name, { required: checkedValues.length < 0 })}
-                checked={isChecked}
-                onChange={(e) => handleCheckboxChange(option.label, e.target.checked)}
-
-              />
-              <button
-                type="button"
-                onClick={() => handleCheckboxChange(option.label, !isChecked)}
-                className={`h-5 w-5 rounded-md border-2 flex items-center justify-center transition
-                  ${isChecked ? 'bg-primary border-primary' : 'border-slate-300 dark:border-base-400 bg-white dark:bg-base-300'}`}
+            return (
+              <div
+                key={option.label}
+                className="mt-3 flex items-center gap-4 rounded-2xl border border-slate-200 bg-white/80 px-5 py-3.5 shadow-sm dark:border-base-300 dark:bg-base-200/50 dark:shadow-none"
               >
-                {isChecked && <Check className="w-4 h-4 text-secondary" />}
-              </button>
-              <span className="text-base md:text-lg font-normal text-slate-900 dark:text-base-content">{option.label}</span>
-            </div>
-          );
-        })}
-           {requiredFromProps && errors[name] && <Error />}
-
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  {...register(name, { required: checkedValues.length < 0 })}
+                  checked={isChecked}
+                  onChange={(e) =>
+                    handleCheckboxChange(option.label, e.target.checked)
+                  }
+                />
+                <button
+                  type="button"
+                  onClick={() => handleCheckboxChange(option.label, !isChecked)}
+                  className={`flex h-5 w-5 items-center justify-center rounded-md border-2 transition
+                  ${
+                    isChecked
+                      ? "border-primary bg-primary"
+                      : "dark:border-base-400 border-slate-300 bg-white dark:bg-base-300"
+                  }`}
+                >
+                  {isChecked && <Check className="h-4 w-4 text-secondary" />}
+                </button>
+                <span className="text-base font-normal text-slate-900 md:text-lg dark:text-base-content">
+                  {option.label}
+                </span>
+              </div>
+            );
+          })}
+          {requiredFromProps && errors[name] && <Error />}
         </div>
-    </Width>
+      </Width>
     </div>
-  )
-}
+  );
+};

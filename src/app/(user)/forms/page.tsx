@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const page = () => {
-  return (
-    <div>page not found</div>
-  )
-}
+  return <div>page not found</div>;
+};
 
-export default page
+export default page;

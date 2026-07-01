@@ -12,8 +12,12 @@ export function Hero({ title, subtitle }: HeroProps) {
     <section className="px-1 py-2 md:px-2 md:py-3">
       <div className="mx-auto max-w-4xl text-center">
         <BlurFade>
-          <p className="text-xs font-body font-semibold uppercase tracking-[0.16em] text-primary/80 md:text-sm">{subtitle}</p>
-          <h1 className="mt-1 text-3xl font-heading font-bold leading-tight text-primary md:text-4xl">{title}</h1>
+          <p className="font-body text-xs font-semibold uppercase tracking-[0.16em] text-primary/80 md:text-sm">
+            {subtitle}
+          </p>
+          <h1 className="font-heading mt-1 text-3xl font-bold leading-tight text-primary md:text-4xl">
+            {title}
+          </h1>
         </BlurFade>
 
         <BlurFade delay={0.28}>
@@ -31,16 +35,22 @@ export function Hero({ title, subtitle }: HeroProps) {
 
         <BlurFade delay={0.35}>
           <div className="mx-auto mt-2.5 max-w-3xl rounded-2xl bg-base-200/80 px-4 py-2.5 text-left shadow-sm md:px-6">
-            <p className="text-[10px] font-body font-semibold uppercase tracking-[0.16em] text-base-content/70 md:text-[11px]">Quran 2:183</p>
-            <p className="mt-2 text-sm font-body italic leading-relaxed text-base-content/85 md:text-base">
-              “O believers! Fasting is prescribed for you as it was for those before you so perhaps you will become mindful of Allah.”
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.16em] text-base-content/70 md:text-[11px]">
+              Quran 2:183
+            </p>
+            <p className="font-body mt-2 text-sm italic leading-relaxed text-base-content/85 md:text-base">
+              “O believers! Fasting is prescribed for you as it was for those
+              before you so perhaps you will become mindful of Allah.”
             </p>
           </div>
         </BlurFade>
 
         <BlurFade delay={0.5}>
           <div className="mt-3 flex flex-col justify-center gap-2 sm:flex-row sm:gap-3">
-            <Link href="/forms/iftar" className="btn btn-primary btn-sm text-primary-content md:btn-md">
+            <Link
+              href="/forms/iftar"
+              className="btn btn-primary btn-sm text-primary-content md:btn-md"
+            >
               Register for iftar
             </Link>
             <Link

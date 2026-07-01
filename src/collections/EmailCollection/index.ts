@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from "payload";
 import {
   HTMLConverterFeature,
   lexicalEditor,
@@ -10,7 +10,6 @@ export const EmailCollection: CollectionConfig = {
   labels: {
     singular: "Email Collection",
     plural: "Email Collection",
-    
   },
   admin: {
     group: "Marketing",
@@ -44,9 +43,7 @@ export const EmailCollection: CollectionConfig = {
           ...defaultFeatures,
           // The HTMLConverter Feature is the feature which manages the HTML serializers.
           // If you do not pass any arguments to it, it will use the default serializers.
-          HTMLConverterFeature({
-            
-          }),
+          HTMLConverterFeature({}),
         ],
       }),
     },

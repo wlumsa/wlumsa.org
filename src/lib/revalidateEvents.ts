@@ -1,7 +1,8 @@
 const EVENTS_REVALIDATION_PATHS = ["/events"] as const;
 
 function getServerUrl() {
-  if (process.env.NEXT_PUBLIC_SERVER_URL) return process.env.NEXT_PUBLIC_SERVER_URL;
+  if (process.env.NEXT_PUBLIC_SERVER_URL)
+    return process.env.NEXT_PUBLIC_SERVER_URL;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return "http://localhost:3000";
 }

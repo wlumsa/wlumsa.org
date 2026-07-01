@@ -25,7 +25,9 @@ export const EID_AL_FITR_2026_PRAYER_TIME = "8:30 AM";
 export const EID_AL_FITR_2026_PRAYER_LOCATION = "RIM Park";
 
 export function parseISODate(isoDate: string): Date {
-  const [yearRaw = 2026, monthRaw = 1, dayRaw = 1] = isoDate.split("-").map(Number);
+  const [yearRaw = 2026, monthRaw = 1, dayRaw = 1] = isoDate
+    .split("-")
+    .map(Number);
   const year = Number.isFinite(yearRaw) ? yearRaw : 2026;
   const month = Number.isFinite(monthRaw) ? monthRaw : 1;
   const day = Number.isFinite(dayRaw) ? dayRaw : 1;
@@ -87,7 +89,11 @@ export function buildRamadanDays(
   const days: RamadanDay[] = [];
   let fastIndex = 1;
 
-  for (let currentDate = new Date(startDate); currentDate < eidDate; currentDate = addDays(currentDate, 1)) {
+  for (
+    let currentDate = new Date(startDate);
+    currentDate < eidDate;
+    currentDate = addDays(currentDate, 1)
+  ) {
     const isoDate = toISODate(currentDate);
 
     days.push({
@@ -137,7 +143,9 @@ export function getLastThirdOfNight(
 ): string | null {
   if (!currentDay || !nextDay) return null;
 
-  const [rawMaghribHour, maghribMinute] = currentDay.maghrib.split(":").map(Number);
+  const [rawMaghribHour, maghribMinute] = currentDay.maghrib
+    .split(":")
+    .map(Number);
   const [rawNextFajrHour, nextFajrMinute] = nextDay.fajr.split(":").map(Number);
 
   if (
@@ -160,14 +168,14 @@ export function getLastThirdOfNight(
     safeRawMaghribHour >= 13
       ? safeRawMaghribHour
       : safeRawMaghribHour === 12
-        ? 12
-        : safeRawMaghribHour + 12;
+      ? 12
+      : safeRawMaghribHour + 12;
   const nextFajrHour24 =
     safeRawNextFajrHour >= 13
       ? safeRawNextFajrHour
       : safeRawNextFajrHour === 12
-        ? 0
-        : safeRawNextFajrHour;
+      ? 0
+      : safeRawNextFajrHour;
 
   const startMinutes = maghribHour24 * 60 + safeMaghribMinute;
   const nextFajrTotal = nextFajrHour24 * 60 + safeNextFajrMinute + 24 * 60;

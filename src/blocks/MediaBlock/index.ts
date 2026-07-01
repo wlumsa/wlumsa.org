@@ -1,29 +1,28 @@
-import type { Block } from "payload"
+import type { Block } from "payload";
 
 export const MediaBlock: Block = {
-  slug: 'mediaBlock',
+  slug: "mediaBlock",
   fields: [
     {
-      name: 'position',
-      type: 'select',
-      defaultValue: 'default',
+      name: "position",
+      type: "select",
+      defaultValue: "default",
       options: [
         {
-          label: 'Default',
-          value: 'default',
+          label: "Default",
+          value: "default",
         },
         {
-          label: 'Fullscreen',
-          value: 'fullscreen',
+          label: "Fullscreen",
+          value: "fullscreen",
         },
       ],
     },
     {
-      name: 'media',
-      type: 'upload',
-      relationTo: 'media',
+      name: "media",
+      type: "upload",
+      relationTo: "media",
       required: true,
     },
   ],
-}
-
+};

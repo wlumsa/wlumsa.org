@@ -41,9 +41,14 @@ import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
 // import RoommatePosts from "./collections/RoommatePosts";
 // import { Comments } from "./collections/Comment";
-import {Events } from "./collections/Events";
+import { Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
-import { CheckboxBlock, SelectBlock, ContactInfoBlock, UploadBlock } from "./blocks/forms";
+import {
+  CheckboxBlock,
+  SelectBlock,
+  ContactInfoBlock,
+  UploadBlock,
+} from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 // import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
@@ -68,17 +73,16 @@ const getDatabaseAdapter = () => {
         checkServerIdentity: () => undefined,
       }, // Configure SSL for Supabase connection
     },
-   
   });
 };
 
 export default buildConfig({
-  secret: process.env.PAYLOAD_SECRET || '60433e937e48ece59e189548',
+  secret: process.env.PAYLOAD_SECRET || "60433e937e48ece59e189548",
   admin: {
     user: Execs.slug,
   },
   routes: {
-    api: '/api',
+    api: "/api",
   },
 
   collections: [
@@ -103,7 +107,7 @@ export default buildConfig({
     DistributionList,
     individuals,
     FrequentlyAskedQuestions,
-    HalalDirectory, 
+    HalalDirectory,
     HalalGroceryStores,
     // RoommatePosts,
     // Comments,
@@ -153,151 +157,147 @@ export default buildConfig({
       config: {
         credentials: {
           accessKeyId: process.env.S3_ACCESS_KEY_ID || "default_access_key_id",
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ||
-            "default_secret_access_key",
+          secretAccessKey:
+            process.env.S3_SECRET_ACCESS_KEY || "default_secret_access_key",
         },
         region: process.env.S3_REGION || "default_region",
         endpoint: process.env.S3_ENDPOINT || "default_endpoint",
       },
     }),
-    formBuilderPlugin(
-      {
-        formOverrides: {
-          slug: "forms",
-          admin: {
-            group: "Forms",
-            livePreview: {
-              url: ({ data }) => {
-                const isHomePage = data.title === ''
-                return `${process.env.NEXT_PUBLIC_SERVER_URL}/forms${!isHomePage ? `/${data.title}` : ''}`
-              },
+    formBuilderPlugin({
+      formOverrides: {
+        slug: "forms",
+        admin: {
+          group: "Forms",
+          livePreview: {
+            url: ({ data }) => {
+              const isHomePage = data.title === "";
+              return `${process.env.NEXT_PUBLIC_SERVER_URL}/forms${
+                !isHomePage ? `/${data.title}` : ""
+              }`;
             },
           },
-          access: {
-            update: () => true,
-          },
-
-          fields: ({ defaultFields }) => {
-            return [
-              ...defaultFields,
-              {
-                name: "submissionLimit",
-                label: "Submission Limit",
-                type: "number",
-                admin:{
-                  position:"sidebar"
-                }
-              },
-
-              {
-                name: "releaseDate",
-                label: "Form Release Date",
-                type: "date",
-                admin: {
-                  position: "sidebar",
-                  date:{
-                    pickerAppearance:"dayAndTime",
-                  }
-                },
-              },
-              {
-                name: "closeDate",
-                label: "Form Auto Close Date (leave empty to never close)",
-                type: "date",
-                admin: {
-                  position: "sidebar",
-                  date:{
-                    pickerAppearance:"dayAndTime",
-                  }
-                },
-              },
-              {
-                name: "slug",
-                label: "slug",
-                type: "text",
-                admin: {
-                  position: "sidebar",
-
-                },
-              },
-              {
-                name: "webhook",
-                label: "Zapier Webhook",
-                type: "text",
-                admin: {
-                  position: "sidebar",
-                },
-              },
-            ];
-
-          },
-
         },
-        formSubmissionOverrides: {
-          admin: {
-            group: "Forms",
-          },
-          fields: ({ defaultFields }) => {
-            const formField = defaultFields.find((field) =>
-              "name" in field && field.name === "form"
-            );
-
-            return [
-              ...(formField ? [formField] : []),
-              {
-                name: "submissionData",
-                type: "json",
-                admin: {
-                  components: {
-                    Field: "@/plugins/form-builder/FormData",
-                  },
-                },
-              },
-              {
-                name: "payment",
-                type: "group",
-                admin: {
-                  position: "sidebar",
-                },
-                fields: [
-                  {
-                    name: "amount",
-                    type: "number",
-                  },
-                  {
-                    name: "status",
-                    type: "select",
-                    defaultValue: "pending",
-                    options: [
-                      { label: "Pending", value: "pending" },
-                      { label: "Paid", value: "paid" },
-                      { label: "Cancelled", value: "cancelled" },
-                      { label: "Refunded", value: "refunded" },
-                    ],
-                  },
-                ],
-              },
-            ];
-          },
+        access: {
+          update: () => true,
         },
-        fields: {
-          text: true,
-          textarea: true,
-          CustomSelect: SelectBlock,
-          select: false,
-          email: true,
-          state: true,
-          country: true,
-          checkbox: CheckboxBlock,
-          contactInfo: ContactInfoBlock,
-          fileUpload: UploadBlock,
-          number: true,
-          message: true,
-          payment: true,
+
+        fields: ({ defaultFields }) => {
+          return [
+            ...defaultFields,
+            {
+              name: "submissionLimit",
+              label: "Submission Limit",
+              type: "number",
+              admin: {
+                position: "sidebar",
+              },
+            },
+
+            {
+              name: "releaseDate",
+              label: "Form Release Date",
+              type: "date",
+              admin: {
+                position: "sidebar",
+                date: {
+                  pickerAppearance: "dayAndTime",
+                },
+              },
+            },
+            {
+              name: "closeDate",
+              label: "Form Auto Close Date (leave empty to never close)",
+              type: "date",
+              admin: {
+                position: "sidebar",
+                date: {
+                  pickerAppearance: "dayAndTime",
+                },
+              },
+            },
+            {
+              name: "slug",
+              label: "slug",
+              type: "text",
+              admin: {
+                position: "sidebar",
+              },
+            },
+            {
+              name: "webhook",
+              label: "Zapier Webhook",
+              type: "text",
+              admin: {
+                position: "sidebar",
+              },
+            },
+          ];
         },
       },
+      formSubmissionOverrides: {
+        admin: {
+          group: "Forms",
+        },
+        fields: ({ defaultFields }) => {
+          const formField = defaultFields.find(
+            (field) => "name" in field && field.name === "form"
+          );
 
-    ),
+          return [
+            ...(formField ? [formField] : []),
+            {
+              name: "submissionData",
+              type: "json",
+              admin: {
+                components: {
+                  Field: "@/plugins/form-builder/FormData",
+                },
+              },
+            },
+            {
+              name: "payment",
+              type: "group",
+              admin: {
+                position: "sidebar",
+              },
+              fields: [
+                {
+                  name: "amount",
+                  type: "number",
+                },
+                {
+                  name: "status",
+                  type: "select",
+                  defaultValue: "pending",
+                  options: [
+                    { label: "Pending", value: "pending" },
+                    { label: "Paid", value: "paid" },
+                    { label: "Cancelled", value: "cancelled" },
+                    { label: "Refunded", value: "refunded" },
+                  ],
+                },
+              ],
+            },
+          ];
+        },
+      },
+      fields: {
+        text: true,
+        textarea: true,
+        CustomSelect: SelectBlock,
+        select: false,
+        email: true,
+        state: true,
+        country: true,
+        checkbox: CheckboxBlock,
+        contactInfo: ContactInfoBlock,
+        fileUpload: UploadBlock,
+        number: true,
+        message: true,
+        payment: true,
+      },
+    }),
   ],
   email: resendAdapter({
     defaultFromAddress: "onboarding@resend.dev",

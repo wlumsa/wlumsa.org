@@ -9,7 +9,6 @@ interface InstagramPageProps {
 }
 
 const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
-
   const queryLength = instagramPosts.length;
   return (
     <div id="news" className="w-full bg-base-100 py-10">
@@ -19,8 +18,7 @@ const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
             Latest News
           </h3>
           {instagramPosts.length > 0 ? (
-            <div className="  carousel  flex-row  max-w-[22rem] overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
-
+            <div className="  carousel  max-w-[22rem]  flex-row overflow-x-auto rounded-box bg-primary py-2 sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
               {instagramPosts.map((post, index) => (
                 <div
                   id={`item${(index + 1).toString()}`}
@@ -31,10 +29,8 @@ const News: React.FC<InstagramPageProps> = ({ instagramPosts }) => {
                 </div>
               ))}
             </div>
-          ): (
-            <div className="text-center text-neutral">
-              No news to display.
-            </div>
+          ) : (
+            <div className="text-center text-neutral">No news to display.</div>
           )}
         </div>
         <div className="flex w-full justify-center gap-2 pt-4 ">

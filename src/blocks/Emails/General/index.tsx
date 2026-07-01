@@ -1,36 +1,31 @@
-
-import { Block } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { Block } from "payload";
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
 export const GeneralBlock: Block = {
-  slug: 'General', // required
-  imageURL: 'https://google.com/path/to/image.jpg',
-  imageAltText: 'A nice thumbnail image to show what this block looks like',
-  interfaceName: 'GeneralBlock', // optional
+  slug: "General", // required
+  imageURL: "https://google.com/path/to/image.jpg",
+  imageAltText: "A nice thumbnail image to show what this block looks like",
+  interfaceName: "GeneralBlock", // optional
   fields: [
     // required
-   
+
     {
-      name: 'Form Link',
-      type: 'text',
+      name: "Form Link",
+      type: "text",
     },
     {
-      name: 'Date',
-      type: 'date',
+      name: "Date",
+      type: "date",
       admin: {
         date: {
-          pickerAppearance: 'dayOnly',
-          displayFormat: 'd MMM yyy',
+          pickerAppearance: "dayOnly",
+          displayFormat: "d MMM yyy",
         },
       },
     },
-      {
-        name: 'Content',
-        type: 'richText',
-        editor: lexicalEditor({}),
-        
-       
-      },
-
+    {
+      name: "Content",
+      type: "richText",
+      editor: lexicalEditor({}),
+    },
   ],
-  
-}
+};

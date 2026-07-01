@@ -19,9 +19,7 @@ export async function getPayloadInstance() {
 }
 
 export async function fetchRoommateProfiles() {
-  const { data, error } = await supabase
-    .from("roommates")
-    .select("*");
+  const { data, error } = await supabase.from("roommates").select("*");
 
   if (error) {
     console.error("Error fetching roommate profiles:", error);
@@ -78,7 +76,7 @@ export async function addRoommateProfile(
   gender: string,
   location: string,
   rent: number,
-  imageId?: string,
+  imageId?: string
 ) {
   const { data, error } = await supabase
     .from("roommates")
@@ -106,7 +104,7 @@ export async function updateRoommateProfile(
     location: string;
     rent: number;
     image_id: string;
-  }>,
+  }>
 ) {
   const { data, error } = await supabase
     .from("roommates")
@@ -143,11 +141,10 @@ export async function deleteRoommateProfile(id: number) {
 
 export async function getPublicURL(
   folder: string | null | undefined,
-  fileName: string | null | undefined,
+  fileName: string | null | undefined
 ) {
   const path = `${folder}/${fileName}`;
-  const { data } = supabase
-    .storage
+  const { data } = supabase.storage
     .from(process.env.S3_BUCKET || "default_bucket")
     .getPublicUrl(path || "");
   return data;
@@ -158,7 +155,7 @@ export async function getMedia(alt: string) {
   const Media = await payload.find({
     collection: "media",
     where: {
-      "alt": {
+      alt: {
         equals: alt,
       },
     },
@@ -282,7 +279,7 @@ export async function fetchBlogPosts() {
   const posts = await payload.find({
     collection: "Posts",
     where: {
-      "status": {
+      status: {
         equals: "published",
       },
     },
@@ -294,19 +291,19 @@ export async function fetchBlogPosts() {
 
 export async function fetchBlogPostsByCategory(
   category: string,
-  postId: string,
+  postId: string
 ) {
   const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
-      "status": {
+      status: {
         equals: "published",
       },
-      "categories": {
+      categories: {
         equals: category,
       },
-      "id": {
+      id: {
         not_equals: postId,
       },
     },
@@ -318,19 +315,19 @@ export async function fetchBlogPostsByCategory(
 
 export async function fetchBlogPostsByCategoryAndTag(
   category: string,
-  tag: string,
+  tag: string
 ) {
   const payload = await getPayloadInstance();
   const posts = await payload.find({
     collection: "Posts",
     where: {
-      "status": {
+      status: {
         equals: "published",
       },
-      "category": {
+      category: {
         equals: category,
       },
-      "tag": {
+      tag: {
         equals: tag,
       },
     },
@@ -344,10 +341,10 @@ export async function fetchBlogPostById(id: string) {
   const post = await payload.find({
     collection: "Posts",
     where: {
-      "status": {
+      status: {
         equals: "published",
       },
-      "id": {
+      id: {
         equals: id,
       },
     },
@@ -361,10 +358,10 @@ export async function fetchBlogPostByTitle(title: string) {
   const post = await payload.find({
     collection: "Posts",
     where: {
-      "status": {
+      status: {
         equals: "published",
       },
-      "title": {
+      title: {
         equals: title,
       },
     },
@@ -378,10 +375,10 @@ export async function fetchBlogPostsBytag(tag: string) {
   const posts = await payload.find({
     collection: "Posts",
     where: {
-      "status": {
+      status: {
         equals: "published",
       },
-      "tag": {
+      tag: {
         equals: tag,
       },
     },
@@ -397,12 +394,12 @@ export async function fetchBlogPostsByQuery(query: string) {
     where: {
       or: [
         {
-          "title": {
+          title: {
             like: `${query}`,
           },
         },
         {
-          "description": {
+          description: {
             like: `${query}`,
           },
         },
@@ -422,7 +419,7 @@ export async function getCategories() {
 }
 export async function fetchBlogPostsByQueryAndCategory(
   query: string,
-  categoryId: string,
+  categoryId: string
 ) {
   const payload = await getPayloadInstance();
   const posts = await payload.find({
@@ -430,12 +427,12 @@ export async function fetchBlogPostsByQueryAndCategory(
     where: {
       or: [
         {
-          "title": {
+          title: {
             like: `${query}`,
           },
         },
         {
-          "description": {
+          description: {
             like: `${query}`,
           },
         },
@@ -533,9 +530,9 @@ export async function getImageByID(id: string) {
 
 export async function uploadFile(file: File) {
   const client = createClient();
-  const { data, error } = await client.storage.from(
-    "wlumsa_storage_bucket_testbucket_name",
-  ).upload("photos", file);
+  const { data, error } = await client.storage
+    .from("wlumsa_storage_bucket_testbucket_name")
+    .upload("photos", file);
   if (error) {
     console.log(error);
   } else {
@@ -581,7 +578,7 @@ export async function addMember(
   lastName: string,
   email: string,
   studentID: string,
-  newsletter: boolean,
+  newsletter: boolean
 ) {
   const payload = await getPayloadInstance();
   const result = await payload.create({
@@ -610,38 +607,37 @@ export async function isMember(studentId: string) {
 }
 
 export async function updateNewsletterStatus(email: string) {
-const payload = await getPayloadInstance();
-const exists = await payload.find({
-  collection: "members",
-  where: {
-    "mylaurierEmail": {
-      equals: email,
-    },
-  },
-  limit: 1,
-})
-if(exists.docs.length > 0) {
-  const result = await payload.update({
+  const payload = await getPayloadInstance();
+  const exists = await payload.find({
     collection: "members",
     where: {
-      "mylaurierEmail": {
+      mylaurierEmail: {
         equals: email,
       },
     },
-    data: {
-      newsletter: false,
-    },
+    limit: 1,
   });
-  return true;
-} else {
-  return false;
-}
-
+  if (exists.docs.length > 0) {
+    const result = await payload.update({
+      collection: "members",
+      where: {
+        mylaurierEmail: {
+          equals: email,
+        },
+      },
+      data: {
+        newsletter: false,
+      },
+    });
+    return true;
+  } else {
+    return false;
+  }
 }
 //function to remove  a person from the newsletter list, given their email
 export async function removeIndividualFromList(
   listName: string,
-  email: string,
+  email: string
 ) {
   try {
     const { data: existingIndividual, error: existingIndividualError } =
@@ -652,10 +648,11 @@ export async function removeIndividualFromList(
         .single();
     console.log("EXISITING INDIVIDUAL:", existingIndividual);
     if (
-      existingIndividualError && existingIndividualError.code !== "PGRST116"
+      existingIndividualError &&
+      existingIndividualError.code !== "PGRST116"
     ) {
       throw new Error(
-        `Error checking individual: ${existingIndividualError.message}`,
+        `Error checking individual: ${existingIndividualError.message}`
       );
     }
 
@@ -665,30 +662,31 @@ export async function removeIndividualFromList(
       .eq("list_name", listName)
       .single();
 
-      if(listError) {
-        throw new Error(`Error fetching list: ${listError.message}`);
-      }
+    if (listError) {
+      throw new Error(`Error fetching list: ${listError.message}`);
+    }
 
-      if (!existingList || existingList.id === undefined) {
-        throw new Error(`List does not exist`);
-      }
+    if (!existingList || existingList.id === undefined) {
+      throw new Error(`List does not exist`);
+    }
 
-      const removeIndividual = await supabase
+    const removeIndividual = await supabase
       .from("distribution_list_rels")
       .delete()
       .eq("parent_id", existingList.id)
       .eq("individuals_id", existingIndividual.id);
 
-      if(removeIndividual.error) {
-        throw new Error(`Error removing individual: ${removeIndividual.error.message}`);
-      }
-      if(removeIndividual)
-      {
-        return {
-          success: true,
-          message: "Individual removed from list",
-        };
-      }
+    if (removeIndividual.error) {
+      throw new Error(
+        `Error removing individual: ${removeIndividual.error.message}`
+      );
+    }
+    if (removeIndividual) {
+      return {
+        success: true,
+        message: "Individual removed from list",
+      };
+    }
   } catch (error) {
     console.error("Error :", error);
     return {
@@ -698,10 +696,9 @@ export async function removeIndividualFromList(
   }
 }
 
-
 export async function addIndividualToList(
   listName: string,
-  individualData: individualSchema,
+  individualData: individualSchema
 ) {
   try {
     // Step 1: Check if the individual already exists
@@ -714,11 +711,12 @@ export async function addIndividualToList(
         .single();
     console.log("EXISITING INDIVIDUAL:", existingIndividual);
     if (
-      existingIndividualError && existingIndividualError.code !== "PGRST116"
+      existingIndividualError &&
+      existingIndividualError.code !== "PGRST116"
     ) {
       // PGRST116 is the error code for "Results contain 0 rows"
       throw new Error(
-        `Error checking individual: ${existingIndividualError.message}`,
+        `Error checking individual: ${existingIndividualError.message}`
       );
     }
 
@@ -732,7 +730,7 @@ export async function addIndividualToList(
 
       if (individualError) {
         throw new Error(
-          `Error inserting individual: ${individualError.message}`,
+          `Error inserting individual: ${individualError.message}`
         );
       }
 
@@ -819,14 +817,13 @@ export async function getResourceById(id: string) {
 export async function getResourcesByCategory(categoryId: string) {
   const payload = await getPayloadInstance();
 
-  if (categoryId === '0') {
+  if (categoryId === "0") {
     const resources = await payload.find({
       collection: "resources",
       depth: 1,
     });
     return resources.docs;
-  }
-  else {
+  } else {
     const resources = await payload.find({
       collection: "resources",
       where: {
@@ -839,8 +836,6 @@ export async function getResourcesByCategory(categoryId: string) {
     });
     return resources.docs;
   }
-
-
 }
 
 export async function getAllResources() {
@@ -940,87 +935,96 @@ export const fetchHalalDirectory = unstable_cache(
   } = {}) => {
     const payload = await getPayloadInstance();
 
-  // Build where conditions for filtering
-  const whereConditions: any[] = [];
+    // Build where conditions for filtering
+    const whereConditions: any[] = [];
 
-  // Text search - use prefix search for better performance
-  if (query) {
-    whereConditions.push({
-      or: [
-        { name: { like: `${query}%` } }, // Prefix search is faster
-        { shortDescription: { like: `${query}%` } }, // Prefix search is faster
-      ],
-    });
-  }
-
-  // Cuisine filter - map display names to database values
-  if (cuisine && cuisine !== "All Cuisines") {
-    const cuisineMapping: { [key: string]: string } = {
-      "Chinese": "chinese",
-      "Persian": "persian",
-      "Shawarma": "shawarma",
-      "Burgers": "burgers",
-      "Bangladeshi": "bangladeshi",
-      "Chinese Indo Fusion": "chinese-indo-fusion",
-      "Pakistani Food": "pakistani-food",
-      "Chicken and Waffles": "chicken-and-waffles",
-      "Kabob": "kabob",
-      "Uyghur": "uyghur",
-      "Chicken": "chicken",
-      "Indian Fusion Food": "indian-fusion-food",
-      "Pizza": "pizza",
-    };
-    const dbValue = cuisineMapping[cuisine] || cuisine.toLowerCase();
-    whereConditions.push({ category: { equals: dbValue } });
-  }
-
-  // Slaughter method filter - map display names to database values
-  if (method && method !== "All Methods") {
-    const methodMapping: { [key: string]: string } = {
-      "Hand": "hand",
-      "Machine": "machine",
-      "Both": "both",
-      "N/A": "n/a",
-    };
-    const dbValue = methodMapping[method] || method.toLowerCase();
-    whereConditions.push({ slaughtered: { equals: dbValue } });
-  }
-
-  // Location filter
-  if (location && location !== "All Locations") {
-    if (location === "On Campus") {
-      whereConditions.push({ is_on_campus: { equals: true } });
-    } else if (location === "Off Campus") {
-      whereConditions.push({ is_on_campus: { equals: false } });
+    // Text search - use prefix search for better performance
+    if (query) {
+      whereConditions.push({
+        or: [
+          { name: { like: `${query}%` } }, // Prefix search is faster
+          { shortDescription: { like: `${query}%` } }, // Prefix search is faster
+        ],
+      });
     }
-  }
 
-  // Fetch filtered results with pagination
-  const whereClause = whereConditions.length > 0 ? { and: whereConditions } : {};
-  const foodSpots = await payload.find({
-    collection: "halal-directory",
-    where: whereClause,
-    limit: limit,
-    page: page,
-    sort: "name", // Sort by name for consistent pagination
-  });
+    // Cuisine filter - map display names to database values
+    if (cuisine && cuisine !== "All Cuisines") {
+      const cuisineMapping: { [key: string]: string } = {
+        Chinese: "chinese",
+        Persian: "persian",
+        Shawarma: "shawarma",
+        Burgers: "burgers",
+        Bangladeshi: "bangladeshi",
+        "Chinese Indo Fusion": "chinese-indo-fusion",
+        "Pakistani Food": "pakistani-food",
+        "Chicken and Waffles": "chicken-and-waffles",
+        Kabob: "kabob",
+        Uyghur: "uyghur",
+        Chicken: "chicken",
+        "Indian Fusion Food": "indian-fusion-food",
+        Pizza: "pizza",
+      };
+      const dbValue = cuisineMapping[cuisine] || cuisine.toLowerCase();
+      whereConditions.push({ category: { equals: dbValue } });
+    }
+
+    // Slaughter method filter - map display names to database values
+    if (method && method !== "All Methods") {
+      const methodMapping: { [key: string]: string } = {
+        Hand: "hand",
+        Machine: "machine",
+        Both: "both",
+        "N/A": "n/a",
+      };
+      const dbValue = methodMapping[method] || method.toLowerCase();
+      whereConditions.push({ slaughtered: { equals: dbValue } });
+    }
+
+    // Location filter
+    if (location && location !== "All Locations") {
+      if (location === "On Campus") {
+        whereConditions.push({ is_on_campus: { equals: true } });
+      } else if (location === "Off Campus") {
+        whereConditions.push({ is_on_campus: { equals: false } });
+      }
+    }
+
+    // Fetch filtered results with pagination
+    const whereClause =
+      whereConditions.length > 0 ? { and: whereConditions } : {};
+    const foodSpots = await payload.find({
+      collection: "halal-directory",
+      where: whereClause,
+      limit: limit,
+      page: page,
+      sort: "name", // Sort by name for consistent pagination
+    });
     return {
       items: foodSpots.docs,
       pagination: {
         page: foodSpots.page ?? page,
         limit: foodSpots.limit ?? limit,
         total: foodSpots.totalDocs ?? foodSpots.docs.length,
-        totalPages: foodSpots.totalPages ?? Math.ceil((foodSpots.totalDocs ?? foodSpots.docs.length) / (foodSpots.limit ?? limit)),
-        hasNextPage: foodSpots.hasNextPage ?? (page < Math.ceil((foodSpots.totalDocs ?? foodSpots.docs.length) / limit)),
-        hasPrevPage: foodSpots.hasPrevPage ?? (page > 1),
+        totalPages:
+          foodSpots.totalPages ??
+          Math.ceil(
+            (foodSpots.totalDocs ?? foodSpots.docs.length) /
+              (foodSpots.limit ?? limit)
+          ),
+        hasNextPage:
+          foodSpots.hasNextPage ??
+          page <
+            Math.ceil((foodSpots.totalDocs ?? foodSpots.docs.length) / limit),
+        hasPrevPage: foodSpots.hasPrevPage ?? page > 1,
       },
     };
   },
   // Use a simple cache key - Next.js will handle parameter-based caching automatically
-  ['halal-directory'],
+  ["halal-directory"],
   {
     revalidate: 120, // Cache for 2 minutes - balance between performance and freshness
-    tags: ['halal-directory'],
+    tags: ["halal-directory"],
   }
 );
 
@@ -1036,10 +1040,10 @@ export const fetchHalalGroceryStores = unstable_cache(
 
     return groceryStores.docs;
   },
-  ['halal-grocery-stores'],
+  ["halal-grocery-stores"],
   {
     revalidate: 120, // Cache for 2 minutes
-    tags: ['halal-grocery-stores'],
+    tags: ["halal-grocery-stores"],
   }
 );
 
@@ -1072,7 +1076,7 @@ export async function fetchRecordingsbyCategory(category: string) {
   const recordings = await payload.find({
     collection: "recording",
     where: {
-      "category": {
+      category: {
         equals: category,
       },
     },
@@ -1086,7 +1090,7 @@ export async function fetchRoommatePostById(id: string) {
   const post = await payload.find({
     collection: "RoommatePosts",
     where: {
-      "id": {
+      id: {
         equals: id,
       },
     },
@@ -1153,8 +1157,8 @@ export async function fetchRoommatePosts({
   if (query) {
     filters.push({
       or: [
-        { "title": { like: `${query}` } },
-        { "description": { like: `${query}` } },
+        { title: { like: `${query}` } },
+        { description: { like: `${query}` } },
       ],
     });
   }
@@ -1251,7 +1255,7 @@ export async function createUser(
   clerkId: string,
   email: string,
   firstName: string,
-  lastName: string,
+  lastName: string
 ) {
   const payload = await getPayloadInstance();
   const newUser = await payload.create({
@@ -1286,7 +1290,7 @@ export async function fetchCommentsByPostId(id: string) {
     collection: "comments",
 
     where: {
-      "postId": {
+      postId: {
         equals: id,
       },
     },
@@ -1294,7 +1298,7 @@ export async function fetchCommentsByPostId(id: string) {
   return comments.docs;
 }
 
-export async function createComment(comment: string, postId: number,) {
+export async function createComment(comment: string, postId: number) {
   const payload = await getPayloadInstance();
   const commentdata = await payload.create({
     collection: "comments",
@@ -1372,7 +1376,7 @@ export async function fetchRoommatePostsByUser(clerkId: number) {
   const posts = await payload.find({
     collection: "RoommatePosts",
     where: {
-      "userId": {
+      userId: {
         equals: clerkId,
       },
     },
@@ -1397,7 +1401,9 @@ export async function fetchRoommatePostsByUser(clerkId: number) {
  * @param {string} formID - The ID of the form.
  * @returns {Promise<number>} The updated submission_limit value.
  */
-export async function decrementFormSubmissionLimit(formID: string): Promise<number> {
+export async function decrementFormSubmissionLimit(
+  formID: string
+): Promise<number> {
   const { data: current, error: fetchError } = await supabase
     .from("forms")
     .select("submission_limit")
@@ -1405,7 +1411,10 @@ export async function decrementFormSubmissionLimit(formID: string): Promise<numb
     .single();
 
   if (fetchError) {
-    console.error(`Error fetching submission_limit for form ${formID}:`, fetchError);
+    console.error(
+      `Error fetching submission_limit for form ${formID}:`,
+      fetchError
+    );
     throw new Error(`Failed to fetch submission limit: ${fetchError.message}`);
   }
 
@@ -1419,7 +1428,10 @@ export async function decrementFormSubmissionLimit(formID: string): Promise<numb
     .single();
 
   if (error) {
-    console.error(`Error decrementing submission_limit for form ${formID}:`, error);
+    console.error(
+      `Error decrementing submission_limit for form ${formID}:`,
+      error
+    );
     throw new Error(`Failed to decrement submission limit: ${error.message}`);
   }
 
@@ -1445,7 +1457,7 @@ interface FormFieldWithCheckboxes {
  */
 export async function decrementFormCheckboxLimits(
   formID: string,
-  submissionData: Record<string, unknown>,
+  submissionData: Record<string, unknown>
 ): Promise<void> {
   const parsedFormID = Number(formID);
   if (Number.isNaN(parsedFormID)) {
@@ -1458,8 +1470,13 @@ export async function decrementFormCheckboxLimits(
     .eq("_parent_id", parsedFormID);
 
   if (fetchBlocksError) {
-    console.error(`Error fetching checkbox blocks for form ${formID}:`, fetchBlocksError);
-    throw new Error(`Failed to fetch checkbox blocks: ${fetchBlocksError.message}`);
+    console.error(
+      `Error fetching checkbox blocks for form ${formID}:`,
+      fetchBlocksError
+    );
+    throw new Error(
+      `Failed to fetch checkbox blocks: ${fetchBlocksError.message}`
+    );
   }
 
   const fields = Array.isArray(checkboxBlocks)
@@ -1476,10 +1493,14 @@ export async function decrementFormCheckboxLimits(
       continue;
     }
 
-    const selectedLabels = Array.from(new Set(
-      selectedValuesRaw
-        .filter((value): value is string => typeof value === "string" && value.length > 0),
-    ));
+    const selectedLabels = Array.from(
+      new Set(
+        selectedValuesRaw.filter(
+          (value): value is string =>
+            typeof value === "string" && value.length > 0
+        )
+      )
+    );
 
     if (selectedLabels.length === 0) {
       continue;
@@ -1492,8 +1513,13 @@ export async function decrementFormCheckboxLimits(
       .in("label", selectedLabels);
 
     if (fetchOptionsError) {
-      console.error(`Error fetching checkbox options for field ${field.name}:`, fetchOptionsError);
-      throw new Error(`Failed to fetch checkbox options: ${fetchOptionsError.message}`);
+      console.error(
+        `Error fetching checkbox options for field ${field.name}:`,
+        fetchOptionsError
+      );
+      throw new Error(
+        `Failed to fetch checkbox options: ${fetchOptionsError.message}`
+      );
     }
 
     const checkboxOptions = Array.isArray(options)
@@ -1505,9 +1531,10 @@ export async function decrementFormCheckboxLimits(
         continue;
       }
 
-      const currentLimit = typeof option.limit === "number"
-        ? option.limit
-        : Number(option.limit ?? 0);
+      const currentLimit =
+        typeof option.limit === "number"
+          ? option.limit
+          : Number(option.limit ?? 0);
 
       const normalizedLimit = Number.isFinite(currentLimit)
         ? Math.max(Math.floor(currentLimit) - 1, 0)
@@ -1522,9 +1549,11 @@ export async function decrementFormCheckboxLimits(
       if (updateOptionError) {
         console.error(
           `Error decrementing checkbox limit for option ${option.id} on form ${formID}:`,
-          updateOptionError,
+          updateOptionError
         );
-        throw new Error(`Failed to decrement checkbox limit: ${updateOptionError.message}`);
+        throw new Error(
+          `Failed to decrement checkbox limit: ${updateOptionError.message}`
+        );
       }
     }
   }

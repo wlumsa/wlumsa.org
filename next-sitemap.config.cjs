@@ -1,6 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: process.env.SITE_URL || 'https://wlumsa.org',
-    generateRobotsTxt: true, // (optional)
-  }
-  
+  siteUrl: process.env.SITE_URL || "https://wlumsa.org",
+  generateRobotsTxt: true, // (optional)
+};

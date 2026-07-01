@@ -1,40 +1,40 @@
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
 export const Masjid: CollectionConfig = {
-  slug: 'masjid',
+  slug: "masjid",
   admin: {
-   hidden: false, 
-   useAsTitle:'title',
-   group: 'Resources', 
+    hidden: false,
+    useAsTitle: "title",
+    group: "Resources",
   },
   fields: [
     {
-      name:'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
       index: true,
     },
-   {
-        name: 'image',
-        type: 'relationship',
-        relationTo: 'media',
-        hasMany: false,
-        required: false,
-   },
     {
-      name: 'location',
-      type: 'text',
-      required: true,
+      name: "image",
+      type: "relationship",
+      relationTo: "media",
+      hasMany: false,
+      required: false,
     },
-     {
-      name: 'googleMapsLink',
-      type: 'text',
+    {
+      name: "location",
+      type: "text",
       required: true,
     },
     {
-      name: 'websiteLink',
-      type: 'text',
+      name: "googleMapsLink",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "websiteLink",
+      type: "text",
       required: false,
     },
   ],
-}
+};

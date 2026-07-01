@@ -51,7 +51,6 @@
 //           try {
 //             const clerkUser = await fetchAuth();
 
-
 //             if (clerkUser) {
 //               // Find the user in the GeneralUser collection by clerkId
 //               const generalUser = await req.payload.find({
@@ -191,7 +190,6 @@
 //         { label: 'Pets allowed', value: '3' },
 //         { label: 'Private kitchen', value: '4' },
 //         { label: 'Private bathroom', value: '5' },
-
 
 //       ], label: 'Amenities',
 //       hasMany: true,

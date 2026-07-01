@@ -8,7 +8,10 @@ import {
 } from "@/Utils/datafetcher";
 import type { Event as EventDoc, Social, WeeklyEvent } from "@/payload-types";
 import EventsTabs from "@/components/UI/EventsTabs";
-import { formatWeeklyTime, getWeeklyEventPrimaryImage } from "@/components/UI/events/events-utils";
+import {
+  formatWeeklyTime,
+  getWeeklyEventPrimaryImage,
+} from "@/components/UI/events/events-utils";
 import MemberSignup from "@/components/UI/MemberSignup";
 
 const NEAR_RECURRING_WINDOW_HOURS = 24;
@@ -55,7 +58,10 @@ function startOfWeek(date: Date) {
   return result;
 }
 
-function isDateInRecurrenceCycle(weeklyEvent: WeeklyEvent, occurrenceDate: Date) {
+function isDateInRecurrenceCycle(
+  weeklyEvent: WeeklyEvent,
+  occurrenceDate: Date
+) {
   if (weeklyEvent.recurrence !== "biweekly") return true;
   if (!weeklyEvent.startDate) return false;
 
@@ -70,7 +76,10 @@ function isDateInRecurrenceCycle(weeklyEvent: WeeklyEvent, occurrenceDate: Date)
   return weeksBetween % 2 === 0;
 }
 
-function buildNearRecurringAsUpcoming(weeklyEvents: WeeklyEvent[], now: Date): EventDoc[] {
+function buildNearRecurringAsUpcoming(
+  weeklyEvents: WeeklyEvent[],
+  now: Date
+): EventDoc[] {
   const maxMsAhead = NEAR_RECURRING_WINDOW_HOURS * ONE_HOUR_MS;
 
   return weeklyEvents.flatMap((weeklyEvent) => {
@@ -80,23 +89,26 @@ function buildNearRecurringAsUpcoming(weeklyEvents: WeeklyEvent[], now: Date): E
     const msUntilStart = nextOccurrence.getTime() - now.getTime();
     if (msUntilStart < 0 || msUntilStart > maxMsAhead) return [];
 
-    const recurrenceLabel = weeklyEvent.recurrence === "biweekly"
-      ? "Biweekly"
-      : "Recurring";
+    const recurrenceLabel =
+      weeklyEvent.recurrence === "biweekly" ? "Biweekly" : "Recurring";
 
-    return [{
-      id: -weeklyEvent.id,
-      name: `${weeklyEvent.name} (${recurrenceLabel})`,
-      date: nextOccurrence.toISOString(),
-      time: `${formatWeeklyTime(weeklyEvent.timeStart)} - ${formatWeeklyTime(weeklyEvent.timeEnd)}`,
-      location: weeklyEvent.location,
-      description: weeklyEvent.caption,
-      image: getWeeklyEventPrimaryImage(weeklyEvent),
-      link: null,
-      status: "published",
-      updatedAt: weeklyEvent.updatedAt,
-      createdAt: weeklyEvent.createdAt,
-    }];
+    return [
+      {
+        id: -weeklyEvent.id,
+        name: `${weeklyEvent.name} (${recurrenceLabel})`,
+        date: nextOccurrence.toISOString(),
+        time: `${formatWeeklyTime(weeklyEvent.timeStart)} - ${formatWeeklyTime(
+          weeklyEvent.timeEnd
+        )}`,
+        location: weeklyEvent.location,
+        description: weeklyEvent.caption,
+        image: getWeeklyEventPrimaryImage(weeklyEvent),
+        link: null,
+        status: "published",
+        updatedAt: weeklyEvent.updatedAt,
+        createdAt: weeklyEvent.createdAt,
+      },
+    ];
   });
 }
 
@@ -115,7 +127,13 @@ function getInstagramUrl(socials: Social[]) {
  * @returns The rendered Events page component.
  */
 export default async function EventsPage() {
-  const [upcomingResult, weeklyResult, pastResult, settingsResult, socialResult] = await Promise.allSettled([
+  const [
+    upcomingResult,
+    weeklyResult,
+    pastResult,
+    settingsResult,
+    socialResult,
+  ] = await Promise.allSettled([
     fetchUpcomingEventsData(),
     fetchWeeklyEventsData(),
     fetchPastEventsData(),
@@ -123,40 +141,49 @@ export default async function EventsPage() {
     fetchSocialData(),
   ]);
 
-  const upcomingEventsFromEvents: EventDoc[] = upcomingResult.status === "fulfilled"
-    ? upcomingResult.value
-    : [];
-  const weeklyEvents: WeeklyEvent[] = weeklyResult.status === "fulfilled"
-    ? weeklyResult.value
-    : [];
-  const pastEvents: EventDoc[] = pastResult.status === "fulfilled"
-    ? pastResult.value
-    : [];
-  const eventsMode = settingsResult.status === "fulfilled"
-    ? settingsResult.value.mode
-    : "auto";
-  const quietMessage = settingsResult.status === "fulfilled"
-    ? settingsResult.value.quietMessage
-    : null;
-  const instagramUrl = socialResult.status === "fulfilled"
-    ? getInstagramUrl(socialResult.value)
-    : null;
-  const hasEventsDataError = upcomingResult.status === "rejected"
-    || weeklyResult.status === "rejected"
-    || pastResult.status === "rejected";
+  const upcomingEventsFromEvents: EventDoc[] =
+    upcomingResult.status === "fulfilled" ? upcomingResult.value : [];
+  const weeklyEvents: WeeklyEvent[] =
+    weeklyResult.status === "fulfilled" ? weeklyResult.value : [];
+  const pastEvents: EventDoc[] =
+    pastResult.status === "fulfilled" ? pastResult.value : [];
+  const eventsMode =
+    settingsResult.status === "fulfilled" ? settingsResult.value.mode : "auto";
+  const quietMessage =
+    settingsResult.status === "fulfilled"
+      ? settingsResult.value.quietMessage
+      : null;
+  const instagramUrl =
+    socialResult.status === "fulfilled"
+      ? getInstagramUrl(socialResult.value)
+      : null;
+  const hasEventsDataError =
+    upcomingResult.status === "rejected" ||
+    weeklyResult.status === "rejected" ||
+    pastResult.status === "rejected";
   const now = new Date();
-  const nearRecurringAsUpcoming = buildNearRecurringAsUpcoming(weeklyEvents, now);
-  const upcomingEvents: EventDoc[] = [...upcomingEventsFromEvents, ...nearRecurringAsUpcoming]
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  const isQuietSeason = eventsMode === "quiet"
-    ? true
-    : !hasEventsDataError && upcomingEvents.length === 0 && weeklyEvents.length === 0;
+  const nearRecurringAsUpcoming = buildNearRecurringAsUpcoming(
+    weeklyEvents,
+    now
+  );
+  const upcomingEvents: EventDoc[] = [
+    ...upcomingEventsFromEvents,
+    ...nearRecurringAsUpcoming,
+  ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  const isQuietSeason =
+    eventsMode === "quiet"
+      ? true
+      : !hasEventsDataError &&
+        upcomingEvents.length === 0 &&
+        weeklyEvents.length === 0;
 
   return (
     <main className="mt-16 flex-grow bg-base-100">
       <div className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-8 sm:px-6 lg:py-16">
         <section className="space-y-2">
-          <h1 className="text-center text-3xl font-bold text-primary sm:text-4xl">Events</h1>
+          <h1 className="text-center text-3xl font-bold text-primary sm:text-4xl">
+            Events
+          </h1>
           <p className="text-center text-sm text-base-content/75 sm:text-base">
             Upcoming, recurring, and past events in one place.
           </p>
@@ -181,7 +208,8 @@ export default async function EventsPage() {
         </section>
         {hasEventsDataError ? (
           <section className="rounded-xl border border-warning/40 bg-warning/10 p-4 text-sm text-base-content/85">
-            Some events are temporarily unavailable right now. Please refresh in a few minutes.
+            Some events are temporarily unavailable right now. Please refresh in
+            a few minutes.
           </section>
         ) : null}
         {eventsMode !== "quiet" ? (
@@ -198,8 +226,8 @@ export default async function EventsPage() {
           <section className="space-y-4 pt-2">
             <div className="text-center">
               <p className="text-sm text-base-content/80 sm:text-base">
-                {quietMessage?.trim()
-                  || "Summer schedule is lighter right now. Join updates and we will notify you when major events return."}
+                {quietMessage?.trim() ||
+                  "Summer schedule is lighter right now. Join updates and we will notify you when major events return."}
               </p>
             </div>
             <div className="mx-auto w-full max-w-2xl">

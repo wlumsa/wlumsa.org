@@ -57,15 +57,23 @@ describe("project health", () => {
   });
 
   test("package scripts keep the lightweight test contract", async () => {
-    const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+    const packageJson = JSON.parse(
+      await readFile(join(root, "package.json"), "utf8")
+    );
 
     assert.equal(packageJson.scripts.test, "pnpm check");
     assert.equal(
       packageJson.scripts.check,
-      "pnpm check:type && pnpm check:lint && pnpm check:smoke"
+      "pnpm check:type && pnpm check:lint && pnpm format:check && pnpm check:smoke"
     );
-    assert.equal(packageJson.scripts["check:type"], "tsc --noEmit --pretty false");
+    assert.equal(
+      packageJson.scripts["check:type"],
+      "tsc --noEmit --pretty false"
+    );
     assert.equal(packageJson.scripts["check:lint"], "eslint .");
-    assert.equal(packageJson.scripts["check:smoke"], "node --test tests/smoke/*.test.mjs");
+    assert.equal(
+      packageJson.scripts["check:smoke"],
+      "node --test tests/smoke/*.test.mjs"
+    );
   });
 });

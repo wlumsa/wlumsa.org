@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 
 // The `useSession()` hook will be used to get the Clerk `session` object
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error("Supabase URL or key is missing in environment variables");
@@ -16,7 +16,7 @@ export default function createClerkSupabaseClient() {
   // const { session } = useSession();
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     // {
     //   global: {
     //     // fetch: async (url, options = {}) => {

@@ -1,7 +1,5 @@
-import { CollectionConfig } from 'payload';
-import {
-    lexicalEditor
-} from '@payloadcms/richtext-lexical'
+import { CollectionConfig } from "payload";
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
 /*
 name
 price
@@ -12,27 +10,24 @@ sizes
 quantity
 */
 
-
 export const Sizes: CollectionConfig = {
-    slug: 'Sizes',
-    admin: {
-        group: 'Products',
+  slug: "Sizes",
+  admin: {
+    group: "Products",
+  },
+  fields: [
+    {
+      name: "size",
+      label: "Size",
+      type: "select",
+      options: ["Small", "Medium", "Large"],
+      required: true,
     },
-    fields: [
-        {
-            name: 'size',
-            label: 'Size',
-            type: 'select',
-            options: ['Small', 'Medium', 'Large',],
-            required: true,
-        },
-        {
-            name: 'quantity',
-            label: 'Quantity',
-            type: 'number',
-            required: true,
-            
-        }
-        
-    ],
-}
+    {
+      name: "quantity",
+      label: "Quantity",
+      type: "number",
+      required: true,
+    },
+  ],
+};

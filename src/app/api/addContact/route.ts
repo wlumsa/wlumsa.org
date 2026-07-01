@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addMember, addIndividualToList } from '@/Utils/datafetcher';
-import { Resend } from 'resend';
+import { addMember, addIndividualToList } from "@/Utils/datafetcher";
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,13 +17,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Split name into first and last name
-    const nameParts = name.trim().split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
+    const nameParts = name.trim().split(" ");
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
 
     // Add as general member in CMS (using studentId if provided, otherwise use email as identifier)
-    const memberId = studentId || email.split('@')[0]; // Use studentId or email prefix as identifier
-    const addMemberRes = await addMember(firstName, lastName, email, memberId, newsletter);
+    const memberId = studentId || email.split("@")[0]; // Use studentId or email prefix as identifier
+    const addMemberRes = await addMember(
+      firstName,
+      lastName,
+      email,
+      memberId,
+      newsletter
+    );
 
     if (!addMemberRes) {
       return NextResponse.json(
@@ -38,7 +44,7 @@ export async function POST(request: NextRequest) {
       await addIndividualToList("Newsletter", {
         email,
         first_name: firstName,
-        last_name: lastName
+        last_name: lastName,
       });
 
       // Add to Resend audience
@@ -47,7 +53,7 @@ export async function POST(request: NextRequest) {
         firstName: firstName,
         lastName: lastName,
         audienceId: process.env.RESEND_AUDIENCE_ID!,
-        unsubscribed: false
+        unsubscribed: false,
       });
 
       console.log("Successfully added contact to Resend and newsletter list");
@@ -55,9 +61,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: newsletter ? "Contact added to newsletter and member database" : "Contact added to member database"
+      message: newsletter
+        ? "Contact added to newsletter and member database"
+        : "Contact added to member database",
     });
-
   } catch (error) {
     console.error("Error in addContact API:", error);
     return NextResponse.json(

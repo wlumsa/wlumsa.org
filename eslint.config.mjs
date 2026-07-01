@@ -48,14 +48,13 @@ function withCompatibilityRules(configs) {
 }
 
 const typescriptPlugin = nextTypescript.find(
-  (config) => config.plugins?.["@typescript-eslint"],
+  (config) => config.plugins?.["@typescript-eslint"]
 )?.plugins?.["@typescript-eslint"];
 const reactHooksPlugin = nextCoreWebVitals.find(
-  (config) => config.plugins?.["react-hooks"],
+  (config) => config.plugins?.["react-hooks"]
 )?.plugins?.["react-hooks"];
-const reactPlugin = nextCoreWebVitals.find(
-  (config) => config.plugins?.react,
-)?.plugins?.react;
+const reactPlugin = nextCoreWebVitals.find((config) => config.plugins?.react)
+  ?.plugins?.react;
 
 const config = [
   ...withCompatibilityRules(nextCoreWebVitals),

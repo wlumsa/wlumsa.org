@@ -1,15 +1,13 @@
-import { GlobalConfig} from "payload";
+import { GlobalConfig } from "payload";
 
 const PrayerTimings: GlobalConfig = {
   slug: "prayer-timings",
   admin: {
     group: "Prayer Info",
-    
-  }, 
+  },
   access: {
     update: () => true,
-    read:()=> true,
-    
+    read: () => true,
   },
   fields: [
     {
@@ -22,7 +20,20 @@ const PrayerTimings: GlobalConfig = {
         {
           name: "month",
           type: "select",
-          options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          options: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ],
           required: true,
           unique: true,
         },
@@ -86,7 +97,7 @@ const PrayerTimings: GlobalConfig = {
               type: "text",
               required: true,
             },
-         
+
             {
               name: "maghrib",
               label: "Maghrib",

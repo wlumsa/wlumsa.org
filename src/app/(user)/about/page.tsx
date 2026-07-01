@@ -158,7 +158,10 @@ export default function About() {
               responsibilities that guide Laurier MSA.
             </p>
             <div className="mt-6">
-              <Resource title="Open Laurier MSA Constitution" url={constitutionUrl} />
+              <Resource
+                title="Open Laurier MSA Constitution"
+                url={constitutionUrl}
+              />
             </div>
           </div>
 

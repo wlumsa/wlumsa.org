@@ -12,7 +12,9 @@ function buildMediaUrl(media: Media | null) {
 
   const prefix = media.prefix?.trim();
   const basePath = `${supabaseUrl}/storage/v1/object/public/${bucket}`;
-  return prefix ? `${basePath}/${prefix}/${filename}` : `${basePath}/${filename}`;
+  return prefix
+    ? `${basePath}/${prefix}/${filename}`
+    : `${basePath}/${filename}`;
 }
 
 function normalizeMeridiemSpacing(value: string) {
@@ -68,7 +70,9 @@ export function getEventImageAlt(event: EventDoc) {
 
 export function getWeeklyEventPrimaryImage(event: WeeklyEvent): Media | null {
   if (!Array.isArray(event.image)) return null;
-  const firstMedia = event.image.find((item) => typeof item === "object" && item !== null);
+  const firstMedia = event.image.find(
+    (item) => typeof item === "object" && item !== null
+  );
   return firstMedia ?? null;
 }
 

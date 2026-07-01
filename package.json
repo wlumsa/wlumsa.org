@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "next build",
-    "check": "pnpm check:type && pnpm check:lint && pnpm check:smoke",
+    "check": "pnpm check:type && pnpm check:lint && pnpm format:check && pnpm check:smoke",
     "check:lint": "eslint .",
     "check:smoke": "node --test tests/smoke/*.test.mjs",
     "check:type": "tsc --noEmit --pretty false",

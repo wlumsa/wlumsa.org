@@ -10,12 +10,15 @@ export default async function HalalDirectoryPage({
   // Await the searchParams promise
   const params = await searchParams;
   // Extract filter parameters from URL
-  const query = typeof params.query === 'string' ? params.query : '';
-  const cuisine = typeof params.cuisine === 'string' ? params.cuisine : 'All Cuisines';
-  const method = typeof params.method === 'string' ? params.method : 'All Methods';
-  const location = typeof params.location === 'string' ? params.location : 'All Locations';
-  const page = typeof params.page === 'string' ? parseInt(params.page, 10) : 1;
-  const layout = typeof params.layout === 'string' ? params.layout : 'list';
+  const query = typeof params.query === "string" ? params.query : "";
+  const cuisine =
+    typeof params.cuisine === "string" ? params.cuisine : "All Cuisines";
+  const method =
+    typeof params.method === "string" ? params.method : "All Methods";
+  const location =
+    typeof params.location === "string" ? params.location : "All Locations";
+  const page = typeof params.page === "string" ? parseInt(params.page, 10) : 1;
+  const layout = typeof params.layout === "string" ? params.layout : "list";
 
   // Fetch filtered data from the server
   const data = await fetchHalalDirectory({

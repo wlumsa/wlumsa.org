@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { removeMemberFromNewsletter } from "@/Utils/actions";
 import toast from "react-hot-toast";
@@ -17,13 +17,14 @@ function DeleteDocumentPage() {
     } else {
       toast.success(res.message);
     }
-    
   };
 
   return (
-    <div className="max-w-xl  px-2 mt-28 justify-center items-center mx-auto">
-      <div className="flex flex-col gap-2 py-2 font-semibold text-center">
-        <h1 className="text-2xl text-primary">Unsubscribe from WLU MSA Mailing list</h1>
+    <div className="mx-auto  mt-28 max-w-xl items-center justify-center px-2">
+      <div className="flex flex-col gap-2 py-2 text-center font-semibold">
+        <h1 className="text-2xl text-primary">
+          Unsubscribe from WLU MSA Mailing list
+        </h1>
         <p>You will no longer receive email updates from us.</p>
         <input
           type="email"
@@ -46,4 +47,3 @@ function DeleteDocumentPage() {
 }
 
 export default DeleteDocumentPage;
-

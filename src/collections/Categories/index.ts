@@ -1,20 +1,19 @@
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
 export const Categories: CollectionConfig = {
-  slug: 'categories',
+  slug: "categories",
   admin: {
-    hidden:true,
-    useAsTitle:'title'
+    hidden: true,
+    useAsTitle: "title",
   },
   access: {
     read: () => true,
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
     },
   ],
-}
-
+};
