@@ -4,7 +4,6 @@
 // import payload from 'payload'
 // import { isUser } from '@/Utils/accessControl';
 
-
 // export const isAuthor: Access = async ({ req, id }) => {
 //   if( req.user) {
 //     return true;
@@ -20,7 +19,7 @@
 //         equals: user.userId,
 //       },
 //     },
-   
+
 //   });
 //   if (!post || post.docs.length === 0) {
 //     return false;
@@ -43,7 +42,7 @@
 //     create: async ({ req }) => await isUser({ req }),
 //     update: async ({ req, id }) => await isAuthor({ req, id, }),
 //     delete: async ({ req, id }) => await isAuthor({ req, id,  }),
-  
+
 //   },
 //   hooks: {
 //     beforeChange: [
@@ -52,7 +51,6 @@
 //           try {
 //             const clerkUser =  await fetchAuth();
 
-  
 //             if (clerkUser) {
 //               // Find the user in the GeneralUser collection by clerkId
 //               const generalUser = await req.payload.find({
@@ -64,7 +62,7 @@
 //                 },
 //                 limit: 1,
 //               });
-  
+
 //               // if a user was found
 //               if (generalUser?.docs?.length > 0) {
 //                 data.userId = generalUser.docs[0]?.id;
@@ -73,7 +71,7 @@
 //                 throw new Error('No matching user found in GeneralUser collection');
 //               }
 //             }
-  
+
 //             return data;
 //           } catch (error) {
 //             console.error('Error in beforeChange hook:', error);
@@ -83,9 +81,9 @@
 //       },
 //     ],
 //   },
- 
+
 //   fields: [
-   
+
 //     {
 //       name: 'author',
 //       type: 'text',
@@ -93,16 +91,16 @@
 //     {
 //       name: 'comment',
 //       type: 'text',
-      
+
 //     },
-   
+
 //     {
 //       name: 'postId',
 //       type: 'relationship',
 //       required: true,
 //       relationTo: 'RoommatePosts',
 //       hasMany: false,
-      
+
 //     },
 //   ],
 // };

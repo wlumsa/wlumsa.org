@@ -165,111 +165,121 @@ export const ContactInformation: Block = {
 
 export const CheckboxBlock: Block = {
   slug: "checkbox",
-  fields: [{
-    name: "name",
-    label: "Name (lowercase, no special characters)*",
-    type: "text",
-    required: true,
-  }, {
-    name: "label",
-    label: "Label",
-    type: "text",
-    required: true,
-  }, {
-    name: "width",
-    label: "Field Width (percentage)",
-    type: "number",
-    defaultValue: 0,
-    required: false,
-  }, {
-    name: "isMultipleChoice",
-    type: "checkbox",
-    defaultValue: "false",
-  }, {
-    name: "checkboxes",
-    label: "Checkbox options",
-    type: "array",
-    required: true,
-    fields: [
-      {
-        name: "label",
-        type: "text",
-        admin: {
-          width: "50%",
+  fields: [
+    {
+      name: "name",
+      label: "Name (lowercase, no special characters)*",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "label",
+      label: "Label",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "width",
+      label: "Field Width (percentage)",
+      type: "number",
+      defaultValue: 0,
+      required: false,
+    },
+    {
+      name: "isMultipleChoice",
+      type: "checkbox",
+      defaultValue: "false",
+    },
+    {
+      name: "checkboxes",
+      label: "Checkbox options",
+      type: "array",
+      required: true,
+      fields: [
+        {
+          name: "label",
+          type: "text",
+          admin: {
+            width: "50%",
+          },
         },
-      },
-      {
-        name: "limit",
-        type: "number",
-        admin: {
-          width: "50%",
+        {
+          name: "limit",
+          type: "number",
+          admin: {
+            width: "50%",
+          },
         },
-      },
-      {
-        name: "value",
-        type: "checkbox",
-        admin: {
-          hidden: true,
+        {
+          name: "value",
+          type: "checkbox",
+          admin: {
+            hidden: true,
+          },
         },
-      },
-    ],
-  }, {
-    name: "required",
-    label: "required?",
-    type: "checkbox",
-  }],
+      ],
+    },
+    {
+      name: "required",
+      label: "required?",
+      type: "checkbox",
+    },
+  ],
 };
 
 export const UploadBlock: Block = {
-  slug: 'upload',
+  slug: "upload",
   fields: [
     {
-      name: 'name',
-      label: 'Name (lowercase, no special characters)*',
-      type: 'text',
+      name: "name",
+      label: "Name (lowercase, no special characters)*",
+      type: "text",
       required: true,
     },
     {
-      name: 'label',
-      label: 'Label',
-      type: 'text',
+      name: "label",
+      label: "Label",
+      type: "text",
       required: true,
     },
     {
-      name: 'width',
-      label: 'Field Width (percentage)',
-      type: 'number',
+      name: "width",
+      label: "Field Width (percentage)",
+      type: "number",
       defaultValue: 100,
       required: false,
     },
     {
-      name: 'allowedFileTypes',
-      label: 'Allowed File Types',
-      type: 'select',
+      name: "allowedFileTypes",
+      label: "Allowed File Types",
+      type: "select",
       hasMany: true,
-      defaultValue: ['*'],
+      defaultValue: ["*"],
       options: [
-        { label: 'Any file', value: '*' },
-        { label: 'PDF', value: 'application/pdf' },
-        { label: 'Images (PNG, JPG, WEBP)', value: 'image/png,image/jpeg,image/webp' },
-        { label: 'Word documents (.doc, .docx)', value: '.doc,.docx' },
+        { label: "Any file", value: "*" },
+        { label: "PDF", value: "application/pdf" },
+        {
+          label: "Images (PNG, JPG, WEBP)",
+          value: "image/png,image/jpeg,image/webp",
+        },
+        { label: "Word documents (.doc, .docx)", value: ".doc,.docx" },
       ],
     },
     {
-      name: 'maxFileSizeMB',
-      label: 'Max File Size in MB (up to 10)',
-      type: 'number',
+      name: "maxFileSizeMB",
+      label: "Max File Size in MB (up to 10)",
+      type: "number",
       defaultValue: 5,
       min: 1,
       max: 10,
     },
     {
-      name: 'required',
-      label: 'Required?',
-      type: 'checkbox',
+      name: "required",
+      label: "Required?",
+      type: "checkbox",
     },
   ],
-}
+};
 
 export const ContactInfoBlock: Block = {
   slug: "contactInfo",
@@ -278,7 +288,7 @@ export const ContactInfoBlock: Block = {
       name: "name",
       label: "Name (lowercase, no special characters)*",
       type: "text",
-      defaultValue:"contactInfo",
+      defaultValue: "contactInfo",
       required: true,
     },
     {
@@ -363,10 +373,10 @@ export const ContactInfoBlock: Block = {
         width: "50%",
       },
     },
-     {
+    {
       name: "required",
       label: "required?",
       type: "checkbox",
-     }
+    },
   ],
 };

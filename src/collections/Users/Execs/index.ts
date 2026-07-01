@@ -1,11 +1,10 @@
-
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
 export const Execs: CollectionConfig = {
-  slug: 'execs',
+  slug: "execs",
   admin: {
-    useAsTitle: 'name',
-    group: 'Admin',
+    useAsTitle: "name",
+    group: "Admin",
   },
   // access : {
   //   create: isAdmin,
@@ -16,118 +15,118 @@ export const Execs: CollectionConfig = {
   auth: true,
   fields: [
     {
-      name: 'name',
-      type: 'text',
+      name: "name",
+      type: "text",
     },
     {
-      name:'email',
-      type: 'email',
+      name: "email",
+      type: "email",
       required: true,
     },
     {
-      name:"department",
-      type:'select',
-      options:[ 
+      name: "department",
+      type: "select",
+      options: [
         {
-          label:'Marketing',
-          value:'marketing',
+          label: "Marketing",
+          value: "marketing",
         },
         {
-          label:'Events Brothers',
-          value:'events_brothers',
+          label: "Events Brothers",
+          value: "events_brothers",
         },
         {
-          label:'Events Sisters',
-          value:'events_sisters',
+          label: "Events Sisters",
+          value: "events_sisters",
         },
         {
-          label:'Religious Affairs Brothers',
-          value:'religious_affairs_brothers',
+          label: "Religious Affairs Brothers",
+          value: "religious_affairs_brothers",
         },
         {
-          label:'Religious Affairs Sisters',
-          value:'religious_affairs_sisters',
+          label: "Religious Affairs Sisters",
+          value: "religious_affairs_sisters",
         },
         {
-          label:'Finance',
-          value:'finance',
+          label: "Finance",
+          value: "finance",
         },
         {
-          label:'Community Enagagement',
-          value:'community_engagement',
+          label: "Community Enagagement",
+          value: "community_engagement",
         },
         {
-          label:'Operations',
-          value:'operations',
+          label: "Operations",
+          value: "operations",
         },
         {
-          label:'Technology',
-          value:'technology',
+          label: "Technology",
+          value: "technology",
         },
-      ]
+      ],
     },
     {
-      name:"position",
-      type:'select',
-      options:[
+      name: "position",
+      type: "select",
+      options: [
         {
-          label:'Vice President',
-          value:'vice_president',
+          label: "Vice President",
+          value: "vice_president",
         },
         {
-          label:'Head Director',
-          value:'head_director',
+          label: "Head Director",
+          value: "head_director",
         },
         {
-          label:'Director',
-          value:'director',
-        }
-      ]
+          label: "Director",
+          value: "director",
+        },
+      ],
     },
     {
-      name:'student id',
-      type:'number',
+      name: "student id",
+      type: "number",
     },
     {
-      name:'major',
-      type:'text',
+      name: "major",
+      type: "text",
     },
     {
-      name:'year',
-      type:'number',
+      name: "year",
+      type: "number",
     },
     {
-      name:'phone number',
-      type:'number',
+      name: "phone number",
+      type: "number",
     },
     {
-      name:'mylaurier email',
-      type: 'email'
+      name: "mylaurier email",
+      type: "email",
     },
     {
-      name:'city',
-      type:'text',
+      name: "city",
+      type: "text",
     },
     {
-      name:"roles",
+      name: "roles",
       saveToJWT: true,
-      type:'select',
-      
+      type: "select",
+
       // access:{
       //   create:isAdminFieldLevel,
       //   update:isAdminFieldLevel,
       // },
-      options:[
+      options: [
         {
-          label: 'Admin',
-          value: 'admin',
+          label: "Admin",
+          value: "admin",
         },
         {
-          label: 'Editor',
-          value: 'editor',
-        }
-      ]
-    }
+          label: "Editor",
+          value: "editor",
+        },
+      ],
+    },
     // Add more fields as needed
   ],
-}
+};

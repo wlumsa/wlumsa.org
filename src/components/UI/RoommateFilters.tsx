@@ -8,10 +8,6 @@
 //   const [rent, setRent] = useState('');
 //   const [propertyType, setProperty] = useState('');
 
-
-
-
-
 //   const { replace } = useRouter();
 //   const searchParams = useSearchParams();
 //   const pathname = usePathname();
@@ -41,7 +37,7 @@
 //     if(type === 'gender') {
 //         setGender(selectedId.toString());
 //     }
- 
+
 //     if(type === 'propertyType') {
 //         setProperty(selectedId.toString());
 //     }
@@ -49,7 +45,7 @@
 //     if (type === 'rent') {
 //       setRent(selectedId.toString());
 //     }
-    
+
 // const params = new URLSearchParams(searchParams);
 //     if (selectedId) {
 //       params.set(type, selectedId.toString());
@@ -59,7 +55,6 @@
 
 //     replace(`${pathname}?${params.toString()}`);
 //   };
-
 
 //   return (
 //     <div className='flex  flex-col md:flex-row justify-center gap-4'>
@@ -74,7 +69,7 @@
 //           <span>
 //   {
 //     gender
-//       ? genderOptions.find(option => option.id === parseInt(gender))?.label 
+//       ? genderOptions.find(option => option.id === parseInt(gender))?.label
 //       : 'Select a gender'
 //   }
 // </span>            <svg
@@ -96,7 +91,7 @@
 //         </div>
 
 //         {/* Gender - Dropdown Menu */}
-      
+
 //           <ul  tabIndex={0}
 //             className="absolute z-[1] bg-white rounded-md shadow-lg mt-2 w-full overflow-hidden dropdown-content  menu"
 //           >
@@ -113,24 +108,22 @@
 //               </li>
 //             ))}
 //           </ul>
-        
+
 //       </div>
 //     </div>
-
-
 
 //     <div className="justify-center ">
 //       {/* property filter */}
 //       <div className="relative w-64 dropdown">
 //         <div
-        
+
 //           className="py-3 px-4 rounded-xl border border-gray-400 cursor-pointer"
 //         >
 //           <button tabIndex={0} className="w-full flex justify-between items-center">
 //           <span>
 //   {
 //     propertyType
-//       ? propertyOptions.find(option => option.id === parseInt(propertyType))?.label 
+//       ? propertyOptions.find(option => option.id === parseInt(propertyType))?.label
 //       : 'All property types'
 //   }
 // </span>            <svg
@@ -167,7 +160,7 @@
 //               </li>
 //             ))}
 //           </ul>
-        
+
 //       </div>
 //     </div>
 
@@ -175,14 +168,14 @@
 //       {/* property filter */}
 //       <div className="relative w-64 dropdown">
 //         <div
-        
+
 //           className="py-3 px-4 rounded-xl border border-gray-400 cursor-pointer"
 //         >
 //           <button tabIndex={0} className="w-full flex justify-between items-center">
 //           <span>
 //   {
 //     rent
-//       ? rentOptions.find(option => option.id === parseInt(rent))?.label 
+//       ? rentOptions.find(option => option.id === parseInt(rent))?.label
 //       : 'All rent prices'
 //   }
 // </span>            <svg
@@ -219,7 +212,7 @@
 //               </li>
 //             ))}
 //           </ul>
-        
+
 //       </div>
 //     </div>
 //     <button className='btn bg-gray-300 px-2 py-2 ' onClick={() => replace(`${pathname}?${""}`)}   >Clear Filters</button>

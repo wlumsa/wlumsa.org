@@ -35,7 +35,10 @@ function buildAllDayEvent({
   return [
     "BEGIN:VEVENT",
     `UID:${uid}`,
-    `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z")}`,
+    `DTSTAMP:${new Date()
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}Z$/, "Z")}`,
     `DTSTART;VALUE=DATE:${formatICSDate(startISO)}`,
     `DTEND;VALUE=DATE:${formatICSDate(endISO)}`,
     `SUMMARY:${escapeICS(summary)}`,
@@ -49,7 +52,9 @@ export async function GET(request: NextRequest) {
 
   const startDate = parseISODate(RAMADAN_2026_START_DATE_ISO);
   const eidDate = parseISODate(EID_AL_FITR_2026_ISO);
-  const totalFasts = Math.round((eidDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+  const totalFasts = Math.round(
+    (eidDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+  );
 
   const events: string[] = [];
 
@@ -76,7 +81,8 @@ export async function GET(request: NextRequest) {
           startISO,
           endISO,
           summary: `Last 10 Nights - Night ${fast}`,
-          description: "WLUMSA reminder: prioritize worship in the last ten nights.",
+          description:
+            "WLUMSA reminder: prioritize worship in the last ten nights.",
         })
       );
     }
@@ -103,7 +109,8 @@ export async function GET(request: NextRequest) {
       startISO: eidISO,
       endISO: eidEndISO,
       summary: "Eid al-Fitr",
-      description: "Confirmed Eid date for Ramadan 2026 based on local moon sighting.",
+      description:
+        "Confirmed Eid date for Ramadan 2026 based on local moon sighting.",
     })
   );
 

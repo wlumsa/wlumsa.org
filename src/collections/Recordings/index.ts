@@ -1,33 +1,33 @@
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
 export const Recording: CollectionConfig = {
-  slug: 'recording',
+  slug: "recording",
   admin: {
-   useAsTitle:'title',
+    useAsTitle: "title",
   },
   fields: [
     {
-      name:'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: false,
       index: true,
     },
     {
-      name: 'url',
-      type: 'text',
+      name: "url",
+      type: "text",
       required: true,
     },
     {
-      name: 'category',
-      type: 'select',
+      name: "category",
+      type: "select",
       required: true,
       options: [
-        { label: 'Halaqah', value: '1' },
-        { label: 'Khutbah', value: '2' },
-        { label: 'Guest speaker', value: '3' },
-        { label: 'Ramadan Series', value: '4' },
+        { label: "Halaqah", value: "1" },
+        { label: "Khutbah", value: "2" },
+        { label: "Guest speaker", value: "3" },
+        { label: "Ramadan Series", value: "4" },
       ],
-    }
+    },
   ],
-}
+};
 export default Recording;

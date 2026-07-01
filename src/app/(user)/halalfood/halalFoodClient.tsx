@@ -79,7 +79,9 @@ function useIsSmallScreen() {
       if (mq.addEventListener) {
         mq.addEventListener("change", update);
       } else {
-        (mq as MediaQueryList & { addListener?: (fn: () => void) => void }).addListener?.(update);
+        (
+          mq as MediaQueryList & { addListener?: (fn: () => void) => void }
+        ).addListener?.(update);
       }
     }, 100);
 
@@ -102,9 +104,13 @@ export default function HalalFoodClient({
 
   const [layoutMode, setLayoutMode] = useState<LayoutMode>("list");
   const [isHydrated, setIsHydrated] = useState(false);
-  const [selectedCuisine, setSelectedCuisine] = useState(initialFilters.cuisine);
+  const [selectedCuisine, setSelectedCuisine] = useState(
+    initialFilters.cuisine
+  );
   const [selectedMethod, setSelectedMethod] = useState(initialFilters.method);
-  const [selectedCampusLocation, setSelectedCampusLocation] = useState(initialFilters.location);
+  const [selectedCampusLocation, setSelectedCampusLocation] = useState(
+    initialFilters.location
+  );
   const [showFilters, setShowFilters] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -113,8 +119,12 @@ export default function HalalFoodClient({
   const totalPages = pagination.totalPages;
   const effectiveLayout: LayoutMode = isSmall ? "list" : layoutMode;
   const activeFilters = [
-    ...(selectedCuisine !== "All Cuisines" ? [{ label: "Cuisine", key: "cuisine", value: selectedCuisine }] : []),
-    ...(selectedMethod !== "All Methods" ? [{ label: "Method", key: "method", value: selectedMethod }] : []),
+    ...(selectedCuisine !== "All Cuisines"
+      ? [{ label: "Cuisine", key: "cuisine", value: selectedCuisine }]
+      : []),
+    ...(selectedMethod !== "All Methods"
+      ? [{ label: "Method", key: "method", value: selectedMethod }]
+      : []),
     ...(selectedCampusLocation !== "All Locations"
       ? [{ label: "Location", key: "location", value: selectedCampusLocation }]
       : []),
@@ -141,7 +151,10 @@ export default function HalalFoodClient({
         return;
       }
 
-      if (initialFilters.layout && ["list", "g2", "g3", "g4"].includes(initialFilters.layout)) {
+      if (
+        initialFilters.layout &&
+        ["list", "g2", "g3", "g4"].includes(initialFilters.layout)
+      ) {
         setLayoutMode(initialFilters.layout as LayoutMode);
         try {
           localStorage.setItem("halalLayout", initialFilters.layout);
@@ -173,9 +186,12 @@ export default function HalalFoodClient({
     const params = new URLSearchParams(searchParams.toString());
     if (params.get("layout") !== layoutMode) {
       params.set("layout", layoutMode);
-      router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, {
-        scroll: false,
-      });
+      router.replace(
+        `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+        {
+          scroll: false,
+        }
+      );
     }
   }, [isHydrated, isSmall, layoutMode, pathname, router, searchParams]);
 
@@ -187,7 +203,11 @@ export default function HalalFoodClient({
 
       const target = e.target as HTMLElement | null;
       if (!target) return;
-      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) {
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
+      ) {
         return;
       }
 
@@ -232,7 +252,11 @@ export default function HalalFoodClient({
   const updateFilterParams = (filterType: string, value: string) => {
     const params = new URLSearchParams(searchParams);
 
-    if (value === "All Cuisines" || value === "All Methods" || value === "All Locations") {
+    if (
+      value === "All Cuisines" ||
+      value === "All Methods" ||
+      value === "All Locations"
+    ) {
       params.delete(filterType);
     } else {
       params.set(filterType, value);
@@ -240,9 +264,12 @@ export default function HalalFoodClient({
 
     params.delete("page");
 
-    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, {
-      scroll: false,
-    });
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      {
+        scroll: false,
+      }
+    );
   };
 
   const clearFilter = (filterType: string) => {
@@ -266,9 +293,12 @@ export default function HalalFoodClient({
 
     params.delete("page");
 
-    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, {
-      scroll: false,
-    });
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      {
+        scroll: false,
+      }
+    );
   };
 
   const clearAllFilters = () => {
@@ -283,15 +313,20 @@ export default function HalalFoodClient({
     params.delete("location");
     params.delete("page");
 
-    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, {
-      scroll: false,
-    });
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      {
+        scroll: false,
+      }
+    );
   };
 
   const goToPage = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", String(newPage));
-    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`);
+    router.replace(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`
+    );
 
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -307,7 +342,11 @@ export default function HalalFoodClient({
   const LayoutSwitcher = () => {
     if (isSmall) return null;
 
-    const options: { key: LayoutMode; label: string; icon: typeof LayoutList }[] = [
+    const options: {
+      key: LayoutMode;
+      label: string;
+      icon: typeof LayoutList;
+    }[] = [
       { key: "list", label: "List", icon: LayoutList },
       { key: "g2", label: "2", icon: Columns2 },
       { key: "g3", label: "3", icon: Columns3 },
@@ -328,7 +367,9 @@ export default function HalalFoodClient({
             <button
               key={option.key}
               type="button"
-              aria-label={`Switch to ${option.label === "List" ? "list" : `${option.label} column`} view`}
+              aria-label={`Switch to ${
+                option.label === "List" ? "list" : `${option.label} column`
+              } view`}
               aria-pressed={isActive}
               onClick={() => setLayoutMode(option.key)}
               className={`inline-flex items-center justify-center rounded-md px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
@@ -349,9 +390,12 @@ export default function HalalFoodClient({
     <main className="mt-20 bg-base-100 pb-10 sm:mt-24">
       <section className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
         <div className="py-3 text-center sm:py-5">
-          <h1 className="text-3xl font-bold text-primary sm:text-4xl">Halal Food</h1>
+          <h1 className="text-3xl font-bold text-primary sm:text-4xl">
+            Halal Food
+          </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-base-content/80 sm:text-base">
-            Find halal restaurants and food options near Wilfrid Laurier University.
+            Find halal restaurants and food options near Wilfrid Laurier
+            University.
           </p>
         </div>
 
@@ -372,13 +416,20 @@ export default function HalalFoodClient({
               >
                 <Filter size={16} aria-hidden="true" />
                 {showFilters ? "Hide Filters" : "Show Filters"}
-                {showFilters ? <ChevronUp size={16} aria-hidden="true" /> : <ChevronDown size={16} aria-hidden="true" />}
+                {showFilters ? (
+                  <ChevronUp size={16} aria-hidden="true" />
+                ) : (
+                  <ChevronDown size={16} aria-hidden="true" />
+                )}
               </button>
             </div>
           </div>
 
           {showFilters && (
-            <div id="filters-panel" className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div
+              id="filters-panel"
+              className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            >
               <div>
                 <label
                   htmlFor="halal-directory-search"
@@ -491,13 +542,15 @@ export default function HalalFoodClient({
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="rounded-md px-2 py-1 text-sm font-medium text-primary transition hover:bg-primary/10 hover:text-primary-focus focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  className="hover:text-primary-focus rounded-md px-2 py-1 text-sm font-medium text-primary transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
                   Clear all
                 </button>
               </>
             ) : (
-              <p className="text-sm text-base-content/60">No filters applied.</p>
+              <p className="text-sm text-base-content/60">
+                No filters applied.
+              </p>
             )}
           </div>
         </div>
@@ -507,14 +560,27 @@ export default function HalalFoodClient({
             <div className="text-sm text-base-content/70" aria-live="polite">
               {pagination.total > 0 ? (
                 <span>
-                  Showing {Math.min((pagination.page - 1) * pagination.limit + 1, pagination.total)}-
-                  {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total}
+                  Showing{" "}
+                  {Math.min(
+                    (pagination.page - 1) * pagination.limit + 1,
+                    pagination.total
+                  )}
+                  -
+                  {Math.min(
+                    pagination.page * pagination.limit,
+                    pagination.total
+                  )}{" "}
+                  of {pagination.total}
                 </span>
               ) : (
                 <span>0 results</span>
               )}
             </div>
-            {!isSmall && <div className="text-xs text-base-content/50">Shortcuts: F search, 1-4 layout</div>}
+            {!isSmall && (
+              <div className="text-xs text-base-content/50">
+                Shortcuts: F search, 1-4 layout
+              </div>
+            )}
           </div>
 
           {halalDirectory.length > 0 ? (
@@ -526,18 +592,26 @@ export default function HalalFoodClient({
                   <article
                     key={item.id}
                     className={`rounded-xl border border-base-300 bg-base-100 p-4 shadow-[0_1px_2px_rgba(0,0,0,0.05),0_10px_24px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_6px_14px_rgba(0,0,0,0.06),0_22px_48px_rgba(0,0,0,0.10)] ${
-                      isList ? "flex flex-col gap-4 sm:flex-row" : "flex flex-col gap-4"
+                      isList
+                        ? "flex flex-col gap-4 sm:flex-row"
+                        : "flex flex-col gap-4"
                     }`}
                   >
                     <div
                       className={`overflow-hidden rounded-lg bg-base-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] ${
-                        isList ? "h-40 w-full sm:h-36 sm:w-44 sm:flex-shrink-0" : "aspect-[4/3] w-full"
+                        isList
+                          ? "h-40 w-full sm:h-36 sm:w-44 sm:flex-shrink-0"
+                          : "aspect-[4/3] w-full"
                       }`}
                     >
-                      {item.image && typeof item.image !== "number" && item.image.url ? (
+                      {item.image &&
+                      typeof item.image !== "number" &&
+                      item.image.url ? (
                         <Image
                           src={item.image.url}
-                          alt={item.image.alt || item.name || "Restaurant image"}
+                          alt={
+                            item.image.alt || item.name || "Restaurant image"
+                          }
                           width={480}
                           height={360}
                           sizes={
@@ -558,9 +632,12 @@ export default function HalalFoodClient({
 
                     <div className="flex min-w-0 flex-1 flex-col justify-between">
                       <div>
-                        <h3 className="text-xl font-semibold text-primary">{item.name}</h3>
+                        <h3 className="text-xl font-semibold text-primary">
+                          {item.name}
+                        </h3>
                         <p className="mt-2 text-sm leading-6 text-base-content/70">
-                          {item.shortDescription || "A halal option near Laurier."}
+                          {item.shortDescription ||
+                            "A halal option near Laurier."}
                         </p>
 
                         <div className="mt-3 flex flex-wrap gap-2 text-xs">
@@ -611,7 +688,9 @@ export default function HalalFoodClient({
             </div>
           ) : (
             <div className="rounded-xl border border-dashed border-base-300 bg-base-200 px-4 py-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.32)]">
-              <p className="text-sm text-base-content/70">No results match your filters.</p>
+              <p className="text-sm text-base-content/70">
+                No results match your filters.
+              </p>
               <button
                 type="button"
                 onClick={clearAllFilters}
@@ -630,7 +709,9 @@ export default function HalalFoodClient({
           >
             <button
               type="button"
-              onClick={() => pagination.hasPrevPage && goToPage(pagination.page - 1)}
+              onClick={() =>
+                pagination.hasPrevPage && goToPage(pagination.page - 1)
+              }
               disabled={!pagination.hasPrevPage}
               className="rounded-lg border border-base-300 px-3 py-2 text-sm text-base-content/80 transition hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -641,7 +722,9 @@ export default function HalalFoodClient({
             </span>
             <button
               type="button"
-              onClick={() => pagination.hasNextPage && goToPage(pagination.page + 1)}
+              onClick={() =>
+                pagination.hasNextPage && goToPage(pagination.page + 1)
+              }
               disabled={!pagination.hasNextPage}
               className="rounded-lg border border-base-300 px-3 py-2 text-sm text-base-content/80 transition hover:bg-base-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >

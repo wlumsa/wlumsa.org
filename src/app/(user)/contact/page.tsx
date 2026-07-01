@@ -14,19 +14,19 @@ export default function ContactPage() {
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="mb-8">
             <div className="mb-6 max-w-3xl text-center sm:text-center md:mx-auto md:mb-12">
-              <h1 className="pt-4 text-center text-4xl md:text-5xl font-heading font-bold text-primary duration-200 hover:scale-105 lg:pt-0">
+              <h1 className="font-heading pt-4 text-center text-4xl font-bold text-primary duration-200 hover:scale-105 md:text-5xl lg:pt-0">
                 Contact Us
               </h1>
-              <p className="text-center text-lg font-body text-base-content/80 mt-4 leading-relaxed">
+              <p className="font-body mt-4 text-center text-lg leading-relaxed text-base-content/80">
                 Fill out the form or send us a message on one of our social
                 media accounts!
               </p>
             </div>
           </div>
           <div className="flex items-stretch justify-center">
-            <div className="hidden md:grid md:grid-cols-2 gap-8">
+            <div className="hidden gap-8 md:grid md:grid-cols-2">
               <div className="space-y-6">
-                <p className="text-base font-body text-base-content/80 leading-relaxed">
+                <p className="font-body text-base leading-relaxed text-base-content/80">
                   The Laurier Muslim Students' Association is committed to
                   ensuring the spiritual and professional development of Laurier
                   students as well as providing a variety of services to enhance
@@ -42,14 +42,17 @@ export default function ContactPage() {
                   title="Wilfrid Laurier University Campus Location"
                 ></iframe>
               </div>
-              <div className="card h-fit max-w-6xl p-6 md:p-8 shadow-lg" id="form">
+              <div
+                className="card h-fit max-w-6xl p-6 shadow-lg md:p-8"
+                id="form"
+              >
                 <CtaForm category="Contact" />
               </div>
             </div>
           </div>
-          <div className="grid md:hidden space-y-6">
+          <div className="grid space-y-6 md:hidden">
             <div>
-              <p className="mb-6 text-base font-body text-base-content/80 leading-relaxed">
+              <p className="font-body mb-6 text-base leading-relaxed text-base-content/80">
                 The Laurier Muslim Students' Association is committed to
                 ensuring the spiritual and professional development of Laurier
                 students as well as providing a variety of services to enhance
@@ -74,5 +77,3 @@ export default function ContactPage() {
     </div>
   );
 }
-
-

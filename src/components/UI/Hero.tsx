@@ -3,22 +3,21 @@ import { TextEffect } from "../Animations/text-effect";
 import Image from "next/image";
 import { Social, Media } from "@/payload-types";
 import Link from "next/link";
-import { GetStartedButton } from "./button"
+import { GetStartedButton } from "./button";
 
 interface HeroProps {
   socialLinks: Social[];
   mediaDocs: Media[];
 }
 const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
-
   return (
-    <div id="hero" className="hero min-h-screen relative overflow-hidden">
+    <div id="hero" className="hero relative min-h-screen overflow-hidden">
       {mediaDocs[0]?.url ? (
         <Image
           fill
           src={mediaDocs[0].url}
           alt={mediaDocs[0]?.alt || "Hero Image"}
-          className="object-cover w-full h-fit blur-sm scale-105"
+          className="h-fit w-full scale-105 object-cover blur-sm"
         />
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
@@ -36,10 +35,10 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
           />
           <TextEffect
             className="mb-5"
-            style={{ color: '#ffffff' }}
-            per="word"           // Animate by word instead of character for faster loading
+            style={{ color: "#ffffff" }}
+            per="word" // Animate by word instead of character for faster loading
             as="h2"
-            delay={0.1}          // Start animation quickly after page load
+            delay={0.1} // Start animation quickly after page load
             variants={{
               container: {
                 hidden: { opacity: 0 },
@@ -57,32 +56,48 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                   y: 0,
                   transition: {
                     duration: 0.3,
-                    ease: "easeOut"
-                  }
+                    ease: "easeOut",
+                  },
                 },
               },
             }}
           >
-            "The believers are but brothers, so make settlement between your brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
+            "The believers are but brothers, so make settlement between your
+            brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
           </TextEffect>
-          <div className="flex flex-row m-4 justify-center mb-6 items-center gap-4" >
+          <div className="m-4 mb-6 flex flex-row items-center justify-center gap-4">
             {/* Keep consistent styling for main CTA buttons regardless of theme */}
             <Link
               href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform"
-              className="btn text-bold inline-flex h-12 items-center justify-center px-6 py-3 font-semibold rounded-lg duration-200 hover:scale-105"
-              style={{ backgroundColor: '#2e046d', color: '#e7ac3b', border: 'none' }}
+              className="text-bold btn inline-flex h-12 items-center justify-center rounded-lg px-6 py-3 font-semibold duration-200 hover:scale-105"
+              style={{
+                backgroundColor: "#2e046d",
+                color: "#e7ac3b",
+                border: "none",
+              }}
             >
               Donate
             </Link>
-            <Link href="/guidebook"> <GetStartedButton variant="secondary" className="h-12 px-6 py-3 whitespace-nowrap" style={{ backgroundColor: '#e7ac3b', color: '#1a1200', border: 'none' }}>
-              Become a Member
-            </GetStartedButton> </Link>
+            <Link href="/guidebook">
+              {" "}
+              <GetStartedButton
+                variant="secondary"
+                className="h-12 whitespace-nowrap px-6 py-3"
+                style={{
+                  backgroundColor: "#e7ac3b",
+                  color: "#1a1200",
+                  border: "none",
+                }}
+              >
+                Become a Member
+              </GetStartedButton>{" "}
+            </Link>
           </div>
           <div className="flex flex-row items-center justify-center gap-4">
             {/* Keep consistent styling for social media icons regardless of theme */}
             {socialLinks.map((social, index) => (
               <Link
-                href={typeof social.link === 'object' ? social.link.url : '#'}
+                href={typeof social.link === "object" ? social.link.url : "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="duration-200 hover:scale-105"
@@ -92,7 +107,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 50 50"
                   className="h-8 w-8 stroke-gray-600"
-                  style={{ fill: '#e7ac3b' }}
+                  style={{ fill: "#e7ac3b" }}
                 >
                   <path key={index} d={social.icon}></path>
                 </svg>

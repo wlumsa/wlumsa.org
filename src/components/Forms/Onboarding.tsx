@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import { z } from 'zod'
+import { z } from "zod";
 import toast from "react-hot-toast";
 import Link from "next/link";
 // import { userOnboarding } from "@/Utils/actions";
@@ -44,7 +44,6 @@ import Link from "next/link";
 //     category: z.string(),
 //   });
 
-
 //   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
 //     if (e.target.name === "isStudent") {
 //       setFormData({
@@ -71,9 +70,7 @@ import Link from "next/link";
 //       })
 //     }
 
-
 //   }
-
 
 //   /**
 //    * Handles the form submission.
@@ -81,8 +78,6 @@ import Link from "next/link";
 //    */
 //   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 //     e.preventDefault();
-
-
 
 //     try {
 //       if (formData.isStudent === "Yes") {
@@ -108,9 +103,6 @@ import Link from "next/link";
 //       } else {
 //         toast.success("Form submitted successfully!");
 //       }
-
-
-
 
 //       console.log(`Form submitted: ${JSON.stringify(formData)}`);
 //       setFormData({
@@ -230,7 +222,6 @@ import Link from "next/link";
 //                     </select>
 //                   </div>
 
-
 //                   <label className="label ">
 //                     <span className="label-text">Newsletter Signup</span>
 //                     <input
@@ -275,7 +266,6 @@ import Link from "next/link";
 //                       />
 //                     </div>
 
-
 //                   </div>
 
 //                   <div className="flex flex-col py-2">
@@ -287,7 +277,6 @@ import Link from "next/link";
 //                       ))}
 //                     </select>
 //                   </div>
-
 
 //                 </div>
 
@@ -321,4 +310,3 @@ import Link from "next/link";
 //     </div>
 //   );
 // };
-

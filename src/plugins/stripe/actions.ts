@@ -1,14 +1,18 @@
-'use server'
+"use server";
 
-import payloadConfig from '@payload-config'
-import { getPayload } from 'payload'
-import Stripe from 'stripe'
+import payloadConfig from "@payload-config";
+import { getPayload } from "payload";
+import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2022-08-01',
-})
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
+  apiVersion: "2022-08-01",
+});
 
-export const createCheckoutSession = async (submissionId: string, price: number,formName:string) => {
+export const createCheckoutSession = async (
+  submissionId: string,
+  price: number,
+  formName: string
+) => {
   try {
     const session = await stripe.checkout.sessions.create({
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success`,
@@ -17,7 +21,7 @@ export const createCheckoutSession = async (submissionId: string, price: number,
       line_items: [
         {
           price_data: {
-            currency: 'cad',
+            currency: "cad",
             product_data: {
               name: formName,
             },
@@ -26,16 +30,16 @@ export const createCheckoutSession = async (submissionId: string, price: number,
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: "payment",
       metadata: {
         submissionId: submissionId,
       },
-    })
+    });
     // console.log('Checkout session created:', session)
     if (session.url) {
-      return { url: session.url }
+      return { url: session.url };
     }
   } catch (error: unknown) {
-    return { error: 'Failed to create checkout session' }
+    return { error: "Failed to create checkout session" };
   }
-}
+};

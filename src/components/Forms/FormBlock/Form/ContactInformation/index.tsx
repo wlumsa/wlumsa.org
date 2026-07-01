@@ -1,25 +1,32 @@
-import type { EmailField } from '@payloadcms/plugin-form-builder/types'
-import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
+import type { EmailField } from "@payloadcms/plugin-form-builder/types";
+import type {
+  FieldErrorsImpl,
+  FieldValues,
+  UseFormRegister,
+} from "react-hook-form";
 
-import React from 'react'
+import React from "react";
 
-import { Error } from '../Error'
-import { Width } from '../Width'
+import { Error } from "../Error";
+import { Width } from "../Width";
 
 export const Email: React.FC<
   {
     errors: Partial<
       FieldErrorsImpl<{
-        [x: string]: any
+        [x: string]: any;
       }>
-    >
-    register: UseFormRegister<any & FieldValues>
+    >;
+    register: UseFormRegister<any & FieldValues>;
   } & EmailField
 > = ({ name, errors, label, register, required: requiredFromProps, width }) => {
   return (
     <Width width={width}>
       <div className="max-w-2xl">
-        <label className="block text-lg font-semibold text-slate-700" htmlFor={name}>
+        <label
+          className="block text-lg font-semibold text-slate-700"
+          htmlFor={name}
+        >
           {label} {requiredFromProps && <span className="text-red-700">*</span>}
         </label>
         <input
@@ -27,10 +34,13 @@ export const Email: React.FC<
           id={name}
           placeholder="Email"
           type="text"
-          {...register(name, { pattern: /^\S[^\s@]*@\S+$/, required: requiredFromProps })}
+          {...register(name, {
+            pattern: /^\S[^\s@]*@\S+$/,
+            required: requiredFromProps,
+          })}
         />
         {requiredFromProps && errors[name] && <Error />}
       </div>
     </Width>
-  )
-}
+  );
+};

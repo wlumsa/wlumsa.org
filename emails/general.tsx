@@ -80,7 +80,9 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
               alt="WLU MSA logo"
               style={logo}
             />
-            <Text style={title}>Assalamu alaikum{firstName ? ` ${firstName}` : ""}</Text>
+            <Text style={title}>
+              Assalamu alaikum{firstName ? ` ${firstName}` : ""}
+            </Text>
             <Text style={subtitle}>
               Here are the latest updates from the WLU MSA community.
             </Text>
@@ -89,7 +91,10 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
           <Section style={bodyWrap} className="body-wrap">
             <Text style={label}>Weekly Updates</Text>
             <Section style={panel} className="panel">
-              <div className="content" dangerouslySetInnerHTML={{ __html: content || "" }} />
+              <div
+                className="content"
+                dangerouslySetInnerHTML={{ __html: content || "" }}
+              />
             </Section>
           </Section>
 
@@ -105,13 +110,22 @@ export const Newsletter = ({ firstName, content }: WelcomeEmailProps) => (
           <Hr style={divider} />
 
           <Section style={footer} className="footer">
-            <Text style={footerText}>This is an automated email, please do not reply.</Text>
             <Text style={footerText}>
-              For questions, contact <Link href="mailto:msa@wlu.ca" style={footerLink}>msa@wlu.ca</Link>.
+              This is an automated email, please do not reply.
+            </Text>
+            <Text style={footerText}>
+              For questions, contact{" "}
+              <Link href="mailto:msa@wlu.ca" style={footerLink}>
+                msa@wlu.ca
+              </Link>
+              .
             </Text>
             <Text style={footerText}>
               To unsubscribe from these emails, click{" "}
-              <Link href={unsubscribeUrl} style={footerLink}>here</Link>.
+              <Link href={unsubscribeUrl} style={footerLink}>
+                here
+              </Link>
+              .
             </Text>
           </Section>
         </Section>

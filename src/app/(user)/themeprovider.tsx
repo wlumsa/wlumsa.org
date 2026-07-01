@@ -32,7 +32,9 @@ export default function ThemeProvider({
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Get the current theme from the document (set by the initial script)
-      const currentTheme = document.documentElement.getAttribute("data-theme") as Theme || "lightTheme";
+      const currentTheme =
+        (document.documentElement.getAttribute("data-theme") as Theme) ||
+        "lightTheme";
       setTheme(currentTheme);
 
       // Wait for hydration to complete before checking localStorage

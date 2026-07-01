@@ -9,7 +9,6 @@
 // import { RoommatePost } from "@/payload-types";
 // import Link from "next/link";
 
-
 // import RoommateFilter from "@/components/UI/RoommateFilters";
 //  type Params = Promise<{post:string}>
 //  type SearchParams = Promise<{[key:string]: string | undefined}>
@@ -23,7 +22,6 @@
 //   const rent = searchParams?.rent
 //   const propertyType = searchParams?.propertyType
 //   const utilities = searchParams?.utilities
-
 
 //   const posts = await fetchRoommatePosts({
 //     query,
@@ -60,12 +58,10 @@
 // };
 
 //export default RoommateServicePage;
-import React from 'react'
+import React from "react";
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <div>page</div>;
+};
 
-export default page
+export default page;

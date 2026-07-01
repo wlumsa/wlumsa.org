@@ -1,15 +1,14 @@
-
-import { Block } from 'payload'
+import { Block } from "payload";
 import {
   HTMLConverterFeature,
   lexicalEditor,
-  lexicalHTML
-} from '@payloadcms/richtext-lexical'
+  lexicalHTML,
+} from "@payloadcms/richtext-lexical";
 export const NewsletterBlock: Block = {
-  slug: 'Newsletter', // required
-  imageURL: 'https://google.com/path/to/image.jpg',
-  imageAltText: 'A nice thumbnail image to show what this block looks like',
-  interfaceName: 'NewsletterBlock', // optional
+  slug: "Newsletter", // required
+  imageURL: "https://google.com/path/to/image.jpg",
+  imageAltText: "A nice thumbnail image to show what this block looks like",
+  interfaceName: "NewsletterBlock", // optional
   fields: [
     {
       name: "introContent",
@@ -26,17 +25,25 @@ export const NewsletterBlock: Block = {
       required: true,
     },
     {
-      name: 'days',
-      type: 'array',
+      name: "days",
+      type: "array",
       fields: [
         {
-          name: 'Day',
-          type: 'select',
-          options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          name: "Day",
+          type: "select",
+          options: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ],
         },
         {
-          name: 'content',
-          type: 'richText',
+          name: "content",
+          type: "richText",
           editor: lexicalEditor({
             features: ({ defaultFeatures }) => [
               ...defaultFeatures,
@@ -45,15 +52,12 @@ export const NewsletterBlock: Block = {
               HTMLConverterFeature({}),
             ],
           }),
-
         },
-        lexicalHTML('content', { name: 'content_html' }),
+        lexicalHTML("content", { name: "content_html" }),
       ],
       maxRows: 7,
     },
 
-    lexicalHTML('introContent', { name: 'introContent_html' }),
-
+    lexicalHTML("introContent", { name: "introContent_html" }),
   ],
-
-}
+};

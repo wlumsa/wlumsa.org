@@ -1,23 +1,17 @@
-import { CollectionConfig } from 'payload';
-import {
-
-  lexicalEditor,
-
-} from "@payloadcms/richtext-lexical";
+import { CollectionConfig } from "payload";
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
 export const Posts: CollectionConfig = {
   slug: "Posts",
-  labels:{
+  labels: {
     singular: "Blog Post",
     plural: "Blog Posts",
   },
   admin: {
-
     group: "Marketing",
-   /*  livePreview: {
+    /*  livePreview: {
       url: 'www.wlumsa.org/blog', 
     }, */
   },
- 
 
   fields: [
     {

@@ -14,23 +14,16 @@ export const DailyReminders: CollectionConfig = {
       label: "Reference",
     },
     {
-        name:"arabic",
-        type:"text",
-        required:true,
-        label:"Arabic",
-       
-    }, 
+      name: "arabic",
+      type: "text",
+      required: true,
+      label: "Arabic",
+    },
     {
-        name:"english",
-        type:"text",
-        required:true,
-        label:"English",
-       
-    }, 
-       
-     
-    
-   
-    
+      name: "english",
+      type: "text",
+      required: true,
+      label: "English",
+    },
   ],
 };

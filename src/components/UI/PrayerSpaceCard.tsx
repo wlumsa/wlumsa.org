@@ -14,7 +14,11 @@ interface PrayerSpaceCardProps {
  * @param title - The title of the video.
  * @param thumbnailUrl - The URL of the video thumbnail.
  */
-const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumbnailUrl }) => {
+const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({
+  videoId,
+  title,
+  thumbnailUrl,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   /**
@@ -24,7 +28,11 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
 
   return (
     <div className="card h-full w-full overflow-hidden bg-base-100 shadow-xl">
-      <button type="button" onClick={togglePopup} className="relative block aspect-video w-full cursor-pointer overflow-hidden">
+      <button
+        type="button"
+        onClick={togglePopup}
+        className="relative block aspect-video w-full cursor-pointer overflow-hidden"
+      >
         <img
           src={thumbnailUrl}
           alt={title}
@@ -33,7 +41,9 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
       </button>
       <div className="card-body p-4">
         <h2 className="card-title text-base md:text-lg">{title}</h2>
-        <p className="text-sm text-base-content/70">Tap to open video directions</p>
+        <p className="text-sm text-base-content/70">
+          Tap to open video directions
+        </p>
       </div>
 
       {isOpen && (
@@ -41,7 +51,7 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({ videoId, title, thumb
           <div className="modal-box relative max-w-3xl">
             <button
               type="button"
-              className="btn btn-sm btn-circle absolute right-2 top-2"
+              className="btn btn-circle btn-sm absolute right-2 top-2"
               onClick={togglePopup}
               aria-label="Close video"
             >

@@ -1,9 +1,8 @@
-"use client"
-import React from 'react'
-import { useEffect, useState } from 'react';
+"use client";
+import React from "react";
+import { useEffect, useState } from "react";
 
 const RamadanInfo = () => {
-
   const [year, setYear] = useState(0);
   const [sadaqah, setSadaqah] = useState(0);
   const [meals, setMeals] = useState(0);
@@ -20,7 +19,7 @@ const RamadanInfo = () => {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-around  items-center ">
+      <div className="flex flex-col items-center justify-around  sm:flex-row ">
         <div className="mb-4 text-center sm:mx-2 sm:mb-0 ">
           <span className="text-2xl font-semibold text-[#2474A3] sm:text-4xl">
             {year}
@@ -41,7 +40,7 @@ const RamadanInfo = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RamadanInfo
+export default RamadanInfo;

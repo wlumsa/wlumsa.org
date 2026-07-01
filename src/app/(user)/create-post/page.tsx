@@ -22,9 +22,9 @@
 //   return (
 //     <div className='m-24 text-center' >
 //       {/* checki if user is logged in - else redirect to login */}
-//       {loggedIn ? <Listing/> : 
+//       {loggedIn ? <Listing/> :
 //       <div>
-//        <h1>You must log in or create an account to create a post</h1> 
+//        <h1>You must log in or create an account to create a post</h1>
 //        <div className='btn text-primary font-bold' ><SignInButton mode='modal' fallbackRedirectUrl={"/create-post"} /></div>
 //         </div>}
 //     </div>
@@ -33,12 +33,10 @@
 
 // export default page
 
-import React from 'react'
+import React from "react";
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <div>page</div>;
+};
 
-export default page
+export default page;

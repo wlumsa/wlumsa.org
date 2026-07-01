@@ -1,5 +1,9 @@
 import type { Event as EventDoc } from "@/payload-types";
-import { getEventDateLabel, getEventImageAlt, getEventImageUrl } from "./events-utils";
+import {
+  getEventDateLabel,
+  getEventImageAlt,
+  getEventImageUrl,
+} from "./events-utils";
 import EventListCard from "./EventListCard";
 
 interface EventsListPanelProps {

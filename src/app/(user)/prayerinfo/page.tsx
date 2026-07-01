@@ -8,7 +8,7 @@ import {
   getWeeklyPrayerTimetable,
 } from "@/Utils/datafetcher";
 import Image from "next/image";
-import MasjidCard from "@/components/UI/MasjidCard"
+import MasjidCard from "@/components/UI/MasjidCard";
 import Link from "next/link";
 /**
  * This page displays the prayer timings and videos guiding users to the prayer rooms.
@@ -17,24 +17,30 @@ import Link from "next/link";
 export const revalidate = 86400; // 24 hours
 
 export default async function PrayerInfo() {
-  const [timingsData, jummahTimes, prayerSpaces, weeklyTimetable] = await Promise.all([
-    getPrayerTimings(),
-    getJummahTimings(),
-    getPrayerSpaces(),
-    getWeeklyPrayerTimetable(),
-  ]);
+  const [timingsData, jummahTimes, prayerSpaces, weeklyTimetable] =
+    await Promise.all([
+      getPrayerTimings(),
+      getJummahTimings(),
+      getPrayerSpaces(),
+      getWeeklyPrayerTimetable(),
+    ]);
 
   return (
     <div className="flex-grow items-center pt-16">
       <div className="container mx-auto p-8">
-         <h1 className="font-serif text-3xl font-bold text-primary sm:text-4xl text-center mb-8">Prayer Information</h1>
-         <p className="mb-6 text-center text-sm font-body text-base-content/75">
-           Looking for Ramadan prayer, suhoor, and iftar timings?{" "}
-           <Link href="/ramadan" className="font-semibold text-primary underline underline-offset-2">
-             View the Ramadan page
-           </Link>
-           .
-         </p>
+        <h1 className="mb-8 text-center font-serif text-3xl font-bold text-primary sm:text-4xl">
+          Prayer Information
+        </h1>
+        <p className="font-body mb-6 text-center text-sm text-base-content/75">
+          Looking for Ramadan prayer, suhoor, and iftar timings?{" "}
+          <Link
+            href="/ramadan"
+            className="font-semibold text-primary underline underline-offset-2"
+          >
+            View the Ramadan page
+          </Link>
+          .
+        </p>
 
         <PrayerTimesTable
           timingsData={timingsData}
@@ -42,14 +48,15 @@ export default async function PrayerInfo() {
           weeklyTimetable={weeklyTimetable}
         />
       </div>
-      <div className="container mx-auto justify-center   flex flex-col items-center ">
-          <h1 className="font-serif text-3xl font-bold text-primary text-center mb-4 sm:text-4xl">On-campus Prayer Spaces</h1>
+      <div className="container mx-auto flex   flex-col items-center justify-center ">
+        <h1 className="mb-4 text-center font-serif text-3xl font-bold text-primary sm:text-4xl">
+          On-campus Prayer Spaces
+        </h1>
 
         <h2 className="mb-8 text-center text-xl font-bold">
           These Videos Can help guide you to the Prayer Rooms
         </h2>
         <div className=" grid grid-cols-1 gap-12  lg:grid-cols-2 ">
-
           <PrayerSpaceCard
             videoId="XQALLoF6Buo"
             title="Bricker Prayer Room"
@@ -72,37 +79,31 @@ export default async function PrayerInfo() {
             title="Turret (Jumu'ah)"
             thumbnailUrl="https://img.youtube.com/vi/Esnqdy0rqiY/sddefault.jpg"
           />
-
-
         </div>
         <div className="container mx-auto my-16 p-8">
-          <h1 className="font-serif text-3xl font-bold text-primary sm:text-4xl text-center mb-8">Off-campus Prayer Spaces</h1>
-       <div className = "flex flex-col gap-8 md:gap-12">
-                  {prayerSpaces && Array.isArray(prayerSpaces) && prayerSpaces.length > 0 ? (
-                    prayerSpaces.map((space: any) => (
-                      <MasjidCard
-                        key={space.id}
-                        name={space.title}
-                        image={space.image ? space.image.url : ""}
-                        address={space.location}
-                        websiteLink={space.websiteLink}
-                        googleMapsLink={space.googleMapsLink}
-                      />
-                    ))
-                  ) : (
-                    <div>No off-campus prayer spaces found.</div>
-                  )}
-
-                  
-
-
-                      
-        
-        </div>
-       
+          <h1 className="mb-8 text-center font-serif text-3xl font-bold text-primary sm:text-4xl">
+            Off-campus Prayer Spaces
+          </h1>
+          <div className="flex flex-col gap-8 md:gap-12">
+            {prayerSpaces &&
+            Array.isArray(prayerSpaces) &&
+            prayerSpaces.length > 0 ? (
+              prayerSpaces.map((space: any) => (
+                <MasjidCard
+                  key={space.id}
+                  name={space.title}
+                  image={space.image ? space.image.url : ""}
+                  address={space.location}
+                  websiteLink={space.websiteLink}
+                  googleMapsLink={space.googleMapsLink}
+                />
+              ))
+            ) : (
+              <div>No off-campus prayer spaces found.</div>
+            )}
+          </div>
         </div>
       </div>
-    
     </div>
   );
 }

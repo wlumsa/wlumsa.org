@@ -18,15 +18,13 @@ const monthNames = [
 ];
 
 export function getTodaysTimings(date: Date, timings: PrayerTiming) {
-  
   const currMonth = timings.month[date.getMonth()];
   const currDay = currMonth?.days[date.getDate() - 1];
   return currDay;
 }
 
-
 export function getFullDate(year: number, month: number, day: number) {
-  const date = new Date(year = year, month = month, day = day);
+  const date = new Date((year = year), (month = month), (day = day));
   const formatedDay = date.getDate();
   const formatedMonth = date.getMonth();
 
@@ -34,7 +32,7 @@ export function getFullDate(year: number, month: number, day: number) {
 }
 
 export function isFriday(year: number, month: number, day: number) {
-  const date = new Date(year = year, month = month, day = day);
+  const date = new Date((year = year), (month = month), (day = day));
   return date.getDay() === 5;
 }
 

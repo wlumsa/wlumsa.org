@@ -91,7 +91,7 @@ export default function RamadanImpactPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-base-content/50">
               WLUMSA / Ramadan / Impact
             </p>
-            <h1 className="mt-5 max-w-3xl font-heading text-5xl font-bold leading-[1.05] text-base-content sm:text-6xl">
+            <h1 className="font-heading mt-5 max-w-3xl text-5xl font-bold leading-[1.05] text-base-content sm:text-6xl">
               Ramadan impact, recorded simply.
             </h1>
           </div>
@@ -123,7 +123,7 @@ export default function RamadanImpactPage() {
             <p className="text-sm font-medium text-base-content/55">
               Estimated total
             </p>
-            <p className="mt-4 font-heading text-[4.5rem] font-bold leading-none text-primary sm:text-[6.5rem]">
+            <p className="font-heading mt-4 text-[4.5rem] font-bold leading-none text-primary sm:text-[6.5rem]">
               12,500+
             </p>
             <p className="mt-3 text-lg text-base-content/70">meals served</p>
@@ -151,7 +151,7 @@ export default function RamadanImpactPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-base-content/45">
               Annual Ledger
             </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold text-base-content">
+            <h2 className="font-heading mt-3 text-3xl font-bold text-base-content">
               2019-2025
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-base-content/60">

@@ -1,47 +1,55 @@
-import type { StripeWebhookHandler } from '@payloadcms/plugin-stripe/types'
-import type Stripe from 'stripe'
-import { APIError } from 'payload'
+import type { StripeWebhookHandler } from "@payloadcms/plugin-stripe/types";
+import type Stripe from "stripe";
+import { APIError } from "payload";
 
 export const checkoutSessionCompleted: StripeWebhookHandler<{
   data: {
-    object: Stripe.Checkout.Session
-  }
+    object: Stripe.Checkout.Session;
+  };
 }> = async ({ event, payload }) => {
-  const { id: sessionId, metadata, amount_total, payment_status } = event.data.object
-  const submissionId = metadata?.submissionId
+  const {
+    id: sessionId,
+    metadata,
+    amount_total,
+    payment_status,
+  } = event.data.object;
+  const submissionId = metadata?.submissionId;
 
-  payload.logger.info(`🪝 Processing checkout session completed for session ID: ${sessionId}`)
+  payload.logger.info(
+    `🪝 Processing checkout session completed for session ID: ${sessionId}`
+  );
 
   if (!submissionId) {
-    throw new APIError('No submissionId found in checkout session metadata')
+    throw new APIError("No submissionId found in checkout session metadata");
   }
 
-  if (payment_status === 'paid') {
+  if (payment_status === "paid") {
     try {
       await payload.update({
-        collection: 'form-submissions',
+        collection: "form-submissions",
         id: submissionId,
         data: {
           payment: {
-            status: 'paid',
+            status: "paid",
           },
         },
-      })
+      });
     } catch (error) {
-      throw new APIError(`Error updating submission: ${error}`)
+      throw new APIError(`Error updating submission: ${error}`);
     }
 
     try {
       const submission = await payload.findByID({
-        collection: 'form-submissions',
+        collection: "form-submissions",
         id: submissionId,
-      })
+      });
 
       const form = await payload.findByID({
-        collection: 'forms',
-        id: typeof submission.form === 'string' ? submission.form : submission.id,
-      })
-      const { emails } = form
+        collection: "forms",
+        id:
+          typeof submission.form === "string" ? submission.form : submission.id,
+      });
+      const { emails } = form;
 
       emails?.map(async (email) => {
         await payload.sendEmail({
@@ -53,11 +61,15 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
           subject: `Payment Confirmed from ${submission.id}`,
           html: `
             <h2>Payment Confirmation</h2>
-            <p>A payment has been successfully processed for submission: ${submission.id}</p>
+            <p>A payment has been successfully processed for submission: ${
+              submission.id
+            }</p>
             <hr/>
             <h3>Payment Details:</h3>
             <ul>
-              <li>Amount: $${amount_total ? (amount_total / 100).toFixed(2) : '0.00'}</li>
+              <li>Amount: $${
+                amount_total ? (amount_total / 100).toFixed(2) : "0.00"
+              }</li>
               <li>Status: ${payment_status}</li>
               <li>Session ID: ${sessionId}</li>
             </ul>
@@ -65,13 +77,13 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
             <p>Submission ID: ${submissionId}</p>
             <p><small>This is an automated message.</small></p>
           `,
-        })
-      })
+        });
+      });
     } catch (error) {
-      throw new APIError(`Error sending email: ${error}`)
+      throw new APIError(`Error sending email: ${error}`);
     }
   }
-}
+};
 
 // try {
 //   const submission = await payload.findByID({

@@ -2,7 +2,7 @@ import React from "react";
 import { JummahTiming } from "@/payload-types";
 import { formatJummahTiming } from "@/Utils/dateFormater";
 interface JummahProps {
-  jummahInfo : JummahTiming[],
+  jummahInfo: JummahTiming[];
 }
 /**
  * JummahInfo component displays the Jummah prayer time and room information in a table format.
@@ -21,9 +21,18 @@ const JummahInfo: React.FC<JummahProps> = ({ jummahInfo }) => {
         </thead>
         <tbody>
           {jummahInfo.map((item, index) => (
-            <tr key={item.id ?? `${item.building}-${item.room_number ?? "room"}-${item.timing}-${index}`}>
+            <tr
+              key={
+                item.id ??
+                `${item.building}-${item.room_number ?? "room"}-${
+                  item.timing
+                }-${index}`
+              }
+            >
               <td>{formatJummahTiming(item.timing)}</td>
-              <td>{item.building} {item.room_number}</td>
+              <td>
+                {item.building} {item.room_number}
+              </td>
             </tr>
           ))}
         </tbody>

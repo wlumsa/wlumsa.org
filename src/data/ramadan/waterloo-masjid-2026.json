@@ -389,9 +389,7 @@
         "maghrib": "7:25",
         "isha": "9:00"
       },
-      "notes": [
-        "Daylight Saving Time begins"
-      ]
+      "notes": ["Daylight Saving Time begins"]
     },
     {
       "gregorian_date": "2026-03-09",

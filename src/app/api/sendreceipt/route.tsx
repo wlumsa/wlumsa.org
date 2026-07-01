@@ -46,9 +46,9 @@ export async function POST(request: Request) {
         Pickup Time: ${pickuptime}\n
         Products: \n${productsString}\n`;
 
-    const response =  await resend.emails.send({
+    const response = await resend.emails.send({
       from: `Order from ${Name} <admin@wlumsa.org>`,
-      to: ["msa@wlu.ca","moha5150@mylaurier.ca"],
+      to: ["msa@wlu.ca", "moha5150@mylaurier.ca"],
       subject: subject,
       cc: email,
       text: textContent,
@@ -56,8 +56,8 @@ export async function POST(request: Request) {
         "X-Priority": "1",
       },
     });
-    
-    console.log(response)
+
+    console.log(response);
     return NextResponse.json({ status: 200 });
   } catch (error) {
     console.error("Error sending email:", error);

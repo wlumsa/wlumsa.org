@@ -4,17 +4,30 @@ type ExportButtonsProps = {
   className?: string;
 };
 
-export function ExportButtons({ googleCalendarHref, icsDownloadHref, className }: ExportButtonsProps) {
+export function ExportButtons({
+  googleCalendarHref,
+  icsDownloadHref,
+  className,
+}: ExportButtonsProps) {
   return (
     <section
-      className={`flex h-full min-h-[231px] flex-col items-center justify-center rounded-2xl border border-base-300 bg-base-100/95 p-4 text-center shadow-md shadow-base-content/10 md:min-h-[261px] ${className || ""}`}
+      className={`flex h-full min-h-[231px] flex-col items-center justify-center rounded-2xl border border-base-300 bg-base-100/95 p-4 text-center shadow-md shadow-base-content/10 md:min-h-[261px] ${
+        className || ""
+      }`}
     >
-      <h2 className="text-lg font-heading font-bold text-primary">Calendar Export</h2>
-      <p className="mt-1 text-sm font-body text-base-content/70">
+      <h2 className="font-heading text-lg font-bold text-primary">
+        Calendar Export
+      </h2>
+      <p className="font-body mt-1 text-sm text-base-content/70">
         Add Ramadan dates to your calendar.
       </p>
       <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:justify-center">
-        <a className="btn btn-primary" href={googleCalendarHref} target="_blank" rel="noreferrer">
+        <a
+          className="btn btn-primary"
+          href={googleCalendarHref}
+          target="_blank"
+          rel="noreferrer"
+        >
           Add to Google Calendar
         </a>
         <a className="btn btn-secondary" href={icsDownloadHref}>

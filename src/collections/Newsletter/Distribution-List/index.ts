@@ -9,18 +9,18 @@ export const DistributionList: CollectionConfig = {
   },
   fields: [
     {
-        name:"listName",
-        label:"List Name",
-        type:"text",
-        required:true,
-    }, 
+      name: "listName",
+      label: "List Name",
+      type: "text",
+      required: true,
+    },
     {
       name: "emails",
       label: "emails",
       type: "relationship",
-      relationTo:"individuals",
-      hasMany:true,
-      required:true,
+      relationTo: "individuals",
+      hasMany: true,
+      required: true,
     },
   ],
 };

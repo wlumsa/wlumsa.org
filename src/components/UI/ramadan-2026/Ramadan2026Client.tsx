@@ -48,14 +48,14 @@ const RAMADAN_RESOURCES = [
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan Schedule 26.webp",
     alt: "Ramadan prayer schedule preview",
   },
-   {
+  {
     title: "Duas PDF",
     description: "A collection of short duas for Ramadan and beyond.",
     href: "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/Ramadan_Duas.pdf",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/duas.webp",
     alt: "Ramadan duas preview",
-  }
+  },
 ] as const;
 
 const CAMPUS_SERVICES = [
@@ -73,7 +73,8 @@ const CAMPUS_SERVICES = [
     name: "Daily Taraweeh on Campus",
     image:
       "https://mrucujpvbprmpznsgmfr.supabase.co/storage/v1/object/public/msa_public/media/taraweeh25.webp",
-    timeLocation: "Every day in PMC (after Isha). See Ramadan calendar for exact timings.",
+    timeLocation:
+      "Every day in PMC (after Isha). See Ramadan calendar for exact timings.",
     caption:
       "Attend daily Taraweeh in the PMC, including weekends, after Isha.",
     link: "https://www.youtube.com/watch?v=xnGcNytQNxQ&embeds_referring_euri=https%3A%2F%2Fwww.wlumsa.org%2F&source_ve_path=Mjg2NjY",
@@ -107,7 +108,6 @@ const CAMPUS_SERVICES = [
     link: "https://t.zip/g/kW5g0luYnastysVT?ref=8gs7JKfEiR",
     ctaText: "Participate Now",
   },
-
 ];
 
 const IMPACT_METRICS_2025 = [
@@ -203,7 +203,9 @@ type Ramadan2026ClientProps = {
   prayerTimesByDate: Record<string, PrayerTimes>;
 };
 
-export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026ClientProps) {
+export default function Ramadan2026Client({
+  prayerTimesByDate,
+}: Ramadan2026ClientProps) {
   const impactSectionRef = useRef<HTMLElement | null>(null);
   const [isImpactVisible, setIsImpactVisible] = useState(false);
   const [selectedISO, setSelectedISO] = useState<string | null>(null);
@@ -215,9 +217,13 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
     [prayerTimesByDate]
   );
 
-  const selectedDay = days.find((day) => day.isoDate === selectedISO) || days[0];
-  const selectedDayIndex = days.findIndex((day) => day.isoDate === selectedDay?.isoDate);
-  const nextDay = selectedDayIndex >= 0 ? days[selectedDayIndex + 1] : undefined;
+  const selectedDay =
+    days.find((day) => day.isoDate === selectedISO) || days[0];
+  const selectedDayIndex = days.findIndex(
+    (day) => day.isoDate === selectedDay?.isoDate
+  );
+  const nextDay =
+    selectedDayIndex >= 0 ? days[selectedDayIndex + 1] : undefined;
 
   const keyDates = buildKeyDateSummary(RAMADAN_2026_START_DATE_ISO);
 
@@ -262,20 +268,24 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
   }, [days, selectedISO]);
 
   const icsDownloadHref = "/api/ramadan/calendar?download=1";
-  const calendarFeed = `${origin || "https://www.wlumsa.org"}/api/ramadan/calendar`;
-  const googleCalendarHref = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(calendarFeed)}`;
+  const calendarFeed = `${
+    origin || "https://www.wlumsa.org"
+  }/api/ramadan/calendar`;
+  const googleCalendarHref = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(
+    calendarFeed
+  )}`;
 
   const note = selectedDay?.isOddNight
     ? {
-      title: "Tonight's Focus",
-      items: [
-        "Odd night of the last 10: prioritize extra dua, Quran, and sincere dhikr.",
-        "Protect your time after Isha and use at least part of the last third of the night for worship.",
-        "Ask Allah for broad goodness in this life and the next, and for accepted fasting.",
-      ],
-    }
+        title: "Tonight's Focus",
+        items: [
+          "Odd night of the last 10: prioritize extra dua, Quran, and sincere dhikr.",
+          "Protect your time after Isha and use at least part of the last third of the night for worship.",
+          "Ask Allah for broad goodness in this life and the next, and for accepted fasting.",
+        ],
+      }
     : selectedDay?.isLastTen
-      ? {
+    ? {
         title: "Tonight's Focus",
         items: [
           "Stay consistent: small acts done well each night are better than one heavy night.",
@@ -283,23 +293,23 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           "End your night with sincere repentance and dua for yourself and the ummah.",
         ],
       }
-      : selectedDay?.isEid
-        ? {
-          title: "Eid Reminder",
-          items: [
-            "Eid Mubarak from WLUMSA. May Allah accept your fasting, prayers, and duas.",
-            "Keep gratitude, dhikr, and good character central throughout the day.",
-            "Reach out, forgive, and maintain ties with family, friends, and community.",
-          ],
-        }
-        : {
-          title: "Today's Focus",
-          items: [
-            "Renew your intention early and protect your fast from both hunger and harmful speech.",
-            "Plan your day around salah times, Quran recitation, and moments of dhikr.",
-            "Make focused dua before iftar and ask Allah for what is best.",
-          ],
-        };
+    : selectedDay?.isEid
+    ? {
+        title: "Eid Reminder",
+        items: [
+          "Eid Mubarak from WLUMSA. May Allah accept your fasting, prayers, and duas.",
+          "Keep gratitude, dhikr, and good character central throughout the day.",
+          "Reach out, forgive, and maintain ties with family, friends, and community.",
+        ],
+      }
+    : {
+        title: "Today's Focus",
+        items: [
+          "Renew your intention early and protect your fast from both hunger and harmful speech.",
+          "Plan your day around salah times, Quran recitation, and moments of dhikr.",
+          "Make focused dua before iftar and ask Allah for what is best.",
+        ],
+      };
 
   const todayISO = getTodayISOInToronto();
   const fastingDays = days.filter((day) => day.isFastingDay);
@@ -308,13 +318,17 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
   const todayRamadanDay = fastingDays.find((day) => day.isoDate === todayISO);
   const jumpTargetDay =
     todayRamadanDay ||
-    (todayISO < (firstFastingDay?.isoDate || "") ? firstFastingDay : lastFastingDay);
+    (todayISO < (firstFastingDay?.isoDate || "")
+      ? firstFastingDay
+      : lastFastingDay);
   const jumpButtonLabel = todayRamadanDay
     ? "Go to Today"
     : todayISO < (firstFastingDay?.isoDate || "")
-      ? "Go to Ramadan Day 1"
-      : "Go to Last Fasting Day";
-  const selectedFastingDay = selectedDay?.isFastingDay ? selectedDay : undefined;
+    ? "Go to Ramadan Day 1"
+    : "Go to Last Fasting Day";
+  const selectedFastingDay = selectedDay?.isFastingDay
+    ? selectedDay
+    : undefined;
 
   const handleJumpToRelevantDay = () => {
     if (!jumpTargetDay) return;
@@ -325,24 +339,28 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
   return (
     <div className="min-h-screen bg-base-100 pb-24 pt-24">
       <div className="container mx-auto max-w-6xl space-y-5 px-4">
-        <Hero
-          title="Ramadan 2026"
-          subtitle="Waterloo, Ontario"
-        />
+        <Hero title="Ramadan 2026" subtitle="Waterloo, Ontario" />
 
         <section ref={impactSectionRef} className="py-2 md:py-3">
           <div className="mx-auto space-y-1.5 py-1 text-center">
-            <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">2025 Impact</p>
-            <h2 className="mx-auto max-w-3xl text-balance text-2xl font-heading font-bold text-primary md:text-3xl">
+            <p className="font-body text-xs font-medium uppercase tracking-wide text-primary">
+              2025 Impact
+            </p>
+            <h2 className="font-heading mx-auto max-w-3xl text-balance text-2xl font-bold text-primary md:text-3xl">
               Alhamdulillah, last Ramadan we delivered
             </h2>
-            <p className="text-sm font-body text-base-content/70">A quick look at what your support made possible.</p>
+            <p className="font-body text-sm text-base-content/70">
+              A quick look at what your support made possible.
+            </p>
           </div>
 
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {IMPACT_METRICS_2025.map((metric) => (
-              <article key={metric.label} className="rounded-xl border border-base-300 bg-base-200/45 p-4 text-center shadow-sm">
-                <p className="text-4xl font-heading font-bold text-primary md:text-5xl">
+              <article
+                key={metric.label}
+                className="rounded-xl border border-base-300 bg-base-200/45 p-4 text-center shadow-sm"
+              >
+                <p className="font-heading text-4xl font-bold text-primary md:text-5xl">
                   <CountUpNumber
                     value={metric.value}
                     prefix={metric.prefix}
@@ -350,40 +368,51 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                     start={isImpactVisible}
                   />
                 </p>
-                <p className="mt-2 text-sm font-body font-semibold text-base-content/80">{metric.label}</p>
+                <p className="font-body mt-2 text-sm font-semibold text-base-content/80">
+                  {metric.label}
+                </p>
               </article>
             ))}
           </div>
           <div className="mt-4 text-center">
             <Link
               href="/ramadan/impact"
-              className="text-sm font-body font-semibold text-primary underline underline-offset-4 transition hover:text-primary/75"
+              className="font-body text-sm font-semibold text-primary underline underline-offset-4 transition hover:text-primary/75"
             >
               View full Ramadan impact archive
             </Link>
           </div>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 dark:border-base-content/15 dark:bg-base-200/40 md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5 dark:border-base-content/15 dark:bg-base-200/40">
           <div>
-            <p className="text-xs font-body font-semibold uppercase tracking-[0.18em] text-primary">Eid Update</p>
-            <h2 className="mt-1 text-xl font-heading font-bold text-primary md:text-2xl">Eid al-Fitr is on Friday, March 20</h2>
-            <p className="mt-2 max-w-3xl text-sm font-body leading-relaxed text-base-content/80">
-              Waterloo Masjid has announced Eid based on moon sighting. Eid prayer will be at <strong>{EID_AL_FITR_2026_PRAYER_LOCATION}</strong> at <strong>{EID_AL_FITR_2026_PRAYER_TIME}</strong>.
+            <p className="font-body text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+              Eid Update
+            </p>
+            <h2 className="font-heading mt-1 text-xl font-bold text-primary md:text-2xl">
+              Eid al-Fitr is on Friday, March 20
+            </h2>
+            <p className="font-body mt-2 max-w-3xl text-sm leading-relaxed text-base-content/80">
+              Waterloo Masjid has announced Eid based on moon sighting. Eid
+              prayer will be at{" "}
+              <strong>{EID_AL_FITR_2026_PRAYER_LOCATION}</strong> at{" "}
+              <strong>{EID_AL_FITR_2026_PRAYER_TIME}</strong>.
             </p>
           </div>
 
-          <ul className="mt-4 list-disc space-y-1 pl-5 text-sm font-body text-base-content/80">
+          <ul className="font-body mt-4 list-disc space-y-1 pl-5 text-sm text-base-content/80">
             <li>Bring your own prayer mats.</li>
             <li>Carpool to ease parking and traffic.</li>
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 dark:border-base-content/20 dark:bg-base-200/30 md:p-5">
+        <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5 dark:border-base-content/20 dark:bg-base-200/30">
           <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
             <div>
-              <h2 className="text-lg font-heading font-bold text-primary">Today&apos;s Overview</h2>
-              <p className="text-xs font-body text-base-content/65">
+              <h2 className="font-heading text-lg font-bold text-primary">
+                Today&apos;s Overview
+              </h2>
+              <p className="font-body text-xs text-base-content/65">
                 {selectedDay?.isEid
                   ? "Quick view for Eid date and prayer details."
                   : "Quick view for day, suhoor cutoff, and iftar time."}
@@ -394,56 +423,68 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           <div className="grid gap-3 md:grid-cols-3">
             <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-md shadow-base-content/10">
               <div className="flex items-start justify-between gap-2">
-                <p className="text-xs font-body uppercase tracking-wide text-base-content/70">Fast Day</p>
+                <p className="font-body text-xs uppercase tracking-wide text-base-content/70">
+                  Fast Day
+                </p>
                 <button
                   type="button"
                   onClick={handleJumpToRelevantDay}
                   disabled={!jumpTargetDay}
-                  className="btn btn-primary btn-xs px-2 text-primary-content normal-case"
+                  className="btn btn-primary btn-xs px-2 normal-case text-primary-content"
                 >
                   {jumpButtonLabel}
                 </button>
               </div>
-              <p className="mt-2 text-lg font-heading font-bold text-base-content">
+              <p className="font-heading mt-2 text-lg font-bold text-base-content">
                 {selectedDay?.isEid
                   ? "Eid al-Fitr"
                   : selectedFastingDay?.fastIndex
-                    ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast`
-                    : "Outside fasting dates"}
+                  ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast`
+                  : "Outside fasting dates"}
               </p>
-              <p className="mt-1 text-sm font-body text-base-content/75">
+              <p className="font-body mt-1 text-sm text-base-content/75">
                 {selectedDay
                   ? formatDisplayDate(selectedDay.isoDate)
                   : "Select a day below to view details."}
               </p>
             </div>
             <div className="rounded-2xl border border-base-300 bg-base-200/60 p-4 shadow-md shadow-base-content/10">
-              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">
+              <p className="font-body text-xs font-semibold uppercase tracking-wide text-base-content">
                 {selectedDay?.isEid ? "Prayer Time" : "Suhoor Ends"}
               </p>
-              <p className="mt-2 text-3xl font-heading font-bold text-base-content">
-                {selectedDay?.isEid ? EID_AL_FITR_2026_PRAYER_TIME : selectedFastingDay?.prayerTimes?.fajr || "--:--"}
+              <p className="font-heading mt-2 text-3xl font-bold text-base-content">
+                {selectedDay?.isEid
+                  ? EID_AL_FITR_2026_PRAYER_TIME
+                  : selectedFastingDay?.prayerTimes?.fajr || "--:--"}
               </p>
-              <p className="mt-1 text-sm font-body text-base-content/75">
-                {selectedDay?.isEid ? "Eid salah begins" : "Fajr (Suhoor cutoff)"}
+              <p className="font-body mt-1 text-sm text-base-content/75">
+                {selectedDay?.isEid
+                  ? "Eid salah begins"
+                  : "Fajr (Suhoor cutoff)"}
               </p>
             </div>
             <div className="rounded-2xl border border-secondary/35 bg-secondary/10 p-4 shadow-md shadow-base-content/10">
-              <p className="text-xs font-body font-semibold uppercase tracking-wide text-base-content">
+              <p className="font-body text-xs font-semibold uppercase tracking-wide text-base-content">
                 {selectedDay?.isEid ? "Location" : "Iftar"}
               </p>
-              <p className="mt-2 text-3xl font-heading font-bold text-base-content">
-                {selectedDay?.isEid ? EID_AL_FITR_2026_PRAYER_LOCATION : selectedFastingDay?.prayerTimes?.maghrib || "--:--"}
+              <p className="font-heading mt-2 text-3xl font-bold text-base-content">
+                {selectedDay?.isEid
+                  ? EID_AL_FITR_2026_PRAYER_LOCATION
+                  : selectedFastingDay?.prayerTimes?.maghrib || "--:--"}
               </p>
-              <p className="mt-1 text-sm font-body text-base-content/75">
-                {selectedDay?.isEid ? "Eid prayer venue" : "Maghrib (Iftar time)"}
+              <p className="font-body mt-1 text-sm text-base-content/75">
+                {selectedDay?.isEid
+                  ? "Eid prayer venue"
+                  : "Maghrib (Iftar time)"}
               </p>
             </div>
           </div>
 
           <div className="mt-3 rounded-2xl border border-primary/20 bg-base-200/70 p-3 shadow-sm dark:border-primary/30 dark:bg-base-200/45">
-            <p className="text-[11px] font-body font-semibold uppercase tracking-wide text-primary">{note.title}</p>
-            <ul className="mt-1 list-disc space-y-0.5 pl-4 text-xs font-body leading-relaxed text-base-content/80 dark:text-base-content/85">
+            <p className="font-body text-[11px] font-semibold uppercase tracking-wide text-primary">
+              {note.title}
+            </p>
+            <ul className="font-body mt-1 list-disc space-y-0.5 pl-4 text-xs leading-relaxed text-base-content/80 dark:text-base-content/85">
               {note.items.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -451,7 +492,10 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
           </div>
         </section>
 
-        <div id="ramadan-calendar" className="grid items-start gap-5 lg:grid-cols-[1.7fr_1fr]">
+        <div
+          id="ramadan-calendar"
+          className="grid items-start gap-5 lg:grid-cols-[1.7fr_1fr]"
+        >
           <div className="space-y-5">
             <CalendarGrid
               days={days}
@@ -463,31 +507,37 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
             />
 
             <section className="flex h-full flex-col rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
-              <p className="text-xs font-body font-medium uppercase tracking-wide text-primary">Worship Focus</p>
-              <h3 className="mt-1 text-base font-heading font-bold text-primary md:text-lg">
+              <p className="font-body text-xs font-medium uppercase tracking-wide text-primary">
+                Worship Focus
+              </p>
+              <h3 className="font-heading mt-1 text-base font-bold text-primary md:text-lg">
                 Last 10 Nights and Laylatul Qadr
               </h3>
-              <p className="mt-2 text-xs font-body leading-relaxed text-base-content/80">
-                Laylatul Qadr is sought in the <strong>odd nights (21, 23, 25, 27, 29)</strong>. Nights begin at Maghrib.
+              <p className="font-body mt-2 text-xs leading-relaxed text-base-content/80">
+                Laylatul Qadr is sought in the{" "}
+                <strong>odd nights (21, 23, 25, 27, 29)</strong>. Nights begin
+                at Maghrib.
               </p>
 
               <div className="mt-3 space-y-1.5 rounded-xl border border-base-300 bg-base-200/55 p-3 shadow-sm">
-                <p className="text-xs font-body leading-relaxed text-base-content/80">
+                <p className="font-body text-xs leading-relaxed text-base-content/80">
                   <strong>Campus qiyam:</strong> Peters P101 (last 10 nights)
                 </p>
-                <p className="text-xs font-body leading-relaxed text-base-content/75">
+                <p className="font-body text-xs leading-relaxed text-base-content/75">
                   <strong>The Messenger of Allah ﷺ said:</strong>
                 </p>
-                <p className="text-xs font-body italic leading-relaxed text-base-content/80">
-                  “Our Lord Almighty descends to the lowest heaven in the last third of every night, saying:
-                  Who is calling upon Me that I may answer him? Who is asking from Me that I may give him?
-                  Who is seeking My forgiveness that I may forgive him?”
+                <p className="font-body text-xs italic leading-relaxed text-base-content/80">
+                  “Our Lord Almighty descends to the lowest heaven in the last
+                  third of every night, saying: Who is calling upon Me that I
+                  may answer him? Who is asking from Me that I may give him? Who
+                  is seeking My forgiveness that I may forgive him?”
                 </p>
-                <p className="text-[11px] font-body leading-relaxed text-base-content/60">
+                <p className="font-body text-[11px] leading-relaxed text-base-content/60">
                   Bukhari &amp; Muslim
                 </p>
-                <p className="text-[11px] font-body leading-relaxed text-base-content/70">
-                  Keep your duas sincere and broad, and trust Allah&apos;s wisdom in what is best.
+                <p className="font-body text-[11px] leading-relaxed text-base-content/70">
+                  Keep your duas sincere and broad, and trust Allah&apos;s
+                  wisdom in what is best.
                 </p>
               </div>
             </section>
@@ -507,14 +557,21 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
               ramadan29={keyDates.ramadan29}
             />
 
-            <ExportButtons googleCalendarHref={googleCalendarHref} icsDownloadHref={icsDownloadHref} />
+            <ExportButtons
+              googleCalendarHref={googleCalendarHref}
+              icsDownloadHref={icsDownloadHref}
+            />
           </div>
         </div>
 
         <section className="py-2 md:py-3">
           <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
-            <h2 className="text-lg font-heading font-bold text-primary">Campus Services</h2>
-            <p className="text-xs font-body text-base-content/65">Programs running throughout Ramadan 2026.</p>
+            <h2 className="font-heading text-lg font-bold text-primary">
+              Campus Services
+            </h2>
+            <p className="font-body text-xs text-base-content/65">
+              Programs running throughout Ramadan 2026.
+            </p>
           </div>
           <div id="events" className="mt-3 flex-grow space-y-1">
             {CAMPUS_SERVICES.map((service, index) => (
@@ -534,9 +591,11 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
 
         <section className="py-2 md:py-3">
           <div className="flex flex-wrap items-end justify-between gap-2">
-            <h2 className="text-lg font-heading font-bold text-primary">Resources</h2>
+            <h2 className="font-heading text-lg font-bold text-primary">
+              Resources
+            </h2>
           </div>
-          <div className="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {RAMADAN_RESOURCES.map((resource) => (
               <a
                 key={resource.href}
@@ -558,9 +617,15 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
                   />
                 </div>
                 <div className="mt-3 flex min-w-0 flex-1 flex-col">
-                  <p className="text-base font-body font-semibold text-base-content">{resource.title}</p>
-                  <p className="mt-1 text-[11px] font-body uppercase tracking-wide text-base-content/60">PDF</p>
-                  <p className="mt-1 text-sm font-body text-base-content/70">{resource.description}</p>
+                  <p className="font-body text-base font-semibold text-base-content">
+                    {resource.title}
+                  </p>
+                  <p className="font-body mt-1 text-[11px] uppercase tracking-wide text-base-content/60">
+                    PDF
+                  </p>
+                  <p className="font-body mt-1 text-sm text-base-content/70">
+                    {resource.description}
+                  </p>
                 </div>
               </a>
             ))}
@@ -569,12 +634,12 @@ export default function Ramadan2026Client({ prayerTimesByDate }: Ramadan2026Clie
 
         <section className="py-2 md:py-3">
           <h2
-            className="mb-1 text-center text-2xl font-heading font-bold text-primary md:text-3xl"
+            className="font-heading mb-1 text-center text-2xl font-bold text-primary md:text-3xl"
             id="prayer_rooms"
           >
             Prayer Rooms
           </h2>
-          <p className="mb-4 text-center text-sm font-body text-base-content/70">
+          <p className="font-body mb-4 text-center text-sm text-base-content/70">
             Find campus prayer spaces and watch directions before you head out.
           </p>
           <div

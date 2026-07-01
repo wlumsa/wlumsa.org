@@ -10,12 +10,10 @@
 
 // const ListingPopup: React.FC<Props> = ({ post }) => {
 
-
-
 //   return (
 //     <div>
 //       <div className=''>
-        
+
 //         <button className="btn btn-secondary " onClick={() => {
 //           const modal = document.getElementById('my_modal_1') as HTMLDialogElement;
 //           if (modal) {

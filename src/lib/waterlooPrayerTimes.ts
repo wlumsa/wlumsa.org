@@ -39,12 +39,19 @@ function cleanTime(value?: string): string {
 }
 
 function pickTime(...values: Array<string | undefined>): string {
-  const found = values.find((value) => typeof value === "string" && value.trim().length > 0);
+  const found = values.find(
+    (value) => typeof value === "string" && value.trim().length > 0
+  );
   return cleanTime(found);
 }
 
-export async function loadWaterlooPrayerTimes(): Promise<Record<string, PrayerTimes>> {
-  const filePath = path.join(process.cwd(), "src/data/ramadan/waterloo-masjid-2026.json");
+export async function loadWaterlooPrayerTimes(): Promise<
+  Record<string, PrayerTimes>
+> {
+  const filePath = path.join(
+    process.cwd(),
+    "src/data/ramadan/waterloo-masjid-2026.json"
+  );
   const raw = await readFile(filePath, "utf8");
   const parsed = JSON.parse(raw) as LocalScrapedFile;
   const rows = Array.isArray(parsed) ? parsed : parsed?.days;
@@ -62,7 +69,11 @@ export async function loadWaterlooPrayerTimes(): Promise<Record<string, PrayerTi
       fajr: pickTime(prayerTimes.fajr),
       sunrise: pickTime(prayerTimes.sunrise),
       dhuhr: pickTime(prayerTimes.dhuhr, prayerTimes.zuhr),
-      asr: pickTime(prayerTimes.asr, row.prayer_times?.asr_shafi, row.prayer_times?.asr_hanafi),
+      asr: pickTime(
+        prayerTimes.asr,
+        row.prayer_times?.asr_shafi,
+        row.prayer_times?.asr_hanafi
+      ),
       maghrib: pickTime(prayerTimes.maghrib),
       isha: pickTime(prayerTimes.isha),
     };

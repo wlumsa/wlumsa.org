@@ -10,7 +10,6 @@
 // import ImageCarousel from "@/components/UI/ImageCarousel";
 // import { Comment } from "@/payload-types";
 
-
 // type Params = Promise<{ post: string }>
 
 // interface CommentDisplay {
@@ -56,18 +55,15 @@
 // }) {
 //   const params = await props.params
 
-
 //   const id = decodeURIComponent(params.post)
 //   const res = await fetchRoommatePostById(id);
 
 //   console.log(res)
 //   const post = res[0]
 
-
 //   const date = post?.createdAt ? new Date(post?.createdAt) : null;
 //   const formattedDate = date ? format(date, 'MMMM dd, yyyy') : null;
 //   const formattedAvailableDate = post?.availableDate ? format(new Date(post?.availableDate), 'MMMM dd') : null;
-
 
 //   const comments = await fetchCommentsByPostId(id);
 //   let commentArray: CommentDisplay[] = [];
@@ -78,8 +74,6 @@
 //     date: comment.createdAt
 //   })));
 //   console.log("comments", comments);
-
-
 
 //   return (
 
@@ -173,7 +167,6 @@
 //                 <h1 className="text-2xl text-primary font-bold" >Get in Touch</h1>
 //                 <div className="flex  flex-col md:flex-row">
 
-
 //                   {post?.phoneNumber && <Tag text={post?.phoneNumber} icon={<Phone size={24} color="#2e046d" />} />}
 
 //                   {post?.whatsapp && <Tag
@@ -239,12 +232,10 @@
 // }
 
 // export default page
-import React from 'react'
+import React from "react";
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <div>page</div>;
+};
 
-export default page
+export default page;

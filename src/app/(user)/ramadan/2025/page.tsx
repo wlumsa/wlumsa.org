@@ -9,7 +9,7 @@ import PrayerSpaceCard from "@/components/UI/PrayerSpaceCard";
 import { EventCard } from "@/components/UI/WeeklyEvents";
 
 // Force dynamic rendering to avoid Clerk issues during static generation
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 const items = [
   {
     name: "Daily Iftars on Campus",
@@ -68,13 +68,13 @@ export default async function CountdownPage() {
           <div className="hero-content mt-24 text-center">
             <div className="max-w-5xl">
               <BlurFade>
-                <h1 className="pt-4 text-4xl font-heading font-bold text-primary duration-200 hover:scale-105 md:text-center md:text-6xl lg:pt-0">
+                <h1 className="font-heading pt-4 text-4xl font-bold text-primary duration-200 hover:scale-105 md:text-center md:text-6xl lg:pt-0">
                   Ramadan 2025
                 </h1>
               </BlurFade>
 
               <BlurFade delay={0.5}>
-                <p className="py-4 text-center text-lg font-body md:text-xl">
+                <p className="font-body py-4 text-center text-lg md:text-xl">
                   O believers! Fasting is prescribed for you—as it was for those
                   before you—so perhaps you will become mindful ˹of Allah˺.
                   (Quran, 2:183){" "}
@@ -107,10 +107,10 @@ export default async function CountdownPage() {
       </div>
       <div id="services">
         <div className="mx-auto space-y-4 py-6 text-center">
-          <h2 className="text-sm font-body font-medium uppercase tracking-wide text-primary">
+          <h2 className="font-body text-sm font-medium uppercase tracking-wide text-primary">
             Services
           </h2>
-          <h3 className="mx-auto mb-2 max-w-3xl text-balance text-4xl font-heading font-medium tracking-tight">
+          <h3 className="font-heading mx-auto mb-2 max-w-3xl text-balance text-4xl font-medium tracking-tight">
             This year we are offering the following services on Campus
           </h3>
         </div>
@@ -131,7 +131,7 @@ export default async function CountdownPage() {
           </div>
           <div className="space-y-16">
             <h2
-              className="mb-8 mt-16 text-center text-3xl font-heading font-bold text-primary duration-200 hover:scale-105"
+              className="font-heading mb-8 mt-16 text-center text-3xl font-bold text-primary duration-200 hover:scale-105"
               id="prayer_rooms"
             >
               Prayer Rooms

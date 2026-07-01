@@ -1,47 +1,47 @@
-import { CollectionConfig } from 'payload';
+import { CollectionConfig } from "payload";
 
 const Resources: CollectionConfig = {
-    slug: 'resources',
-    admin: {
-        group: 'UI',
+  slug: "resources",
+  admin: {
+    group: "UI",
+  },
+  fields: [
+    {
+      name: "title",
+      type: "text",
+      required: true,
     },
-    fields: [
+    {
+      name: "category",
+      type: "select",
+      required: true,
+      options: [
         {
-            name: 'title',
-            type: 'text',
-            required:true,
+          label: "General Forms",
+          value: "1",
         },
         {
-            name: 'category',
-            type: 'select',
-            required: true,
-            options: [
-                {
-                    label: 'General Forms',
-                    value: '1',
-                },
-                {
-                    label: 'Campus Resources',
-                    value: '2',
-                },
-                {
-                    label: 'Religious Resources',
-                    value: '3',
-                },
-                {
-                    label: 'Other',
-                    value: '4',
-                },
-            ],
+          label: "Campus Resources",
+          value: "2",
         },
         {
-            name: 'link',
-            type: 'relationship',
-            relationTo: 'link',
-            required: true,
-            hasMany: true,
+          label: "Religious Resources",
+          value: "3",
         },
-    ],
-}
+        {
+          label: "Other",
+          value: "4",
+        },
+      ],
+    },
+    {
+      name: "link",
+      type: "relationship",
+      relationTo: "link",
+      required: true,
+      hasMany: true,
+    },
+  ],
+};
 
 export default Resources;

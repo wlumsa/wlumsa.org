@@ -7,7 +7,6 @@
 // import { useRouter } from 'next/navigation';
 // import { RoommatePost } from '@/payload-types'
 
-
 // const genderOptions = ["Female", "Male"] as const
 // const propertyTypeOptions = ["House", "Apartment", "Condo", "Townhouse"] as const
 // const furnishingOptions = ["Furnished", "Unfurnished", "Partially furnished"] as const
@@ -33,7 +32,6 @@
 // }),
 // ).min(1, "At least one image is required");
 
-
 // interface UploadedFile {
 //     file: File;
 //     preview: string;
@@ -41,7 +39,6 @@
 
 // const Listing = () => {
 //     const router = useRouter();
-
 
 //     const [files, setFiles] = useState<UploadedFile[]>([]);
 //     const [formData, setFormData] = useState<RoommatePost>({
@@ -134,7 +131,6 @@
 //         });
 //     };
 
-
 //     const handleNextStep = (e: React.FormEvent) => {
 //         e.preventDefault();
 //         if (currentStep === 0) {
@@ -155,7 +151,6 @@
 
 //         }
 //         setCurrentStep(currentStep + 1)
-
 
 //     }
 //     const handlePreviousStep = () => {
@@ -214,7 +209,6 @@
 //                 toast.success("Post created successfully!");
 //                 router.push('/roommateservice');
 
-
 //             } else {
 //                 console.error("Error creating post:", res.message);
 //                 toast.error("Failed to create post.");
@@ -266,7 +260,6 @@
 //                     </div>
 //                     <div className='flex flex-col md:flex-row gap-4 py-2'>
 
-
 //                         <div className=' flex flex-col md:w-1/2'>
 //                             <label className='font-semibold' >Gender</label>
 //                             <select name="gender" value={formData.gender} onChange={handleInputChange} className="select select-bordered min-h-[2rem] h-[2rem] bg-[#F2F2F2]  border-none max-w-xs" >
@@ -283,7 +276,6 @@
 //                         </div>
 //                     </div>
 //                     <div className='flex flex-col md:flex-row gap-4'>
-
 
 //                         <div className='flex flex-col py-2 md:w-1/2'>
 //                             <label className='font-semibold'>Deposit</label>

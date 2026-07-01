@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
-import { ChevronRight } from "lucide-react"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
 
 // Updated button variants with gradient accent and glow effect
 const buttonVariants = cva(
@@ -10,16 +10,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "btn btn-primary",
+        default: "btn btn-primary",
         accent:
           "bg-gradient-to-r from-secondary via-secondary/80 to-primary text-white hover:from-secondary/90 hover:via-secondary/80 hover:to-primary/90 transition-all duration-300 ease-in-out",
         destructive:
           "bg-destructive text-destructive-content hover:bg-destructive/90",
         outline:
           "border border-base-300 bg-transparent text-base-content hover:bg-base-200",
-        secondary:
-          "bg-secondary text-secondary-content hover:bg-secondary/80",
+        secondary: "bg-secondary text-secondary-content hover:bg-secondary/80",
         ghost: "hover:bg-base-200 hover:text-base-content",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -38,13 +36,13 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  isLoading?: boolean
+  asChild?: boolean;
+  isLoading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -62,10 +60,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const Comp: React.ElementType = asChild ? Slot : "button"
+    const Comp: React.ElementType = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, loading: isLoading }), className)}
+        className={cn(
+          buttonVariants({ variant, size, loading: isLoading }),
+          className
+        )}
         ref={ref}
         disabled={disabled || isLoading}
         data-loading={isLoading ? "true" : undefined}
@@ -75,15 +76,24 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {children}
       </Comp>
-    )
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = "Button";
 
 // GetStartedButton with clean design and smooth animations
-const GetStartedButton = React.forwardRef<HTMLButtonElement, ButtonProps & { iconSize?: number; iconStrokeWidth?: number }>(
+const GetStartedButton = React.forwardRef<
+  HTMLButtonElement,
+  ButtonProps & { iconSize?: number; iconStrokeWidth?: number }
+>(
   (
-    { className, children = "Get Started", iconSize = 16, iconStrokeWidth = 2, ...props },
+    {
+      className,
+      children = "Get Started",
+      iconSize = 16,
+      iconStrokeWidth = 2,
+      ...props
+    },
     ref
   ) => (
     <Button
@@ -91,14 +101,16 @@ const GetStartedButton = React.forwardRef<HTMLButtonElement, ButtonProps & { ico
       variant="default"
       size="default"
       className={cn(
-        "btn h-12 px-6 py-3 group relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out",
+        "group btn relative h-12 overflow-hidden px-6 py-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl",
         className
       )}
       {...props}
     >
-      <span className="flex-1 text-center transition-all duration-300 group-hover:opacity-0 pr-8">{children}</span>
+      <span className="flex-1 pr-8 text-center transition-all duration-300 group-hover:opacity-0">
+        {children}
+      </span>
       <span
-        className="absolute right-2 top-2 bottom-2 rounded-md z-10 flex items-center justify-center w-6 sm:w-8 transition-all duration-300 bg-secondary/20 group-hover:w-[calc(100%-1rem)] group-hover:bg-secondary/30 group-active:scale-95"
+        className="absolute bottom-2 right-2 top-2 z-10 flex w-6 items-center justify-center rounded-md bg-secondary/20 transition-all duration-300 group-hover:w-[calc(100%-1rem)] group-hover:bg-secondary/30 group-active:scale-95 sm:w-8"
         aria-hidden="true"
       >
         <ChevronRight
@@ -109,8 +121,8 @@ const GetStartedButton = React.forwardRef<HTMLButtonElement, ButtonProps & { ico
       </span>
     </Button>
   )
-)
+);
 
-GetStartedButton.displayName = "GetStartedButton"
+GetStartedButton.displayName = "GetStartedButton";
 
-export { Button, buttonVariants, GetStartedButton }
+export { Button, buttonVariants, GetStartedButton };
