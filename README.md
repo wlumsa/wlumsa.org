@@ -48,7 +48,6 @@ This project is the official website for Laurier's Muslim Student Association. I
 ### Optional / Disabled
 
 - Stripe payments (used for events or products when enabled)
-- Roommate service (currently disabled)
 
 ## Tech Stack
 
