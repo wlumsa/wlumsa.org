@@ -17,17 +17,6 @@ export async function getPayloadInstance() {
   return payloadInstance;
 }
 
-export async function getPublicURL(
-  folder: string | null | undefined,
-  fileName: string | null | undefined
-) {
-  const path = `${folder}/${fileName}`;
-  const { data } = supabase.storage
-    .from(process.env.S3_BUCKET || "default_bucket")
-    .getPublicUrl(path || "");
-  return data;
-}
-
 export async function getMedia(alt: string) {
   const payload = await getPayloadInstance();
   const Media = await payload.find({
@@ -386,24 +375,6 @@ export async function getResources() {
     sort: "-createdAt",
   });
   return resources.docs;
-}
-
-export async function getDistributionList(id: string) {
-  const payload = await getPayloadInstance();
-  const distributionList = await payload.findByID({
-    collection: "distribution-list",
-    id: id,
-  });
-  return distributionList.emails;
-}
-
-export async function getImageByID(id: string) {
-  const payload = await getPayloadInstance();
-  const media = await payload.findByID({
-    collection: "media",
-    id: id,
-  });
-  return media;
 }
 
 export async function uploadFile(file: File) {

@@ -26,6 +26,11 @@ const schema = z.object({
 });
 import WelcomeEmail from "../../emails/signup";
 
+const resendAudienceId =
+  process.env.RESEND_AUDIENCE_ID ||
+  process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID ||
+  "";
+
 export async function memberSignup(formData: FormData) {
   const validatedFields = schema.safeParse({
     firstName: formData.get("firstName"),
@@ -72,7 +77,7 @@ export async function memberSignup(formData: FormData) {
         email: email,
         firstName: firstName,
         lastName: lastName,
-        audienceId: `${process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID}`,
+        audienceId: resendAudienceId,
         unsubscribed: false,
       });
     }
@@ -113,7 +118,7 @@ export async function removeMemberFromNewsletter(email: string) {
   //update contact status in resend
   const { data, error } = await resend.contacts.update({
     email: `${email}`,
-    audienceId: `${process.env.NEXT_PUBLIC_RESEND_AUDIENCE_ID}`,
+    audienceId: resendAudienceId,
     unsubscribed: true,
   });
 

@@ -121,6 +121,7 @@ Open `http://localhost:3000` in your browser.
 **Email** (required)
 
 - `RESEND_API_KEY` - Resend API key for sending emails
+- `RESEND_AUDIENCE_ID` - Resend audience used for newsletter broadcasts
 
 **Analytics** (optional)
 

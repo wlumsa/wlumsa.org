@@ -14,6 +14,7 @@ pnpm-lock.yaml
 
 src/Utils/supabase.ts
 src/payload-types.ts
+src/app/(payload)/admin/importMap.js
 src/migrations/
 
 public/*.pdf

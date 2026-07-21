@@ -4,6 +4,7 @@ import {
   lexicalEditor,
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
+import { sendDistributionEmail } from "@/lib/sendDistributionEmail";
 
 export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
@@ -16,7 +17,7 @@ export const EmailCollection: CollectionConfig = {
     description: "Collection of emails for marketing purposes",
   },
   access: {
-    update: () => true,
+    update: ({ req }) => Boolean(req.user),
   },
   fields: [
     {
@@ -109,32 +110,24 @@ export const EmailCollection: CollectionConfig = {
       type: "checkbox",
       hooks: {
         afterChange: [
-          async ({ siblingData }) => {
-            if (siblingData.Send === true) {
-              const appURL =
-                process.env.NEXT_PUBLIC_APP_URL ||
-                (process.env.NODE_ENV === "development"
-                  ? "http://localhost:3000"
-                  : `https://${process.env.VERCEL_URL}`);
+          async ({ previousValue, req, siblingData, value }) => {
+            if (value !== true || previousValue === true) return value;
 
-              await fetch(`${appURL}/api/sendByDistributionList`, {
-                method: "POST",
-                body: JSON.stringify({
-                  title: siblingData.title,
-                  subject: siblingData.subject,
-                  headerImage: siblingData.headerImage,
-                  publishedAt: siblingData.publishedAt,
-                  content: siblingData.content,
-                  distributionListId: siblingData.distributionList,
-                  content_html: siblingData.content_html,
-                }),
-              });
-            }
+            await sendDistributionEmail({
+              payload: req.payload,
+              distributionList: siblingData.distributionList,
+              subject: siblingData.subject,
+              contentHtml: siblingData.content_html,
+            });
+
+            return value;
           },
         ],
       },
       admin: {
         position: "sidebar",
+        description:
+          "Sends only when changed from unchecked to checked. Uncheck it before sending this draft again.",
         condition: (siblingData) => {
           if (siblingData.status == "published") {
             return true;
