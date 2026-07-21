@@ -48,7 +48,6 @@ This project is the official website for Laurier's Muslim Student Association. I
 ### Optional / Disabled
 
 - Stripe payments (used for events or products when enabled)
-- Roommate service (currently disabled)
 
 ## Tech Stack
 
@@ -122,6 +121,7 @@ Open `http://localhost:3000` in your browser.
 **Email** (required)
 
 - `RESEND_API_KEY` - Resend API key for sending emails
+- `RESEND_AUDIENCE_ID` - Resend audience used for newsletter broadcasts
 
 **Analytics** (optional)
 

@@ -513,6 +513,9 @@ export interface EmailCollection {
   status?: ('draft' | 'published') | null;
   publishedAt?: string | null;
   distributionList?: (number | null) | DistributionList;
+  /**
+   * Sends only when changed from unchecked to checked. Uncheck it before sending this draft again.
+   */
   Send?: boolean | null;
   updatedAt: string;
   createdAt: string;

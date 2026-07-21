@@ -1,27 +1,11 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
-// import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-
-// const isProtectedRoute = createRouteMatcher([
-//   '/create-post', '/dashboard','/onboarding']);
-
-// export default clerkMiddleware(async (auth, req) => {
-//   if (isProtectedRoute(req)) {
-//     await auth.protect();
-//   }
-//   return await updateSession(req);
-// });
-
 export async function middleware(request: NextRequest) {
   return updateSession(request);
 }
 
 export const config = {
-  matcher: [
-    // Only run auth session checks where needed
-    "/(create-post|dashboard|onboarding)(.*)",
-    "/api/auth/(.*)",
-  ],
+  matcher: ["/api/auth/(.*)"],
 };
 
 export const updateSession = async (request: NextRequest) => {

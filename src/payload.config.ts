@@ -39,8 +39,6 @@ import sharp from "sharp";
 import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
 import { formBuilderPlugin } from "@payloadcms/plugin-form-builder";
-// import RoommatePosts from "./collections/RoommatePosts";
-// import { Comments } from "./collections/Comment";
 import { Events } from "./collections/Events";
 import { DailyReminders } from "./collections/DailyReminders";
 import {
@@ -50,7 +48,6 @@ import {
   UploadBlock,
 } from "./blocks/forms";
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
-// import GeneralUser from "./collections/UI/GeneralUser";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
 
@@ -109,10 +106,7 @@ export default buildConfig({
     FrequentlyAskedQuestions,
     HalalDirectory,
     HalalGroceryStores,
-    // RoommatePosts,
-    // Comments,
     Events,
-    // GeneralUser,
     DailyReminders,
     Masjid,
   ],
