@@ -1,0 +1,19 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: eslint
+      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"
+      run: pnpm exec eslint "{staged_files}"
+
+    - name: prettier
+      glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,json,json5,yml,yaml,md,mdx,css,scss,html}"
+      run: pnpm exec prettier --check "{staged_files}"
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: types
+      run: pnpm check:type
+
+    - name: smoke tests
+      run: pnpm check:smoke

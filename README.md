@@ -95,6 +95,10 @@ pnpm dev
 
 Open `http://localhost:3000` in your browser.
 
+Git hooks are installed automatically with `pnpm install`. Before each commit,
+Lefthook checks staged files with ESLint and Prettier. Before each push, it runs
+the TypeScript and smoke-test checks.
+
 ## Environment Variables
 
 **Database & Auth** (required)
