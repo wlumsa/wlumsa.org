@@ -3,30 +3,6 @@ import Image from "next/image";
 
 import Link from "next/link";
 import BlurFade from "./BlurFade";
-import { WeeklyEvent } from "@/payload-types";
-interface WeeklyEventsProps {
-  events: WeeklyEvent[];
-}
-export const WeeklyEvents: React.FC<WeeklyEventsProps> = ({ events }) => {
-  return (
-    <div id="events" className="flex-grow">
-      {events.map((event, index) => (
-        <EventCard
-          key={index}
-          name={event.name}
-          image={
-            typeof event.image[0] === "object"
-              ? event.image[0].url || "/path/to/default/image.jpg"
-              : ""
-          }
-          timeLocation={`${event.day} @ ${event.timeStart} to ${event.timeEnd} in ${event.location}`}
-          caption={event.caption}
-          index={index}
-        />
-      ))}
-    </div>
-  );
-};
 
 interface EventCardProps {
   name: string;

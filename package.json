@@ -7,9 +7,15 @@
   "engines": {
     "node": ">=22.x"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "lefthook"
+    ]
+  },
   "scripts": {
     "build": "next build",
-    "check": "pnpm check:type && pnpm check:lint && pnpm format:check && pnpm check:smoke",
+    "check": "pnpm check:type && pnpm check:lint && pnpm check:knip && pnpm format:check && pnpm check:smoke",
+    "check:knip": "knip",
     "check:lint": "eslint .",
     "check:smoke": "node --test tests/smoke/*.test.mjs",
     "check:type": "tsc --noEmit --pretty false",
@@ -20,6 +26,8 @@
     "lint": "eslint .",
     "start": "next start",
     "test": "pnpm check",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "email": "email dev",
     "generate:types": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types"
   },
@@ -74,6 +82,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
+    "@react-email/ui": "6.6.0",
     "@types/node": "^18.19.130",
     "@types/prettier": "^2.7.3",
     "@types/react": "npm:types-react@19.0.0-rc.1",
@@ -82,6 +92,8 @@
     "daisyui": "^4.12.24",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.2.9",
+    "knip": "^6.29.0",
+    "lefthook": "^2.1.10",
     "postcss": "^8.5.6",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",

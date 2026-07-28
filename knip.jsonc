@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["src/payload.config.ts", "next-sitemap.config.cjs"],
+  "project": [
+    "**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,css}",
+    "!src/migrations/**",
+    "!src/payload-types.ts"
+  ],
+  // Loading the Payload config executes database adapter setup. Analyze it as
+  // a regular entry point instead so Knip can follow its static imports.
+  "payload": false,
+  // @types/react is intentionally installed through the types-react npm alias.
+  "ignoreDependencies": ["types-react"]
+}

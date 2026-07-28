@@ -38,7 +38,7 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonProps
+interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
@@ -125,4 +125,4 @@ const GetStartedButton = React.forwardRef<
 
 GetStartedButton.displayName = "GetStartedButton";
 
-export { Button, buttonVariants, GetStartedButton };
+export { Button, GetStartedButton };

@@ -1,14 +1,21 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
-export async function middleware(request: NextRequest) {
+
+export async function proxy(request: NextRequest) {
   return updateSession(request);
 }
 
 export const config = {
-  matcher: ["/api/auth/(.*)"],
+  matcher: [
+    /*
+     * Match all request paths except static assets and optimized images.
+     * This keeps the Supabase session refreshed across application routes.
+     */
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };
 
-export const updateSession = async (request: NextRequest) => {
+const updateSession = async (request: NextRequest) => {
   try {
     // Create an unmodified response
     let response = NextResponse.next({

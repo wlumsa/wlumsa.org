@@ -30,4 +30,3 @@ export const Recording: CollectionConfig = {
     },
   ],
 };
-export default Recording;

@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   check:
-    name: Lint
+    name: Check
     runs-on: ubuntu-latest
 
     steps:
@@ -31,5 +31,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Check
+        run: pnpm check

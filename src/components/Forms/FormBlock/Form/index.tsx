@@ -18,13 +18,13 @@ import { CheckboxField } from "./Checkbox/types";
 import { ContactInfoField } from "./ContactInfo/types";
 import { MoveLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-export type Value = unknown;
+type Value = unknown;
 
-export interface Property {
+interface Property {
   [key: string]: Value;
 }
 
-export interface Data {
+interface Data {
   [key: string]: Property | Property[] | Value;
 }
 

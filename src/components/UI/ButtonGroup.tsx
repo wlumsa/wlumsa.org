@@ -10,7 +10,7 @@ interface Category {
 interface ButtonGroupProps {
   categories: Category[];
 }
-export const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();

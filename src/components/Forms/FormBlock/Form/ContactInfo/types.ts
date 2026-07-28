@@ -1,11 +1,5 @@
 import { BlockConfig } from "@payloadcms/plugin-form-builder/types";
 
-export interface Checkboxes {
-  label: string;
-  limit?: number;
-  value: boolean;
-}
-
 export interface ContactInfoField extends BlockConfig {
   blockType: "contactInfo";
   name: string;

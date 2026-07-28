@@ -10,7 +10,7 @@ sizes
 quantity
 */
 
-export const Products: CollectionConfig = {
+const Products: CollectionConfig = {
   slug: "Products",
   admin: {
     group: "Products",
