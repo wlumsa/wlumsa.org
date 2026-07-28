@@ -35,6 +35,8 @@ Thumbs.db
 
 # Test snapshots
 __snapshots__/
+playwright-report/
+test-results/
 
 # Misc
 *.swp

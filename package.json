@@ -20,6 +20,8 @@
     "lint": "eslint .",
     "start": "next start",
     "test": "pnpm check",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "email": "email dev",
     "generate:types": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types"
   },
@@ -74,6 +76,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.0",
     "@types/node": "^18.19.130",
     "@types/prettier": "^2.7.3",
     "@types/react": "npm:types-react@19.0.0-rc.1",
