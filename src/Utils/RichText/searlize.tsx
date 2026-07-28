@@ -11,7 +11,7 @@ import {
   IS_UNDERLINE,
 } from "./nodeFormat";
 
-export type NodeTypes = DefaultNodeTypes;
+type NodeTypes = DefaultNodeTypes;
 
 type Props = {
   nodes: NodeTypes[];

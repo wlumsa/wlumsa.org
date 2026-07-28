@@ -1,11 +1,9 @@
-import { Markdown } from "@react-email/markdown";
 import "server-only";
 import { createClient } from "./client";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
-export const revalidate = 3600;
 
 // Lazy initialization of payload to prevent database connection issues
 let payloadInstance: any = null;
@@ -141,68 +139,6 @@ export async function fetchPastEventsData(limit = 10) {
   return events.docs;
 }
 
-export async function fetchBlogPosts() {
-  const payload = await getPayloadInstance();
-  const posts = await payload.find({
-    collection: "Posts",
-    where: {
-      status: {
-        equals: "published",
-      },
-    },
-    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
-    limit: 10,
-  });
-  return posts.docs;
-}
-
-export async function fetchBlogPostsByCategory(
-  category: string,
-  postId: string
-) {
-  const payload = await getPayloadInstance();
-  const posts = await payload.find({
-    collection: "Posts",
-    where: {
-      status: {
-        equals: "published",
-      },
-      categories: {
-        equals: category,
-      },
-      id: {
-        not_equals: postId,
-      },
-    },
-    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
-    limit: 10,
-  });
-  return posts.docs;
-}
-
-export async function fetchBlogPostsByCategoryAndTag(
-  category: string,
-  tag: string
-) {
-  const payload = await getPayloadInstance();
-  const posts = await payload.find({
-    collection: "Posts",
-    where: {
-      status: {
-        equals: "published",
-      },
-      category: {
-        equals: category,
-      },
-      tag: {
-        equals: tag,
-      },
-    },
-    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
-    limit: 10,
-  });
-  return posts.docs;
-}
 export async function fetchBlogPostById(id: string) {
   const payload = await getPayloadInstance();
   const post = await payload.find({
@@ -237,23 +173,6 @@ export async function fetchBlogPostByTitle(title: string) {
   return post.docs;
 }
 
-export async function fetchBlogPostsBytag(tag: string) {
-  const payload = await getPayloadInstance();
-  const posts = await payload.find({
-    collection: "Posts",
-    where: {
-      status: {
-        equals: "published",
-      },
-      tag: {
-        equals: tag,
-      },
-    },
-    sort: "-publishedAt", // Sort by 'publishedAt' in descending order
-    limit: 10,
-  });
-  return posts.docs;
-}
 export async function fetchBlogPostsByQuery(query: string) {
   const payload = await getPayloadInstance();
   const posts = await payload.find({
@@ -367,28 +286,6 @@ export async function getJummahTimings() {
   });
   return timings.docs;
 }
-export async function getResources() {
-  const payload = await getPayloadInstance();
-  const resources = await payload.find({
-    collection: "resources",
-    limit: 50,
-    sort: "-createdAt",
-  });
-  return resources.docs;
-}
-
-export async function uploadFile(file: File) {
-  const client = createClient();
-  const { data, error } = await client.storage
-    .from("wlumsa_storage_bucket_testbucket_name")
-    .upload("photos", file);
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(data);
-  }
-}
-
 type individualSchema = {
   email: string;
   first_name: string;
@@ -653,16 +550,6 @@ export async function addIndividualToList(
 
 // Example usage:
 
-export async function getResourceById(id: string) {
-  const payload = await getPayloadInstance();
-  const resource = await payload.findByID({
-    collection: "resources",
-    id: id,
-    sort: "-createdAt",
-  });
-  return resource;
-}
-
 export async function getResourcesByCategory(categoryId: string) {
   const payload = await getPayloadInstance();
 
@@ -685,85 +572,6 @@ export async function getResourcesByCategory(categoryId: string) {
     });
     return resources.docs;
   }
-}
-
-export async function getAllResources() {
-  const payload = await getPayloadInstance();
-
-  const resources = await payload.find({
-    collection: "resources",
-    depth: 1, // This will populate the link relationship
-    sort: "-createdAt",
-  });
-
-  return resources.docs;
-}
-
-export async function createSampleResources() {
-  const payload = await getPayloadInstance();
-
-  // First, create some sample links
-  const link1 = await payload.create({
-    collection: "link",
-    data: {
-      title: "MSA Registration Form",
-      url: "https://example.com/msa-registration",
-    },
-  });
-
-  const link2 = await payload.create({
-    collection: "link",
-    data: {
-      title: "Prayer Room Schedule",
-      url: "https://example.com/prayer-schedule",
-    },
-  });
-
-  const link3 = await payload.create({
-    collection: "link",
-    data: {
-      title: "Halal Food Guide",
-      url: "https://example.com/halal-guide",
-    },
-  });
-
-  // Then create resources with these links
-  const resource1 = await payload.create({
-    collection: "resources",
-    data: {
-      title: "MSA Forms",
-      category: "1", // General Forms
-      link: [link1.id],
-    },
-  });
-
-  const resource2 = await payload.create({
-    collection: "resources",
-    data: {
-      title: "Campus Prayer Information",
-      category: "2", // Campus Resources
-      link: [link2.id],
-    },
-  });
-
-  const resource3 = await payload.create({
-    collection: "resources",
-    data: {
-      title: "Halal Dining",
-      category: "3", // Religious Resources
-      link: [link3.id],
-    },
-  });
-
-  return { resource1, resource2, resource3 };
-}
-
-export async function fetchServices() {
-  const payload = await getPayloadInstance();
-  const services = await payload.find({
-    collection: "services",
-  });
-  return services.docs;
 }
 
 export const fetchHalalDirectory = unstable_cache(
@@ -877,25 +685,6 @@ export const fetchHalalDirectory = unstable_cache(
   }
 );
 
-export const fetchHalalGroceryStores = unstable_cache(
-  async () => {
-    const payload = await getPayloadInstance();
-
-    // Fetch all grocery stores
-    const groceryStores = await payload.find({
-      collection: "halal-grocery-stores",
-      sort: "name", // Sort by name
-    });
-
-    return groceryStores.docs;
-  },
-  ["halal-grocery-stores"],
-  {
-    revalidate: 120, // Cache for 2 minutes
-    tags: ["halal-grocery-stores"],
-  }
-);
-
 // Function to fetch Halal Directory data
 // export async function fetchHalalDirectory() {
 //   const { data, error } = await supabase
@@ -911,14 +700,6 @@ export const fetchHalalGroceryStores = unstable_cache(
 //   console.log('Halal Directory Data from Supabase:', data);
 //   return data || [];
 // }
-
-export async function fetchFAQ() {
-  const payload = await getPayloadInstance();
-  const faq = await payload.find({
-    collection: "faq",
-  });
-  return faq.docs;
-}
 
 export async function fetchRecordingsbyCategory(category: string) {
   const payload = await getPayloadInstance();

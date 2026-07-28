@@ -1,7 +1,7 @@
 import { CollectionConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
-export const WeeklyEvents: CollectionConfig = {
+const WeeklyEvents: CollectionConfig = {
   slug: "WeeklyEvents",
   admin: {
     useAsTitle: "name",

@@ -1,22 +1,26 @@
-// app/providers.tsx
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { usePostHog } from "posthog-js/react";
-
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
+  const postHogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+
   useEffect(() => {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
+    if (!postHogKey) return;
+
+    posthog.init(postHogKey, {
       api_host:
-        process.env.NEXT_PUBLIC_POSTHOG_HOST || " https://us.i.posthog.com",
-      person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+        process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
+      person_profiles: "identified_only",
       defaults: "2025-11-30",
     });
-  }, []);
+  }, [postHogKey]);
 
-  return <PHProvider client={posthog}>{children}</PHProvider>;
+  return postHogKey ? (
+    <PHProvider client={posthog}>{children}</PHProvider>
+  ) : (
+    children
+  );
 }

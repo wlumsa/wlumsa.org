@@ -1,6 +1,6 @@
 import { CollectionConfig } from "payload";
 
-export const DistributionList: CollectionConfig = {
+const DistributionList: CollectionConfig = {
   slug: "distribution-list",
   admin: {
     useAsTitle: "listName",

@@ -1,6 +1,6 @@
 import { CollectionConfig } from "payload";
 
-export const FrequentlyAskedQuestions: CollectionConfig = {
+const FrequentlyAskedQuestions: CollectionConfig = {
   slug: "faq",
   admin: {
     useAsTitle: "Question",

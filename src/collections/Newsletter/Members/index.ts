@@ -1,7 +1,7 @@
 import { CollectionConfig } from "payload";
 
 // import { getEmailHtml } from "@/app/email/generateEmailHTML";
-export const Members: CollectionConfig = {
+const Members: CollectionConfig = {
   slug: "members",
   admin: {
     useAsTitle: "mylaurierEmail",

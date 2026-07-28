@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "next build",
-    "check": "pnpm check:type && pnpm check:lint && pnpm format:check && pnpm check:smoke",
+    "check": "pnpm check:type && pnpm check:lint && pnpm check:knip && pnpm format:check && pnpm check:smoke",
     "check:knip": "knip",
     "check:lint": "eslint .",
     "check:smoke": "node --test tests/smoke/*.test.mjs",
@@ -83,6 +83,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
+    "@react-email/ui": "6.6.0",
     "@types/node": "^18.19.130",
     "@types/prettier": "^2.7.3",
     "@types/react": "npm:types-react@19.0.0-rc.1",

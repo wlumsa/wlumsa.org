@@ -2,7 +2,7 @@ import { access } from "node:fs/promises";
 import { getPayloadInstance } from "@/Utils/datafetcher";
 import puppeteer from "puppeteer-core";
 
-export const WATERLOO_PRAYER_TIMES_URL =
+const WATERLOO_PRAYER_TIMES_URL =
   "https://waterloomasjid.com/main/index.php/prayers";
 
 const CHROMIUM_PACK_URL =
@@ -134,7 +134,7 @@ async function getLocalExecutablePath(): Promise<string | undefined> {
   return undefined;
 }
 
-export async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnapshot> {
+async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnapshot> {
   const isServerless =
     process.env.VERCEL === "1" || process.env.AWS_EXECUTION_ENV;
   const executablePath = isServerless

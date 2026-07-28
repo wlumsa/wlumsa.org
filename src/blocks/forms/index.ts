@@ -130,38 +130,6 @@ export const SelectBlock: Block = {
     },
   ],
 };
-export const ContactInformation: Block = {
-  slug: "contact",
-  fields: [
-    {
-      name: "first_name_array",
-      label: "First Name",
-      type: "array",
-      required: true,
-      fields: [
-        {
-          name: "label",
-          label: "Label",
-          type: "text",
-          required: true,
-          defaultValue: "John",
-        },
-        {
-          name: "first_name",
-          label: "First Name",
-          type: "text",
-          required: true,
-          defaultValue: "John",
-        },
-      ],
-    },
-    {
-      name: "last_name",
-      label: "last name",
-      type: "text",
-    },
-  ],
-};
 
 export const CheckboxBlock: Block = {
   slug: "checkbox",

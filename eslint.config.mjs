@@ -60,12 +60,7 @@ const config = [
   ...withCompatibilityRules(nextCoreWebVitals),
   ...withCompatibilityRules(nextTypescript),
   {
-    ignores: [
-      "node_modules/**",
-      "dist/**",
-      "coverage/**",
-      "src/Utils/supabase.ts",
-    ],
+    ignores: ["node_modules/**", "dist/**", "coverage/**"],
   },
   {
     files: ["**/*.{js,jsx,mjs,ts,tsx,mts,cts}"],

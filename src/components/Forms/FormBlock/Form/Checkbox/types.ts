@@ -1,6 +1,6 @@
 import { BlockConfig } from "@payloadcms/plugin-form-builder/types";
 
-export interface Checkboxes {
+interface Checkboxes {
   label: string;
   limit?: number;
   value: boolean;

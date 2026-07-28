@@ -21,7 +21,7 @@ function normalizeMeridiemSpacing(value: string) {
   return value.replace(/\s(?=(?:[APap]\.?M\.?)$)/, "\u00A0");
 }
 
-export function formatEventDate(dateValue: string | null | undefined) {
+function formatEventDate(dateValue: string | null | undefined) {
   if (!dateValue) return "Date TBD";
   const parsedDate = new Date(dateValue);
   if (Number.isNaN(parsedDate.getTime())) return "Date TBD";

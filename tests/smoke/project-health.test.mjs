@@ -63,13 +63,14 @@ describe("project health", () => {
     assert.equal(packageJson.scripts.test, "pnpm check");
     assert.equal(
       packageJson.scripts.check,
-      "pnpm check:type && pnpm check:lint && pnpm format:check && pnpm check:smoke"
+      "pnpm check:type && pnpm check:lint && pnpm check:knip && pnpm format:check && pnpm check:smoke"
     );
     assert.equal(
       packageJson.scripts["check:type"],
       "tsc --noEmit --pretty false"
     );
     assert.equal(packageJson.scripts["check:lint"], "eslint .");
+    assert.equal(packageJson.scripts["check:knip"], "knip");
     assert.equal(
       packageJson.scripts["check:smoke"],
       "node --test tests/smoke/*.test.mjs"

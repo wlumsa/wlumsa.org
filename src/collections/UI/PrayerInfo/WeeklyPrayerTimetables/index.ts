@@ -55,5 +55,3 @@ export const WeeklyPrayerTimetables: GlobalConfig = {
     },
   ],
 };
-
-export default WeeklyPrayerTimetables;
