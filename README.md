@@ -99,6 +99,9 @@ Git hooks are installed automatically with `pnpm install`. Before each commit,
 Lefthook checks staged files with ESLint and Prettier. Before each push, it runs
 the TypeScript and smoke-test checks.
 
+Run `pnpm check:knip` to audit the whole project for unused files, exports, and
+dependencies.
+
 ## Environment Variables
 
 **Database & Auth** (required)
