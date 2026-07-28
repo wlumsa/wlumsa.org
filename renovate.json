@@ -1,6 +1,19 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
-}
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "config:recommended",
+      "schedule:weekly",
+      ":approveMajorUpdates",
+      ":automergeDisabled"
+    ],
+    "timezone": "America/Toronto",
+    "prConcurrentLimit": 4,
+    "prHourlyLimit": 2,
+    "packageRules": [
+      {
+        "description": "Keep Payload CMS packages together",
+        "matchPackageNames": ["payload", "@payloadcms/**"],
+        "groupName": "Payload CMS"
+      }
+    ]
+  }
