@@ -74,20 +74,16 @@ export interface Config {
     media: Media;
     members: Member;
     Socials: Social;
-    Products: Product;
     Posts: Post;
     categories: Category;
     tags: Tag;
-    Sizes: Size;
     recording: Recording;
     WeeklyEvents: WeeklyEvent;
     'jummah-timings': JummahTiming;
     'prayer-rooms': PrayerRoom;
-    services: Service;
     'email-collection': EmailCollection;
     'distribution-list': DistributionList;
     individuals: Individual;
-    faq: Faq;
     'halal-directory': HalalDirectory;
     'halal-grocery-stores': HalalGroceryStore;
     events: Event;
@@ -109,20 +105,16 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     members: MembersSelect<false> | MembersSelect<true>;
     Socials: SocialsSelect<false> | SocialsSelect<true>;
-    Products: ProductsSelect<false> | ProductsSelect<true>;
     Posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
-    Sizes: SizesSelect<false> | SizesSelect<true>;
     recording: RecordingSelect<false> | RecordingSelect<true>;
     WeeklyEvents: WeeklyEventsSelect<false> | WeeklyEventsSelect<true>;
     'jummah-timings': JummahTimingsSelect<false> | JummahTimingsSelect<true>;
     'prayer-rooms': PrayerRoomsSelect<false> | PrayerRoomsSelect<true>;
-    services: ServicesSelect<false> | ServicesSelect<true>;
     'email-collection': EmailCollectionSelect<false> | EmailCollectionSelect<true>;
     'distribution-list': DistributionListSelect<false> | DistributionListSelect<true>;
     individuals: IndividualsSelect<false> | IndividualsSelect<true>;
-    faq: FaqSelect<false> | FaqSelect<true>;
     'halal-directory': HalalDirectorySelect<false> | HalalDirectorySelect<true>;
     'halal-grocery-stores': HalalGroceryStoresSelect<false> | HalalGroceryStoresSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
@@ -324,44 +316,6 @@ export interface Social {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Products".
- */
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  desc: string;
-  image: (number | Media)[];
-  tags: number | Tag;
-  sizes?: (number | null) | Size;
-  quantity?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  title?: string | null;
-  color?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Sizes".
- */
-export interface Size {
-  id: number;
-  size: 'Small' | 'Medium' | 'Large';
-  quantity: number;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Posts".
  */
 export interface Post {
@@ -407,6 +361,17 @@ export interface Post {
 export interface Category {
   id: number;
   title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title?: string | null;
+  color?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -472,18 +437,6 @@ export interface PrayerRoom {
   createdAt: string;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  title: string;
-  description: string;
-  link: number | Link;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Collection of emails for marketing purposes
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -540,17 +493,6 @@ export interface Individual {
   firstName?: string | null;
   lastName?: string | null;
   email: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq".
- */
-export interface Faq {
-  id: number;
-  Question: string;
-  Answer: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -980,10 +922,6 @@ export interface PayloadLockedDocument {
         value: number | Social;
       } | null)
     | ({
-        relationTo: 'Products';
-        value: number | Product;
-      } | null)
-    | ({
         relationTo: 'Posts';
         value: number | Post;
       } | null)
@@ -994,10 +932,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
-      } | null)
-    | ({
-        relationTo: 'Sizes';
-        value: number | Size;
       } | null)
     | ({
         relationTo: 'recording';
@@ -1016,10 +950,6 @@ export interface PayloadLockedDocument {
         value: number | PrayerRoom;
       } | null)
     | ({
-        relationTo: 'services';
-        value: number | Service;
-      } | null)
-    | ({
         relationTo: 'email-collection';
         value: number | EmailCollection;
       } | null)
@@ -1030,10 +960,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'individuals';
         value: number | Individual;
-      } | null)
-    | ({
-        relationTo: 'faq';
-        value: number | Faq;
       } | null)
     | ({
         relationTo: 'halal-directory';
@@ -1213,21 +1139,6 @@ export interface SocialsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Products_select".
- */
-export interface ProductsSelect<T extends boolean = true> {
-  name?: T;
-  price?: T;
-  desc?: T;
-  image?: T;
-  tags?: T;
-  sizes?: T;
-  quantity?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1266,16 +1177,6 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   title?: T;
   color?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Sizes_select".
- */
-export interface SizesSelect<T extends boolean = true> {
-  size?: T;
-  quantity?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1332,17 +1233,6 @@ export interface PrayerRoomsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services_select".
- */
-export interface ServicesSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  link?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "email-collection_select".
  */
 export interface EmailCollectionSelect<T extends boolean = true> {
@@ -1376,16 +1266,6 @@ export interface IndividualsSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   email?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq_select".
- */
-export interface FaqSelect<T extends boolean = true> {
-  Question?: T;
-  Answer?: T;
   updatedAt?: T;
   createdAt?: T;
 }
