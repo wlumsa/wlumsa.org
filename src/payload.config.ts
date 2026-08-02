@@ -18,23 +18,19 @@ import Resources from "./collections/UI/Resources";
 import { Media } from "./collections/Media";
 import Members from "./collections/Newsletter/Members";
 import Socials from "./collections/UI/Socials";
-import Products from "./collections/Products";
 import { Posts } from "./collections/Blog";
 import { Categories } from "./collections/Categories";
 import { Tags } from "./collections/Tags";
 import { resendAdapter } from "@payloadcms/email-resend";
 import { seoPlugin } from "@payloadcms/plugin-seo";
 import type { GenerateTitle } from "@payloadcms/plugin-seo/types";
-import { Sizes } from "./collections/Products/sizes";
 import WeeklyEvents from "./collections/UI/WeeklyEvents";
 import PrayerTimings from "./collections/UI/PrayerInfo/PrayerTimings";
 import Jummah from "./collections/UI/PrayerInfo/JummahTimings";
 import PrayerRooms from "./collections/UI/PrayerInfo/PrayerRoom";
 import { WeeklyPrayerTimetables } from "./collections/UI/PrayerInfo/WeeklyPrayerTimetables";
-import Services from "./collections/UI/Services";
 import { EmailCollection } from "./collections/EmailCollection";
 import DistributionList from "./collections/Newsletter/Distribution-List";
-import FrequentlyAskedQuestions from "./collections/FAQ";
 import sharp from "sharp";
 import { Recording } from "./collections/Recordings";
 import { HalalDirectory } from "./collections/HalalFoodDirectory";
@@ -77,6 +73,16 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "60433e937e48ece59e189548",
   admin: {
     user: Execs.slug,
+    meta: {
+      icons: [{ rel: "icon", url: "/favicon.ico" }],
+      titleSuffix: " — WLUMSA Admin",
+    },
+    components: {
+      graphics: {
+        Icon: "@/components/Admin/Brand#AdminIcon",
+        Logo: "@/components/Admin/Brand#AdminLogo",
+      },
+    },
   },
   routes: {
     api: "/api",
@@ -90,20 +96,16 @@ export default buildConfig({
     Media,
     Members,
     Socials,
-    Products,
     Posts,
     Categories,
     Tags,
-    Sizes,
     Recording,
     WeeklyEvents,
     Jummah,
     PrayerRooms,
-    Services,
     EmailCollection,
     DistributionList,
     individuals,
-    FrequentlyAskedQuestions,
     HalalDirectory,
     HalalGroceryStores,
     Events,

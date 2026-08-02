@@ -1,0 +1,55 @@
+:root {
+  --wlumsa-purple: #2e046d;
+  --wlumsa-purple-deep: #250359;
+}
+
+.wlumsa-admin-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--theme-text);
+}
+
+.wlumsa-admin-logo__mark {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: contain;
+}
+
+.wlumsa-admin-logo__text {
+  display: grid;
+  gap: 0.1rem;
+  text-align: left;
+  line-height: 1.05;
+}
+
+.wlumsa-admin-logo__text strong {
+  color: var(--wlumsa-purple);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.wlumsa-admin-logo__text small {
+  color: var(--theme-elevation-600);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.wlumsa-admin-icon {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+}
+
+.btn--style-primary {
+  --bg-color: var(--wlumsa-purple);
+  --color: #ffffff;
+  --hover-bg: var(--wlumsa-purple-deep);
+  --hover-color: #ffffff;
+}
+
+html[data-theme="dark"] .wlumsa-admin-logo__text strong {
+  color: #d8c2f2;
+}

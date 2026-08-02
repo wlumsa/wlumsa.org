@@ -30,6 +30,8 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { DynamicFieldSelector as DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { DynamicPriceSelector as DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63 } from '@payloadcms/plugin-form-builder/client'
 import { default as default_f7e72fa773e9b4414610130d772b9a9e } from '@/plugins/form-builder/FormData'
+import { AdminIcon as AdminIcon_47c960672233df674a0833cc4b499440 } from '@/components/Admin/Brand'
+import { AdminLogo as AdminLogo_47c960672233df674a0833cc4b499440 } from '@/components/Admin/Brand'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
@@ -67,6 +69,8 @@ export const importMap = {
   "@payloadcms/plugin-form-builder/client#DynamicFieldSelector": DynamicFieldSelector_fcc98597230ed7571a28f97c55b16e63,
   "@payloadcms/plugin-form-builder/client#DynamicPriceSelector": DynamicPriceSelector_fcc98597230ed7571a28f97c55b16e63,
   "@/plugins/form-builder/FormData#default": default_f7e72fa773e9b4414610130d772b9a9e,
+  "@/components/Admin/Brand#AdminIcon": AdminIcon_47c960672233df674a0833cc4b499440,
+  "@/components/Admin/Brand#AdminLogo": AdminLogo_47c960672233df674a0833cc4b499440,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
