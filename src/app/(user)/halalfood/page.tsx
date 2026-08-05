@@ -1,15 +1,19 @@
+import type { Metadata } from "next";
 import FilterComponent from "./halalFoodClient";
 import { fetchHalalDirectory } from "@/Utils/datafetcher";
 
-// Main component for the Halal Directory page
+export const metadata: Metadata = {
+  title: "Halal Food Directory | WLU MSA",
+  description:
+    "Find halal restaurants and food options near Wilfrid Laurier University.",
+};
+
 export default async function HalalDirectoryPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  // Await the searchParams promise
   const params = await searchParams;
-  // Extract filter parameters from URL
   const query = typeof params.query === "string" ? params.query : "";
   const cuisine =
     typeof params.cuisine === "string" ? params.cuisine : "All Cuisines";
@@ -17,10 +21,11 @@ export default async function HalalDirectoryPage({
     typeof params.method === "string" ? params.method : "All Methods";
   const location =
     typeof params.location === "string" ? params.location : "All Locations";
-  const page = typeof params.page === "string" ? parseInt(params.page, 10) : 1;
-  const layout = typeof params.layout === "string" ? params.layout : "list";
+  const requestedPage =
+    typeof params.page === "string" ? Number.parseInt(params.page, 10) : 1;
+  const page =
+    Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
-  // Fetch filtered data from the server
   const data = await fetchHalalDirectory({
     query,
     cuisine,
@@ -31,17 +36,6 @@ export default async function HalalDirectoryPage({
   });
 
   return (
-    <FilterComponent
-      halalDirectory={data.items}
-      pagination={data.pagination}
-      initialFilters={{
-        query,
-        cuisine,
-        method,
-        location,
-        page,
-        layout,
-      }}
-    />
+    <FilterComponent halalDirectory={data.items} pagination={data.pagination} />
   );
 }
