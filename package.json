@@ -87,7 +87,7 @@
     "@types/node": "^18.19.130",
     "@types/prettier": "^2.7.3",
     "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0",
     "autoprefixer": "^10.4.21",
     "daisyui": "^4.12.24",
     "eslint": "^9.0.0",
