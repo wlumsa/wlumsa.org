@@ -18,6 +18,7 @@ import {
   Star,
   Store,
 } from "lucide-react";
+import styles from "@/styles/directory.module.css";
 
 interface GroceryStore {
   id: number;
@@ -116,7 +117,9 @@ function StoreCard({
     .filter(Boolean);
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
+    <article
+      className={`group flex h-full flex-col overflow-hidden rounded-xl border shadow-sm transition-[transform,box-shadow,border-color] duration-200 motion-reduce:transition-none md:hover:-translate-y-0.5 md:hover:border-base-content/25 md:hover:shadow-md ${styles.cardSurface}`}
+    >
       <div className="relative aspect-[16/10] overflow-hidden bg-base-200">
         {store.image?.url ? (
           <Image
@@ -125,11 +128,11 @@ function StoreCard({
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             loading={prioritizeImage ? "eager" : "lazy"}
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none md:group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-3 text-primary/55">
-            <span className="rounded-full border border-primary/15 bg-primary/5 p-3">
+          <div className="flex h-full flex-col items-center justify-center gap-3 text-base-content/45">
+            <span className="rounded-full border border-base-content/10 bg-base-content/5 p-3">
               {categoryIcon}
             </span>
             <span className="text-xs font-semibold uppercase tracking-widest text-base-content/40">
@@ -140,8 +143,8 @@ function StoreCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-base-content/55">
-          <span className="inline-flex items-center gap-1.5 text-primary">
+        <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-base-content/65">
+          <span className="inline-flex items-center gap-1.5 font-semibold text-accent">
             {categoryIcon}
             {toLabel(store.category)}
           </span>
@@ -158,7 +161,7 @@ function StoreCard({
         </div>
 
         <div className="flex items-start justify-between gap-3">
-          <h2 className="text-xl font-bold leading-snug text-primary">
+          <h2 className="text-xl font-bold leading-snug text-base-content">
             {store.name}
           </h2>
           {store.is_on_campus && (
@@ -215,7 +218,7 @@ function StoreCard({
               href={store.googleMapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-content transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className={`flex min-h-11 w-full touch-manipulation items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-content ${styles.primaryAction}`}
               aria-label={`Get directions to ${store.name}`}
             >
               <MapPin size={15} aria-hidden="true" />
@@ -230,7 +233,7 @@ function StoreCard({
                   href={store.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-base-300 px-3 py-2 text-sm font-semibold text-base-content/75 transition-colors hover:border-primary/35 hover:bg-primary/5 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  className="inline-flex min-h-10 flex-1 touch-manipulation items-center justify-center gap-2 rounded-lg border border-base-content/15 px-3 py-2 text-sm font-semibold text-base-content/75 transition-[color,background-color,border-color] hover:border-base-content/30 hover:bg-base-content/5 hover:text-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-content"
                   aria-label={`Visit ${store.name}'s website`}
                 >
                   <ExternalLink size={14} aria-hidden="true" />
@@ -240,7 +243,7 @@ function StoreCard({
               {store.phone && (
                 <a
                   href={`tel:${store.phone}`}
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-base-300 px-3 py-2 text-sm font-semibold text-base-content/75 transition-colors hover:border-primary/35 hover:bg-primary/5 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  className="inline-flex min-h-10 flex-1 touch-manipulation items-center justify-center gap-2 rounded-lg border border-base-content/15 px-3 py-2 text-sm font-semibold text-base-content/75 transition-[color,background-color,border-color] hover:border-base-content/30 hover:bg-base-content/5 hover:text-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-content"
                   aria-label={`Call ${store.name} at ${store.phone}`}
                 >
                   <Phone size={14} aria-hidden="true" />
@@ -284,7 +287,9 @@ export default function GroceryStoresClient({
   return (
     <div className="min-h-screen bg-base-100 px-4 pb-16 pt-24 text-base-content sm:px-8">
       <section className="mx-auto max-w-6xl pb-7 pt-8 text-center sm:pb-9 sm:pt-10">
-        <h1 className="font-serif text-3xl font-bold text-primary sm:text-4xl">
+        <h1
+          className={`font-serif text-3xl font-bold sm:text-4xl ${styles.brandText}`}
+        >
           Halal Grocery Stores
         </h1>
         <p className="mx-auto mt-2 max-w-2xl text-base-content/70">
@@ -295,7 +300,9 @@ export default function GroceryStoresClient({
         <label className="sr-only" htmlFor="store-search">
           Search stores
         </label>
-        <div className="mx-auto mt-6 flex h-11 max-w-md items-center gap-2.5 rounded-xl border border-base-300 bg-base-100 px-3.5 shadow-sm transition focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
+        <div
+          className={`mx-auto mt-6 flex h-11 max-w-md items-center gap-2.5 rounded-xl border px-3.5 shadow-sm transition-[border-color,box-shadow] focus-within:border-base-content/45 focus-within:ring-2 focus-within:ring-base-content/10 ${styles.fieldSurface}`}
+        >
           <Search
             size={17}
             strokeWidth={1.75}
@@ -306,9 +313,12 @@ export default function GroceryStoresClient({
             id="store-search"
             ref={inputRef}
             type="search"
+            name="query"
+            autoComplete="off"
+            spellCheck={false}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search stores"
+            placeholder="Search stores…"
             className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-base-content/45 [&::-webkit-search-cancel-button]:appearance-none"
           />
           {!query && (
@@ -341,7 +351,7 @@ export default function GroceryStoresClient({
                 setQuery("");
                 inputRef.current?.focus();
               }}
-              className="text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              className={`text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-base-content ${styles.textAction}`}
             >
               Clear search
             </button>

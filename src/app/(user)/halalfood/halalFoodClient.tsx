@@ -20,7 +20,7 @@ import {
   X,
 } from "lucide-react";
 import type { HalalDirectory } from "@/payload-types";
-import styles from "./halalFood.module.css";
+import styles from "@/styles/directory.module.css";
 
 const cuisineOptions = [
   "All Cuisines",
@@ -364,10 +364,7 @@ export default function HalalFoodClient({
           </p>
         </header>
 
-        <section
-          aria-label="Directory controls"
-          className="border-t border-base-300 pt-4"
-        >
+        <section aria-label="Directory controls" className="pt-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-base-content/60">
               Filter by cuisine, slaughter method, and location.
