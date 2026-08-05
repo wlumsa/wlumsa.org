@@ -1,21 +1,22 @@
 "use client";
 
-import { useMemo, useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { RefObject } from "react";
 import {
+  Beef,
+  Clock3,
+  Croissant,
+  ExternalLink,
+  Flame,
+  Globe,
   MapPin,
   Phone,
-  Clock,
-  ExternalLink,
+  Search,
   ShoppingCart,
-  Beef,
-  Globe,
+  Snowflake,
   Star,
   Store,
-  Croissant,
-  Flame,
-  Snowflake,
-  Search,
 } from "lucide-react";
 
 interface GroceryStore {
@@ -41,192 +42,208 @@ interface GroceryStoresClientProps {
   groceryStores: GroceryStore[];
 }
 
-const CERT_COLORS: Record<string, string> = {
-  certified: "bg-success text-success-content",
-  "muslim-owned": "bg-info text-info-content",
-  "halal-friendly": "bg-warning text-warning-content",
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  "full-grocery": <ShoppingCart size={15} />,
+  "halal-meat": <Beef size={15} />,
+  international: <Globe size={15} />,
+  specialty: <Star size={15} />,
+  convenience: <Store size={15} />,
+  bakery: <Croissant size={15} />,
+  spice: <Flame size={15} />,
+  frozen: <Snowflake size={15} />,
 };
 
-const CATEGORY_ICONS: Record<string, React.ReactElement> = {
-  "full-grocery": <ShoppingCart size={16} />,
-  "halal-meat": <Beef size={16} />,
-  international: <Globe size={16} />,
-  specialty: <Star size={16} />,
-  convenience: <Store size={16} />,
-  bakery: <Croissant size={16} />,
-  spice: <Flame size={16} />,
-  frozen: <Snowflake size={16} />,
-};
+function toLabel(value: string) {
+  if (!value) return "";
 
-function toLabel(s: string) {
-  if (!s) return "";
-  return s.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const labels: Record<string, string> = {
+    certified: "Halal certified",
+    "muslim-owned": "Muslim owned",
+    "halal-friendly": "Halal friendly",
+    "not-specified": "Not specified",
+  };
+
+  return (
+    labels[value] ??
+    value.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase())
+  );
 }
 
-function priceLabel(p?: string | null) {
-  const n = p ? parseInt(p, 10) : NaN;
-  return Number.isFinite(n) && n > 0 ? "$".repeat(Math.min(n, 4)) : null;
+function priceLabel(value?: string | null) {
+  const price = value ? Number.parseInt(value, 10) : Number.NaN;
+  return Number.isFinite(price) && price > 0
+    ? "$".repeat(Math.min(price, 4))
+    : null;
 }
 
-function useSlashToFocus(ref: React.RefObject<HTMLInputElement | null>) {
+function useSlashToFocus(ref: RefObject<HTMLInputElement | null>) {
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        e.preventDefault();
+    const focusSearch = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable;
+
+      if (
+        event.key === "/" &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !isTyping
+      ) {
+        event.preventDefault();
         ref.current?.focus();
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    window.addEventListener("keydown", focusSearch);
+    return () => window.removeEventListener("keydown", focusSearch);
   }, [ref]);
 }
 
-function StoreCard({ store }: { store: GroceryStore }) {
-  const icon = CATEGORY_ICONS[store.category] ?? <Store size={16} />;
-  const certClass =
-    CERT_COLORS[store.halalCertification] ?? "bg-base-300 text-base-content";
+function StoreCard({
+  store,
+  prioritizeImage = false,
+}: {
+  store: GroceryStore;
+  prioritizeImage?: boolean;
+}) {
+  const categoryIcon = CATEGORY_ICONS[store.category] ?? <Store size={15} />;
   const price = priceLabel(store.priceRange);
+  const specialties = store.specialties
+    ?.map(({ specialty }) => specialty.trim())
+    .filter(Boolean);
 
   return (
-    <article className="dark:border-base-700 group rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm transition-all hover:border-primary/40 hover:shadow-md dark:bg-base-200">
-      <div className="mb-4 h-44 w-full overflow-hidden rounded-lg bg-base-200 dark:bg-base-300">
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-base-300 bg-base-100 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
+      <div className="relative aspect-[16/10] overflow-hidden bg-base-200">
         {store.image?.url ? (
           <Image
             src={store.image.url}
-            alt={store.image?.alt || store.name}
-            width={640}
-            height={360}
-            className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+            alt={store.image.alt || `${store.name} storefront`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            loading={prioritizeImage ? "eager" : "lazy"}
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
         ) : (
-          <div
-            className="flex h-full w-full items-center justify-center text-2xl text-primary"
-            aria-hidden
-          >
-            {icon}
+          <div className="flex h-full flex-col items-center justify-center gap-3 text-primary/55">
+            <span className="rounded-full border border-primary/15 bg-primary/5 p-3">
+              {categoryIcon}
+            </span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-base-content/40">
+              {toLabel(store.category)}
+            </span>
           </div>
         )}
       </div>
 
-      <div className="space-y-3">
-        <header>
-          <h3 className="text-lg font-semibold text-primary">{store.name}</h3>
-          <p className="text-sm text-base-content/70">
-            {store.shortDescription}
-          </p>
-        </header>
-
-        <div className="flex flex-wrap gap-2">
-          <span className="flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-            {icon} {toLabel(store.category)}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-base-content/55">
+          <span className="inline-flex items-center gap-1.5 text-primary">
+            {categoryIcon}
+            {toLabel(store.category)}
           </span>
-          <span
-            className={`rounded-full px-2.5 py-1 text-xs font-medium ${certClass}`}
-          >
-            {toLabel(store.halalCertification)}
-          </span>
+          <span aria-hidden="true">·</span>
+          <span>{toLabel(store.halalCertification)}</span>
           {price && (
-            <span className="rounded-full bg-base-200 px-2.5 py-1 text-xs font-medium text-base-content dark:bg-base-300">
-              {price}
-            </span>
+            <>
+              <span aria-hidden="true">·</span>
+              <span aria-label={`Price range: ${price.length} out of 4`}>
+                {price}
+              </span>
+            </>
           )}
+        </div>
+
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="text-xl font-bold leading-snug text-primary">
+            {store.name}
+          </h2>
           {store.is_on_campus && (
-            <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-accent-content">
-              On Campus
+            <span className="mt-0.5 shrink-0 rounded-full border border-accent/40 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-accent">
+              On campus
             </span>
           )}
         </div>
 
-        {!!store.specialties?.length && (
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-base-content/80">
-              Specialties
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {store.specialties.slice(0, 4).map((s, i) => (
-                <span
-                  key={`${s.specialty}-${i}`}
-                  className="rounded-lg bg-base-200 px-4 py-2 text-sm font-medium text-base-content shadow-sm dark:bg-base-100 dark:text-base-content"
-                >
-                  {s.specialty}
-                </span>
-              ))}
-              {store.specialties.length! > 4 && (
-                <span className="rounded-lg bg-base-300 px-4 py-2 text-sm font-medium text-base-content/70 shadow-sm dark:bg-base-200 dark:text-base-content/80">
-                  +{store.specialties.length! - 4} more
-                </span>
-              )}
-            </div>
-          </div>
+        <p className="mt-2 line-clamp-3 text-sm leading-6 text-base-content/70">
+          {store.shortDescription}
+        </p>
+
+        {specialties && specialties.length > 0 && (
+          <p className="mt-3 text-sm leading-5 text-base-content/60">
+            <span className="font-semibold text-base-content/75">
+              Known for:
+            </span>{" "}
+            {specialties.slice(0, 3).join(", ")}
+            {specialties.length > 3 && ` +${specialties.length - 3} more`}
+          </p>
         )}
 
-        <dl className="space-y-1.5 text-sm text-base-content/70">
-          <div className="flex items-center gap-2">
-            <MapPin size={16} aria-hidden />
-            <dd className="truncate" title={store.location}>
-              {store.location}
-            </dd>
+        <dl className="mt-5 space-y-2 border-t border-base-300 pt-4 text-sm text-base-content/65">
+          <div className="flex min-w-0 items-start gap-2.5">
+            <MapPin
+              size={15}
+              strokeWidth={1.75}
+              className="mt-0.5 shrink-0 text-base-content/45"
+              aria-hidden="true"
+            />
+            <dt className="sr-only">Address</dt>
+            <dd className="line-clamp-2">{store.location}</dd>
           </div>
           {store.hours && (
-            <div className="flex items-center gap-2">
-              <Clock size={16} aria-hidden />
-              <dd className="truncate" title={store.hours}>
+            <div className="flex min-w-0 items-start gap-2.5">
+              <Clock3
+                size={15}
+                strokeWidth={1.75}
+                className="mt-0.5 shrink-0 text-base-content/45"
+                aria-hidden="true"
+              />
+              <dt className="sr-only">Hours</dt>
+              <dd className="line-clamp-2" title={store.hours}>
                 {store.hours}
-              </dd>
-            </div>
-          )}
-          {store.phone && (
-            <div className="flex items-center gap-2">
-              <Phone size={16} aria-hidden />
-              <dd>
-                <a
-                  href={`tel:${store.phone}`}
-                  className="truncate hover:underline"
-                >
-                  {store.phone}
-                </a>
               </dd>
             </div>
           )}
         </dl>
 
-        <div className="space-y-3 pt-3">
-          {/* Directions Button - Full Width */}
+        <div className="mt-auto pt-5">
           {store.googleMapsLink && (
             <a
               href={store.googleMapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-content transition-colors hover:bg-primary/90"
-              aria-label={`Open directions to ${store.name} in Google Maps`}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-content transition-colors hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              aria-label={`Get directions to ${store.name}`}
             >
-              <MapPin size={16} />
-              Get Directions
+              <MapPin size={15} aria-hidden="true" />
+              Get directions
             </a>
           )}
 
-          {/* Website and Call Buttons - Side by Side */}
           {(store.website || store.phone) && (
-            <div className="flex gap-2">
+            <div className="mt-2.5 flex gap-2">
               {store.website && (
                 <a
                   href={store.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-primary px-3 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-content"
-                  aria-label={`Open website for ${store.name}`}
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-base-300 px-3 py-2 text-sm font-semibold text-base-content/75 transition-colors hover:border-primary/35 hover:bg-primary/5 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  aria-label={`Visit ${store.name}'s website`}
                 >
-                  <ExternalLink size={16} />
+                  <ExternalLink size={14} aria-hidden="true" />
                   Website
                 </a>
               )}
               {store.phone && (
                 <a
                   href={`tel:${store.phone}`}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-success px-3 py-2 text-sm font-medium text-success-content transition-colors hover:bg-success/90"
-                  aria-label={`Call ${store.name}`}
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-base-300 px-3 py-2 text-sm font-semibold text-base-content/75 transition-colors hover:border-primary/35 hover:bg-primary/5 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  aria-label={`Call ${store.name} at ${store.phone}`}
                 >
-                  <Phone size={16} />
+                  <Phone size={14} aria-hidden="true" />
                   Call
                 </a>
               )}
@@ -246,67 +263,116 @@ export default function GroceryStoresClient({
   useSlashToFocus(inputRef);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return groceryStores;
-    return groceryStores.filter((s) =>
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) return groceryStores;
+
+    return groceryStores.filter((store) =>
       [
-        s.name,
-        s.shortDescription,
-        s.category,
-        s.halalCertification,
-        s.location,
-        s.specialties?.map((x) => x.specialty).join(" ") ?? "",
+        store.name,
+        store.shortDescription,
+        store.category,
+        store.halalCertification,
+        store.location,
+        store.specialties?.map(({ specialty }) => specialty).join(" ") ?? "",
       ]
         .join(" ")
         .toLowerCase()
-        .includes(q)
+        .includes(normalizedQuery)
     );
   }, [groceryStores, query]);
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center bg-base-100 px-3 pt-24 text-base-content sm:px-8">
-      <section className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="mb-6 text-center">
-          <h1 className="font-serif text-3xl font-bold text-primary sm:text-4xl">
-            Halal Grocery Stores
-          </h1>
-          <p className="mx-auto mt-2 max-w-2xl text-base-content/70">
-            Find halal grocery stores, meat shops, and specialty markets in KW
-            Region.
-          </p>
-        </div>
+    <div className="min-h-screen bg-base-100 px-4 pb-16 pt-24 text-base-content sm:px-8">
+      <section className="mx-auto max-w-6xl pb-7 pt-8 text-center sm:pb-9 sm:pt-10">
+        <h1 className="font-serif text-3xl font-bold text-primary sm:text-4xl">
+          Halal Grocery Stores
+        </h1>
+        <p className="mx-auto mt-2 max-w-2xl text-base-content/70">
+          Find halal grocery stores, meat shops, and specialty markets in KW
+          Region.
+        </p>
 
         <label className="sr-only" htmlFor="store-search">
           Search stores
         </label>
-        <div className="dark:border-base-700 mx-auto mb-8 flex max-w-md items-center gap-2 rounded-xl border border-base-300 bg-base-100 px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/30 dark:bg-base-200">
-          <Search size={18} className="text-base-content/60" aria-hidden />
+        <div className="mx-auto mt-6 flex h-11 max-w-md items-center gap-2.5 rounded-xl border border-base-300 bg-base-100 px-3.5 shadow-sm transition focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
+          <Search
+            size={17}
+            strokeWidth={1.75}
+            className="shrink-0 text-base-content/50"
+            aria-hidden="true"
+          />
           <input
             id="store-search"
             ref={inputRef}
+            type="search"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search stores (press / to focus)"
-            className="w-full bg-transparent outline-none placeholder:text-base-content/50"
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search stores"
+            className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-base-content/45 [&::-webkit-search-cancel-button]:appearance-none"
           />
+          {!query && (
+            <kbd className="hidden rounded border border-base-300 bg-base-200 px-1.5 py-0.5 text-[0.65rem] text-base-content/45 sm:inline">
+              /
+            </kbd>
+          )}
         </div>
       </section>
 
-      <section className="w-full max-w-6xl">
-        {filtered.length ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((s) => (
-              <StoreCard key={s.id} store={s} />
+      <section className="mx-auto max-w-6xl" aria-labelledby="results-heading">
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <h2
+            id="results-heading"
+            className="text-sm font-medium text-base-content/60"
+            aria-live="polite"
+          >
+            {query
+              ? `${filtered.length} ${
+                  filtered.length === 1 ? "result" : "results"
+                }`
+              : `${groceryStores.length} ${
+                  groceryStores.length === 1 ? "store" : "stores"
+                }`}
+          </h2>
+          {query && (
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                inputRef.current?.focus();
+              }}
+              className="text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >
+              Clear search
+            </button>
+          )}
+        </div>
+
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((store, index) => (
+              <StoreCard
+                key={store.id}
+                store={store}
+                prioritizeImage={index === 0}
+              />
             ))}
           </div>
         ) : (
-          <div className="py-16 text-center text-base-content/60 dark:text-base-content/50">
-            <Search size={48} className="mx-auto mb-3 opacity-60" aria-hidden />
-            <p className="mb-1 text-lg font-medium">No stores found</p>
-            <p className="text-sm">Try a different search term.</p>
+          <div className="rounded-xl border border-dashed border-base-300 px-6 py-16 text-center">
+            <Search
+              size={30}
+              strokeWidth={1.5}
+              className="mx-auto text-base-content/30"
+              aria-hidden="true"
+            />
+            <p className="mt-4 font-serif text-lg font-bold">No stores found</p>
+            <p className="mt-1 text-sm text-base-content/60">
+              Try a different store, location, or specialty.
+            </p>
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }
