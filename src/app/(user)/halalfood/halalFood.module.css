@@ -1,0 +1,55 @@
+.brandText {
+  @apply text-primary;
+}
+
+.primaryAction {
+  @apply bg-primary text-primary-content;
+}
+
+.primaryAction:hover {
+  @apply bg-primary/90;
+}
+
+.activeControl {
+  @apply bg-primary text-primary-content shadow-sm;
+}
+
+.textAction {
+  @apply text-primary;
+}
+
+.cardSurface {
+  @apply border-base-300 bg-base-100;
+}
+
+.fieldSurface {
+  @apply border-base-300 bg-base-100;
+}
+
+:global([data-theme="darkTheme"]) .brandText {
+  @apply text-secondary;
+}
+
+:global([data-theme="darkTheme"]) .primaryAction {
+  @apply bg-secondary text-secondary-content;
+}
+
+:global([data-theme="darkTheme"]) .primaryAction:hover {
+  @apply bg-secondary/90;
+}
+
+:global([data-theme="darkTheme"]) .activeControl {
+  @apply bg-secondary text-secondary-content;
+}
+
+:global([data-theme="darkTheme"]) .textAction {
+  @apply text-secondary;
+}
+
+:global([data-theme="darkTheme"]) .cardSurface {
+  @apply border-base-content/10 bg-base-200;
+}
+
+:global([data-theme="darkTheme"]) .fieldSurface {
+  @apply border-base-content/15 bg-base-200;
+}
