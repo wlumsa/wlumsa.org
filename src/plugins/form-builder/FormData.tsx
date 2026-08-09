@@ -1,4 +1,4 @@
-import { UIFieldServerComponent } from "payload";
+import type { UIFieldServerComponent } from "payload";
 import React from "react";
 
 const FormData: UIFieldServerComponent = async ({ data }) => {

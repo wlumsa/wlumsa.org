@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 
 const Jummah: CollectionConfig = {
   slug: "jummah-timings",

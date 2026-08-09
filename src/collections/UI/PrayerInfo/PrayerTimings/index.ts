@@ -1,4 +1,4 @@
-import { GlobalConfig } from "payload";
+import type { GlobalConfig } from "payload";
 
 const PrayerTimings: GlobalConfig = {
   slug: "prayer-timings",

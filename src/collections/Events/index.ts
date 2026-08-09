@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 export const Events: CollectionConfig = {

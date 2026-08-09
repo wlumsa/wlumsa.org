@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 
 const individuals: CollectionConfig = {
   slug: "individuals",

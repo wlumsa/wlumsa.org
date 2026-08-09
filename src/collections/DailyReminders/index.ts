@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 
 export const DailyReminders: CollectionConfig = {
   slug: "daily-reminders",

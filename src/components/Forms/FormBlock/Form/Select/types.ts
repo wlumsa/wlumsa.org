@@ -1,4 +1,4 @@
-import { BlockConfig } from "@payloadcms/plugin-form-builder/types";
+import type { BlockConfig } from "@payloadcms/plugin-form-builder/types";
 
 export interface Options {
   label: string;
