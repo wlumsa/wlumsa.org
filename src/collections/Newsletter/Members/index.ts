@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 
 // import { getEmailHtml } from "@/app/email/generateEmailHTML";
 const Members: CollectionConfig = {

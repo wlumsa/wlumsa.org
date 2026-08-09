@@ -1,4 +1,4 @@
-import { GlobalConfig } from "payload";
+import type { GlobalConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
 
 const EventsSettings: GlobalConfig = {

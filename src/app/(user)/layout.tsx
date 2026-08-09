@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
-import { Geist, Libre_Baskerville } from "next/font/google";
+import localFont from "next/font/local";
 import Navbar from "@/components/Global/Navbar";
 import Footer from "@/components/Global/Footer";
 import {
@@ -48,15 +48,16 @@ export const revalidate = 3600;
  */
 
 // Initialize fonts
-const libreBaskerville = Libre_Baskerville({
-  weight: ["400", "700"],
-  subsets: ["latin"],
+const libreBaskerville = localFont({
+  src: "../fonts/libre-baskerville-latin-variable.woff2",
+  weight: "400 700",
   display: "swap",
   variable: "--font-libre-baskerville",
 });
 
-const geist = Geist({
-  subsets: ["latin"],
+const geist = localFont({
+  src: "../fonts/geist-latin-variable.woff2",
+  weight: "100 900",
   display: "swap",
   variable: "--font-geist",
 });

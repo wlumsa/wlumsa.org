@@ -60,12 +60,13 @@ This project is the official website for Laurier's Muslim Student Association. I
 - **Authentication**: Supabase Auth
 - **Payments**: Stripe (optional)
 - **Email**: Resend
-- **Package Manager**: pnpm
-- **Node**: >=22.x (required)
+- **Package Manager**: pnpm 10.14.0
+- **Node**: 22.x (pinned)
 
 ## Getting Started
 
-**Prerequisites:** Node.js 22.x or higher (React 19 and Next.js 16 require it)
+**Prerequisites:** Node.js 22.x and pnpm 10.14.0. If you use nvm, the included
+`.nvmrc` selects the correct Node version with `nvm use`.
 
 1. Clone the repo
 

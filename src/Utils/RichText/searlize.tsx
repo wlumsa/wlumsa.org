@@ -1,5 +1,5 @@
 import React, { Fragment, JSX } from "react";
-import { DefaultNodeTypes } from "@payloadcms/richtext-lexical";
+import type { DefaultNodeTypes } from "@payloadcms/richtext-lexical";
 
 import {
   IS_BOLD,

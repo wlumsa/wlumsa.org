@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { google } from "googleapis";
+import { auth, sheets as createSheetsClient } from "@googleapis/sheets";
 import { env } from "@/env.mjs";
 import { resend } from "@/Utils/resend";
 
@@ -82,13 +82,13 @@ const normalizeUrl = (value: string) => {
 };
 
 const getSheetsClient = () => {
-  const auth = new google.auth.JWT({
+  const credentials = new auth.JWT({
     email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     key: env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
-  return google.sheets({ version: "v4", auth });
+  return createSheetsClient({ version: "v4", auth: credentials });
 };
 
 const getHeaderRow = async (
