@@ -1,0 +1,17 @@
+.brandText,
+.textAction {
+  @apply text-primary;
+}
+
+.categoryAction:hover {
+  @apply text-primary;
+}
+
+:global([data-theme="darkTheme"]) .brandText,
+:global([data-theme="darkTheme"]) .textAction {
+  @apply text-secondary;
+}
+
+:global([data-theme="darkTheme"]) .categoryAction:hover {
+  @apply text-secondary;
+}

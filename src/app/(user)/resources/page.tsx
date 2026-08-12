@@ -1,32 +1,33 @@
 import React from "react";
+import NextLink from "next/link";
 import ButtonGroup from "@/components/UI/ButtonGroup";
 import { getResourcesByCategory } from "@/Utils/datafetcher";
-import { Link, Resource as ResourceType } from "@/payload-types";
+import {
+  Link as ResourceLink,
+  Resource as ResourceType,
+} from "@/payload-types";
 import Resource from "@/components/UI/Resource";
 import BlurFade from "@/components/UI/BlurFade";
+import { ArrowRight } from "lucide-react";
 interface Category {
   id: string;
   title: string;
 }
 
-type Params = Promise<{ slug: string }>;
 type SearchParams = Promise<{ [key: string]: string | undefined }>;
 
-export default async function Page(props: {
-  params: Params;
+export default async function Page({
+  searchParams,
+}: {
   searchParams: SearchParams;
 }) {
-  const params = await props.params;
-  const searchParams = await props.searchParams;
-  const slug = params.slug;
-  const query = searchParams.query;
-  //const query = searchParams?.query || '';
-  const categoryId = searchParams?.category || "0";
+  const resolvedSearchParams = await searchParams;
+  const categoryId = resolvedSearchParams.category || "0";
 
   let resourcesData: ResourceType[] = [];
   try {
     resourcesData = await getResourcesByCategory(categoryId);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching resources:", error);
     // resourcesData = [];
   }
@@ -55,7 +56,7 @@ export default async function Page(props: {
   ];
 
   const resourceLinks = resourcesData.flatMap((resource) =>
-    resource.link.filter((link): link is Link => link !== null)
+    resource.link.filter((link): link is ResourceLink => link !== null)
   );
 
   return (
@@ -65,14 +66,26 @@ export default async function Page(props: {
           <h1 className="mb-4 text-center text-4xl font-bold text-primary">
             Resources
           </h1>
-          <h1 className="text-center">
+          <p className="text-center text-base-content/70">
             Your one-stop hub for all MSA and Campus Resources
-          </h1>
+          </p>
+          <div className="mt-3 text-center">
+            <NextLink
+              href="/student-resources"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary underline decoration-primary/25 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            >
+              View the student guide
+              <ArrowRight
+                className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </NextLink>
+          </div>
           {/* <SearchBar/>  */}
         </div>
       </BlurFade>
 
-      <BlurFade delay={0.75}>
+      <BlurFade delay={0.7}>
         <div className="mx-auto max-w-screen-md px-4 text-center lg:px-6 ">
           <div>
             <ButtonGroup categories={categories} />
