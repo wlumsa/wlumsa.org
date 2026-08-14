@@ -7,6 +7,31 @@
   @apply text-primary;
 }
 
+.categoryRail {
+  scrollbar-width: none;
+}
+
+.categoryRail::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryRailWrap::after {
+  position: absolute;
+  top: 0.75rem;
+  right: -1rem;
+  bottom: 0.25rem;
+  width: 2.75rem;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(to right, transparent, hsl(var(--b1)) 82%);
+}
+
+@media (min-width: 640px) {
+  .categoryRailWrap::after {
+    right: -1.5rem;
+  }
+}
+
 :global([data-theme="darkTheme"]) .brandText,
 :global([data-theme="darkTheme"]) .textAction {
   @apply text-secondary;

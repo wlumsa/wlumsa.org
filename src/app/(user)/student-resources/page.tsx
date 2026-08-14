@@ -177,9 +177,9 @@ const sections = [
 
 export default function StudentResourcesPage() {
   return (
-    <main className="bg-base-100 text-base-content">
+    <div className="bg-base-100 text-base-content">
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-32">
-        <header className="border-b border-base-300 pb-6 text-center sm:pb-8">
+        <header className="border-b border-base-300 pb-5 text-center sm:pb-8">
           <h1
             className={`font-heading mx-auto max-w-3xl text-balance text-3xl font-bold tracking-tight sm:text-5xl ${styles.brandText}`}
           >
@@ -192,7 +192,7 @@ export default function StudentResourcesPage() {
 
           <nav
             aria-labelledby="resource-categories-heading"
-            className="mt-7 text-center sm:mt-8"
+            className="mt-6 text-center sm:mt-8"
           >
             <h2
               id="resource-categories-heading"
@@ -201,18 +201,22 @@ export default function StudentResourcesPage() {
               Browse by Category
             </h2>
 
-            <ul className="mx-auto mt-3 grid max-w-2xl grid-cols-2 gap-2 lg:hidden">
-              {sections.map((section) => (
-                <li key={section.id}>
-                  <a
-                    href={`#${section.id}`}
-                    className={`flex min-h-14 touch-manipulation items-center justify-center rounded-md border border-base-300 bg-base-100 px-4 py-2 text-center text-sm font-semibold leading-snug text-base-content transition-[background-color,border-color,color] hover:border-primary/30 hover:bg-base-200/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 ${styles.categoryAction}`}
-                  >
-                    {section.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className={`relative lg:hidden ${styles.categoryRailWrap}`}>
+              <ul
+                className={`-mx-4 mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6 ${styles.categoryRail}`}
+              >
+                {sections.map((section) => (
+                  <li key={section.id} className="shrink-0 snap-start">
+                    <a
+                      href={`#${section.id}`}
+                      className={`flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-base-300 bg-base-100 px-4 py-2 text-center text-sm font-semibold leading-snug text-base-content shadow-sm transition-[background-color,border-color,color,box-shadow] hover:border-primary/30 hover:bg-base-200/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 ${styles.categoryAction}`}
+                    >
+                      {section.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <ul className="mx-auto mt-3 hidden w-fit max-w-full flex-wrap justify-center gap-1 rounded-md border border-base-300 bg-base-200/70 p-1 lg:flex">
               {sections.map((section) => (
@@ -229,14 +233,14 @@ export default function StudentResourcesPage() {
           </nav>
         </header>
 
-        <div className="mx-auto mt-8 max-w-5xl sm:mt-10">
-          <div className="space-y-8 sm:space-y-10">
+        <div className="mx-auto mt-7 max-w-5xl sm:mt-10">
+          <div className="space-y-7 sm:space-y-10">
             {sections.map((section) => (
               <section
                 id={section.id}
                 key={section.id}
                 aria-labelledby={`${section.id}-heading`}
-                className="scroll-mt-20 border-b border-base-300 pb-8 last:border-b-0 last:pb-0 sm:scroll-mt-24 sm:pb-10"
+                className="scroll-mt-20 border-b border-base-300 pb-7 last:border-b-0 last:pb-0 sm:scroll-mt-24 sm:pb-10"
               >
                 <div>
                   <div className="sticky top-16 z-20 -mx-4 border-b border-base-300 bg-base-100/95 px-4 py-3 backdrop-blur-sm sm:static sm:z-auto sm:mx-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none">
@@ -247,12 +251,12 @@ export default function StudentResourcesPage() {
                       {section.title}
                     </h2>
                   </div>
-                  <p className="mt-4 max-w-2xl text-pretty text-sm leading-relaxed text-base-content/75 sm:mt-3 sm:text-base">
+                  <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-base-content/75 sm:text-base">
                     {section.description}
                   </p>
                 </div>
 
-                <div className="mt-6 grid gap-x-12 gap-y-7 sm:mt-8 sm:gap-y-8 md:grid-cols-2">
+                <div className="mt-4 grid gap-2 sm:mt-8 sm:gap-x-12 sm:gap-y-8 md:grid-cols-2">
                   {section.resources.map((resource) => (
                     <ResourceItem key={resource.title} resource={resource} />
                   ))}
@@ -278,7 +282,7 @@ export default function StudentResourcesPage() {
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -289,48 +293,72 @@ function ResourceItem({ resource }: { resource: Resource }) {
     : `View ${resource.title}`;
 
   return (
-    <article className="flex h-full min-w-0 flex-col border-t border-base-300 pt-5">
-      <h3
-        translate="no"
-        className="font-heading text-balance text-xl font-bold text-base-content"
-      >
-        {resource.title}
-      </h3>
-      <p className="mt-3 text-sm font-semibold leading-snug text-base-content/85">
-        {resource.question}
-      </p>
-      <p className="mt-2 text-pretty text-sm leading-relaxed text-base-content/75">
-        {resource.description}
-      </p>
-
-      <div className="mt-auto pt-5">
-        {resource.external ? (
-          <a
-            href={resource.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${actionLabel} (opens in a new tab)`}
-            className="group inline-flex min-h-11 w-full touch-manipulation items-center justify-between gap-2 rounded-md border border-primary bg-primary px-4 py-2 text-sm font-semibold text-secondary transition-[box-shadow,transform] hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 motion-reduce:transform-none sm:w-auto sm:justify-start sm:px-3.5"
-          >
-            {actionLabel}
-            <Arrow
-              className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none"
-              aria-hidden="true"
-            />
-          </a>
-        ) : (
-          <Link
-            href={resource.href}
-            className="group inline-flex min-h-11 w-full touch-manipulation items-center justify-between gap-2 rounded-md border border-primary bg-primary px-4 py-2 text-sm font-semibold text-secondary transition-[box-shadow,transform] hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 motion-reduce:transform-none sm:w-auto sm:justify-start sm:px-3.5"
-          >
-            {actionLabel}
-            <Arrow
-              className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none"
-              aria-hidden="true"
-            />
-          </Link>
-        )}
-      </div>
+    <article className="h-full min-w-0">
+      {resource.external ? (
+        <a
+          href={resource.href}
+          aria-label={actionLabel}
+          className="group grid h-full min-h-11 touch-manipulation grid-cols-[minmax(0,1fr)_auto] gap-x-4 rounded-lg border border-base-300 bg-base-200/35 px-4 py-4 text-left transition-[background-color,border-color,box-shadow,transform] hover:border-primary/30 hover:bg-base-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 motion-reduce:transform-none sm:grid-cols-1 sm:grid-rows-[1fr_auto] sm:items-start sm:gap-y-5 sm:rounded-none sm:border-x-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-5 sm:hover:-translate-y-px sm:hover:bg-transparent sm:hover:shadow-none"
+        >
+          <ResourceItemContent
+            resource={resource}
+            actionLabel={actionLabel}
+            Arrow={Arrow}
+          />
+        </a>
+      ) : (
+        <Link
+          href={resource.href}
+          className="group grid h-full min-h-11 touch-manipulation grid-cols-[minmax(0,1fr)_auto] gap-x-4 rounded-lg border border-base-300 bg-base-200/35 px-4 py-4 text-left transition-[background-color,border-color,box-shadow,transform] hover:border-primary/30 hover:bg-base-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 motion-reduce:transform-none sm:grid-cols-1 sm:grid-rows-[1fr_auto] sm:items-start sm:gap-y-5 sm:rounded-none sm:border-x-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-5 sm:hover:-translate-y-px sm:hover:bg-transparent sm:hover:shadow-none"
+        >
+          <ResourceItemContent
+            resource={resource}
+            actionLabel={actionLabel}
+            Arrow={Arrow}
+          />
+        </Link>
+      )}
     </article>
+  );
+}
+
+function ResourceItemContent({
+  resource,
+  actionLabel,
+  Arrow,
+}: {
+  resource: Resource;
+  actionLabel: string;
+  Arrow: typeof ArrowRight;
+}) {
+  return (
+    <>
+      <div className="min-w-0 sm:w-full">
+        <h3
+          translate="no"
+          className="font-heading text-balance text-lg font-bold text-base-content sm:text-xl"
+        >
+          {resource.title}
+        </h3>
+        <p className="mt-1.5 text-sm font-semibold leading-snug text-base-content/85 sm:mt-3">
+          {resource.question}
+        </p>
+        <p className="mt-1.5 line-clamp-2 text-pretty text-sm leading-relaxed text-base-content/70 sm:mt-2 sm:line-clamp-none sm:text-base-content/75">
+          {resource.description}
+        </p>
+      </div>
+
+      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none sm:mt-0 sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:-translate-y-px sm:group-hover:translate-x-0 sm:group-hover:shadow-md">
+        <span className="sr-only sm:not-sr-only">{actionLabel}</span>
+        <Arrow
+          className={`h-4 w-4 transition-transform motion-reduce:transform-none ${
+            resource.external
+              ? "group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              : "group-hover:translate-x-0.5"
+          }`}
+          aria-hidden="true"
+        />
+      </span>
+    </>
   );
 }
