@@ -1,6 +1,14 @@
 import { getMediaFiles } from "@/Utils/datafetcher";
-import Link from "next/link";
+import ButtonGroup from "@/components/UI/ButtonGroup";
+import { ArrowUpRight } from "lucide-react";
+import type { Metadata } from "next";
 import type { Media } from "@/payload-types";
+
+export const metadata: Metadata = {
+  title: "Hub | WLU MSA",
+  description:
+    "Find WLU MSA manuals, interview preparation, and key documents in one place.",
+};
 
 function formatFileSize(bytes: number | null | undefined) {
   if (!bytes || bytes <= 0) return "";
@@ -82,94 +90,96 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
   const typeLabel: Record<HubType, string> = {
     all: "Documents",
     manual: "Manuals",
-    prep: "Prep",
+    prep: "Interview Prep",
     resource: "Resources",
   };
 
-  const filters: { label: string; type: HubType; href: string }[] = [
-    { label: "All", type: "all", href: "/hub" },
-    { label: "Manuals", type: "manual", href: "/hub?type=manual" },
-    { label: "Prep", type: "prep", href: "/hub?type=prep" },
-    { label: "Resources", type: "resource", href: "/hub?type=resource" },
+  const categories: { title: string; id: HubType }[] = [
+    { title: "All", id: "all" },
+    { title: "Manuals", id: "manual" },
+    { title: "Prep", id: "prep" },
+    { title: "Resources", id: "resource" },
   ];
 
   return (
-    <section className="mt-16 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl">
-        <div className="rounded-2xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-7">
-          <h1 className="text-3xl font-bold text-primary sm:text-4xl">Hub</h1>
-          <p className="mt-3 max-w-2xl text-sm text-base-content/80 sm:text-base">
+    <section className="px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+      <div className="mx-auto max-w-3xl">
+        <header>
+          <h1 className="font-heading text-balance text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+            Hub
+          </h1>
+          <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-base-content/75 sm:text-lg">
             Manuals, interview prep, and key documents in one place.
           </p>
-          <div className="mt-5 inline-flex items-center rounded-lg border border-base-300 bg-base-200 px-3 py-2 text-sm text-base-content/80">
-            {totalDocs} {totalDocs === 1 ? "item" : "items"}
-          </div>
-        </div>
+        </header>
 
-        <div className="mt-5 rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm sm:p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-base-content sm:text-xl">
+        <section className="mt-12 sm:mt-14">
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="font-heading text-xl font-semibold text-base-content sm:text-2xl">
               Documents
             </h2>
-            <span className="text-xs text-base-content/60">PDF</span>
+            <span className="shrink-0 text-sm tabular-nums text-base-content/55">
+              {totalDocs} {totalDocs === 1 ? "PDF" : "PDFs"}
+            </span>
           </div>
-          <div className="mb-4 flex flex-wrap gap-2">
-            {filters.map((filter) => (
-              <Link
-                key={filter.type}
-                href={filter.href}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-                  activeType === filter.type
-                    ? "bg-primary text-primary-content"
-                    : "border border-base-300 bg-base-200 text-base-content/80 hover:bg-base-300"
-                }`}
-              >
-                {filter.label}
-              </Link>
-            ))}
-          </div>
+          <nav aria-label="Filter documents" className="mt-5">
+            <ButtonGroup categories={categories} queryParam="type" />
+          </nav>
 
-          <div className="space-y-3">
+          <div className="mt-4">
             {docs.length > 0 ? (
-              docs.map((doc) => (
-                <a
-                  key={doc.id}
-                  href={doc.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-base-300 bg-base-200 px-4 py-3 transition hover:border-primary/40 hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  style={{
-                    contentVisibility: "auto",
-                    containIntrinsicSize: "76px",
-                  }}
-                >
-                  <div className="min-w-0">
-                    <p className="truncate font-medium text-base-content">
-                      {doc.title}
-                    </p>
-                    {doc.filename ? (
-                      <p className="truncate text-xs text-base-content/65">
-                        {doc.filename}
-                      </p>
-                    ) : null}
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <p className="text-xs text-base-content/65">{doc.size}</p>
-                    <p className="text-xs font-medium text-primary transition group-hover:underline">
-                      View PDF
-                    </p>
-                  </div>
-                </a>
-              ))
+              <ul className="divide-y divide-base-content/10" role="list">
+                {docs.map((doc) => (
+                  <li key={doc.id}>
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex min-h-20 touch-manipulation items-center justify-between gap-4 py-4 transition-colors hover:text-primary focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-base-100 motion-reduce:transition-none"
+                      style={{
+                        contentVisibility: "auto",
+                        containIntrinsicSize: "76px",
+                      }}
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-medium text-base-content transition-colors group-hover:text-primary motion-reduce:transition-none">
+                          {doc.title}
+                        </p>
+                        {doc.filename ? (
+                          <p className="mt-0.5 truncate text-xs text-base-content/65">
+                            {doc.filename}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div className="shrink-0 text-right">
+                        {doc.size ? (
+                          <p className="text-xs tabular-nums text-base-content/65">
+                            {doc.size}
+                          </p>
+                        ) : null}
+                        <p className="flex items-center justify-end gap-1 text-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 transition-colors group-hover:decoration-primary motion-reduce:transition-none">
+                          View PDF
+                          <ArrowUpRight
+                            aria-hidden="true"
+                            className="size-3.5"
+                            strokeWidth={2}
+                          />
+                          <span className="sr-only">(opens in a new tab)</span>
+                        </p>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             ) : (
-              <div className="rounded-xl border border-dashed border-base-300 bg-base-200 px-4 py-6 text-center">
+              <div className="py-10">
                 <p className="text-sm text-base-content/70">
                   No {typeLabel[activeType].toLowerCase()} available right now.
                 </p>
               </div>
             )}
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );

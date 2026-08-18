@@ -9,8 +9,12 @@ interface Category {
 }
 interface ButtonGroupProps {
   categories: Category[];
+  queryParam?: string;
 }
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({
+  categories,
+  queryParam = "category",
+}) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -18,8 +22,8 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
 
   // Get current category from URL, default to first category (All)
-  const currentCategoryId =
-    searchParams.get("category") || categories[0]?.id || "0";
+  const defaultCategoryId = categories[0]?.id || "0";
+  const currentCategoryId = searchParams.get(queryParam) || defaultCategoryId;
   const currentCategory =
     categories.find((cat) => cat.id === currentCategoryId) || categories[0];
 
@@ -31,11 +35,11 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
   const handleCategoryClick = (category: Category) => {
     const params = new URLSearchParams(searchParams);
 
-    // If clicking "All" (id: '0'), remove the category param to show all posts
-    if (category.id === "0") {
-      params.delete("category");
+    // Keep the default category URL clean, regardless of its ID.
+    if (category.id === defaultCategoryId) {
+      params.delete(queryParam);
     } else {
-      params.set("category", category.id);
+      params.set(queryParam, category.id);
     }
 
     replace(getUrlWithParams(params), { scroll: false });
@@ -56,9 +60,8 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
           className="dropdown dropdown-bottom mx-auto w-full"
           ref={dropdownRef}
         >
-          <div
-            tabIndex={0}
-            role="button"
+          <button
+            type="button"
             aria-expanded={isMobileDropdownOpen}
             aria-haspopup="listbox"
             onClick={() => setIsMobileDropdownOpen((isOpen) => !isOpen)}
@@ -72,7 +75,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ categories }) => {
               }`}
               aria-hidden
             />
-          </div>
+          </button>
           {isMobileDropdownOpen && (
             <ul
               tabIndex={0}
