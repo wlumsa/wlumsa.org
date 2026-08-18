@@ -9,12 +9,18 @@
 }
 
 /* Apply fonts to base elements */
-html,
-body {
+html {
   overflow-x: hidden;
+  min-height: 100%;
+  scrollbar-gutter: stable;
 }
 
 body {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  flex-direction: column;
+  overflow-x: hidden;
   font-family: var(--font-geist);
 }
 

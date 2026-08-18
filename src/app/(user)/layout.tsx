@@ -102,7 +102,7 @@ export default async function RootLayout({
           <Analytics />
           <ThemeProvider>
             <Navbar navbarData={navbarData} />
-            <main className="pt-0">{children}</main>
+            <main className="flex-1 pt-0">{children}</main>
             <Footer footerGroups={footerData} socialData={socialData} />
           </ThemeProvider>
         </PostHogProvider>
