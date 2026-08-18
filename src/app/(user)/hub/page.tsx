@@ -128,45 +128,50 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
 
           <div className="mt-4">
             {docs.length > 0 ? (
-              <ul className="divide-y divide-base-content/10" role="list">
+              <ul className="space-y-2.5" role="list">
                 {docs.map((doc) => (
                   <li key={doc.id}>
                     <a
                       href={doc.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex min-h-20 touch-manipulation items-center justify-between gap-4 py-4 transition-colors hover:text-primary focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-base-100 motion-reduce:transition-none"
+                      className="group flex min-h-20 touch-manipulation items-center justify-between gap-4 rounded-lg border border-base-content/10 bg-base-100 px-4 py-3.5 transition-[transform,background-color,border-color,box-shadow] hover:-translate-y-px hover:border-base-content/20 hover:bg-base-200/50 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 active:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none"
                       style={{
                         contentVisibility: "auto",
                         containIntrinsicSize: "76px",
                       }}
                     >
                       <div className="min-w-0">
-                        <p className="truncate font-medium text-base-content transition-colors group-hover:text-primary motion-reduce:transition-none">
+                        <p className="truncate font-semibold text-base-content underline decoration-base-content/25 underline-offset-4 transition-[text-decoration-color] group-hover:decoration-base-content/70 motion-reduce:transition-none">
                           {doc.title}
                         </p>
-                        {doc.filename ? (
-                          <p className="mt-0.5 truncate text-xs text-base-content/65">
-                            {doc.filename}
+                        {doc.filename || doc.size ? (
+                          <p className="mt-1 flex min-w-0 items-center gap-2 text-xs text-base-content/55">
+                            {doc.filename ? (
+                              <span className="truncate">{doc.filename}</span>
+                            ) : null}
+                            {doc.filename && doc.size ? (
+                              <span aria-hidden="true" className="shrink-0">
+                                ·
+                              </span>
+                            ) : null}
+                            {doc.size ? (
+                              <span className="shrink-0 tabular-nums">
+                                {doc.size}
+                              </span>
+                            ) : null}
                           </p>
                         ) : null}
                       </div>
-                      <div className="shrink-0 text-right">
-                        {doc.size ? (
-                          <p className="text-xs tabular-nums text-base-content/65">
-                            {doc.size}
-                          </p>
-                        ) : null}
-                        <p className="flex items-center justify-end gap-1 text-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 transition-colors group-hover:decoration-primary motion-reduce:transition-none">
-                          View PDF
-                          <ArrowUpRight
-                            aria-hidden="true"
-                            className="size-3.5"
-                            strokeWidth={2}
-                          />
-                          <span className="sr-only">(opens in a new tab)</span>
-                        </p>
-                      </div>
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-[transform,box-shadow] group-hover:translate-x-0.5 group-hover:shadow-sm motion-reduce:transform-none motion-reduce:transition-none sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:-translate-y-px sm:group-hover:translate-x-0 sm:group-hover:shadow-md">
+                        <span className="sr-only sm:not-sr-only">Open PDF</span>
+                        <ArrowUpRight
+                          aria-hidden="true"
+                          className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+                          strokeWidth={2}
+                        />
+                        <span className="sr-only">(opens in a new tab)</span>
+                      </span>
                     </a>
                   </li>
                 ))}

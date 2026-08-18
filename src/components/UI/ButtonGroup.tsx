@@ -70,7 +70,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
             <span>{currentCategory?.title || "Select a category"}</span>
             <ChevronDown
               size={16}
-              className={`transition-transform duration-200 ${
+              className={`transition-transform duration-200 motion-reduce:transition-none ${
                 isMobileDropdownOpen ? "rotate-180" : ""
               }`}
               aria-hidden
@@ -112,6 +112,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
 
             return (
               <button
+                type="button"
                 key={category.id}
                 onClick={() => handleCategoryClick(category)}
                 aria-pressed={isActive}
