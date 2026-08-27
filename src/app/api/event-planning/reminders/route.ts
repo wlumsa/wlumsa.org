@@ -7,6 +7,8 @@ import type { ContentSchedule, EventTask, Exec } from "@/payload-types";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const REMINDER_WINDOW_DAYS = 3;
+
 function isAuthorized(request: Request) {
   const secret = process.env.CRON_SECRET;
   if (!secret) return process.env.NODE_ENV !== "production";
@@ -34,7 +36,9 @@ export async function GET(request: Request) {
 
   const payload = await getPayload({ config });
   const now = new Date();
-  const reminderWindowEnd = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  const reminderWindowEnd = new Date(
+    now.getTime() + REMINDER_WINDOW_DAYS * 24 * 60 * 60 * 1000
+  );
   const commonWhere = {
     and: [
       { status: { not_equals: "done" } },
@@ -85,10 +89,10 @@ export async function GET(request: Request) {
     await Promise.all(
       assignees.map((assignee) =>
         payload.sendEmail({
-          subject: `Due tomorrow: ${task.title}`,
+          subject: `Due soon: ${task.title}`,
           text: `Salam ${assignee.name || ""},\n\n“${
             task.title
-          }” is due within the next 24 hours.\n\nOpen your tasks: ${adminURL}`,
+          }” is due within the next ${REMINDER_WINDOW_DAYS} days.\n\nOpen your tasks: ${adminURL}`,
           to: assignee.email,
         })
       )
@@ -109,10 +113,10 @@ export async function GET(request: Request) {
     await Promise.all(
       assignees.map((assignee) =>
         payload.sendEmail({
-          subject: `Scheduled tomorrow: ${post.title}`,
+          subject: `Scheduled soon: ${post.title}`,
           text: `Salam ${assignee.name || ""},\n\n“${
             post.title
-          }” is scheduled within the next 24 hours.\n\nOpen your tasks: ${adminURL}`,
+          }” is scheduled within the next ${REMINDER_WINDOW_DAYS} days.\n\nOpen your tasks: ${adminURL}`,
           to: assignee.email,
         })
       )
