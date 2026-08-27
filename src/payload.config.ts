@@ -46,6 +46,8 @@ import {
 import { checkoutSessionCompleted } from "./plugins/stripe/webhooks/checkoutSessionCompleted";
 import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
+import { EventTasks } from "./collections/EventTasks";
+import { ContentSchedule } from "./collections/ContentSchedule";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -82,6 +84,17 @@ export default buildConfig({
         Icon: "@/components/Admin/Brand#AdminIcon",
         Logo: "@/components/Admin/Brand#AdminLogo",
       },
+      beforeNavLinks: ["@/components/Admin/PlanningNav#PlanningNav"],
+      views: {
+        dashboard: {
+          Component: "@/components/Admin/MyTasksView#MyTasksView",
+        },
+        planningCalendar: {
+          Component:
+            "@/components/Admin/PlanningCalendarView#PlanningCalendarView",
+          path: "/calendar",
+        },
+      },
     },
   },
   routes: {
@@ -111,6 +124,8 @@ export default buildConfig({
     Events,
     DailyReminders,
     Masjid,
+    EventTasks,
+    ContentSchedule,
   ],
   globals: [Nav, Footer, PrayerTimings, WeeklyPrayerTimetables, EventsSettings],
   editor: lexicalEditor({}),

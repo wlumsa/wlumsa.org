@@ -1,5 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
+import { createEventPlanningItems } from "@/collections/EventPlanning/createPlanningItems";
+import { departmentOptions } from "@/collections/EventPlanning/options";
 
 export const Events: CollectionConfig = {
   slug: "events",
@@ -12,6 +14,7 @@ export const Events: CollectionConfig = {
       async () => {
         await revalidateEventsPage();
       },
+      createEventPlanningItems,
     ],
     afterDelete: [
       async () => {
@@ -104,6 +107,41 @@ export const Events: CollectionConfig = {
       ],
       admin: {
         position: "sidebar",
+      },
+    },
+    {
+      name: "planningLead",
+      label: "Event lead",
+      type: "relationship",
+      relationTo: "execs",
+      admin: {
+        position: "sidebar",
+        description: "The main person responsible for this event.",
+      },
+    },
+    {
+      name: "departments",
+      type: "select",
+      hasMany: true,
+      options: departmentOptions,
+      admin: {
+        position: "sidebar",
+        description: "Departments helping with this event.",
+      },
+    },
+    {
+      name: "planningTemplate",
+      label: "Create planning schedule",
+      type: "select",
+      defaultValue: "standard",
+      options: [
+        { label: "Standard event", value: "standard" },
+        { label: "Do not create a schedule", value: "none" },
+      ],
+      admin: {
+        position: "sidebar",
+        description:
+          "When this event is first created, add the usual checklist and Instagram schedule automatically.",
       },
     },
   ],
