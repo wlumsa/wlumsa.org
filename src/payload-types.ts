@@ -611,6 +611,26 @@ export interface Event {
    * When this event is first created, add the usual checklist and Instagram schedule automatically.
    */
   planningTemplate?: ('standard' | 'none') | null;
+  /**
+   * Each occurrence is created as a normal event so it can have its own tasks and edits.
+   */
+  recurrence?: ('none' | 'weekly' | 'biweekly' | 'monthly') | null;
+  recurrenceEnd?: string | null;
+  /**
+   * Occurrences will not be created on these dates.
+   */
+  recurrenceExcludedDates?:
+    | {
+        date: string;
+        id?: string | null;
+      }[]
+    | null;
+  recurringParent?: (number | null) | Event;
+  recurrenceKey?: string | null;
+  /**
+   * Edits to this occurrence will be preserved when the recurring event is updated.
+   */
+  recurrenceException?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1435,6 +1455,17 @@ export interface EventsSelect<T extends boolean = true> {
   planningLead?: T;
   departments?: T;
   planningTemplate?: T;
+  recurrence?: T;
+  recurrenceEnd?: T;
+  recurrenceExcludedDates?:
+    | T
+    | {
+        date?: T;
+        id?: T;
+      };
+  recurringParent?: T;
+  recurrenceKey?: T;
+  recurrenceException?: T;
   updatedAt?: T;
   createdAt?: T;
 }
