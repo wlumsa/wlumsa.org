@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import type { AdminViewServerProps, Where } from "payload";
 
 import type { ContentSchedule, EventTask } from "@/payload-types";
-import { PlanningViewShell } from "./PlanningViewShell";
 import { formatPlanningDate, getRelatedEventName } from "./planning-utils";
 
 type WorkItem = {
@@ -91,62 +90,60 @@ export async function MyTasksView(props: AdminViewServerProps) {
   const upcoming = items.filter((item) => new Date(item.date) >= now);
 
   return (
-    <PlanningViewShell props={props}>
-      <main className="planning-page">
-        <header className="planning-page__header">
-          <div>
-            <p className="planning-page__eyebrow">Event planning</p>
-            <h1>My tasks</h1>
-            <p>Only the work assigned to you, ordered by deadline.</p>
-          </div>
-          <div className="planning-page__actions">
-            <Link
-              className="planning-button planning-button--secondary"
-              href="/admin/calendar"
-            >
-              View calendar
-            </Link>
-            <Link
-              className="planning-button"
-              href="/admin/collections/events/create"
-            >
-              Create event
-            </Link>
-          </div>
-        </header>
-
-        <section className="planning-summary" aria-label="Task summary">
-          <div>
-            <strong>{upcoming.length}</strong>
-            <span>Upcoming</span>
-          </div>
-          <div
-            className={overdue.length ? "planning-summary__overdue" : undefined}
+    <main className="planning-page">
+      <header className="planning-page__header">
+        <div>
+          <p className="planning-page__eyebrow">Event planning</p>
+          <h1>My tasks</h1>
+          <p>Only the work assigned to you, ordered by deadline.</p>
+        </div>
+        <div className="planning-page__actions">
+          <Link
+            className="planning-button planning-button--secondary"
+            href="/admin/calendar"
           >
-            <strong>{overdue.length}</strong>
-            <span>Overdue</span>
-          </div>
-        </section>
+            View calendar
+          </Link>
+          <Link
+            className="planning-button"
+            href="/admin/collections/events/create"
+          >
+            Create event
+          </Link>
+        </div>
+      </header>
 
-        {items.length === 0 ? (
-          <section className="planning-empty">
-            <h2>You’re all caught up</h2>
-            <p>No unfinished tasks or posts are assigned to you.</p>
-          </section>
-        ) : (
-          <section className="planning-work-list" aria-label="Assigned work">
-            {overdue.length > 0 ? <h2>Overdue</h2> : null}
-            {overdue.map((item) => (
-              <WorkItemRow item={item} key={item.id} overdue />
-            ))}
-            {upcoming.length > 0 ? <h2>Coming up</h2> : null}
-            {upcoming.map((item) => (
-              <WorkItemRow item={item} key={item.id} />
-            ))}
-          </section>
-        )}
-      </main>
-    </PlanningViewShell>
+      <section className="planning-summary" aria-label="Task summary">
+        <div>
+          <strong>{upcoming.length}</strong>
+          <span>Upcoming</span>
+        </div>
+        <div
+          className={overdue.length ? "planning-summary__overdue" : undefined}
+        >
+          <strong>{overdue.length}</strong>
+          <span>Overdue</span>
+        </div>
+      </section>
+
+      {items.length === 0 ? (
+        <section className="planning-empty">
+          <h2>You’re all caught up</h2>
+          <p>No unfinished tasks or posts are assigned to you.</p>
+        </section>
+      ) : (
+        <section className="planning-work-list" aria-label="Assigned work">
+          {overdue.length > 0 ? <h2>Overdue</h2> : null}
+          {overdue.map((item) => (
+            <WorkItemRow item={item} key={item.id} overdue />
+          ))}
+          {upcoming.length > 0 ? <h2>Coming up</h2> : null}
+          {upcoming.map((item) => (
+            <WorkItemRow item={item} key={item.id} />
+          ))}
+        </section>
+      )}
+    </main>
   );
 }
 

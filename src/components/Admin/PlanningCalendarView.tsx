@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { AdminViewServerProps } from "payload";
 
-import { PlanningViewShell } from "./PlanningViewShell";
 import { getDateKey, type PlanningCalendarItem } from "./planning-utils";
 
 const monthFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -120,101 +119,105 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <PlanningViewShell props={props}>
-      <main className="planning-page planning-page--calendar">
-        <header className="planning-page__header">
-          <div>
-            <p className="planning-page__eyebrow">Event planning</p>
-            <h1>Calendar</h1>
-            <p>Events, internal tasks, and scheduled posts in one place.</p>
-          </div>
+    <main className="planning-page planning-page--calendar">
+      <header className="planning-page__header">
+        <div>
+          <p className="planning-page__eyebrow">Event planning</p>
+          <h1>Calendar</h1>
+          <p>Events, internal tasks, and scheduled posts in one place.</p>
+        </div>
+        <div className="planning-page__actions">
+          <Link
+            className="planning-button planning-button--secondary"
+            href="/admin"
+          >
+            My tasks
+          </Link>
           <Link
             className="planning-button"
             href="/admin/collections/events/create"
           >
             Create event
           </Link>
-        </header>
-
-        <div className="planning-calendar__toolbar">
-          <Link
-            aria-label="Previous month"
-            className="planning-calendar__arrow"
-            href={`/admin/calendar?month=${monthParam(year, month, -1)}`}
-          >
-            ←
-          </Link>
-          <h2>
-            {monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))}
-          </h2>
-          <Link
-            aria-label="Next month"
-            className="planning-calendar__arrow"
-            href={`/admin/calendar?month=${monthParam(year, month, 1)}`}
-          >
-            →
-          </Link>
         </div>
+      </header>
 
-        <div className="planning-legend" aria-label="Calendar legend">
-          <span>
-            <i className="planning-dot planning-dot--event" />
-            Event
-          </span>
-          <span>
-            <i className="planning-dot planning-dot--task" />
-            Task
-          </span>
-          <span>
-            <i className="planning-dot planning-dot--content" />
-            Scheduled post
-          </span>
-        </div>
+      <div className="planning-calendar__toolbar">
+        <Link
+          aria-label="Previous month"
+          className="planning-calendar__arrow"
+          href={`/admin/calendar?month=${monthParam(year, month, -1)}`}
+        >
+          ←
+        </Link>
+        <h2>{monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))}</h2>
+        <Link
+          aria-label="Next month"
+          className="planning-calendar__arrow"
+          href={`/admin/calendar?month=${monthParam(year, month, 1)}`}
+        >
+          →
+        </Link>
+      </div>
 
-        <div className="planning-calendar__scroll">
-          <div className="planning-calendar">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-              <div className="planning-calendar__weekday" key={day}>
-                {day}
-              </div>
-            ))}
-            {cells.map((day, index) => {
-              const key = day
-                ? `${year}-${String(month).padStart(2, "0")}-${String(
-                    day
-                  ).padStart(2, "0")}`
-                : null;
-              const dayItems = key ? itemsByDate.get(key) ?? [] : [];
+      <div className="planning-legend" aria-label="Calendar legend">
+        <span>
+          <i className="planning-dot planning-dot--event" />
+          Event
+        </span>
+        <span>
+          <i className="planning-dot planning-dot--task" />
+          Task
+        </span>
+        <span>
+          <i className="planning-dot planning-dot--content" />
+          Scheduled post
+        </span>
+      </div>
 
-              return (
-                <div
-                  className={
-                    day
-                      ? "planning-calendar__day"
-                      : "planning-calendar__day planning-calendar__day--empty"
-                  }
-                  key={`${index}-${day ?? "empty"}`}
-                >
-                  {day ? (
-                    <span className="planning-calendar__number">{day}</span>
-                  ) : null}
-                  <div className="planning-calendar__items">
-                    {dayItems.map((item) => (
-                      <Link
-                        className={`planning-calendar__item planning-calendar__item--${item.kind}`}
-                        href={item.href}
-                        key={item.id}
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
-                  </div>
+      <div className="planning-calendar__scroll">
+        <div className="planning-calendar">
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+            <div className="planning-calendar__weekday" key={day}>
+              {day}
+            </div>
+          ))}
+          {cells.map((day, index) => {
+            const key = day
+              ? `${year}-${String(month).padStart(2, "0")}-${String(
+                  day
+                ).padStart(2, "0")}`
+              : null;
+            const dayItems = key ? itemsByDate.get(key) ?? [] : [];
+
+            return (
+              <div
+                className={
+                  day
+                    ? "planning-calendar__day"
+                    : "planning-calendar__day planning-calendar__day--empty"
+                }
+                key={`${index}-${day ?? "empty"}`}
+              >
+                {day ? (
+                  <span className="planning-calendar__number">{day}</span>
+                ) : null}
+                <div className="planning-calendar__items">
+                  {dayItems.map((item) => (
+                    <Link
+                      className={`planning-calendar__item planning-calendar__item--${item.kind}`}
+                      href={item.href}
+                      key={item.id}
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-      </main>
-    </PlanningViewShell>
+      </div>
+    </main>
   );
 }
