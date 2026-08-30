@@ -375,6 +375,287 @@ html[data-theme="dark"] .planning-page__eyebrow {
   border-color: #3974b9;
 }
 
+.planning-calendar__item--button {
+  border-bottom: 0;
+  border-right: 0;
+  border-top: 0;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.planning-calendar__item--button:hover,
+.planning-calendar__item--button:focus-visible {
+  background: color-mix(in srgb, #37845d 22%, transparent);
+  outline: 1px solid color-mix(in srgb, #37845d 45%, transparent);
+  outline-offset: 1px;
+}
+
+.planning-task-drawer__backdrop {
+  align-items: stretch;
+  animation: planning-backdrop-in 160ms ease-out both;
+  background: color-mix(in srgb, #160b20 46%, transparent);
+  display: flex;
+  inset: 0;
+  justify-content: flex-end;
+  position: fixed;
+  z-index: 1000;
+}
+
+.planning-task-drawer {
+  animation: planning-drawer-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  background: var(--theme-bg);
+  border-left: 1px solid var(--theme-elevation-200);
+  box-shadow: -24px 0 70px color-mix(in srgb, #160b20 24%, transparent);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+  width: min(440px, 100vw);
+}
+
+.planning-task-drawer__accent {
+  background: linear-gradient(90deg, #37845d, var(--wlumsa-purple) 72%);
+  height: 5px;
+}
+
+.planning-task-drawer__header {
+  align-items: flex-start;
+  border-bottom: 1px solid var(--theme-elevation-150);
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 1.6rem 1.25rem;
+}
+
+.planning-task-drawer__header p {
+  color: var(--wlumsa-purple);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+}
+
+.planning-task-drawer__header span {
+  color: var(--theme-elevation-600);
+  font-size: 0.78rem;
+}
+
+.planning-task-drawer__close {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 50%;
+  color: var(--theme-text);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1.4rem;
+  height: 2.2rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 0 0.12rem;
+  width: 2.2rem;
+}
+
+.planning-task-drawer__close:hover {
+  background: var(--theme-elevation-100);
+}
+
+.planning-task-drawer__body {
+  overflow-y: auto;
+  padding: 1.7rem 1.6rem 2rem;
+}
+
+.planning-task-drawer__title {
+  align-items: flex-start;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: auto 1fr;
+}
+
+.planning-task-drawer__title h2 {
+  font-size: clamp(1.55rem, 4vw, 2.15rem);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.planning-task-status-dot {
+  background: var(--theme-elevation-300);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px var(--theme-elevation-100);
+  height: 0.65rem;
+  margin-top: 0.45rem;
+  width: 0.65rem;
+}
+
+.planning-task-status-dot.is-in_progress {
+  background: #b47b14;
+}
+
+.planning-task-status-dot.is-ready_for_review {
+  background: #3974b9;
+}
+
+.planning-task-status-dot.is-done {
+  background: #37845d;
+}
+
+.planning-task-drawer__facts {
+  border-bottom: 1px solid var(--theme-elevation-150);
+  border-top: 1px solid var(--theme-elevation-150);
+  display: grid;
+  gap: 0;
+  margin: 1.8rem 0 0;
+}
+
+.planning-task-drawer__facts > div {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 6.5rem 1fr;
+  padding: 0.8rem 0;
+}
+
+.planning-task-drawer__facts > div + div {
+  border-top: 1px solid var(--theme-elevation-100);
+}
+
+.planning-task-drawer__facts dt {
+  color: var(--theme-elevation-550);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.planning-task-drawer__facts dd {
+  font-size: 0.86rem;
+  margin: 0;
+}
+
+.planning-task-drawer__section {
+  margin-top: 1.8rem;
+}
+
+.planning-task-drawer__section h3 {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.7rem;
+  text-transform: uppercase;
+}
+
+.planning-task-drawer__section > p {
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.planning-task-drawer__section > p.is-muted {
+  color: var(--theme-elevation-500);
+  font-style: italic;
+}
+
+.planning-task-drawer__section-heading {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+}
+
+.planning-task-drawer__section-heading span {
+  color: var(--theme-elevation-500);
+  font-size: 0.7rem;
+}
+
+.planning-task-status-options {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.planning-task-status-options button {
+  background: transparent;
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 3px;
+  color: var(--theme-elevation-700);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.65rem;
+  text-align: left;
+}
+
+.planning-task-status-options button:hover:not(:disabled) {
+  border-color: #37845d;
+}
+
+.planning-task-status-options button.is-active {
+  background: color-mix(in srgb, #37845d 14%, transparent);
+  border-color: #37845d;
+  color: var(--theme-text);
+  font-weight: 700;
+}
+
+.planning-task-status-options button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.planning-task-drawer__error {
+  color: var(--theme-error-500);
+  font-size: 0.75rem;
+  margin-top: 0.6rem !important;
+}
+
+.planning-task-drawer__footer {
+  background: var(--theme-elevation-50);
+  border-top: 1px solid var(--theme-elevation-150);
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.25rem 1.6rem;
+}
+
+.planning-task-drawer__footer a {
+  align-items: center;
+  color: var(--wlumsa-purple);
+  display: flex;
+  font-weight: 700;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.planning-task-drawer__footer a:hover {
+  text-decoration: underline;
+}
+
+.planning-task-drawer__footer small {
+  color: var(--theme-elevation-500);
+}
+
+html[data-theme="dark"] .planning-task-drawer__header p,
+html[data-theme="dark"] .planning-task-drawer__footer a {
+  color: #d8c2f2;
+}
+
+@keyframes planning-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes planning-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planning-task-drawer,
+  .planning-task-drawer__backdrop {
+    animation: none;
+  }
+}
+
 @media (max-width: 760px) {
   .planning-page {
     padding-top: 1.5rem;
@@ -394,5 +675,10 @@ html[data-theme="dark"] .planning-page__eyebrow {
   .planning-date,
   .planning-status {
     grid-column: 2;
+  }
+
+  .planning-task-drawer {
+    border-left: 0;
+    width: 100vw;
   }
 }

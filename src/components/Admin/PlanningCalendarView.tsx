@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import type { AdminViewServerProps } from "payload";
 
 import { getDateKey, type PlanningCalendarItem } from "./planning-utils";
+import { TaskQuickView, type TaskQuickViewData } from "./TaskQuickView";
 
 const monthFormatter = new Intl.DateTimeFormat("en-CA", {
   month: "long",
@@ -55,7 +56,7 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
     }),
     req.payload.find({
       collection: "event-tasks",
-      depth: 0,
+      depth: 1,
       limit: 300,
       overrideAccess: false,
       req,
@@ -80,6 +81,24 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
       },
     }),
   ]);
+
+  const taskQuickViews = new Map<string, TaskQuickViewData>(
+    tasksResult.docs.map((task) => [
+      `task-${task.id}`,
+      {
+        assignees: (task.assignees ?? [])
+          .filter((assignee) => typeof assignee === "object")
+          .map((assignee) => assignee.name || assignee.email),
+        department: task.department ?? null,
+        dueDate: task.dueDate,
+        eventName: typeof task.event === "object" ? task.event.name : null,
+        id: task.id,
+        notes: task.notes ?? null,
+        status: task.status,
+        title: task.title,
+      },
+    ])
+  );
 
   const items: PlanningCalendarItem[] = [
     ...eventsResult.docs.map((event) => ({
@@ -203,15 +222,21 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
                   <span className="planning-calendar__number">{day}</span>
                 ) : null}
                 <div className="planning-calendar__items">
-                  {dayItems.map((item) => (
-                    <Link
-                      className={`planning-calendar__item planning-calendar__item--${item.kind}`}
-                      href={item.href}
-                      key={item.id}
-                    >
-                      {item.title}
-                    </Link>
-                  ))}
+                  {dayItems.map((item) => {
+                    const task = taskQuickViews.get(item.id);
+
+                    return item.kind === "task" && task ? (
+                      <TaskQuickView key={item.id} task={task} />
+                    ) : (
+                      <Link
+                        className={`planning-calendar__item planning-calendar__item--${item.kind}`}
+                        href={item.href}
+                        key={item.id}
+                      >
+                        {item.title}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             );
