@@ -3,45 +3,29 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-export type TaskQuickViewData = {
-  assignees: string[];
-  department: null | string;
-  dueDate: string;
-  eventName: null | string;
+export type CalendarQuickViewData = {
+  collection: "content-schedule" | "event-tasks" | "events";
+  date: string;
+  details?: { label: string; value: null | string };
+  facts: { label: string; value: string }[];
+  fullLabel: string;
   id: number | string;
-  notes: null | string;
-  status: "done" | "in_progress" | "not_started" | "ready_for_review";
+  kind: "content" | "event" | "task";
+  label: string;
+  status: string;
+  statusOptions: { label: string; value: string }[];
   title: string;
 };
 
-const statusOptions = [
-  { label: "Not started", value: "not_started" },
-  { label: "In progress", value: "in_progress" },
-  { label: "Ready for review", value: "ready_for_review" },
-  { label: "Done", value: "done" },
-] as const;
-
-const departmentLabels: Record<string, string> = {
-  community_engagement: "Community Engagement",
-  events_brothers: "Events Brothers",
-  events_sisters: "Events Sisters",
-  finance: "Finance",
-  marketing: "Marketing",
-  operations: "Operations",
-  religious_affairs_brothers: "Religious Affairs Brothers",
-  religious_affairs_sisters: "Religious Affairs Sisters",
-  technology: "Technology",
-};
-
-const dueDateFormatter = new Intl.DateTimeFormat("en-CA", {
+const dateFormatter = new Intl.DateTimeFormat("en-CA", {
   dateStyle: "full",
   timeStyle: "short",
   timeZone: "America/Toronto",
 });
 
-export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
+export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [status, setStatus] = useState(task.status);
+  const [status, setStatus] = useState(item.status);
   const [pendingStatus, setPendingStatus] = useState<null | string>(null);
   const [error, setError] = useState<null | string>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -60,8 +44,8 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
         setIsOpen(false);
         return;
       }
-
       if (event.key !== "Tab") return;
+
       const dialog = closeButtonRef.current?.closest<HTMLElement>(
         ".planning-task-drawer"
       );
@@ -89,7 +73,7 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
     };
   }, [isOpen]);
 
-  async function updateStatus(nextStatus: TaskQuickViewData["status"]) {
+  async function updateStatus(nextStatus: string) {
     if (nextStatus === status || pendingStatus) return;
 
     const previousStatus = status;
@@ -98,14 +82,13 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
     setStatus(nextStatus);
 
     try {
-      const response = await fetch(`/api/event-tasks/${task.id}`, {
+      const response = await fetch(`/api/${item.collection}/${item.id}`, {
         body: JSON.stringify({ status: nextStatus }),
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         method: "PATCH",
       });
-
-      if (!response.ok) throw new Error("The task could not be updated.");
+      if (!response.ok) throw new Error("Update failed");
     } catch {
       setStatus(previousStatus);
       setError("Couldn’t save that status. Please try again.");
@@ -114,16 +97,18 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
     }
   }
 
+  const titleID = `calendar-quick-view-${item.kind}-${item.id}`;
+
   return (
     <>
       <button
         aria-haspopup="dialog"
-        className="planning-calendar__item planning-calendar__item--task planning-calendar__item--button"
+        className={`planning-calendar__item planning-calendar__item--${item.kind} planning-calendar__item--button`}
         onClick={() => setIsOpen(true)}
         ref={triggerRef}
         type="button"
       >
-        {task.title}
+        {item.title}
       </button>
 
       {isOpen ? (
@@ -134,19 +119,19 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
           }}
         >
           <aside
-            aria-labelledby={`task-drawer-title-${task.id}`}
+            aria-labelledby={titleID}
             aria-modal="true"
-            className="planning-task-drawer"
+            className={`planning-task-drawer is-${item.kind}`}
             role="dialog"
           >
             <div className="planning-task-drawer__accent" />
             <header className="planning-task-drawer__header">
               <div>
-                <p>Task brief</p>
-                <span>{dueDateFormatter.format(new Date(task.dueDate))}</span>
+                <p>{item.label} brief</p>
+                <span>{dateFormatter.format(new Date(item.date))}</span>
               </div>
               <button
-                aria-label="Close task details"
+                aria-label={`Close ${item.label.toLowerCase()} details`}
                 className="planning-task-drawer__close"
                 onClick={() => setIsOpen(false)}
                 ref={closeButtonRef}
@@ -159,43 +144,29 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
             <div className="planning-task-drawer__body">
               <div className="planning-task-drawer__title">
                 <span className={`planning-task-status-dot is-${status}`} />
-                <h2 id={`task-drawer-title-${task.id}`}>{task.title}</h2>
+                <h2 id={titleID}>{item.title}</h2>
               </div>
 
               <dl className="planning-task-drawer__facts">
-                <div>
-                  <dt>Event</dt>
-                  <dd>{task.eventName || "No event name"}</dd>
-                </div>
-                <div>
-                  <dt>Assigned to</dt>
-                  <dd>
-                    {task.assignees.length
-                      ? task.assignees.join(", ")
-                      : "Unassigned"}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Department</dt>
-                  <dd>
-                    {task.department
-                      ? departmentLabels[task.department] ?? task.department
-                      : "Not specified"}
-                  </dd>
-                </div>
+                {item.facts.map((fact) => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
               </dl>
 
               <section className="planning-task-drawer__section">
                 <div className="planning-task-drawer__section-heading">
                   <h3>Status</h3>
-                  {pendingStatus ? <span>Saving…</span> : <span>Saved</span>}
+                  <span>{pendingStatus ? "Saving…" : "Saved"}</span>
                 </div>
                 <div
-                  aria-label="Task status"
+                  aria-label={`${item.label} status`}
                   className="planning-task-status-options"
                   role="group"
                 >
-                  {statusOptions.map((option) => (
+                  {item.statusOptions.map((option) => (
                     <button
                       aria-pressed={status === option.value}
                       className={status === option.value ? "is-active" : ""}
@@ -215,17 +186,20 @@ export function TaskQuickView({ task }: { task: TaskQuickViewData }) {
                 ) : null}
               </section>
 
-              <section className="planning-task-drawer__section">
-                <h3>Notes</h3>
-                <p className={task.notes ? undefined : "is-muted"}>
-                  {task.notes || "No notes have been added to this task."}
-                </p>
-              </section>
+              {item.details ? (
+                <section className="planning-task-drawer__section">
+                  <h3>{item.details.label}</h3>
+                  <p className={item.details.value ? undefined : "is-muted"}>
+                    {item.details.value ||
+                      `No ${item.details.label.toLowerCase()} added.`}
+                  </p>
+                </section>
+              ) : null}
             </div>
 
             <footer className="planning-task-drawer__footer">
-              <Link href={`/admin/collections/event-tasks/${task.id}`}>
-                Open full task <span aria-hidden="true">↗</span>
+              <Link href={`/admin/collections/${item.collection}/${item.id}`}>
+                {item.fullLabel} <span aria-hidden="true">↗</span>
               </Link>
               <small>Calendar stays right where you left it.</small>
             </footer>

@@ -2,8 +2,23 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { AdminViewServerProps } from "payload";
 
+import {
+  CalendarQuickView,
+  type CalendarQuickViewData,
+} from "./CalendarQuickView";
 import { getDateKey, type PlanningCalendarItem } from "./planning-utils";
-import { TaskQuickView, type TaskQuickViewData } from "./TaskQuickView";
+
+const planningStatusOptions = [
+  { label: "Not started", value: "not_started" },
+  { label: "In progress", value: "in_progress" },
+  { label: "Ready for review", value: "ready_for_review" },
+  { label: "Done", value: "done" },
+];
+
+const eventStatusOptions = [
+  { label: "Draft", value: "draft" },
+  { label: "Published", value: "published" },
+];
 
 const monthFormatter = new Intl.DateTimeFormat("en-CA", {
   month: "long",
@@ -30,6 +45,25 @@ function monthParam(year: number, month: number, offset: number) {
   )}`;
 }
 
+function humanize(value: string) {
+  return value
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function assigneeNames(
+  assignees:
+    | null
+    | undefined
+    | (number | { email: string; name?: null | string })[]
+) {
+  const names = (assignees ?? [])
+    .filter((assignee) => typeof assignee === "object")
+    .map((assignee) => assignee.name || assignee.email);
+  return names.length ? names.join(", ") : "Unassigned";
+}
+
 export async function PlanningCalendarView(props: AdminViewServerProps) {
   const { req } = props.initPageResult;
   if (!req.user) redirect("/admin/login");
@@ -43,7 +77,7 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
   const [eventsResult, tasksResult, contentResult] = await Promise.all([
     req.payload.find({
       collection: "events",
-      depth: 0,
+      depth: 1,
       limit: 200,
       overrideAccess: false,
       req,
@@ -69,7 +103,7 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
     }),
     req.payload.find({
       collection: "content-schedule",
-      depth: 0,
+      depth: 1,
       limit: 300,
       overrideAccess: false,
       req,
@@ -82,23 +116,107 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
     }),
   ]);
 
-  const taskQuickViews = new Map<string, TaskQuickViewData>(
-    tasksResult.docs.map((task) => [
+  const quickViews = new Map<string, CalendarQuickViewData>([
+    ...eventsResult.docs.map((event): [string, CalendarQuickViewData] => [
+      `event-${event.id}`,
+      {
+        collection: "events",
+        date: event.date,
+        details: { label: "Description", value: event.description },
+        facts: [
+          { label: "Location", value: event.location || "Not specified" },
+          {
+            label: "Event lead",
+            value:
+              event.planningLead && typeof event.planningLead === "object"
+                ? event.planningLead.name || event.planningLead.email
+                : "Unassigned",
+          },
+          {
+            label: "Departments",
+            value: event.departments?.length
+              ? event.departments.map(humanize).join(", ")
+              : "Not specified",
+          },
+        ],
+        fullLabel: "Open full event",
+        id: event.id,
+        kind: "event",
+        label: "Event",
+        status: event.status ?? "draft",
+        statusOptions: eventStatusOptions,
+        title: event.name,
+      },
+    ]),
+    ...tasksResult.docs.map((task): [string, CalendarQuickViewData] => [
       `task-${task.id}`,
       {
-        assignees: (task.assignees ?? [])
-          .filter((assignee) => typeof assignee === "object")
-          .map((assignee) => assignee.name || assignee.email),
-        department: task.department ?? null,
-        dueDate: task.dueDate,
-        eventName: typeof task.event === "object" ? task.event.name : null,
+        collection: "event-tasks",
+        date: task.dueDate,
+        details: { label: "Notes", value: task.notes ?? null },
+        facts: [
+          {
+            label: "Event",
+            value:
+              typeof task.event === "object"
+                ? task.event.name
+                : "No event name",
+          },
+          {
+            label: "Assigned to",
+            value: assigneeNames(task.assignees),
+          },
+          {
+            label: "Department",
+            value: task.department
+              ? humanize(task.department)
+              : "Not specified",
+          },
+        ],
+        fullLabel: "Open full task",
         id: task.id,
-        notes: task.notes ?? null,
+        kind: "task",
+        label: "Task",
         status: task.status,
+        statusOptions: planningStatusOptions,
         title: task.title,
       },
-    ])
-  );
+    ]),
+    ...contentResult.docs.map((post): [string, CalendarQuickViewData] => [
+      `content-${post.id}`,
+      {
+        collection: "content-schedule",
+        date: post.scheduledFor,
+        facts: [
+          {
+            label: "Event",
+            value:
+              typeof post.event === "object"
+                ? post.event.name
+                : "No event name",
+          },
+          { label: "Format", value: humanize(post.format) },
+          {
+            label: "Assigned to",
+            value: assigneeNames(post.assignees),
+          },
+          {
+            label: "Department",
+            value: post.department
+              ? humanize(post.department)
+              : "Not specified",
+          },
+        ],
+        fullLabel: "Open full scheduled post",
+        id: post.id,
+        kind: "content",
+        label: "Scheduled post",
+        status: post.status,
+        statusOptions: planningStatusOptions,
+        title: post.title,
+      },
+    ]),
+  ]);
 
   const items: PlanningCalendarItem[] = [
     ...eventsResult.docs.map((event) => ({
@@ -223,10 +341,10 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
                 ) : null}
                 <div className="planning-calendar__items">
                   {dayItems.map((item) => {
-                    const task = taskQuickViews.get(item.id);
+                    const quickView = quickViews.get(item.id);
 
-                    return item.kind === "task" && task ? (
-                      <TaskQuickView key={item.id} task={task} />
+                    return quickView ? (
+                      <CalendarQuickView item={quickView} key={item.id} />
                     ) : (
                       <Link
                         className={`planning-calendar__item planning-calendar__item--${item.kind}`}

@@ -422,6 +422,14 @@ html[data-theme="dark"] .planning-page__eyebrow {
   height: 5px;
 }
 
+.planning-task-drawer.is-event .planning-task-drawer__accent {
+  background: linear-gradient(90deg, #6840a2, #a485ca);
+}
+
+.planning-task-drawer.is-content .planning-task-drawer__accent {
+  background: linear-gradient(90deg, #3974b9, #6aa8d9);
+}
+
 .planning-task-drawer__header {
   align-items: flex-start;
   border-bottom: 1px solid var(--theme-elevation-150);
@@ -502,6 +510,10 @@ html[data-theme="dark"] .planning-page__eyebrow {
 
 .planning-task-status-dot.is-done {
   background: #37845d;
+}
+
+.planning-task-status-dot.is-published {
+  background: #6840a2;
 }
 
 .planning-task-drawer__facts {
