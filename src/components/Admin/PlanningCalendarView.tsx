@@ -26,6 +26,13 @@ const monthFormatter = new Intl.DateTimeFormat("en-CA", {
   year: "numeric",
 });
 
+const mobileDayFormatter = new Intl.DateTimeFormat("en-CA", {
+  day: "numeric",
+  month: "short",
+  timeZone: "UTC",
+  weekday: "short",
+});
+
 function parseMonth(value: string | string[] | undefined) {
   const raw = Array.isArray(value) ? value[0] : value;
   if (raw && /^\d{4}-(0[1-9]|1[0-2])$/.test(raw)) {
@@ -33,8 +40,10 @@ function parseMonth(value: string | string[] | undefined) {
     return { month: month!, year: year! };
   }
 
-  const today = new Date();
-  return { month: today.getMonth() + 1, year: today.getFullYear() };
+  const [year, month] = getDateKey(new Date().toISOString())
+    .split("-")
+    .map(Number);
+  return { month: month!, year: year! };
 }
 
 function monthParam(year: number, month: number, offset: number) {
@@ -69,6 +78,8 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
   if (!req.user) redirect("/admin/login");
 
   const { month, year } = parseMonth(props.searchParams?.month);
+  const todayKey = getDateKey(new Date().toISOString());
+  const todayMonth = todayKey.slice(0, 7);
   const queryStart = new Date(Date.UTC(year, month - 1, 1));
   queryStart.setUTCDate(queryStart.getUTCDate() - 1);
   const queryEnd = new Date(Date.UTC(year, month, 1));
@@ -240,7 +251,10 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
       kind: "content" as const,
       title: item.title,
     })),
-  ];
+  ].sort(
+    (first, second) =>
+      new Date(first.date).getTime() - new Date(second.date).getTime()
+  );
 
   const itemsByDate = new Map<string, PlanningCalendarItem[]>();
   for (const item of items) {
@@ -287,7 +301,22 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
         >
           ←
         </Link>
-        <h2>{monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))}</h2>
+        <div className="planning-calendar__month">
+          <h2>
+            {monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))}
+          </h2>
+          <Link
+            aria-current={
+              `${year}-${String(month).padStart(2, "0")}` === todayMonth
+                ? "date"
+                : undefined
+            }
+            className="planning-calendar__today"
+            href={`/admin/calendar?month=${todayMonth}`}
+          >
+            Today
+          </Link>
+        </div>
         <Link
           aria-label="Next month"
           className="planning-calendar__arrow"
@@ -326,18 +355,33 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
                 ).padStart(2, "0")}`
               : null;
             const dayItems = key ? itemsByDate.get(key) ?? [] : [];
+            const isToday = key === todayKey;
+            const dayClassName = [
+              "planning-calendar__day",
+              !day && "planning-calendar__day--empty",
+              day &&
+                dayItems.length === 0 &&
+                "planning-calendar__day--no-items",
+              isToday && "planning-calendar__day--today",
+            ]
+              .filter(Boolean)
+              .join(" ");
 
             return (
               <div
-                className={
-                  day
-                    ? "planning-calendar__day"
-                    : "planning-calendar__day planning-calendar__day--empty"
-                }
+                aria-current={isToday ? "date" : undefined}
+                className={dayClassName}
                 key={`${index}-${day ?? "empty"}`}
               >
                 {day ? (
-                  <span className="planning-calendar__number">{day}</span>
+                  <>
+                    <span className="planning-calendar__number">{day}</span>
+                    <span className="planning-calendar__mobile-date">
+                      {mobileDayFormatter.format(
+                        new Date(Date.UTC(year, month - 1, day))
+                      )}
+                    </span>
+                  </>
                 ) : null}
                 <div className="planning-calendar__items">
                   {dayItems.map((item) => {
@@ -360,6 +404,11 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
             );
           })}
         </div>
+        {items.length === 0 ? (
+          <p className="planning-calendar__mobile-empty">
+            Nothing is scheduled this month.
+          </p>
+        ) : null}
       </div>
     </main>
   );

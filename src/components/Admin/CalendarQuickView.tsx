@@ -23,6 +23,12 @@ const dateFormatter = new Intl.DateTimeFormat("en-CA", {
   timeZone: "America/Toronto",
 });
 
+const timeFormatter = new Intl.DateTimeFormat("en-CA", {
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: "America/Toronto",
+});
+
 export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState(item.status);
@@ -98,17 +104,34 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
   }
 
   const titleID = `calendar-quick-view-${item.kind}-${item.id}`;
+  const statusLabel =
+    item.statusOptions.find((option) => option.value === status)?.label ??
+    status;
 
   return (
     <>
       <button
         aria-haspopup="dialog"
-        className={`planning-calendar__item planning-calendar__item--${item.kind} planning-calendar__item--button`}
+        aria-label={`${item.label}: ${item.title}, ${timeFormatter.format(
+          new Date(item.date)
+        )}, ${statusLabel}`}
+        className={`planning-calendar__item planning-calendar__item--${
+          item.kind
+        } planning-calendar__item--button${
+          status === "done" ? " is-done" : ""
+        }`}
         onClick={() => setIsOpen(true)}
         ref={triggerRef}
         type="button"
       >
-        {item.title}
+        <span className="planning-calendar__item-title">{item.title}</span>
+        <span className="planning-calendar__item-meta" aria-hidden="true">
+          <time dateTime={item.date}>
+            {timeFormatter.format(new Date(item.date))}
+          </time>
+          <span>·</span>
+          <span>{statusLabel}</span>
+        </span>
       </button>
 
       {isOpen ? (
@@ -159,7 +182,9 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
               <section className="planning-task-drawer__section">
                 <div className="planning-task-drawer__section-heading">
                   <h3>Status</h3>
-                  <span>{pendingStatus ? "Saving…" : "Saved"}</span>
+                  <span aria-live="polite">
+                    {pendingStatus ? "Saving…" : "Saved"}
+                  </span>
                 </div>
                 <div
                   aria-label={`${item.label} status`}
