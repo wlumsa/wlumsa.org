@@ -58,6 +58,8 @@ export async function MyTasksView(props: AdminViewServerProps) {
   const { req } = props.initPageResult;
   if (!req.user) redirect("/admin/login");
 
+  const firstName = req.user.name?.trim().split(/\s+/)[0];
+
   const where = buildAssignmentQuery(req.user.id);
   const [tasksResult, contentResult] = await Promise.all([
     req.payload.find({
@@ -93,9 +95,11 @@ export async function MyTasksView(props: AdminViewServerProps) {
     <main className="planning-page">
       <header className="planning-page__header">
         <div>
-          <p className="planning-page__eyebrow">Event planning</p>
-          <h1>My tasks</h1>
-          <p>Only the work assigned to you, ordered by deadline.</p>
+          <p className="planning-page__eyebrow">
+            Assalamu alaikum{firstName ? `, ${firstName}` : ""}
+          </p>
+          <h1>Here’s what’s on your plate.</h1>
+          <p>Your MSA tasks and scheduled posts, ordered by deadline.</p>
         </div>
         <div className="planning-page__actions">
           <Link
