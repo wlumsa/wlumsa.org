@@ -277,6 +277,15 @@ html[data-theme="dark"] .planning-page__eyebrow {
   text-decoration: underline;
 }
 
+html[data-theme="dark"] .planning-calendar__today {
+  color: #d8c2f2;
+}
+
+html[data-theme="dark"] .planning-calendar__today:hover,
+html[data-theme="dark"] .planning-calendar__today:focus-visible {
+  color: #fff;
+}
+
 .planning-calendar__arrow {
   align-items: center;
   border: 1px solid var(--theme-elevation-200);
