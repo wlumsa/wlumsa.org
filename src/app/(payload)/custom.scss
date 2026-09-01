@@ -787,13 +787,6 @@ html[data-theme="dark"] .planning-task-drawer__footer a {
     min-width: 0;
   }
 
-  .planning-calendar__weekday,
-  .planning-calendar__day--empty,
-  .planning-calendar__day--no-items,
-  .planning-calendar__number {
-    display: none;
-  }
-
   .planning-calendar__day {
     border-bottom: 1px solid var(--theme-elevation-150);
     border-right: 0;
@@ -802,6 +795,14 @@ html[data-theme="dark"] .planning-task-drawer__footer a {
     grid-template-columns: 4.5rem minmax(0, 1fr);
     min-height: 0;
     padding: 0.85rem 0;
+  }
+
+  .planning-calendar__weekday,
+  .planning-calendar__day--empty,
+  .planning-calendar__day--no-items,
+  .planning-calendar__number,
+  .planning-calendar__day--today .planning-calendar__number {
+    display: none;
   }
 
   .planning-calendar__weekday + .planning-calendar__day {
@@ -823,6 +824,12 @@ html[data-theme="dark"] .planning-task-drawer__footer a {
 
   .planning-calendar__day--today .planning-calendar__mobile-date {
     color: var(--wlumsa-purple);
+  }
+
+  html[data-theme="dark"]
+    .planning-calendar__day--today
+    .planning-calendar__mobile-date {
+    color: #d8c2f2;
   }
 
   .planning-calendar__item {
