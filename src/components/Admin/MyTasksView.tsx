@@ -2,24 +2,26 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { AdminViewServerProps, Where } from "payload";
 
+import { planningStatusOptions } from "@/collections/EventPlanning/options";
 import type { ContentSchedule, EventTask } from "@/payload-types";
-import { formatPlanningDate, getRelatedEventName } from "./planning-utils";
+import {
+  CalendarQuickView,
+  type CalendarQuickViewData,
+} from "./CalendarQuickView";
+import { getDateKey, getRelatedEventName } from "./planning-utils";
 
 type WorkItem = {
   date: string;
-  eventName: null | string;
-  href: string;
   id: string;
-  kind: "Post" | "Task";
-  status: string;
-  title: string;
+  quickView: CalendarQuickViewData;
 };
 
-const statusLabels: Record<string, string> = {
-  in_progress: "In progress",
-  not_started: "Not started",
-  ready_for_review: "Ready for review",
-};
+function humanize(value: string) {
+  return value
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
 
 function buildAssignmentQuery(userID: number | string): Where {
   return {
@@ -31,27 +33,69 @@ function buildAssignmentQuery(userID: number | string): Where {
 }
 
 function normalizeTasks(tasks: EventTask[]): WorkItem[] {
-  return tasks.map((task) => ({
-    date: task.dueDate,
-    eventName: getRelatedEventName(task.event),
-    href: `/admin/collections/event-tasks/${task.id}`,
-    id: `task-${task.id}`,
-    kind: "Task",
-    status: task.status,
-    title: task.title,
-  }));
+  return tasks.map((task) => {
+    const eventName = getRelatedEventName(task.event);
+
+    return {
+      date: task.dueDate,
+      id: `task-${task.id}`,
+      quickView: {
+        collection: "event-tasks",
+        date: task.dueDate,
+        details: { label: "Notes", value: task.notes ?? null },
+        facts: [
+          { label: "Event", value: eventName ?? "No event name" },
+          {
+            label: "Department",
+            value: task.department
+              ? humanize(task.department)
+              : "Not specified",
+          },
+        ],
+        fullLabel: "Open full task",
+        id: task.id,
+        kind: "task",
+        label: "Task",
+        status: task.status,
+        statusOptions: planningStatusOptions,
+        subtitle: eventName ?? undefined,
+        title: task.title,
+      },
+    };
+  });
 }
 
 function normalizeContent(items: ContentSchedule[]): WorkItem[] {
-  return items.map((item) => ({
-    date: item.scheduledFor,
-    eventName: getRelatedEventName(item.event),
-    href: `/admin/collections/content-schedule/${item.id}`,
-    id: `content-${item.id}`,
-    kind: "Post",
-    status: item.status,
-    title: item.title,
-  }));
+  return items.map((item) => {
+    const eventName = getRelatedEventName(item.event);
+
+    return {
+      date: item.scheduledFor,
+      id: `content-${item.id}`,
+      quickView: {
+        collection: "content-schedule",
+        date: item.scheduledFor,
+        facts: [
+          { label: "Event", value: eventName ?? "No event name" },
+          { label: "Format", value: humanize(item.format) },
+          {
+            label: "Department",
+            value: item.department
+              ? humanize(item.department)
+              : "Not specified",
+          },
+        ],
+        fullLabel: "Open full scheduled post",
+        id: item.id,
+        kind: "content",
+        label: "Scheduled post",
+        status: item.status,
+        statusOptions: planningStatusOptions,
+        subtitle: eventName ?? undefined,
+        title: item.title,
+      },
+    };
+  });
 }
 
 export async function MyTasksView(props: AdminViewServerProps) {
@@ -87,9 +131,10 @@ export async function MyTasksView(props: AdminViewServerProps) {
     ...normalizeContent(contentResult.docs),
   ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const now = new Date();
-  const overdue = items.filter((item) => new Date(item.date) < now);
-  const upcoming = items.filter((item) => new Date(item.date) >= now);
+  const todayKey = getDateKey(new Date().toISOString());
+  const overdue = items.filter((item) => getDateKey(item.date) < todayKey);
+  const dueToday = items.filter((item) => getDateKey(item.date) === todayKey);
+  const comingUp = items.filter((item) => getDateKey(item.date) > todayKey);
 
   return (
     <main className="planning-page">
@@ -118,15 +163,19 @@ export async function MyTasksView(props: AdminViewServerProps) {
       </header>
 
       <section className="planning-summary" aria-label="Task summary">
-        <div>
-          <strong>{upcoming.length}</strong>
-          <span>Upcoming</span>
-        </div>
         <div
           className={overdue.length ? "planning-summary__overdue" : undefined}
         >
           <strong>{overdue.length}</strong>
           <span>Overdue</span>
+        </div>
+        <div>
+          <strong>{dueToday.length}</strong>
+          <span>Due today</span>
+        </div>
+        <div>
+          <strong>{comingUp.length}</strong>
+          <span>Coming up</span>
         </div>
       </section>
 
@@ -141,8 +190,12 @@ export async function MyTasksView(props: AdminViewServerProps) {
           {overdue.map((item) => (
             <WorkItemRow item={item} key={item.id} overdue />
           ))}
-          {upcoming.length > 0 ? <h2>Coming up</h2> : null}
-          {upcoming.map((item) => (
+          {dueToday.length > 0 ? <h2>Due today</h2> : null}
+          {dueToday.map((item) => (
+            <WorkItemRow item={item} key={item.id} />
+          ))}
+          {comingUp.length > 0 ? <h2>Coming up</h2> : null}
+          {comingUp.map((item) => (
             <WorkItemRow item={item} key={item.id} />
           ))}
         </section>
@@ -159,26 +212,10 @@ function WorkItemRow({
   overdue?: boolean;
 }) {
   return (
-    <Link className="planning-work-item" href={item.href}>
-      <span
-        className={`planning-kind planning-kind--${item.kind.toLowerCase()}`}
-      >
-        {item.kind}
-      </span>
-      <span className="planning-work-item__main">
-        <strong>{item.title}</strong>
-        {item.eventName ? <small>{item.eventName}</small> : null}
-      </span>
-      <span
-        className={
-          overdue ? "planning-date planning-date--overdue" : "planning-date"
-        }
-      >
-        {formatPlanningDate(item.date)}
-      </span>
-      <span className="planning-status">
-        {statusLabels[item.status] ?? item.status}
-      </span>
-    </Link>
+    <CalendarQuickView
+      item={item.quickView}
+      overdue={overdue}
+      variant="dashboard"
+    />
   );
 }

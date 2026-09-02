@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+
+import { formatPlanningDate } from "./planning-utils";
 
 export type CalendarQuickViewData = {
   collection: "content-schedule" | "event-tasks" | "events";
@@ -14,7 +17,14 @@ export type CalendarQuickViewData = {
   label: string;
   status: string;
   statusOptions: { label: string; value: string }[];
+  subtitle?: string;
   title: string;
+};
+
+type CalendarQuickViewProps = {
+  item: CalendarQuickViewData;
+  overdue?: boolean;
+  variant?: "calendar" | "dashboard";
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -29,7 +39,12 @@ const timeFormatter = new Intl.DateTimeFormat("en-CA", {
   timeZone: "America/Toronto",
 });
 
-export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
+export function CalendarQuickView({
+  item,
+  overdue = false,
+  variant = "calendar",
+}: CalendarQuickViewProps) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState(item.status);
   const [pendingStatus, setPendingStatus] = useState<null | string>(null);
@@ -113,6 +128,11 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
         method: "PATCH",
       });
       if (!response.ok) throw new Error("Update failed");
+      if (variant === "dashboard" && nextStatus === "done") {
+        setIsOpen(false);
+        router.refresh();
+        return;
+      }
       setStatusMessage("Updated");
       statusMessageTimerRef.current = setTimeout(() => {
         setStatusMessage(null);
@@ -131,32 +151,64 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
   const statusLabel =
     item.statusOptions.find((option) => option.value === status)?.label ??
     status;
+  const triggerLabel = `${item.label}: ${item.title}, ${dateFormatter.format(
+    new Date(item.date)
+  )}, ${statusLabel}`;
 
   return (
     <>
-      <button
-        aria-haspopup="dialog"
-        aria-label={`${item.label}: ${item.title}, ${timeFormatter.format(
-          new Date(item.date)
-        )}, ${statusLabel}`}
-        className={`planning-calendar__item planning-calendar__item--${
-          item.kind
-        } planning-calendar__item--button${
-          status === "done" ? " is-done" : ""
-        }`}
-        onClick={() => setIsOpen(true)}
-        ref={triggerRef}
-        type="button"
-      >
-        <span className="planning-calendar__item-title">{item.title}</span>
-        <span className="planning-calendar__item-meta" aria-hidden="true">
-          <time dateTime={item.date}>
-            {timeFormatter.format(new Date(item.date))}
-          </time>
-          <span>·</span>
-          <span>{statusLabel}</span>
-        </span>
-      </button>
+      {variant === "dashboard" ? (
+        <button
+          aria-haspopup="dialog"
+          aria-label={triggerLabel}
+          className="planning-work-item planning-work-item--button"
+          onClick={() => setIsOpen(true)}
+          ref={triggerRef}
+          type="button"
+        >
+          <span
+            className={`planning-kind planning-kind--${
+              item.kind === "content" ? "post" : item.kind
+            }`}
+          >
+            {item.kind === "content" ? "Post" : item.label}
+          </span>
+          <span className="planning-work-item__main">
+            <strong>{item.title}</strong>
+            {item.subtitle ? <small>{item.subtitle}</small> : null}
+          </span>
+          <span
+            className={
+              overdue ? "planning-date planning-date--overdue" : "planning-date"
+            }
+          >
+            {formatPlanningDate(item.date)}
+          </span>
+          <span className="planning-status">{statusLabel}</span>
+        </button>
+      ) : (
+        <button
+          aria-haspopup="dialog"
+          aria-label={triggerLabel}
+          className={`planning-calendar__item planning-calendar__item--${
+            item.kind
+          } planning-calendar__item--button${
+            status === "done" ? " is-done" : ""
+          }`}
+          onClick={() => setIsOpen(true)}
+          ref={triggerRef}
+          type="button"
+        >
+          <span className="planning-calendar__item-title">{item.title}</span>
+          <span className="planning-calendar__item-meta" aria-hidden="true">
+            <time dateTime={item.date}>
+              {timeFormatter.format(new Date(item.date))}
+            </time>
+            <span>·</span>
+            <span>{statusLabel}</span>
+          </span>
+        </button>
+      )}
 
       {isOpen ? (
         <div
@@ -250,7 +302,11 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
               <Link href={`/admin/collections/${item.collection}/${item.id}`}>
                 {item.fullLabel} <span aria-hidden="true">↗</span>
               </Link>
-              <small>Calendar stays right where you left it.</small>
+              <small>
+                {variant === "dashboard"
+                  ? "Your task list stays right where you left it."
+                  : "Calendar stays right where you left it."}
+              </small>
             </footer>
           </aside>
         </div>
