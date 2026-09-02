@@ -33,9 +33,22 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState(item.status);
   const [pendingStatus, setPendingStatus] = useState<null | string>(null);
+  const [statusMessage, setStatusMessage] = useState<null | string>(null);
   const [error, setError] = useState<null | string>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const statusMessageTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(
+    () => () => {
+      if (statusMessageTimerRef.current) {
+        clearTimeout(statusMessageTimerRef.current);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -83,8 +96,13 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
     if (nextStatus === status || pendingStatus) return;
 
     const previousStatus = status;
+    if (statusMessageTimerRef.current) {
+      clearTimeout(statusMessageTimerRef.current);
+      statusMessageTimerRef.current = null;
+    }
     setError(null);
     setPendingStatus(nextStatus);
+    setStatusMessage("Saving…");
     setStatus(nextStatus);
 
     try {
@@ -95,8 +113,14 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
         method: "PATCH",
       });
       if (!response.ok) throw new Error("Update failed");
+      setStatusMessage("Updated");
+      statusMessageTimerRef.current = setTimeout(() => {
+        setStatusMessage(null);
+        statusMessageTimerRef.current = null;
+      }, 2000);
     } catch {
       setStatus(previousStatus);
+      setStatusMessage(null);
       setError("Couldn’t save that status. Please try again.");
     } finally {
       setPendingStatus(null);
@@ -182,8 +206,8 @@ export function CalendarQuickView({ item }: { item: CalendarQuickViewData }) {
               <section className="planning-task-drawer__section">
                 <div className="planning-task-drawer__section-heading">
                   <h3>Status</h3>
-                  <span aria-live="polite">
-                    {pendingStatus ? "Saving…" : "Saved"}
+                  <span aria-live="polite" role="status">
+                    {statusMessage}
                   </span>
                 </div>
                 <div

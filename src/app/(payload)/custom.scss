@@ -580,6 +580,8 @@ html[data-theme="dark"] .planning-calendar__today:focus-visible {
   letter-spacing: -0.025em;
   line-height: 1.08;
   margin: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .planning-task-status-dot {
@@ -636,6 +638,8 @@ html[data-theme="dark"] .planning-calendar__today:focus-visible {
 .planning-task-drawer__facts dd {
   font-size: 0.86rem;
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .planning-task-drawer__section {
@@ -652,6 +656,7 @@ html[data-theme="dark"] .planning-calendar__today:focus-visible {
 .planning-task-drawer__section > p {
   line-height: 1.6;
   margin: 0;
+  overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
 
@@ -871,41 +876,46 @@ html[data-theme="dark"] .planning-task-drawer__footer a {
     border-radius: 18px 18px 0 0;
     border-top: 1px solid var(--theme-elevation-250);
     box-shadow: 0 -18px 60px color-mix(in srgb, #160b20 28%, transparent);
-    height: min(88vh, 760px);
-    height: min(88dvh, 760px);
-    max-height: calc(100dvh - max(1rem, env(safe-area-inset-top)));
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: auto;
+    max-height: min(88vh, 760px);
+    max-height: min(88dvh, 760px);
     width: 100%;
   }
 
   .planning-task-drawer__accent,
   .planning-task-drawer.is-event .planning-task-drawer__accent,
   .planning-task-drawer.is-content .planning-task-drawer__accent {
-    background: transparent;
-    height: 1.5rem;
-    position: relative;
-  }
-
-  .planning-task-drawer__accent::after {
-    background: var(--theme-elevation-300);
-    border-radius: 999px;
-    content: "";
-    height: 0.25rem;
-    left: 50%;
-    position: absolute;
-    top: 0.55rem;
-    transform: translateX(-50%);
-    width: 2.5rem;
+    display: none;
   }
 
   .planning-task-drawer__header {
     padding-left: max(1.25rem, env(safe-area-inset-left));
     padding-right: max(1.25rem, env(safe-area-inset-right));
-    padding-top: 0.8rem;
+    padding-top: 1.25rem;
+  }
+
+  .planning-task-drawer__header p {
+    font-size: 0.75rem;
+  }
+
+  .planning-task-drawer__header span {
+    font-size: 0.82rem;
   }
 
   .planning-task-drawer__body {
     padding-left: max(1.25rem, env(safe-area-inset-left));
     padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+
+  .planning-task-drawer__facts dt,
+  .planning-task-drawer__section-heading span,
+  .planning-task-drawer__footer small {
+    font-size: 0.75rem;
+  }
+
+  .planning-task-status-options button {
+    font-size: 0.8rem;
   }
 
   .planning-task-drawer__footer {
