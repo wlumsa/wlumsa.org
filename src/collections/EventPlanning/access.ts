@@ -5,7 +5,7 @@ import type {
   PayloadRequest,
 } from "payload";
 
-export type PlanningRole = "admin" | "editor" | "manager";
+type PlanningRole = "admin" | "editor" | "manager";
 
 type PlanningUser = {
   id: number | string;

@@ -1,6 +1,6 @@
 import type { BlockConfig } from "@payloadcms/plugin-form-builder/types";
 
-export interface Options {
+interface Options {
   label: string;
   value: string;
   limit?: number;
