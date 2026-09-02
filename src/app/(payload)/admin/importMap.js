@@ -32,7 +32,10 @@ import { DynamicPriceSelector as DynamicPriceSelector_fcc98597230ed7571a28f97c55
 import { default as default_f7e72fa773e9b4414610130d772b9a9e } from '@/plugins/form-builder/FormData'
 import { AdminIcon as AdminIcon_47c960672233df674a0833cc4b499440 } from '@/components/Admin/Brand'
 import { AdminLogo as AdminLogo_47c960672233df674a0833cc4b499440 } from '@/components/Admin/Brand'
+import { PlanningNav as PlanningNav_9488ebc1a10ed714f778f474f361548b } from '@/components/Admin/PlanningNav'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { MyTasksView as MyTasksView_ef0d5278d47a5b8d9eb0d14b0f83375c } from '@/components/Admin/MyTasksView'
+import { PlanningCalendarView as PlanningCalendarView_967d74a158e6a79eac235f4fc98a21e5 } from '@/components/Admin/PlanningCalendarView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -71,6 +74,9 @@ export const importMap = {
   "@/plugins/form-builder/FormData#default": default_f7e72fa773e9b4414610130d772b9a9e,
   "@/components/Admin/Brand#AdminIcon": AdminIcon_47c960672233df674a0833cc4b499440,
   "@/components/Admin/Brand#AdminLogo": AdminLogo_47c960672233df674a0833cc4b499440,
+  "@/components/Admin/PlanningNav#PlanningNav": PlanningNav_9488ebc1a10ed714f778f474f361548b,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "@/components/Admin/MyTasksView#MyTasksView": MyTasksView_ef0d5278d47a5b8d9eb0d14b0f83375c,
+  "@/components/Admin/PlanningCalendarView#PlanningCalendarView": PlanningCalendarView_967d74a158e6a79eac235f4fc98a21e5,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

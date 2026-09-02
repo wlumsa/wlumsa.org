@@ -1,18 +1,55 @@
 import type { CollectionConfig } from "payload";
 
+import {
+  adminOrSelf,
+  adminOrSelfField,
+  adminsOnly,
+  adminsOnlyAdmin,
+  adminsOnlyField,
+  authenticated,
+} from "@/collections/EventPlanning/access";
+
 export const Execs: CollectionConfig = {
   slug: "execs",
   admin: {
     useAsTitle: "name",
     group: "Admin",
   },
-  // access : {
-  //   create: isAdmin,
-  //   read: isAdminOrSelf,
-  //   update: isAdminOrSelf,
-  //   delete: isAdmin,
-  // },
-  auth: true,
+  access: {
+    admin: adminsOnlyAdmin,
+    create: adminsOnly,
+    delete: adminsOnly,
+    read: authenticated,
+    unlock: adminsOnly,
+    update: adminOrSelf,
+  },
+  auth: {
+    cookies: {
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
+    },
+    lockTime: 10 * 60 * 1000,
+    maxLoginAttempts: 5,
+    tokenExpiration: 2 * 60 * 60,
+    useSessions: true,
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, previousDoc, req }) => {
+        if (operation === "update" && previousDoc.roles !== doc.roles) {
+          await req.payload.update({
+            collection: "execs",
+            id: doc.id,
+            data: { sessions: [] },
+            overrideAccess: true,
+            req,
+          });
+        }
+
+        return doc;
+      },
+    ],
+  },
   fields: [
     {
       name: "name",
@@ -22,10 +59,18 @@ export const Execs: CollectionConfig = {
       name: "email",
       type: "email",
       required: true,
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "department",
       type: "select",
+      access: {
+        update: adminsOnlyField,
+      },
       options: [
         {
           label: "Marketing",
@@ -68,6 +113,9 @@ export const Execs: CollectionConfig = {
     {
       name: "position",
       type: "select",
+      access: {
+        update: adminsOnlyField,
+      },
       options: [
         {
           label: "Vice President",
@@ -86,40 +134,75 @@ export const Execs: CollectionConfig = {
     {
       name: "student id",
       type: "number",
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "major",
       type: "text",
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "year",
       type: "number",
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "phone number",
       type: "number",
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "mylaurier email",
       type: "email",
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "city",
       type: "text",
+      access: {
+        create: adminsOnlyField,
+        read: adminOrSelfField,
+        update: adminOrSelfField,
+      },
     },
     {
       name: "roles",
+      required: true,
+      defaultValue: ({ req }) => (req.user ? "editor" : "admin"),
       saveToJWT: true,
       type: "select",
-
-      // access:{
-      //   create:isAdminFieldLevel,
-      //   update:isAdminFieldLevel,
-      // },
+      access: {
+        create: adminsOnlyField,
+        update: adminsOnlyField,
+      },
       options: [
         {
           label: "Admin",
           value: "admin",
+        },
+        {
+          label: "Manager",
+          value: "manager",
         },
         {
           label: "Editor",

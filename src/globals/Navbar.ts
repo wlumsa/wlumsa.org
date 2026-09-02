@@ -1,7 +1,12 @@
 import type { GlobalConfig } from "payload";
 
+import { managersAndAdmins } from "@/collections/EventPlanning/access";
+
 const Nav: GlobalConfig = {
   slug: "nav",
+  access: {
+    update: managersAndAdmins,
+  },
 
   fields: [
     {

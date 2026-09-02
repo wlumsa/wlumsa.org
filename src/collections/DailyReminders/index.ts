@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 export const DailyReminders: CollectionConfig = {
   slug: "daily-reminders",
+  access: managedCollectionAccess,
   admin: {
     useAsTitle: "reference",
     group: "App",

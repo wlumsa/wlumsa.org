@@ -89,6 +89,8 @@ export interface Config {
     events: Event;
     'daily-reminders': DailyReminder;
     masjid: Masjid;
+    'event-tasks': EventTask;
+    'content-schedule': ContentSchedule;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
@@ -120,6 +122,8 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     'daily-reminders': DailyRemindersSelect<false> | DailyRemindersSelect<true>;
     masjid: MasjidSelect<false> | MasjidSelect<true>;
+    'event-tasks': EventTasksSelect<false> | EventTasksSelect<true>;
+    'content-schedule': ContentScheduleSelect<false> | ContentScheduleSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -200,7 +204,7 @@ export interface Exec {
   'phone number'?: number | null;
   'mylaurier email'?: string | null;
   city?: string | null;
-  roles?: ('admin' | 'editor') | null;
+  roles: 'admin' | 'manager' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -583,6 +587,50 @@ export interface Event {
   image?: (number | null) | Media;
   link?: string | null;
   status?: ('draft' | 'published') | null;
+  /**
+   * The main person responsible for this event.
+   */
+  planningLead?: (number | null) | Exec;
+  /**
+   * Departments helping with this event.
+   */
+  departments?:
+    | (
+        | 'marketing'
+        | 'events_brothers'
+        | 'events_sisters'
+        | 'religious_affairs_brothers'
+        | 'religious_affairs_sisters'
+        | 'finance'
+        | 'community_engagement'
+        | 'operations'
+        | 'technology'
+      )[]
+    | null;
+  /**
+   * When this event is first created, add the usual checklist and Instagram schedule automatically.
+   */
+  planningTemplate?: ('standard' | 'none') | null;
+  /**
+   * Each occurrence is created as a normal event so it can have its own tasks and edits.
+   */
+  recurrence?: ('none' | 'weekly' | 'biweekly' | 'monthly') | null;
+  recurrenceEnd?: string | null;
+  /**
+   * Occurrences will not be created on these dates.
+   */
+  recurrenceExcludedDates?:
+    | {
+        date: string;
+        id?: string | null;
+      }[]
+    | null;
+  recurringParent?: (number | null) | Event;
+  recurrenceKey?: string | null;
+  /**
+   * Edits to this occurrence will be preserved when the recurring event is updated.
+   */
+  recurrenceException?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -609,6 +657,76 @@ export interface Masjid {
   location: string;
   googleMapsLink: string;
   websiteLink?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Simple internal tasks connected to an event.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-tasks".
+ */
+export interface EventTask {
+  id: number;
+  title: string;
+  event: number | Event;
+  dueDate: string;
+  status: 'not_started' | 'in_progress' | 'ready_for_review' | 'done';
+  /**
+   * The people responsible for completing this task.
+   */
+  assignees?: (number | Exec)[] | null;
+  department?:
+    | (
+        | 'marketing'
+        | 'events_brothers'
+        | 'events_sisters'
+        | 'religious_affairs_brothers'
+        | 'religious_affairs_sisters'
+        | 'finance'
+        | 'community_engagement'
+        | 'operations'
+        | 'technology'
+      )
+    | null;
+  /**
+   * Optional. Keep discussion in WhatsApp; use this only for a short final note if needed.
+   */
+  notes?: string | null;
+  createdFromTemplate?: boolean | null;
+  reminderSentAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * A lightweight posting schedule. Keep discussion in WhatsApp and designs in Canva.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-schedule".
+ */
+export interface ContentSchedule {
+  id: number;
+  title: string;
+  event: number | Event;
+  scheduledFor: string;
+  format: 'instagram_feed' | 'instagram_story' | 'email' | 'other';
+  status: 'not_started' | 'in_progress' | 'ready_for_review' | 'done';
+  assignees?: (number | Exec)[] | null;
+  department?:
+    | (
+        | 'marketing'
+        | 'events_brothers'
+        | 'events_sisters'
+        | 'religious_affairs_brothers'
+        | 'religious_affairs_sisters'
+        | 'finance'
+        | 'community_engagement'
+        | 'operations'
+        | 'technology'
+      )
+    | null;
+  createdFromTemplate?: boolean | null;
+  reminderSentAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -982,6 +1100,14 @@ export interface PayloadLockedDocument {
         value: number | Masjid;
       } | null)
     | ({
+        relationTo: 'event-tasks';
+        value: number | EventTask;
+      } | null)
+    | ({
+        relationTo: 'content-schedule';
+        value: number | ContentSchedule;
+      } | null)
+    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
@@ -1326,6 +1452,20 @@ export interface EventsSelect<T extends boolean = true> {
   image?: T;
   link?: T;
   status?: T;
+  planningLead?: T;
+  departments?: T;
+  planningTemplate?: T;
+  recurrence?: T;
+  recurrenceEnd?: T;
+  recurrenceExcludedDates?:
+    | T
+    | {
+        date?: T;
+        id?: T;
+      };
+  recurringParent?: T;
+  recurrenceKey?: T;
+  recurrenceException?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1350,6 +1490,40 @@ export interface MasjidSelect<T extends boolean = true> {
   location?: T;
   googleMapsLink?: T;
   websiteLink?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "event-tasks_select".
+ */
+export interface EventTasksSelect<T extends boolean = true> {
+  title?: T;
+  event?: T;
+  dueDate?: T;
+  status?: T;
+  assignees?: T;
+  department?: T;
+  notes?: T;
+  createdFromTemplate?: T;
+  reminderSentAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content-schedule_select".
+ */
+export interface ContentScheduleSelect<T extends boolean = true> {
+  title?: T;
+  event?: T;
+  scheduledFor?: T;
+  format?: T;
+  status?: T;
+  assignees?: T;
+  department?: T;
+  createdFromTemplate?: T;
+  reminderSentAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

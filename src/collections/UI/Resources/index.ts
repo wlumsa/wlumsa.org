@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 const Resources: CollectionConfig = {
   slug: "resources",
+  access: managedCollectionAccess,
   admin: {
     group: "UI",
   },

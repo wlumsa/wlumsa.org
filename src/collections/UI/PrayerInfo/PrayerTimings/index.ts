@@ -1,13 +1,15 @@
 import type { GlobalConfig } from "payload";
 
+import { managersAndAdmins } from "@/collections/EventPlanning/access";
+
 const PrayerTimings: GlobalConfig = {
   slug: "prayer-timings",
   admin: {
     group: "Prayer Info",
   },
   access: {
-    update: () => true,
     read: () => true,
+    update: managersAndAdmins,
   },
   fields: [
     {
