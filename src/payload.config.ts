@@ -48,9 +48,19 @@ import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
 import { EventTasks } from "./collections/EventTasks";
 import { ContentSchedule } from "./collections/ContentSchedule";
+import {
+  adminsOnly,
+  managedCollectionAccess,
+  managersAndAdmins,
+} from "./collections/EventPlanning/access";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const payloadSecret = process.env.PAYLOAD_SECRET;
+if (!payloadSecret) {
+  throw new Error("PAYLOAD_SECRET is required");
+}
 
 const generateTitle: GenerateTitle = () => {
   return "Laurier's Muslim Students Association";
@@ -72,7 +82,7 @@ const getDatabaseAdapter = () => {
 };
 
 export default buildConfig({
-  secret: process.env.PAYLOAD_SECRET || "60433e937e48ece59e189548",
+  secret: payloadSecret,
   admin: {
     user: Execs.slug,
     meta: {
@@ -190,7 +200,8 @@ export default buildConfig({
           },
         },
         access: {
-          update: () => true,
+          ...managedCollectionAccess,
+          read: () => true,
         },
 
         fields: ({ defaultFields }) => {
@@ -249,6 +260,12 @@ export default buildConfig({
       formSubmissionOverrides: {
         admin: {
           group: "Forms",
+        },
+        access: {
+          create: () => true,
+          delete: adminsOnly,
+          read: managersAndAdmins,
+          update: () => false,
         },
         fields: ({ defaultFields }) => {
           const formField = defaultFields.find(

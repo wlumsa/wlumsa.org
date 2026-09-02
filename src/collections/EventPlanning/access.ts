@@ -1,4 +1,9 @@
-import type { Access, FieldAccess, PayloadRequest } from "payload";
+import type {
+  Access,
+  CollectionConfig,
+  FieldAccess,
+  PayloadRequest,
+} from "payload";
 
 export type PlanningRole = "admin" | "editor" | "manager";
 
@@ -67,3 +72,14 @@ export const adminOrSelfField: FieldAccess = ({ doc, id, req }) => {
 
 export const adminsOnlyAdmin = ({ req }: { req: PayloadRequest }) =>
   getPlanningUser(req.user)?.roles === "admin";
+
+export const managedCollectionAccess = {
+  create: managersAndAdmins,
+  delete: adminsOnly,
+  update: managersAndAdmins,
+} satisfies NonNullable<CollectionConfig["access"]>;
+
+export const managerPrivateCollectionAccess = {
+  ...managedCollectionAccess,
+  read: managersAndAdmins,
+} satisfies NonNullable<CollectionConfig["access"]>;

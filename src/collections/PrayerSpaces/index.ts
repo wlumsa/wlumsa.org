@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 export const Masjid: CollectionConfig = {
   slug: "masjid",
+  access: managedCollectionAccess,
   admin: {
     hidden: false,
     useAsTitle: "title",

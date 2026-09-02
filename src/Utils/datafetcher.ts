@@ -890,6 +890,58 @@ export async function decrementFormCheckboxLimits(
   }
 }
 
+/**
+ * Decrement selected option limits without granting public update access to
+ * the complete Payload form document.
+ */
+export async function decrementFormSelectLimits(
+  formID: string,
+  submissionData: Record<string, unknown>
+): Promise<void> {
+  const parsedFormID = Number(formID);
+  if (!Number.isInteger(parsedFormID) || parsedFormID <= 0) {
+    throw new Error(`Invalid form ID: ${formID}`);
+  }
+
+  const { data: selectBlocks, error: blocksError } = await supabase
+    .from("forms_blocks_select")
+    .select("id, name")
+    .eq("_parent_id", parsedFormID);
+
+  if (blocksError) {
+    throw new Error(`Failed to fetch select fields: ${blocksError.message}`);
+  }
+
+  for (const field of selectBlocks ?? []) {
+    const selectedValue = submissionData[field.name];
+    if (typeof selectedValue !== "string" || !selectedValue) continue;
+
+    const { data: option, error: optionError } = await supabase
+      .from("forms_blocks_select_options")
+      .select("id, limit")
+      .eq("_parent_id", field.id)
+      .eq("value", selectedValue)
+      .maybeSingle();
+
+    if (optionError) {
+      throw new Error(`Failed to fetch select option: ${optionError.message}`);
+    }
+    if (!option || option.limit === null) continue;
+
+    const nextLimit = Math.max(Math.floor(Number(option.limit)) - 1, 0);
+    const { error: updateError } = await supabase
+      .from("forms_blocks_select_options")
+      .update({ limit: nextLimit })
+      .eq("id", option.id);
+
+    if (updateError) {
+      throw new Error(
+        `Failed to decrement select option: ${updateError.message}`
+      );
+    }
+  }
+}
+
 export async function getHalalGroceryStores() {
   const payload = await getPayloadInstance();
   const groceryStores = await payload.find({

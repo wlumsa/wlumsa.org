@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 const Jummah: CollectionConfig = {
   slug: "jummah-timings",
+  access: managedCollectionAccess,
   admin: {
     group: "Prayer Info",
   },

@@ -5,6 +5,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from "@payloadcms/richtext-lexical";
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
 
 export const Media: CollectionConfig = {
   slug: "media",
@@ -12,6 +13,7 @@ export const Media: CollectionConfig = {
     group: "Miscellaneous",
   },
   access: {
+    ...managedCollectionAccess,
     read: () => true,
   },
   fields: [

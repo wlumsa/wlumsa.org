@@ -10,12 +10,10 @@ import { useMutlistepForm } from "./useMultiStepForm";
 import RichText from "@/Utils/RichText";
 import { buildInitialFormState } from "./buildInitialFormState";
 import { fields } from "./fields";
-import type { SelectField, Options } from "./Select/types";
 import { createCheckoutSession } from "@/plugins/stripe/actions";
 import { decrementSubmissionLimit } from "./actions";
-import { decrementCheckboxLimits } from "./actions";
-import type { CheckboxField } from "./Checkbox/types";
-import type { ContactInfoField } from "./ContactInfo/types";
+import { decrementChoiceLimits } from "./actions";
+import { submitConfiguredWebhook } from "./actions";
 import { MoveLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 type Value = unknown;
@@ -42,15 +40,6 @@ export type FormBlockType = {
   }[];
 };
 
-type SelectFieldExtended = SelectField & {
-  id: string;
-};
-type CheckboxFieldExtended = CheckboxField & {
-  id: string;
-};
-type ContactInfoFieldExtended = ContactInfoField & {
-  id: string;
-};
 const containerVariants = {
   hidden: { opacity: 0, x: -50 },
   visible: {
@@ -149,34 +138,9 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               ...acc,
               [name]: value,
             }),
-            {} as FormData
+            {} as Record<string, unknown>
           );
         console.log("Submission Data", submissionData);
-
-        console.log(formFromProps.webhook);
-        if (formFromProps.webhook) {
-          try {
-            // Convert absolute URL to relative path to avoid CORS issues in development
-            let webhookUrl = formFromProps.webhook;
-            if (webhookUrl.includes("wlumsa.org")) {
-              const url = new URL(webhookUrl);
-              webhookUrl = url.pathname + url.search;
-            }
-
-            const webhookResponse = await fetch(webhookUrl, {
-              body: JSON.stringify(submissionData),
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-            });
-
-            if (!webhookResponse.ok) {
-              console.error("Webhook request failed:", webhookResponse.status);
-            }
-          } catch (webhookError) {
-            console.error("Webhook request error:", webhookError);
-            // Do not fail the entire form submission if the webhook fails.
-          }
-        }
 
         // Handle newsletter signup if newsletter checkbox is checked
         const newsletterField = formFromProps.fields.find(
@@ -236,127 +200,6 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
           }
         }
 
-        // Get current form data for limits
-        let formData = null;
-        try {
-          const formResponse = await fetch(`/api/forms/${formID}`);
-          if (!formResponse.ok) {
-            console.error("Failed to fetch form data:", formResponse.status);
-          } else {
-            formData = await formResponse.json();
-          }
-        } catch (err) {
-          console.error("Error fetching form data:", err);
-          // Continue with form submission even if we can't fetch form data for limits
-        }
-
-        // Handle select field limits
-        const selectFields =
-          formData?.fields?.filter(
-            (field: SelectFieldExtended) => field.blockType === "select"
-          ) || [];
-
-        // Update select field limits
-        for (const field of selectFields) {
-          const selectedValue = data[field.name]?.toString();
-          if (!selectedValue) continue;
-
-          const selectedOption = field.options?.find(
-            (option: Options) => option.value === selectedValue
-          );
-
-          if (selectedOption?.limit) {
-            try {
-              const updateResponse = await fetch(`/api/forms/${formID}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  fields: formData.fields.map((f: SelectFieldExtended) =>
-                    f.id === field.id
-                      ? {
-                          ...f,
-                          options: f.options.map((opt) =>
-                            opt.value === selectedValue
-                              ? { ...opt, limit: opt.limit! - 1 }
-                              : opt
-                          ),
-                        }
-                      : f
-                  ),
-                }),
-              });
-              if (!updateResponse.ok) {
-                console.error(
-                  "Failed to update select field limits:",
-                  updateResponse.status
-                );
-              }
-            } catch (err) {
-              console.error("Error updating select field limits:", err);
-            }
-          }
-        }
-
-        // Handle checkbox field limits
-        const checkboxFields =
-          formData?.fields?.filter(
-            (field: CheckboxFieldExtended) => field.blockType === "checkbox"
-          ) || [];
-        let updatedCheckboxes: CheckboxFieldExtended["checkboxes"] = [];
-
-        // Only proceed if there are checkbox fields
-        if (checkboxFields.length > 0 && formData?.fields) {
-          // Prepare updates for checkboxes
-          const updatedFields = formData.fields.map(
-            (f: CheckboxFieldExtended) => {
-              if (f.blockType === "checkbox") {
-                const selectedValues = data[f.name] as string[]; // Cast to string array
-                if (!selectedValues) return f;
-
-                // Update limits for selected checkboxes
-                updatedCheckboxes = f.checkboxes.map((opt) => {
-                  if (selectedValues.includes(opt.label) && opt.limit) {
-                    return { ...opt, limit: opt.limit! - 1 }; // Decrement limit
-                  }
-                  return opt;
-                });
-
-                return { ...f, checkboxes: updatedCheckboxes };
-              }
-              return f;
-            }
-          );
-
-          // Keep local state for close-form checks.
-          // Actual persistence now happens via a server action backed by Supabase.
-          try {
-            await decrementCheckboxLimits(
-              String(formID),
-              data as Record<string, unknown>
-            );
-          } catch (err) {
-            console.error(
-              "Error updating checkbox field limits in Supabase:",
-              err
-            );
-          }
-        }
-        //check checkbox limit
-        const closeForm =
-          formData?.fields?.some(
-            (field: CheckboxFieldExtended) =>
-              field.blockType === "checkbox" &&
-              updatedCheckboxes.every((opt) => opt.limit === 0)
-          ) || false;
-        console.log("Close Form", closeForm);
-        if (formData?.submissionLimit) {
-          try {
-            await decrementSubmissionLimit(String(formID));
-          } catch (err) {
-            console.error("Error updating submission limit:", err);
-          }
-        }
-
         // Create the submission
         let req, textResponse, res, submissionId;
         try {
@@ -397,6 +240,35 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
 
           if (!submissionId) {
             throw new Error("No submission ID received from the server");
+          }
+
+          try {
+            await Promise.all([
+              decrementChoiceLimits(
+                String(formID),
+                String(submissionId),
+                data as Record<string, unknown>
+              ),
+              formFromProps.submissionLimit
+                ? decrementSubmissionLimit(String(formID), String(submissionId))
+                : Promise.resolve(),
+            ]);
+          } catch (limitError) {
+            console.error("Error updating form limits:", limitError);
+          }
+
+          if (formFromProps.webhook) {
+            try {
+              await submitConfiguredWebhook(
+                String(formID),
+                String(submissionId),
+                submissionData
+              );
+            } catch (webhookError) {
+              console.error("Webhook request error:", webhookError);
+              // The submission is already saved, so a webhook outage should
+              // not present the form to the visitor as failed.
+            }
           }
         } catch (fetchError) {
           console.error("Form submission fetch error:", fetchError);

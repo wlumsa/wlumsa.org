@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 export const Recording: CollectionConfig = {
   slug: "recording",
+  access: managedCollectionAccess,
   admin: {
     useAsTitle: "title",
   },

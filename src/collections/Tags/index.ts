@@ -1,5 +1,7 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 export const Tags: CollectionConfig = {
   slug: "tags",
   admin: {
@@ -7,6 +9,7 @@ export const Tags: CollectionConfig = {
     useAsTitle: "title",
   },
   access: {
+    ...managedCollectionAccess,
     read: () => true,
   },
   fields: [
