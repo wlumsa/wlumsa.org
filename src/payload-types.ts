@@ -204,7 +204,7 @@ export interface Exec {
   'phone number'?: number | null;
   'mylaurier email'?: string | null;
   city?: string | null;
-  roles?: ('admin' | 'editor') | null;
+  roles: 'admin' | 'manager' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;

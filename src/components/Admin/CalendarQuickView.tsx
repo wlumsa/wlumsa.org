@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { formatPlanningDate } from "./planning-utils";
 
 export type CalendarQuickViewData = {
+  canUpdateStatus: boolean;
   collection: "content-schedule" | "event-tasks" | "events";
   date: string;
   details?: { label: string; value: null | string };
@@ -255,37 +256,44 @@ export function CalendarQuickView({
                 ))}
               </dl>
 
-              <section className="planning-task-drawer__section">
-                <div className="planning-task-drawer__section-heading">
+              {item.canUpdateStatus ? (
+                <section className="planning-task-drawer__section">
+                  <div className="planning-task-drawer__section-heading">
+                    <h3>Status</h3>
+                    <span aria-live="polite" role="status">
+                      {statusMessage}
+                    </span>
+                  </div>
+                  <div
+                    aria-label={`${item.label} status`}
+                    className="planning-task-status-options"
+                    role="group"
+                  >
+                    {item.statusOptions.map((option) => (
+                      <button
+                        aria-pressed={status === option.value}
+                        className={status === option.value ? "is-active" : ""}
+                        disabled={Boolean(pendingStatus)}
+                        key={option.value}
+                        onClick={() => updateStatus(option.value)}
+                        type="button"
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                  {error ? (
+                    <p className="planning-task-drawer__error" role="alert">
+                      {error}
+                    </p>
+                  ) : null}
+                </section>
+              ) : (
+                <section className="planning-task-drawer__section">
                   <h3>Status</h3>
-                  <span aria-live="polite" role="status">
-                    {statusMessage}
-                  </span>
-                </div>
-                <div
-                  aria-label={`${item.label} status`}
-                  className="planning-task-status-options"
-                  role="group"
-                >
-                  {item.statusOptions.map((option) => (
-                    <button
-                      aria-pressed={status === option.value}
-                      className={status === option.value ? "is-active" : ""}
-                      disabled={Boolean(pendingStatus)}
-                      key={option.value}
-                      onClick={() => updateStatus(option.value)}
-                      type="button"
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-                {error ? (
-                  <p className="planning-task-drawer__error" role="alert">
-                    {error}
-                  </p>
-                ) : null}
-              </section>
+                  <p>{statusLabel}</p>
+                </section>
+              )}
 
               {item.details ? (
                 <section className="planning-task-drawer__section">

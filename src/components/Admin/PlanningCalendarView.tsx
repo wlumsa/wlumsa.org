@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { AdminViewServerProps } from "payload";
 
+import { hasPlanningManagementRole } from "@/collections/EventPlanning/access";
 import {
   CalendarQuickView,
   type CalendarQuickViewData,
@@ -65,17 +66,30 @@ function assigneeNames(
   assignees:
     | null
     | undefined
-    | (number | { email: string; name?: null | string })[]
+    | (number | { email?: string; id: number | string; name?: null | string })[]
 ) {
   const names = (assignees ?? [])
     .filter((assignee) => typeof assignee === "object")
-    .map((assignee) => assignee.name || assignee.email);
+    .map((assignee) => assignee.name || assignee.email || "Assigned");
   return names.length ? names.join(", ") : "Unassigned";
+}
+
+function isAssignedTo(
+  assignees: null | undefined | (number | { id: number | string })[],
+  userID: number | string
+) {
+  return (assignees ?? []).some(
+    (assignee) =>
+      String(typeof assignee === "object" ? assignee.id : assignee) ===
+      String(userID)
+  );
 }
 
 export async function PlanningCalendarView(props: AdminViewServerProps) {
   const { req } = props.initPageResult;
   if (!req.user) redirect("/admin/login");
+  const userID = req.user.id;
+  const canManagePlanning = hasPlanningManagementRole(req.user);
 
   const { month, year } = parseMonth(props.searchParams?.month);
   const todayKey = getDateKey(new Date().toISOString());
@@ -131,6 +145,7 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
     ...eventsResult.docs.map((event): [string, CalendarQuickViewData] => [
       `event-${event.id}`,
       {
+        canUpdateStatus: canManagePlanning,
         collection: "events",
         date: event.date,
         details: { label: "Description", value: event.description },
@@ -140,7 +155,9 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
             label: "Event lead",
             value:
               event.planningLead && typeof event.planningLead === "object"
-                ? event.planningLead.name || event.planningLead.email
+                ? event.planningLead.name ||
+                  event.planningLead.email ||
+                  "Assigned"
                 : "Unassigned",
           },
           {
@@ -162,6 +179,8 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
     ...tasksResult.docs.map((task): [string, CalendarQuickViewData] => [
       `task-${task.id}`,
       {
+        canUpdateStatus:
+          canManagePlanning || isAssignedTo(task.assignees, userID),
         collection: "event-tasks",
         date: task.dueDate,
         details: { label: "Notes", value: task.notes ?? null },
@@ -196,6 +215,8 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
     ...contentResult.docs.map((post): [string, CalendarQuickViewData] => [
       `content-${post.id}`,
       {
+        canUpdateStatus:
+          canManagePlanning || isAssignedTo(post.assignees, userID),
         collection: "content-schedule",
         date: post.scheduledFor,
         facts: [
@@ -284,12 +305,14 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
           >
             My tasks
           </Link>
-          <Link
-            className="planning-button"
-            href="/admin/collections/events/create"
-          >
-            Create event
-          </Link>
+          {canManagePlanning ? (
+            <Link
+              className="planning-button"
+              href="/admin/collections/events/create"
+            >
+              Create event
+            </Link>
+          ) : null}
         </div>
       </header>
 

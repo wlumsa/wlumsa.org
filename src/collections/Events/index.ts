@@ -8,9 +8,20 @@ import {
   syncRecurringEvents,
 } from "@/collections/Events/recurrence";
 import { validateRecurrenceEnd } from "@/collections/Events/recurrenceDates";
+import {
+  adminsOnly,
+  authenticated,
+  managersAndAdmins,
+} from "@/collections/EventPlanning/access";
 
 export const Events: CollectionConfig = {
   slug: "events",
+  access: {
+    create: managersAndAdmins,
+    delete: adminsOnly,
+    read: authenticated,
+    update: managersAndAdmins,
+  },
   admin: {
     useAsTitle: "name",
     group: "App",

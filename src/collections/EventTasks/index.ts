@@ -1,6 +1,13 @@
 import type { CollectionConfig } from "payload";
 
-import { adminsOnly, authenticated } from "@/collections/EventPlanning/access";
+import {
+  adminsOnly,
+  adminsOnlyField,
+  authenticated,
+  managersAndAdmins,
+  managersAndAdminsField,
+  managersOrAssigned,
+} from "@/collections/EventPlanning/access";
 import {
   departmentOptions,
   planningStatusOptions,
@@ -19,9 +26,9 @@ export const EventTasks: CollectionConfig = {
     description: "Simple internal tasks connected to an event.",
   },
   access: {
-    create: authenticated,
+    create: managersAndAdmins,
     read: authenticated,
-    update: authenticated,
+    update: managersOrAssigned,
     delete: adminsOnly,
   },
   fields: [
@@ -29,6 +36,9 @@ export const EventTasks: CollectionConfig = {
       name: "title",
       type: "text",
       required: true,
+      access: {
+        update: managersAndAdminsField,
+      },
     },
     {
       name: "event",
@@ -36,6 +46,9 @@ export const EventTasks: CollectionConfig = {
       relationTo: "events",
       required: true,
       index: true,
+      access: {
+        update: managersAndAdminsField,
+      },
     },
     {
       name: "dueDate",
@@ -43,6 +56,9 @@ export const EventTasks: CollectionConfig = {
       type: "date",
       required: true,
       index: true,
+      access: {
+        update: managersAndAdminsField,
+      },
       admin: {
         date: {
           pickerAppearance: "dayAndTime",
@@ -65,6 +81,9 @@ export const EventTasks: CollectionConfig = {
       type: "relationship",
       relationTo: "execs",
       hasMany: true,
+      access: {
+        update: managersAndAdminsField,
+      },
       admin: {
         position: "sidebar",
         description: "The people responsible for completing this task.",
@@ -74,6 +93,9 @@ export const EventTasks: CollectionConfig = {
       name: "department",
       type: "select",
       options: departmentOptions,
+      access: {
+        update: managersAndAdminsField,
+      },
       admin: {
         position: "sidebar",
       },
@@ -90,6 +112,10 @@ export const EventTasks: CollectionConfig = {
       name: "createdFromTemplate",
       type: "checkbox",
       defaultValue: false,
+      access: {
+        create: adminsOnlyField,
+        update: adminsOnlyField,
+      },
       admin: {
         hidden: true,
         readOnly: true,
@@ -98,6 +124,10 @@ export const EventTasks: CollectionConfig = {
     {
       name: "reminderSentAt",
       type: "date",
+      access: {
+        create: adminsOnlyField,
+        update: adminsOnlyField,
+      },
       admin: {
         hidden: true,
         readOnly: true,

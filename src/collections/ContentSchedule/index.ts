@@ -1,6 +1,13 @@
 import type { CollectionConfig } from "payload";
 
-import { adminsOnly, authenticated } from "@/collections/EventPlanning/access";
+import {
+  adminsOnly,
+  adminsOnlyField,
+  authenticated,
+  managersAndAdmins,
+  managersAndAdminsField,
+  managersOrAssigned,
+} from "@/collections/EventPlanning/access";
 import {
   departmentOptions,
   planningStatusOptions,
@@ -20,9 +27,9 @@ export const ContentSchedule: CollectionConfig = {
       "A lightweight posting schedule. Keep discussion in WhatsApp and designs in Canva.",
   },
   access: {
-    create: authenticated,
+    create: managersAndAdmins,
     read: authenticated,
-    update: authenticated,
+    update: managersOrAssigned,
     delete: adminsOnly,
   },
   fields: [
@@ -30,6 +37,9 @@ export const ContentSchedule: CollectionConfig = {
       name: "title",
       type: "text",
       required: true,
+      access: {
+        update: managersAndAdminsField,
+      },
     },
     {
       name: "event",
@@ -37,6 +47,9 @@ export const ContentSchedule: CollectionConfig = {
       relationTo: "events",
       required: true,
       index: true,
+      access: {
+        update: managersAndAdminsField,
+      },
     },
     {
       name: "scheduledFor",
@@ -44,6 +57,9 @@ export const ContentSchedule: CollectionConfig = {
       type: "date",
       required: true,
       index: true,
+      access: {
+        update: managersAndAdminsField,
+      },
       admin: {
         date: {
           pickerAppearance: "dayAndTime",
@@ -55,6 +71,9 @@ export const ContentSchedule: CollectionConfig = {
       type: "select",
       required: true,
       defaultValue: "instagram_story",
+      access: {
+        update: managersAndAdminsField,
+      },
       options: [
         { label: "Instagram feed", value: "instagram_feed" },
         { label: "Instagram story", value: "instagram_story" },
@@ -81,6 +100,9 @@ export const ContentSchedule: CollectionConfig = {
       type: "relationship",
       relationTo: "execs",
       hasMany: true,
+      access: {
+        update: managersAndAdminsField,
+      },
       admin: {
         position: "sidebar",
       },
@@ -90,6 +112,9 @@ export const ContentSchedule: CollectionConfig = {
       type: "select",
       defaultValue: "marketing",
       options: departmentOptions,
+      access: {
+        update: managersAndAdminsField,
+      },
       admin: {
         position: "sidebar",
       },
@@ -98,6 +123,10 @@ export const ContentSchedule: CollectionConfig = {
       name: "createdFromTemplate",
       type: "checkbox",
       defaultValue: false,
+      access: {
+        create: adminsOnlyField,
+        update: adminsOnlyField,
+      },
       admin: {
         hidden: true,
         readOnly: true,
@@ -106,6 +135,10 @@ export const ContentSchedule: CollectionConfig = {
     {
       name: "reminderSentAt",
       type: "date",
+      access: {
+        create: adminsOnlyField,
+        update: adminsOnlyField,
+      },
       admin: {
         hidden: true,
         readOnly: true,

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import type { AdminViewServerProps, Where } from "payload";
 
 import { planningStatusOptions } from "@/collections/EventPlanning/options";
+import { hasPlanningManagementRole } from "@/collections/EventPlanning/access";
 import type { ContentSchedule, EventTask } from "@/payload-types";
 import {
   CalendarQuickView,
@@ -40,6 +41,7 @@ function normalizeTasks(tasks: EventTask[]): WorkItem[] {
       date: task.dueDate,
       id: `task-${task.id}`,
       quickView: {
+        canUpdateStatus: true,
         collection: "event-tasks",
         date: task.dueDate,
         details: { label: "Notes", value: task.notes ?? null },
@@ -73,6 +75,7 @@ function normalizeContent(items: ContentSchedule[]): WorkItem[] {
       date: item.scheduledFor,
       id: `content-${item.id}`,
       quickView: {
+        canUpdateStatus: true,
         collection: "content-schedule",
         date: item.scheduledFor,
         facts: [
@@ -103,6 +106,7 @@ export async function MyTasksView(props: AdminViewServerProps) {
   if (!req.user) redirect("/admin/login");
 
   const firstName = req.user.name?.trim().split(/\s+/)[0];
+  const canManagePlanning = hasPlanningManagementRole(req.user);
 
   const where = buildAssignmentQuery(req.user.id);
   const [tasksResult, contentResult] = await Promise.all([
@@ -153,12 +157,14 @@ export async function MyTasksView(props: AdminViewServerProps) {
           >
             View calendar
           </Link>
-          <Link
-            className="planning-button"
-            href="/admin/collections/events/create"
-          >
-            Create event
-          </Link>
+          {canManagePlanning ? (
+            <Link
+              className="planning-button"
+              href="/admin/collections/events/create"
+            >
+              Create event
+            </Link>
+          ) : null}
         </div>
       </header>
 
