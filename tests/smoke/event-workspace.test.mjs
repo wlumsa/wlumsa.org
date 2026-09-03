@@ -7,19 +7,33 @@ const root = process.cwd();
 
 describe("event workspace", () => {
   test("registers one event workspace with calendar-linked work", async () => {
-    const [config, workspace, navigation, workspaceNavigation] =
-      await Promise.all([
-        readFile(join(root, "src/payload.config.ts"), "utf8"),
-        readFile(
-          join(root, "src/components/Admin/EventWorkspaceView.tsx"),
-          "utf8"
-        ),
-        readFile(join(root, "src/components/Admin/PlanningNav.tsx"), "utf8"),
-        readFile(
-          join(root, "src/components/Admin/PlanningWorkspaceNav.tsx"),
-          "utf8"
-        ),
-      ]);
+    const [
+      config,
+      workspace,
+      calendar,
+      navigation,
+      workspaceNavigation,
+      adminShell,
+    ] = await Promise.all([
+      readFile(join(root, "src/payload.config.ts"), "utf8"),
+      readFile(
+        join(root, "src/components/Admin/EventWorkspaceView.tsx"),
+        "utf8"
+      ),
+      readFile(
+        join(root, "src/components/Admin/PlanningCalendarView.tsx"),
+        "utf8"
+      ),
+      readFile(join(root, "src/components/Admin/PlanningNav.tsx"), "utf8"),
+      readFile(
+        join(root, "src/components/Admin/PlanningWorkspaceNav.tsx"),
+        "utf8"
+      ),
+      readFile(
+        join(root, "src/components/Admin/PlanningAdminShell.tsx"),
+        "utf8"
+      ),
+    ]);
 
     assert.match(config, /path: "\/events"/);
     assert.match(navigation, /href="\/admin\/events"/);
@@ -27,6 +41,9 @@ describe("event workspace", () => {
     assert.match(workspace, /collection: "content-schedule"/);
     assert.match(workspace, /href="\/admin\/calendar"/);
     assert.match(workspace, /<CalendarQuickView/);
+    assert.match(workspace, /<PlanningAdminShell/);
+    assert.match(calendar, /<PlanningAdminShell/);
+    assert.match(adminShell, /<DefaultTemplate/);
     assert.match(workspaceNavigation, /label: "My Tasks"/);
     assert.match(workspaceNavigation, /label: "Events"/);
     assert.match(workspaceNavigation, /label: "Calendar"/);

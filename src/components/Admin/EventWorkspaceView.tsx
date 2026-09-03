@@ -10,6 +10,7 @@ import {
   type CalendarQuickViewData,
 } from "./CalendarQuickView";
 import { EventPlanningPanel } from "./EventPlanningPanel";
+import { PlanningAdminShell } from "./PlanningAdminShell";
 import { PlanningWorkspaceNav } from "./PlanningWorkspaceNav";
 
 const eventDateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -180,14 +181,16 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
     ]);
 
     return (
-      <EventWorkspaceDetail
-        canManage={canManage}
-        content={contentResult.docs}
-        event={event}
-        eventView={eventView}
-        tasks={tasksResult.docs}
-        userID={req.user.id}
-      />
+      <PlanningAdminShell viewProps={props}>
+        <EventWorkspaceDetail
+          canManage={canManage}
+          content={contentResult.docs}
+          event={event}
+          eventView={eventView}
+          tasks={tasksResult.docs}
+          userID={req.user.id}
+        />
+      </PlanningAdminShell>
     );
   }
 
@@ -245,129 +248,133 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
   }
 
   return (
-    <main className="planning-page event-workspace">
-      <PlanningWorkspaceNav />
-      <header className="planning-page__header">
-        <div>
-          <p className="planning-page__eyebrow">Event planning</p>
-          <h1>Events</h1>
-          <p>Open an event to see its venue, latest update, and work.</p>
-        </div>
-        <div className="planning-page__actions">
-          <Link
-            className="planning-button planning-button--secondary"
-            href="/admin/calendar"
-          >
-            Calendar
-          </Link>
-          {canManage ? (
+    <PlanningAdminShell viewProps={props}>
+      <main className="planning-page event-workspace">
+        <PlanningWorkspaceNav />
+        <header className="planning-page__header">
+          <div>
+            <p className="planning-page__eyebrow">Event planning</p>
+            <h1>Events</h1>
+            <p>Open an event to see its venue, latest update, and work.</p>
+          </div>
+          <div className="planning-page__actions">
             <Link
-              className="planning-button"
-              href="/admin/collections/events/create"
+              className="planning-button planning-button--secondary"
+              href="/admin/calendar"
             >
-              Create event
+              Calendar
             </Link>
-          ) : null}
-        </div>
-      </header>
+            {canManage ? (
+              <Link
+                className="planning-button"
+                href="/admin/collections/events/create"
+              >
+                Create event
+              </Link>
+            ) : null}
+          </div>
+        </header>
 
-      <nav className="event-workspace__views" aria-label="Event views">
-        <Link
-          aria-current={eventView === "upcoming" ? "page" : undefined}
-          href="/admin/events"
-        >
-          Upcoming
-        </Link>
-        <Link
-          aria-current={eventView === "past" ? "page" : undefined}
-          href="/admin/events?view=past"
-        >
-          Past
-        </Link>
-      </nav>
+        <nav className="event-workspace__views" aria-label="Event views">
+          <Link
+            aria-current={eventView === "upcoming" ? "page" : undefined}
+            href="/admin/events"
+          >
+            Upcoming
+          </Link>
+          <Link
+            aria-current={eventView === "past" ? "page" : undefined}
+            href="/admin/events?view=past"
+          >
+            Past
+          </Link>
+        </nav>
 
-      {eventsResult.docs.length ? (
-        <section
-          className="event-workspace__grid"
-          aria-label={eventView === "past" ? "Past events" : "Upcoming events"}
-        >
-          {eventsResult.docs.map((event) => {
-            const tasks = tasksByEvent.get(Number(event.id)) ?? [];
-            const completed = tasks.filter(
-              (task) => task.status === "done"
-            ).length;
-            const status = event.planningStatus ?? "planning";
-            const progress = tasks.length
-              ? Math.round((completed / tasks.length) * 100)
-              : 0;
+        {eventsResult.docs.length ? (
+          <section
+            className="event-workspace__grid"
+            aria-label={
+              eventView === "past" ? "Past events" : "Upcoming events"
+            }
+          >
+            {eventsResult.docs.map((event) => {
+              const tasks = tasksByEvent.get(Number(event.id)) ?? [];
+              const completed = tasks.filter(
+                (task) => task.status === "done"
+              ).length;
+              const status = event.planningStatus ?? "planning";
+              const progress = tasks.length
+                ? Math.round((completed / tasks.length) * 100)
+                : 0;
 
-            return (
-              <article className="event-workspace__card" key={event.id}>
-                <div className="event-workspace__card-topline">
-                  <time dateTime={event.date}>
-                    {shortDateFormatter.format(new Date(event.date))}
-                  </time>
-                  <span className={`event-workspace__status is-${status}`}>
-                    {statusLabel(status)}
-                  </span>
-                </div>
-                <h2>{event.name}</h2>
-                <dl className="event-workspace__card-facts">
-                  <div>
-                    <dt>Venue</dt>
-                    <dd>
-                      {event.location ||
-                        event.potentialVenue ||
-                        "Not added yet"}
-                    </dd>
+              return (
+                <article className="event-workspace__card" key={event.id}>
+                  <div className="event-workspace__card-topline">
+                    <time dateTime={event.date}>
+                      {shortDateFormatter.format(new Date(event.date))}
+                    </time>
+                    <span className={`event-workspace__status is-${status}`}>
+                      {statusLabel(status)}
+                    </span>
                   </div>
-                  <div>
-                    <dt>Lead</dt>
-                    <dd>{personName(event.planningLead)}</dd>
+                  <h2>{event.name}</h2>
+                  <dl className="event-workspace__card-facts">
+                    <div>
+                      <dt>Venue</dt>
+                      <dd>
+                        {event.location ||
+                          event.potentialVenue ||
+                          "Not added yet"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Lead</dt>
+                      <dd>{personName(event.planningLead)}</dd>
+                    </div>
+                  </dl>
+                  <p className="event-workspace__card-update">
+                    {event.planningUpdate || "No team update added yet."}
+                  </p>
+                  <div className="event-workspace__progress">
+                    <div>
+                      <span>Tasks</span>
+                      <strong>
+                        {completed}/{tasks.length} done
+                      </strong>
+                    </div>
+                    <span
+                      aria-hidden="true"
+                      className="event-workspace__progress-track"
+                    >
+                      <i style={{ width: `${progress}%` }} />
+                    </span>
                   </div>
-                </dl>
-                <p className="event-workspace__card-update">
-                  {event.planningUpdate || "No team update added yet."}
-                </p>
-                <div className="event-workspace__progress">
-                  <div>
-                    <span>Tasks</span>
-                    <strong>
-                      {completed}/{tasks.length} done
-                    </strong>
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    className="event-workspace__progress-track"
+                  <Link
+                    className="event-workspace__open"
+                    href={`/admin/events?event=${event.id}${
+                      eventView === "past" ? "&view=past" : ""
+                    }`}
                   >
-                    <i style={{ width: `${progress}%` }} />
-                  </span>
-                </div>
-                <Link
-                  className="event-workspace__open"
-                  href={`/admin/events?event=${event.id}${
-                    eventView === "past" ? "&view=past" : ""
-                  }`}
-                >
-                  Open workspace <span aria-hidden="true">→</span>
-                </Link>
-              </article>
-            );
-          })}
-        </section>
-      ) : (
-        <section className="planning-empty">
-          <h2>
-            {eventView === "past" ? "No past events" : "No upcoming events"}
-          </h2>
-          <p>
-            {eventView === "past"
-              ? "Completed events will appear here."
-              : "Create an event when the next program is ready to plan."}
-          </p>
-        </section>
-      )}
-    </main>
+                    Open workspace <span aria-hidden="true">→</span>
+                  </Link>
+                </article>
+              );
+            })}
+          </section>
+        ) : (
+          <section className="planning-empty">
+            <h2>
+              {eventView === "past" ? "No past events" : "No upcoming events"}
+            </h2>
+            <p>
+              {eventView === "past"
+                ? "Completed events will appear here."
+                : "Create an event when the next program is ready to plan."}
+            </p>
+          </section>
+        )}
+      </main>
+    </PlanningAdminShell>
   );
 }
 
