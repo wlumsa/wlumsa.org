@@ -31,7 +31,10 @@ function sharedEventData(event: Event, date: string) {
     locationLink: event.locationLink,
     name: event.name,
     planningLead: relationshipID(event.planningLead),
+    planningStatus: event.planningStatus ?? "planning",
     planningTemplate: event.planningTemplate ?? "standard",
+    planningUpdate: event.planningUpdate,
+    potentialVenue: event.potentialVenue,
     status: event.status ?? "draft",
     time: event.time,
   };

@@ -24,3 +24,11 @@ export const planningStatusOptions = [
   { label: "Ready for review", value: "ready_for_review" },
   { label: "Done", value: "done" },
 ] satisfies NonNullable<SelectField["options"]>;
+
+export const eventPlanningStatusOptions = [
+  { label: "Planning", value: "planning" },
+  { label: "In progress", value: "in_progress" },
+  { label: "Waiting", value: "waiting" },
+  { label: "Ready", value: "ready" },
+  { label: "Complete", value: "complete" },
+] satisfies NonNullable<SelectField["options"]>;

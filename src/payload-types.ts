@@ -583,6 +583,18 @@ export interface Event {
    * Optional directions URL (e.g., Google Maps). Shows as 'Get directions' under location.
    */
   locationLink?: string | null;
+  /**
+   * A simple internal view of where planning stands.
+   */
+  planningStatus?: ('planning' | 'in_progress' | 'waiting' | 'ready' | 'complete') | null;
+  /**
+   * Where the event may happen. Keep Location for the confirmed venue.
+   */
+  potentialVenue?: string | null;
+  /**
+   * One short update for the team, such as “Waiting for the venue quote.”
+   */
+  planningUpdate?: string | null;
   description: string;
   image?: (number | null) | Media;
   link?: string | null;
@@ -1448,6 +1460,9 @@ export interface EventsSelect<T extends boolean = true> {
   time?: T;
   location?: T;
   locationLink?: T;
+  planningStatus?: T;
+  potentialVenue?: T;
+  planningUpdate?: T;
   description?: T;
   image?: T;
   link?: T;

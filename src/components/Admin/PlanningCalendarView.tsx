@@ -8,6 +8,8 @@ import {
   type CalendarQuickViewData,
 } from "./CalendarQuickView";
 import { getDateKey, type PlanningCalendarItem } from "./planning-utils";
+import { PlanningAdminShell } from "./PlanningAdminShell";
+import { PlanningWorkspaceNav } from "./PlanningWorkspaceNav";
 
 const planningStatusOptions = [
   { label: "Not started", value: "not_started" },
@@ -291,148 +293,151 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <main className="planning-page planning-page--calendar">
-      <header className="planning-page__header">
-        <div>
-          <p className="planning-page__eyebrow">Event planning</p>
-          <h1>Calendar</h1>
-          <p>Events, internal tasks, and scheduled posts in one place.</p>
-        </div>
-        <div className="planning-page__actions">
-          <Link
-            className="planning-button planning-button--secondary"
-            href="/admin"
-          >
-            My tasks
-          </Link>
-          {canManagePlanning ? (
+    <PlanningAdminShell viewProps={props}>
+      <main className="planning-page planning-page--calendar">
+        <PlanningWorkspaceNav />
+        <header className="planning-page__header">
+          <div>
+            <p className="planning-page__eyebrow">Event planning</p>
+            <h1>Calendar</h1>
+            <p>Events, internal tasks, and scheduled posts in one place.</p>
+          </div>
+          <div className="planning-page__actions">
             <Link
-              className="planning-button"
-              href="/admin/collections/events/create"
+              className="planning-button planning-button--secondary"
+              href="/admin"
             >
-              Create event
+              My tasks
             </Link>
+            {canManagePlanning ? (
+              <Link
+                className="planning-button"
+                href="/admin/collections/events/create"
+              >
+                Create event
+              </Link>
+            ) : null}
+          </div>
+        </header>
+
+        <div className="planning-calendar__toolbar">
+          <Link
+            aria-label="Previous month"
+            className="planning-calendar__arrow"
+            href={`/admin/calendar?month=${monthParam(year, month, -1)}`}
+          >
+            ←
+          </Link>
+          <div className="planning-calendar__month">
+            <h2>
+              {monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))}
+            </h2>
+            <Link
+              aria-current={
+                `${year}-${String(month).padStart(2, "0")}` === todayMonth
+                  ? "date"
+                  : undefined
+              }
+              className="planning-calendar__today"
+              href={`/admin/calendar?month=${todayMonth}`}
+            >
+              Today
+            </Link>
+          </div>
+          <Link
+            aria-label="Next month"
+            className="planning-calendar__arrow"
+            href={`/admin/calendar?month=${monthParam(year, month, 1)}`}
+          >
+            →
+          </Link>
+        </div>
+
+        <div className="planning-legend" aria-label="Calendar legend">
+          <span>
+            <i className="planning-dot planning-dot--event" />
+            Event
+          </span>
+          <span>
+            <i className="planning-dot planning-dot--task" />
+            Task
+          </span>
+          <span>
+            <i className="planning-dot planning-dot--content" />
+            Scheduled post
+          </span>
+        </div>
+
+        <div className="planning-calendar__scroll">
+          <div className="planning-calendar">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+              <div className="planning-calendar__weekday" key={day}>
+                {day}
+              </div>
+            ))}
+            {cells.map((day, index) => {
+              const key = day
+                ? `${year}-${String(month).padStart(2, "0")}-${String(
+                    day
+                  ).padStart(2, "0")}`
+                : null;
+              const dayItems = key ? itemsByDate.get(key) ?? [] : [];
+              const isToday = key === todayKey;
+              const dayClassName = [
+                "planning-calendar__day",
+                !day && "planning-calendar__day--empty",
+                day &&
+                  dayItems.length === 0 &&
+                  "planning-calendar__day--no-items",
+                isToday && "planning-calendar__day--today",
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              return (
+                <div
+                  aria-current={isToday ? "date" : undefined}
+                  className={dayClassName}
+                  key={`${index}-${day ?? "empty"}`}
+                >
+                  {day ? (
+                    <>
+                      <span className="planning-calendar__number">{day}</span>
+                      <span className="planning-calendar__mobile-date">
+                        {mobileDayFormatter.format(
+                          new Date(Date.UTC(year, month - 1, day))
+                        )}
+                      </span>
+                    </>
+                  ) : null}
+                  <div className="planning-calendar__items">
+                    {dayItems.map((item) => {
+                      const quickView = quickViews.get(item.id);
+
+                      return quickView ? (
+                        <CalendarQuickView item={quickView} key={item.id} />
+                      ) : (
+                        <Link
+                          className={`planning-calendar__item planning-calendar__item--${item.kind}`}
+                          href={item.href}
+                          key={item.id}
+                        >
+                          {item.title}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {items.length === 0 ? (
+            <p className="planning-calendar__mobile-empty">
+              Nothing is scheduled this month.
+            </p>
           ) : null}
         </div>
-      </header>
-
-      <div className="planning-calendar__toolbar">
-        <Link
-          aria-label="Previous month"
-          className="planning-calendar__arrow"
-          href={`/admin/calendar?month=${monthParam(year, month, -1)}`}
-        >
-          ←
-        </Link>
-        <div className="planning-calendar__month">
-          <h2>
-            {monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))}
-          </h2>
-          <Link
-            aria-current={
-              `${year}-${String(month).padStart(2, "0")}` === todayMonth
-                ? "date"
-                : undefined
-            }
-            className="planning-calendar__today"
-            href={`/admin/calendar?month=${todayMonth}`}
-          >
-            Today
-          </Link>
-        </div>
-        <Link
-          aria-label="Next month"
-          className="planning-calendar__arrow"
-          href={`/admin/calendar?month=${monthParam(year, month, 1)}`}
-        >
-          →
-        </Link>
-      </div>
-
-      <div className="planning-legend" aria-label="Calendar legend">
-        <span>
-          <i className="planning-dot planning-dot--event" />
-          Event
-        </span>
-        <span>
-          <i className="planning-dot planning-dot--task" />
-          Task
-        </span>
-        <span>
-          <i className="planning-dot planning-dot--content" />
-          Scheduled post
-        </span>
-      </div>
-
-      <div className="planning-calendar__scroll">
-        <div className="planning-calendar">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <div className="planning-calendar__weekday" key={day}>
-              {day}
-            </div>
-          ))}
-          {cells.map((day, index) => {
-            const key = day
-              ? `${year}-${String(month).padStart(2, "0")}-${String(
-                  day
-                ).padStart(2, "0")}`
-              : null;
-            const dayItems = key ? itemsByDate.get(key) ?? [] : [];
-            const isToday = key === todayKey;
-            const dayClassName = [
-              "planning-calendar__day",
-              !day && "planning-calendar__day--empty",
-              day &&
-                dayItems.length === 0 &&
-                "planning-calendar__day--no-items",
-              isToday && "planning-calendar__day--today",
-            ]
-              .filter(Boolean)
-              .join(" ");
-
-            return (
-              <div
-                aria-current={isToday ? "date" : undefined}
-                className={dayClassName}
-                key={`${index}-${day ?? "empty"}`}
-              >
-                {day ? (
-                  <>
-                    <span className="planning-calendar__number">{day}</span>
-                    <span className="planning-calendar__mobile-date">
-                      {mobileDayFormatter.format(
-                        new Date(Date.UTC(year, month - 1, day))
-                      )}
-                    </span>
-                  </>
-                ) : null}
-                <div className="planning-calendar__items">
-                  {dayItems.map((item) => {
-                    const quickView = quickViews.get(item.id);
-
-                    return quickView ? (
-                      <CalendarQuickView item={quickView} key={item.id} />
-                    ) : (
-                      <Link
-                        className={`planning-calendar__item planning-calendar__item--${item.kind}`}
-                        href={item.href}
-                        key={item.id}
-                      >
-                        {item.title}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {items.length === 0 ? (
-          <p className="planning-calendar__mobile-empty">
-            Nothing is scheduled this month.
-          </p>
-        ) : null}
-      </div>
-    </main>
+      </main>
+    </PlanningAdminShell>
   );
 }
