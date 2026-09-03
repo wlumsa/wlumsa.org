@@ -5,6 +5,7 @@ import * as migration_20260827_013537_event_reminders from './20260827_013537_ev
 import * as migration_20260828_234500_recurring_events from './20260828_234500_recurring_events';
 import * as migration_20260829_000100_fix_recurring_array_columns from './20260829_000100_fix_recurring_array_columns';
 import * as migration_20260902_000100_add_manager_role from './20260902_000100_add_manager_role';
+import * as migration_20260902_000200_event_workspace from './20260902_000200_event_workspace';
 
 export const migrations = [
   {
@@ -41,5 +42,10 @@ export const migrations = [
     up: migration_20260902_000100_add_manager_role.up,
     down: migration_20260902_000100_add_manager_role.down,
     name: '20260902_000100_add_manager_role'
+  },
+  {
+    up: migration_20260902_000200_event_workspace.up,
+    down: migration_20260902_000200_event_workspace.down,
+    name: '20260902_000200_event_workspace'
   },
 ];

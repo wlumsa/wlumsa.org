@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
 import { createEventPlanningItems } from "@/collections/EventPlanning/createPlanningItems";
-import { departmentOptions } from "@/collections/EventPlanning/options";
+import {
+  departmentOptions,
+  eventPlanningStatusOptions,
+} from "@/collections/EventPlanning/options";
 import {
   deleteRelatedEventRecords,
   markRecurringEventException,
@@ -25,6 +28,13 @@ export const Events: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     group: "App",
+    defaultColumns: [
+      "name",
+      "date",
+      "planningStatus",
+      "potentialVenue",
+      "planningLead",
+    ],
   },
   hooks: {
     beforeChange: [markRecurringEventException],
@@ -88,6 +98,45 @@ export const Events: CollectionConfig = {
         description:
           "Optional directions URL (e.g., Google Maps). Shows as 'Get directions' under location.",
       },
+    },
+    {
+      type: "collapsible",
+      label: "Internal planning",
+      admin: {
+        initCollapsed: false,
+      },
+      fields: [
+        {
+          name: "planningStatus",
+          label: "Planning status",
+          type: "select",
+          defaultValue: "planning",
+          options: eventPlanningStatusOptions,
+          admin: {
+            description: "A simple internal view of where planning stands.",
+          },
+        },
+        {
+          name: "potentialVenue",
+          label: "Potential venue",
+          type: "text",
+          maxLength: 200,
+          admin: {
+            description:
+              "Where the event may happen. Keep Location for the confirmed venue.",
+          },
+        },
+        {
+          name: "planningUpdate",
+          label: "Latest update",
+          type: "textarea",
+          maxLength: 600,
+          admin: {
+            description:
+              "One short update for the team, such as “Waiting for the venue quote.”",
+          },
+        },
+      ],
     },
     {
       name: "description",

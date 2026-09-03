@@ -104,6 +104,10 @@ export default buildConfig({
             "@/components/Admin/PlanningCalendarView#PlanningCalendarView",
           path: "/calendar",
         },
+        eventWorkspace: {
+          Component: "@/components/Admin/EventWorkspaceView#EventWorkspaceView",
+          path: "/events",
+        },
       },
     },
   },
