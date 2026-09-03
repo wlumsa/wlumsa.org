@@ -10,6 +10,7 @@ import {
   type CalendarQuickViewData,
 } from "./CalendarQuickView";
 import { getDateKey, getRelatedEventName } from "./planning-utils";
+import { PlanningWorkspaceNav } from "./PlanningWorkspaceNav";
 
 type WorkItem = {
   date: string;
@@ -142,6 +143,7 @@ export async function MyTasksView(props: AdminViewServerProps) {
 
   return (
     <main className="planning-page">
+      <PlanningWorkspaceNav />
       <header className="planning-page__header">
         <div>
           <p className="planning-page__eyebrow">

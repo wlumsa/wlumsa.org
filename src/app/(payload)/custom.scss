@@ -72,6 +72,89 @@ html[data-theme="dark"] .wlumsa-admin-logo__text strong {
   color: var(--theme-text);
 }
 
+.planning-workspace-nav {
+  align-items: center;
+  background: color-mix(in srgb, var(--theme-bg) 94%, transparent);
+  border: 1px solid var(--theme-elevation-180);
+  border-radius: 7px;
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding: 0.3rem;
+  position: sticky;
+  scrollbar-width: none;
+  top: 0.75rem;
+  z-index: 20;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.planning-workspace-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.planning-workspace-nav__label {
+  align-items: center;
+  background: var(--wlumsa-purple);
+  border-radius: 4px;
+  color: #fff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.65rem;
+  font-weight: 800;
+  height: 2rem;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  width: 3.25rem;
+}
+
+.planning-workspace-nav__links {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.planning-workspace-nav__links a {
+  border-radius: 4px;
+  color: var(--theme-elevation-650);
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.55rem 0.8rem;
+  position: relative;
+  text-decoration: none;
+}
+
+.planning-workspace-nav__links a:hover,
+.planning-workspace-nav__links a:focus-visible {
+  background: var(--theme-elevation-100);
+  color: var(--theme-text);
+}
+
+.planning-workspace-nav__links a.is-current {
+  background: color-mix(in srgb, var(--wlumsa-purple) 9%, transparent);
+  color: var(--wlumsa-purple);
+}
+
+.planning-workspace-nav__links a.is-current::after {
+  background: var(--wlumsa-purple);
+  border-radius: 999px;
+  bottom: 0.18rem;
+  content: "";
+  height: 2px;
+  inset-inline: 0.8rem;
+  position: absolute;
+}
+
+html[data-theme="dark"] .planning-workspace-nav__links a.is-current {
+  color: #d8c2f2;
+}
+
+html[data-theme="dark"] .planning-workspace-nav__links a.is-current::after {
+  background: #d8c2f2;
+}
+
 .planning-page {
   margin-inline: auto;
   max-width: 1100px;
@@ -1160,6 +1243,13 @@ html[data-theme="dark"] .event-workspace__section-actions a {
 @media (max-width: 760px) {
   .planning-page {
     padding-top: 1.5rem;
+  }
+
+  .planning-workspace-nav {
+    margin-bottom: 1.5rem;
+    margin-inline: calc(var(--gutter-h) * -1);
+    padding-inline: var(--gutter-h);
+    top: 0;
   }
 
   .planning-page__header {

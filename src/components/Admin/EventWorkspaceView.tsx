@@ -10,6 +10,7 @@ import {
   type CalendarQuickViewData,
 } from "./CalendarQuickView";
 import { EventPlanningPanel } from "./EventPlanningPanel";
+import { PlanningWorkspaceNav } from "./PlanningWorkspaceNav";
 
 const eventDateFormatter = new Intl.DateTimeFormat("en-CA", {
   dateStyle: "full",
@@ -224,6 +225,7 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
 
   return (
     <main className="planning-page event-workspace">
+      <PlanningWorkspaceNav />
       <header className="planning-page__header">
         <div>
           <p className="planning-page__eyebrow">Event planning</p>
@@ -342,6 +344,7 @@ function EventWorkspaceDetail({
 
   return (
     <main className="planning-page event-workspace event-workspace--detail">
+      <PlanningWorkspaceNav />
       <Link className="event-workspace__back" href="/admin/events">
         ← All events
       </Link>

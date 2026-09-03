@@ -8,6 +8,7 @@ import {
   type CalendarQuickViewData,
 } from "./CalendarQuickView";
 import { getDateKey, type PlanningCalendarItem } from "./planning-utils";
+import { PlanningWorkspaceNav } from "./PlanningWorkspaceNav";
 
 const planningStatusOptions = [
   { label: "Not started", value: "not_started" },
@@ -292,6 +293,7 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
 
   return (
     <main className="planning-page planning-page--calendar">
+      <PlanningWorkspaceNav />
       <header className="planning-page__header">
         <div>
           <p className="planning-page__eyebrow">Event planning</p>
