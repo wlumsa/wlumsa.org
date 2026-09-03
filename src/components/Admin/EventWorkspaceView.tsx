@@ -33,11 +33,17 @@ const planningStatusOptions = [
 ];
 
 type PlanningStatus = NonNullable<Event["planningStatus"]>;
+type EventView = "past" | "upcoming";
 
 function selectedEventID(value: string | string[] | undefined) {
   const raw = Array.isArray(value) ? value[0] : value;
   if (!raw || !/^\d+$/.test(raw)) return null;
   return Number(raw);
+}
+
+function selectedEventView(value: string | string[] | undefined): EventView {
+  const raw = Array.isArray(value) ? value[0] : value;
+  return raw === "past" ? "past" : "upcoming";
 }
 
 function relationshipID(value: EventTask["event"] | ContentSchedule["event"]) {
@@ -141,6 +147,7 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
   if (!req.user) redirect("/admin/login");
 
   const eventID = selectedEventID(props.searchParams?.event);
+  const eventView = selectedEventView(props.searchParams?.view);
   const canManage = hasPlanningManagementRole(req.user);
 
   if (eventID) {
@@ -177,32 +184,46 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
         canManage={canManage}
         content={contentResult.docs}
         event={event}
+        eventView={eventView}
         tasks={tasksResult.docs}
         userID={req.user.id}
       />
     );
   }
 
-  const now = new Date();
-  now.setDate(now.getDate() - 7);
-  const eventWhere: Where = {
-    and: [
-      { recurringParent: { exists: false } },
-      {
-        or: [
-          { date: { greater_than_equal: now.toISOString() } },
-          { recurrenceEnd: { greater_than_equal: now.toISOString() } },
-        ],
-      },
-    ],
-  };
+  const now = new Date().toISOString();
+  const eventWhere: Where =
+    eventView === "past"
+      ? {
+          and: [
+            { recurringParent: { exists: false } },
+            { date: { less_than: now } },
+            {
+              or: [
+                { recurrenceEnd: { exists: false } },
+                { recurrenceEnd: { less_than: now } },
+              ],
+            },
+          ],
+        }
+      : {
+          and: [
+            { recurringParent: { exists: false } },
+            {
+              or: [
+                { date: { greater_than_equal: now } },
+                { recurrenceEnd: { greater_than_equal: now } },
+              ],
+            },
+          ],
+        };
   const eventsResult = await req.payload.find({
     collection: "events",
     depth: 1,
     limit: 60,
     overrideAccess: false,
     req,
-    sort: "date",
+    sort: eventView === "past" ? "-date" : "date",
     where: eventWhere,
   });
   const eventIDs = eventsResult.docs.map((event) => event.id);
@@ -250,8 +271,26 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
         </div>
       </header>
 
+      <nav className="event-workspace__views" aria-label="Event views">
+        <Link
+          aria-current={eventView === "upcoming" ? "page" : undefined}
+          href="/admin/events"
+        >
+          Upcoming
+        </Link>
+        <Link
+          aria-current={eventView === "past" ? "page" : undefined}
+          href="/admin/events?view=past"
+        >
+          Past
+        </Link>
+      </nav>
+
       {eventsResult.docs.length ? (
-        <section className="event-workspace__grid" aria-label="Upcoming events">
+        <section
+          className="event-workspace__grid"
+          aria-label={eventView === "past" ? "Past events" : "Upcoming events"}
+        >
           {eventsResult.docs.map((event) => {
             const tasks = tasksByEvent.get(Number(event.id)) ?? [];
             const completed = tasks.filter(
@@ -306,7 +345,9 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
                 </div>
                 <Link
                   className="event-workspace__open"
-                  href={`/admin/events?event=${event.id}`}
+                  href={`/admin/events?event=${event.id}${
+                    eventView === "past" ? "&view=past" : ""
+                  }`}
                 >
                   Open workspace <span aria-hidden="true">→</span>
                 </Link>
@@ -316,8 +357,14 @@ export async function EventWorkspaceView(props: AdminViewServerProps) {
         </section>
       ) : (
         <section className="planning-empty">
-          <h2>No upcoming events</h2>
-          <p>Create an event when the next program is ready to plan.</p>
+          <h2>
+            {eventView === "past" ? "No past events" : "No upcoming events"}
+          </h2>
+          <p>
+            {eventView === "past"
+              ? "Completed events will appear here."
+              : "Create an event when the next program is ready to plan."}
+          </p>
         </section>
       )}
     </main>
@@ -328,12 +375,14 @@ function EventWorkspaceDetail({
   canManage,
   content,
   event,
+  eventView,
   tasks,
   userID,
 }: {
   canManage: boolean;
   content: ContentSchedule[];
   event: Event;
+  eventView: EventView;
   tasks: EventTask[];
   userID: number | string;
 }) {
@@ -345,7 +394,12 @@ function EventWorkspaceDetail({
   return (
     <main className="planning-page event-workspace event-workspace--detail">
       <PlanningWorkspaceNav />
-      <Link className="event-workspace__back" href="/admin/events">
+      <Link
+        className="event-workspace__back"
+        href={
+          eventView === "past" ? "/admin/events?view=past" : "/admin/events"
+        }
+      >
         ← All events
       </Link>
       <header className="event-workspace__hero">

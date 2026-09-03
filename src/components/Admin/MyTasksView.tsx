@@ -149,7 +149,7 @@ export async function MyTasksView(props: AdminViewServerProps) {
           <p className="planning-page__eyebrow">
             Assalamu alaikum{firstName ? `, ${firstName}` : ""}
           </p>
-          <h1>Here’s what’s on your plate.</h1>
+          <h1>My Tasks</h1>
           <p>Your MSA tasks and scheduled posts, ordered by deadline.</p>
         </div>
         <div className="planning-page__actions">
