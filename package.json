@@ -46,6 +46,7 @@
     "@payloadcms/plugin-stripe": "~3.85.1",
     "@payloadcms/richtext-lexical": "~3.85.1",
     "@payloadcms/storage-s3": "~3.85.1",
+    "@payloadcms/ui": "3.85.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-email/components": "^0.5.1",
     "@react-email/markdown": "^0.0.15",
