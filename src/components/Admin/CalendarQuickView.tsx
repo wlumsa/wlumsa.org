@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@payloadcms/ui";
+import { toast, useDocumentDrawer } from "@payloadcms/ui";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -13,7 +13,7 @@ export type CalendarQuickViewData = {
   details?: { label: string; value: null | string };
   facts: { label: string; value: string }[];
   fullLabel: string;
-  id: number | string;
+  id: number;
   kind: "content" | "event" | "task";
   label: string;
   status: string;
@@ -46,25 +46,18 @@ export function CalendarQuickView({
   variant = "calendar",
 }: CalendarQuickViewProps) {
   const router = useRouter();
+  const [DocumentDrawer, , { openDrawer: openDocumentDrawer }] =
+    useDocumentDrawer({
+      collectionSlug: item.collection,
+      id: item.id,
+    });
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState(item.status);
   const [pendingStatus, setPendingStatus] = useState<null | string>(null);
   const [statusMessage, setStatusMessage] = useState<null | string>(null);
   const [error, setError] = useState<null | string>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const statusMessageTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null
-  );
   const triggerRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(
-    () => () => {
-      if (statusMessageTimerRef.current) {
-        clearTimeout(statusMessageTimerRef.current);
-      }
-    },
-    []
-  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -112,10 +105,6 @@ export function CalendarQuickView({
     if (nextStatus === status || pendingStatus) return;
 
     const previousStatus = status;
-    if (statusMessageTimerRef.current) {
-      clearTimeout(statusMessageTimerRef.current);
-      statusMessageTimerRef.current = null;
-    }
     setError(null);
     setPendingStatus(nextStatus);
     setStatusMessage("Saving…");
@@ -131,14 +120,12 @@ export function CalendarQuickView({
       if (!response.ok) throw new Error("Update failed");
       if (variant === "dashboard" && nextStatus === "done") {
         setIsOpen(false);
+        toast.success(`${item.label} status updated`);
         router.refresh();
         return;
       }
-      setStatusMessage("Updated");
-      statusMessageTimerRef.current = setTimeout(() => {
-        setStatusMessage(null);
-        statusMessageTimerRef.current = null;
-      }, 2000);
+      setStatusMessage(null);
+      toast.success(`${item.label} status updated`);
     } catch {
       setStatus(previousStatus);
       setStatusMessage(null);
@@ -307,9 +294,15 @@ export function CalendarQuickView({
             </div>
 
             <footer className="planning-task-drawer__footer">
-              <Link href={`/admin/collections/${item.collection}/${item.id}`}>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  requestAnimationFrame(openDocumentDrawer);
+                }}
+                type="button"
+              >
                 {item.fullLabel} <span aria-hidden="true">↗</span>
-              </Link>
+              </button>
               <small>
                 {variant === "dashboard"
                   ? "Your task list stays right where you left it."
@@ -319,6 +312,15 @@ export function CalendarQuickView({
           </aside>
         </div>
       ) : null}
+
+      <DocumentDrawer
+        onSave={({ doc }) => {
+          if ("status" in doc && typeof doc.status === "string") {
+            setStatus(doc.status);
+          }
+          router.refresh();
+        }}
+      />
     </>
   );
 }

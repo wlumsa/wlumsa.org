@@ -11,6 +11,7 @@ import {
 } from "./CalendarQuickView";
 import { EventPlanningPanel } from "./EventPlanningPanel";
 import { PlanningAdminShell } from "./PlanningAdminShell";
+import { PlanningDocumentDrawerAction } from "./PlanningDocumentDrawerAction";
 import { PlanningWorkspaceNav } from "./PlanningWorkspaceNav";
 
 const eventDateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -425,12 +426,13 @@ function EventWorkspaceDetail({
           <p>{eventDateFormatter.format(new Date(event.date))}</p>
         </div>
         <div className="planning-page__actions">
-          <Link
+          <PlanningDocumentDrawerAction
             className="planning-button planning-button--secondary"
-            href={`/admin/collections/events/${event.id}`}
+            collectionSlug="events"
+            id={event.id}
           >
             Edit event
-          </Link>
+          </PlanningDocumentDrawerAction>
           <Link className="planning-button" href="/admin/calendar">
             View calendar
           </Link>
@@ -475,11 +477,13 @@ function EventWorkspaceDetail({
               {completedTasks} of {tasks.length} complete
             </span>
             {canManage ? (
-              <Link
-                href={`/admin/collections/event-tasks/create?event=${event.id}`}
+              <PlanningDocumentDrawerAction
+                closeOnSave
+                collectionSlug="event-tasks"
+                initialData={{ event: event.id }}
               >
                 Add task
-              </Link>
+              </PlanningDocumentDrawerAction>
             ) : null}
           </div>
         </div>
@@ -513,11 +517,13 @@ function EventWorkspaceDetail({
             <h2>Scheduled posts</h2>
           </div>
           {canManage ? (
-            <Link
-              href={`/admin/collections/content-schedule/create?event=${event.id}`}
+            <PlanningDocumentDrawerAction
+              closeOnSave
+              collectionSlug="content-schedule"
+              initialData={{ event: event.id }}
             >
               Add post
-            </Link>
+            </PlanningDocumentDrawerAction>
           ) : null}
         </div>
         {content.length ? (

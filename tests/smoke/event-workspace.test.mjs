@@ -14,6 +14,7 @@ describe("event workspace", () => {
       navigation,
       workspaceNavigation,
       adminShell,
+      documentDrawerAction,
     ] = await Promise.all([
       readFile(join(root, "src/payload.config.ts"), "utf8"),
       readFile(
@@ -33,6 +34,10 @@ describe("event workspace", () => {
         join(root, "src/components/Admin/PlanningAdminShell.tsx"),
         "utf8"
       ),
+      readFile(
+        join(root, "src/components/Admin/PlanningDocumentDrawerAction.tsx"),
+        "utf8"
+      ),
     ]);
 
     assert.match(config, /path: "\/events"/);
@@ -42,8 +47,11 @@ describe("event workspace", () => {
     assert.match(workspace, /href="\/admin\/calendar"/);
     assert.match(workspace, /<CalendarQuickView/);
     assert.match(workspace, /<PlanningAdminShell/);
+    assert.match(workspace, /<PlanningDocumentDrawerAction/);
     assert.match(calendar, /<PlanningAdminShell/);
     assert.match(adminShell, /<DefaultTemplate/);
+    assert.match(documentDrawerAction, /useDocumentDrawer/);
+    assert.match(documentDrawerAction, /router\.refresh\(\)/);
     assert.match(workspaceNavigation, /label: "My Tasks"/);
     assert.match(workspaceNavigation, /label: "Events"/);
     assert.match(workspaceNavigation, /label: "Calendar"/);

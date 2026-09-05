@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "@payloadcms/ui";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -58,7 +59,8 @@ export function EventPlanningPanel({
       });
 
       if (!response.ok) throw new Error("Update failed");
-      setMessage("Saved");
+      setMessage(null);
+      toast.success("Planning update saved");
       router.refresh();
     } catch {
       setMessage("Couldn’t save. Please try again.");
