@@ -1,5 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import {
+  adminsOnly,
+  managersAndAdmins,
+} from "@/collections/EventPlanning/access";
+
 // import { getEmailHtml } from "@/app/email/generateEmailHTML";
 const Members: CollectionConfig = {
   slug: "members",
@@ -16,7 +21,9 @@ const Members: CollectionConfig = {
   },
   access: {
     create: () => true,
-    update: () => true,
+    delete: adminsOnly,
+    read: managersAndAdmins,
+    update: managersAndAdmins,
   },
   // hooks: {
   //   afterChange: [({ doc, operation, req }) => {

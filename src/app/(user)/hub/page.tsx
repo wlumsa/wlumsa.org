@@ -1,6 +1,14 @@
 import { getMediaFiles } from "@/Utils/datafetcher";
-import Link from "next/link";
+import ButtonGroup from "@/components/UI/ButtonGroup";
+import { ArrowUpRight } from "lucide-react";
+import type { Metadata } from "next";
 import type { Media } from "@/payload-types";
+
+export const metadata: Metadata = {
+  title: "Hub | WLU MSA",
+  description:
+    "Find WLU MSA manuals, interview preparation, and key documents in one place.",
+};
 
 function formatFileSize(bytes: number | null | undefined) {
   if (!bytes || bytes <= 0) return "";
@@ -82,94 +90,101 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
   const typeLabel: Record<HubType, string> = {
     all: "Documents",
     manual: "Manuals",
-    prep: "Prep",
+    prep: "Interview Prep",
     resource: "Resources",
   };
 
-  const filters: { label: string; type: HubType; href: string }[] = [
-    { label: "All", type: "all", href: "/hub" },
-    { label: "Manuals", type: "manual", href: "/hub?type=manual" },
-    { label: "Prep", type: "prep", href: "/hub?type=prep" },
-    { label: "Resources", type: "resource", href: "/hub?type=resource" },
+  const categories: { title: string; id: HubType }[] = [
+    { title: "All", id: "all" },
+    { title: "Manuals", id: "manual" },
+    { title: "Prep", id: "prep" },
+    { title: "Resources", id: "resource" },
   ];
 
   return (
-    <section className="mt-16 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl">
-        <div className="rounded-2xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-7">
-          <h1 className="text-3xl font-bold text-primary sm:text-4xl">Hub</h1>
-          <p className="mt-3 max-w-2xl text-sm text-base-content/80 sm:text-base">
+    <section className="px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+      <div className="mx-auto max-w-3xl">
+        <header>
+          <h1 className="font-heading text-balance text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+            Hub
+          </h1>
+          <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-base-content/75 sm:text-lg">
             Manuals, interview prep, and key documents in one place.
           </p>
-          <div className="mt-5 inline-flex items-center rounded-lg border border-base-300 bg-base-200 px-3 py-2 text-sm text-base-content/80">
-            {totalDocs} {totalDocs === 1 ? "item" : "items"}
-          </div>
-        </div>
+        </header>
 
-        <div className="mt-5 rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm sm:p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-base-content sm:text-xl">
+        <section className="mt-12 sm:mt-14">
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="font-heading text-xl font-semibold text-base-content sm:text-2xl">
               Documents
             </h2>
-            <span className="text-xs text-base-content/60">PDF</span>
+            <span className="shrink-0 text-sm tabular-nums text-base-content/55">
+              {totalDocs} {totalDocs === 1 ? "PDF" : "PDFs"}
+            </span>
           </div>
-          <div className="mb-4 flex flex-wrap gap-2">
-            {filters.map((filter) => (
-              <Link
-                key={filter.type}
-                href={filter.href}
-                className={`rounded-lg px-3 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-                  activeType === filter.type
-                    ? "bg-primary text-primary-content"
-                    : "border border-base-300 bg-base-200 text-base-content/80 hover:bg-base-300"
-                }`}
-              >
-                {filter.label}
-              </Link>
-            ))}
-          </div>
+          <nav aria-label="Filter documents" className="mt-5">
+            <ButtonGroup categories={categories} queryParam="type" />
+          </nav>
 
-          <div className="space-y-3">
+          <div className="mt-4">
             {docs.length > 0 ? (
-              docs.map((doc) => (
-                <a
-                  key={doc.id}
-                  href={doc.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-base-300 bg-base-200 px-4 py-3 transition hover:border-primary/40 hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  style={{
-                    contentVisibility: "auto",
-                    containIntrinsicSize: "76px",
-                  }}
-                >
-                  <div className="min-w-0">
-                    <p className="truncate font-medium text-base-content">
-                      {doc.title}
-                    </p>
-                    {doc.filename ? (
-                      <p className="truncate text-xs text-base-content/65">
-                        {doc.filename}
-                      </p>
-                    ) : null}
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <p className="text-xs text-base-content/65">{doc.size}</p>
-                    <p className="text-xs font-medium text-primary transition group-hover:underline">
-                      View PDF
-                    </p>
-                  </div>
-                </a>
-              ))
+              <ul className="space-y-2.5" role="list">
+                {docs.map((doc) => (
+                  <li key={doc.id}>
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex min-h-20 touch-manipulation items-center justify-between gap-4 rounded-lg border border-base-content/10 bg-base-100 px-4 py-3.5 transition-[transform,background-color,border-color,box-shadow] hover:-translate-y-px hover:border-base-content/20 hover:bg-base-200/50 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 active:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none"
+                      style={{
+                        contentVisibility: "auto",
+                        containIntrinsicSize: "76px",
+                      }}
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold text-base-content underline decoration-base-content/25 underline-offset-4 transition-[text-decoration-color] group-hover:decoration-base-content/70 motion-reduce:transition-none">
+                          {doc.title}
+                        </p>
+                        {doc.filename || doc.size ? (
+                          <p className="mt-1 flex min-w-0 items-center gap-2 text-xs text-base-content/55">
+                            {doc.filename ? (
+                              <span className="truncate">{doc.filename}</span>
+                            ) : null}
+                            {doc.filename && doc.size ? (
+                              <span aria-hidden="true" className="shrink-0">
+                                ·
+                              </span>
+                            ) : null}
+                            {doc.size ? (
+                              <span className="shrink-0 tabular-nums">
+                                {doc.size}
+                              </span>
+                            ) : null}
+                          </p>
+                        ) : null}
+                      </div>
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-[transform,box-shadow] group-hover:translate-x-0.5 group-hover:shadow-sm motion-reduce:transform-none motion-reduce:transition-none sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:-translate-y-px sm:group-hover:translate-x-0 sm:group-hover:shadow-md">
+                        <span className="sr-only sm:not-sr-only">Open PDF</span>
+                        <ArrowUpRight
+                          aria-hidden="true"
+                          className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+                          strokeWidth={2}
+                        />
+                        <span className="sr-only">(opens in a new tab)</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             ) : (
-              <div className="rounded-xl border border-dashed border-base-300 bg-base-200 px-4 py-6 text-center">
+              <div className="py-10">
                 <p className="text-sm text-base-content/70">
                   No {typeLabel[activeType].toLowerCase()} available right now.
                 </p>
               </div>
             )}
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );

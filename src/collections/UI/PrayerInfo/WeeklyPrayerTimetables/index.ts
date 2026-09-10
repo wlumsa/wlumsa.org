@@ -1,5 +1,7 @@
 import type { GlobalConfig } from "payload";
 
+import { managersAndAdmins } from "@/collections/EventPlanning/access";
+
 export const WeeklyPrayerTimetables: GlobalConfig = {
   slug: "weekly-prayer-timetables",
   admin: {
@@ -7,7 +9,7 @@ export const WeeklyPrayerTimetables: GlobalConfig = {
   },
   access: {
     read: () => true,
-    update: () => true,
+    update: managersAndAdmins,
   },
   fields: [
     {

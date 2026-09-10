@@ -5,6 +5,7 @@ import {
   lexicalHTML,
 } from "@payloadcms/richtext-lexical";
 import { sendDistributionEmail } from "@/lib/sendDistributionEmail";
+import { managerPrivateCollectionAccess } from "@/collections/EventPlanning/access";
 
 export const EmailCollection: CollectionConfig = {
   slug: "email-collection",
@@ -16,9 +17,7 @@ export const EmailCollection: CollectionConfig = {
     group: "Marketing",
     description: "Collection of emails for marketing purposes",
   },
-  access: {
-    update: ({ req }) => Boolean(req.user),
-  },
+  access: managerPrivateCollectionAccess,
   fields: [
     {
       name: "title",

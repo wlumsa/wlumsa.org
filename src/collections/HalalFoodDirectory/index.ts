@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 export const HalalDirectory: CollectionConfig = {
   slug: "halal-directory",
+  access: managedCollectionAccess,
   admin: {
     useAsTitle: "name",
     group: "Admin",

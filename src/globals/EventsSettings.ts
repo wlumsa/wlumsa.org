@@ -1,8 +1,12 @@
 import type { GlobalConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
+import { managersAndAdmins } from "@/collections/EventPlanning/access";
 
 const EventsSettings: GlobalConfig = {
   slug: "events-settings",
+  access: {
+    update: managersAndAdmins,
+  },
   admin: {
     group: "App",
   },

@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 export const link: CollectionConfig = {
   slug: "link",
+  access: managedCollectionAccess,
   admin: {
     hidden: false, // Changed from true to false
     useAsTitle: "title",

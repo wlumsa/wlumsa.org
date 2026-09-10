@@ -32,7 +32,11 @@ describe("email security boundaries", () => {
       collection,
       /import \{ sendDistributionEmail \} from "@\/lib\/sendDistributionEmail"/
     );
-    assert.match(collection, /update: \(\{ req \}\) => Boolean\(req\.user\)/);
+    assert.match(
+      collection,
+      /import \{ managerPrivateCollectionAccess \} from "@\/collections\/EventPlanning\/access"/
+    );
+    assert.match(collection, /access: managerPrivateCollectionAccess/);
     assert.doesNotMatch(collection, /update: \(\) => true/);
   });
 });

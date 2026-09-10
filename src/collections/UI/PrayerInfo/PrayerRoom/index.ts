@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
+
 const PrayerRooms: CollectionConfig = {
   slug: "prayer-rooms",
+  access: managedCollectionAccess,
   admin: {
     group: "Prayer Info",
   },

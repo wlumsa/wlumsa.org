@@ -1,7 +1,9 @@
 import type { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
 export const Posts: CollectionConfig = {
   slug: "Posts",
+  access: managedCollectionAccess,
   labels: {
     singular: "Blog Post",
     plural: "Blog Posts",

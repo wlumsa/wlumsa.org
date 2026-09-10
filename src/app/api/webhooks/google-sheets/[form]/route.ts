@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth, sheets as createSheetsClient } from "@googleapis/sheets";
+import { timingSafeEqual } from "node:crypto";
 import { env } from "@/env.mjs";
 import { resend } from "@/Utils/resend";
 
@@ -11,10 +12,72 @@ type FlatValue = string | number | boolean | null | undefined;
 
 type JsonRecord = Record<string, unknown>;
 
+const MAX_BODY_BYTES = 32 * 1024;
+const MAX_FLATTENED_FIELDS = 100;
+const MAX_NESTING_DEPTH = 8;
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60_000;
+
+type RateLimitEntry = { count: number; resetAt: number };
+
+const rateLimits = new Map<string, RateLimitEntry>();
+
+const getClientIP = (request: NextRequest) =>
+  request.headers.get("x-internal-client-ip") ??
+  request.headers.get("x-real-ip") ??
+  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+  "unknown";
+
+const isRateLimited = (request: NextRequest) => {
+  const now = Date.now();
+  const key = getClientIP(request);
+  const current = rateLimits.get(key);
+
+  if (!current || current.resetAt <= now) {
+    rateLimits.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+
+  current.count += 1;
+  return current.count > RATE_LIMIT;
+};
+
+const isAuthorized = (request: NextRequest) => {
+  const authorization = request.headers.get("authorization");
+  if (!authorization?.startsWith("Bearer ")) return false;
+
+  const provided = Buffer.from(authorization.slice("Bearer ".length));
+  const expected = Buffer.from(env.PAYLOAD_SECRET);
+  return (
+    provided.length === expected.length && timingSafeEqual(provided, expected)
+  );
+};
+
+const escapeHTML = (value: string) =>
+  value.replace(
+    /[&<>"']/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        '"': "&quot;",
+        "'": "&#039;",
+        "<": "&lt;",
+        ">": "&gt;",
+      }[character]!)
+  );
+
+const isEmail = (value: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
+
 const flattenValues = (
   input: unknown,
-  prefix = ""
+  prefix = "",
+  depth = 0
 ): Record<string, FlatValue> => {
+  if (depth > MAX_NESTING_DEPTH) {
+    throw new RangeError("Request nesting is too deep");
+  }
+
   if (input === null || input === undefined) {
     return {};
   }
@@ -27,7 +90,7 @@ const flattenValues = (
     return Object.entries(input as Record<string, unknown>).reduce(
       (acc, [key, value]) => {
         const nextPrefix = prefix ? `${prefix}.${key}` : key;
-        return { ...acc, ...flattenValues(value, nextPrefix) };
+        return { ...acc, ...flattenValues(value, nextPrefix, depth + 1) };
       },
       {} as Record<string, FlatValue>
     );
@@ -48,18 +111,6 @@ const getValueByPath = (input: JsonRecord, path: string): unknown => {
 const formatDaysList = (value: unknown) => {
   if (Array.isArray(value)) {
     return value.map((item) => String(item)).join(", ");
-  }
-
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value);
-};
-
-const formatSingleDay = (value: unknown) => {
-  if (Array.isArray(value) && value.length > 0) {
-    return String(value[0]);
   }
 
   if (value === null || value === undefined) {
@@ -124,32 +175,52 @@ export async function POST(
   request: NextRequest,
   segmentData: { params: Params }
 ) {
-  // Handle CORS preflight
-  const origin = request.headers.get("origin");
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (isRateLimited(request)) {
+    return NextResponse.json(
+      { error: "Too many submissions" },
+      { status: 429 }
+    );
+  }
 
-  // Allow requests from localhost during development
-  if (
-    origin &&
-    (origin.includes("localhost") || origin.includes("wlumsa.org"))
-  ) {
-    headers["Access-Control-Allow-Origin"] = origin;
-    headers["Access-Control-Allow-Methods"] = "POST, OPTIONS";
-    headers["Access-Control-Allow-Headers"] = "Content-Type";
+  if (!request.headers.get("content-type")?.includes("application/json")) {
+    return NextResponse.json(
+      { error: "Content-Type must be application/json" },
+      { status: 415 }
+    );
+  }
+
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json(
+      { error: "Request is too large" },
+      { status: 413 }
+    );
   }
 
   try {
     const params = await segmentData.params;
     const formTitle = decodeURIComponent(params.form);
     const normalizedForm = formTitle.trim().toLowerCase();
-    const { searchParams } = new URL(request.url);
-    const spreadsheetId =
-      searchParams.get("spreadsheetId") ?? env.GOOGLE_SHEETS_SPREADSHEET_ID;
-    const sheetName =
-      searchParams.get("sheetName") ?? env.GOOGLE_SHEETS_SHEET_NAME ?? "Sheet1";
+    const spreadsheetId = env.GOOGLE_SHEETS_SPREADSHEET_ID;
+    const sheetName = env.GOOGLE_SHEETS_SHEET_NAME ?? "Sheet1";
     const body = await request.json();
+
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json(
+        { error: "Expected a JSON object" },
+        { status: 400 }
+      );
+    }
+
+    if (JSON.stringify(body).length > MAX_BODY_BYTES) {
+      return NextResponse.json(
+        { error: "Request is too large" },
+        { status: 413 }
+      );
+    }
 
     const payload = {
       // _formTitle: formTitle,
@@ -157,12 +228,29 @@ export async function POST(
       ...body,
     };
 
-    const flattened = flattenValues(payload);
+    let flattened: Record<string, FlatValue>;
+    try {
+      flattened = flattenValues(payload);
+    } catch (error) {
+      if (error instanceof RangeError) {
+        return NextResponse.json(
+          { error: "Request nesting is too deep" },
+          { status: 400 }
+        );
+      }
+      throw error;
+    }
     const keys = Object.keys(flattened);
 
     if (!keys.length) {
       return NextResponse.json(
         { error: "No fields provided" },
+        { status: 400 }
+      );
+    }
+    if (keys.length > MAX_FLATTENED_FIELDS) {
+      return NextResponse.json(
+        { error: "Too many fields provided" },
         { status: 400 }
       );
     }
@@ -209,16 +297,18 @@ export async function POST(
         String(getValueByPath(body, firstNamePath) ?? "").trim() || "there";
       const daysValue = getValueByPath(body, daysPath);
       const daysList = formatDaysList(daysValue);
-      const dayText = formatSingleDay(daysValue);
-
-      if (typeof email === "string" && email) {
+      if (typeof email === "string" && isEmail(email)) {
+        const safeFirstName = escapeHTML(firstName.slice(0, 100));
+        const safeDaysList = escapeHTML(daysList.slice(0, 500));
         try {
           if (normalizedForm === "iftar") {
             const html = `
-            <p>Asalamu alaykum ${firstName},</p>
+            <p>Asalamu alaykum ${safeFirstName},</p>
 
             <p>We have received your request for Iftar this week. 
-            You are registered for the following days: ${daysList || "N/A"}</p>
+            You are registered for the following days: ${
+              safeDaysList || "N/A"
+            }</p>
 
             <p>If you need to cancel, please click 
             <a href="${cancelLink}">here</a>.</p>
@@ -232,9 +322,9 @@ export async function POST(
             });
           } else if (normalizedForm === "cancel") {
             const html = `
-              <p>Asalamu alaykum ${firstName},</p>
+              <p>Asalamu alaykum ${safeFirstName},</p>
               <p>You have cancelled your iftar for ${
-                daysList || "the selected day(s)"
+                safeDaysList || "the selected day(s)"
               }.
               JazakAllahu khair for letting us know.</p>
 
@@ -258,34 +348,26 @@ export async function POST(
 
     return NextResponse.json(
       { message: "Submission saved to Google Sheets" },
-      { status: 200, headers }
+      { status: 200 }
     );
   } catch (error) {
     console.error("Google Sheets webhook error:", error);
     return NextResponse.json(
       { error: "Failed to write to Google Sheets" },
-      { status: 500, headers }
+      { status: 500 }
     );
   }
 }
 
 export async function OPTIONS(request: NextRequest) {
-  const origin = request.headers.get("origin");
-  const headers: Record<string, string> = {};
-
-  if (
-    origin &&
-    (origin.includes("localhost") || origin.includes("wlumsa.org"))
-  ) {
-    headers["Access-Control-Allow-Origin"] = origin;
-    headers["Access-Control-Allow-Methods"] = "POST, OPTIONS";
-    headers["Access-Control-Allow-Headers"] = "Content-Type";
-  }
-
-  return new NextResponse(null, { status: 204, headers });
+  if (!isAuthorized(request)) return new NextResponse(null, { status: 401 });
+  return new NextResponse(null, { status: 204, headers: { Allow: "POST" } });
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   return NextResponse.json(
     { message: "Google Sheets webhook is running" },
     { status: 200 }

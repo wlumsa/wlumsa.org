@@ -1,7 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { managerPrivateCollectionAccess } from "@/collections/EventPlanning/access";
+
 const DistributionList: CollectionConfig = {
   slug: "distribution-list",
+  access: managerPrivateCollectionAccess,
   admin: {
     useAsTitle: "listName",
     group: "Marketing",

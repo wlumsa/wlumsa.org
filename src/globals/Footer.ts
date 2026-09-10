@@ -1,7 +1,12 @@
 import type { GlobalConfig } from "payload";
 
+import { managersAndAdmins } from "@/collections/EventPlanning/access";
+
 const Footer: GlobalConfig = {
   slug: "footer",
+  access: {
+    update: managersAndAdmins,
+  },
   fields: [
     {
       name: "items",

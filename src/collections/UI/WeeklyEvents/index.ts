@@ -1,8 +1,10 @@
 import type { CollectionConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
 
 const WeeklyEvents: CollectionConfig = {
   slug: "WeeklyEvents",
+  access: managedCollectionAccess,
   admin: {
     useAsTitle: "name",
     group: "UI",

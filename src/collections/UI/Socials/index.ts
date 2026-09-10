@@ -1,8 +1,10 @@
 import type { CollectionConfig } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
+import { managedCollectionAccess } from "@/collections/EventPlanning/access";
 
 const Socials: CollectionConfig = {
   slug: "Socials",
+  access: managedCollectionAccess,
   admin: {
     group: "UI",
   },
