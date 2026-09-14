@@ -48,7 +48,7 @@
     "@payloadcms/storage-s3": "~3.85.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-email/components": "^0.5.1",
-    "@react-email/markdown": "^0.0.15",
+    "@react-email/markdown": "^0.0.18",
     "@react-email/render": "^2.0.8",
     "@sparticuz/chromium-min": "^143.0.4",
     "@supabase/ssr": "latest",
@@ -85,7 +85,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
-    "@react-email/ui": "6.6.0",
+    "@react-email/ui": "6.9.5",
     "@types/node": "^18.19.130",
     "@types/prettier": "^2.7.3",
     "@types/react": "npm:types-react@19.0.0-rc.1",
