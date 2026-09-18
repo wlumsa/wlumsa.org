@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@payloadcms/ui";
 import { redirect } from "next/navigation";
 import type { AdminViewServerProps } from "payload";
 

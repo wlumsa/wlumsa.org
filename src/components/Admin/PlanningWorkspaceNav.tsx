@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@payloadcms/ui";
 import { usePathname } from "next/navigation";
 
 const destinations = [

@@ -84,18 +84,14 @@ export default async function Page(props: { searchParams: SearchParams }) {
             </div>
           </div>
 
-          <div className="pt-8 lg:pt-10">
-            {featuredPost ? (
+          {featuredPost && (
+            <div className="pt-8 lg:pt-10">
               <FeaturedPost
                 post={featuredPost}
-                eyebrow={hasFilters ? "Top result" : "Latest article"}
+                eyebrow={hasFilters ? "Top result" : "Featured article"}
               />
-            ) : (
-              <div className="flex min-h-[260px] items-center justify-center border border-dashed border-base-300 bg-base-200/40 p-8 text-center text-base-content/60">
-                No articles to feature yet.
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -166,17 +162,21 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <div className="mt-10 flex min-h-[320px] flex-col items-center justify-center border border-dashed border-base-300 bg-base-200/50 px-6 py-12 text-center">
             <SearchX className="h-10 w-10 text-primary/70" aria-hidden />
             <h2 className="font-heading mt-4 text-2xl font-bold text-base-content">
-              No articles found
+              {hasFilters ? "No articles found" : "No articles yet"}
             </h2>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-base-content/65">
-              Try a different search term or choose another category.
+              {hasFilters
+                ? "Try a different search term or choose another category."
+                : "Check back soon for new articles."}
             </p>
-            <Link
-              href="/blog"
-              className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-content transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              Reset search
-            </Link>
+            {hasFilters && (
+              <Link
+                href="/blog"
+                className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-content transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                Reset search
+              </Link>
+            )}
           </div>
         ) : null}
       </section>

@@ -156,23 +156,6 @@ export async function fetchBlogPostById(id: string) {
   return post.docs;
 }
 
-export async function fetchBlogPostByTitle(title: string) {
-  const payload = await getPayloadInstance();
-  const post = await payload.find({
-    collection: "Posts",
-    where: {
-      status: {
-        equals: "published",
-      },
-      title: {
-        equals: title,
-      },
-    },
-    limit: 1,
-  });
-  return post.docs;
-}
-
 export async function fetchBlogPostsByQuery(query: string) {
   const payload = await getPayloadInstance();
   const posts = await payload.find({
