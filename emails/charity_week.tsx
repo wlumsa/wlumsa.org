@@ -14,12 +14,7 @@ import {
   Column,
 } from "@react-email/components";
 import * as React from "react";
-import logo from "src/logo.png";
 
-import { DistributionList } from "@/payload-types";
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
 interface WelcomeEmailProps {
   firstName: string | null | undefined;
   content: string | null | undefined; // TEMP logo for url, replace with actual logo url later
@@ -98,7 +93,7 @@ export const CharityWeek = ({ firstName, content }: WelcomeEmailProps) => (
         </Container>
 
         <Text style={toptext}>Salam, {firstName} </Text>
-        <Text style={header}> It's Charity Week! 🥳 </Text>
+        <Text style={header}> It&apos;s Charity Week! 🥳 </Text>
 
         <div dangerouslySetInnerHTML={{ __html: content || "" }} />
         <Section style={CTAbuttonContainer}>
@@ -110,12 +105,6 @@ export const CharityWeek = ({ firstName, content }: WelcomeEmailProps) => (
           </Button>
         </Section>
 
-        {/*
-          <Section style={btnContainer}>
-            <Button style={button} href="https://wlumsa.org">
-              Visit our website
-            </Button>
-          </Section> */}
         <Text style={paragraph}>WLU MSA team</Text>
         <Hr style={hr} />
         <Text style={footer}>
@@ -194,21 +183,6 @@ const CTAbutton = {
   width: "100%",
   fontWeight: "bold",
   marginBottom: "16px",
-};
-
-const btnContainer = {
-  textAlign: "center" as const,
-};
-
-const button = {
-  backgroundColor: "#FFFFFF",
-  borderRadius: "3px",
-  color: "#000",
-  fontSize: "16px",
-  textDecoration: "none",
-  textAlign: "center" as const,
-  display: "block",
-  padding: "12px",
 };
 
 const hr = {
