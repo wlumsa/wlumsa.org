@@ -15,6 +15,8 @@ import ThemeProvider from "./themeprovider";
 import { PostHogProvider } from "./providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import { Suspense } from "react";
+import NavigationProgress from "@/components/Global/NavigationProgress";
 
 /*
   Default Metadata for entire project, to be changed
@@ -102,6 +104,9 @@ export default async function RootLayout({
           <Analytics />
           <ThemeProvider>
             <Navbar navbarData={navbarData} />
+            <Suspense fallback={null}>
+              <NavigationProgress />
+            </Suspense>
             <main className="flex-1 pt-0">{children}</main>
             <Footer footerGroups={footerData} socialData={socialData} />
           </ThemeProvider>
