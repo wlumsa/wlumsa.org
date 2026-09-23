@@ -1,8 +1,22 @@
 "use client";
-import { InstagramEmbed } from "react-social-media-embed";
 import React from "react";
 import { Instagram } from "@/payload-types";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const InstagramEmbed = dynamic(
+  () =>
+    import("react-social-media-embed").then((module) => module.InstagramEmbed),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="h-[425px] w-[328px] max-w-full animate-pulse rounded bg-base-200 motion-reduce:animate-none"
+        aria-hidden="true"
+      />
+    ),
+  }
+);
 
 interface InstagramPageProps {
   instagramPosts: Instagram[];
