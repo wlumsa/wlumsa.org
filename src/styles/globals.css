@@ -24,6 +24,81 @@ body {
   font-family: var(--font-geist);
 }
 
+/* Route loading feedback: a quiet gold progress line and content-shaped placeholders. */
+.page-loading-progress {
+  position: fixed;
+  z-index: 20;
+  top: 4rem;
+  right: 0;
+  left: 0;
+  height: 2px;
+  overflow: hidden;
+  background: color-mix(
+    in srgb,
+    var(--fallback-p, oklch(var(--p))) 12%,
+    transparent
+  );
+}
+
+.page-loading-progress::after {
+  display: block;
+  width: 38%;
+  height: 100%;
+  transform: translateX(-110%);
+  transform-origin: left;
+  animation: page-loading-progress 1.25s ease-in-out infinite;
+  background: var(--fallback-s, oklch(var(--s)));
+  box-shadow: 0 0 12px
+    color-mix(in srgb, var(--fallback-s, oklch(var(--s))) 60%, transparent);
+  content: "";
+}
+
+.page-loading-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-loading-shimmer::after {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  animation: page-loading-shimmer 1.6s ease-in-out infinite;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    color-mix(in srgb, currentColor 8%, transparent) 50%,
+    transparent 80%
+  );
+  content: "";
+}
+
+@keyframes page-loading-progress {
+  50% {
+    width: 55%;
+  }
+  100% {
+    transform: translateX(310%);
+  }
+}
+
+@keyframes page-loading-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loading-progress::after,
+  .page-loading-shimmer::after {
+    animation: none;
+  }
+
+  .page-loading-progress::after {
+    width: 42%;
+    transform: none;
+  }
+}
+
 h1,
 h2,
 h3,
