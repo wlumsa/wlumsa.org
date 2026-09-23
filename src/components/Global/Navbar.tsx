@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "@/app/(user)/themeprovider";
 import logo from "../../logo.png";
 import { Nav } from "@/payload-types";
+import NavPendingIndicator from "./NavPendingIndicator";
 
 type NavbarProps = {
   navbarData: Nav;
@@ -46,6 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               width={36}
               className="rounded-lg"
             />
+            <NavPendingIndicator />
           </Link>
         </div>
 
@@ -93,6 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                       className="whitespace-nowrap rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20"
                     >
                       {item.label}
+                      <NavPendingIndicator />
                     </Link>
                   ) : (
                     <>
@@ -124,6 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                                   <div className="text-sm font-medium leading-none text-white">
                                     {link.title}
                                   </div>
+                                  <NavPendingIndicator />
                                 </Link>
                               </li>
                             );
@@ -241,6 +245,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           {item.label}
+                          <NavPendingIndicator />
                         </Link>
                       ) : (
                         <details className="group">
@@ -270,6 +275,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                                   onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                   {link.title}
+                                  <NavPendingIndicator />
                                 </Link>
                               );
                             })}
