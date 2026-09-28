@@ -337,13 +337,21 @@
   white-space: nowrap;
 }
 
-.marquee div {
+.marqueeTrack {
   display: flex;
   width: max-content;
   align-items: center;
+  animation: marquee 22s linear infinite;
+}
+
+.marqueeGroup {
+  display: flex;
+  width: max(100vw, 64rem);
+  flex: 0 0 max(100vw, 64rem);
+  align-items: center;
+  justify-content: space-around;
   gap: 1.5rem;
   padding: 0.85rem 0;
-  animation: marquee 22s linear infinite;
 }
 
 .marquee span {
@@ -981,7 +989,7 @@
   .intro {
     display: none;
   }
-  .marquee div {
+  .marqueeTrack {
     animation: none;
   }
   .coverImage,

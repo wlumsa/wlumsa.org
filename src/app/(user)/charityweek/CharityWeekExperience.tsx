@@ -237,15 +237,19 @@ export default function CharityWeekExperience() {
           </div>
 
           <div className={styles.marquee} aria-hidden="true">
-            <div>
-              <span>UNITY IN ACTION</span>
-              <i>✦</i>
-              <span>FOR ORPHANS &amp; CHILDREN</span>
-              <i>✦</i>
-              <span>UNITY IN ACTION</span>
-              <i>✦</i>
-              <span>FOR ORPHANS &amp; CHILDREN</span>
-              <i>✦</i>
+            <div className={styles.marqueeTrack}>
+              {[0, 1].map((group) => (
+                <div className={styles.marqueeGroup} key={group}>
+                  <span>UNITY IN ACTION</span>
+                  <i>✦</i>
+                  <span>FOR ORPHANS &amp; CHILDREN</span>
+                  <i>✦</i>
+                  <span>UNITY IN ACTION</span>
+                  <i>✦</i>
+                  <span>FOR ORPHANS &amp; CHILDREN</span>
+                  <i>✦</i>
+                </div>
+              ))}
             </div>
           </div>
         </section>
