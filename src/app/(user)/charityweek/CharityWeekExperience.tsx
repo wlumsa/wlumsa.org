@@ -140,6 +140,8 @@ function Intro() {
 }
 
 export default function CharityWeekExperience() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className={styles.page}>
       <Intro />
@@ -167,90 +169,147 @@ export default function CharityWeekExperience() {
 
       <main id="top">
         <section className={styles.hero}>
-          <div className={styles.heroNoise} />
-          <div className={styles.heroStarOne}>✦</div>
-          <div className={styles.heroStarTwo}>✦</div>
+          <div className={styles.heroPaper} aria-hidden="true" />
+          <div className={styles.bluePrint} aria-hidden="true" />
+          <div className={styles.orangePrint} aria-hidden="true" />
+
+          <motion.div
+            className={styles.dateStamp}
+            initial={
+              reduceMotion ? false : { opacity: 0, rotate: -7, scale: 0.8 }
+            }
+            animate={{ opacity: 1, rotate: -4, scale: 1 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 180 }}
+          >
+            <span>October</span>
+            <strong>2026</strong>
+            <small>Laurier</small>
+          </motion.div>
+
+          <motion.figure
+            className={`${styles.heroPhoto} ${styles.heroPhotoCampus}`}
+            initial={reduceMotion ? false : { opacity: 0, x: 45, rotate: 12 }}
+            animate={{ opacity: 1, x: 0, rotate: 5 }}
+            transition={{
+              delay: 0.35,
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <span className={styles.tape} aria-hidden="true" />
+            <div className={styles.heroPhotoFrame}>
+              <Image
+                src={events[0].image}
+                alt="Students raising funds at the Charity Week booth"
+                fill
+                sizes="(max-width: 680px) 54vw, 25vw"
+                priority
+              />
+            </div>
+            <figcaption>Small actions. Shared purpose.</figcaption>
+          </motion.figure>
+
+          <motion.figure
+            className={`${styles.heroPhoto} ${styles.heroPhotoImpact}`}
+            initial={
+              reduceMotion ? false : { opacity: 0, x: 35, y: 20, rotate: -10 }
+            }
+            animate={{ opacity: 1, x: 0, y: 0, rotate: -6 }}
+            transition={{
+              delay: 0.62,
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <span className={styles.tape} aria-hidden="true" />
+            <div className={styles.heroPhotoFrame}>
+              <Image
+                src={causes[0].image}
+                alt="Children supported through Charity Week projects"
+                fill
+                sizes="(max-width: 680px) 44vw, 19vw"
+                priority
+              />
+            </div>
+            <figcaption>The reason behind the week.</figcaption>
+          </motion.figure>
+
           <div className={styles.heroContent}>
             <motion.p
-              className={styles.kicker}
-              initial={{ opacity: 0, y: 12 }}
+              className={styles.heroPrompt}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.55 }}
             >
-              <span>October 2026</span>
-              <span>Wilfrid Laurier University</span>
+              Charity Week asks
             </motion.p>
 
-            <div className={styles.heroTitleWrap}>
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.22,
-                  duration: 0.8,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                <span>ONE</span>
-                <span className={styles.outlineWord}>WEEK.</span>
-              </motion.h1>
-              <motion.div
-                className={styles.heroSeal}
-                initial={{ opacity: 0, scale: 0.7, rotate: -15 }}
-                animate={{ opacity: 1, scale: 1, rotate: 7 }}
-                transition={{
-                  delay: 0.55,
-                  type: "spring",
-                  stiffness: 170,
-                }}
-              >
-                <Image
-                  src={CW_LOGO}
-                  alt="Charity Week"
-                  width={148}
-                  height={148}
-                  priority
-                />
-              </motion.div>
-            </div>
+            <motion.h1
+              initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.22,
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <span className={styles.questionTop}>What can</span>
+              <span className={styles.questionCampus}>one campus</span>
+              <span className={styles.questionWeek}>do in one week?</span>
+            </motion.h1>
+
+            <motion.div
+              className={styles.heroStamp}
+              initial={
+                reduceMotion ? false : { opacity: 0, scale: 1.25, rotate: 18 }
+              }
+              animate={{ opacity: 1, scale: 1, rotate: 9 }}
+              transition={{ delay: 0.78, type: "spring", stiffness: 190 }}
+            >
+              <Image
+                src={CW_LOGO}
+                alt="Charity Week"
+                width={104}
+                height={104}
+              />
+            </motion.div>
 
             <div className={styles.heroBottom}>
               <motion.p
-                initial={{ opacity: 0 }}
+                initial={reduceMotion ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.72, duration: 0.7 }}
               >
-                One campus. One united effort. A week of showing what becomes
-                possible when we stop moving alone.
+                This is not a campaign you watch. Show up, bring someone, and
+                help turn a campus into a collective force.
               </motion.p>
               <motion.a
                 href="#story"
-                className={styles.roundButton}
+                className={styles.pullTab}
                 aria-label="Discover Charity Week"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={reduceMotion ? false : { opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.82, duration: 0.5 }}
               >
+                <span>Pull into the story</span>
                 <ArrowDown aria-hidden="true" />
               </motion.a>
             </div>
           </div>
 
-          <div className={styles.marquee} aria-hidden="true">
-            <div className={styles.marqueeTrack}>
-              {[0, 1].map((group) => (
-                <div className={styles.marqueeGroup} key={group}>
-                  <span>UNITY IN ACTION</span>
-                  <i>✦</i>
-                  <span>FOR ORPHANS &amp; CHILDREN</span>
-                  <i>✦</i>
-                  <span>UNITY IN ACTION</span>
-                  <i>✦</i>
-                  <span>FOR ORPHANS &amp; CHILDREN</span>
-                  <i>✦</i>
-                </div>
-              ))}
-            </div>
+          <div className={styles.heroFragments}>
+            <span>
+              <strong>$25K</strong> Goal
+            </span>
+            <span>
+              <strong>3</strong> Impact Areas
+            </span>
+            <span>
+              <strong>1</strong> Campus
+            </span>
+            <span>
+              <strong>All</strong> Of Us
+            </span>
           </div>
         </section>
 
