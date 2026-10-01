@@ -27,6 +27,7 @@ const causes = [
     headline: "Care that reaches children when every second matters.",
     summary:
       "Supporting maternal and newborn health, specialized care for children, and access to cochlear implants for children who need them.",
+    note: "Health and specialized care",
   },
   {
     place: "Sudan",
@@ -37,6 +38,7 @@ const causes = [
     headline: "Rebuilding the essentials that let a community breathe.",
     summary:
       "Delivering food and shelter while helping restore hospitals, classrooms, clean water sources, and sanitation infrastructure.",
+    note: "Relief and essential infrastructure",
   },
   {
     place: "Bangladesh",
@@ -47,6 +49,7 @@ const causes = [
     headline: "A safer home and a real path back to the classroom.",
     summary:
       "Improving shelters for displaced Rohingya families and helping children leave hazardous labour for safe, supported education.",
+    note: "Shelter and safe education",
   },
 ] as const;
 
@@ -314,6 +317,10 @@ export default function CharityWeekExperience() {
         </section>
 
         <section className={styles.story} id="story">
+          <span className={styles.storyTape} aria-hidden="true" />
+          <span className={styles.storyScribble} aria-hidden="true">
+            Start here
+          </span>
           <div className={styles.storyGrid}>
             <Reveal className={styles.sectionLabel}>
               <span>Why we show up</span>
@@ -340,13 +347,19 @@ export default function CharityWeekExperience() {
           </div>
 
           <Reveal className={styles.manifesto}>
-            <p>Different stories.</p>
-            <p>Different strengths.</p>
+            <p>
+              <span>Different</span> stories.
+            </p>
+            <p>
+              Different <span>strengths.</span>
+            </p>
             <p className={styles.manifestoAccent}>One direction.</p>
+            <small>That is what unity looks like.</small>
           </Reveal>
         </section>
 
         <section className={styles.impact} id="impact">
+          <div className={styles.impactGrid} aria-hidden="true" />
           <div className={styles.impactHeader}>
             <Reveal>
               <p className={styles.blueEyebrow}>Where the effort travels</p>
@@ -370,6 +383,7 @@ export default function CharityWeekExperience() {
               <Reveal key={cause.place} delay={index * 0.06}>
                 <article className={styles.causeCard}>
                   <div className={styles.causeImage}>
+                    <span className={styles.causeTape} aria-hidden="true" />
                     <Image
                       src={cause.image}
                       alt={cause.alt}
@@ -380,9 +394,16 @@ export default function CharityWeekExperience() {
                     <span>{cause.number}</span>
                   </div>
                   <div className={styles.causeContent}>
-                    <p>{cause.place}</p>
+                    <div className={styles.causeMeta}>
+                      <p>{cause.place}</p>
+                      <span>Field note {cause.number}</span>
+                    </div>
                     <h3>{cause.headline}</h3>
                     <p className={styles.causeSummary}>{cause.summary}</p>
+                    <div className={styles.causeNote}>
+                      <span>What support becomes</span>
+                      <strong>{cause.note}</strong>
+                    </div>
                   </div>
                 </article>
               </Reveal>
@@ -390,7 +411,54 @@ export default function CharityWeekExperience() {
           </div>
         </section>
 
+        <section className={styles.goal} aria-labelledby="goal-heading">
+          <div className={styles.goalInk} aria-hidden="true">
+            25K
+          </div>
+          <Reveal className={styles.goalIntro}>
+            <p>Our campus target</p>
+            <h2 id="goal-heading">
+              Every small thing
+              <span>enters the total.</span>
+            </h2>
+          </Reveal>
+          <Reveal className={styles.goalReceipt} delay={0.08}>
+            <div className={styles.receiptTop}>
+              <Image src={CW_LOGO} alt="" width={42} height={42} />
+              <span>Laurier Charity Week</span>
+              <small>October 2026</small>
+            </div>
+            <div className={styles.receiptLines}>
+              <p>
+                <span>Booth visits</span>
+                <strong>Count</strong>
+              </p>
+              <p>
+                <span>Event tickets</span>
+                <strong>Count</strong>
+              </p>
+              <p>
+                <span>Direct giving</span>
+                <strong>Counts</strong>
+              </p>
+              <p>
+                <span>Friends you bring</span>
+                <strong>Count</strong>
+              </p>
+            </div>
+            <div className={styles.receiptTotal}>
+              <span>Goal</span>
+              <strong>$25,000</strong>
+            </div>
+            <p className={styles.receiptNote}>
+              No contribution is too small to become part of something larger.
+            </p>
+          </Reveal>
+        </section>
+
         <section className={styles.week} id="events">
+          <span className={styles.weekPinOne} aria-hidden="true" />
+          <span className={styles.weekPinTwo} aria-hidden="true" />
           <div className={styles.weekHeading}>
             <Reveal>
               <p className={styles.orangeEyebrow}>How Laurier moves</p>
@@ -410,6 +478,7 @@ export default function CharityWeekExperience() {
             {events.map((event, index) => (
               <Reveal key={event.title} delay={index * 0.1}>
                 <article className={styles.eventCard}>
+                  <span className={styles.eventTape} aria-hidden="true" />
                   <div className={styles.eventImage}>
                     <Image
                       src={event.image}
@@ -442,6 +511,17 @@ export default function CharityWeekExperience() {
             <Heart aria-hidden="true" />
             <p>It only works when we all move.</p>
             <h2>Your part can start small.</h2>
+            <div className={styles.pledgeTabs}>
+              <span>
+                <small>01</small> Show up
+              </span>
+              <span>
+                <small>02</small> Bring someone
+              </span>
+              <span>
+                <small>03</small> Give what you can
+              </span>
+            </div>
             <div className={styles.joinActions}>
               <a href="#events" className={styles.primaryAction}>
                 Find your way in <ArrowRight aria-hidden="true" />
