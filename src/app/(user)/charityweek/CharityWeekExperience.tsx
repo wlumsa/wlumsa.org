@@ -27,6 +27,7 @@ const causes = [
     headline: "Care that reaches children when every second matters.",
     summary:
       "Supporting maternal and newborn health, specialized care for children, and access to cochlear implants for children who need them.",
+    note: "Health and specialized care",
   },
   {
     place: "Sudan",
@@ -37,6 +38,7 @@ const causes = [
     headline: "Rebuilding the essentials that let a community breathe.",
     summary:
       "Delivering food and shelter while helping restore hospitals, classrooms, clean water sources, and sanitation infrastructure.",
+    note: "Relief and essential infrastructure",
   },
   {
     place: "Bangladesh",
@@ -47,6 +49,7 @@ const causes = [
     headline: "A safer home and a real path back to the classroom.",
     summary:
       "Improving shelters for displaced Rohingya families and helping children leave hazardous labour for safe, supported education.",
+    note: "Shelter and safe education",
   },
 ] as const;
 
@@ -140,6 +143,8 @@ function Intro() {
 }
 
 export default function CharityWeekExperience() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className={styles.page}>
       <Intro />
@@ -167,94 +172,155 @@ export default function CharityWeekExperience() {
 
       <main id="top">
         <section className={styles.hero}>
-          <div className={styles.heroNoise} />
-          <div className={styles.heroStarOne}>✦</div>
-          <div className={styles.heroStarTwo}>✦</div>
+          <div className={styles.heroPaper} aria-hidden="true" />
+          <div className={styles.bluePrint} aria-hidden="true" />
+          <div className={styles.orangePrint} aria-hidden="true" />
+
+          <motion.div
+            className={styles.dateStamp}
+            initial={
+              reduceMotion ? false : { opacity: 0, rotate: -7, scale: 0.8 }
+            }
+            animate={{ opacity: 1, rotate: -4, scale: 1 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 180 }}
+          >
+            <span>October</span>
+            <strong>2026</strong>
+            <small>Laurier</small>
+          </motion.div>
+
+          <motion.figure
+            className={`${styles.heroPhoto} ${styles.heroPhotoCampus}`}
+            initial={reduceMotion ? false : { opacity: 0, x: 45, rotate: 12 }}
+            animate={{ opacity: 1, x: 0, rotate: 5 }}
+            transition={{
+              delay: 0.35,
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <span className={styles.tape} aria-hidden="true" />
+            <div className={styles.heroPhotoFrame}>
+              <Image
+                src={events[0].image}
+                alt="Students raising funds at the Charity Week booth"
+                fill
+                sizes="(max-width: 680px) 54vw, 25vw"
+                priority
+              />
+            </div>
+            <figcaption>Small actions. Shared purpose.</figcaption>
+          </motion.figure>
+
+          <motion.figure
+            className={`${styles.heroPhoto} ${styles.heroPhotoImpact}`}
+            initial={
+              reduceMotion ? false : { opacity: 0, x: 35, y: 20, rotate: -10 }
+            }
+            animate={{ opacity: 1, x: 0, y: 0, rotate: -6 }}
+            transition={{
+              delay: 0.62,
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <span className={styles.tape} aria-hidden="true" />
+            <div className={styles.heroPhotoFrame}>
+              <Image
+                src={causes[0].image}
+                alt="Children supported through Charity Week projects"
+                fill
+                sizes="(max-width: 680px) 44vw, 19vw"
+                priority
+              />
+            </div>
+            <figcaption>The reason behind the week.</figcaption>
+          </motion.figure>
+
           <div className={styles.heroContent}>
             <motion.p
-              className={styles.kicker}
-              initial={{ opacity: 0, y: 12 }}
+              className={styles.heroPrompt}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.55 }}
             >
-              <span>October 2026</span>
-              <span>Wilfrid Laurier University</span>
+              Charity Week asks
             </motion.p>
 
-            <div className={styles.heroTitleWrap}>
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.22,
-                  duration: 0.8,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                <span>ONE</span>
-                <span className={styles.outlineWord}>WEEK.</span>
-              </motion.h1>
-              <motion.div
-                className={styles.heroSeal}
-                initial={{ opacity: 0, scale: 0.7, rotate: -15 }}
-                animate={{ opacity: 1, scale: 1, rotate: 7 }}
-                transition={{
-                  delay: 0.55,
-                  type: "spring",
-                  stiffness: 170,
-                }}
-              >
-                <Image
-                  src={CW_LOGO}
-                  alt="Charity Week"
-                  width={148}
-                  height={148}
-                  priority
-                />
-              </motion.div>
-            </div>
+            <motion.h1
+              initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.22,
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <span className={styles.questionTop}>What can</span>
+              <span className={styles.questionCampus}>one campus</span>
+              <span className={styles.questionWeek}>do in one week?</span>
+            </motion.h1>
+
+            <motion.div
+              className={styles.heroStamp}
+              initial={
+                reduceMotion ? false : { opacity: 0, scale: 1.25, rotate: 18 }
+              }
+              animate={{ opacity: 1, scale: 1, rotate: 9 }}
+              transition={{ delay: 0.78, type: "spring", stiffness: 190 }}
+            >
+              <Image
+                src={CW_LOGO}
+                alt="Charity Week"
+                width={104}
+                height={104}
+              />
+            </motion.div>
 
             <div className={styles.heroBottom}>
               <motion.p
-                initial={{ opacity: 0 }}
+                initial={reduceMotion ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.72, duration: 0.7 }}
               >
-                One campus. One united effort. A week of showing what becomes
-                possible when we stop moving alone.
+                This is not a campaign you watch. Show up, bring someone, and
+                help turn a campus into a collective force.
               </motion.p>
               <motion.a
                 href="#story"
-                className={styles.roundButton}
+                className={styles.pullTab}
                 aria-label="Discover Charity Week"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={reduceMotion ? false : { opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.82, duration: 0.5 }}
               >
+                <span>Pull into the story</span>
                 <ArrowDown aria-hidden="true" />
               </motion.a>
             </div>
           </div>
 
-          <div className={styles.marquee} aria-hidden="true">
-            <div className={styles.marqueeTrack}>
-              {[0, 1].map((group) => (
-                <div className={styles.marqueeGroup} key={group}>
-                  <span>UNITY IN ACTION</span>
-                  <i>✦</i>
-                  <span>FOR ORPHANS &amp; CHILDREN</span>
-                  <i>✦</i>
-                  <span>UNITY IN ACTION</span>
-                  <i>✦</i>
-                  <span>FOR ORPHANS &amp; CHILDREN</span>
-                  <i>✦</i>
-                </div>
-              ))}
-            </div>
+          <div className={styles.heroFragments}>
+            <span>
+              <strong>$25K</strong> Goal
+            </span>
+            <span>
+              <strong>3</strong> Impact Areas
+            </span>
+            <span>
+              <strong>1</strong> Campus
+            </span>
+            <span>
+              <strong>All</strong> Of Us
+            </span>
           </div>
         </section>
 
         <section className={styles.story} id="story">
+          <span className={styles.storyTape} aria-hidden="true" />
+          <span className={styles.storyScribble} aria-hidden="true">
+            Start here
+          </span>
           <div className={styles.storyGrid}>
             <Reveal className={styles.sectionLabel}>
               <span>Why we show up</span>
@@ -281,13 +347,19 @@ export default function CharityWeekExperience() {
           </div>
 
           <Reveal className={styles.manifesto}>
-            <p>Different stories.</p>
-            <p>Different strengths.</p>
+            <p>
+              <span>Different</span> stories.
+            </p>
+            <p>
+              Different <span>strengths.</span>
+            </p>
             <p className={styles.manifestoAccent}>One direction.</p>
+            <small>That is what unity looks like.</small>
           </Reveal>
         </section>
 
         <section className={styles.impact} id="impact">
+          <div className={styles.impactGrid} aria-hidden="true" />
           <div className={styles.impactHeader}>
             <Reveal>
               <p className={styles.blueEyebrow}>Where the effort travels</p>
@@ -311,6 +383,7 @@ export default function CharityWeekExperience() {
               <Reveal key={cause.place} delay={index * 0.06}>
                 <article className={styles.causeCard}>
                   <div className={styles.causeImage}>
+                    <span className={styles.causeTape} aria-hidden="true" />
                     <Image
                       src={cause.image}
                       alt={cause.alt}
@@ -321,9 +394,16 @@ export default function CharityWeekExperience() {
                     <span>{cause.number}</span>
                   </div>
                   <div className={styles.causeContent}>
-                    <p>{cause.place}</p>
+                    <div className={styles.causeMeta}>
+                      <p>{cause.place}</p>
+                      <span>Field note {cause.number}</span>
+                    </div>
                     <h3>{cause.headline}</h3>
                     <p className={styles.causeSummary}>{cause.summary}</p>
+                    <div className={styles.causeNote}>
+                      <span>What support becomes</span>
+                      <strong>{cause.note}</strong>
+                    </div>
                   </div>
                 </article>
               </Reveal>
@@ -331,7 +411,54 @@ export default function CharityWeekExperience() {
           </div>
         </section>
 
+        <section className={styles.goal} aria-labelledby="goal-heading">
+          <div className={styles.goalInk} aria-hidden="true">
+            25K
+          </div>
+          <Reveal className={styles.goalIntro}>
+            <p>Our campus target</p>
+            <h2 id="goal-heading">
+              Every small thing
+              <span>enters the total.</span>
+            </h2>
+          </Reveal>
+          <Reveal className={styles.goalReceipt} delay={0.08}>
+            <div className={styles.receiptTop}>
+              <Image src={CW_LOGO} alt="" width={42} height={42} />
+              <span>Laurier Charity Week</span>
+              <small>October 2026</small>
+            </div>
+            <div className={styles.receiptLines}>
+              <p>
+                <span>Booth visits</span>
+                <strong>Count</strong>
+              </p>
+              <p>
+                <span>Event tickets</span>
+                <strong>Count</strong>
+              </p>
+              <p>
+                <span>Direct giving</span>
+                <strong>Counts</strong>
+              </p>
+              <p>
+                <span>Friends you bring</span>
+                <strong>Count</strong>
+              </p>
+            </div>
+            <div className={styles.receiptTotal}>
+              <span>Goal</span>
+              <strong>$25,000</strong>
+            </div>
+            <p className={styles.receiptNote}>
+              No contribution is too small to become part of something larger.
+            </p>
+          </Reveal>
+        </section>
+
         <section className={styles.week} id="events">
+          <span className={styles.weekPinOne} aria-hidden="true" />
+          <span className={styles.weekPinTwo} aria-hidden="true" />
           <div className={styles.weekHeading}>
             <Reveal>
               <p className={styles.orangeEyebrow}>How Laurier moves</p>
@@ -351,6 +478,7 @@ export default function CharityWeekExperience() {
             {events.map((event, index) => (
               <Reveal key={event.title} delay={index * 0.1}>
                 <article className={styles.eventCard}>
+                  <span className={styles.eventTape} aria-hidden="true" />
                   <div className={styles.eventImage}>
                     <Image
                       src={event.image}
@@ -383,6 +511,17 @@ export default function CharityWeekExperience() {
             <Heart aria-hidden="true" />
             <p>It only works when we all move.</p>
             <h2>Your part can start small.</h2>
+            <div className={styles.pledgeTabs}>
+              <span>
+                <small>01</small> Show up
+              </span>
+              <span>
+                <small>02</small> Bring someone
+              </span>
+              <span>
+                <small>03</small> Give what you can
+              </span>
+            </div>
             <div className={styles.joinActions}>
               <a href="#events" className={styles.primaryAction}>
                 Find your way in <ArrowRight aria-hidden="true" />
