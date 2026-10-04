@@ -4,7 +4,7 @@ import { Link } from "@payloadcms/ui";
 import { usePathname } from "next/navigation";
 
 const destinations = [
-  { href: "/admin", label: "My Tasks", section: "tasks" },
+  { href: "/admin", label: "Dashboard", section: "dashboard" },
   { href: "/admin/events", label: "Events", section: "events" },
   { href: "/admin/calendar", label: "Calendar", section: "calendar" },
 ] as const;
@@ -13,7 +13,7 @@ function isCurrent(
   pathname: string,
   section: (typeof destinations)[number]["section"]
 ) {
-  if (section === "tasks") return pathname === "/admin";
+  if (section === "dashboard") return pathname === "/admin";
   return pathname.startsWith(`/admin/${section}`);
 }
 

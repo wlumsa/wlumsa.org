@@ -52,7 +52,7 @@ describe("event workspace", () => {
     assert.match(adminShell, /<DefaultTemplate/);
     assert.match(documentDrawerAction, /useDocumentDrawer/);
     assert.match(documentDrawerAction, /router\.refresh\(\)/);
-    assert.match(workspaceNavigation, /label: "My Tasks"/);
+    assert.match(workspaceNavigation, /label: "Dashboard"/);
     assert.match(workspaceNavigation, /label: "Events"/);
     assert.match(workspaceNavigation, /label: "Calendar"/);
   });

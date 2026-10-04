@@ -4,7 +4,7 @@ export function PlanningNav() {
   return (
     <div className="planning-nav">
       <Link className="planning-nav__link" href="/admin">
-        My tasks
+        Dashboard
       </Link>
       <Link className="planning-nav__link" href="/admin/events">
         Events

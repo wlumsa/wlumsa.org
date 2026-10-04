@@ -96,9 +96,6 @@ export default buildConfig({
       },
       beforeNavLinks: ["@/components/Admin/PlanningNav#PlanningNav"],
       views: {
-        dashboard: {
-          Component: "@/components/Admin/MyTasksView#MyTasksView",
-        },
         planningCalendar: {
           Component:
             "@/components/Admin/PlanningCalendarView#PlanningCalendarView",
