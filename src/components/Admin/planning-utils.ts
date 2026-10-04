@@ -1,5 +1,3 @@
-import type { ContentSchedule, EventTask } from "@/payload-types";
-
 const PLANNING_TIME_ZONE = "America/Toronto";
 
 export type PlanningCalendarItem = {
@@ -9,12 +7,6 @@ export type PlanningCalendarItem = {
   kind: "content" | "event" | "task";
   title: string;
 };
-
-export function getRelatedEventName(
-  event: ContentSchedule["event"] | EventTask["event"]
-) {
-  return typeof event === "object" ? event.name : null;
-}
 
 export function getDateKey(value: string) {
   const parts = new Intl.DateTimeFormat("en-US", {
