@@ -1,4 +1,5 @@
 {
+  "buildCommand": "pnpm run ci",
   "crons": [
     {
       "path": "/api/prayer-times/weekly",
