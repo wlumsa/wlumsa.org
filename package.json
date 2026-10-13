@@ -41,7 +41,7 @@
     "@payloadcms/db-postgres": "~3.85.1",
     "@payloadcms/email-resend": "~3.85.1",
     "@payloadcms/live-preview-react": "3.85.1",
-    "@payloadcms/next": "~3.85.1",
+    "@payloadcms/next": "~3.88.0",
     "@payloadcms/plugin-form-builder": "3.85.1",
     "@payloadcms/plugin-seo": "~3.85.1",
     "@payloadcms/plugin-stripe": "~3.85.1",
