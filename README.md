@@ -1,191 +1,166 @@
-<!-- MSA Banner -->
-
-<p align="center">
-  <img src="src/logo.png" width="140" />
-</p>
-
-<h1 align="center">
-  <strong>Wilfrid Laurier University MSA</strong>
-</h1>
-
-<p align="center">
-  <em><span style="color:#CCCCCC;">Empowering students through faith, community, and service.</span></em>
-</p>
-
-<p align="center">
+<div align="center">
   <a href="https://wlumsa.org">
-    <img src="https://img.shields.io/badge/Website-wlumsa.org-0A66C2?style=for-the-badge&logo=Google%20Chrome&logoColor=white" />
+    <img src="src/logo.png" alt="Laurier Muslim Students' Association" width="112" />
   </a>
-  <a href="https://www.instagram.com/wlumsa/">
-    <img src="https://img.shields.io/badge/Instagram-@wlumsa-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
-  </a>
-  <a href="mailto:msa@wlu.ca">
-    <img src="https://img.shields.io/badge/Email-msa@wlu.ca-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-</p>
+
+  <h1>Laurier Muslim Students' Association</h1>
+
+  <p>
+    The digital home of the Muslim community at Wilfrid Laurier University.
+  </p>
+
+  <p>
+    <a href="https://wlumsa.org"><strong>Visit the website</strong></a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://www.instagram.com/wlumsa/">Instagram</a>
+    &nbsp;&middot;&nbsp;
+    <a href="mailto:wlumsa.admin@gmail.com">Contact</a>
+  </p>
+
+  <p>
+    <a href="https://github.com/wlumsa/wlumsa.org/actions/workflows/check.yml"><img src="https://github.com/wlumsa/wlumsa.org/actions/workflows/check.yml/badge.svg" alt="Check status" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-1f6f5c" alt="MIT License" /></a>
+    <img src="https://img.shields.io/badge/Node.js-22-339933?logo=nodedotjs&logoColor=white" alt="Node.js 22" />
+    <img src="https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm&logoColor=white" alt="pnpm 10" />
+  </p>
+</div>
 
 ---
 
-# WLU Muslim Student's Association Website
+## About
 
-This project is the official website for Laurier's Muslim Student Association. It was developed to serve the Muslim community at Wilfrid Laurier University by the permission of Allah.
+This repository powers [wlumsa.org](https://wlumsa.org), the official website of the Laurier Muslim Students' Association. It brings events, prayer information, student resources, community services, and MSA content into one accessible platform.
 
-## Features
+### What it supports
 
-### Core
+- Events, registrations, forms, and event-planning workflows
+- Prayer times, Jummah details, prayer spaces, and Ramadan resources
+- Blog posts, recordings, newsletters, and daily reminders
+- Student resources, housing information, and halal food directories
+- A role-aware admin workspace for content and operations
+- Responsive design, dark mode, analytics, and search-engine metadata
 
-- Prayer timings and Jummah information
-- Blog with categories and search
-- Student resources
-- Halal food directory (restaurants and grocery stores)
-- Forms and event registration
-- Media recordings (halaqah, khutbah, guest speakers)
-- Responsive design with dark mode support
-- SEO configuration
-- Newsletter subscription
-- Instagram feed integration
+## Platform
 
-### Optional / Disabled
+| Area                   | Technology                                           |
+| ---------------------- | ---------------------------------------------------- |
+| Web application        | Next.js 16, React 19, TypeScript                     |
+| Content management     | Payload CMS 3                                        |
+| Styling                | Tailwind CSS, DaisyUI                                |
+| Data and storage       | PostgreSQL, Supabase, S3-compatible storage          |
+| Email and forms        | Resend, React Email, Payload Form Builder            |
+| Payments               | Stripe (optional)                                    |
+| Hosting and monitoring | Vercel Analytics, Speed Insights, PostHog (optional) |
+| Quality                | ESLint, Prettier, Knip, Node test runner, Playwright |
 
-- Stripe payments (used for events or products when enabled)
+The public Next.js application and Payload admin panel share one codebase. Payload owns structured content and admin authentication, PostgreSQL stores application data, and S3-compatible storage serves uploaded media.
 
-## Tech Stack
+## Getting started
 
-[![Technologies](https://skillicons.dev/icons?i=nextjs,typescript,tailwind,react,postgres,supabase,aws)](https://skillicons.dev)
+### Prerequisites
 
-- **Frontend**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS
-- **Backend**: Payload CMS 3.x
-- **Database**: PostgreSQL (via Supabase)
-- **Storage**: S3-compatible storage (via Supabase)
-- **Authentication**: Supabase Auth
-- **Payments**: Stripe (optional)
-- **Email**: Resend
-- **Package Manager**: pnpm 10.14.0
-- **Node**: 22.x (pinned)
+- [Node.js 22](https://nodejs.org/) — pinned in `.nvmrc`
+- [pnpm 10.14](https://pnpm.io/) — pinned in `package.json`
+- Access to the project's PostgreSQL, Supabase, storage, email, and Google Sheets credentials
 
-## Getting Started
-
-**Prerequisites:** Node.js 22.x and pnpm 10.14.0. If you use nvm, the included
-`.nvmrc` selects the correct Node version with `nvm use`.
-
-1. Clone the repo
+### Local setup
 
 ```bash
 git clone https://github.com/wlumsa/wlumsa.org.git
-```
-
-2. Install dependencies
-
-```bash
+cd wlumsa.org
+nvm use
 pnpm install
 ```
 
-3. Copy the example env file and fill it in
+Create `.env.local` and add the configuration described below. Credentials are not committed; request development values from a project maintainer.
+
+Prepare the database, then start the application:
 
 ```bash
-cp .env.example .env
-```
-
-You'll need database and Supabase keys to get started. Stripe and S3 keys are only needed if you're working on payments or file uploads.
-
-4. Run the dev server
-
-```bash
+pnpm exec payload migrate
 pnpm dev
 ```
 
-Open `http://localhost:3000` in your browser.
+The site runs at [localhost:3000](http://localhost:3000), with the Payload admin panel at [localhost:3000/admin](http://localhost:3000/admin).
 
-Git hooks are installed automatically with `pnpm install`. Before each commit,
-Lefthook checks staged files with ESLint and Prettier. Before each push, it runs
-the TypeScript and smoke-test checks.
+## Configuration
 
-Run `pnpm check:knip` to audit the whole project for unused files, exports, and
-dependencies.
+Environment variables are validated in `src/env.mjs`. The application needs these values for a complete local environment:
 
-## Environment Variables
+| Service              | Variables                                                                                                    |
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Application          | `DATABASE_URI`, `PAYLOAD_SECRET`                                                                             |
+| Supabase             | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`                                                  |
+| Object storage       | `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `S3_ENDPOINT`, `NEXT_PUBLIC_S3_BUCKET` |
+| Email                | `RESEND_API_KEY`                                                                                             |
+| Google Sheets        | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_SHEETS_SPREADSHEET_ID`                         |
+| Legacy compatibility | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`                                                                          |
 
-**Database & Auth** (required)
+Optional integrations:
 
-- `DATABASE_URI` - PostgreSQL connection string
-- `PAYLOAD_SECRET` - Secret key for Payload CMS
-- `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
+| Purpose                | Variables                                                                           |
+| ---------------------- | ----------------------------------------------------------------------------------- |
+| Public application URL | `NEXT_PUBLIC_SERVER_URL`                                                            |
+| Newsletter audiences   | `RESEND_AUDIENCE_ID`, `NEXT_PUBLIC_RESEND_AUDIENCE_ID`                              |
+| Google Sheets tab      | `GOOGLE_SHEETS_SHEET_NAME`                                                          |
+| Stripe payments        | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOKS_ENDPOINT_SECRET`                              |
+| Analytics              | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`, `NEXT_PUBLIC_MEASUREMENT_ID` |
+| Scheduled jobs         | `CRON_SECRET`                                                                       |
 
-**Storage** (required for file uploads)
+> Never commit `.env` files or expose server-side credentials through `NEXT_PUBLIC_` variables.
 
-- `S3_BUCKET` - S3 bucket name
-- `S3_ACCESS_KEY_ID` - S3 access key
-- `S3_SECRET_ACCESS_KEY` - S3 secret key
-- `S3_REGION` - S3 region
-- `S3_ENDPOINT` - S3 endpoint
-- `NEXT_PUBLIC_S3_BUCKET` - Public S3 bucket name
+## Development
 
-**Payments** (optional - only if working on Stripe features)
+| Command               | Purpose                                                           |
+| --------------------- | ----------------------------------------------------------------- |
+| `pnpm dev`            | Start the local development server                                |
+| `pnpm build`          | Create a production build and sitemap                             |
+| `pnpm check`          | Run types, linting, dead-code checks, formatting, and smoke tests |
+| `pnpm test:e2e`       | Run Playwright tests against the configured application           |
+| `pnpm format`         | Format the repository with Prettier                               |
+| `pnpm generate:types` | Regenerate Payload collection types                               |
+| `pnpm email`          | Preview React Email templates locally                             |
 
-- `STRIPE_SECRET_KEY` - Stripe secret key
-- `STRIPE_WEBHOOKS_ENDPOINT_SECRET` - Stripe webhook secret
+Lefthook installs with the project dependencies. It checks staged files before commits and runs type and smoke tests before pushes. Please run `pnpm check` before opening a pull request.
 
-**Email** (required)
-
-- `RESEND_API_KEY` - Resend API key for sending emails
-- `RESEND_AUDIENCE_ID` - Resend audience used for newsletter broadcasts
-
-**Analytics** (optional)
-
-- `NEXT_PUBLIC_POSTHOG_KEY` - PostHog analytics key
-- `NEXT_PUBLIC_POSTHOG_HOST` - PostHog host URL (defaults to us.i.posthog.com)
-- `NEXT_PUBLIC_MEASUREMENT_ID` - Google Analytics measurement ID
-
-**Other** (optional)
-
-- `NEXT_PUBLIC_SERVER_URL` - Server URL for API calls
-
-**Legacy** (still in env schema but not used)
-
-- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Old Clerk keys (we switched to Supabase auth)
-- `NEXT_PUBLIC_CLERK_SIGN_IN_URL` - Clerk sign-in URL (legacy)
-- `NEXT_PUBLIC_CLERK_SIGN_UP_URL` - Clerk sign-up URL (legacy)
-- `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` - Clerk redirect URL (legacy)
-- `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL` - Clerk redirect URL (legacy)
-
-## Content Management
-
-Content is managed through Payload CMS. Admins log in at `/admin` to edit:
-
-- Pages and blog posts
-- Events and registration forms
-- Media uploads (recordings, images)
-- Prayer timings and Jummah info
-- Resources and services
-- Newsletter subscriptions
-
-## Project Structure
+## Project structure
 
 ```text
 src/
-├── app/             # Next.js app directory (routes and pages)
-├── blocks/          # Payload CMS content blocks
-├── collections/     # Payload CMS collections (posts, events, etc.)
-├── components/      # Shared React components
-├── globals/         # Payload global configs (navbar, footer)
-├── lib/             # Utilities and helpers
-├── migrations/      # Payload database migrations
-├── plugins/         # Payload CMS plugins
-├── styles/          # Global styles
-└── Utils/           # Server and client utilities
+├── app/          # Public pages, admin routes, and API endpoints
+├── blocks/       # Reusable Payload content blocks
+├── collections/  # Payload collections and access rules
+├── components/   # React UI, forms, and admin components
+├── globals/      # Site-wide Payload configuration
+├── lib/          # Domain services and shared helpers
+├── migrations/   # Versioned database migrations
+├── plugins/      # Project-specific Payload integrations
+├── styles/       # Global and feature styles
+└── Utils/        # Data access and application utilities
+
+public/           # Static files and downloadable resources
+tests/            # Smoke and browser-level tests
 ```
 
-## Authors and Acknowledgements
+## Content operations
 
-### Contributors
+Authorized team members use `/admin` to manage events, blog posts, forms, recordings, prayer information, resources, newsletters, and site navigation. Database changes are versioned in `src/migrations`; production builds run pending migrations before compiling the application.
 
-![avatar](https://images.weserv.nl/?url=https://github.com/Syed-Ahmed02.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/rzlm.png?v=4&h=100&w=100fit=cover&mask=circle) ![avatar](https://images.weserv.nl/?url=https://github.com/MarufHossain14.png?v=4&h=100&w=100fit=cover&mask=circle)
+Vercel also runs scheduled jobs for weekly prayer-time refreshes and event-planning reminders. Public-page Playwright tests run after successful deployments.
 
-### Special Thanks
+## Contributing
 
-Thanks to the executive teams of the Laurier Muslim Students Association in the 2023-2025 school year for facilitating the project and providing valuable feedback.
+1. Create a focused branch from `main`.
+2. Make the smallest coherent change and include tests where appropriate.
+3. Run `pnpm check` and, for user-facing changes, `pnpm test:e2e`.
+4. Open a pull request explaining the problem, the solution, and any operational impact.
 
-## Contact Information
+For security issues or configuration access, contact the [technology team](mailto:tech.wlumsa@gmail.com) instead of opening a public issue. For general enquiries, email [wlumsa.admin@gmail.com](mailto:wlumsa.admin@gmail.com).
 
-If you would like to reach out to us, feel free to contact us using the form on our [resources page](https://www.wlumsa.org/resources).
+## Acknowledgements
+
+Created with the support of Laurier MSA executive teams and contributors, including [Maruf Hossain](https://github.com/MarufHossain14) and [Syed Ahmed](https://github.com/Syed-Ahmed02).
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright &copy; 2023–2026 WLU MSA.
