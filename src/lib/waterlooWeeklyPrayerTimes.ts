@@ -5,13 +5,7 @@ import puppeteer from "puppeteer-core";
 const WATERLOO_PRAYER_TIMES_URL =
   "https://waterloomasjid.com/main/index.php/prayers";
 
-const CHROMIUM_PACK_URL =
-  process.env.CHROMIUM_PACK_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chromium-pack.tar`
-    : process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/chromium-pack.tar`
-    : null);
+const CHROMIUM_PACK_URL = process.env.CHROMIUM_PACK_URL || null;
 
 export type WeeklyPrayerTimesSnapshot = {
   weekKey?: string;
@@ -79,7 +73,7 @@ async function upsertWeeklyPrayerSnapshot(
 async function getServerlessExecutablePath(): Promise<string> {
   if (!CHROMIUM_PACK_URL) {
     throw new Error(
-      "Missing CHROMIUM_PACK_URL or Vercel URL env for serverless Chromium package."
+      "Missing CHROMIUM_PACK_URL for the serverless Chromium package."
     );
   }
 
@@ -160,7 +154,7 @@ async function scrapeWaterlooWeeklyPrayerTimes(): Promise<WeeklyPrayerTimesSnaps
       throw new Error(
         [
           "Unable to launch a Chromium/Chrome browser for scraping.",
-          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify /chromium-pack.tar exists and CHROMIUM_PACK_URL resolves.",
+          "If local, set PUPPETEER_EXECUTABLE_PATH to your Chrome binary. If Vercel, verify CHROMIUM_PACK_URL points to the public Chromium archive.",
           `Original error: ${
             error instanceof Error ? error.message : "Unknown error"
           }`,
