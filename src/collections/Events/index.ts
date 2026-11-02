@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, Where } from "payload";
 import { revalidateEventsPage } from "@/lib/revalidateEvents";
 import { createEventPlanningItems } from "@/collections/EventPlanning/createPlanningItems";
 import {
@@ -11,19 +11,37 @@ import {
   syncRecurringEvents,
 } from "@/collections/Events/recurrence";
 import { validateRecurrenceEnd } from "@/collections/Events/recurrenceDates";
+import { adminsOnly } from "@/collections/EventPlanning/access";
 import {
-  adminsOnly,
-  authenticated,
-  managersAndAdmins,
-} from "@/collections/EventPlanning/access";
+  getSiteUser,
+  isAdmin,
+  isCharityEditor,
+} from "@/collections/Charity/access";
 
 export const Events: CollectionConfig = {
   slug: "events",
   access: {
-    create: managersAndAdmins,
+    create: ({ req }) =>
+      ["admin", "manager", "charity_editor"].includes(
+        getSiteUser(req.user)?.roles ?? ""
+      ),
     delete: adminsOnly,
-    read: authenticated,
-    update: managersAndAdmins,
+    read: ({ req }) => {
+      if (["admin", "manager"].includes(getSiteUser(req.user)?.roles ?? ""))
+        return true;
+      if (isCharityEditor(req.user)) {
+        return { charityManaged: { equals: true } } as Where;
+      }
+      return { status: { equals: "published" } } as Where;
+    },
+    update: ({ req }) => {
+      if (["admin", "manager"].includes(getSiteUser(req.user)?.roles ?? ""))
+        return true;
+      if (isCharityEditor(req.user)) {
+        return { charityManaged: { equals: true } };
+      }
+      return false;
+    },
   },
   admin: {
     useAsTitle: "name",
@@ -37,7 +55,23 @@ export const Events: CollectionConfig = {
     ],
   },
   hooks: {
-    beforeChange: [markRecurringEventException],
+    beforeChange: [
+      ({ data, operation, originalDoc, req }) => {
+        if (!isCharityEditor(req.user)) return data;
+
+        if (operation === "update" && !originalDoc?.charityManaged) {
+          throw new Error("Charity editors can only update charity events.");
+        }
+
+        return {
+          ...data,
+          charityManaged: true,
+          charityOwner: originalDoc?.charityOwner || getSiteUser(req.user)?.id,
+          departments: ["charity"],
+        };
+      },
+      markRecurringEventException,
+    ],
     beforeDelete: [deleteRelatedEventRecords],
     afterChange: [
       async () => {
@@ -176,6 +210,38 @@ export const Events: CollectionConfig = {
       ],
       admin: {
         position: "sidebar",
+      },
+    },
+    {
+      name: "charityManaged",
+      label: "Charity team event",
+      type: "checkbox",
+      defaultValue: false,
+      index: true,
+      access: {
+        create: ({ req }) => isAdmin(req.user),
+        update: ({ req }) => isAdmin(req.user),
+      },
+      admin: {
+        position: "sidebar",
+        description:
+          "Scopes this event to charity editors. It is set automatically when they create an event.",
+      },
+    },
+    {
+      name: "charityOwner",
+      label: "Charity event owner",
+      type: "relationship",
+      relationTo: "execs",
+      index: true,
+      access: {
+        create: ({ req }) => isAdmin(req.user),
+        update: ({ req }) => isAdmin(req.user),
+      },
+      admin: {
+        condition: (data) => Boolean(data.charityManaged),
+        position: "sidebar",
+        readOnly: true,
       },
     },
     {

@@ -4,6 +4,7 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 const supabase = createClient();
 import { unstable_cache } from "next/cache";
+import type { CharityCampaign, CharityHub } from "@/payload-types";
 
 // Lazy initialization of payload to prevent database connection issues
 let payloadInstance: any = null;
@@ -67,6 +68,68 @@ export async function fetchFooterData() {
     slug: "footer",
   });
   return footer;
+}
+
+export async function fetchCharityHubData(): Promise<CharityHub> {
+  const payload = await getPayloadInstance();
+  const hub = await payload.findGlobal({
+    slug: "charity-hub",
+    depth: 1,
+    draft: false,
+    overrideAccess: false,
+  });
+  if (hub._status !== "published") {
+    throw new Error("The charity hub has not been published.");
+  }
+  return hub;
+}
+
+export async function fetchCharityCampaigns(): Promise<CharityCampaign[]> {
+  const payload = await getPayloadInstance();
+  const campaigns = await payload.find({
+    collection: "charity-campaigns",
+    depth: 2,
+    draft: false,
+    overrideAccess: false,
+    pagination: false,
+    sort: "displayOrder,-year,-startDate",
+  });
+  return campaigns.docs;
+}
+
+export async function fetchCurrentCharityWeekCampaign() {
+  const campaigns = await fetchCharityCampaigns();
+  return (
+    campaigns.find(
+      (campaign) =>
+        campaign.campaignType === "charity-week" && campaign.phase === "active"
+    ) ||
+    campaigns.find(
+      (campaign) =>
+        campaign.campaignType === "charity-week" &&
+        campaign.phase === "upcoming"
+    ) ||
+    campaigns.find((campaign) => campaign.campaignType === "charity-week") ||
+    null
+  );
+}
+
+export async function fetchCharityWeekCampaignByYear(year: number) {
+  const payload = await getPayloadInstance();
+  const result = await payload.find({
+    collection: "charity-campaigns",
+    depth: 2,
+    draft: false,
+    overrideAccess: false,
+    limit: 1,
+    where: {
+      and: [
+        { campaignType: { equals: "charity-week" } },
+        { year: { equals: year } },
+      ],
+    },
+  });
+  return result.docs[0] || null;
 }
 
 export async function fetchEventsSettingsData() {

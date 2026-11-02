@@ -1,0 +1,542 @@
+.hubPage {
+  --charity-ink: #172229;
+  --charity-forest: #172229;
+  --charity-mint: #009fdf;
+  --charity-cream: #fffaf0;
+  --charity-coral: #ef8b00;
+  --charity-line: rgb(23 34 41 / 24%);
+  overflow: hidden;
+  background-color: var(--charity-cream);
+  background-image: radial-gradient(
+    rgb(23 34 41 / 10%) 0.7px,
+    transparent 0.7px
+  );
+  background-size: 7px 7px;
+  color: var(--charity-ink);
+  font-family: var(--font-geist), sans-serif;
+}
+
+.coverImage {
+  object-fit: cover;
+}
+.eventCard a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+.eventCard a svg {
+  width: 1rem;
+  height: 1rem;
+}
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+.heroActions a {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 99rem;
+  background: var(--charity-coral);
+  padding: 0.75rem 1.15rem;
+  color: white;
+  font-weight: 800;
+}
+.heroActions svg {
+  width: 1rem;
+}
+.heroActions .secondaryButton {
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+}
+.eyebrow {
+  margin: 0 0 0.55rem;
+  color: var(--charity-coral);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sectionHeading h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1.08;
+}
+.sectionHeading {
+  max-width: 42rem;
+  margin-bottom: 2rem;
+}
+.eventCard h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+}
+.eventCard p {
+  margin: 0;
+  color: rgba(21, 37, 31, 0.72);
+  line-height: 1.65;
+}
+.eventList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.eventCard {
+  padding: 1.5rem;
+  border-top: 0.3rem solid var(--charity-coral);
+  background: white;
+}
+.eventDate,
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.eventDate {
+  margin-bottom: 1rem;
+  color: var(--charity-forest);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.eventDate svg,
+.location svg {
+  width: 1rem;
+  flex: none;
+}
+.eventCard .location {
+  margin: 1rem 0;
+}
+
+.hubHero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  width: min(100% - 2.5rem, 76rem);
+  min-height: 43rem;
+  margin: 0 auto;
+  padding-top: 5rem;
+  overflow: hidden;
+  border-bottom: 2px solid var(--charity-ink);
+  background-color: #eee6d7;
+  background-image: linear-gradient(rgb(23 34 41 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(23 34 41 / 5%) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  isolation: isolate;
+}
+
+.hubHero::before {
+  position: absolute;
+  z-index: 0;
+  top: 11rem;
+  left: -4rem;
+  width: 70%;
+  height: 23rem;
+  background: var(--charity-mint);
+  clip-path: polygon(2% 8%, 98% 0, 94% 92%, 6% 100%);
+  content: "";
+  transform: rotate(-1.5deg);
+}
+
+.hubHero::after {
+  position: absolute;
+  z-index: 0;
+  right: -3rem;
+  bottom: 2.5rem;
+  width: 42%;
+  height: 15rem;
+  background: var(--charity-coral);
+  clip-path: polygon(8% 3%, 100% 10%, 94% 100%, 0 88%);
+  content: "";
+  transform: rotate(3deg);
+}
+.hubHeroCopy {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  padding: clamp(4rem, 7vw, 6.5rem) clamp(1.25rem, 5vw, 4.5rem);
+}
+.hubHeroCopy h1 {
+  max-width: 9ch;
+  margin: 0;
+  padding: 0.06em 0.1em 0.1em;
+  background: var(--charity-ink);
+  box-shadow: 0.1em 0.1em 0 var(--charity-coral);
+  color: white;
+  font-family: var(--font-geist), sans-serif;
+  font-size: clamp(3.4rem, 6.2vw, 6.3rem);
+  font-weight: 950;
+  letter-spacing: -0.075em;
+  line-height: 0.84;
+  text-transform: uppercase;
+  transform: rotate(-0.8deg);
+}
+.hubHeroCopy > p:not(.eyebrow) {
+  max-width: 35rem;
+  margin: 1.7rem 0 0 0.5rem;
+  padding: 0.85rem 1rem;
+  background: rgb(255 250 240 / 94%);
+  box-shadow: 0.35rem 0.35rem 0 var(--charity-ink);
+  color: rgb(23 34 41 / 78%);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.6;
+  transform: rotate(0.5deg);
+}
+.hubHeroVisual {
+  position: relative;
+  z-index: 1;
+  min-height: 29rem;
+  overflow: hidden;
+  margin: 6rem 2.5rem 5rem 0;
+  border: 0.55rem solid var(--charity-cream);
+  border-bottom-width: 2.8rem;
+  background: var(--charity-cream);
+  box-shadow: 0.75rem 0.75rem 0 var(--charity-ink);
+  transform: rotate(2deg);
+}
+.purposeMark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.25rem;
+  padding: 2rem;
+  background: var(--charity-cream);
+  color: var(--charity-ink);
+  font-family: var(--font-geist), sans-serif;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  font-weight: 950;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+  text-align: center;
+  text-transform: uppercase;
+}
+.purposeMark span:nth-child(2) {
+  color: var(--charity-coral);
+  transform: rotate(-4deg);
+}
+.hubMain {
+  width: min(100% - 2.5rem, 72rem);
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 8rem) 0;
+}
+.hubPage .eyebrow {
+  color: var(--charity-coral);
+}
+.hubHero .eyebrow {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  background: var(--charity-ink);
+  color: white;
+  transform: rotate(-2deg);
+}
+.hubPage .heroActions a {
+  min-height: 3rem;
+  border: 2px solid var(--charity-ink);
+  border-radius: 0;
+  background: var(--charity-coral);
+  box-shadow: 0.25rem 0.25rem 0 var(--charity-ink);
+  color: var(--charity-ink);
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hubPage .heroActions .secondaryButton {
+  background: var(--charity-cream);
+  color: var(--charity-ink);
+}
+.weekBridge {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  padding: clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+  border: 2px solid var(--charity-ink);
+  background-color: var(--charity-ink);
+  background-image: linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  box-shadow: 0.7rem 0.7rem 0 var(--charity-mint);
+  color: white;
+  transform: rotate(-0.35deg);
+}
+.weekBridge h2 {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-geist), sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 950;
+  letter-spacing: -0.06em;
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+.weekBridge p:not(.eyebrow) {
+  max-width: 46rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.65;
+}
+.weekBridge > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid var(--charity-ink);
+  border-radius: 0;
+  background: var(--charity-coral);
+  box-shadow: 0.3rem 0.3rem 0 white;
+  color: var(--charity-ink);
+  padding: 0.9rem 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.weekBridge svg {
+  width: 1rem;
+}
+.hubSection {
+  padding-top: clamp(5rem, 9vw, 9rem);
+}
+.hubPage .sectionHeading h2 {
+  font-family: var(--font-geist), sans-serif;
+  font-size: clamp(2.5rem, 5.5vw, 5.2rem);
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+.campaignGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+.hubCampaignCard {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.8fr) 1.2fr;
+  overflow: hidden;
+  border: 2px solid var(--charity-ink);
+  background: var(--charity-cream);
+  box-shadow: 0.55rem 0.55rem 0 var(--charity-ink);
+}
+.hubCardImage {
+  position: relative;
+  min-height: 24rem;
+}
+.hubCampaignCard > div:last-child {
+  align-self: center;
+  padding: clamp(1.5rem, 5vw, 4rem);
+}
+.hubCampaignCard h3 {
+  margin: 0.8rem 0 0.75rem;
+  font-family: var(--font-geist), sans-serif;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+.hubCampaignCard p {
+  color: rgba(21, 37, 31, 0.72);
+  line-height: 1.65;
+}
+.statusPill {
+  display: inline-flex;
+  border: 1px solid var(--charity-ink);
+  border-radius: 0;
+  background: var(--charity-coral);
+  padding: 0.4rem 0.65rem;
+  color: var(--charity-forest);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hubCampaignCard .cardStat {
+  margin-top: 1.2rem;
+  color: var(--charity-forest);
+}
+.cardStat strong {
+  font-size: 1.4rem;
+}
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+.cardActions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--charity-ink);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+.cardActions svg {
+  width: 1rem;
+}
+.eventCampaign {
+  margin-top: 1rem !important;
+  color: var(--charity-coral) !important;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.hubPage .eventList {
+  gap: 1.25rem;
+}
+.hubPage .eventCard {
+  border: 2px solid var(--charity-ink);
+  border-top: 0.55rem solid var(--charity-coral);
+  background: var(--charity-cream);
+  box-shadow: 0.45rem 0.45rem 0 var(--charity-ink);
+}
+.hubPage .eventCard:nth-child(even) {
+  border-top-color: var(--charity-mint);
+  transform: translateY(0.75rem) rotate(0.5deg);
+}
+.hubPage .eventCard h3 {
+  font-family: var(--font-geist), sans-serif;
+  font-size: 1.55rem;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.hubPage .eventDate {
+  color: var(--charity-ink);
+}
+.pastList {
+  display: grid;
+  gap: 0.75rem;
+}
+.pastList article {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem;
+  border-top: 2px dashed var(--charity-line);
+}
+.pastList h3 {
+  margin: 0.25rem 0;
+  font-size: 1.35rem;
+}
+.pastList p {
+  margin: 0;
+  color: rgba(21, 37, 31, 0.68);
+}
+.pastList span {
+  color: var(--charity-coral);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.pastList a {
+  color: var(--charity-forest);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+.hubInvolve {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  margin-top: clamp(5rem, 9vw, 9rem);
+  padding: clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+  border: 2px solid var(--charity-ink);
+  border-radius: 0;
+  background: var(--charity-mint);
+  box-shadow: 0.7rem 0.7rem 0 var(--charity-ink);
+  clip-path: polygon(1% 3%, 99% 0, 97% 97%, 0 100%);
+}
+.hubInvolve > svg {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 2px solid var(--charity-ink);
+  padding: 0.6rem;
+  background: var(--charity-coral);
+  box-shadow: 0.25rem 0.25rem 0 var(--charity-ink);
+  color: var(--charity-ink);
+  transform: rotate(-7deg);
+}
+.hubInvolve h2 {
+  margin: 0;
+  font-family: var(--font-geist), sans-serif;
+  font-size: clamp(2.3rem, 5vw, 4.6rem);
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+.hubInvolve p:not(.eyebrow) {
+  max-width: 48rem;
+  color: rgb(23 34 41 / 78%);
+  line-height: 1.65;
+}
+
+@media (max-width: 860px) {
+  .eventList {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hubHero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hubHeroCopy {
+    padding-bottom: 2rem;
+  }
+  .hubHeroVisual {
+    min-height: 28rem;
+    margin: 0 2rem 3rem;
+    border-radius: 0;
+  }
+  .weekBridge {
+    grid-template-columns: 1fr;
+  }
+  .weekBridge > a {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 600px) {
+  .eventList {
+    grid-template-columns: 1fr;
+  }
+  .hubHeroCopy h1 {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+  .hubHero {
+    width: min(100% - 1.5rem, 76rem);
+  }
+  .hubHeroCopy {
+    padding-inline: 1rem;
+  }
+  .hubHeroVisual {
+    min-height: 21rem;
+    margin-inline: 1rem;
+  }
+  .hubCampaignCard {
+    grid-template-columns: 1fr;
+  }
+  .hubCardImage {
+    min-height: 17rem;
+  }
+  .pastList article {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .hubInvolve {
+    grid-template-columns: 1fr;
+  }
+}

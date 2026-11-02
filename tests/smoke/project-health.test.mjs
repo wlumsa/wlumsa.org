@@ -25,6 +25,8 @@ describe("project health", () => {
       "src/app/(user)/halalfood/page.tsx",
       "src/app/(user)/grocery/page.tsx",
       "src/app/(user)/housing/page.tsx",
+      "src/app/(user)/charity/page.tsx",
+      "src/app/(user)/charityweek/page.tsx",
     ];
 
     await Promise.all(routes.map(fileExists));

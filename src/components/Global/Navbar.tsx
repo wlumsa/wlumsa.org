@@ -13,10 +13,57 @@ type NavbarProps = {
   navbarData: Nav;
 };
 
+function normalizeNavigationItems(items: Nav["items"]): Nav["items"] {
+  return items.flatMap((item) => {
+    const label = item.label?.trim();
+    if (!label) return [];
+
+    const links = (item.links || []).filter(
+      (link) => link.url?.trim() && link.title?.trim()
+    );
+
+    if (links.length > 0) {
+      return [{ ...item, label, links }];
+    }
+
+    if (label.toLowerCase() === "charity week") {
+      return [
+        {
+          ...item,
+          label,
+          links: [
+            {
+              id: "charity-week-fallback",
+              title: "Charity Week",
+              url: "/charityweek",
+            },
+          ],
+        },
+      ];
+    }
+
+    return [];
+  });
+}
+
 const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const cmsNavigationItems = normalizeNavigationItems(navbarData.items);
+  const hasCharityLink = cmsNavigationItems.some((item) =>
+    item.links?.some((link) => link.url === "/charity")
+  );
+  const navigationItems = hasCharityLink
+    ? cmsNavigationItems
+    : [
+        ...cmsNavigationItems,
+        {
+          id: "charity-navigation",
+          label: "Charity",
+          links: [{ id: "charity-link", title: "Charity", url: "/charity" }],
+        },
+      ];
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -84,7 +131,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         {/* Desktop Navigation - Center */}
         <div className="absolute left-1/2 hidden -translate-x-1/2 transform items-center justify-center text-white lg:flex">
           <div className="flex items-center justify-center gap-6">
-            {navbarData.items.map((item, index) => {
+            {navigationItems.map((item, index) => {
               return (
                 <div key={index} className="group relative">
                   {item.links && item.links.length === 1 ? (
@@ -96,7 +143,10 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                     </Link>
                   ) : (
                     <>
-                      <button className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-transparent px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white/20">
+                      <button
+                        className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-transparent px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white/20"
+                        aria-haspopup="true"
+                      >
                         {item.label}
                         <svg
                           className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180"
@@ -112,7 +162,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                           />
                         </svg>
                       </button>
-                      <div className="invisible absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 transform opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                      <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 transform pt-2 opacity-0 transition-all duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                         <ul className="grid w-[220px] min-w-[200px] gap-1 rounded-xl border border-white/10 bg-[#2e046d] p-3 shadow-2xl">
                           {item.links?.map((link) => {
                             return (
@@ -228,7 +278,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           >
             <div className="max-h-[70vh] overflow-y-auto p-4">
               <div className="space-y-2">
-                {navbarData.items.map((item, index) => {
+                {navigationItems.map((item, index) => {
                   return (
                     <div
                       key={index}
@@ -313,7 +363,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                 </button>
 
                 <Link
-                  href="https://forms.gle/EmNHNTtJQ6tq3Wv47"
+                  href="/charity"
                   className="btn btn-secondary w-full justify-start text-primary transition-all duration-200 hover:scale-105"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -330,7 +380,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     />
                   </svg>
-                  Donate
+                  Charity
                 </Link>
               </div>
             </div>

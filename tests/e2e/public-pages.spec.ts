@@ -4,6 +4,7 @@ const publicPages = [
   { heading: "Events", path: "/events" },
   { heading: "MSA Blog", path: "/blog" },
   { heading: "Prayer Information", path: "/prayerinfo" },
+  { heading: "Care in action, all year long.", path: "/charity" },
 ];
 
 test("homepage loads", async ({ page }) => {

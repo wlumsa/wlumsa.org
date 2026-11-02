@@ -6,8 +6,8 @@ import {
   adminsOnly,
   adminsOnlyAdmin,
   adminsOnlyField,
-  authenticated,
 } from "@/collections/EventPlanning/access";
+import { getSiteUser, isCharityEditor } from "@/collections/Charity/access";
 
 export const Execs: CollectionConfig = {
   slug: "execs",
@@ -19,7 +19,12 @@ export const Execs: CollectionConfig = {
     admin: adminsOnlyAdmin,
     create: adminsOnly,
     delete: adminsOnly,
-    read: authenticated,
+    read: ({ req }) => {
+      if (isCharityEditor(req.user)) {
+        return { id: { equals: getSiteUser(req.user)?.id } };
+      }
+      return Boolean(req.user);
+    },
     unlock: adminsOnly,
     update: adminOrSelf,
   },
@@ -107,6 +112,10 @@ export const Execs: CollectionConfig = {
         {
           label: "Technology",
           value: "technology",
+        },
+        {
+          label: "Charity",
+          value: "charity",
         },
       ],
     },
@@ -207,6 +216,10 @@ export const Execs: CollectionConfig = {
         {
           label: "Editor",
           value: "editor",
+        },
+        {
+          label: "Charity editor",
+          value: "charity_editor",
         },
       ],
     },
