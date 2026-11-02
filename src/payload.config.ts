@@ -48,6 +48,12 @@ import { HalalGroceryStores } from "./collections/HalalGroceryStores";
 import { Masjid } from "./collections/PrayerSpaces";
 import { EventTasks } from "./collections/EventTasks";
 import { ContentSchedule } from "./collections/ContentSchedule";
+import { CharityCampaigns } from "./collections/CharityCampaigns";
+import CharityHub from "./globals/CharityHub";
+import {
+  restrictCollectionFromCharityEditors,
+  restrictGlobalFromCharityEditors,
+} from "./collections/Charity/restrictCharityEditors";
 import {
   adminsOnly,
   managedCollectionAccess,
@@ -137,8 +143,16 @@ export default buildConfig({
     Masjid,
     EventTasks,
     ContentSchedule,
-  ],
-  globals: [Nav, Footer, PrayerTimings, WeeklyPrayerTimetables, EventsSettings],
+    CharityCampaigns,
+  ].map(restrictCollectionFromCharityEditors),
+  globals: [
+    Nav,
+    Footer,
+    PrayerTimings,
+    WeeklyPrayerTimetables,
+    EventsSettings,
+    CharityHub,
+  ].map(restrictGlobalFromCharityEditors),
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
 

@@ -22,6 +22,8 @@ function recurrenceKey(parentID: Event["id"], occurrenceKey: string) {
 
 function sharedEventData(event: Event, date: string) {
   return {
+    charityManaged: event.charityManaged ?? false,
+    charityOwner: relationshipID(event.charityOwner),
     date,
     departments: event.departments ?? [],
     description: event.description,

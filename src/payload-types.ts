@@ -91,9 +91,11 @@ export interface Config {
     masjid: Masjid;
     'event-tasks': EventTask;
     'content-schedule': ContentSchedule;
+    'charity-campaigns': CharityCampaign;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
+    'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -124,9 +126,11 @@ export interface Config {
     masjid: MasjidSelect<false> | MasjidSelect<true>;
     'event-tasks': EventTasksSelect<false> | EventTasksSelect<true>;
     'content-schedule': ContentScheduleSelect<false> | ContentScheduleSelect<true>;
+    'charity-campaigns': CharityCampaignsSelect<false> | CharityCampaignsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -141,6 +145,7 @@ export interface Config {
     'prayer-timings': PrayerTiming;
     'weekly-prayer-timetables': WeeklyPrayerTimetable;
     'events-settings': EventsSetting;
+    'charity-hub': CharityHub;
   };
   globalsSelect: {
     nav: NavSelect<false> | NavSelect<true>;
@@ -148,6 +153,7 @@ export interface Config {
     'prayer-timings': PrayerTimingsSelect<false> | PrayerTimingsSelect<true>;
     'weekly-prayer-timetables': WeeklyPrayerTimetablesSelect<false> | WeeklyPrayerTimetablesSelect<true>;
     'events-settings': EventsSettingsSelect<false> | EventsSettingsSelect<true>;
+    'charity-hub': CharityHubSelect<false> | CharityHubSelect<true>;
   };
   locale: null;
   widgets: {
@@ -155,7 +161,13 @@ export interface Config {
   };
   user: Exec;
   jobs: {
-    tasks: unknown;
+    tasks: {
+      schedulePublish: TaskSchedulePublish;
+      inline: {
+        input: unknown;
+        output: unknown;
+      };
+    };
     workflows: unknown;
   };
 }
@@ -195,6 +207,7 @@ export interface Exec {
         | 'community_engagement'
         | 'operations'
         | 'technology'
+        | 'charity'
       )
     | null;
   position?: ('vice_president' | 'head_director' | 'director') | null;
@@ -204,7 +217,7 @@ export interface Exec {
   'phone number'?: number | null;
   'mylaurier email'?: string | null;
   city?: string | null;
-  roles: 'admin' | 'manager' | 'editor';
+  roles: 'admin' | 'manager' | 'editor' | 'charity_editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -264,6 +277,8 @@ export interface Resource {
 export interface Media {
   id: number;
   alt: string;
+  charityMedia?: boolean | null;
+  uploadedBy?: (number | null) | Exec;
   caption?: {
     root: {
       type: string;
@@ -600,6 +615,11 @@ export interface Event {
   link?: string | null;
   status?: ('draft' | 'published') | null;
   /**
+   * Scopes this event to charity editors. It is set automatically when they create an event.
+   */
+  charityManaged?: boolean | null;
+  charityOwner?: (number | null) | Exec;
+  /**
    * The main person responsible for this event.
    */
   planningLead?: (number | null) | Exec;
@@ -617,6 +637,7 @@ export interface Event {
         | 'community_engagement'
         | 'operations'
         | 'technology'
+        | 'charity'
       )[]
     | null;
   /**
@@ -699,6 +720,7 @@ export interface EventTask {
         | 'community_engagement'
         | 'operations'
         | 'technology'
+        | 'charity'
       )
     | null;
   /**
@@ -735,12 +757,111 @@ export interface ContentSchedule {
         | 'community_engagement'
         | 'operations'
         | 'technology'
+        | 'charity'
       )
     | null;
   createdFromTemplate?: boolean | null;
   reminderSentAt?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Year-round and Charity Week campaigns. Save as draft until dates, totals, causes, and links have been reviewed.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "charity-campaigns".
+ */
+export interface CharityCampaign {
+  id: number;
+  /**
+   * Public campaign name.
+   */
+  title: string;
+  campaignType: 'year-round' | 'charity-week';
+  /**
+   * Required for Charity Week. This creates the archive URL, such as /charityweek/2026.
+   */
+  year?: number | null;
+  /**
+   * Completed campaigns never show donation, registration, or volunteer urgency.
+   */
+  phase: 'upcoming' | 'active' | 'completed';
+  /**
+   * A concise explanation of the campaign and where support goes.
+   */
+  summary: string;
+  /**
+   * Use an image with accurate alternative text in the Media Library.
+   */
+  heroImage?: (number | null) | Media;
+  startDate?: string | null;
+  endDate?: string | null;
+  featured?: boolean | null;
+  /**
+   * Lower numbers appear first.
+   */
+  displayOrder?: number | null;
+  fundraising: {
+    currency: 'CAD' | 'USD';
+    /**
+     * Leave blank when no approved goal has been set.
+     */
+    goal?: number | null;
+    /**
+     * Choose Verified amount to distinguish a confirmed $0 from an unknown total.
+     */
+    amountState: 'unknown' | 'verified';
+    amountRaised?: number | null;
+    lastVerifiedAt?: string | null;
+    /**
+     * External checkout only. Confirm ownership and destination before publishing.
+     */
+    donationURL?: string | null;
+  };
+  causes?:
+    | {
+        name: string;
+        description: string;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  partners?:
+    | {
+        name: string;
+        description?: string | null;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Select charity-scoped events. Registration uses the link stored on each event.
+   */
+  events?: (number | Event)[] | null;
+  volunteerText?: string | null;
+  volunteerURL?: string | null;
+  /**
+   * Use a role address that can be handed over, not a personal account.
+   */
+  contactEmail?: string | null;
+  /**
+   * For completed campaigns: what happened and what was verified.
+   */
+  resultsSummary?: string | null;
+  impactItems?:
+    | {
+        label: string;
+        /**
+         * Only enter a result supported by the campaign records.
+         */
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  recapURL?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1018,6 +1139,98 @@ export interface PayloadKv {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs".
+ */
+export interface PayloadJob {
+  id: number;
+  /**
+   * Input data provided to the job
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  taskStatus?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
+  /**
+   * If hasError is true this job will not be retried
+   */
+  hasError?: boolean | null;
+  /**
+   * If hasError is true, this is the error that caused it
+   */
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Task execution log
+   */
+  log?:
+    | {
+        executedAt: string;
+        completedAt: string;
+        taskSlug: 'inline' | 'schedulePublish';
+        taskID: string;
+        input?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        output?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        state: 'failed' | 'succeeded';
+        error?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  taskSlug?: ('inline' | 'schedulePublish') | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -1118,6 +1331,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'content-schedule';
         value: number | ContentSchedule;
+      } | null)
+    | ({
+        relationTo: 'charity-campaigns';
+        value: number | CharityCampaign;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1237,6 +1454,8 @@ export interface ResourcesSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  charityMedia?: T;
+  uploadedBy?: T;
   caption?: T;
   prefix?: T;
   updatedAt?: T;
@@ -1467,6 +1686,8 @@ export interface EventsSelect<T extends boolean = true> {
   image?: T;
   link?: T;
   status?: T;
+  charityManaged?: T;
+  charityOwner?: T;
   planningLead?: T;
   departments?: T;
   planningTemplate?: T;
@@ -1541,6 +1762,64 @@ export interface ContentScheduleSelect<T extends boolean = true> {
   reminderSentAt?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "charity-campaigns_select".
+ */
+export interface CharityCampaignsSelect<T extends boolean = true> {
+  title?: T;
+  campaignType?: T;
+  year?: T;
+  phase?: T;
+  summary?: T;
+  heroImage?: T;
+  startDate?: T;
+  endDate?: T;
+  featured?: T;
+  displayOrder?: T;
+  fundraising?:
+    | T
+    | {
+        currency?: T;
+        goal?: T;
+        amountState?: T;
+        amountRaised?: T;
+        lastVerifiedAt?: T;
+        donationURL?: T;
+      };
+  causes?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        image?: T;
+        id?: T;
+      };
+  partners?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        url?: T;
+        id?: T;
+      };
+  events?: T;
+  volunteerText?: T;
+  volunteerURL?: T;
+  contactEmail?: T;
+  resultsSummary?: T;
+  impactItems?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  recapURL?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1766,6 +2045,37 @@ export interface PayloadKvSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs_select".
+ */
+export interface PayloadJobsSelect<T extends boolean = true> {
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
+  log?:
+    | T
+    | {
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        id?: T;
+      };
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -1919,6 +2229,31 @@ export interface EventsSetting {
   createdAt?: string | null;
 }
 /**
+ * Evergreen copy and contact details for /charity. Campaign-specific details belong in Charity campaigns.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "charity-hub".
+ */
+export interface CharityHub {
+  id: number;
+  eyebrow?: string | null;
+  title: string;
+  /**
+   * Explain the charity team's purpose without campaign-specific claims.
+   */
+  introduction: string;
+  heroImage?: (number | null) | Media;
+  volunteerHeading?: string | null;
+  volunteerText?: string | null;
+  volunteerURL?: string | null;
+  collaborationText?: string | null;
+  contactEmail?: string | null;
+  instagramURL: string;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nav_select".
  */
@@ -2023,6 +2358,26 @@ export interface EventsSettingsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "charity-hub_select".
+ */
+export interface CharityHubSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  introduction?: T;
+  heroImage?: T;
+  volunteerHeading?: T;
+  volunteerText?: T;
+  volunteerURL?: T;
+  collaborationText?: T;
+  contactEmail?: T;
+  instagramURL?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -2030,6 +2385,23 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSchedulePublish".
+ */
+export interface TaskSchedulePublish {
+  input: {
+    type?: ('publish' | 'unpublish') | null;
+    locale?: string | null;
+    doc?: {
+      relationTo: 'charity-campaigns';
+      value: number | CharityCampaign;
+    } | null;
+    global?: 'charity-hub' | null;
+    user?: (number | null) | Exec;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -5,7 +5,7 @@ import type {
   PayloadRequest,
 } from "payload";
 
-type PlanningRole = "admin" | "editor" | "manager";
+type PlanningRole = "admin" | "charity_editor" | "editor" | "manager";
 
 type PlanningUser = {
   id: number | string;
@@ -71,7 +71,9 @@ export const adminOrSelfField: FieldAccess = ({ doc, id, req }) => {
 };
 
 export const adminsOnlyAdmin = ({ req }: { req: PayloadRequest }) =>
-  getPlanningUser(req.user)?.roles === "admin";
+  ["admin", "charity_editor", "manager"].includes(
+    getPlanningUser(req.user)?.roles ?? ""
+  );
 
 export const managedCollectionAccess = {
   create: managersAndAdmins,

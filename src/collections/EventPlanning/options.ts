@@ -16,6 +16,7 @@ export const departmentOptions = [
   { label: "Community Engagement", value: "community_engagement" },
   { label: "Operations", value: "operations" },
   { label: "Technology", value: "technology" },
+  { label: "Charity", value: "charity" },
 ] satisfies NonNullable<SelectField["options"]>;
 
 export const planningStatusOptions = [

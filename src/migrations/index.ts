@@ -6,6 +6,9 @@ import * as migration_20260828_234500_recurring_events from './20260828_234500_r
 import * as migration_20260829_000100_fix_recurring_array_columns from './20260829_000100_fix_recurring_array_columns';
 import * as migration_20260902_000100_add_manager_role from './20260902_000100_add_manager_role';
 import * as migration_20260902_000200_event_workspace from './20260902_000200_event_workspace';
+import * as migration_20261101_051329_charity_cms from './20261101_051329_charity_cms';
+import * as migration_20261101_194000_publish_charity_week_2026 from './20261101_194000_publish_charity_week_2026';
+import * as migration_20261101_201500_sync_charity_week_version from './20261101_201500_sync_charity_week_version';
 
 export const migrations = [
   {
@@ -26,26 +29,41 @@ export const migrations = [
   {
     up: migration_20260827_013537_event_reminders.up,
     down: migration_20260827_013537_event_reminders.down,
-    name: '20260827_013537_event_reminders'
+    name: '20260827_013537_event_reminders',
   },
   {
     up: migration_20260828_234500_recurring_events.up,
     down: migration_20260828_234500_recurring_events.down,
-    name: '20260828_234500_recurring_events'
+    name: '20260828_234500_recurring_events',
   },
   {
     up: migration_20260829_000100_fix_recurring_array_columns.up,
     down: migration_20260829_000100_fix_recurring_array_columns.down,
-    name: '20260829_000100_fix_recurring_array_columns'
+    name: '20260829_000100_fix_recurring_array_columns',
   },
   {
     up: migration_20260902_000100_add_manager_role.up,
     down: migration_20260902_000100_add_manager_role.down,
-    name: '20260902_000100_add_manager_role'
+    name: '20260902_000100_add_manager_role',
   },
   {
     up: migration_20260902_000200_event_workspace.up,
     down: migration_20260902_000200_event_workspace.down,
-    name: '20260902_000200_event_workspace'
+    name: '20260902_000200_event_workspace',
+  },
+  {
+    up: migration_20261101_051329_charity_cms.up,
+    down: migration_20261101_051329_charity_cms.down,
+    name: '20261101_051329_charity_cms'
+  },
+  {
+    up: migration_20261101_194000_publish_charity_week_2026.up,
+    down: migration_20261101_194000_publish_charity_week_2026.down,
+    name: '20261101_194000_publish_charity_week_2026'
+  },
+  {
+    up: migration_20261101_201500_sync_charity_week_version.up,
+    down: migration_20261101_201500_sync_charity_week_version.down,
+    name: '20261101_201500_sync_charity_week_version'
   },
 ];

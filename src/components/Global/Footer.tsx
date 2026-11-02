@@ -13,26 +13,44 @@ const FooterComponent: React.FC<FooterProps> = ({
   footerGroups,
   socialData,
 }) => {
+  const hasCharityLink = footerGroups.items.some((item) =>
+    item.links?.some((link) => link.url === "/charity")
+  );
+  const footerItems = hasCharityLink
+    ? footerGroups.items
+    : [
+        ...footerGroups.items,
+        {
+          id: "charity-footer",
+          label: "Charity",
+          links: [
+            {
+              id: "charity-home-footer",
+              title: "Charity home",
+              url: "/charity",
+            },
+            {
+              id: "charity-week-footer",
+              title: "Charity Week",
+              url: "/charityweek",
+            },
+          ],
+        },
+      ];
   return (
     <div className="">
       <footer
         id="footer"
         className="footer bg-base-100 p-6 text-base-content md:p-10"
       >
-        {footerGroups.items.map((item) => (
+        {footerItems.map((item) => (
           <div key={item.id}>
             <span className="footer-title mb-3 opacity-80">{item.label}</span>
             {item.links &&
               item.links.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  className="link-hover link "
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Link key={index} href={link.url} className="link-hover link ">
                   {link.title}
-                </a>
+                </Link>
               ))}
           </div>
         ))}

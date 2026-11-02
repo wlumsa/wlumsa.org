@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { revalidatePath } from "next/cache";
 
 import { managersAndAdmins } from "@/collections/EventPlanning/access";
 
@@ -6,6 +7,13 @@ const Footer: GlobalConfig = {
   slug: "footer",
   access: {
     update: managersAndAdmins,
+  },
+  hooks: {
+    afterChange: [
+      async () => {
+        revalidatePath("/", "layout");
+      },
+    ],
   },
   fields: [
     {
