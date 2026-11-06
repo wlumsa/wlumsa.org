@@ -57,7 +57,7 @@ export const checkoutSessionCompleted: StripeWebhookHandler<{
           cc: email.cc,
           bcc: email.bcc,
           replyTo: email.replyTo,
-          from: email.emailFrom,
+          from: email.emailFrom ?? undefined,
           subject: `Payment Confirmed from ${submission.id}`,
           html: `
             <h2>Payment Confirmation</h2>
