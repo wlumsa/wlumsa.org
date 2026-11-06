@@ -15,7 +15,7 @@ import { decrementSubmissionLimit } from "./actions";
 import { decrementChoiceLimits } from "./actions";
 import { submitConfiguredWebhook } from "./actions";
 import { MoveLeft } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 type Value = unknown;
 
 interface Property {
@@ -40,7 +40,7 @@ export type FormBlockType = {
   }[];
 };
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0, x: -50 },
   visible: {
     opacity: 1,
