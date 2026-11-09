@@ -7,12 +7,12 @@ import {
   Hr,
   Html,
   Link,
+  Markdown,
   Preview,
   Section,
   Text,
   Img,
-} from "@react-email/components";
-import { Markdown } from "@react-email/markdown";
+} from "react-email";
 import React from "react";
 
 interface MemberInfo {
