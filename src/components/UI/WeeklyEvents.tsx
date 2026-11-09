@@ -67,7 +67,7 @@ export const EventCard: React.FC<EventCardProps> = ({
                   href={link}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noreferrer" : undefined}
-                  className="btn btn-primary mt-4 w-full text-secondary sm:w-auto"
+                  className="btn mt-4 w-full text-secondary btn-primary sm:w-auto"
                 >
                   {ctaText || "Learn More"}
                 </Link>
@@ -123,7 +123,7 @@ export const EventCard: React.FC<EventCardProps> = ({
                   href={link}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noreferrer" : undefined}
-                  className="btn btn-primary mt-2 w-full text-secondary"
+                  className="btn mt-2 w-full text-secondary btn-primary"
                 >
                   {ctaText || "Learn More"}
                 </Link>

@@ -50,7 +50,7 @@ export const ContactInfo: React.FC<
             </label>
             <input
               type="text"
-              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 outline-none transition focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
+              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 transition outline-none focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
               placeholder={first_name_placeholder}
               id={first_name}
               {...register(`${name}.first_name`, {
@@ -67,7 +67,7 @@ export const ContactInfo: React.FC<
             </label>
             <input
               type="text"
-              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 outline-none transition focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
+              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 transition outline-none focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
               placeholder={last_name_placeholder}
               id={last_name}
               {...register(`${name}.last_name`, {
@@ -86,7 +86,7 @@ export const ContactInfo: React.FC<
             </label>
             <input
               type="text"
-              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 outline-none transition focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
+              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 transition outline-none focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
               placeholder={studentID_placeholder}
               id={studentID}
               {...register(`${name}.studentID`, {
@@ -103,7 +103,7 @@ export const ContactInfo: React.FC<
             </label>
             <input
               type="text"
-              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 outline-none transition focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
+              className="mt-2 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2 text-lg font-light text-slate-900 transition outline-none focus:border-primary md:text-xl dark:border-base-300 dark:text-base-content"
               placeholder={email_placeholder}
               id={email}
               {...register(`${name}.email`, { required: requiredFromProps })}

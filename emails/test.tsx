@@ -138,7 +138,7 @@ function EmailText({ markdownText }: { markdownText: string }) {
 
   return (
     <Container className="max-w-sm">
-      <Text className="mb-6 mt-6">
+      <Text className="mt-6 mb-6">
         <Markdown>{markdownText}</Markdown>
       </Text>
     </Container>

@@ -5,11 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type PlanningStatus =
-  | "complete"
-  | "in_progress"
-  | "planning"
-  | "ready"
-  | "waiting";
+  "complete" | "in_progress" | "planning" | "ready" | "waiting";
 
 type EventPlanningPanelProps = {
   canManage: boolean;

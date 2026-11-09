@@ -69,10 +69,10 @@ export default async function Page(props: { searchParams: SearchParams }) {
           <div className="border-y border-base-300 py-6 sm:py-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-base-content/55">
+                <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-base-content/55 uppercase">
                   Reflections & resources
                 </p>
-                <h1 className="font-heading max-w-3xl text-balance text-5xl font-bold leading-[0.98] text-primary sm:text-6xl lg:text-7xl">
+                <h1 className="font-heading max-w-3xl text-5xl leading-[0.98] font-bold text-balance text-primary sm:text-6xl lg:text-7xl">
                   MSA Blog
                 </h1>
               </div>
@@ -97,7 +97,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="border-b border-base-300 pb-6">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-base-content/55">
+          <p className="mb-4 text-xs font-semibold tracking-[0.18em] text-base-content/55 uppercase">
             Browse articles
           </p>
           <div className="grid gap-4 lg:grid-cols-[minmax(260px,420px)_1fr] lg:items-start">
@@ -132,7 +132,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
             {hasFilters && (
               <Link
                 href="/blog"
-                className="w-fit rounded-md px-2 py-1 font-semibold text-primary transition hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="w-fit rounded-md px-2 py-1 font-semibold text-primary transition hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
                 Clear filters
               </Link>
@@ -142,9 +142,9 @@ export default async function Page(props: { searchParams: SearchParams }) {
 
         {remainingPosts.length > 0 ? (
           <>
-            <div className="mb-5 mt-10 flex items-end justify-between gap-4">
+            <div className="mt-10 mb-5 flex items-end justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                <p className="text-xs font-semibold tracking-wide text-primary uppercase">
                   Browse
                 </p>
                 <h2 className="font-heading mt-1 text-2xl font-bold text-base-content sm:text-3xl">
@@ -172,7 +172,7 @@ export default async function Page(props: { searchParams: SearchParams }) {
             {hasFilters && (
               <Link
                 href="/blog"
-                className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-content transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="mt-5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-content transition hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 Reset search
               </Link>
@@ -208,7 +208,7 @@ function FeaturedPost({ post, eyebrow }: { post: Post; eyebrow: string }) {
     <article className="overflow-hidden border border-base-300 bg-base-100 shadow-[0_12px_32px_rgba(31,31,31,0.06)]">
       <Link
         href={href}
-        className="group grid min-h-[320px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 md:grid-cols-[1.05fr_0.95fr]"
+        className="group grid min-h-[320px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none md:grid-cols-[1.05fr_0.95fr]"
         aria-label={`Read ${post.title || "featured article"}`}
       >
         <div className="relative min-h-[220px] overflow-hidden bg-base-300 md:min-h-full">
@@ -231,7 +231,7 @@ function FeaturedPost({ post, eyebrow }: { post: Post; eyebrow: string }) {
         </div>
         <div className="flex flex-col justify-between p-5 sm:p-7">
           <div>
-            <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-wide text-base-content/55">
+            <div className="mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold tracking-wide text-base-content/55 uppercase">
               <span>{eyebrow}</span>
               {category?.title && (
                 <>
@@ -242,7 +242,7 @@ function FeaturedPost({ post, eyebrow }: { post: Post; eyebrow: string }) {
                 </>
               )}
             </div>
-            <h2 className="font-heading text-balance text-2xl font-bold leading-tight text-base-content transition-colors group-hover:text-primary sm:text-3xl">
+            <h2 className="font-heading text-2xl leading-tight font-bold text-balance text-base-content transition-colors group-hover:text-primary sm:text-3xl">
               {post.title}
             </h2>
             {post.description && (
@@ -266,7 +266,7 @@ function FeaturedPost({ post, eyebrow }: { post: Post; eyebrow: string }) {
               Read
               <ArrowUpRight
                 size={16}
-                className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 aria-hidden
               />
             </span>

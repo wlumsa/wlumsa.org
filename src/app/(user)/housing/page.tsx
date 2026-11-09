@@ -109,20 +109,20 @@ const studentResources = [
 export default function HousingPage() {
   return (
     <main className="bg-base-100 text-base-content">
-      <div className="mx-auto max-w-4xl px-4 pb-20 pt-28 sm:px-6 lg:px-8 lg:pb-24 lg:pt-32">
+      <div className="mx-auto max-w-4xl px-4 pt-28 pb-20 sm:px-6 lg:px-8 lg:pt-32 lg:pb-24">
         <header className="mx-auto max-w-3xl text-center">
           <blockquote>
             <p
               lang="ar"
               dir="rtl"
-              className="text-center text-2xl font-semibold leading-loose text-primary sm:text-3xl"
+              className="text-center text-2xl leading-loose font-semibold text-primary sm:text-3xl"
             >
               وَٱللَّهُ جَعَلَ لَكُم مِّنۢ بُيُوتِكُمْ سَكَنًۭا
             </p>
             <p className="mt-3 text-base leading-relaxed text-base-content/75 sm:text-lg">
               “And Allah has made your homes a place to rest.”
             </p>
-            <cite className="mt-2 block text-sm not-italic text-base-content/55">
+            <cite className="mt-2 block text-sm text-base-content/55 not-italic">
               Qur’an 16:80
             </cite>
           </blockquote>
@@ -228,7 +228,7 @@ function SectionHeading({
       <Heading className="font-heading text-2xl font-bold text-primary sm:text-3xl">
         {title}
       </Heading>
-      <p className="mt-3 text-pretty text-sm leading-relaxed text-base-content/70 sm:text-base">
+      <p className="mt-3 text-sm leading-relaxed text-pretty text-base-content/70 sm:text-base">
         {description}
       </p>
     </div>

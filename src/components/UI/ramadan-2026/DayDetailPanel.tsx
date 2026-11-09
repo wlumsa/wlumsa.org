@@ -26,7 +26,7 @@ function PrayerTimeRow({
     <div
       className={`relative flex items-center justify-between rounded-xl border px-3 py-2.5 ${
         emphasize
-          ? "bg-secondary/12 border-secondary/45 shadow-sm"
+          ? "border-secondary/45 bg-secondary/12 shadow-sm"
           : "border-base-300 bg-base-200/50"
       }`}
     >
@@ -37,7 +37,7 @@ function PrayerTimeRow({
       >
         {label}
       </span>
-      <span className="font-body text-sm font-bold tabular-nums text-base-content">
+      <span className="font-body text-sm font-bold text-base-content tabular-nums">
         {value || "--:--"}
       </span>
     </div>
@@ -71,7 +71,7 @@ function PanelBody({
 
       <div className="space-y-2 rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm">
         <div className="flex items-center justify-between">
-          <p className="font-body text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
+          <p className="font-body text-[11px] font-semibold tracking-wide text-base-content/60 uppercase">
             Full Prayer Schedule
           </p>
           <p className="font-body text-[10px] text-base-content/55">
@@ -96,24 +96,24 @@ function PanelBody({
 
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
         <div className="rounded-lg border border-base-300 bg-base-200/60 px-3 py-2">
-          <p className="font-body text-[11px] uppercase tracking-wide text-neutral/80">
+          <p className="font-body text-[11px] tracking-wide text-neutral/80 uppercase">
             Night Status
           </p>
           <p className="font-body text-sm font-semibold text-base-content">
             {day.isEid
               ? "Eid"
               : day.isOddNight
-              ? "Odd night in the last 10"
-              : day.isLastTen
-              ? "Last 10 nights"
-              : "Regular Ramadan night"}
+                ? "Odd night in the last 10"
+                : day.isLastTen
+                  ? "Last 10 nights"
+                  : "Regular Ramadan night"}
           </p>
         </div>
         <div className="rounded-lg border border-base-300 bg-base-200/60 px-3 py-2">
-          <p className="font-body text-[11px] uppercase tracking-wide text-neutral/80">
+          <p className="font-body text-[11px] tracking-wide text-neutral/80 uppercase">
             Last Third Starts
           </p>
-          <p className="font-heading text-base font-bold tabular-nums text-base-content">
+          <p className="font-heading text-base font-bold text-base-content tabular-nums">
             {lastThird || "--:--"}
           </p>
           <p className="font-body text-[11px] text-neutral/80">
@@ -124,7 +124,7 @@ function PanelBody({
 
       {day.isEid ? (
         <div className="rounded-xl border border-secondary/35 bg-secondary/10 p-3 shadow-sm">
-          <p className="font-body text-[11px] font-semibold uppercase tracking-wide text-base-content/70">
+          <p className="font-body text-[11px] font-semibold tracking-wide text-base-content/70 uppercase">
             Eid Prayer
           </p>
           <p className="font-body mt-1 text-sm font-semibold text-base-content">

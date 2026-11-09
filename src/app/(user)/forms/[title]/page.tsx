@@ -46,7 +46,7 @@ export default async function Page(props: { params: Params }) {
   return (
     <Fragment>
       <RefreshRouteOnSave />
-      <div className="mt-4 min-h-screen ">
+      <div className="mt-4 min-h-screen">
         <FormBlock id={id || ""} form={page} />
       </div>
     </Fragment>

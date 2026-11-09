@@ -178,14 +178,14 @@ const sections = [
 export default function StudentResourcesPage() {
   return (
     <div className="bg-base-100 text-base-content">
-      <div className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28 lg:px-8 lg:pb-24 lg:pt-32">
+      <div className="mx-auto max-w-6xl px-4 pt-24 pb-16 sm:px-6 sm:pt-28 sm:pb-20 lg:px-8 lg:pt-32 lg:pb-24">
         <header className="border-b border-base-300 pb-5 text-center sm:pb-8">
           <h1
-            className={`font-heading mx-auto max-w-3xl text-balance text-3xl font-bold tracking-tight sm:text-5xl ${styles.brandText}`}
+            className={`font-heading mx-auto max-w-3xl text-3xl font-bold tracking-tight text-balance sm:text-5xl ${styles.brandText}`}
           >
             Student Resources
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-base-content/75 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-pretty text-base-content/75 sm:text-lg">
             Essential Laurier and <span translate="no">WLU MSA</span> links for
             academics, work, wellbeing, and campus life.
           </p>
@@ -209,7 +209,7 @@ export default function StudentResourcesPage() {
                   <li key={section.id} className="shrink-0 snap-start">
                     <a
                       href={`#${section.id}`}
-                      className={`flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-base-300 bg-base-100 px-4 py-2 text-center text-sm font-semibold leading-snug text-base-content shadow-sm transition-[background-color,border-color,color,box-shadow] hover:border-primary/30 hover:bg-base-200/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 ${styles.categoryAction}`}
+                      className={`flex min-h-11 touch-manipulation items-center justify-center rounded-full border border-base-300 bg-base-100 px-4 py-2 text-center text-sm leading-snug font-semibold whitespace-nowrap text-base-content shadow-sm transition-[background-color,border-color,color,box-shadow] hover:border-primary/30 hover:bg-base-200/60 focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none ${styles.categoryAction}`}
                     >
                       {section.title}
                     </a>
@@ -223,7 +223,7 @@ export default function StudentResourcesPage() {
                 <li key={section.id}>
                   <a
                     href={`#${section.id}`}
-                    className={`flex min-h-10 touch-manipulation items-center justify-center rounded px-4 py-2 text-center text-sm font-semibold text-base-content/70 transition-[background-color,box-shadow,color] hover:bg-base-100 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 ${styles.categoryAction}`}
+                    className={`flex min-h-10 touch-manipulation items-center justify-center rounded px-4 py-2 text-center text-sm font-semibold text-base-content/70 transition-[background-color,box-shadow,color] hover:bg-base-100 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:outline-none ${styles.categoryAction}`}
                   >
                     {section.title}
                   </a>
@@ -246,12 +246,12 @@ export default function StudentResourcesPage() {
                   <div className="sticky top-16 z-20 -mx-4 border-b border-base-300 bg-base-100/95 px-4 py-3 backdrop-blur-sm sm:static sm:z-auto sm:mx-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none">
                     <h2
                       id={`${section.id}-heading`}
-                      className={`font-heading text-balance text-xl font-bold sm:text-3xl ${styles.brandText}`}
+                      className={`font-heading text-xl font-bold text-balance sm:text-3xl ${styles.brandText}`}
                     >
                       {section.title}
                     </h2>
                   </div>
-                  <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-base-content/75 sm:text-base">
+                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-pretty text-base-content/75 sm:text-base">
                     {section.description}
                   </p>
                 </div>
@@ -272,7 +272,7 @@ export default function StudentResourcesPage() {
           </p>
           <Link
             href="/resources"
-            className={`decoration-current/30 group inline-flex min-h-10 touch-manipulation items-center gap-2 text-sm font-semibold underline underline-offset-4 transition-colors hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 ${styles.textAction}`}
+            className={`group inline-flex min-h-10 touch-manipulation items-center gap-2 text-sm font-semibold underline decoration-current/30 underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none ${styles.textAction}`}
           >
             Browse All Resources
             <ArrowRight
@@ -298,7 +298,7 @@ function ResourceItem({ resource }: { resource: Resource }) {
         <a
           href={resource.href}
           aria-label={actionLabel}
-          className="group grid h-full min-h-11 touch-manipulation grid-cols-[minmax(0,1fr)_auto] gap-x-4 rounded-lg border border-base-300 bg-base-200/35 px-4 py-4 text-left transition-[background-color,border-color,box-shadow,transform] hover:border-primary/30 hover:bg-base-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 motion-reduce:transform-none sm:grid-cols-1 sm:grid-rows-[1fr_auto] sm:items-start sm:gap-y-5 sm:rounded-none sm:border-x-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-5 sm:hover:-translate-y-px sm:hover:bg-transparent sm:hover:shadow-none"
+          className="group grid h-full min-h-11 touch-manipulation grid-cols-[minmax(0,1fr)_auto] gap-x-4 rounded-lg border border-base-300 bg-base-200/35 px-4 py-4 text-left transition-[background-color,border-color,box-shadow,transform] hover:border-primary/30 hover:bg-base-200/70 focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none motion-reduce:transform-none sm:grid-cols-1 sm:grid-rows-[1fr_auto] sm:items-start sm:gap-y-5 sm:rounded-none sm:border-x-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:pt-5 sm:pb-0 sm:hover:-translate-y-px sm:hover:bg-transparent sm:hover:shadow-none"
         >
           <ResourceItemContent
             resource={resource}
@@ -309,7 +309,7 @@ function ResourceItem({ resource }: { resource: Resource }) {
       ) : (
         <Link
           href={resource.href}
-          className="group grid h-full min-h-11 touch-manipulation grid-cols-[minmax(0,1fr)_auto] gap-x-4 rounded-lg border border-base-300 bg-base-200/35 px-4 py-4 text-left transition-[background-color,border-color,box-shadow,transform] hover:border-primary/30 hover:bg-base-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 motion-reduce:transform-none sm:grid-cols-1 sm:grid-rows-[1fr_auto] sm:items-start sm:gap-y-5 sm:rounded-none sm:border-x-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-5 sm:hover:-translate-y-px sm:hover:bg-transparent sm:hover:shadow-none"
+          className="group grid h-full min-h-11 touch-manipulation grid-cols-[minmax(0,1fr)_auto] gap-x-4 rounded-lg border border-base-300 bg-base-200/35 px-4 py-4 text-left transition-[background-color,border-color,box-shadow,transform] hover:border-primary/30 hover:bg-base-200/70 focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none motion-reduce:transform-none sm:grid-cols-1 sm:grid-rows-[1fr_auto] sm:items-start sm:gap-y-5 sm:rounded-none sm:border-x-0 sm:border-b-0 sm:bg-transparent sm:px-0 sm:pt-5 sm:pb-0 sm:hover:-translate-y-px sm:hover:bg-transparent sm:hover:shadow-none"
         >
           <ResourceItemContent
             resource={resource}
@@ -336,24 +336,24 @@ function ResourceItemContent({
       <div className="min-w-0 sm:w-full">
         <h3
           translate="no"
-          className="font-heading text-balance text-lg font-bold text-base-content sm:text-xl"
+          className="font-heading text-lg font-bold text-balance text-base-content sm:text-xl"
         >
           {resource.title}
         </h3>
-        <p className="mt-1.5 text-sm font-semibold leading-snug text-base-content/85 sm:mt-3">
+        <p className="mt-1.5 text-sm leading-snug font-semibold text-base-content/85 sm:mt-3">
           {resource.question}
         </p>
-        <p className="mt-1.5 line-clamp-2 text-pretty text-sm leading-relaxed text-base-content/70 sm:mt-2 sm:line-clamp-none sm:text-base-content/75">
+        <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-pretty text-base-content/70 sm:mt-2 sm:line-clamp-none sm:text-base-content/75">
           {resource.description}
         </p>
       </div>
 
-      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none sm:mt-0 sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:-translate-y-px sm:group-hover:translate-x-0 sm:group-hover:shadow-md">
+      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none sm:mt-0 sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:translate-x-0 sm:group-hover:-translate-y-px sm:group-hover:shadow-md">
         <span className="sr-only sm:not-sr-only">{actionLabel}</span>
         <Arrow
           className={`h-4 w-4 transition-transform motion-reduce:transform-none ${
             resource.external
-              ? "group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              ? "group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               : "group-hover:translate-x-0.5"
           }`}
           aria-hidden="true"

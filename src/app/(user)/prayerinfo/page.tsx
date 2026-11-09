@@ -48,7 +48,7 @@ export default async function PrayerInfo() {
           weeklyTimetable={weeklyTimetable}
         />
       </div>
-      <div className="container mx-auto flex   flex-col items-center justify-center ">
+      <div className="container mx-auto flex flex-col items-center justify-center">
         <h1 className="mb-4 text-center font-serif text-3xl font-bold text-primary sm:text-4xl">
           On-campus Prayer Spaces
         </h1>
@@ -56,7 +56,7 @@ export default async function PrayerInfo() {
         <h2 className="mb-8 text-center text-xl font-bold">
           These Videos Can help guide you to the Prayer Rooms
         </h2>
-        <div className=" grid grid-cols-1 gap-12  lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <PrayerSpaceCard
             videoId="XQALLoF6Buo"
             title="Bricker Prayer Room"

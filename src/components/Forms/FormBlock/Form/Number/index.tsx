@@ -35,7 +35,7 @@ export const Number: React.FC<
           </label>
           <input
             type="number"
-            className="mt-4 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2.5 text-xl font-light text-slate-900 outline-none transition focus:border-primary md:text-2xl dark:border-base-300 dark:text-base-content"
+            className="mt-4 w-full border-b-2 border-slate-200 bg-transparent px-1 py-2.5 text-xl font-light text-slate-900 transition outline-none focus:border-primary md:text-2xl dark:border-base-300 dark:text-base-content"
             placeholder="+1 234 567 891"
             id={name}
             min={0}

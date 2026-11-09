@@ -14,7 +14,7 @@ const FormData: UIFieldServerComponent = async ({ data }) => {
       {/* Debug view */}
       <div className="mb-4 rounded bg-gray-100 p-4">
         <h3 className="mb-2 font-mono text-sm">Raw Form Data:</h3>
-        <pre className="whitespace-pre-wrap text-sm">
+        <pre className="text-sm whitespace-pre-wrap">
           {JSON.stringify(formData, null, 2)}
         </pre>
       </div>

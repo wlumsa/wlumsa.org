@@ -231,8 +231,8 @@ export default function CharityWeekView({
         timeZone: "America/Toronto",
       }).format(new Date(campaign.startDate))
     : isCompleted
-    ? "Past campaign"
-    : "Charity Week";
+      ? "Past campaign"
+      : "Charity Week";
 
   return (
     <div className={styles.page}>

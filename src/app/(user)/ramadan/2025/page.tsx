@@ -56,7 +56,7 @@ const items = [
 
 export default async function CountdownPage() {
   return (
-    <div className="flex min-h-screen flex-col ">
+    <div className="flex min-h-screen flex-col">
       {/*Hero Section*/}
       <div className="">
         <DotPattern
@@ -64,7 +64,7 @@ export default async function CountdownPage() {
             "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
           )}
         />
-        <div className="container hero mx-auto px-4 py-4">
+        <div className="hero container mx-auto px-4 py-4">
           <div className="hero-content mt-24 text-center">
             <div className="max-w-5xl">
               <BlurFade>
@@ -81,8 +81,8 @@ export default async function CountdownPage() {
                 </p>
               </BlurFade>
               <BlurFade delay={0.75}>
-                <div className="my-6 flex  flex-row justify-center">
-                  <button className="btn btn-primary btn-sm mx-4 text-secondary duration-200 md:btn-md hover:scale-105 ">
+                <div className="my-6 flex flex-row justify-center">
+                  <button className="btn mx-4 text-secondary duration-200 btn-primary btn-sm hover:scale-105 md:btn-md">
                     <Link
                       href="https://fundraise.islamicreliefcanada.org/campaign/wlu-msa-x-irc-ramadan-campaign-2025-1446-ah-2625#attr=2858"
                       target="_blank"
@@ -90,7 +90,7 @@ export default async function CountdownPage() {
                       Donate now!
                     </Link>
                   </button>
-                  <button className="btn btn-secondary btn-sm mx-4 text-primary duration-200 md:btn-md hover:scale-105  ">
+                  <button className="btn mx-4 text-primary duration-200 btn-secondary btn-sm hover:scale-105 md:btn-md">
                     <Link href="/forms/iftars">Register for iftar</Link>
                   </button>
                 </div>
@@ -107,14 +107,14 @@ export default async function CountdownPage() {
       </div>
       <div id="services">
         <div className="mx-auto space-y-4 py-6 text-center">
-          <h2 className="font-body text-sm font-medium uppercase tracking-wide text-primary">
+          <h2 className="font-body text-sm font-medium tracking-wide text-primary uppercase">
             Services
           </h2>
-          <h3 className="font-heading mx-auto mb-2 max-w-3xl text-balance text-4xl font-medium tracking-tight">
+          <h3 className="font-heading mx-auto mb-2 max-w-3xl text-4xl font-medium tracking-tight text-balance">
             This year we are offering the following services on Campus
           </h3>
         </div>
-        <div className=" container mx-auto space-y-8 px-4 py-8">
+        <div className="container mx-auto space-y-8 px-4 py-8">
           <div id="events" className="flex-grow">
             {items.map((event, index) => (
               <EventCard
@@ -131,7 +131,7 @@ export default async function CountdownPage() {
           </div>
           <div className="space-y-16">
             <h2
-              className="font-heading mb-8 mt-16 text-center text-3xl font-bold text-primary duration-200 hover:scale-105"
+              className="font-heading mt-16 mb-8 text-center text-3xl font-bold text-primary duration-200 hover:scale-105"
               id="prayer_rooms"
             >
               Prayer Rooms

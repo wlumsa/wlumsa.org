@@ -65,7 +65,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
             aria-expanded={isMobileDropdownOpen}
             aria-haspopup="listbox"
             onClick={() => setIsMobileDropdownOpen((isOpen) => !isOpen)}
-            className="flex h-12 w-full items-center justify-between rounded-md border border-base-300 bg-base-100 px-4 text-sm font-semibold text-base-content shadow-sm transition-colors hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="flex h-12 w-full items-center justify-between rounded-md border border-base-300 bg-base-100 px-4 text-sm font-semibold text-base-content shadow-sm transition-colors hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             <span>{currentCategory?.title || "Select a category"}</span>
             <ChevronDown
@@ -117,7 +117,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
                 onClick={() => handleCategoryClick(category)}
                 aria-pressed={isActive}
                 className={[
-                  "min-h-10 rounded px-4 py-2 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  "min-h-10 rounded px-4 py-2 text-sm font-semibold transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                   isActive
                     ? "bg-base-100 text-primary shadow-sm"
                     : "text-base-content/65 hover:bg-base-100/70 hover:text-base-content",

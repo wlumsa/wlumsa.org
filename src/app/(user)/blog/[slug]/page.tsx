@@ -44,18 +44,18 @@ export default async function BlogPost({ params }: { params: Params }) {
         <header className="mx-auto max-w-3xl">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-primary transition-colors hover:text-primary/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-primary transition-colors hover:text-primary/75 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             <ArrowLeft size={16} aria-hidden />
             Back to Blog
           </Link>
 
           {category?.title && (
-            <p className="mt-10 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+            <p className="mt-10 text-xs font-semibold tracking-[0.18em] text-primary uppercase">
               {category.title}
             </p>
           )}
-          <h1 className="font-heading mt-5 text-balance text-4xl font-bold leading-tight text-primary sm:text-5xl">
+          <h1 className="font-heading mt-5 text-4xl leading-tight font-bold text-balance text-primary sm:text-5xl">
             {post.title}
           </h1>
           {post.description && (
@@ -95,7 +95,7 @@ export default async function BlogPost({ params }: { params: Params }) {
           <div className="mt-14 border-t border-base-300 pt-6">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-primary transition-colors hover:text-primary/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-semibold text-primary transition-colors hover:text-primary/75 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <ArrowLeft size={16} aria-hidden />
               Back to Blog

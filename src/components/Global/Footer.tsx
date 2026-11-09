@@ -48,7 +48,7 @@ const FooterComponent: React.FC<FooterProps> = ({
             <span className="footer-title mb-3 opacity-80">{item.label}</span>
             {item.links &&
               item.links.map((link, index) => (
-                <Link key={index} href={link.url} className="link-hover link ">
+                <Link key={index} href={link.url} className="link link-hover">
                   {link.title}
                 </Link>
               ))}

@@ -37,13 +37,13 @@ const services = [
 export default function About() {
   return (
     <main className="bg-base-100 text-base-content">
-      <section className="mx-auto max-w-5xl px-4 pb-12 pt-28 sm:px-6 lg:px-8 lg:pb-16 lg:pt-32">
+      <section className="mx-auto max-w-5xl px-4 pt-28 pb-12 sm:px-6 lg:px-8 lg:pt-32 lg:pb-16">
         <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
           <div className="max-w-3xl">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-secondary">
+            <p className="mb-3 text-sm font-semibold tracking-wide text-secondary uppercase">
               Wilfrid Laurier University
             </p>
-            <h1 className="font-heading text-4xl font-bold leading-tight text-primary sm:text-5xl">
+            <h1 className="font-heading text-4xl leading-tight font-bold text-primary sm:text-5xl">
               About Laurier MSA
             </h1>
             <p className="mt-5 text-base leading-relaxed text-base-content/80 sm:text-lg">
@@ -55,7 +55,7 @@ export default function About() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/guidebook"
-                className="btn btn-primary border-0 text-secondary shadow-sm transition duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"
+                className="btn border-0 text-secondary shadow-sm transition duration-200 btn-primary hover:scale-105 hover:bg-secondary hover:text-primary"
               >
                 Become a Member
               </Link>

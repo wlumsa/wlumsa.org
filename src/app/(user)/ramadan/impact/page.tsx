@@ -84,14 +84,14 @@ const combinedMetrics = [
 
 export default function RamadanImpactPage() {
   return (
-    <main className="min-h-screen bg-base-100 px-4 pb-20 pt-28 text-base-content sm:px-6 lg:px-8 lg:pt-32">
+    <main className="min-h-screen bg-base-100 px-4 pt-28 pb-20 text-base-content sm:px-6 lg:px-8 lg:pt-32">
       <div className="mx-auto max-w-6xl">
         <header className="grid gap-10 border-b border-base-content/15 pb-10 lg:grid-cols-[1fr_360px]">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-base-content/50">
+            <p className="text-xs font-semibold tracking-[0.22em] text-base-content/50 uppercase">
               WLUMSA / Ramadan / Impact
             </p>
-            <h1 className="font-heading mt-5 max-w-3xl text-5xl font-bold leading-[1.05] text-base-content sm:text-6xl">
+            <h1 className="font-heading mt-5 max-w-3xl text-5xl leading-[1.05] font-bold text-base-content sm:text-6xl">
               Ramadan impact, recorded simply.
             </h1>
           </div>
@@ -119,11 +119,11 @@ export default function RamadanImpactPage() {
         </header>
 
         <section className="grid border-b border-base-content/15 lg:grid-cols-[1.15fr_1fr]">
-          <div className="border-b border-base-content/15 py-10 lg:border-b-0 lg:border-r lg:pr-10">
+          <div className="border-b border-base-content/15 py-10 lg:border-r lg:border-b-0 lg:pr-10">
             <p className="text-sm font-medium text-base-content/55">
               Estimated total
             </p>
-            <p className="font-heading mt-4 text-[4.5rem] font-bold leading-none text-primary sm:text-[6.5rem]">
+            <p className="font-heading mt-4 text-[4.5rem] leading-none font-bold text-primary sm:text-[6.5rem]">
               12,500+
             </p>
             <p className="mt-3 text-lg text-base-content/70">meals served</p>
@@ -148,7 +148,7 @@ export default function RamadanImpactPage() {
 
         <section className="grid gap-8 py-12 lg:grid-cols-[280px_1fr]">
           <aside>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-base-content/45">
+            <p className="text-xs font-semibold tracking-[0.22em] text-base-content/45 uppercase">
               Annual Ledger
             </p>
             <h2 className="font-heading mt-3 text-3xl font-bold text-base-content">
@@ -161,7 +161,7 @@ export default function RamadanImpactPage() {
           </aside>
 
           <div className="border-y border-base-content/15">
-            <div className="hidden grid-cols-[0.7fr_1fr_1fr_1fr] border-b border-base-content/15 px-1 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-base-content/45 md:grid">
+            <div className="hidden grid-cols-[0.7fr_1fr_1fr_1fr] border-b border-base-content/15 px-1 py-3 text-xs font-semibold tracking-[0.16em] text-base-content/45 uppercase md:grid">
               <div>Year</div>
               <div>Meals</div>
               <div>Charity</div>
@@ -177,7 +177,7 @@ export default function RamadanImpactPage() {
                   {year.year}
                 </p>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-base-content/40 md:hidden">
+                  <p className="text-xs font-semibold tracking-wide text-base-content/40 uppercase md:hidden">
                     Meals
                   </p>
                   <p className="text-lg font-semibold text-base-content">
@@ -185,7 +185,7 @@ export default function RamadanImpactPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-base-content/40 md:hidden">
+                  <p className="text-xs font-semibold tracking-wide text-base-content/40 uppercase md:hidden">
                     Charity
                   </p>
                   <p className="text-lg font-semibold text-base-content">
@@ -193,7 +193,7 @@ export default function RamadanImpactPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-base-content/40 md:hidden">
+                  <p className="text-xs font-semibold tracking-wide text-base-content/40 uppercase md:hidden">
                     Students
                   </p>
                   <p className="text-lg font-semibold text-base-content">

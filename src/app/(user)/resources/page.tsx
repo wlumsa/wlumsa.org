@@ -72,7 +72,7 @@ export default async function Page({
           <div className="mt-3 text-center">
             <NextLink
               href="/student-resources"
-              className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary underline decoration-primary/25 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary underline decoration-primary/25 underline-offset-4 transition-colors hover:decoration-primary focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none"
             >
               View the student guide
               <ArrowRight
@@ -86,7 +86,7 @@ export default async function Page({
       </BlurFade>
 
       <BlurFade delay={0.7}>
-        <div className="mx-auto max-w-screen-md px-4 text-center lg:px-6 ">
+        <div className="mx-auto max-w-screen-md px-4 text-center lg:px-6">
           <div>
             <ButtonGroup categories={categories} />
           </div>

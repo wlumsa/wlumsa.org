@@ -57,9 +57,9 @@ export const Price: React.FC<
   }, [totalPrice, name, setValue]);
 
   return (
-    <div className="mx-auto  min-h-[18rem] ">
+    <div className="mx-auto min-h-[18rem]">
       <Width width={width || 100}>
-        <div className="py-4  ">
+        <div className="py-4">
           <div className="mb-4" />
           <label
             htmlFor={name}

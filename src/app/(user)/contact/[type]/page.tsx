@@ -18,7 +18,7 @@ export default function DynamicContactPage() {
     <div className="flex min-h-screen flex-col">
       <div className="mt-20 flex flex-grow flex-col items-center">
         <div className="mb-10 max-w-2xl text-center">
-          <h1 className="font-heading pt-4 text-4xl font-bold capitalize text-primary duration-200 hover:scale-105 md:text-5xl lg:pt-0">
+          <h1 className="font-heading pt-4 text-4xl font-bold text-primary capitalize duration-200 hover:scale-105 md:text-5xl lg:pt-0">
             {type} Form
           </h1>
           <p className="font-body mt-4 text-center text-lg leading-relaxed text-base-content/80">

@@ -109,12 +109,12 @@ async function getLocalExecutablePath(): Promise<string | undefined> {
           "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
         ]
       : process.platform === "darwin"
-      ? ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"]
-      : [
-          "/usr/bin/google-chrome",
-          "/usr/bin/chromium-browser",
-          "/usr/bin/chromium",
-        ];
+        ? ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"]
+        : [
+            "/usr/bin/google-chrome",
+            "/usr/bin/chromium-browser",
+            "/usr/bin/chromium",
+          ];
 
   for (const candidate of localCandidates) {
     try {

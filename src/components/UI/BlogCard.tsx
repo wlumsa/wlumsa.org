@@ -55,7 +55,7 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
     <article className="h-full">
       <Link
         href={href}
-        className="group flex h-full flex-col overflow-hidden border border-base-300 bg-base-100 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-[0_10px_24px_rgba(31,31,31,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100"
+        className="group flex h-full flex-col overflow-hidden border border-base-300 bg-base-100 transition-[border-color,box-shadow] duration-200 hover:border-primary/30 hover:shadow-[0_10px_24px_rgba(31,31,31,0.07)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none"
         aria-label={`Read ${post.title || "blog post"}`}
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-base-200">
@@ -80,7 +80,7 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
         </div>
 
         <div className="flex flex-1 flex-col p-4 sm:p-5">
-          <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-wide text-base-content/55">
+          <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold tracking-wide text-base-content/55 uppercase">
             {category?.title && (
               <>
                 <span className="text-primary">{category.title}</span>
@@ -97,14 +97,14 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
                 <span aria-hidden className="text-base-content/25">
                   /
                 </span>
-                <span className="normal-case tracking-normal text-base-content/55">
+                <span className="tracking-normal text-base-content/55 normal-case">
                   {author.name}
                 </span>
               </>
             )}
           </div>
 
-          <h3 className="font-heading mb-3 text-balance text-xl font-bold leading-tight text-base-content underline decoration-transparent underline-offset-4 transition-colors group-hover:text-primary group-hover:decoration-primary/35 sm:text-[1.45rem]">
+          <h3 className="font-heading mb-3 text-xl leading-tight font-bold text-balance text-base-content underline decoration-transparent underline-offset-4 transition-colors group-hover:text-primary group-hover:decoration-primary/35 sm:text-[1.45rem]">
             {post.title}
           </h3>
 
@@ -118,7 +118,7 @@ const BlogCard: React.FC<PostProps> = ({ post }) => {
             <span>Read</span>
             <ArrowUpRight
               size={16}
-              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               aria-hidden
             />
           </span>

@@ -220,7 +220,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({
               key={`${dayIndex}-${dayOfMonth}`}
               className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-sm"
             >
-              <h3 className="mb-3 text-center text-sm font-semibold uppercase tracking-wide text-primary">
+              <h3 className="mb-3 text-center text-sm font-semibold tracking-wide text-primary uppercase">
                 {fullDate}
               </h3>
 
@@ -236,7 +236,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({
                       key={`${dayIndex}-${key}`}
                       className="rounded-xl border border-base-300 bg-base-200/50 px-3 py-2 text-center"
                     >
-                      <p className="text-xs font-semibold uppercase tracking-wide text-base-content/70">
+                      <p className="text-xs font-semibold tracking-wide text-base-content/70 uppercase">
                         {key}
                       </p>
                       <p className="mt-1 text-sm font-medium text-base-content">
@@ -277,7 +277,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({
         <table className="min-w-full divide-y divide-base-300 overflow-hidden rounded-lg shadow-lg">
           <thead className="bg-primary text-primary-content">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase">
                 Prayer
               </th>
               {upcomingDays.map((day, index) => {
@@ -286,7 +286,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({
                 return (
                   <th
                     key={`${index}-${dayOfMonth}`}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase"
                   >
                     {getFullDate(today.getFullYear(), monthForDay, dayOfMonth)}
                   </th>
@@ -297,7 +297,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({
           <tbody className="divide-y divide-base-300 bg-base-100">
             {timesToShow.map((key, keyIndex) => (
               <tr key={keyIndex}>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-base-content">
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-base-content uppercase">
                   {timesToShow[keyIndex]}
                 </th>
                 {upcomingDays.map((day, dayIndex) => {
@@ -310,7 +310,7 @@ const PrayerTimesTable: React.FC<PrayerTimesTableProps> = ({
                   return (
                     <td
                       key={`${dayIndex}-${keyIndex}`}
-                      className="whitespace-nowrap px-6 py-4 text-sm text-base-content/80"
+                      className="px-6 py-4 text-sm whitespace-nowrap text-base-content/80"
                     >
                       <div>{formattedTiming}</div>
                       <div className="text-green-500">{iqamahTime}</div>

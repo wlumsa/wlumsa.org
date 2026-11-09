@@ -103,7 +103,7 @@ export default function EventListCard({
                   </span>
                 ) : null}
                 <p
-                  className={`inline-flex max-w-full flex-col items-start gap-0.5 whitespace-normal text-xs font-medium tracking-[0.04em] sm:flex-row sm:items-center sm:gap-1 sm:whitespace-nowrap ${toneClasses.date}`}
+                  className={`inline-flex max-w-full flex-col items-start gap-0.5 text-xs font-medium tracking-[0.04em] whitespace-normal sm:flex-row sm:items-center sm:gap-1 sm:whitespace-nowrap ${toneClasses.date}`}
                 >
                   <span className="leading-tight">{primaryDateLabel}</span>
                   {secondaryDateLabel ? (
@@ -119,7 +119,7 @@ export default function EventListCard({
                 </p>
               </div>
 
-              <h3 className="mt-3 min-w-0 text-balance text-lg font-semibold leading-snug text-base-content sm:text-xl">
+              <h3 className="mt-3 min-w-0 text-lg leading-snug font-semibold text-balance text-base-content sm:text-xl">
                 {title}
               </h3>
             </div>
@@ -141,7 +141,7 @@ export default function EventListCard({
 
           <p
             id={descriptionId}
-            className="mt-3 whitespace-pre-line break-words text-sm leading-relaxed text-base-content/80 sm:mt-4"
+            className="mt-3 text-sm leading-relaxed break-words whitespace-pre-line text-base-content/80 sm:mt-4"
           >
             {descriptionToShow}
           </p>
@@ -172,7 +172,7 @@ export default function EventListCard({
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="max-w-full break-words leading-relaxed">
+                <span className="max-w-full leading-relaxed break-words">
                   {location}
                 </span>
               </p>

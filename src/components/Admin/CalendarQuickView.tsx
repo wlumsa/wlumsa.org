@@ -181,7 +181,7 @@ export function CalendarQuickView({
           className={`planning-calendar__item planning-calendar__item--${
             item.kind
           } planning-calendar__item--button${
-            status === "done" ? " is-done" : ""
+            status === "done" ? "is-done" : ""
           }`}
           onClick={() => setIsOpen(true)}
           ref={triggerRef}

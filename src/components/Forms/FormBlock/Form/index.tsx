@@ -405,7 +405,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
               }`}</div>
             )}
             {!hasSubmitted && (
-              <div className="w-full min-w-0 max-w-5xl">
+              <div className="w-full max-w-5xl min-w-0">
                 <FormProvider {...formMethods}>
                   <form
                     className="flex h-[64svh] w-full flex-col rounded-3xl border border-slate-200 bg-white/80 shadow-2xl shadow-slate-200/40 backdrop-blur md:h-[480px] dark:border-base-300 dark:bg-base-200/90 dark:shadow-base-300/20"
@@ -414,7 +414,7 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                   >
                     {currStepIndex === steps.length ? (
                       <div className="flex flex-grow items-center justify-center py-20">
-                        <span className="loading loading-spinner loading-lg"></span>
+                        <span className="loading loading-lg loading-spinner"></span>
                       </div>
                     ) : (
                       <div className="h-fit flex-grow overflow-y-auto p-2 md:p-8">
@@ -422,10 +422,10 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between border-t border-slate-100 px-6 md:px-8  dark:border-base-300">
+                    <div className="flex items-center justify-between border-t border-slate-100 px-6 md:px-8 dark:border-base-300">
                       <button
                         type="button"
-                        className="btn btn-ghost btn-md text-lg"
+                        className="btn btn-ghost text-lg btn-md"
                         onClick={back}
                         disabled={
                           currStepIndex === 0 || currStepIndex === steps.length
@@ -437,17 +437,17 @@ export const FormBlock: React.FC<FormBlockType & { id?: string }> = (props) => {
                         <button
                           type="button"
                           onClick={handleNext}
-                          className="btn btn-secondary px-10 text-lg"
+                          className="btn px-10 text-lg btn-secondary"
                         >
                           {submitButtonLabel || "Submit"}
                           {isLoading && (
-                            <span className="loading loading-spinner items-center justify-center"></span>
+                            <span className="loading items-center justify-center loading-spinner"></span>
                           )}
                         </button>
                       ) : (
                         <button
                           type="button"
-                          className="btn btn-secondary px-10 text-lg"
+                          className="btn px-10 text-lg btn-secondary"
                           onClick={handleNext}
                           disabled={currStepIndex === steps.length}
                         >

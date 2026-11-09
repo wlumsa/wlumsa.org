@@ -98,7 +98,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
 
           switch (node.type) {
             case "linebreak": {
-              return <br className=" mt-1" key={index} />;
+              return <br className="mt-1" key={index} />;
             }
             case "paragraph": {
               return (
@@ -120,7 +120,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
 
               return (
                 <Tag
-                  className={` list-disc ${
+                  className={`list-disc ${
                     Tag === "ul" ? "list-disc" : "list-decimal"
                   }`}
                   key={index}

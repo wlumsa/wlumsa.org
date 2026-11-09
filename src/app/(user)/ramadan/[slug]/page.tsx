@@ -17,20 +17,20 @@ export default async function RamadanPage(props: { params: Params }) {
   const slug = params.slug;
 
   return (
-    <div className="flex min-h-screen flex-col ">
+    <div className="flex min-h-screen flex-col">
       <main className="flex-grow">
         <div className="flex w-full flex-col items-center">
-          <h1 className="mb-5 mt-28 text-4xl font-bold text-[#203B5D]">
+          <h1 className="mt-28 mb-5 text-4xl font-bold text-[#203B5D]">
             RAMADAN 2024
           </h1>
           <div className="my-4 flex w-full items-center justify-around bg-[#203B5D] p-4 shadow-lg sm:p-12">
             <RamadanInfo />
           </div>
           <div className="mx-4 flex flex-col items-center">
-            <h1 className="mb-10 mt-32 text-xl font-bold text-[#203B5D] md:text-3xl">
+            <h1 className="mt-32 mb-10 text-xl font-bold text-[#203B5D] md:text-3xl">
               DONATE THIS RAMADAN
             </h1>
-            <p className=" text-center">
+            <p className="text-center">
               Contribute to our notable goal of raising $25000 for the Gaza
               Emergency Response
             </p>
@@ -43,7 +43,7 @@ export default async function RamadanPage(props: { params: Params }) {
 
           {
             <div className="mx-4 flex flex-col items-center text-center">
-              <h1 className="mb-4 mt-32 text-3xl font-bold text-[#203B5D] ">
+              <h1 className="mt-32 mb-4 text-3xl font-bold text-[#203B5D]">
                 Register for free Iftar
               </h1>
               <p className="mb-4 text-xl font-bold text-[#2474A3]">
@@ -62,14 +62,14 @@ export default async function RamadanPage(props: { params: Params }) {
                 href="https://docs.google.com/forms/d/1wa1rcim8VSwiqq6heLcV7zoEFh2MDMiAgD5xcdhfPBk"
                 target="_blank"
               >
-                <button className=" my-4 rounded-lg bg-[#203B5D] px-8 py-2 font-bold text-white">
+                <button className="my-4 rounded-lg bg-[#203B5D] px-8 py-2 font-bold text-white">
                   Register here
                 </button>
               </Link>
             </div>
           }
           <div className="mx-4 flex flex-col items-center text-center">
-            <h1 className="mb-2 mt-32 text-3xl font-bold text-[#203B5D]">
+            <h1 className="mt-32 mb-2 text-3xl font-bold text-[#203B5D]">
               Ramadan Prayer Table
             </h1>
             <p className="mb-4">
@@ -92,7 +92,7 @@ export default async function RamadanPage(props: { params: Params }) {
             </div>
           </div>
           <div className="mx-4 flex flex-col items-center">
-            <h1 className="mb-2 mt-12 text-3xl font-bold text-[#203B5D]">
+            <h1 className="mt-12 mb-2 text-3xl font-bold text-[#203B5D]">
               Ramadan Checklist
             </h1>
             <p className="mb-4 text-xl font-bold text-[#2474A3]">
@@ -127,7 +127,7 @@ export default async function RamadanPage(props: { params: Params }) {
             </Link>
           </div>
 
-          <h1 className="mb-4 mt-12 text-3xl font-bold text-[#203B5D]">
+          <h1 className="mt-12 mb-4 text-3xl font-bold text-[#203B5D]">
             Prayer Rooms
           </h1>
           <div
