@@ -19,34 +19,34 @@ importers:
         version: 14.0.0
       '@payloadcms/db-postgres':
         specifier: ~3.85.1
-        version: 3.85.2(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))
+        version: 3.85.2(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))
       '@payloadcms/email-resend':
         specifier: ~3.85.1
-        version: 3.85.2(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))
+        version: 3.85.2(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))
       '@payloadcms/live-preview-react':
         specifier: 3.85.1
         version: 3.85.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@payloadcms/next':
         specifier: ~3.85.1
-        version: 3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+        version: 3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@payloadcms/plugin-form-builder':
         specifier: 3.85.1
-        version: 3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+        version: 3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@payloadcms/plugin-seo':
         specifier: ~3.85.1
-        version: 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+        version: 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@payloadcms/plugin-stripe':
         specifier: ~3.85.1
-        version: 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+        version: 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@payloadcms/richtext-lexical':
         specifier: ~3.85.1
-        version: 3.85.2(@faceless-ui/modal@3.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@payloadcms/next@3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3))(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)(yjs@13.6.32)
+        version: 3.85.2(@faceless-ui/modal@3.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@payloadcms/next@3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3))(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)(yjs@13.6.32)
       '@payloadcms/storage-s3':
         specifier: ~3.85.1
-        version: 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+        version: 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@payloadcms/ui':
         specifier: 3.85.1
-        version: 3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+        version: 3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.3.3(react@19.3.0)(types-react@19.0.0-rc.1)
@@ -105,8 +105,8 @@ importers:
         specifier: ^4.2.3
         version: 4.2.3(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))
       payload:
-        specifier: 3.85.1
-        version: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+        specifier: 3.90.0
+        version: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       posthog-js:
         specifier: ^1.310.0
         version: 1.429.2(react@19.3.0)(types-react@19.0.0-rc.1)
@@ -1475,8 +1475,8 @@ packages:
   '@next/env@13.5.11':
     resolution: {integrity: sha512-fbb2C7HChgM7CemdCY+y3N1n8pcTKdqtQLbC7/EQtPdLvlMUT9JX/dBYl8MMZAtYG4uVMyPFHXckb68q/NRwqg==}
 
-  '@next/env@15.5.25':
-    resolution: {integrity: sha512-42h1lLr07vl4gawALP1hsgRZjHB1xYa58JfUfHwr0f7jG/zhPakh5GHkADHXOC9ZxUvlQFOPIrp7s6qX4DezPQ==}
+  '@next/env@15.5.27':
+    resolution: {integrity: sha512-WC5hvVqiuFOcRyz6gKPeJkiVvSMf3scNeAV49CdWtVqxmUlzh8UKR6YHt9yiNkh8LngtzqSlVz07/Ma3ZAzchA==}
 
   '@next/env@16.3.3':
     resolution: {integrity: sha512-U2eYQRwXj+dsqxV79zFqExDdatnNY/ZWc2nsJU1p/OgT7fd3dXwlF6OjYaFQCfMoeTA19PWq+wVmYgimVA+V+g==}
@@ -1900,6 +1900,9 @@ packages:
   '@payloadcms/translations@3.85.2':
     resolution: {integrity: sha512-d0Fn3tABVPskgpozu4faMlEJrTM64ngGEPSoYBlBN/GiMIQrhOvWJyHJfqJfHGE6X4+QVc2o26p4mlwGCRuRFg==}
 
+  '@payloadcms/translations@3.90.0':
+    resolution: {integrity: sha512-N4n36Ux+DoVW2AkzB609g3YS1aaNlZkVX6EgknhD/LOvoDoMZKf0q8sbNyGce+3O5EuUVTA5+tY6JhG5gVgMmQ==}
+
   '@payloadcms/ui@3.85.1':
     resolution: {integrity: sha512-WCJBEKAnwIvEi2Hiykl92dLVjGga6sPGsNlkbkssNMDqieEUh6qNAb3HewlJUa0IFrhxVFLoAEyJOzHr1UJXkQ==}
     engines: {node: ^18.20.2 || >=20.9.0}
@@ -2272,8 +2275,8 @@ packages:
   '@types/node@18.19.130':
     resolution: {integrity: sha512-GRaXQx6jGfL8sKfaIDD6OupbIHBr9jv7Jnaml9tB7l4v068PAOXqfcujMMo5PhbIs6ggR1XODELqahT2R8v0fg==}
 
-  '@types/node@22.20.2':
-    resolution: {integrity: sha512-xlvWf4Vs9n1PEVYwP1n4vvG07M6y8WgvJ2t0vbrWTmijsIHp1cS+uJ2kMIRdY3nHZK0nCYKrPeD171+SzF4/zw==}
+  '@types/node@26.6.4':
+    resolution: {integrity: sha512-ldVPDCzj7fsaGZrLB0NuHuTvJcsNasysBAqMolr/cgxrLd1xbqxIr3XJiPnHHJUCxj5sNF1vnRj9aWnrVh5Jcg==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -3555,8 +3558,8 @@ packages:
   fast-sha256@1.3.0:
     resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
 
-  fast-uri@3.1.7:
-    resolution: {integrity: sha512-dOvZVzjdZdz7phd9v6jCbwxrBW3fK6n8Rc0CtdmM4bumzMnxywBYhuph6J819RRw/ku+rLbelwfMunktuzVVHg==}
+  fast-uri@3.1.8:
+    resolution: {integrity: sha512-GZMtZUTNRpOVIECoXwLNZS5xUGE+mVNbTB8h/7Rwh2TFWcBQiPzTgyZi05BF9UMZKkLJv8XBRJTlU7zg8+ZfMg==}
 
   fastparse@1.1.2:
     resolution: {integrity: sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==}
@@ -3899,9 +3902,9 @@ packages:
     resolution: {integrity: sha512-HpbUakT7xp5miBUywCHf36ZEuAJNklBJDDsGpUIjMzOSmM8ELSfA9Sa/QDPeNeqeoN31u+UTCkL4klCOVvRm4Q==}
     engines: {node: '>= 4'}
 
-  image-size@2.0.2:
-    resolution: {integrity: sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==}
-    engines: {node: '>=16.x'}
+  image-dimensions@2.5.1:
+    resolution: {integrity: sha512-It7CkTNp7IYA8jhvGgz8K18OAbHF3/Juk8RNEyTyMFfolJOIU1Y2wGDnzDQPbGCjyxVF/++pwIZE0BKJUEOb1g==}
+    engines: {node: '>=18'}
     hasBin: true
 
   immutable@4.3.9:
@@ -4725,8 +4728,8 @@ packages:
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
-  payload@3.85.1:
-    resolution: {integrity: sha512-vfnqwwMOru9wpdiFB3gyb6B+gUt7cjE8+YiNn1g+26dPOyGkAZa9U1QmCMSZfgARj5H42llElQHQw9WX3lYbIw==}
+  payload@3.90.0:
+    resolution: {integrity: sha512-xBWz0UCM4+hVURDdSSFz7NjIU7HRTEjUR2GWDwHfUvdiVVAi05k7/Fb2i7oh/HHjFC+tb1vps2FsPUiN/ZIPBQ==}
     engines: {node: ^18.20.2 || >=20.9.0}
     hasBin: true
     peerDependencies:
@@ -4972,6 +4975,11 @@ packages:
 
   prettier@3.9.6:
     resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+  prettier@3.9.9:
+    resolution: {integrity: sha512-Z/CJHIkdujO/OtN7nXUii0Rf3VT5SRuhjBA82Xvu2XhBUgX3nhP67T0LHceBdQLex7OOFGTox+Q5Yg8Jk2Qivg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -5259,6 +5267,10 @@ packages:
     resolution: {integrity: sha512-vcF3Ckow6g939GMA4PeU7b2K/9FALXk2KF9J87txdHzXbUF9XRQRwSxcAs/fGaTnJeBFd7UoV22j3lzMLdM0Pw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  sax@1.6.1:
+    resolution: {integrity: sha512-42tBVwLWnaQvW5zc4HbZrTuWccECCZfBi92FDuwtqxasH+JbPB3/FOKb1m222K42R4WxuxzzMsTswfzgtSu64Q==}
+    engines: {node: '>=11.0.0'}
 
   scheduler@0.25.0:
     resolution: {integrity: sha512-xFVuu11jh+xcO7JOAGJNOXld8/TcEHK/4CituBUeUb5hqxJLj9YuemAEuvm9gQ/+pgXYfbQuqAkiYu+u7YEsNA==}
@@ -5680,6 +5692,10 @@ packages:
     resolution: {integrity: sha512-rvKSBiC5zqCCiDZ9kAOszZcDvdAHwwIKJG33Ykj43OKcWsnmcBRL09YTU4nOeHZ8Y2a7l1MgTd08SBe9A8Qj6A==}
     engines: {node: '>=18'}
 
+  uint8array-extras@1.6.0:
+    resolution: {integrity: sha512-8iAasVS4wUx0gPLjH8Xtz2PeDzTSiy8QiLGu2DT3X5GU+egFEQhpnbtkehbAwjvDcxIERmCYcysiODFmE3Ud0Q==}
+    engines: {node: '>=18'}
+
   unbash@4.0.11:
     resolution: {integrity: sha512-FoSOKV7NEofQSkAefMVHam4ZPKYMxjAydxiV72UFEDNV/YofxjGfiZ2A9pZjdL/lRJzTjcu4PABo1JYJX8N5iQ==}
     engines: {node: '>=14'}
@@ -5691,11 +5707,11 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
-  undici@7.24.4:
-    resolution: {integrity: sha512-BM/JzwwaRXxrLdElV2Uo6cTLEjhSb3WXboncJamZ15NgUURmvlXvxa6xkwIOILIjPNo9i8ku136ZvWV0Uly8+w==}
+  undici@7.29.0:
+    resolution: {integrity: sha512-IDxfleLmmbSskfWSUATiN1nfn2rDuvnMOqb5CWR92iIfojA0Ud+ulOAAEQ57LPr9rWmsreUyf5lwyao+7GNNVw==}
     engines: {node: '>=20.18.1'}
 
   unist-util-is@6.0.1:
@@ -5829,6 +5845,18 @@ packages:
 
   ws@8.21.3:
     resolution: {integrity: sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@8.22.0:
+    resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -7119,7 +7147,7 @@ snapshots:
 
   '@next/env@13.5.11': {}
 
-  '@next/env@15.5.25': {}
+  '@next/env@15.5.27': {}
 
   '@next/env@16.3.3': {}
 
@@ -7314,14 +7342,14 @@ snapshots:
   '@oxc-resolver/binding-win32-x64-msvc@11.24.2':
     optional: true
 
-  '@payloadcms/db-postgres@3.85.2(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))':
+  '@payloadcms/db-postgres@3.85.2(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))':
     dependencies:
-      '@payloadcms/drizzle': 3.85.2(@types/pg@8.20.0)(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
+      '@payloadcms/drizzle': 3.85.2(@types/pg@8.20.0)(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)
       '@types/pg': 8.20.0
       console-table-printer: 2.12.1
       drizzle-kit: 0.31.7
       drizzle-orm: 0.45.2(@types/pg@8.20.0)(pg@8.20.0)
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       pg: 8.20.0
       prompts: 2.4.2
       to-snake-case: 1.0.0
@@ -7357,12 +7385,12 @@ snapshots:
       - sqlite3
       - supports-color
 
-  '@payloadcms/drizzle@3.85.2(@types/pg@8.20.0)(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)':
+  '@payloadcms/drizzle@3.85.2(@types/pg@8.20.0)(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(pg@8.20.0)':
     dependencies:
       console-table-printer: 2.12.1
       dequal: 2.0.3
       drizzle-orm: 0.45.2(@types/pg@8.20.0)(pg@8.20.0)
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       prompts: 2.4.2
       to-snake-case: 1.0.0
       uuid: 13.0.2
@@ -7397,15 +7425,15 @@ snapshots:
       - sql.js
       - sqlite3
 
-  '@payloadcms/email-resend@3.85.2(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))':
+  '@payloadcms/email-resend@3.85.2(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))':
     dependencies:
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
 
-  '@payloadcms/graphql@3.85.2(graphql@16.14.2)(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(typescript@5.9.3)':
+  '@payloadcms/graphql@3.85.2(graphql@16.14.2)(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       graphql: 16.14.2
       graphql-scalars: 1.22.2(graphql@16.14.2)
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       pluralize: 8.0.0
       ts-essentials: 10.0.3(typescript@5.9.3)
       tsx: 4.22.4
@@ -7420,14 +7448,14 @@ snapshots:
 
   '@payloadcms/live-preview@3.85.1': {}
 
-  '@payloadcms/next@3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/next@3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
       '@dnd-kit/core': 6.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@dnd-kit/modifiers': 9.0.0(@dnd-kit/core@6.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       '@dnd-kit/sortable': 10.0.0(@dnd-kit/core@6.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
-      '@payloadcms/graphql': 3.85.2(graphql@16.14.2)(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(typescript@5.9.3)
+      '@payloadcms/graphql': 3.85.2(graphql@16.14.2)(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(typescript@5.9.3)
       '@payloadcms/translations': 3.85.2
-      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       busboy: 1.6.0
       dequal: 2.0.3
       file-type: 21.3.4
@@ -7437,7 +7465,7 @@ snapshots:
       http-status: 2.1.0
       next: 16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4)
       path-to-regexp: 6.3.0
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       qs-esm: 8.0.1
       sass: 1.77.4
       uuid: 13.0.2
@@ -7449,11 +7477,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/plugin-cloud-storage@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/plugin-cloud-storage@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
-      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       find-node-modules: 2.1.3
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       range-parser: 1.3.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
@@ -7464,11 +7492,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/plugin-form-builder@3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/plugin-form-builder@3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
-      '@payloadcms/ui': 3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      '@payloadcms/ui': 3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       escape-html: 1.0.3
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
     transitivePeerDependencies:
@@ -7478,11 +7506,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/plugin-seo@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/plugin-seo@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
       '@payloadcms/translations': 3.85.2
-      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
     transitivePeerDependencies:
@@ -7492,12 +7520,12 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/plugin-stripe@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/plugin-stripe@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
       '@payloadcms/translations': 3.85.2
-      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       lodash.get: 4.4.2
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       stripe: 10.17.0
       uuid: 13.0.2
     transitivePeerDependencies:
@@ -7509,7 +7537,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/richtext-lexical@3.85.2(@faceless-ui/modal@3.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@payloadcms/next@3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3))(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)(yjs@13.6.32)':
+  '@payloadcms/richtext-lexical@3.85.2(@faceless-ui/modal@3.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@payloadcms/next@3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3))(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)(yjs@13.6.32)':
     dependencies:
       '@faceless-ui/modal': 3.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@faceless-ui/scroll-info': 2.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -7524,9 +7552,9 @@ snapshots:
       '@lexical/selection': 0.41.0
       '@lexical/table': 0.41.0
       '@lexical/utils': 0.41.0
-      '@payloadcms/next': 3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      '@payloadcms/next': 3.85.2(graphql@16.14.2)(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       '@payloadcms/translations': 3.85.2
-      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      '@payloadcms/ui': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
       acorn: 8.16.0
       bson-objectid: 2.0.4
       csstype: 3.1.3
@@ -7537,7 +7565,7 @@ snapshots:
       mdast-util-from-markdown: 2.0.2
       mdast-util-mdx-jsx: 3.1.3
       micromark-extension-mdx-jsx: 3.0.1
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       qs-esm: 8.0.1
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
@@ -7554,13 +7582,13 @@ snapshots:
       - utf-8-validate
       - yjs
 
-  '@payloadcms/storage-s3@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/storage-s3@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
       '@aws-sdk/client-s3': 3.1133.0
       '@aws-sdk/lib-storage': 3.1129.0(@aws-sdk/client-s3@3.1133.0)
       '@aws-sdk/s3-request-presigner': 3.1133.0
-      '@payloadcms/plugin-cloud-storage': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      '@payloadcms/plugin-cloud-storage': 3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@types/react'
       - monaco-editor
@@ -7578,7 +7606,11 @@ snapshots:
     dependencies:
       date-fns: 4.1.0
 
-  '@payloadcms/ui@3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/translations@3.90.0':
+    dependencies:
+      date-fns: 4.1.0
+
+  '@payloadcms/ui@3.85.1(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
       '@date-fns/tz': 1.2.0
       '@dnd-kit/core': 6.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -7595,7 +7627,7 @@ snapshots:
       md5: 2.3.0
       next: 16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4)
       object-to-formdata: 4.5.1
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       qs-esm: 8.0.1
       react: 19.3.0
       react-datepicker: 7.6.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -7613,7 +7645,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@payloadcms/ui@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.85.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
+  '@payloadcms/ui@3.85.2(monaco-editor@0.56.0)(next@16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4))(payload@3.90.0(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(types-react@19.0.0-rc.1)(typescript@5.9.3)':
     dependencies:
       '@date-fns/tz': 1.2.0
       '@dnd-kit/core': 6.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -7630,7 +7662,7 @@ snapshots:
       md5: 2.3.0
       next: 16.4.0(@babel/core@7.29.7)(@playwright/test@1.63.0)(@types/node@18.19.130)(babel-plugin-react-compiler@0.0.0-experimental-ff4e0fd-20260324)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.77.4)
       object-to-formdata: 4.5.1
-      payload: 3.85.1(graphql@16.14.2)(typescript@5.9.3)
+      payload: 3.90.0(graphql@16.14.2)(typescript@5.9.3)
       qs-esm: 8.0.1
       react: 19.3.0
       react-datepicker: 7.6.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -8006,9 +8038,9 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@22.20.2':
+  '@types/node@26.6.4':
     dependencies:
-      undici-types: 6.21.0
+      undici-types: 8.9.0
 
   '@types/parse-json@4.0.2': {}
 
@@ -8254,14 +8286,14 @@ snapshots:
   ajv@8.18.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.7
+      fast-uri: 3.1.8
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.7
+      fast-uri: 3.1.8
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -9409,7 +9441,7 @@ snapshots:
 
   fast-sha256@1.3.0: {}
 
-  fast-uri@3.1.7: {}
+  fast-uri@3.1.8: {}
 
   fastparse@1.1.2: {}
 
@@ -9445,7 +9477,7 @@ snapshots:
       '@tokenizer/inflate': 0.4.1
       strtok3: 10.3.5
       token-types: 6.1.2
-      uint8array-extras: 1.5.0
+      uint8array-extras: 1.6.0
     transitivePeerDependencies:
       - supports-color
 
@@ -9707,13 +9739,13 @@ snapshots:
 
   happy-dom@20.14.3:
     dependencies:
-      '@types/node': 22.20.2
+      '@types/node': 26.6.4
       '@types/whatwg-mimetype': 3.0.2
       '@types/ws': 8.18.1
       buffer-image-size: 0.6.4
       entities: 7.0.1
       whatwg-mimetype: 3.0.0
-      ws: 8.21.3
+      ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -9804,7 +9836,7 @@ snapshots:
 
   ignore@7.0.10: {}
 
-  image-size@2.0.2: {}
+  image-dimensions@2.5.1: {}
 
   immutable@4.3.9: {}
 
@@ -10030,7 +10062,7 @@ snapshots:
       js-yaml: 4.3.2
       lodash: 4.18.1
       minimist: 1.2.8
-      prettier: 3.9.6
+      prettier: 3.9.9
       tinyglobby: 0.2.17
 
   json-schema-traverse@0.4.1: {}
@@ -10785,10 +10817,10 @@ snapshots:
 
   pathe@2.0.3: {}
 
-  payload@3.85.1(graphql@16.14.2)(typescript@5.9.3):
+  payload@3.90.0(graphql@16.14.2)(typescript@5.9.3):
     dependencies:
-      '@next/env': 15.5.25
-      '@payloadcms/translations': 3.85.1
+      '@next/env': 15.5.27
+      '@payloadcms/translations': 3.90.0
       '@types/busboy': 1.5.4
       ajv: 8.18.0
       bson-objectid: 2.0.4
@@ -10802,7 +10834,7 @@ snapshots:
       get-tsconfig: 4.8.1
       graphql: 16.14.2
       http-status: 2.1.0
-      image-size: 2.0.2
+      image-dimensions: 2.5.1
       ipaddr.js: 2.2.0
       jose: 5.10.0
       json-schema-to-typescript: 15.0.3
@@ -10814,11 +10846,12 @@ snapshots:
       qs-esm: 8.0.1
       range-parser: 1.2.1
       sanitize-filename: 1.6.3
+      sax: 1.6.1
       ts-essentials: 10.0.3(typescript@5.9.3)
       tsx: 4.22.4
-      undici: 7.24.4
+      undici: 7.29.0
       uuid: 13.0.2
-      ws: 8.21.3
+      ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -11006,6 +11039,8 @@ snapshots:
   prettier@2.8.8: {}
 
   prettier@3.9.6: {}
+
+  prettier@3.9.9: {}
 
   prismjs@1.30.0: {}
 
@@ -11358,6 +11393,8 @@ snapshots:
       chokidar: 3.6.0
       immutable: 4.3.9
       source-map-js: 1.2.1
+
+  sax@1.6.1: {}
 
   scheduler@0.25.0: {}
 
@@ -11917,6 +11954,8 @@ snapshots:
 
   uint8array-extras@1.5.0: {}
 
+  uint8array-extras@1.6.0: {}
+
   unbash@4.0.11: {}
 
   unbox-primitive@1.1.0:
@@ -11928,9 +11967,9 @@ snapshots:
 
   undici-types@5.26.5: {}
 
-  undici-types@6.21.0: {}
+  undici-types@8.9.0: {}
 
-  undici@7.24.4: {}
+  undici@7.29.0: {}
 
   unist-util-is@6.0.1:
     dependencies:
@@ -12106,6 +12145,8 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.21.3: {}
+
+  ws@8.22.0: {}
 
   xss@1.0.15:
     dependencies:
