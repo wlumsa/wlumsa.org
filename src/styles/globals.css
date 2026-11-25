@@ -2,6 +2,8 @@
 
 @plugin "daisyui" {
   themes: false;
+  /* The unused join utility emits scoped selectors Turbopack cannot parse. */
+  exclude: join;
 }
 
 @plugin "daisyui/theme" {
