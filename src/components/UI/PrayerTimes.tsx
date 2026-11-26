@@ -224,7 +224,7 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
   }
 
   return (
-    <div className="stats stats-vertical mb-4 shadow lg:stats-horizontal">
+    <div className="stats mb-4 stats-vertical shadow lg:stats-horizontal">
       <table className="table">
         <thead>
           <tr>

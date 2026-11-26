@@ -9,6 +9,7 @@ import * as migration_20260902_000200_event_workspace from './20260902_000200_ev
 import * as migration_20261101_051329_charity_cms from './20261101_051329_charity_cms';
 import * as migration_20261101_194000_publish_charity_week_2026 from './20261101_194000_publish_charity_week_2026';
 import * as migration_20261101_201500_sync_charity_week_version from './20261101_201500_sync_charity_week_version';
+import * as migration_20261125_000100_payload_storage_and_auth_fields from './20261125_000100_payload_storage_and_auth_fields';
 
 export const migrations = [
   {
@@ -65,5 +66,10 @@ export const migrations = [
     up: migration_20261101_201500_sync_charity_week_version.up,
     down: migration_20261101_201500_sync_charity_week_version.down,
     name: '20261101_201500_sync_charity_week_version'
+  },
+  {
+    up: migration_20261125_000100_payload_storage_and_auth_fields.up,
+    down: migration_20261125_000100_payload_storage_and_auth_fields.down,
+    name: '20261125_000100_payload_storage_and_auth_fields'
   },
 ];

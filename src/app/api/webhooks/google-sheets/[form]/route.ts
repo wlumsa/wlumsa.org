@@ -63,7 +63,7 @@ const escapeHTML = (value: string) =>
         "'": "&#039;",
         "<": "&lt;",
         ">": "&gt;",
-      }[character]!)
+      })[character]!
   );
 
 const isEmail = (value: string) =>

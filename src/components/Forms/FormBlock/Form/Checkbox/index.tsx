@@ -88,8 +88,7 @@ export const Checkbox: React.FC<
                 <button
                   type="button"
                   onClick={() => handleCheckboxChange(option.label, !isChecked)}
-                  className={`flex h-5 w-5 items-center justify-center rounded-md border-2 transition
-                  ${
+                  className={`flex h-5 w-5 items-center justify-center rounded-md border-2 transition ${
                     isChecked
                       ? "border-primary bg-primary"
                       : "dark:border-base-400 border-slate-300 bg-white dark:bg-base-300"

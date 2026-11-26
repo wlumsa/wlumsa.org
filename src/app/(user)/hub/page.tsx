@@ -102,13 +102,13 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
   ];
 
   return (
-    <section className="px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+    <section className="px-4 pt-28 pb-20 sm:px-6 sm:pt-32 lg:px-8">
       <div className="mx-auto max-w-3xl">
         <header>
-          <h1 className="font-heading text-balance text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+          <h1 className="font-heading text-4xl font-bold tracking-tight text-balance text-primary sm:text-5xl">
             Hub
           </h1>
-          <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-base-content/75 sm:text-lg">
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-pretty text-base-content/75 sm:text-lg">
             Manuals, interview prep, and key documents in one place.
           </p>
         </header>
@@ -118,7 +118,7 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
             <h2 className="font-heading text-xl font-semibold text-base-content sm:text-2xl">
               Documents
             </h2>
-            <span className="shrink-0 text-sm tabular-nums text-base-content/55">
+            <span className="shrink-0 text-sm text-base-content/55 tabular-nums">
               {totalDocs} {totalDocs === 1 ? "PDF" : "PDFs"}
             </span>
           </div>
@@ -135,7 +135,7 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
                       href={doc.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex min-h-20 touch-manipulation items-center justify-between gap-4 rounded-lg border border-base-content/10 bg-base-100 px-4 py-3.5 transition-[transform,background-color,border-color,box-shadow] hover:-translate-y-px hover:border-base-content/20 hover:bg-base-200/50 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 active:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none"
+                      className="group flex min-h-20 touch-manipulation items-center justify-between gap-4 rounded-lg border border-base-content/10 bg-base-100 px-4 py-3.5 transition-[transform,background-color,border-color,box-shadow] hover:-translate-y-px hover:border-base-content/20 hover:bg-base-200/50 hover:shadow-sm focus-visible:ring-2 focus-visible:ring-base-content focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none active:translate-y-0 motion-reduce:transform-none motion-reduce:transition-none"
                       style={{
                         contentVisibility: "auto",
                         containIntrinsicSize: "76px",
@@ -163,11 +163,11 @@ export default async function HubPage(props: { searchParams: SearchParams }) {
                           </p>
                         ) : null}
                       </div>
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-[transform,box-shadow] group-hover:translate-x-0.5 group-hover:shadow-sm motion-reduce:transform-none motion-reduce:transition-none sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:-translate-y-px sm:group-hover:translate-x-0 sm:group-hover:shadow-md">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-secondary transition-[transform,box-shadow] group-hover:translate-x-0.5 group-hover:shadow-sm motion-reduce:transform-none motion-reduce:transition-none sm:flex sm:h-11 sm:w-fit sm:items-center sm:gap-2 sm:rounded-md sm:border sm:border-primary sm:px-3.5 sm:py-2 sm:text-sm sm:font-semibold sm:group-hover:translate-x-0 sm:group-hover:-translate-y-px sm:group-hover:shadow-md">
                         <span className="sr-only sm:not-sr-only">Open PDF</span>
                         <ArrowUpRight
                           aria-hidden="true"
-                          className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+                          className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
                           strokeWidth={2}
                         />
                         <span className="sr-only">(opens in a new tab)</span>

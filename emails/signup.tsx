@@ -11,7 +11,7 @@ import {
   Text,
   Link,
   Row,
-} from "@react-email/components";
+} from "react-email";
 import * as React from "react";
 import logo from "src/logo.png";
 

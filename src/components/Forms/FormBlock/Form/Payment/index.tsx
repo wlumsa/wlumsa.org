@@ -73,11 +73,11 @@ export const Payment: React.FC<
   });
 
   return (
-    <div className="mx-auto  min-h-[18rem]">
+    <div className="mx-auto min-h-[18rem]">
       <Width width={width || 100}>
         <label
           htmlFor={name}
-          className=" min-w-96 text-center text-3xl font-semibold text-gray-600"
+          className="min-w-96 text-center text-3xl font-semibold text-gray-600"
         >
           {label}
         </label>

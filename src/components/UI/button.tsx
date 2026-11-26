@@ -39,7 +39,8 @@ const buttonVariants = cva(
 );
 
 interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isLoading?: boolean;
@@ -110,7 +111,7 @@ const GetStartedButton = React.forwardRef<
         {children}
       </span>
       <span
-        className="absolute bottom-2 right-2 top-2 z-10 flex w-6 items-center justify-center rounded-md bg-secondary/20 transition-all duration-300 group-hover:w-[calc(100%-1rem)] group-hover:bg-secondary/30 group-active:scale-95 sm:w-8"
+        className="absolute top-2 right-2 bottom-2 z-10 flex w-6 items-center justify-center rounded-md bg-secondary/20 transition-all duration-300 group-hover:w-[calc(100%-1rem)] group-hover:bg-secondary/30 group-active:scale-95 sm:w-8"
         aria-hidden="true"
       >
         <ChevronRight

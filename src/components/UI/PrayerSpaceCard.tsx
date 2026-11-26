@@ -48,10 +48,10 @@ const PrayerSpaceCard: React.FC<PrayerSpaceCardProps> = ({
 
       {isOpen && (
         <div className="modal modal-open">
-          <div className="modal-box relative max-w-3xl">
+          <div className="relative modal-box max-w-3xl">
             <button
               type="button"
-              className="btn btn-circle btn-sm absolute right-2 top-2"
+              className="btn absolute top-2 right-2 btn-circle btn-sm"
               onClick={togglePopup}
               aria-label="Close video"
             >

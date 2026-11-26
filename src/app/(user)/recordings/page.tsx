@@ -56,7 +56,7 @@ const page = async (props: { searchParams: SearchParams }) => {
               <div className="mb-3 text-sm font-semibold text-primary">
                 WLU MSA Media Library
               </div>
-              <h1 className="text-4xl font-bold leading-tight tracking-normal text-base-content md:text-5xl">
+              <h1 className="text-4xl leading-tight font-bold tracking-normal text-base-content md:text-5xl">
                 Recordings
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-base-content/70 md:text-lg">
@@ -67,7 +67,7 @@ const page = async (props: { searchParams: SearchParams }) => {
 
             <div className="flex flex-col gap-3 sm:flex-row lg:items-center">
               <div className="rounded-md border border-base-300 bg-base-200/70 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-base-content/50">
+                <p className="text-xs font-semibold tracking-wide text-base-content/50 uppercase">
                   Showing
                 </p>
                 <p className="mt-1 text-sm font-semibold text-base-content">
@@ -77,7 +77,7 @@ const page = async (props: { searchParams: SearchParams }) => {
                 </p>
               </div>
               <a
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-primary px-5 text-sm font-semibold text-primary-content transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-primary px-5 text-sm font-semibold text-primary-content transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
                 href="https://www.youtube.com/@WLUMSA"
                 target="_blank"
                 rel="noreferrer"

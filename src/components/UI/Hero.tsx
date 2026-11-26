@@ -11,7 +11,7 @@ interface HeroProps {
 }
 const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
   return (
-    <div id="hero" className="hero relative min-h-screen overflow-hidden">
+    <div id="hero" className="relative hero min-h-screen overflow-hidden">
       {mediaDocs[0]?.url ? (
         <Image
           fill
@@ -82,7 +82,7 @@ const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
               {" "}
               <GetStartedButton
                 variant="secondary"
-                className="h-12 whitespace-nowrap px-6 py-3"
+                className="h-12 px-6 py-3 whitespace-nowrap"
                 style={{
                   backgroundColor: "#e7ac3b",
                   color: "#1a1200",

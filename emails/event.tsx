@@ -7,12 +7,12 @@ import {
   Html,
   Img,
   Link,
+  Markdown,
   Preview,
   Section,
   Text,
-} from "@react-email/components";
+} from "react-email";
 import * as React from "react";
-import { Markdown } from "@react-email/markdown";
 import logo from "src/logo.png";
 
 interface MemberInfo {
@@ -94,7 +94,7 @@ function EmailText({ markdownText }: { markdownText: string }) {
 
   return (
     <Container className="max-w-sm">
-      <Text className="mb-6 mt-6">
+      <Text className="mt-6 mb-6">
         <Markdown>{markdownText}</Markdown>
       </Text>
     </Container>

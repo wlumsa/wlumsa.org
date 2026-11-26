@@ -42,7 +42,7 @@ const MasjidCard: React.FC<MasjidCardProps> = ({
         <div className="flex min-w-0 flex-1 flex-col justify-between">
           <div>
             <h2
-              className={`mb-1 font-serif text-lg font-semibold text-primary sm:text-xl `}
+              className={`mb-1 font-serif text-lg font-semibold text-primary sm:text-xl`}
             >
               {name}
             </h2>

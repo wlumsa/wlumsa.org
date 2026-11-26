@@ -40,3 +40,4 @@
 :global([data-theme="darkTheme"]) .categoryAction:hover {
   @apply text-secondary;
 }
+@reference "../../../styles/globals.css";

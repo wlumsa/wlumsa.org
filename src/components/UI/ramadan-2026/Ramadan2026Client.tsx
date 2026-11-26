@@ -285,31 +285,31 @@ export default function Ramadan2026Client({
         ],
       }
     : selectedDay?.isLastTen
-    ? {
-        title: "Tonight's Focus",
-        items: [
-          "Stay consistent: small acts done well each night are better than one heavy night.",
-          "Set a realistic plan before Maghrib (Quran, dua, istighfar, and salah).",
-          "End your night with sincere repentance and dua for yourself and the ummah.",
-        ],
-      }
-    : selectedDay?.isEid
-    ? {
-        title: "Eid Reminder",
-        items: [
-          "Eid Mubarak from WLUMSA. May Allah accept your fasting, prayers, and duas.",
-          "Keep gratitude, dhikr, and good character central throughout the day.",
-          "Reach out, forgive, and maintain ties with family, friends, and community.",
-        ],
-      }
-    : {
-        title: "Today's Focus",
-        items: [
-          "Renew your intention early and protect your fast from both hunger and harmful speech.",
-          "Plan your day around salah times, Quran recitation, and moments of dhikr.",
-          "Make focused dua before iftar and ask Allah for what is best.",
-        ],
-      };
+      ? {
+          title: "Tonight's Focus",
+          items: [
+            "Stay consistent: small acts done well each night are better than one heavy night.",
+            "Set a realistic plan before Maghrib (Quran, dua, istighfar, and salah).",
+            "End your night with sincere repentance and dua for yourself and the ummah.",
+          ],
+        }
+      : selectedDay?.isEid
+        ? {
+            title: "Eid Reminder",
+            items: [
+              "Eid Mubarak from WLUMSA. May Allah accept your fasting, prayers, and duas.",
+              "Keep gratitude, dhikr, and good character central throughout the day.",
+              "Reach out, forgive, and maintain ties with family, friends, and community.",
+            ],
+          }
+        : {
+            title: "Today's Focus",
+            items: [
+              "Renew your intention early and protect your fast from both hunger and harmful speech.",
+              "Plan your day around salah times, Quran recitation, and moments of dhikr.",
+              "Make focused dua before iftar and ask Allah for what is best.",
+            ],
+          };
 
   const todayISO = getTodayISOInToronto();
   const fastingDays = days.filter((day) => day.isFastingDay);
@@ -324,8 +324,8 @@ export default function Ramadan2026Client({
   const jumpButtonLabel = todayRamadanDay
     ? "Go to Today"
     : todayISO < (firstFastingDay?.isoDate || "")
-    ? "Go to Ramadan Day 1"
-    : "Go to Last Fasting Day";
+      ? "Go to Ramadan Day 1"
+      : "Go to Last Fasting Day";
   const selectedFastingDay = selectedDay?.isFastingDay
     ? selectedDay
     : undefined;
@@ -337,16 +337,16 @@ export default function Ramadan2026Client({
   };
 
   return (
-    <div className="min-h-screen bg-base-100 pb-24 pt-24">
+    <div className="min-h-screen bg-base-100 pt-24 pb-24">
       <div className="container mx-auto max-w-6xl space-y-5 px-4">
         <Hero title="Ramadan 2026" subtitle="Waterloo, Ontario" />
 
         <section ref={impactSectionRef} className="py-2 md:py-3">
           <div className="mx-auto space-y-1.5 py-1 text-center">
-            <p className="font-body text-xs font-medium uppercase tracking-wide text-primary">
+            <p className="font-body text-xs font-medium tracking-wide text-primary uppercase">
               2025 Impact
             </p>
-            <h2 className="font-heading mx-auto max-w-3xl text-balance text-2xl font-bold text-primary md:text-3xl">
+            <h2 className="font-heading mx-auto max-w-3xl text-2xl font-bold text-balance text-primary md:text-3xl">
               Alhamdulillah, last Ramadan we delivered
             </h2>
             <p className="font-body text-sm text-base-content/70">
@@ -386,7 +386,7 @@ export default function Ramadan2026Client({
 
         <section className="rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5 dark:border-base-content/15 dark:bg-base-200/40">
           <div>
-            <p className="font-body text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+            <p className="font-body text-xs font-semibold tracking-[0.18em] text-primary uppercase">
               Eid Update
             </p>
             <h2 className="font-heading mt-1 text-xl font-bold text-primary md:text-2xl">
@@ -423,14 +423,14 @@ export default function Ramadan2026Client({
           <div className="grid gap-3 md:grid-cols-3">
             <div className="rounded-2xl border border-base-300 bg-base-100 p-4 shadow-md shadow-base-content/10">
               <div className="flex items-start justify-between gap-2">
-                <p className="font-body text-xs uppercase tracking-wide text-base-content/70">
+                <p className="font-body text-xs tracking-wide text-base-content/70 uppercase">
                   Fast Day
                 </p>
                 <button
                   type="button"
                   onClick={handleJumpToRelevantDay}
                   disabled={!jumpTargetDay}
-                  className="btn btn-primary btn-xs px-2 normal-case text-primary-content"
+                  className="btn px-2 text-primary-content normal-case btn-primary btn-xs"
                 >
                   {jumpButtonLabel}
                 </button>
@@ -439,8 +439,8 @@ export default function Ramadan2026Client({
                 {selectedDay?.isEid
                   ? "Eid al-Fitr"
                   : selectedFastingDay?.fastIndex
-                  ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast`
-                  : "Outside fasting dates"}
+                    ? `${getOrdinal(selectedFastingDay.fastIndex)} Fast`
+                    : "Outside fasting dates"}
               </p>
               <p className="font-body mt-1 text-sm text-base-content/75">
                 {selectedDay
@@ -449,7 +449,7 @@ export default function Ramadan2026Client({
               </p>
             </div>
             <div className="rounded-2xl border border-base-300 bg-base-200/60 p-4 shadow-md shadow-base-content/10">
-              <p className="font-body text-xs font-semibold uppercase tracking-wide text-base-content">
+              <p className="font-body text-xs font-semibold tracking-wide text-base-content uppercase">
                 {selectedDay?.isEid ? "Prayer Time" : "Suhoor Ends"}
               </p>
               <p className="font-heading mt-2 text-3xl font-bold text-base-content">
@@ -464,7 +464,7 @@ export default function Ramadan2026Client({
               </p>
             </div>
             <div className="rounded-2xl border border-secondary/35 bg-secondary/10 p-4 shadow-md shadow-base-content/10">
-              <p className="font-body text-xs font-semibold uppercase tracking-wide text-base-content">
+              <p className="font-body text-xs font-semibold tracking-wide text-base-content uppercase">
                 {selectedDay?.isEid ? "Location" : "Iftar"}
               </p>
               <p className="font-heading mt-2 text-3xl font-bold text-base-content">
@@ -481,7 +481,7 @@ export default function Ramadan2026Client({
           </div>
 
           <div className="mt-3 rounded-2xl border border-primary/20 bg-base-200/70 p-3 shadow-sm dark:border-primary/30 dark:bg-base-200/45">
-            <p className="font-body text-[11px] font-semibold uppercase tracking-wide text-primary">
+            <p className="font-body text-[11px] font-semibold tracking-wide text-primary uppercase">
               {note.title}
             </p>
             <ul className="font-body mt-1 list-disc space-y-0.5 pl-4 text-xs leading-relaxed text-base-content/80 dark:text-base-content/85">
@@ -507,7 +507,7 @@ export default function Ramadan2026Client({
             />
 
             <section className="flex h-full flex-col rounded-2xl border border-base-300 bg-base-100/95 p-4 shadow-md shadow-base-content/10 md:p-5">
-              <p className="font-body text-xs font-medium uppercase tracking-wide text-primary">
+              <p className="font-body text-xs font-medium tracking-wide text-primary uppercase">
                 Worship Focus
               </p>
               <h3 className="font-heading mt-1 text-base font-bold text-primary md:text-lg">
@@ -526,7 +526,7 @@ export default function Ramadan2026Client({
                 <p className="font-body text-xs leading-relaxed text-base-content/75">
                   <strong>The Messenger of Allah ﷺ said:</strong>
                 </p>
-                <p className="font-body text-xs italic leading-relaxed text-base-content/80">
+                <p className="font-body text-xs leading-relaxed text-base-content/80 italic">
                   “Our Lord Almighty descends to the lowest heaven in the last
                   third of every night, saying: Who is calling upon Me that I
                   may answer him? Who is asking from Me that I may give him? Who
@@ -602,7 +602,7 @@ export default function Ramadan2026Client({
                 href={resource.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-colors duration-200 ease-out hover:border-base-content/20 hover:shadow-[0_8px_18px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 motion-reduce:transition-none sm:p-4"
+                className="group flex h-full flex-col rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-colors duration-200 ease-out hover:border-base-content/20 hover:shadow-[0_8px_18px_rgba(0,0,0,0.08)] focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:outline-none motion-reduce:transition-none sm:p-4"
               >
                 <div className="flex h-56 w-full items-center justify-center overflow-hidden rounded-xl border border-base-300 bg-base-200 sm:h-64">
                   <Image
@@ -620,7 +620,7 @@ export default function Ramadan2026Client({
                   <p className="font-body text-base font-semibold text-base-content">
                     {resource.title}
                   </p>
-                  <p className="font-body mt-1 text-[11px] uppercase tracking-wide text-base-content/60">
+                  <p className="font-body mt-1 text-[11px] tracking-wide text-base-content/60 uppercase">
                     PDF
                   </p>
                   <p className="font-body mt-1 text-sm text-base-content/70">

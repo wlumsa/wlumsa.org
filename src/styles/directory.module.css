@@ -53,3 +53,4 @@
 :global([data-theme="darkTheme"]) .fieldSurface {
   @apply border-base-content/15 bg-base-200;
 }
+@reference "./globals.css";

@@ -8,7 +8,7 @@ const notFound = () => {
         We can't seem to find the page you're looking for.{" "}
       </h1>
       <Link href="/">
-        <button className="btn btn-primary text-white ">
+        <button className="btn text-white btn-primary">
           Back to homepage{" "}
         </button>
       </Link>

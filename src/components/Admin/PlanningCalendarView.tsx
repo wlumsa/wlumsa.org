@@ -381,7 +381,7 @@ export async function PlanningCalendarView(props: AdminViewServerProps) {
                     day
                   ).padStart(2, "0")}`
                 : null;
-              const dayItems = key ? itemsByDate.get(key) ?? [] : [];
+              const dayItems = key ? (itemsByDate.get(key) ?? []) : [];
               const isToday = key === todayKey;
               const dayClassName = [
                 "planning-calendar__day",

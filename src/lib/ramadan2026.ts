@@ -168,14 +168,14 @@ export function getLastThirdOfNight(
     safeRawMaghribHour >= 13
       ? safeRawMaghribHour
       : safeRawMaghribHour === 12
-      ? 12
-      : safeRawMaghribHour + 12;
+        ? 12
+        : safeRawMaghribHour + 12;
   const nextFajrHour24 =
     safeRawNextFajrHour >= 13
       ? safeRawNextFajrHour
       : safeRawNextFajrHour === 12
-      ? 0
-      : safeRawNextFajrHour;
+        ? 0
+        : safeRawNextFajrHour;
 
   const startMinutes = maghribHour24 * 60 + safeMaghribMinute;
   const nextFajrTotal = nextFajrHour24 * 60 + safeNextFajrMinute + 24 * 60;

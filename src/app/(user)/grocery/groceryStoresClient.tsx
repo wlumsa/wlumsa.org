@@ -135,7 +135,7 @@ function StoreCard({
             <span className="rounded-full border border-base-content/10 bg-base-content/5 p-3">
               {categoryIcon}
             </span>
-            <span className="text-xs font-semibold uppercase tracking-widest text-base-content/40">
+            <span className="text-xs font-semibold tracking-widest text-base-content/40 uppercase">
               {toLabel(store.category)}
             </span>
           </div>
@@ -161,11 +161,11 @@ function StoreCard({
         </div>
 
         <div className="flex items-start justify-between gap-3">
-          <h2 className="text-xl font-bold leading-snug text-base-content">
+          <h2 className="text-xl leading-snug font-bold text-base-content">
             {store.name}
           </h2>
           {store.is_on_campus && (
-            <span className="mt-0.5 shrink-0 rounded-full border border-accent/40 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-accent">
+            <span className="mt-0.5 shrink-0 rounded-full border border-accent/40 px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-accent uppercase">
               On campus
             </span>
           )}
@@ -285,8 +285,8 @@ export default function GroceryStoresClient({
   }, [groceryStores, query]);
 
   return (
-    <div className="min-h-screen bg-base-100 px-4 pb-16 pt-24 text-base-content sm:px-8">
-      <section className="mx-auto max-w-6xl pb-7 pt-8 text-center sm:pb-9 sm:pt-10">
+    <div className="min-h-screen bg-base-100 px-4 pt-24 pb-16 text-base-content sm:px-8">
+      <section className="mx-auto max-w-6xl pt-8 pb-7 text-center sm:pt-10 sm:pb-9">
         <h1
           className={`font-serif text-3xl font-bold sm:text-4xl ${styles.brandText}`}
         >

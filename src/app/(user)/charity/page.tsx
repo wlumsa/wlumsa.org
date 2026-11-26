@@ -4,9 +4,9 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
+  Camera,
   ExternalLink,
   HeartHandshake,
-  Instagram,
   Mail,
   MapPin,
 } from "lucide-react";
@@ -113,7 +113,7 @@ export default async function CharityPage() {
               rel="noopener noreferrer"
               className={styles.secondaryButton}
             >
-              <Instagram aria-hidden="true" /> @wlumsa.charity
+              <Camera aria-hidden="true" /> @wlumsa.charity
             </a>
           </div>
         </div>
@@ -330,7 +330,7 @@ export default async function CharityPage() {
                 rel="noopener noreferrer"
                 className={styles.secondaryButton}
               >
-                <Instagram aria-hidden="true" /> Instagram
+                <Camera aria-hidden="true" /> Instagram
               </a>
             </div>
           </div>

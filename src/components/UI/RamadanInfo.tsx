@@ -19,8 +19,8 @@ const RamadanInfo = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-around  sm:flex-row ">
-        <div className="mb-4 text-center sm:mx-2 sm:mb-0 ">
+      <div className="flex flex-col items-center justify-around sm:flex-row">
+        <div className="mb-4 text-center sm:mx-2 sm:mb-0">
           <span className="text-2xl font-semibold text-[#2474A3] sm:text-4xl">
             {year}
           </span>

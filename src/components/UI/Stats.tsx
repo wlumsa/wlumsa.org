@@ -80,12 +80,12 @@ export function StatsSection() {
           <h2 className="font-mono text-[14px] font-medium tracking-tight text-primary">
             STATISTICS
           </h2>
-          <h4 className="mx-auto mb-2 max-w-3xl text-balance text-[42px] font-medium tracking-tighter">
+          <h4 className="mx-auto mb-2 max-w-3xl text-[42px] font-medium tracking-tighter text-balance">
             Last year we were able to
           </h4>
         </div>
         <div
-          className="stats stats-vertical grid grid-cols-1 gap-8 shadow lg:stats-horizontal md:grid-cols-2 lg:grid-cols-3"
+          className="stats grid stats-vertical grid-cols-1 gap-8 shadow md:grid-cols-2 lg:stats-horizontal lg:grid-cols-3"
           ref={ref}
         >
           {stats.map((stat, index) => (

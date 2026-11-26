@@ -3,11 +3,11 @@ import BlurFade from "@/components/UI/BlurFade";
 
 const page = () => {
   return (
-    <div className="flex min-h-screen flex-col ">
-      <div className="hero hero-content mx-auto mt-24 px-4 py-4">
-        <div className="max-w-5xl ">
+    <div className="flex min-h-screen flex-col">
+      <div className="hero-content hero mx-auto mt-24 px-4 py-4">
+        <div className="max-w-5xl">
           <BlurFade>
-            <h1 className="font-heading pt-4  text-center  text-3xl font-bold text-primary duration-200 hover:scale-105 md:text-center md:text-4xl lg:pt-0">
+            <h1 className="font-heading pt-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105 md:text-center md:text-4xl lg:pt-0">
               WLU MSA App Privacy Policy
             </h1>
           </BlurFade>
@@ -21,12 +21,12 @@ const page = () => {
               agree to the Privacy Policy. If you do not agree, do not use the
               app.
             </div>
-            <div className="flex flex-col ">
+            <div className="flex flex-col">
               <div className="flex flex-col">
-                <p className="text-md  font-bold  lg:pt-0">
+                <p className="text-md font-bold lg:pt-0">
                   Last Updated: 10/12/2025
                 </p>
-                <p className="text-md  font-bold  lg:pt-0">
+                <p className="text-md font-bold lg:pt-0">
                   Effective Date: 10/12/2025
                 </p>
               </div>
@@ -41,7 +41,7 @@ const page = () => {
                 </h1>
               </div>
               <div>
-                <h2 className="font-heading text-xl font-bold  lg:pt-0">
+                <h2 className="font-heading text-xl font-bold lg:pt-0">
                   1.1. No Personal Information Collected
                 </h2>
                 <p className="text-md lg:pt-0">
@@ -56,7 +56,7 @@ const page = () => {
             {/* 2. Information We Collect */}
             <div>
               <div className="py-8">
-                <h1 className="font-heading text-2xl font-bold text-primary   md:text-2xl lg:pt-0">
+                <h1 className="font-heading text-2xl font-bold text-primary md:text-2xl lg:pt-0">
                   {" "}
                   2. Automatically Collected Information
                 </h1>
@@ -69,7 +69,7 @@ const page = () => {
                 </p>
               </div>
               <div className="py-2">
-                <h2 className="font-heading py-4 text-xl  font-bold lg:pt-0 ">
+                <h2 className="font-heading py-4 text-xl font-bold lg:pt-0">
                   2.1. Expo (React Native Framework)
                 </h2>
                 <p className="text-md lg:pt-0">
@@ -92,7 +92,7 @@ const page = () => {
               </div>
 
               <div className="py-2">
-                <h2 className="font-heading py-4 text-xl  font-bold lg:pt-0">
+                <h2 className="font-heading py-4 text-xl font-bold lg:pt-0">
                   2.2. PostHog (Analytics Platform)
                 </h2>
                 <p className="text-md lg:pt-0">
@@ -176,7 +176,7 @@ const page = () => {
             {/* 6. Changes to This Privacy Policy */}
             <div className="py-8">
               <div>
-                <h1 className="font-heading text-2xl font-bold text-primary   md:text-2xl lg:pt-0">
+                <h1 className="font-heading text-2xl font-bold text-primary md:text-2xl lg:pt-0">
                   6. Changes to This Privacy Policy{" "}
                 </h1>
               </div>

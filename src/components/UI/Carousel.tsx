@@ -89,7 +89,7 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({
   return (
     <div className="relative">
       <div
-        className="carousel relative w-full gap-4 overflow-x-auto scroll-smooth py-1 md:gap-5"
+        className="relative carousel w-full gap-4 overflow-x-auto scroll-smooth py-1 md:gap-5"
         ref={carouselRef}
         onScroll={handleScroll}
       >
@@ -138,10 +138,10 @@ export const RecordingsCarousel: React.FC<RecordingProps> = ({
               </button>
             )}
             <div className="flex min-h-24 flex-col justify-between p-4">
-              <h2 className="line-clamp-2 text-base font-semibold leading-6 text-base-content">
+              <h2 className="line-clamp-2 text-base leading-6 font-semibold text-base-content">
                 {recording.title || "Untitled recording"}
               </h2>
-              <p className="mt-3 text-xs font-medium uppercase tracking-wide text-base-content/45">
+              <p className="mt-3 text-xs font-medium tracking-wide text-base-content/45 uppercase">
                 WLU MSA recording
               </p>
             </div>

@@ -137,14 +137,14 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                   {item.links && item.links.length === 1 ? (
                     <Link
                       href={item.links[0]?.url || "#"}
-                      className="whitespace-nowrap rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20"
+                      className="rounded-lg px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:bg-white/10 focus:ring-2 focus:ring-white/20 focus:outline-none"
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <>
                       <button
-                        className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-transparent px-4 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white/20"
+                        className="flex items-center gap-2 rounded-lg bg-transparent px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all duration-200 hover:bg-white/10 hover:text-gray-200 focus:ring-2 focus:ring-white/20 focus:outline-none"
                         aria-haspopup="true"
                       >
                         {item.label}
@@ -162,16 +162,16 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                           />
                         </svg>
                       </button>
-                      <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 transform pt-2 opacity-0 transition-all duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                      <div className="invisible absolute top-full left-1/2 z-50 -translate-x-1/2 transform pt-2 opacity-0 transition-all duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                         <ul className="grid w-[220px] min-w-[200px] gap-1 rounded-xl border border-white/10 bg-[#2e046d] p-3 shadow-2xl">
                           {item.links?.map((link) => {
                             return (
                               <li key={link.title}>
                                 <Link
                                   href={link.url || "#"}
-                                  className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200 hover:bg-[#3a0a7a] hover:text-white focus:bg-[#3a0a7a] focus:text-white focus:ring-2 focus:ring-white/20"
+                                  className="block space-y-1 rounded-lg p-3 leading-none no-underline transition-all duration-200 outline-none select-none hover:bg-[#3a0a7a] hover:text-white focus:bg-[#3a0a7a] focus:text-white focus:ring-2 focus:ring-white/20"
                                 >
-                                  <div className="text-sm font-medium leading-none text-white">
+                                  <div className="text-sm leading-none font-medium text-white">
                                     {link.title}
                                   </div>
                                 </Link>
@@ -189,11 +189,11 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
         </div>
 
         {/* Right Side Actions */}
-        <div className="absolute right-4 top-2 flex flex-shrink-0 items-center gap-3 sm:right-6 lg:right-8">
+        <div className="absolute top-2 right-4 flex flex-shrink-0 items-center gap-3 sm:right-6 lg:right-8">
           {/* Theme Toggle - Hidden on very small screens */}
           <button
             onClick={toggleTheme}
-            className="btn btn-circle btn-ghost hidden transition-all duration-200 hover:bg-white/10 sm:flex"
+            className="btn hidden btn-circle btn-ghost transition-all duration-200 hover:bg-white/10 sm:flex"
             aria-label="Toggle theme"
           >
             {theme === "darkTheme" ? (
@@ -274,7 +274,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
           {/* Mobile Menu */}
           <div
             id="mobile-nav"
-            className="animate-in fade-in zoom-in-95 fixed left-4 right-4 top-20 overflow-hidden rounded-2xl border border-white/10 bg-[#2e046d] shadow-2xl duration-200"
+            className="animate-in fade-in zoom-in-95 fixed top-20 right-4 left-4 overflow-hidden rounded-2xl border border-white/10 bg-[#2e046d] shadow-2xl duration-200"
           >
             <div className="max-h-[70vh] overflow-y-auto p-4">
               <div className="space-y-2">
@@ -310,7 +310,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
                               />
                             </svg>
                           </summary>
-                          <div className="ml-4 mt-2 space-y-1">
+                          <div className="mt-2 ml-4 space-y-1">
                             {item.links?.map((link, linkIndex) => {
                               return (
                                 <Link
@@ -335,7 +335,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
               <div className="mt-6 space-y-3 border-t border-white/10 pt-4">
                 <button
                   onClick={toggleTheme}
-                  className="btn btn-ghost w-full justify-start text-white transition-all duration-200 hover:bg-white/10"
+                  className="btn w-full justify-start btn-ghost text-white transition-all duration-200 hover:bg-white/10"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -364,7 +364,7 @@ const Navbar: React.FC<NavbarProps> = ({ navbarData }) => {
 
                 <Link
                   href="/charity"
-                  className="btn btn-secondary w-full justify-start text-primary transition-all duration-200 hover:scale-105"
+                  className="btn w-full justify-start text-primary transition-all duration-200 btn-secondary hover:scale-105"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <svg

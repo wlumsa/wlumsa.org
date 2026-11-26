@@ -31,7 +31,7 @@ const MemberSignup: React.FC = () => {
               name="firstName"
               autoComplete="given-name"
               placeholder="First Name…"
-              className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
               aria-describedby="firstName-error"
             />
           </label>
@@ -45,7 +45,7 @@ const MemberSignup: React.FC = () => {
               name="lastName"
               autoComplete="family-name"
               placeholder="Last Name…"
-              className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
               aria-describedby="lastName-error"
             />
           </label>
@@ -60,7 +60,7 @@ const MemberSignup: React.FC = () => {
               autoComplete="email"
               spellCheck={false}
               placeholder="name@mylaurier.ca…"
-              className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
               aria-describedby="email-error"
             />
           </label>
@@ -75,7 +75,7 @@ const MemberSignup: React.FC = () => {
               autoComplete="off"
               spellCheck={false}
               placeholder="Student ID…"
-              className="input input-bordered w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
               aria-describedby="studentId-error"
             />
           </label>
@@ -95,7 +95,7 @@ const MemberSignup: React.FC = () => {
             <input
               type="checkbox"
               name="newsLetter"
-              className="toggle toggle-primary shrink-0"
+              className="toggle shrink-0 toggle-primary"
               defaultChecked={true}
             />
           </label>
@@ -106,11 +106,11 @@ const MemberSignup: React.FC = () => {
           <button
             type="submit"
             disabled={isPending}
-            className="btn btn-primary w-full rounded-full border border-primary/40 px-8 font-medium sm:w-auto"
+            className="btn w-full rounded-full border border-primary/40 px-8 font-medium btn-primary sm:w-auto"
           >
             {isPending ? (
               <>
-                <span className="loading loading-spinner loading-sm"></span>
+                <span className="loading loading-sm loading-spinner"></span>
                 Signing Up…
               </>
             ) : (

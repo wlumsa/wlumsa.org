@@ -20,7 +20,7 @@ function DeleteDocumentPage() {
   };
 
   return (
-    <div className="mx-auto  mt-28 max-w-xl items-center justify-center px-2">
+    <div className="mx-auto mt-28 max-w-xl items-center justify-center px-2">
       <div className="flex flex-col gap-2 py-2 text-center font-semibold">
         <h1 className="text-2xl text-primary">
           Unsubscribe from WLU MSA Mailing list
@@ -30,7 +30,7 @@ function DeleteDocumentPage() {
           type="email"
           required
           placeholder="MyLaurier Email"
-          className="input input-bordered w-full text-neutral focus:border-secondary"
+          className="input-bordered input w-full text-neutral focus:border-secondary"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
         />

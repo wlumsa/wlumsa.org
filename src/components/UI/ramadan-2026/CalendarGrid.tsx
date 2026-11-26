@@ -83,7 +83,7 @@ export function CalendarGrid({
           {COMPACT_LEGEND.map((item) => (
             <span
               key={item.label}
-              className={`font-body rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-base-content/85 md:text-xs ${item.className}`}
+              className={`font-body rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-wide text-base-content/85 uppercase md:text-xs ${item.className}`}
             >
               {item.label}
             </span>
@@ -103,7 +103,7 @@ export function CalendarGrid({
               {monthLabel(monthKey)}
             </h3>
 
-            <div className="font-body grid grid-cols-7 gap-1 text-center text-[11px] uppercase tracking-wide text-base-content/60">
+            <div className="font-body grid grid-cols-7 gap-1 text-center text-[11px] tracking-wide text-base-content/60 uppercase">
               {WEEKDAYS.map((day) => (
                 <div key={day}>
                   <span className="md:hidden">{day[0]}</span>
@@ -127,12 +127,12 @@ export function CalendarGrid({
                 const stateClass = day.isEid
                   ? "border-secondary/45 bg-secondary/15"
                   : day.isOddNight
-                  ? "border-warning/75 bg-warning/30"
-                  : isEvenNightInLastTen
-                  ? "border-accent/60 bg-accent/22"
-                  : day.isLastTen
-                  ? "border-accent/45 bg-accent/18"
-                  : "border-primary/25 bg-base-100";
+                    ? "border-warning/75 bg-warning/30"
+                    : isEvenNightInLastTen
+                      ? "border-accent/60 bg-accent/22"
+                      : day.isLastTen
+                        ? "border-accent/45 bg-accent/18"
+                        : "border-primary/25 bg-base-100";
 
                 return (
                   <button
@@ -144,7 +144,7 @@ export function CalendarGrid({
                         ? `${getOrdinal(day.fastIndex)} fast`
                         : "Eid al-Fitr"
                     }`}
-                    className={`min-h-[72px] rounded-xl border p-1.5 text-center transition hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/40 md:min-h-[92px] md:p-2 ${stateClass} ${
+                    className={`min-h-[72px] rounded-xl border p-1.5 text-center transition hover:shadow-sm focus:ring-2 focus:ring-primary/40 focus:outline-none md:min-h-[92px] md:p-2 ${stateClass} ${
                       isSelected ? "ring-2 ring-primary" : "hover:bg-primary/5"
                     }`}
                     onClick={() => onSelect(day.isoDate)}
@@ -152,11 +152,11 @@ export function CalendarGrid({
                       handleArrowNavigation(event, day.isoDate)
                     }
                   >
-                    <p className="font-body whitespace-nowrap text-[10px] text-neutral/80 md:text-[11px]">
+                    <p className="font-body text-[10px] whitespace-nowrap text-neutral/80 md:text-[11px]">
                       {formatShortDate(day.isoDate)}
                     </p>
 
-                    <p className="font-body mt-1 whitespace-nowrap text-[10px] font-semibold text-base-content md:text-[12px]">
+                    <p className="font-body mt-1 text-[10px] font-semibold whitespace-nowrap text-base-content md:text-[12px]">
                       {day.fastIndex ? (
                         <>
                           <span className="md:hidden">{`${day.fastIndex}F`}</span>

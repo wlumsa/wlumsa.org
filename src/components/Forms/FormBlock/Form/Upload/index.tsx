@@ -156,12 +156,11 @@ export const Upload: React.FC<
           </div>
         ) : (
           <label
-            className={`mt-4 flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition-colors
-              ${
-                uploading
-                  ? "cursor-not-allowed border-slate-200 bg-slate-50 dark:border-base-300 dark:bg-base-300/10"
-                  : "border-slate-300 bg-slate-50 hover:border-primary hover:bg-primary/5 dark:border-base-300 dark:bg-base-300/10"
-              }`}
+            className={`mt-4 flex w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition-colors ${
+              uploading
+                ? "cursor-not-allowed border-slate-200 bg-slate-50 dark:border-base-300 dark:bg-base-300/10"
+                : "border-slate-300 bg-slate-50 hover:border-primary hover:bg-primary/5 dark:border-base-300 dark:bg-base-300/10"
+            }`}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => {
               e.preventDefault();
@@ -172,7 +171,7 @@ export const Upload: React.FC<
             <div className="flex flex-col items-center justify-center px-4 py-8">
               {uploading ? (
                 <>
-                  <span className="loading loading-spinner loading-md text-primary" />
+                  <span className="loading loading-md loading-spinner text-primary" />
                   <p className="mt-2 text-sm text-slate-500 dark:text-base-content/60">
                     Uploading {uploadedFileName}…
                   </p>

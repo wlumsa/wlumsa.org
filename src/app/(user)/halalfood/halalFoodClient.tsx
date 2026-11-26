@@ -127,14 +127,14 @@ function RestaurantCard({
             <span className="rounded-full border border-base-content/10 bg-base-content/5 p-3">
               <Utensils size={20} strokeWidth={1.6} aria-hidden="true" />
             </span>
-            <span className="text-xs font-semibold uppercase tracking-widest text-base-content/40">
+            <span className="text-xs font-semibold tracking-widest text-base-content/40 uppercase">
               {humanize(restaurant.category)}
             </span>
           </div>
         )}
 
         {restaurant.is_on_campus && (
-          <span className="absolute left-3 top-3 rounded-full border border-white/50 bg-base-100/95 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-accent shadow-sm backdrop-blur-sm">
+          <span className="absolute top-3 left-3 rounded-full border border-white/50 bg-base-100/95 px-2.5 py-1 text-[0.68rem] font-semibold tracking-wide text-accent uppercase shadow-sm backdrop-blur-sm">
             On campus
           </span>
         )}
@@ -149,7 +149,7 @@ function RestaurantCard({
           <span>{methodLabel(restaurant.slaughtered)}</span>
         </div>
 
-        <h3 className="mt-1.5 text-pretty font-serif text-xl font-bold leading-snug text-base-content">
+        <h3 className="mt-1.5 font-serif text-xl leading-snug font-bold text-pretty text-base-content">
           {restaurant.name}
         </h3>
         <p
@@ -229,9 +229,9 @@ export default function HalalFoodClient({
 
   const hasActiveFilters = Boolean(
     queryTerm ||
-      selectedCuisine !== "All Cuisines" ||
-      selectedMethod !== "All Methods" ||
-      selectedLocation !== "All Locations"
+    selectedCuisine !== "All Cuisines" ||
+    selectedMethod !== "All Methods" ||
+    selectedLocation !== "All Locations"
   );
   const [showFilters, setShowFilters] = useState(hasActiveFilters);
   const activeFilters = [
@@ -350,15 +350,15 @@ export default function HalalFoodClient({
   }[layoutMode];
 
   return (
-    <main className="min-h-screen bg-base-100 px-4 pb-16 pt-24 text-base-content sm:px-6">
+    <main className="min-h-screen bg-base-100 px-4 pt-24 pb-16 text-base-content sm:px-6">
       <div className="mx-auto max-w-5xl">
-        <header className="mx-auto max-w-3xl pb-6 pt-6 text-center sm:pb-8 sm:pt-8">
+        <header className="mx-auto max-w-3xl pt-6 pb-6 text-center sm:pt-8 sm:pb-8">
           <h1
-            className={`text-balance font-serif text-3xl font-bold sm:text-4xl ${styles.brandText}`}
+            className={`font-serif text-3xl font-bold text-balance sm:text-4xl ${styles.brandText}`}
           >
             Halal Food
           </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-pretty text-sm leading-6 text-base-content/70 sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-pretty text-base-content/70 sm:text-base">
             Find halal restaurants and food options near Wilfrid Laurier
             University.
           </p>
@@ -425,7 +425,7 @@ export default function HalalFoodClient({
                   <button
                     type="button"
                     onClick={clearSearch}
-                    className="grid h-8 w-8 touch-manipulation place-items-center rounded-md text-base-content/45 transition-colors hover:bg-base-content/10 hover:text-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-content peer-placeholder-shown:pointer-events-none peer-placeholder-shown:invisible"
+                    className="grid h-8 w-8 touch-manipulation place-items-center rounded-md text-base-content/45 transition-colors peer-placeholder-shown:pointer-events-none peer-placeholder-shown:invisible hover:bg-base-content/10 hover:text-base-content focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-base-content"
                     aria-label="Clear search"
                   >
                     <X size={16} aria-hidden="true" />
@@ -500,7 +500,7 @@ export default function HalalFoodClient({
           <div className="mb-3 flex min-h-8 items-center">
             <h2
               id="results-heading"
-              className="text-sm font-medium tabular-nums text-base-content/60"
+              className="text-sm font-medium text-base-content/60 tabular-nums"
               aria-live="polite"
             >
               {pagination.total === 0
@@ -565,7 +565,7 @@ export default function HalalFoodClient({
               >
                 Previous
               </button>
-              <span className="text-sm tabular-nums text-base-content/60">
+              <span className="text-sm text-base-content/60 tabular-nums">
                 Page {numberFormatter.format(pagination.page)} of{" "}
                 {numberFormatter.format(pagination.totalPages)}
               </span>
@@ -674,7 +674,7 @@ function FilterSelect({
         name={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className={`min-h-11 w-full rounded-lg border px-3 text-sm text-base-content transition-[border-color,box-shadow] focus-visible:border-base-content/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-content/10 ${styles.fieldSurface}`}
+        className={`min-h-11 w-full rounded-lg border px-3 text-sm text-base-content transition-[border-color,box-shadow] focus-visible:border-base-content/45 focus-visible:ring-2 focus-visible:ring-base-content/10 focus-visible:outline-none ${styles.fieldSurface}`}
       >
         {options.map((option) => (
           <option key={option} value={option}>

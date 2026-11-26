@@ -10,7 +10,7 @@ export default async function page() {
       <section className="mx-auto mb-10 max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-10">
           <div className="max-w-2xl flex-1 text-center lg:text-left">
-            <h1 className="font-heading mb-4 text-balance text-4xl font-bold text-primary md:text-5xl">
+            <h1 className="font-heading mb-4 text-4xl font-bold text-balance text-primary md:text-5xl">
               MSA Resource Guide
             </h1>
 

@@ -80,23 +80,8 @@ export default async function RootLayout({
       className={`${libreBaskerville.variable} ${geist.variable}`}
       data-theme="lightTheme"
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-                (function() {
-                  // Always start with lightTheme to match server-side rendering
-                  document.documentElement.setAttribute('data-theme', 'lightTheme');
-
-                  // Mark that theme script has loaded
-                  window.__THEME_SCRIPT_LOADED = true;
-                })();
-              `,
-          }}
-        />
-      </head>
-      <GoogleAnalytics />
       <body>
+        <GoogleAnalytics />
         <PostHogProvider>
           <Toaster position="top-center" />
           {/* Temporarily disabled due to loading issues */}

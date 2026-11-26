@@ -1,6 +1,102 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: false;
+  /* The unused join utility emits scoped selectors Turbopack cannot parse. */
+  exclude: join;
+}
+
+@plugin "daisyui/theme" {
+  name: "lightTheme";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-primary: #2e046d;
+  --color-primary-content: #ffffff;
+  --color-secondary: #e7ac3b;
+  --color-secondary-content: #1a1200;
+  --color-accent: #6c703e;
+  --color-accent-content: #ffffff;
+  --color-neutral: #444444;
+  --color-neutral-content: #ffffff;
+  --color-base-100: #ffffff;
+  --color-base-200: #f7f7f7;
+  --color-base-300: #eeeeee;
+  --color-base-content: #1f1f1f;
+  --color-info: #c8e1e7;
+  --color-info-content: #0f2630;
+  --color-success: #def29f;
+  --color-success-content: #14230a;
+  --color-warning: #f7e589;
+  --color-warning-content: #241b00;
+  --color-error: #f2b6b5;
+  --color-error-content: #2a0b09;
+}
+
+@plugin "daisyui/theme" {
+  name: "darkTheme";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #121318;
+  --color-base-200: #171922;
+  --color-base-300: #1f2230;
+  --color-base-content: #f2f3f7;
+  --color-primary: #5f3c8d;
+  --color-primary-content: #ffffff;
+  --color-secondary: #ecb553;
+  --color-secondary-content: #201700;
+  --color-accent: #a0a86c;
+  --color-accent-content: #14180c;
+  --color-neutral: #cfd2d6;
+  --color-neutral-content: #141414;
+  --color-info: #9fd6ea;
+  --color-info-content: #0c2230;
+  --color-success: #b8e99e;
+  --color-success-content: #0e2112;
+  --color-warning: #f5e08d;
+  --color-warning-content: #201800;
+  --color-error: #f4a2a0;
+  --color-error-content: #2a0b09;
+}
+
+@theme {
+  --font-serif: var(--font-libre-baskerville), Georgia, serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* Font variables for consistent typography */
 :root {
@@ -148,10 +244,10 @@ h6 {
     @apply text-base leading-relaxed text-base-content/90 md:mb-4 md:text-lg;
   }
   blockquote {
-    @apply my-4 border-l-4 pl-4 italic text-base-content/80;
+    @apply my-4 border-l-4 pl-4 text-base-content/80 italic;
   }
   code {
-    @apply rounded border border-base-300 bg-base-200 px-2 py-1 text-sm text-base-content;
+    @apply rounded-sm border border-base-300 bg-base-200 px-2 py-1 text-sm text-base-content;
   }
   pre {
     @apply my-4 overflow-x-auto rounded-lg border border-base-300 bg-base-200 p-4 text-base-content;
@@ -163,7 +259,7 @@ h6 {
     @apply font-semibold text-base-content;
   }
   em {
-    @apply italic text-base-content/90;
+    @apply text-base-content/90 italic;
   }
 }
 

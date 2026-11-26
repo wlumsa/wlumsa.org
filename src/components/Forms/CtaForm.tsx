@@ -58,7 +58,7 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
                 type="text"
                 required
                 placeholder="Full Name"
-                className="input input-bordered w-full text-neutral focus:border-secondary"
+                className="input-bordered input w-full text-neutral focus:border-secondary"
                 onChange={(e) => setFullName(e.target.value)}
                 value={fullName}
               />
@@ -66,7 +66,7 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
                 type="email"
                 required
                 placeholder="MyLaurier Email"
-                className="input input-bordered w-full text-neutral focus:border-secondary"
+                className="input-bordered input w-full text-neutral focus:border-secondary"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
               />
@@ -74,7 +74,7 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
                 type="tel"
                 required
                 placeholder="Phone Number"
-                className="input input-bordered w-full text-neutral focus:border-secondary"
+                className="input-bordered input w-full text-neutral focus:border-secondary"
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 value={phoneNumber}
               />
@@ -82,14 +82,14 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
                 type="string"
                 required
                 placeholder="Student ID"
-                className="input input-bordered w-full text-neutral focus:border-secondary"
+                className="input-bordered input w-full text-neutral focus:border-secondary"
                 onChange={(e) => setStudentId(e.target.value.toString())}
                 value={studentId}
               />
               <textarea
                 required
                 placeholder="Message"
-                className="textarea textarea-bordered w-full text-neutral focus:border-secondary"
+                className="textarea-bordered textarea w-full text-neutral focus:border-secondary"
                 rows={4}
                 onChange={(e) => setSummary(e.target.value)}
                 value={summary}
@@ -98,7 +98,7 @@ const CtaForm: React.FC<CtaFormProps> = ({ category }) => {
             <div className="card-actions justify-end">
               <button
                 type="submit"
-                className="btn btn-secondary text-secondary-content shadow-md transition-all duration-200 hover:bg-secondary/90 hover:shadow-lg"
+                className="btn text-secondary-content shadow-md transition-all duration-200 btn-secondary hover:bg-secondary/90 hover:shadow-lg"
               >
                 Submit ➜
               </button>

@@ -127,7 +127,8 @@
   overflow: hidden;
   border-bottom: 2px solid var(--charity-ink);
   background-color: #eee6d7;
-  background-image: linear-gradient(rgb(23 34 41 / 5%) 1px, transparent 1px),
+  background-image:
+    linear-gradient(rgb(23 34 41 / 5%) 1px, transparent 1px),
     linear-gradient(90deg, rgb(23 34 41 / 5%) 1px, transparent 1px);
   background-size: 2.5rem 2.5rem;
   isolation: isolate;
@@ -264,7 +265,8 @@
   overflow: hidden;
   border: 2px solid var(--charity-ink);
   background-color: var(--charity-ink);
-  background-image: linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
+  background-image:
+    linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px);
   background-size: 2.5rem 2.5rem;
   box-shadow: 0.7rem 0.7rem 0 var(--charity-mint);

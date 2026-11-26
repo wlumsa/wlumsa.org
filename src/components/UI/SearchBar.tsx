@@ -109,7 +109,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
             <button
               type="button"
               onClick={clearSearch}
-              className="rounded-md p-1 text-base-content/55 transition hover:bg-base-200 hover:text-base-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="rounded-md p-1 text-base-content/55 transition hover:bg-base-200 hover:text-base-content focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               aria-label="Clear search"
             >
               <X className="h-4 w-4" aria-hidden />

@@ -44,12 +44,12 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({
         />
         <Link
           href="/prayerinfo"
-          className="btn btn-primary mt-4 border-0 text-secondary shadow duration-200 hover:scale-105 hover:bg-secondary hover:text-primary"
+          className="btn mt-4 border-0 text-secondary shadow duration-200 btn-primary hover:scale-105 hover:bg-secondary hover:text-primary"
         >
           View Prayer Timings
         </Link>
       </div>
-      <div className="divider  mx-10 mt-10 md:divider-horizontal"></div>
+      <div className="divider mx-10 mt-10 md:divider-horizontal"></div>
       <div className="card flex-grow place-items-center rounded-box">
         <div className="gap:0 flex w-full flex-row items-center justify-center gap-6 md:flex-col">
           <div className="card grid place-items-center rounded-box bg-base-100">
@@ -58,7 +58,7 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({
             </h3>
             <JummahInfo jummahInfo={jummahInfo} />
           </div>
-          <div className="divider mx-4 "></div>
+          <div className="divider mx-4"></div>
           <div className="card grid place-items-center rounded-box bg-base-100">
             <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
               Prayer Rooms

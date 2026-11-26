@@ -13,7 +13,7 @@ const Resource: React.FC<ResourceProps> = ({ title, url, className }) => {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group block w-full rounded-xl border border-base-300 bg-base-200 px-5 py-4 text-left text-base text-base-content shadow-sm transition hover:bg-base-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 ${
+      className={`group block w-full rounded-xl border border-base-300 bg-base-200 px-5 py-4 text-left text-base text-base-content shadow-sm transition hover:bg-base-300 focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 focus-visible:outline-none ${
         className || ""
       }`}
     >
