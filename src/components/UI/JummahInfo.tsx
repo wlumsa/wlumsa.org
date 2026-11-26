@@ -11,12 +11,12 @@ interface JummahProps {
  */
 const JummahInfo: React.FC<JummahProps> = ({ jummahInfo }) => {
   return (
-    <div className="stats stats-vertical shadow lg:stats-horizontal">
-      <table className="table text-neutral">
+    <div className="max-w-full overflow-x-auto rounded-lg border border-base-content/15">
+      <table className="table text-base-content tabular-nums [&_th]:text-base-content [&_tr]:border-base-content/15">
         <thead>
           <tr>
-            <th>Time</th>
-            <th>Room</th>
+            <th scope="col">Time</th>
+            <th scope="col">Room</th>
           </tr>
         </thead>
         <tbody>

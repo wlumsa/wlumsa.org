@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import JummahInfo from "./JummahInfo";
 import PrayerRooms from "./PrayerRooms";
 import PrayerTimes from "./PrayerTimes";
@@ -32,10 +33,10 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({
   return (
     <div
       id="prayer_info"
-      className="flex w-full flex-col bg-base-100 px-6 py-8 text-sm md:flex-row md:text-base lg:text-lg"
+      className="mx-auto flex w-full max-w-4xl flex-col bg-base-100 px-6 py-8 text-sm md:flex-row md:text-base lg:py-12"
     >
-      <div className="card mb-auto grid flex-grow place-items-center rounded-box">
-        <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
+      <div className="grid min-w-0 flex-1 content-start justify-items-center">
+        <h3 className="pb-2 text-center text-xl font-bold text-primary md:text-2xl lg:text-3xl">
           Prayer Times
         </h3>
         <PrayerTimes
@@ -44,23 +45,30 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({
         />
         <Link
           href="/prayerinfo"
-          className="btn mt-4 border-0 text-secondary shadow duration-200 btn-primary hover:scale-105 hover:bg-secondary hover:text-primary"
+          className="group relative isolate mt-4 inline-flex min-h-11 items-center gap-3 rounded-md bg-primary py-1 pr-1 pl-4 text-sm font-semibold text-primary-content focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary motion-safe:transition-transform motion-safe:duration-[120ms] motion-safe:ease-[cubic-bezier(0.23,1,0.32,1)] motion-safe:active:scale-[0.97]"
         >
-          View Prayer Timings
+          <span
+            aria-hidden="true"
+            className="absolute inset-1 -z-10 origin-right scale-x-[0.16] rounded-sm bg-primary-content/15 motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-[cubic-bezier(0.23,1,0.32,1)] motion-safe:group-hover:scale-x-100"
+          />
+          <span>View Prayer Timings</span>
+          <span className="grid size-9 shrink-0 place-items-center">
+            <ArrowRight aria-hidden="true" className="size-4" />
+          </span>
         </Link>
       </div>
-      <div className="divider mx-10 mt-10 md:divider-horizontal"></div>
-      <div className="card flex-grow place-items-center rounded-box">
-        <div className="gap:0 flex w-full flex-row items-center justify-center gap-6 md:flex-col">
-          <div className="card grid place-items-center rounded-box bg-base-100">
-            <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
+      <div className="divider my-6 md:mx-5 md:my-0 md:divider-horizontal"></div>
+      <div className="min-w-0 flex-1">
+        <div className="flex w-full items-start justify-center gap-4 sm:gap-6 md:flex-col md:items-center">
+          <div className="grid min-w-0 place-items-center">
+            <h3 className="pb-2 text-center text-xl font-bold text-primary md:text-2xl lg:text-3xl">
               Jummah Info
             </h3>
             <JummahInfo jummahInfo={jummahInfo} />
           </div>
-          <div className="divider mx-4"></div>
-          <div className="card grid place-items-center rounded-box bg-base-100">
-            <h3 className="pb-2 text-center text-xl font-bold text-primary duration-200 hover:scale-105 md:text-2xl lg:text-3xl">
+          <div className="hidden h-px w-full max-w-xs bg-base-300 md:block"></div>
+          <div className="grid min-w-0 place-items-center">
+            <h3 className="pb-2 text-center text-xl font-bold text-primary md:text-2xl lg:text-3xl">
               Prayer Rooms
             </h3>
             <PrayerRooms prayerRoomsData={prayerRoomsData} />

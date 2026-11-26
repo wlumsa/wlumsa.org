@@ -3,6 +3,9 @@ import { toast } from "react-hot-toast";
 import { memberSignup } from "@/Utils/actions";
 import { useTransition } from "react";
 
+const fieldClassName =
+  "min-h-11 w-full rounded-lg border border-base-content/45 bg-base-100 px-3 py-2 text-base text-base-content placeholder:text-base-content/55 focus:border-primary focus:outline-2 focus:outline-offset-2 focus:outline-primary";
+
 const MemberSignup: React.FC = () => {
   const [isPending, startTransition] = useTransition();
 
@@ -21,7 +24,7 @@ const MemberSignup: React.FC = () => {
     <div className="rounded-xl border border-base-300 bg-base-100 p-5 sm:p-6">
       <form className="text-base-content" action={handleSubmit}>
         <div className="mb-7 grid grid-cols-1 gap-4 md:mb-8 md:grid-cols-2 md:gap-6">
-          <label className="form-control w-full gap-2">
+          <label className="grid min-w-0 gap-2">
             <span className="label-text text-sm font-medium text-base-content">
               First Name
             </span>
@@ -30,12 +33,10 @@ const MemberSignup: React.FC = () => {
               required
               name="firstName"
               autoComplete="given-name"
-              placeholder="First Name…"
-              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
-              aria-describedby="firstName-error"
+              className={fieldClassName}
             />
           </label>
-          <label className="form-control w-full gap-2">
+          <label className="grid min-w-0 gap-2">
             <span className="label-text text-sm font-medium text-base-content">
               Last Name
             </span>
@@ -44,12 +45,10 @@ const MemberSignup: React.FC = () => {
               required
               name="lastName"
               autoComplete="family-name"
-              placeholder="Last Name…"
-              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
-              aria-describedby="lastName-error"
+              className={fieldClassName}
             />
           </label>
-          <label className="form-control w-full gap-2">
+          <label className="grid min-w-0 gap-2">
             <span className="label-text text-sm font-medium text-base-content">
               MyLaurier Email
             </span>
@@ -59,12 +58,11 @@ const MemberSignup: React.FC = () => {
               name="email"
               autoComplete="email"
               spellCheck={false}
-              placeholder="name@mylaurier.ca…"
-              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
-              aria-describedby="email-error"
+              placeholder="name@mylaurier.ca"
+              className={fieldClassName}
             />
           </label>
-          <label className="form-control w-full gap-2">
+          <label className="grid min-w-0 gap-2">
             <span className="label-text text-sm font-medium text-base-content">
               Student ID
             </span>
@@ -74,30 +72,35 @@ const MemberSignup: React.FC = () => {
               name="studentId"
               autoComplete="off"
               spellCheck={false}
-              placeholder="Student ID…"
-              className="input-bordered input w-full bg-base-100 text-base-content focus:border-secondary focus:ring-2 focus:ring-secondary/20"
-              aria-describedby="studentId-error"
+              className={fieldClassName}
             />
           </label>
         </div>
 
-        {/* Newsletter Toggle */}
         <div className="mb-7 md:mb-8">
-          <label className="label cursor-pointer rounded-lg bg-base-200/70 p-4">
-            <div className="flex flex-1 flex-col gap-1 pr-4">
-              <span className="label-text font-medium text-base-content">
-                Stay Updated
-              </span>
-              <span className="text-xs text-base-content/70">
-                Get weekly updates on events, prayers, and community news
-              </span>
-            </div>
+          <label className="flex cursor-pointer items-start gap-3 rounded-lg bg-base-200/70 p-4">
             <input
               type="checkbox"
               name="newsLetter"
-              className="toggle shrink-0 toggle-primary"
-              defaultChecked={true}
+              aria-labelledby="member-newsletter-label"
+              aria-describedby="member-newsletter-description"
+              className="mt-0.5 size-5 shrink-0 cursor-pointer accent-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              defaultChecked
             />
+            <span className="grid gap-1">
+              <span
+                id="member-newsletter-label"
+                className="text-sm font-medium"
+              >
+                Stay Updated
+              </span>
+              <span
+                id="member-newsletter-description"
+                className="text-sm text-base-content/70"
+              >
+                Get weekly updates on events, prayers, and community news
+              </span>
+            </span>
           </label>
         </div>
 
@@ -114,7 +117,7 @@ const MemberSignup: React.FC = () => {
                 Signing Up…
               </>
             ) : (
-              "Join Community"
+              "Join the Community"
             )}
           </button>
         </div>

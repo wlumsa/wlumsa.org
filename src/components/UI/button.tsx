@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 // Updated button variants with gradient accent and glow effect
 const buttonVariants = cva(
@@ -85,43 +86,53 @@ Button.displayName = "Button";
 // GetStartedButton with clean design and smooth animations
 const GetStartedButton = React.forwardRef<
   HTMLButtonElement,
-  ButtonProps & { iconSize?: number; iconStrokeWidth?: number }
+  ButtonProps & { href?: string; iconSize?: number; iconStrokeWidth?: number }
 >(
   (
     {
       className,
       children = "Get Started",
+      href,
       iconSize = 16,
       iconStrokeWidth = 2,
       ...props
     },
     ref
-  ) => (
-    <Button
-      ref={ref}
-      variant="default"
-      size="default"
-      className={cn(
-        "group btn relative h-12 overflow-hidden px-6 py-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl",
-        className
-      )}
-      {...props}
-    >
-      <span className="flex-1 pr-8 text-center transition-all duration-300 group-hover:opacity-0">
-        {children}
-      </span>
-      <span
-        className="absolute top-2 right-2 bottom-2 z-10 flex w-6 items-center justify-center rounded-md bg-secondary/20 transition-all duration-300 group-hover:w-[calc(100%-1rem)] group-hover:bg-secondary/30 group-active:scale-95 sm:w-8"
-        aria-hidden="true"
+  ) => {
+    const content = (
+      <>
+        <span className="flex-1 pr-8 text-center transition-all duration-300 group-hover:opacity-0">
+          {children}
+        </span>
+        <span
+          className="absolute top-2 right-2 bottom-2 z-10 flex w-6 items-center justify-center rounded-md bg-secondary/20 transition-all duration-300 group-hover:w-[calc(100%-1rem)] group-hover:bg-secondary/30 group-active:scale-95 sm:w-8"
+          aria-hidden="true"
+        >
+          <ChevronRight
+            size={iconSize}
+            strokeWidth={3}
+            className="text-black transition-colors duration-300"
+          />
+        </span>
+      </>
+    );
+
+    return (
+      <Button
+        ref={ref}
+        variant="default"
+        size="default"
+        className={cn(
+          "group btn relative h-12 overflow-hidden px-6 py-3 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl",
+          className
+        )}
+        {...props}
+        asChild={href ? true : props.asChild}
       >
-        <ChevronRight
-          size={iconSize}
-          strokeWidth={3}
-          className="text-black transition-colors duration-300"
-        />
-      </span>
-    </Button>
-  )
+        {href ? <Link href={href}>{content}</Link> : content}
+      </Button>
+    );
+  }
 );
 
 GetStartedButton.displayName = "GetStartedButton";
