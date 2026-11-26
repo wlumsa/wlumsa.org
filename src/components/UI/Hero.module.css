@@ -1,0 +1,46 @@
+.action {
+  touch-action: manipulation;
+}
+
+.action:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .greeting,
+  .verse {
+    animation: enter 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  .verse {
+    animation-delay: 50ms;
+  }
+
+  .action {
+    transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .action:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  .action:active {
+    transform: scale(0.97);
+    transition-duration: 100ms;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0.75;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

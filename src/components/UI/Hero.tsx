@@ -1,123 +1,96 @@
-import React from "react";
-import { TextEffect } from "../Animations/text-effect";
+import type { Media, Social } from "@/payload-types";
 import Image from "next/image";
-import { Social, Media } from "@/payload-types";
 import Link from "next/link";
 import { GetStartedButton } from "./button";
+import styles from "./Hero.module.css";
 
 interface HeroProps {
-  socialLinks: Social[];
   mediaDocs: Media[];
+  socialLinks: Social[];
 }
-const Hero: React.FC<HeroProps> = ({ mediaDocs, socialLinks }) => {
+
+export default function Hero({ mediaDocs, socialLinks }: HeroProps) {
+  const photo = mediaDocs[0];
+
   return (
-    <div id="hero" className="relative hero min-h-screen overflow-hidden">
-      {mediaDocs[0]?.url ? (
+    <section
+      id="hero"
+      aria-labelledby="hero-greeting"
+      className="hero relative min-h-screen w-full overflow-hidden"
+    >
+      {photo?.url ? (
         <Image
           fill
-          src={mediaDocs[0].url}
-          alt={mediaDocs[0]?.alt || "Hero Image"}
-          className="h-fit w-full scale-105 object-cover blur-sm"
+          priority
+          sizes="100vw"
+          src={photo.url}
+          alt=""
+          className="scale-105 object-cover blur-sm"
         />
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20" />
+        <div className="absolute inset-0 bg-[#2e046d]" />
       )}
-      <div className="absolute inset-0 bg-black" style={{ opacity: 0.35 }} />
-      <div className="hero-content text-center">
+      <div className="absolute inset-0 bg-black/40" />
+
+      <div className="hero-content relative text-center">
         <div className="max-w-md">
-          <Image
-            src="/Assalamu-aleykum.svg"
-            alt="Assalamu alaikum"
-            width={720}
-            height={280}
-            priority
-            className="mx-auto mb-5 h-auto w-full max-w-sm duration-200 hover:scale-105"
-          />
-          <TextEffect
-            className="mb-5"
-            style={{ color: "#ffffff" }}
-            per="word" // Animate by word instead of character for faster loading
-            as="h2"
-            delay={0.1} // Start animation quickly after page load
-            variants={{
-              container: {
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.04, // 0.04s between words = ~0.4s total animation
-                  },
-                },
-              },
-              item: {
-                hidden: { opacity: 0, y: 8 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.3,
-                    ease: "easeOut",
-                  },
-                },
-              },
-            }}
-          >
-            "The believers are but brothers, so make settlement between your
-            brothers. And fear Allāh that you may receive mercy." (Quran 49:10)
-          </TextEffect>
-          <div className="m-4 mb-6 flex flex-row items-center justify-center gap-4">
-            {/* Keep consistent styling for main CTA buttons regardless of theme */}
+          <h1 id="hero-greeting" className={styles.greeting}>
+            <Image
+              src="/Assalamu-aleykum.svg"
+              alt="Assalamu alaikum"
+              width={720}
+              height={280}
+              className="mx-auto mb-5 h-auto w-full max-w-sm"
+            />
+          </h1>
+          <blockquote className={`mb-5 text-white ${styles.verse}`}>
+            “The believers are but brothers, so make settlement between your
+            brothers. And fear Allāh that you may receive mercy.” (Quran 49:10)
+          </blockquote>
+          <div className="mb-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link
               href="https://docs.google.com/forms/d/e/1FAIpQLSfwn-5xuz58a9nzINqZoofyiMr-C7lphMs5KesnzVOB1jrXNg/viewform"
-              className="text-bold btn inline-flex h-12 items-center justify-center rounded-lg px-6 py-3 font-semibold duration-200 hover:scale-105"
-              style={{
-                backgroundColor: "#2e046d",
-                color: "#e7ac3b",
-                border: "none",
-              }}
+              className={`inline-flex h-12 items-center justify-center rounded-lg bg-[#2e046d] px-6 font-semibold text-[#e7ac3b] ${styles.action}`}
             >
               Donate
             </Link>
-            <Link href="/guidebook">
-              {" "}
-              <GetStartedButton
-                variant="secondary"
-                className="h-12 px-6 py-3 whitespace-nowrap"
-                style={{
-                  backgroundColor: "#e7ac3b",
-                  color: "#1a1200",
-                  border: "none",
-                }}
-              >
-                Become a Member
-              </GetStartedButton>{" "}
-            </Link>
+            <GetStartedButton
+              href="/guidebook"
+              variant="secondary"
+              className="h-12 whitespace-nowrap rounded-lg px-6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-reduce:transition-none motion-reduce:[&_*]:transition-none"
+              style={{
+                backgroundColor: "#e7ac3b",
+                color: "#1a1200",
+                border: "none",
+              }}
+            >
+              Become a Member
+            </GetStartedButton>
           </div>
-          <div className="flex flex-row items-center justify-center gap-4">
-            {/* Keep consistent styling for social media icons regardless of theme */}
-            {socialLinks.map((social, index) => (
-              <Link
-                href={typeof social.link === "object" ? social.link.url : "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="duration-200 hover:scale-105"
-                key={index}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 50 50"
-                  className="h-8 w-8 stroke-gray-600"
-                  style={{ fill: "#e7ac3b" }}
+          <div className="flex flex-wrap justify-center gap-2">
+            {socialLinks.map(({ id, title, link, icon }) =>
+              typeof link === "object" && link.url ? (
+                <Link
+                  key={id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={title}
+                  className={`grid size-11 place-items-center rounded-lg text-[#e7ac3b] ${styles.action}`}
                 >
-                  <path key={index} d={social.icon}></path>
-                </svg>
-              </Link>
-            ))}
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 50 50"
+                    className="size-8 fill-current stroke-gray-600"
+                  >
+                    <path d={icon} />
+                  </svg>
+                </Link>
+              ) : null,
+            )}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default Hero;
+}
