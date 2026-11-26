@@ -81,7 +81,10 @@ export default async function Home() {
 
             {/* Social Proof */}
             <div className="inline-flex items-center gap-2 text-sm text-base-content/70">
-              <CheckCircle aria-hidden="true" className="size-4 shrink-0 text-primary/70" />
+              <CheckCircle
+                aria-hidden="true"
+                className="size-4 shrink-0 text-primary/70"
+              />
               <span>Trusted by 200+ WLU students</span>
             </div>
           </div>

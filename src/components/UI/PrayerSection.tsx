@@ -57,7 +57,7 @@ const PrayerSection: React.FC<PrayerSectionProps> = ({
           </span>
         </Link>
       </div>
-      <div className="divider my-6 md:divider-horizontal md:mx-5 md:my-0"></div>
+      <div className="divider my-6 md:mx-5 md:my-0 md:divider-horizontal"></div>
       <div className="min-w-0 flex-1">
         <div className="flex w-full items-start justify-center gap-4 sm:gap-6 md:flex-col md:items-center">
           <div className="grid min-w-0 place-items-center">

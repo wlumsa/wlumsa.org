@@ -23,22 +23,25 @@ export default function FooterComponent({
   const groups = footerGroups.items;
   const existingUrls = new Set(
     groups.flatMap(({ links }) =>
-      (links ?? []).map(({ url }) => url.trim().replace(/\/$/, "")),
-    ),
+      (links ?? []).map(({ url }) => url.trim().replace(/\/$/, ""))
+    )
   );
   const missingLinks = charityLinks.filter(({ url }) => !existingUrls.has(url));
   const charityGroup = groups.find(
     ({ label, links }) =>
       label?.trim().toLowerCase() === "charity" ||
-      links?.some(({ url }) => /^\/charity(?:week)?\/?$/.test(url.trim())),
+      links?.some(({ url }) => /^\/charity(?:week)?\/?$/.test(url.trim()))
   );
   const footerItems = charityGroup
     ? groups.map((group) =>
         group === charityGroup
           ? { ...group, links: [...(group.links ?? []), ...missingLinks] }
-          : group,
+          : group
       )
-    : [...groups, { id: "charity-footer", label: "Charity", links: missingLinks }];
+    : [
+        ...groups,
+        { id: "charity-footer", label: "Charity", links: missingLinks },
+      ];
 
   return (
     <footer
@@ -53,7 +56,7 @@ export default function FooterComponent({
           {footerItems.map(({ id, label, links }) =>
             links?.length ? (
               <div key={id ?? label} className="min-w-0">
-                <h2 className="mb-3 break-words text-sm font-semibold">
+                <h2 className="mb-3 text-sm font-semibold break-words">
                   {label}
                 </h2>
                 <ul className="space-y-1">
@@ -61,7 +64,7 @@ export default function FooterComponent({
                     <li key={id ?? url}>
                       <Link
                         href={url}
-                        className={`inline-block break-words rounded-sm py-1 text-sm text-base-content/75 underline-offset-4 hover:text-base-content hover:underline ${focusStyle}`}
+                        className={`inline-block rounded-sm py-1 text-sm break-words text-base-content/75 underline-offset-4 hover:text-base-content hover:underline ${focusStyle}`}
                       >
                         {title}
                       </Link>
@@ -69,7 +72,7 @@ export default function FooterComponent({
                   ))}
                 </ul>
               </div>
-            ) : null,
+            ) : null
           )}
         </nav>
 
@@ -77,7 +80,7 @@ export default function FooterComponent({
           <Link
             href="/"
             prefetch={false}
-            className={`inline-flex items-center gap-3 rounded-sm text-sm font-medium leading-snug underline-offset-4 hover:underline ${focusStyle}`}
+            className={`inline-flex items-center gap-3 rounded-sm text-sm leading-snug font-medium underline-offset-4 hover:underline ${focusStyle}`}
           >
             <Image src={logo} alt="" className="size-9 shrink-0" />
             <span>
@@ -106,7 +109,7 @@ export default function FooterComponent({
                     <path d={icon} />
                   </svg>
                 </a>
-              ) : null,
+              ) : null
             )}
           </div>
         </div>

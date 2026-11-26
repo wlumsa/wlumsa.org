@@ -88,10 +88,16 @@ const MemberSignup: React.FC = () => {
               defaultChecked
             />
             <span className="grid gap-1">
-              <span id="member-newsletter-label" className="text-sm font-medium">
+              <span
+                id="member-newsletter-label"
+                className="text-sm font-medium"
+              >
                 Stay Updated
               </span>
-              <span id="member-newsletter-description" className="text-sm text-base-content/70">
+              <span
+                id="member-newsletter-description"
+                className="text-sm text-base-content/70"
+              >
                 Get weekly updates on events, prayers, and community news
               </span>
             </span>
