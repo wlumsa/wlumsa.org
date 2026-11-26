@@ -33,7 +33,7 @@ export default function Hero({ mediaDocs, socialLinks }: HeroProps) {
       <div className="absolute inset-0 bg-black/40" />
 
       <div className="hero-content relative text-center">
-        <div className="max-w-md">
+        <div className="max-w-lg">
           <h1 id="hero-greeting" className={styles.greeting}>
             <Image
               src="/Assalamu-aleykum.svg"
@@ -45,7 +45,7 @@ export default function Hero({ mediaDocs, socialLinks }: HeroProps) {
           </h1>
           <blockquote className={`mb-5 text-white ${styles.verse}`}>
             “The believers are but brothers, so make settlement between your
-            brothers. And fear Allāh that you may receive mercy.” (Quran 49:10)
+            brothers. And fear Allāh that you may receive mercy.” (Quran&nbsp;49:10)
           </blockquote>
           <div className="mb-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link

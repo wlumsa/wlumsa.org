@@ -8,13 +8,12 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .greeting,
-  .verse {
+  .greeting {
     animation: enter 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
 
   .verse {
-    animation-delay: 50ms;
+    animation: verse-reveal 600ms cubic-bezier(0.23, 1, 0.32, 1) 100ms backwards;
   }
 
   .action {
@@ -30,6 +29,16 @@
   .action:active {
     transform: scale(0.97);
     transition-duration: 100ms;
+  }
+}
+
+@keyframes verse-reveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
