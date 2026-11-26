@@ -71,17 +71,17 @@ export default async function Home() {
       <div className="flex w-full items-center justify-center py-8 sm:py-12">
         <div className="max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 text-center">
-            <h3 className="pb-4 text-center text-3xl font-bold text-primary duration-200 hover:scale-105">
+            <h2 className="pb-4 text-center text-3xl font-bold text-primary">
               Join Our Community!
-            </h3>
+            </h2>
             <p className="mx-auto mb-4 max-w-2xl text-base leading-relaxed text-base-content/80 sm:text-lg lg:text-xl">
               Stay connected with the latest MSA events, prayer times, and
               exclusive resources. Plus, get your free MSA Resource Guide!
             </p>
 
             {/* Social Proof */}
-            <div className="flex items-center justify-center gap-2 rounded-full border border-base-300 bg-base-200 px-4 py-2 text-sm text-base-content/70">
-              <CheckCircle className="h-4 w-4 text-primary/60" />
+            <div className="inline-flex items-center gap-2 text-sm text-base-content/70">
+              <CheckCircle aria-hidden="true" className="size-4 shrink-0 text-primary/70" />
               <span>Trusted by 200+ WLU students</span>
             </div>
           </div>
