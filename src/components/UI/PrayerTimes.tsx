@@ -224,13 +224,13 @@ const PrayerTimes: React.FC<PrayerTimesProps> = ({
   }
 
   return (
-    <div className="stats mb-4 stats-vertical shadow lg:stats-horizontal">
-      <table className="table">
+    <div className="max-w-full overflow-x-auto rounded-lg border border-base-content/15">
+      <table className="table text-base-content tabular-nums [&_th]:text-base-content [&_tr]:border-base-content/15">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Time</th>
-            <th>Iqamah</th>
+            <th scope="col">Name</th>
+            <th scope="col">Time</th>
+            <th scope="col">Iqamah</th>
           </tr>
         </thead>
         <tbody>
